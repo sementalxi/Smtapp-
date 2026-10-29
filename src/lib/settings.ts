@@ -3,6 +3,7 @@ import { db } from "./db";
 export const SETTING_DEFAULTS = {
   signup_credits: "3",
   pro_cost: "4",
+  pro_quality: "medium",
   max_upload_mb: "10",
   maintenance_message: "",
 } as const;

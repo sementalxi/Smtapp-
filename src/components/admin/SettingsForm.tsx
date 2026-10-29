@@ -32,6 +32,15 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
       </div>
       <div>
+        <label className="label">Pro AI image quality</label>
+        <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>
+          <option value="medium">Medium — about 1 minute, cheaper (recommended)</option>
+          <option value="high">High — sharpest detail, 2–4 minutes, costs ~3× more per image</option>
+          <option value="low">Low — fastest, for testing</option>
+        </select>
+        <p className="mt-1 text-xs text-muted">High can occasionally hit the 5-minute server limit; failed images are refunded automatically.</p>
+      </div>
+      <div>
         <label className="label">{t("max_upload_mb")}</label>
         <input type="number" min={1} max={50} className="input" value={v.max_upload_mb} onChange={(e) => setV({ ...v, max_upload_mb: e.target.value })} />
       </div>

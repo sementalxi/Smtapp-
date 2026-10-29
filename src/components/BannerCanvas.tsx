@@ -60,8 +60,8 @@ export const BannerCanvas = forwardRef<BannerCanvasHandle, BannerCanvasProps>(fu
 
   useEffect(() => {
     let alive = true;
-    Promise.all([load(props.backgroundUrl), load(props.cutoutUrl), load(props.logoUrl)]).then(([background, cutout, logo]) => {
-      if (alive) setAssets({ background, cutout, logo });
+    Promise.all([load(props.backgroundUrl), load(props.cutoutUrl), load(props.logoUrl), load("/kixo-logo.png")]).then(([background, cutout, logo, brand]) => {
+      if (alive) setAssets({ background, cutout, logo, brand });
     });
     return () => {
       alive = false;

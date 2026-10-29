@@ -9,6 +9,7 @@ import { ART_TYPES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-opti
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
+import { DownloadSizes } from "../DownloadSizes";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
 const FONT_VAR: Record<string, string> = {
@@ -264,16 +265,6 @@ export function CreateWizard({
       setError(msg);
       setPhase("error");
     }
-  }
-
-  async function download() {
-    if (!result?.url) return;
-    const blob = await (await fetch(result.url)).blob();
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `kixo-${layout.toLowerCase()}.png`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
   }
 
   function reset() {
@@ -628,7 +619,7 @@ export function CreateWizard({
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
-                <button type="button" className="btn-primary w-full py-3" onClick={download}>⬇ {L.download}</button>
+                {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 <Link href={`/banner/${result.id}`} className="btn-ghost w-full">✏️ {L.edit}</Link>
                 <button type="button" className="w-full py-2 text-xs text-muted hover:text-white" onClick={reset}>＋ {L.another}</button>
               </div>

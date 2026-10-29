@@ -8,6 +8,7 @@ import type { DictKey } from "@/i18n/dict";
 import type { BannerInputs, DesignState, LayoutKind, TemplateStyle } from "@/lib/templates";
 import { BannerCanvas, type BannerCanvasHandle } from "./BannerCanvas";
 import { TextFields } from "./TextFields";
+import { DownloadSizes } from "./DownloadSizes";
 
 interface Props {
   banner: {
@@ -156,6 +157,16 @@ export function BannerEditor({ banner, layout, style, cost, credits }: Props) {
           <span className="w-20 text-right text-xs text-muted">
             {saveState === "saving" ? "…" : saveState === "saved" ? `✓ ${t("saved")}` : ""}
           </span>
+        </div>
+        <div className="mt-3">
+          <DownloadSizes
+            primary=""
+            baseName={inputs.name || inputs.team || "banner"}
+            src={async () => {
+              const b = await canvas.current?.toBlob();
+              return b ? URL.createObjectURL(b) : null;
+            }}
+          />
         </div>
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
       </div>

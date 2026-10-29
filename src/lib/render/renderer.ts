@@ -17,6 +17,7 @@ export interface RenderAssets {
   background?: Img | null;
   cutout?: Img | null; // transparent PNG of the player/mascot
   logo?: Img | null;
+  brand?: Img | null; // site logo drawn small in the bottom-right corner
 }
 
 export interface RenderOptions {
@@ -472,9 +473,18 @@ function footerBar(ctx: Ctx, o: RenderOptions, text: string) {
   ctx.fillStyle = "rgba(255,255,255,0.85)";
   const left = (o.inputs.number ? `#${o.inputs.number}` : new Date().getFullYear().toString()).toUpperCase();
   ctx.fillText(left, 70, y);
-  ctx.textAlign = "right";
-  font(ctx, o.fonts.anton, 24);
-  ctx.fillText(o.brand.toUpperCase(), W - 70, y);
+  const bl = o.assets.brand;
+  if (bl) {
+    const bw = 170;
+    const bh = (bl.height / bl.width) * bw;
+    ctx.shadowColor = "rgba(0,0,0,0.6)";
+    ctx.shadowBlur = 10;
+    ctx.drawImage(bl, W - 60 - bw, y - bh / 2, bw, bh);
+  } else {
+    ctx.textAlign = "right";
+    font(ctx, o.fonts.anton, 24);
+    ctx.fillText(o.brand.toUpperCase(), W - 70, y);
+  }
   ctx.restore();
 }
 

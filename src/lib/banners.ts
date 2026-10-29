@@ -7,6 +7,8 @@ import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./sto
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { fontPrompt, trophyPrompt } from "./pro-options";
+import { stampLogo } from "./stamp";
+import { getSettings } from "./settings";
 
 const str = (max: number) => z.string().trim().max(max).default("");
 
@@ -258,7 +260,7 @@ export function buildProPrompt(opts: {
 
   const lines: string[] = [];
   const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
-  const finish = `Finish: ultra sharp, high contrast, rich saturated colour grade, cinematic depth, dense layered effects (light streaks, sparks, glitter dust, grain and grunge texture, haze) — clearly a hand-crafted Photoshop design, not a flat AI illustration.`;
+  const finish = `Finish: dense layered effects (light streaks, sparks, glitter dust, fine grain, haze) and a rich cinematic colour grade.`;
   const frame = `FRAME: thin corner marks and a bottom footer row with three small letter-spaced items.`;
 
   let composition: string;
@@ -368,8 +370,9 @@ export function buildProPrompt(opts: {
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
+    `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
+    `Keep the bottom-right corner (about 20% of the width) clear of text and important details — a small brand mark goes there.`,
     `Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
-    `Professional Photoshop-level composition: dramatic lighting, depth, crisp typography, clean edges, no warped faces or hands.`,
   ]
     .filter(Boolean)
     .join("\n\n");
@@ -399,8 +402,9 @@ export async function generateProForBanner(opts: {
       const bytes = await loadBytes(r.url);
       images.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
     }
-    const out = await generatePoster(opts.prompt, images);
-    const url = await saveFile("banners", out, sniffImage(out) ?? "image/png");
+    const quality = (await getSettings()).pro_quality;
+    const out = await stampLogo(await generatePoster(opts.prompt, images, quality));
+    const url = await saveFile("banners", out, "image/png");
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);

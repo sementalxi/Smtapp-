@@ -7,6 +7,7 @@ import { useT } from "@/i18n/client";
 import type { DictKey } from "@/i18n/dict";
 import type { BannerInputs, LayoutKind } from "@/lib/templates";
 import { TextFields } from "./TextFields";
+import { DownloadSizes } from "./DownloadSizes";
 
 /** Result page for a Pro AI banner: the finished image, download, and "new version". */
 export function ProBannerView({
@@ -32,17 +33,6 @@ export function ProBannerView({
   const [inputs, setInputs] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-
-  async function download() {
-    if (!url) return;
-    const res = await fetch(url);
-    const blob = await res.blob();
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `${(title || "banner").replace(/[^\w-]+/g, "_")}.png`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-  }
 
   async function regenerate() {
     setBusy(true);
@@ -80,9 +70,11 @@ export function ProBannerView({
           )}
           <span className="chip absolute top-3 left-3 border-lime bg-ink/70 text-lime">✨ {t("pro_badge")}</span>
         </div>
-        <button onClick={download} disabled={!url || busy} className="btn-primary mt-3 w-full py-3">
-          ⬇ {t("download")}
-        </button>
+        {url && !busy && (
+          <div className="mt-3">
+            <DownloadSizes src={url} baseName={title} />
+          </div>
+        )}
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <p className="mt-2 text-xs text-muted">{t("pro_note")}</p>
       </div>
