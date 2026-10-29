@@ -10,6 +10,7 @@ import { ConnectStripeButton } from "@/components/admin/ConnectStripeButton";
 export default async function AdminHome() {
   await requireAdmin();
   const { t, locale } = await getT();
+  const es = locale === "es";
   const since = new Date(Date.now() - 30 * 24 * 3600 * 1000);
 
   const [users, banners, revenue, subs, gens, credits, recentTx, newUsers, failed] = await Promise.all([
@@ -30,18 +31,18 @@ export default async function AdminHome() {
 
   // Shows what the server sees for each key — never the key itself.
   const describe = (v: string | undefined): [string, boolean] => {
-    if (v === undefined) return ["missing", false];
+    if (v === undefined) return [es ? "falta" : "missing", false];
     const trimmed = v.trim();
-    if (!trimmed) return ["set but EMPTY", false];
-    const note = trimmed !== v ? " (has extra spaces/newline)" : "";
-    return [`set, ${trimmed.length} characters, starts with "${trimmed.slice(0, 7)}"${note}`, true];
+    if (!trimmed) return [es ? "puesta pero VACÍA" : "set but EMPTY", false];
+    const note = trimmed !== v ? (es ? " (tiene espacios extra)" : " (has extra spaces/newline)") : "";
+    return [es ? `puesta, ${trimmed.length} caracteres, empieza con "${trimmed.slice(0, 7)}"${note}` : `set, ${trimmed.length} characters, starts with "${trimmed.slice(0, 7)}"${note}`, true];
   };
   const setup = (
     [
-      ["OPENAI_API_KEY (Pro AI)", process.env.OPENAI_API_KEY],
-      ["REPLICATE_API_TOKEN (photo cut-out)", process.env.REPLICATE_API_TOKEN],
+      [es ? "OPENAI_API_KEY (IA Pro)" : "OPENAI_API_KEY (Pro AI)", process.env.OPENAI_API_KEY],
+      [es ? "REPLICATE_API_TOKEN (recorte de foto)" : "REPLICATE_API_TOKEN (photo cut-out)", process.env.REPLICATE_API_TOKEN],
       ["DATABASE_URL", process.env.DATABASE_URL],
-      ["STRIPE_SECRET_KEY (payments)", process.env.STRIPE_SECRET_KEY],
+      [es ? "STRIPE_SECRET_KEY (pagos)" : "STRIPE_SECRET_KEY (payments)", process.env.STRIPE_SECRET_KEY],
     ] as const
   ).map(([name, v]) => [name, ...describe(v)] as const);
 
@@ -57,14 +58,14 @@ export default async function AdminHome() {
   const hasStripe = !!process.env.STRIPE_SECRET_KEY;
   const hasWebhook = hasStripe && !!(await webhookSecret());
   const warnings = [
-    !aiConfigured() && "AI is not configured (REPLICATE_API_TOKEN / OPENAI_API_KEY) — generations run in free demo mode.",
-    !process.env.STRIPE_SECRET_KEY && "Payments are off (no STRIPE_SECRET_KEY). Buy buttons show “Coming soon”; you can still add credits to users here.",
-    hasStripe && !hasWebhook && "Stripe webhook isn't connected yet — click “Connect Stripe” below, or paid credits won't be delivered.",
+    !aiConfigured() && (es ? "La IA no está configurada (REPLICATE_API_TOKEN / OPENAI_API_KEY) — las generaciones van en modo demo gratis." : "AI is not configured (REPLICATE_API_TOKEN / OPENAI_API_KEY) — generations run in free demo mode."),
+    !process.env.STRIPE_SECRET_KEY && (es ? "Pagos apagados (sin STRIPE_SECRET_KEY). Los botones de compra muestran “Próximamente”; igual puedes dar créditos aquí." : "Payments are off (no STRIPE_SECRET_KEY). Buy buttons show “Coming soon”; you can still add credits to users here."),
+    hasStripe && !hasWebhook && (es ? "El webhook de Stripe no está conectado — toca “Conectar Stripe” abajo o los créditos pagados no llegarán." : "Stripe webhook isn't connected yet — click “Connect Stripe” below, or paid credits won't be delivered."),
     process.env.STORAGE_DRIVER !== "s3" &&
       !process.env.BLOB_READ_WRITE_TOKEN &&
       process.env.NODE_ENV === "production" &&
-      "Images are being stored in the database (fine for testing). For lots of users, connect Vercel Blob storage.",
-    failed > 0 && `${failed} failed generation(s) in the last 30 days — see Banners for errors.`,
+      (es ? "Las imágenes se guardan en la base de datos (bien para pruebas). Con muchos usuarios, conecta Vercel Blob." : "Images are being stored in the database (fine for testing). For lots of users, connect Vercel Blob storage."),
+    failed > 0 && (es ? `${failed} generación(es) fallida(s) en 30 días — mira Banners para ver los errores.` : `${failed} failed generation(s) in the last 30 days — see Banners for errors.`),
   ].filter(Boolean) as string[];
 
   return (
@@ -79,10 +80,10 @@ export default async function AdminHome() {
         </ul>
       )}
 
-      {hasStripe && !hasWebhook && <ConnectStripeButton />}
+      {hasStripe && !hasWebhook && <ConnectStripeButton es={es} />}
 
       <div className="card p-4 text-sm">
-        <div className="mb-2 font-bold">Setup check</div>
+        <div className="mb-2 font-bold">{es ? "Revisión de configuración" : "Setup check"}</div>
         <ul className="space-y-1 font-mono text-xs">
           {setup.map(([name, status, ok]) => (
             <li key={name} className={ok ? "text-lime" : "text-danger"}>

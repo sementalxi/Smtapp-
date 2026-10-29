@@ -350,7 +350,7 @@ export function CreateWizard({
                 <span className="min-w-0 flex-1">
                   <span className="block font-bold">{locale === "es" ? a.es.name : a.en.name}</span>
                   <span className="block text-xs text-muted">{locale === "es" ? a.es.desc : a.en.desc}</span>
-                  <span className="mt-1 block text-xs text-lime">{cost} credits</span>
+                  <span className="mt-1 block text-xs text-lime">{cost} {locale === "es" ? "créditos" : "credits"}</span>
                 </span>
                 <span className="text-muted">›</span>
               </button>
@@ -374,7 +374,7 @@ export function CreateWizard({
               </button>
             ))}
           </div>
-          {styles.length === 0 && <p className="text-sm text-muted">No styles for this type yet.</p>}
+          {styles.length === 0 && <p className="text-sm text-muted">{locale === "es" ? "Aún no hay estilos para este tipo." : "No styles for this type yet."}</p>}
           <p className="mt-4 text-xs text-muted">
             {locale === "es"
               ? "Las miniaturas son una referencia. El arte final lo crea la IA con tus colores, escudos y textos."
@@ -649,7 +649,7 @@ export function CreateWizard({
                   {phase === "busy" && <p className="mt-6 text-center text-xs text-muted">{L.wait}</p>}
                   {phase === "idle" && (
                     <button type="button" className="btn-primary mt-6 w-full py-3" disabled={credits < cost} onClick={generate}>
-                      ✨ {L.generate} · {cost} cr
+                      ✨ {L.generate} · {cost} {locale === "es" ? "créditos" : "credits"}
                     </button>
                   )}
                   {phase === "error" && (
@@ -677,7 +677,7 @@ export function CreateWizard({
                 <dd>{phase === "done" ? L.completed : phase === "busy" ? L.generating : phase === "error" ? L.failed : "—"}</dd>
               </div>
               <div className="flex justify-between"><dt className="text-muted">{L.creditsUsed}</dt><dd>{cost}</dd></div>
-              <div className="flex justify-between rounded-lg bg-panel-2 px-3 py-2"><dt className="text-muted">{L.balance}</dt><dd className="font-bold text-lime">{credits} cr</dd></div>
+              <div className="flex justify-between rounded-lg bg-panel-2 px-3 py-2"><dt className="text-muted">{L.balance}</dt><dd className="font-bold text-lime">{credits} {locale === "es" ? "créditos" : "credits"}</dd></div>
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">

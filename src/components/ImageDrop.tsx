@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useT } from "@/i18n/client";
 
 /**
  * Downscales big photos in the browser before uploading. Serverless hosts cap
@@ -39,6 +40,8 @@ export function ImageDrop({
   value: string | null;
   onChange: (url: string | null) => void;
 }) {
+  const { locale } = useT();
+  const es = locale === "es";
   const input = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -47,7 +50,7 @@ export function ImageDrop({
   async function upload(file: File) {
     setErr("");
     if (!/^image\/(png|jpe?g|webp)$/.test(file.type)) {
-      setErr("JPG, PNG, WebP");
+      setErr(es ? "Solo JPG, PNG o WebP" : "Only JPG, PNG or WebP");
       return;
     }
     setBusy(true);
@@ -58,7 +61,16 @@ export function ImageDrop({
     const data = await res.json().catch(() => ({}));
     setBusy(false);
     if (data.url) onChange(data.url);
-    else setErr(data.error ?? "Upload failed");
+    else {
+      const msg: Record<string, [string, string]> = {
+        file_too_large: ["File is too large", "El archivo es demasiado grande"],
+        unsupported_type: ["Only JPG, PNG or WebP", "Solo JPG, PNG o WebP"],
+        too_many_requests: ["Too many uploads, wait a bit", "Demasiadas subidas, espera un poco"],
+        unauthorized: ["Please log in again", "Vuelve a iniciar sesión"],
+      };
+      const known = msg[data.error as string];
+      setErr(known ? known[es ? 1 : 0] : (es ? "No se pudo subir" : "Upload failed") + (data.error?.startsWith?.("Upload failed:") ? ` (${data.error.slice(14)})` : ""));
+    }
   }
 
   return (

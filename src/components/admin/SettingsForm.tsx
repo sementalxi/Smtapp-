@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useT } from "@/i18n/client";
 
 export function SettingsForm({ initial }: { initial: Record<string, string> }) {
-  const { t } = useT();
+  const { t, locale } = useT();
+  const es = locale === "es";
   const [v, setV] = useState(initial);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -32,13 +33,13 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
       </div>
       <div>
-        <label className="label">Pro AI image quality</label>
+        <label className="label">{es ? "Calidad de imagen IA Pro" : "Pro AI image quality"}</label>
         <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>
-          <option value="medium">Medium — about 1 minute, cheaper (recommended)</option>
-          <option value="high">High — sharpest detail, 2–4 minutes, costs ~3× more per image</option>
-          <option value="low">Low — fastest, for testing</option>
+          <option value="medium">{es ? "Media — ~1 minuto, más barata (recomendada)" : "Medium — about 1 minute, cheaper (recommended)"}</option>
+          <option value="high">{es ? "Alta — máximo detalle, 2–4 minutos, ~3× más cara por imagen" : "High — sharpest detail, 2–4 minutes, costs ~3× more per image"}</option>
+          <option value="low">{es ? "Baja — la más rápida, para pruebas" : "Low — fastest, for testing"}</option>
         </select>
-        <p className="mt-1 text-xs text-muted">High can occasionally hit the 5-minute server limit; failed images are refunded automatically.</p>
+        <p className="mt-1 text-xs text-muted">{es ? "Alta a veces llega al límite de 5 minutos del servidor; las imágenes fallidas se reembolsan solas." : "High can occasionally hit the 5-minute server limit; failed images are refunded automatically."}</p>
       </div>
       <div>
         <label className="label">{t("max_upload_mb")}</label>
