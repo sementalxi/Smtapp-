@@ -2,7 +2,7 @@ import { requireUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
 import { aiConfigured } from "@/lib/banners";
-import { proConfigured } from "@/lib/ai";
+import { canRemoveBackground, proConfigured } from "@/lib/ai";
 import { getNumberSetting } from "@/lib/settings";
 import { CreateForm } from "@/components/CreateForm";
 
@@ -20,8 +20,14 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
       <h1 className="font-display mb-8 text-5xl">{t("create_title")}</h1>
       {!aiConfigured() && (
         <p className="card mb-6 border-amber-400/40 p-4 text-sm text-amber-200">
-          Demo mode: no AI key is configured, so generation is free and uses the built-in backgrounds without cutting out the
-          photo. Add REPLICATE_API_TOKEN (or OPENAI_API_KEY) to enable AI.
+          Demo mode: no AI key is configured, so generation is free and uses the built-in backgrounds. Add OPENAI_API_KEY
+          (or REPLICATE_API_TOKEN) in Vercel to enable AI.
+        </p>
+      )}
+      {aiConfigured() && !canRemoveBackground() && user.role === "ADMIN" && (
+        <p className="card mb-6 p-4 text-xs text-muted">
+          Admin note: Quick mode paints AI backgrounds with OpenAI, but can&apos;t cut the player out of the photo without a
+          REPLICATE_API_TOKEN — users should upload photos with a transparent background, or use Pro AI.
         </p>
       )}
       {templates.length ? (

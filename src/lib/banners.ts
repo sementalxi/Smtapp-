@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Prisma } from "@prisma/client";
 import { db } from "./db";
 import { HttpError } from "./auth";
-import { BLOCKED, buildPrompt, generatePoster, generateBackground, removeBackground } from "./ai";
+import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generatePoster, generateBackground, removeBackground } from "./ai";
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
@@ -50,8 +50,7 @@ export function assertOwnUrl(url: string | null | undefined) {
 }
 
 export function aiConfigured() {
-  if (process.env.AI_PROVIDER === "openai") return !!process.env.OPENAI_API_KEY;
-  return !!process.env.REPLICATE_API_TOKEN;
+  return backgroundProvider() !== null;
 }
 
 export function titleFor(inputs: BannerInputs) {
@@ -99,7 +98,7 @@ export async function generateForBanner(opts: {
 
     let cutTask: Promise<string | null> = Promise.resolve(null);
     if (!opts.backgroundOnly && opts.photoUrl) {
-      if (opts.isCutout || demo) {
+      if (opts.isCutout || demo || !canRemoveBackground()) {
         cutTask = Promise.resolve(opts.photoUrl);
       } else {
         cutTask = (async () => {

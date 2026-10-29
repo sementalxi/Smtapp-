@@ -107,19 +107,31 @@ export function buildPrompt(templatePrompt: string, extra?: string) {
 }
 
 /** Generates a 4:5 portrait background. Returns PNG/JPEG/WebP bytes. */
+/** Which service paints Quick-mode backgrounds: Replicate when its token is set, otherwise OpenAI. */
+export const backgroundProvider = () =>
+  process.env.AI_PROVIDER === "openai" || (!process.env.REPLICATE_API_TOKEN && process.env.OPENAI_API_KEY)
+    ? "openai"
+    : process.env.REPLICATE_API_TOKEN
+      ? "replicate"
+      : null;
+
+/** Background removal needs Replicate; without it the photo is used as-is. */
+export const canRemoveBackground = () => !!process.env.REPLICATE_API_TOKEN;
+
 export async function generateBackground(prompt: string): Promise<Buffer> {
-  if (process.env.AI_PROVIDER === "openai") {
+  if (backgroundProvider() === "openai") {
     const key = process.env.OPENAI_API_KEY;
     if (!key) throw new Error("OPENAI_API_KEY is not set");
     const res = await fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: process.env.OPENAI_IMAGE_MODEL || "gpt-image-1",
+        model: process.env.OPENAI_IMAGE_MODEL || process.env.PRO_IMAGE_MODEL || "gpt-image-2",
         prompt,
-        size: "1024x1536",
-        n: 1,
+        size: "1088x1360",
+        quality: "low", // backgrounds don't need much detail; low is fast (~20 s)
       }),
+      signal: AbortSignal.timeout(270_000),
     });
     if (!res.ok) throw new Error(`OpenAI image failed: ${res.status} ${await res.text()}`);
     const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
