@@ -84,7 +84,12 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
     return (
       <button onClick={() => setOpen(true)} className="card flex w-full items-center gap-4 p-3 text-left hover:border-muted">
         <div className="w-16 shrink-0 overflow-hidden rounded-md">
-          <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
+          {tpl.thumbUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={tpl.thumbUrl} alt="" className="block aspect-[4/5] w-full object-cover" />
+          ) : (
+            <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
+          )}
         </div>
         <div className="min-w-0 flex-1">
           <div className="font-bold">
@@ -105,7 +110,12 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
     <div className="card grid gap-6 p-5 lg:grid-cols-[260px_1fr]">
       <div>
         <div className="overflow-hidden rounded-lg">
-          <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
+          {tpl.thumbUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={tpl.thumbUrl} alt="" className="block aspect-[4/5] w-full object-cover" />
+          ) : (
+            <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
+          )}
         </div>
         <div className="mt-3 grid grid-cols-3 gap-2">
           {COLOR_KEYS.map((k) => (
