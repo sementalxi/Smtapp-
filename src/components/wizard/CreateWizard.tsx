@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
-import { ART_TYPES, BG_POSES, BG_SCENES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
@@ -146,6 +146,11 @@ const TXT = {
 };
 
 const lines = (s: string) => s.split(/\n|,/).map((x) => x.trim()).filter(Boolean);
+
+const SWATCHES = [
+  "#e10600", "#ff5a1f", "#ffb800", "#ffd35a", "#b6ff1a", "#0fbf6b", "#00a88f", "#00e5ff",
+  "#1d5bff", "#1a2f7a", "#7b2cff", "#ff2bd6", "#ff3d8b", "#8b0000", "#ffffff", "#c0c7d1", "#111111",
+];
 
 export function CreateWizard({
   templates,
@@ -673,19 +678,53 @@ export function CreateWizard({
                 </button>
               ))}
             </div>
-            {inp.colorMode === "custom" && (
-              <div className="mt-3 flex items-center gap-4">
-                {(["color1", "color2"] as const).map((k, n) => (
-                  <label key={k} className="flex items-center gap-2 text-sm">
-                    <input
-                      type="color"
-                      value={inp[k] || (n === 0 ? "#1d5bff" : "#ffd35a")}
-                      onChange={(e) => set(k, e.target.value)}
-                      className="h-10 w-14 cursor-pointer rounded border border-line bg-transparent"
+            <div className="mt-3">
+              <span className="text-xs text-muted">{locale === "es" ? "Paletas listas — toca una:" : "Ready palettes — tap one:"}</span>
+              <div className="mt-1.5 grid grid-cols-4 gap-2 sm:grid-cols-8">
+                {PALETTES.map(([name, c1, c2, dark]) => {
+                  const on = inp.colorMode === "custom" && inp.color1 === c1 && inp.color2 === c2;
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      title={name}
+                      onClick={() => setInp((x) => ({ ...x, colorMode: "custom", color1: c1, color2: c2 }))}
+                      className={`h-11 overflow-hidden rounded-lg border-2 ${on ? "border-white" : "border-line"}`}
+                      style={{ background: `linear-gradient(135deg, ${c1} 0 45%, ${c2} 45% 75%, ${dark} 75%)` }}
                     />
-                    {n === 0 ? (locale === "es" ? "Principal" : "Main") : locale === "es" ? "Secundario" : "Second"}
-                  </label>
-                ))}
+                  );
+                })}
+              </div>
+            </div>
+            {inp.colorMode === "custom" && (
+              <div className="mt-4 space-y-3">
+                {(["color1", "color2"] as const).map((k, n) => {
+                  const current = inp[k] || (n === 0 ? "#1d5bff" : "#ffd35a");
+                  return (
+                    <div key={k}>
+                      <div className="mb-1.5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
+                        <span className="inline-block h-4 w-4 rounded border border-line" style={{ background: current }} />
+                        {n === 0 ? (locale === "es" ? "Color principal" : "Main color") : locale === "es" ? "Color secundario" : "Second color"}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {SWATCHES.map((c) => (
+                          <button
+                            key={c}
+                            type="button"
+                            aria-label={c}
+                            onClick={() => set(k, c)}
+                            className={`h-9 w-9 rounded-full border-2 ${current.toLowerCase() === c ? "border-white ring-2 ring-lime" : "border-line"}`}
+                            style={{ background: c }}
+                          />
+                        ))}
+                        <label className="relative grid h-9 w-9 cursor-pointer place-items-center overflow-hidden rounded-full border-2 border-dashed border-muted text-sm" title={locale === "es" ? "Otro color" : "Other color"}>
+                          ＋
+                          <input type="color" value={current} onChange={(e) => set(k, e.target.value)} className="absolute inset-0 h-full w-full cursor-pointer opacity-0" />
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
             <p className="mt-1 text-xs text-muted">
