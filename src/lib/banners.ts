@@ -2,10 +2,10 @@ import { z } from "zod";
 import { Prisma } from "@prisma/client";
 import { db } from "./db";
 import { HttpError } from "./auth";
-import { buildPrompt, generateBackground, removeBackground } from "./ai";
-import { isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
+import { BLOCKED, buildPrompt, generatePoster, generateBackground, removeBackground } from "./ai";
+import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { changeCredits } from "./credits";
-import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS } from "./templates";
+import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 
 const str = (max: number) => z.string().trim().max(max).default("");
 
@@ -147,7 +147,7 @@ export const toJson = (v: unknown) => v as Prisma.InputJsonValue;
  */
 export async function reapStale(userId?: string) {
   const stale = await db.banner.findMany({
-    where: { status: "PROCESSING", createdAt: { lt: new Date(Date.now() - 3 * 60_000) }, ...(userId ? { userId } : {}) },
+    where: { status: "PROCESSING", createdAt: { lt: new Date(Date.now() - 8 * 60_000) }, ...(userId ? { userId } : {}) },
     select: { id: true, userId: true },
     take: 50,
   });
@@ -165,5 +165,129 @@ export async function reapStale(userId?: string) {
         note: "Automatic refund — generation timed out",
       });
     }
+  }
+}
+
+// ─── Pro AI mode ──────────────────────────────────────────
+
+const q = (s: string) => `"${s.replace(/"/g, "'")}"`;
+
+/** Turns the template + the user's text into a detailed design brief for the image model. */
+export function buildProPrompt(opts: {
+  layout: LayoutKind;
+  templatePrompt: string;
+  style: TemplateStyle;
+  inputs: BannerInputs;
+  hasPhoto: boolean;
+  hasLogo: boolean;
+}) {
+  const { inputs: i, style, layout } = opts;
+  const allText = [i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.extraPrompt, ...i.roster].join(" ");
+  if (BLOCKED.test(allText)) throw new HttpError(400, "err_blocked");
+
+  const refs: string[] = [];
+  if (opts.hasPhoto) {
+    refs.push(
+      `Reference image 1 is the ${layout === "CHAMPIONS" ? "team's main subject (player or mascot)" : "player"}. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo.`,
+    );
+  }
+  if (opts.hasLogo) {
+    refs.push(`Reference image ${opts.hasPhoto ? 2 : 1} is the team crest. Reproduce it faithfully, do not redesign it.`);
+  }
+
+  const lines: string[] = [];
+  const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
+
+  let composition: string;
+  if (layout === "CHAMPIONS") {
+    composition = `A champions celebration poster. Huge 3D metallic title at the top, the team name large in the lower third, the roster as a clean row of names separated by vertical bars below it, a shiny trophy, confetti and sparks.`;
+    add("Title (huge, top)", i.headline || "CHAMPIONS");
+    add("Small line above the title", i.eventName);
+    add("Team name (large)", i.team);
+    if (i.roster.length) lines.push(`- Roster, exactly these names separated by " | ": ${q(i.roster.filter(Boolean).join(" | "))}`);
+    add("Prize badge (bottom right, gold)", i.prize);
+  } else if (layout === "EVENT") {
+    composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle, a bold event title under it, a script-font accent line, and a pill-shaped info bar with the date and times.`;
+    add("Headline (huge, glossy 3D)", i.headline);
+    add("Event title (bold, under the headline)", i.name);
+    add("Script accent line", i.subtitle);
+    add("Info bar", [i.date, i.details].filter(Boolean).join("  ·  "));
+    add("Prize", i.prize);
+  } else {
+    composition = `A premium esports / football player card poster in the style of pro club social media graphics. Show the player twice: a very large, semi-transparent, colour-tinted close-up portrait of their face in the background (upper area), and a sharp full cut-out of them in front with a glowing rim light. Giant outlined background lettering, light streaks, particles and texture overlays. The player's name in a huge condensed bold font, bottom left, with a small coloured tag box above it for the position.`;
+    add("Player name (huge, condensed, bottom left)", i.name);
+    add("Position tag box", i.position);
+    add("Small elegant word above the name", i.tagline);
+    add("Script-font line under the name", i.subtitle);
+    add("Team name (small, letter-spaced)", i.team);
+    add("Jersey number (large outlined, right side)", i.number);
+  }
+  add("Letter-spaced footer line at the very bottom", i.footer);
+
+  return [
+    `Design a finished, high-end vertical sports social-media poster (4:5).`,
+    composition,
+    `Visual style: ${opts.templatePrompt}. Main colour ${style.primary}, accent/glow ${style.accent}, deep shadows ${style.dark}.`,
+    i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
+    ...refs,
+    lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
+    `Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crest.`,
+    `Professional Photoshop-level composition: dramatic lighting, depth, crisp typography, clean edges, no warped faces or hands.`,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+/** Charges credits, asks the model for the full poster, stores it. Refunds on failure. */
+export async function generateProForBanner(opts: {
+  bannerId: string;
+  userId: string;
+  cost: number;
+  prompt: string;
+  photoUrl?: string | null;
+  logoUrl?: string | null;
+  regenerate?: boolean;
+}) {
+  if (opts.cost > 0) {
+    await changeCredits({
+      userId: opts.userId,
+      amount: -opts.cost,
+      type: "GENERATION",
+      bannerId: opts.bannerId,
+      note: opts.regenerate ? "Pro AI — new version" : "Pro AI poster",
+    });
+  }
+  try {
+    const refs: { bytes: Buffer; type: string }[] = [];
+    for (const url of [opts.photoUrl, opts.logoUrl]) {
+      if (!url) continue;
+      const bytes = await loadBytes(url);
+      refs.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
+    }
+    const out = await generatePoster(opts.prompt, refs);
+    const url = await saveFile("banners", out, sniffImage(out) ?? "image/png");
+    const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
+    const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url } });
+    if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
+    return updated;
+  } catch (err) {
+    console.error("pro generation failed", err);
+    if (opts.cost > 0) {
+      await changeCredits({
+        userId: opts.userId,
+        amount: opts.cost,
+        type: "REFUND",
+        bannerId: opts.bannerId,
+        note: "Automatic refund — Pro AI failed",
+      });
+    }
+    const msg = String(err instanceof Error ? err.message : err).slice(0, 500);
+    await db.banner.update({
+      where: { id: opts.bannerId },
+      data: opts.regenerate ? { error: msg } : { status: "FAILED", error: msg },
+    });
+    // OpenAI's own safety system rejected the request
+    if (/moderation|safety|content_policy/i.test(msg)) throw new HttpError(400, "err_blocked");
+    throw new HttpError(502, "generation_failed");
   }
 }

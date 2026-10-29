@@ -17,11 +17,15 @@ export function CreateForm({
   credits,
   initialSlug,
   aiEnabled,
+  proEnabled,
+  proCost,
 }: {
   templates: ClientTemplate[];
   credits: number;
   initialSlug?: string;
   aiEnabled: boolean;
+  proEnabled: boolean;
+  proCost: number;
 }) {
   const { t, locale } = useT();
   const router = useRouter();
@@ -31,6 +35,7 @@ export function CreateForm({
   const [photo, setPhoto] = useState<string | null>(null);
   const [logo, setLogo] = useState<string | null>(null);
   const [isCutout, setIsCutout] = useState(false);
+  const [mode, setMode] = useState<"QUICK" | "PRO">(proEnabled ? "PRO" : "QUICK");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -46,7 +51,8 @@ export function CreateForm({
   }, [inputs, tpl.layout]);
 
   const needsPhoto = tpl.layout === "PLAYER";
-  const cost = aiEnabled ? tpl.cost : 0;
+  const pro = mode === "PRO";
+  const cost = pro ? proCost : aiEnabled ? tpl.cost : 0;
   const canAfford = credits >= cost;
 
   async function submit() {
@@ -55,7 +61,7 @@ export function CreateForm({
     const res = await fetch("/api/banners", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ templateId: tpl.id, inputs, photoUrl: photo, logoUrl: logo, isCutout }),
+      body: JSON.stringify({ templateId: tpl.id, inputs, photoUrl: photo, logoUrl: logo, isCutout, mode }),
     });
     const data = await res.json().catch(() => ({}));
     if (res.ok && data.id) {
@@ -93,6 +99,37 @@ export function CreateForm({
           </div>
         </section>
 
+        <section>
+          <h2 className="mb-4 text-sm font-bold uppercase tracking-wider text-muted">{t("mode_title")}</h2>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {(["PRO", "QUICK"] as const).map((m) => {
+              const disabled = m === "PRO" && !proEnabled;
+              const active = mode === m;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  disabled={disabled}
+                  onClick={() => setMode(m)}
+                  className={`card p-4 text-left transition disabled:opacity-50 ${active ? "border-lime" : "hover:border-muted"}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold">
+                      {m === "PRO" ? "✨ " + t("mode_pro") : "⚡ " + t("mode_quick")}
+                    </span>
+                    <span className="chip text-lime">
+                      {m === "PRO" ? proCost : aiEnabled ? tpl.cost : 0} {t("credits")}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted">
+                    {disabled ? t("pro_off") : t(m === "PRO" ? "mode_pro_d" : "mode_quick_d")}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
         <section className="space-y-6">
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{t("step_details")}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -104,7 +141,7 @@ export function CreateForm({
                 value={photo}
                 onChange={setPhoto}
               />
-              {photo && (
+              {photo && !pro && (
                 <label className="mt-2 flex items-center gap-2 text-xs text-muted">
                   <input type="checkbox" checked={isCutout} onChange={(e) => setIsCutout(e.target.checked)} />
                   {t("already_cutout")}
@@ -142,14 +179,15 @@ export function CreateForm({
           />
           <div className="space-y-3 p-4">
             {error && <p className="text-sm text-danger">{error}</p>}
-            {busy && <p className="text-sm text-lime">{t("generating_wait")}</p>}
+            {busy && <p className="text-sm text-lime">{t(pro ? "pro_wait" : "generating_wait")}</p>}
+            {pro && !busy && <p className="text-xs text-muted">{t("pro_note")}</p>}
             {canAfford ? (
               <button
                 onClick={submit}
                 disabled={busy || (needsPhoto && !photo)}
                 className="btn-primary w-full py-3 text-base"
               >
-                {busy ? "…" : `⚡ ${t("generate")}`}
+                {busy ? "…" : `${pro ? "✨" : "⚡"} ${t("generate")}`}
               </button>
             ) : (
               <Link href="/pricing" className="btn-primary w-full py-3">

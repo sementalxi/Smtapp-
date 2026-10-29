@@ -35,6 +35,10 @@ Spanish and English are built in (switch with the ES/EN button in the header).
 
 Without any AI key the app runs in **demo mode**: generation is free, uses the built-in procedural backgrounds and skips the cut-out. Useful for trying the site.
 
+**Pro AI mode**
+
+Add `OPENAI_API_KEY` and a second mode appears on the create page: the user's photo (and crest) go to OpenAI's image model with a detailed design brief built from the style and their text, and it designs the whole poster — 3D lettering, effects, the player blended in. It takes about 1–2 minutes and costs more per image, so it has its own price in credits (Admin → Settings, default 4). Users can edit the text and make a new version. Failed generations are refunded.
+
 **Credits**
 
 - New accounts get free credits (default 3, change it in Admin → Settings).

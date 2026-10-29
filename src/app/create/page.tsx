@@ -2,6 +2,8 @@ import { requireUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
 import { aiConfigured } from "@/lib/banners";
+import { proConfigured } from "@/lib/ai";
+import { getNumberSetting } from "@/lib/settings";
 import { CreateForm } from "@/components/CreateForm";
 
 export const metadata = { title: "Create" };
@@ -11,6 +13,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
   const { t } = await getT();
   const templates = await activeTemplates();
   const { t: slug } = await searchParams;
+  const proCost = await getNumberSetting("pro_cost");
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -22,7 +25,14 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         </p>
       )}
       {templates.length ? (
-        <CreateForm templates={templates} credits={user.credits} initialSlug={slug} aiEnabled={aiConfigured()} />
+        <CreateForm
+          templates={templates}
+          credits={user.credits}
+          initialSlug={slug}
+          aiEnabled={aiConfigured()}
+          proEnabled={proConfigured()}
+          proCost={proCost}
+        />
       ) : (
         <p className="text-muted">No templates yet — run <code>npm run db:seed</code>.</p>
       )}

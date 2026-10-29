@@ -90,7 +90,7 @@ async function download(url: string): Promise<Buffer> {
 
 // ─── Public API ─────────────────────────────────────────────
 
-const BLOCKED = /\b(nude|naked|nsfw|sex|sexy|porn|lingerie|bikini|topless|gore|blood|kill|nazi|swastika)\b/i;
+export const BLOCKED = /\b(nude|naked|nsfw|sex|sexy|porn|lingerie|bikini|topless|gore|blood|kill|nazi|swastika)\b/i;
 
 export function buildPrompt(templatePrompt: string, extra?: string) {
   const clean = (extra ?? "").replace(/[^\p{L}\p{N}\s,.\-']/gu, " ").slice(0, 200).trim();
@@ -146,4 +146,54 @@ export async function removeBackground(photo: Buffer, contentType: string): Prom
     format: "png",
   });
   return download(firstUrl(output));
+}
+
+// ─── Pro AI mode: the model designs the whole poster ───────
+
+export const proConfigured = () => !!process.env.OPENAI_API_KEY;
+
+/**
+ * Full-poster generation with OpenAI's image model, using the player photo
+ * (and logo) as reference images. Returns PNG bytes.
+ */
+export async function generatePoster(prompt: string, refs: { bytes: Buffer; type: string }[]): Promise<Buffer> {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) throw new Error("OPENAI_API_KEY is not set");
+  const model = process.env.PRO_IMAGE_MODEL || "gpt-image-2";
+  const quality = process.env.PRO_IMAGE_QUALITY || "medium";
+  const size = process.env.PRO_IMAGE_SIZE || "1088x1360"; // 4:5, multiples of 16
+
+  // Stop before the 300 s function limit so a failure can still be refunded.
+  const signal = AbortSignal.timeout(270_000);
+  let res: Response;
+  if (refs.length) {
+    const form = new FormData();
+    form.append("model", model);
+    form.append("prompt", prompt);
+    form.append("size", size);
+    form.append("quality", quality);
+    refs.forEach((r, i) => {
+      const ext = r.type === "image/png" ? "png" : r.type === "image/webp" ? "webp" : "jpg";
+      form.append("image[]", new Blob([new Uint8Array(r.bytes)], { type: r.type }), `ref${i}.${ext}`);
+    });
+    res = await fetch("https://api.openai.com/v1/images/edits", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}` },
+      body: form,
+      signal,
+    });
+  } else {
+    res = await fetch("https://api.openai.com/v1/images/generations", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model, prompt, size, quality }),
+      signal,
+    });
+  }
+  if (!res.ok) throw new Error(`OpenAI image failed: ${res.status} ${(await res.text()).slice(0, 400)}`);
+  const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
+  const item = data.data?.[0];
+  if (item?.b64_json) return Buffer.from(item.b64_json, "base64");
+  if (item?.url) return download(item.url);
+  throw new Error("OpenAI returned no image");
 }

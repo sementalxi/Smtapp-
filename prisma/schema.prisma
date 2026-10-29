@@ -98,6 +98,8 @@ model Banner {
   templateId    String
   template      Template     @relation(fields: [templateId], references: [id])
   status        BannerStatus @default(PROCESSING)
+  // "QUICK" = template + AI background, "PRO" = AI designs the whole poster
+  mode          String       @default("QUICK")
   title         String
   // What the user typed: name, team, position, roster…
   inputs        Json

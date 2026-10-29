@@ -5,6 +5,8 @@ import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { aiConfigured } from "@/lib/banners";
 import { BannerEditor } from "@/components/BannerEditor";
+import { ProBannerView } from "@/components/ProBannerView";
+import { getNumberSetting } from "@/lib/settings";
 import { BannerInputs, DEFAULT_DESIGN, DesignState, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
 
 export const metadata = { title: "Editor" };
@@ -32,6 +34,17 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
         <Link href="/dashboard" className="text-sm text-muted hover:text-white">← {t("back")}</Link>
         <h1 className="font-display text-4xl">{banner.title}</h1>
       </div>
+      {banner.mode === "PRO" ? (
+        <ProBannerView
+          id={banner.id}
+          title={banner.title}
+          imageUrl={banner.finalUrl}
+          inputs={{ ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) }}
+          layout={banner.template.layout}
+          cost={await getNumberSetting("pro_cost")}
+          credits={user.credits}
+        />
+      ) : (
       <BannerEditor
         banner={{
           id: banner.id,
@@ -47,6 +60,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
         cost={aiConfigured() ? banner.template.cost : 0}
         credits={user.credits}
       />
+      )}
     </div>
   );
 }

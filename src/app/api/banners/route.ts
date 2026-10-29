@@ -4,10 +4,23 @@ import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
-import { aiConfigured, assertOwnUrl, defaultDesign, generateForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
-import { EMPTY_INPUTS } from "@/lib/templates";
+import {
+  aiConfigured,
+  assertOwnUrl,
+  buildProPrompt,
+  defaultDesign,
+  generateForBanner,
+  generateProForBanner,
+  InputsSchema,
+  titleFor,
+  toJson,
+} from "@/lib/banners";
+import { proConfigured } from "@/lib/ai";
+import { getNumberSetting } from "@/lib/settings";
+import { EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
 
-export const maxDuration = 60;
+// Pro AI posters take 1–2 minutes (Vercel allows up to 300 s with Fluid compute).
+export const maxDuration = 300;
 
 const Body = z.object({
   templateId: z.string().min(1),
@@ -15,6 +28,7 @@ const Body = z.object({
   photoUrl: z.string().max(500).nullish(),
   logoUrl: z.string().max(500).nullish(),
   isCutout: z.boolean().optional(),
+  mode: z.enum(["QUICK", "PRO"]).default("QUICK"),
 });
 
 export const POST = handle(async (req: NextRequest) => {
@@ -29,8 +43,23 @@ export const POST = handle(async (req: NextRequest) => {
   if (template.layout === "PLAYER" && !body.photoUrl) throw new HttpError(400, "photo_required");
 
   const inputs = { ...EMPTY_INPUTS, ...body.inputs };
-  // Fast path; the real check is atomic inside generateForBanner.
-  if (aiConfigured() && user.credits < template.cost) return json({ error: "err_credits" }, 402);
+  const pro = body.mode === "PRO";
+  if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
+  const cost = pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
+  // Fast path; the real check is atomic when credits are taken.
+  if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
+
+  let proPrompt = "";
+  if (pro) {
+    proPrompt = buildProPrompt({
+      layout: template.layout,
+      templatePrompt: template.prompt,
+      style: template.style as unknown as TemplateStyle,
+      inputs,
+      hasPhoto: !!body.photoUrl,
+      hasLogo: !!body.logoUrl,
+    }); // throws err_blocked before anything is charged
+  }
 
   const banner = await db.banner.create({
     data: {
@@ -41,11 +70,21 @@ export const POST = handle(async (req: NextRequest) => {
       design: toJson(defaultDesign()),
       photoUrl: body.photoUrl ?? null,
       logoUrl: body.logoUrl ?? null,
+      mode: body.mode,
     },
   });
 
   try {
-    await generateForBanner({
+    if (pro) {
+      await generateProForBanner({
+        bannerId: banner.id,
+        userId: user.id,
+        cost,
+        prompt: proPrompt,
+        photoUrl: body.photoUrl,
+        logoUrl: body.logoUrl,
+      });
+    } else await generateForBanner({
       bannerId: banner.id,
       userId: user.id,
       cost: template.cost,

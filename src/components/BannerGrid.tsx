@@ -32,7 +32,10 @@ export function BannerGrid({
           />
         );
         return (
-          <div key={b.id} className="card overflow-hidden">
+          <div key={b.id} className="card relative overflow-hidden">
+            {b.mode === "PRO" && (
+              <span className="chip absolute top-2 left-2 z-10 border-lime bg-ink/70 text-[10px] text-lime">✨ PRO</span>
+            )}
             {ready && !admin ? (
               <Link href={`/banner/${b.id}`} className="block transition hover:opacity-90">{preview}</Link>
             ) : ready ? (

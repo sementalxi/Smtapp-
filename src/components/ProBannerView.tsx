@@ -1,0 +1,118 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useT } from "@/i18n/client";
+import type { DictKey } from "@/i18n/dict";
+import type { BannerInputs, LayoutKind } from "@/lib/templates";
+import { TextFields } from "./TextFields";
+
+/** Result page for a Pro AI banner: the finished image, download, and "new version". */
+export function ProBannerView({
+  id,
+  imageUrl,
+  inputs: initial,
+  layout,
+  cost,
+  credits,
+  title,
+}: {
+  id: string;
+  imageUrl: string | null;
+  inputs: BannerInputs;
+  layout: LayoutKind;
+  cost: number;
+  credits: number;
+  title: string;
+}) {
+  const { t } = useT();
+  const router = useRouter();
+  const [url, setUrl] = useState(imageUrl);
+  const [inputs, setInputs] = useState(initial);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  async function download() {
+    if (!url) return;
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${(title || "banner").replace(/[^\w-]+/g, "_")}.png`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+
+  async function regenerate() {
+    setBusy(true);
+    setError("");
+    const res = await fetch(`/api/banners/${id}/background`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ inputs }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.finalUrl) {
+      setUrl(data.finalUrl);
+      router.refresh();
+    } else {
+      const known: DictKey[] = ["err_credits", "err_blocked"];
+      setError(t(known.includes(data.error) ? data.error : "err_generic"));
+    }
+    setBusy(false);
+  }
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,560px)_1fr]">
+      <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="card relative overflow-hidden">
+          {url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={url} alt={title} className={`block aspect-[4/5] w-full object-cover ${busy ? "opacity-40" : ""}`} />
+          ) : (
+            <div className="aspect-[4/5] bg-panel-2" />
+          )}
+          {busy && (
+            <div className="absolute inset-0 grid place-items-center p-8 text-center text-sm font-semibold text-lime">
+              {t("pro_wait")}
+            </div>
+          )}
+          <span className="chip absolute top-3 left-3 border-lime bg-ink/70 text-lime">✨ {t("pro_badge")}</span>
+        </div>
+        <button onClick={download} disabled={!url || busy} className="btn-primary mt-3 w-full py-3">
+          ⬇ {t("download")}
+        </button>
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        <p className="mt-2 text-xs text-muted">{t("pro_note")}</p>
+      </div>
+
+      <div className="space-y-6">
+        <section className="card space-y-4 p-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{t("text")}</h2>
+          <TextFields layout={layout} value={inputs} onChange={setInputs} />
+          <div>
+            <label className="label">{t("f_extraPrompt")}</label>
+            <input
+              className="input"
+              maxLength={200}
+              placeholder={t("f_extraPrompt_ph")}
+              value={inputs.extraPrompt}
+              onChange={(e) => setInputs({ ...inputs, extraPrompt: e.target.value })}
+            />
+          </div>
+          <p className="text-xs text-muted">{t("pro_regen_hint")}</p>
+          {credits >= cost ? (
+            <button onClick={regenerate} disabled={busy} className="btn-ghost w-full">
+              {busy ? t("processing") : `✨ ${t("pro_regen")} · ${t("costs", { n: cost })}`}
+            </button>
+          ) : (
+            <Link href="/pricing" className="btn-ghost w-full">
+              {t("get_credits")}
+            </Link>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
