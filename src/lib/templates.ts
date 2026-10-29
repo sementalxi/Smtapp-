@@ -48,6 +48,9 @@ export interface BannerInputs {
   players: string[]; // lineup: "10 Name ST"
   scorers: string[]; // result
   trophy: string; // champions trophy style
+  colorMode: string; // "surprise" | "template" | "custom"
+  color1: string;
+  color2: string;
   bgPose: string; // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
   language: string; // language for generic words on the poster
@@ -86,6 +89,9 @@ export const EMPTY_INPUTS: BannerInputs = {
   players: [],
   scorers: [],
   trophy: "",
+  colorMode: "surprise",
+  color1: "",
+  color2: "",
   bgPose: "",
   language: "English",
   fontPrimary: "",

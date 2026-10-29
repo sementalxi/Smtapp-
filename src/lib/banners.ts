@@ -6,7 +6,7 @@ import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generate
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
-import { bgPosePrompt, fontPrompt, trophyPrompt } from "./pro-options";
+import { bgPosePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
 import { stampLogo } from "./stamp";
 import { getSettings } from "./settings";
 
@@ -39,6 +39,9 @@ export const InputsSchema = z.object({
   scorers: z.array(z.string().trim().max(40)).max(12).default([]),
   trophy: str(60),
   bgPose: str(40),
+  colorMode: z.enum(["surprise", "template", "custom", ""]).default("surprise"),
+  color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
+  color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   language: str(20),
   fontPrimary: str(40),
   fontSecondary: str(40),
@@ -250,8 +253,11 @@ export function buildProPrompt(opts: {
   style: TemplateStyle;
   inputs: BannerInputs;
   refs: ProRef[];
+  /** Random creative direction so every poster is unique (made fresh on each generation). */
+  variation?: Variation;
 }) {
   const { inputs: i, style, layout } = opts;
+  const v = opts.variation ?? createVariation(i.colorMode);
   const allText = [
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details,
     i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers,
@@ -369,7 +375,9 @@ export function buildProPrompt(opts: {
   return [
     `Design a finished, high-end vertical sports social-media poster (4:5).`,
     composition,
-    `Visual style: ${opts.templatePrompt}. Main colour ${style.primary}, accent/glow ${style.accent}, deep shadows ${style.dark}.`,
+    `Visual style (base): ${opts.templatePrompt}.`,
+    colourLine(i, style, v),
+    `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`,
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
@@ -437,4 +445,14 @@ export async function generateProForBanner(opts: {
 /** All image URLs inside inputs must be ours. */
 export function assertInputUrls(i: BannerInputs) {
   [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl].forEach((u) => assertOwnUrl(u || null));
+}
+
+function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation) {
+  if (i.colorMode === "custom" && i.color1) {
+    return `COLOURS: main colour ${i.color1}${i.color2 ? `, second colour ${i.color2}` : ""}, with deep dark shadows. Use these as the dominant palette.`;
+  }
+  if (v.palette) {
+    return `COLOURS: a ${v.palette.name} palette — main ${v.palette.primary}, accent/glow ${v.palette.accent}, shadows ${v.palette.dark}. Use this palette instead of the base style's colours.`;
+  }
+  return `COLOURS: main colour ${style.primary}, accent/glow ${style.accent}, deep shadows ${style.dark}.`;
 }

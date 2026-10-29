@@ -22,8 +22,8 @@ const FONT_VAR: Record<string, string> = {
 
 const TXT = {
   en: {
-    steps: ["Type", "Style", "Details", "Fonts", "Generate"],
-    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Choose the fonts", "Generate and download"],
+    steps: ["Type", "Style", "Details", "Fonts & colors", "Generate"],
+    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Typography and color", "Generate and download"],
     next: "Next",
     back: "Back",
     photo: "Player photo",
@@ -83,8 +83,8 @@ const TXT = {
     required: "Fill in the required fields (*) to continue.",
   },
   es: {
-    steps: ["Tipo", "Estilo", "Detalles", "Fuentes", "Generar"],
-    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Elige las fuentes", "Genera y descarga"],
+    steps: ["Tipo", "Estilo", "Detalles", "Fuentes y colores", "Generar"],
+    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Tipografía y color", "Genera y descarga"],
     next: "Siguiente",
     back: "Atrás",
     photo: "Foto del jugador",
@@ -205,6 +205,8 @@ export function CreateWizard({
   function finalInputs(): BannerInputs {
     return {
       ...inp,
+      color1: inp.colorMode === "custom" ? inp.color1 || "#1d5bff" : inp.color1,
+      color2: inp.colorMode === "custom" ? inp.color2 || "#ffd35a" : inp.color2,
       team: team?.name ?? inp.team,
       homeTeam: home?.name ?? inp.homeTeam,
       awayTeam: away?.name ?? inp.awayTeam,
@@ -559,6 +561,46 @@ export function CreateWizard({
               </div>
             </div>
           ))}
+          <div>
+            <span className="label">{locale === "es" ? "Colores" : "Colors"}</span>
+            <div className="grid grid-cols-3 gap-2">
+              {([
+                ["surprise", locale === "es" ? "🎲 Únicos" : "🎲 Unique", locale === "es" ? "Paleta nueva en cada póster" : "New palette every poster"],
+                ["template", locale === "es" ? "🎨 Del estilo" : "🎨 Style's own", locale === "es" ? "Colores del estilo elegido" : "Colors of the chosen style"],
+                ["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Ej. colores del equipo" : "e.g. team colors"],
+              ] as const).map(([id, label, sub]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => set("colorMode", id)}
+                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || "surprise") === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                >
+                  <span className="block text-sm font-bold">{label}</span>
+                  <span className="block text-[11px] text-muted">{sub}</span>
+                </button>
+              ))}
+            </div>
+            {inp.colorMode === "custom" && (
+              <div className="mt-3 flex items-center gap-4">
+                {(["color1", "color2"] as const).map((k, n) => (
+                  <label key={k} className="flex items-center gap-2 text-sm">
+                    <input
+                      type="color"
+                      value={inp[k] || (n === 0 ? "#1d5bff" : "#ffd35a")}
+                      onChange={(e) => set(k, e.target.value)}
+                      className="h-10 w-14 cursor-pointer rounded border border-line bg-transparent"
+                    />
+                    {n === 0 ? (locale === "es" ? "Principal" : "Main") : locale === "es" ? "Secundario" : "Second"}
+                  </label>
+                ))}
+              </div>
+            )}
+            <p className="mt-1 text-xs text-muted">
+              {locale === "es"
+                ? "Cada póster también recibe su propio fondo, composición, luz y textura, así ninguno sale igual."
+                : "Every poster also gets its own background concept, layout, lighting and texture, so no two look the same."}
+            </p>
+          </div>
           <div className="rounded-xl border border-line bg-panel-2 p-6 text-center">
             <div className="label">{L.preview}</div>
             {(() => {
