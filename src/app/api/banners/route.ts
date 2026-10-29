@@ -20,7 +20,7 @@ import {
 } from "@/lib/banners";
 import { proConfigured } from "@/lib/ai";
 import { getNumberSetting } from "@/lib/settings";
-import { EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
+import { BannerInputs, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
 import { createVariation, type Variation } from "@/lib/pro-options";
 
 // Pro AI posters take 1–2 minutes (Vercel allows up to 300 s with Fluid compute).
@@ -60,18 +60,21 @@ export const POST = handle(async (req: NextRequest) => {
   if (!template) throw new HttpError(404, "template_not_found");
   if (template.layout === "PLAYER" && !body.photoUrl) throw new HttpError(400, "photo_required");
 
-  let inputs = { ...EMPTY_INPUTS, ...body.inputs };
+  let inputs: BannerInputs = { ...EMPTY_INPUTS, ...body.inputs };
   let logoUrl = body.logoUrl ?? null;
   let series: { seriesRootId: string; variation?: Variation; refUrl: string } | null = null;
   if (source) {
-    const base = { ...EMPTY_INPUTS, ...(source.inputs as unknown as Partial<typeof inputs>) };
-    for (const k of PLAYER_FIELDS) base[k] = body.inputs[k] ?? "";
+    const base: BannerInputs = { ...EMPTY_INPUTS, ...(source.inputs as unknown as Partial<BannerInputs>) };
+    for (const k of PLAYER_FIELDS) base[k] = String(body.inputs[k] ?? "");
     inputs = base;
     logoUrl = source.logoUrl;
     const info = seriesInfo(source.design);
     const rootId = info.seriesRootId ?? source.id;
-    const root = rootId === source.id ? source : await db.banner.findFirst({ where: { id: rootId, userId: user.id, status: "READY" } });
-    series = { seriesRootId: rootId, variation: info.variation, refUrl: root?.finalUrl ?? source.finalUrl! };
+    const rootUrl =
+      rootId === source.id
+        ? source.finalUrl
+        : (await db.banner.findFirst({ where: { id: rootId, userId: user.id, status: "READY" }, select: { finalUrl: true } }))?.finalUrl;
+    series = { seriesRootId: rootId, variation: info.variation, refUrl: rootUrl ?? source.finalUrl ?? "" };
   }
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");

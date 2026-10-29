@@ -26,8 +26,9 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
     });
     if (source?.finalUrl) {
       const rootId = seriesInfo(source.design).seriesRootId ?? source.id;
-      const count = 1 + (await db.banner.count({ where: { userId: user.id, design: { path: ["seriesRootId"], equals: rootId } } }));
-      const team = (source.inputs as { team?: string } | null)?.team ?? "";
+      const mine = await db.banner.findMany({ where: { userId: user.id, mode: "PRO" }, select: { design: true }, take: 500 });
+      const count = 1 + mine.filter((b) => seriesInfo(b.design).seriesRootId === rootId).length;
+      const team = String((source.inputs as unknown as { team?: string } | null)?.team ?? "");
       return (
         <div className="mx-auto max-w-6xl px-4 py-8">
           <TeamSetForm
