@@ -308,7 +308,7 @@ export function buildProPrompt(opts: {
       const trophy = i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a large shiny trophy";
       composition = [
         `A champions title-celebration poster.`,
-        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}, the squad list as a clean row of names separated by vertical bars, confetti, sparks and spotlight beams.`,
+        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}${(i.roster.length || i.players.length) ? ", the squad list as a clean row of names separated by vertical bars" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
         frame,
         finish,
       ].join(" ");
@@ -324,7 +324,7 @@ export function buildProPrompt(opts: {
     case "MATCHDAY":
       composition = [
         `A match-day announcement poster for a pro-clubs / football match.`,
-        `The two team crests big and glossy facing each other with a bold "VS" between them (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, the competition name, and a clear info block with date, kick-off time and venue.`,
+        `The two team crests big and glossy facing each other with a bold "VS" between them (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, ${i.competition ? "the competition name, " : ""}${[i.date, i.time, i.venue].some(Boolean) ? "and a clear info block with the listed date/time/venue" : "no info block"}.`,
         frame,
         finish,
       ].join(" ");
@@ -339,7 +339,7 @@ export function buildProPrompt(opts: {
     case "LINEUP":
       composition = [
         `A "STARTING XI" lineup graphic.`,
-        `A stylised football pitch seen from above${i.formation ? ` with the players arranged in a ${i.formation} formation` : ""}: each player shown as a clean badge/marker with their shirt number and name, goalkeeper at the bottom, attackers at the top. The team crest large and glossy, a huge "${i.headline || "STARTING XI"}" title, competition and date. Keep all names perfectly legible.`,
+        `A stylised football pitch seen from above${i.formation ? ` with the players arranged in a ${i.formation} formation` : ""}: each player shown as a clean badge/marker with their shirt number and name, goalkeeper at the bottom, attackers at the top. The team crest large and glossy, a huge "${i.headline || "STARTING XI"}" title${i.competition ? ", the competition" : ""}${i.date ? ", the date" : ""}. Keep all names perfectly legible.`,
         frame,
         finish,
       ].join(" ");
@@ -353,7 +353,7 @@ export function buildProPrompt(opts: {
     case "RESULT":
       composition = [
         `A full-time result graphic.`,
-        `Both team crests big and glossy on either side, a huge score between them, a bold "${i.headline || "FULL TIME"}" label, the goal scorers listed under each side (or under the score), and the competition name.`,
+        `Both team crests big and glossy on either side, a huge score between them, a bold "${i.headline || "FULL TIME"}" label, ${i.scorers.length ? "the goal scorers listed under each side (or under the score)" : "no goal scorers"}${i.competition ? ", and the competition name" : ""}.`,
         frame,
         finish,
       ].join(" ");
@@ -365,7 +365,7 @@ export function buildProPrompt(opts: {
       add("Competition", i.competition);
       break;
     case "EVENT":
-      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle, a bold event title under it, a script-font accent line, and a pill-shaped info bar with the date and times. ${frame} ${finish}`;
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and a pill-shaped info bar with the date and times" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
       add("Headline (huge, glossy 3D)", i.headline);
       add("Event title (bold, under the headline)", i.name);
       add("Script accent line", i.subtitle);
@@ -425,6 +425,7 @@ export function buildProPrompt(opts: {
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
+    `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     `Keep at least one corner of the poster calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
