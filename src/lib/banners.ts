@@ -219,11 +219,14 @@ export function collectProRefs(opts: {
       label:
         layout === "LINEUP" || layout === "RESULT" || layout === "MATCHDAY"
           ? "a player photo to feature as the hero image. Keep the face exactly recognisable — same person, not a lookalike."
-          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo.",
+          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo. Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
     });
   }
   const crest = (url: string, who: string) =>
-    refs.push({ url, label: `the crest of ${who}. Reproduce it faithfully as a glossy chrome/3D emblem with a glow; do not redesign it.` });
+    refs.push({
+      url,
+      label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent; you may also echo it huge and ghosted in the background.`,
+    });
   if (layout === "MATCHDAY" || layout === "RESULT") {
     if (i.homeLogoUrl) crest(i.homeLogoUrl, `the home team${i.homeTeam ? ` (${i.homeTeam})` : ""}`);
     if (i.awayLogoUrl) crest(i.awayLogoUrl, `the away team${i.awayTeam ? ` (${i.awayTeam})` : ""}`);
@@ -273,7 +276,7 @@ export function buildProPrompt(opts: {
 
   const lines: string[] = [];
   const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
-  const finish = `Finish: dense layered effects (light streaks, sparks, glitter dust, fine grain, haze) and a rich cinematic colour grade.`;
+  const finish = `BACKGROUND & FINISH: a deep, detailed scene with real depth — sharp foreground particles and debris, the subject in the midground, an environment with bokeh and atmosphere behind — never a flat texture or noise. Dense layered effects (light streaks, sparks, embers, glitter dust, lens flares, fine grain, haze) and a rich, contrasty cinematic colour grade.`;
   const frame = `FRAME: thin corner marks and a bottom footer row with three small letter-spaced items.`;
 
   let composition: string;
@@ -366,6 +369,7 @@ export function buildProPrompt(opts: {
   }
   add("Letter-spaced footer line at the very bottom", i.footer);
 
+  const typeFx = `TYPOGRAPHY TREATMENT (very important): every title is a designed lettering piece by a pro designer, never plain typed text. The main name/headline: thick 3D extruded letters with bevelled edges, polished chrome or brushed-metal faces with a gradient in the main colour, sharp specular highlights, a coloured outline or inner glow, a hard drop shadow and subtle wear/texture; it may be slightly slanted, tightly kerned and overlap the subject in places. Mix 2–3 contrasting type styles (huge condensed caps + a gothic or brush-script accent + tiny letter-spaced caps) with a clear size hierarchy. Tag boxes and badges look like real graphic elements (bevel, gradient, glow). No flat, thin, default-looking white text.`;
   const typo = [
     i.fontPrimary && `Titles and the main headline in ${fontPrompt(i.fontPrimary)}.`,
     i.fontSecondary && `Names, numbers and small text in ${fontPrompt(i.fontSecondary)}.`,
@@ -389,13 +393,14 @@ export function buildProPrompt(opts: {
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — follow these closely; where they conflict with anything above, these win:\n${opts.instructions.trim()}`
       : "",
+    typeFx,
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     `Keep the bottom-right corner (about 20% of the width) clear of text and important details — a small brand mark goes there.`,
-    `Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
+    `Only write the text items listed above. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
   ]
     .filter(Boolean)
     .join("\n\n");
