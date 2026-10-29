@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #07080b;
+  --color-panel: #0f1116;
+  --color-panel-2: #161922;
+  --color-line: #252a36;
+  --color-muted: #8a93a6;
+  --color-lime: #c6ff3d;
+  --color-lime-dim: #9fd12a;
+  --color-danger: #ff4d5e;
+  --font-sans: var(--nf-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--nf-anton), Impact, sans-serif;
+}
+
+html {
+  background: var(--color-ink);
+  color: #eef1f6;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed bg-lime text-ink hover:bg-white;
+}
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-line bg-panel-2 text-white hover:border-muted;
+}
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-danger/40 bg-danger/10 text-danger hover:bg-danger/20;
+}
+.input {
+  @apply w-full rounded-lg border border-line bg-panel-2 px-3 py-2.5 text-sm text-white outline-none placeholder:text-muted/70 focus:border-lime;
+}
+.label {
+  @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted;
+}
+.card {
+  @apply rounded-2xl border border-line bg-panel;
+}
+.table {
+  @apply w-full text-left text-sm;
+}
+.table th {
+  @apply border-b border-line px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted;
+}
+.table td {
+  @apply border-b border-line/60 px-3 py-2.5 align-middle;
+}
+.chip {
+  @apply inline-flex items-center rounded-full border border-line px-2 py-0.5 text-xs font-semibold;
+}
+
+input[type="range"] {
+  accent-color: var(--color-lime);
+}

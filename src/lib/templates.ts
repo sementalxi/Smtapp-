@@ -1,0 +1,284 @@
+// Shared (client + server) definitions for banner templates and inputs.
+
+export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT";
+
+export type FontKey = "anton" | "bebas" | "gothic" | "brush" | "sans";
+export type Particles = "sparks" | "embers" | "snow" | "none";
+
+export interface TemplateStyle {
+  primary: string; // main brand color of the template
+  accent: string; // highlight / glow color
+  dark: string; // deep shadow color
+  nameFont: FontKey;
+  scriptFont: FontKey;
+  /** Top → bottom gradient used for the big name / title */
+  nameGradient: string[];
+  /** Gradient used when no AI background exists (also used for previews) */
+  fallback: string[];
+  particles: Particles;
+  ghost: boolean; // big faded portrait behind the player
+  giantText: boolean; // huge outlined team name in the background
+  streaks: boolean; // diagonal light streaks
+}
+
+export interface BannerInputs {
+  name: string; // player / gamertag
+  team: string;
+  position: string; // "CAM | OM", "DFC", "CB"
+  number: string;
+  tagline: string; // small text above the name ("WELCOME", "MVP")
+  subtitle: string; // script text under the name
+  footer: string; // spaced letters at the bottom ("LIGA X EDITION")
+  headline: string; // EVENT/CHAMPIONS big word ("CHAMPIONS", "$100")
+  eventName: string; // "LPL WINNERS"
+  roster: string[]; // CHAMPIONS
+  prize: string; // "$200 PRIZE"
+  date: string; // EVENT
+  details: string; // EVENT ("8 PM · 9 PM · 10 PM")
+  extraPrompt: string; // added to the AI background prompt
+}
+
+export const EMPTY_INPUTS: BannerInputs = {
+  name: "",
+  team: "",
+  position: "",
+  number: "",
+  tagline: "",
+  subtitle: "",
+  footer: "",
+  headline: "",
+  eventName: "",
+  roster: [],
+  prize: "",
+  date: "",
+  details: "",
+  extraPrompt: "",
+};
+
+/** Editor adjustments the user can tweak for free after generating. */
+export interface DesignState {
+  playerX: number; // -0.5 … 0.5 (fraction of width)
+  playerY: number; // -0.5 … 0.5
+  playerScale: number; // 0.5 … 1.8
+  ghost: boolean;
+  ghostOpacity: number; // 0 … 1
+  nameScale: number; // 0.6 … 1.4
+  overlay: number; // 0 … 1 color grade strength
+  particles: boolean;
+  logoScale: number; // 0.5 … 1.6
+  seed: number;
+}
+
+export const DEFAULT_DESIGN: DesignState = {
+  playerX: 0,
+  playerY: 0,
+  playerScale: 1,
+  ghost: true,
+  ghostOpacity: 0.45,
+  nameScale: 1,
+  overlay: 0.55,
+  particles: true,
+  logoScale: 1,
+  seed: 7,
+};
+
+/** Which form fields each layout shows. */
+export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
+  PLAYER: ["name", "team", "position", "number", "tagline", "subtitle", "footer"],
+  CHAMPIONS: ["headline", "team", "eventName", "roster", "prize", "footer"],
+  EVENT: ["headline", "name", "subtitle", "date", "details", "prize", "footer"],
+};
+
+export const CANVAS_W = 1080;
+export const CANVAS_H = 1350;
+
+// ─── Default templates (seeded into the DB; admins can edit them later) ───
+
+export interface TemplateSeed {
+  slug: string;
+  name: string;
+  nameEs: string;
+  layout: LayoutKind;
+  prompt: string;
+  style: TemplateStyle;
+  sort: number;
+}
+
+export const DEFAULT_TEMPLATES: TemplateSeed[] = [
+  {
+    slug: "glacier",
+    name: "Glacier",
+    nameEs: "Glaciar",
+    layout: "PLAYER",
+    sort: 1,
+    prompt:
+      "shattered blue ice crystals exploding outward, cold electric blue energy, frozen stadium at night, sharp crystal shards flying, deep navy and cyan glow",
+    style: {
+      primary: "#1d5bff",
+      accent: "#7cd6ff",
+      dark: "#020718",
+      nameFont: "anton",
+      scriptFont: "sans",
+      nameGradient: ["#ffffff", "#cfe6ff", "#6fa9ff"],
+      fallback: ["#020718", "#0b2a8a", "#1d5bff"],
+      particles: "snow",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
+    slug: "neon-gothic",
+    name: "Neon Gothic",
+    nameEs: "Gótico Neón",
+    layout: "PLAYER",
+    sort: 2,
+    prompt:
+      "dark gothic cathedral ornaments in chrome, hot pink and magenta neon lightning, thorny metal spikes, stadium floodlights, cyber gothic aesthetic",
+    style: {
+      primary: "#ff2d9b",
+      accent: "#ff7ad1",
+      dark: "#12000c",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#ffe0f3", "#ff9bd6"],
+      fallback: ["#12000c", "#5a0638", "#ff2d9b"],
+      particles: "sparks",
+      ghost: true,
+      giantText: false,
+      streaks: true,
+    },
+  },
+  {
+    slug: "inferno",
+    name: "Inferno",
+    nameEs: "Infierno",
+    layout: "PLAYER",
+    sort: 3,
+    prompt:
+      "red inferno, glowing embers and red lightning, dark metal angular panels, stadium lights through red smoke, aggressive esports atmosphere",
+    style: {
+      primary: "#e3102b",
+      accent: "#ff6b3d",
+      dark: "#140103",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#ffe2d6", "#ffb199"],
+      fallback: ["#140103", "#6b0612", "#e3102b"],
+      particles: "embers",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
+    slug: "royal-violet",
+    name: "Royal Violet",
+    nameEs: "Violeta Real",
+    layout: "PLAYER",
+    sort: 4,
+    prompt:
+      "royal purple baroque ornaments, violet lightning storm, golden light flare, stadium spotlights, purple clouds and mist, luxurious dark atmosphere",
+    style: {
+      primary: "#8b3dff",
+      accent: "#d9a6ff",
+      dark: "#0c0218",
+      nameFont: "bebas",
+      scriptFont: "gothic",
+      nameGradient: ["#ffffff", "#f0e4ff", "#c79bff"],
+      fallback: ["#0c0218", "#3a0f73", "#8b3dff"],
+      particles: "sparks",
+      ghost: true,
+      giantText: true,
+      streaks: false,
+    },
+  },
+  {
+    slug: "noir-gold",
+    name: "Noir Gold",
+    nameEs: "Negro y Oro",
+    layout: "PLAYER",
+    sort: 5,
+    prompt:
+      "black and gold luxury texture, golden glitter dust and smoke, dark stadium stands in black and white, gold light leaks, premium welcome poster",
+    style: {
+      primary: "#d4a64a",
+      accent: "#ffd77a",
+      dark: "#050403",
+      nameFont: "bebas",
+      scriptFont: "gothic",
+      nameGradient: ["#fff6dc", "#f3d28a", "#b9862d"],
+      fallback: ["#050403", "#2a2112", "#7a5a22"],
+      particles: "sparks",
+      ghost: true,
+      giantText: false,
+      streaks: false,
+    },
+  },
+  {
+    slug: "golden-champions",
+    name: "Golden Champions",
+    nameEs: "Campeones Dorados",
+    layout: "CHAMPIONS",
+    sort: 6,
+    prompt:
+      "golden marble arena with white feathered wings, warm golden light rays, sparks and confetti, epic trophy ceremony atmosphere",
+    style: {
+      primary: "#e09a1f",
+      accent: "#ffd36b",
+      dark: "#1a0f02",
+      nameFont: "anton",
+      scriptFont: "sans",
+      nameGradient: ["#fff3cf", "#f6c35a", "#c7801a"],
+      fallback: ["#1a0f02", "#6b4208", "#e09a1f"],
+      particles: "embers",
+      ghost: false,
+      giantText: false,
+      streaks: true,
+    },
+  },
+  {
+    slug: "violet-champions",
+    name: "Violet Champions",
+    nameEs: "Campeones Violeta",
+    layout: "CHAMPIONS",
+    sort: 7,
+    prompt:
+      "purple stadium at night with violet lightning, silver metallic shield frame, glowing purple floodlights, wet reflective floor, celebration",
+    style: {
+      primary: "#7a2cff",
+      accent: "#c8a2ff",
+      dark: "#0a0216",
+      nameFont: "anton",
+      scriptFont: "sans",
+      nameGradient: ["#ffffff", "#e4d6ff", "#a98be0"],
+      fallback: ["#0a0216", "#2c0b63", "#7a2cff"],
+      particles: "sparks",
+      ghost: false,
+      giantText: false,
+      streaks: true,
+    },
+  },
+  {
+    slug: "tournament-night",
+    name: "Tournament Night",
+    nameEs: "Noche de Torneo",
+    layout: "EVENT",
+    sort: 8,
+    prompt:
+      "red stadium at night with steel truss roof, red flares and smoke, fans with flags in the stands, bokeh lights, intense final match atmosphere",
+    style: {
+      primary: "#d4161f",
+      accent: "#ffcf6b",
+      dark: "#120202",
+      nameFont: "anton",
+      scriptFont: "gothic",
+      nameGradient: ["#ffffff", "#fbe9c8", "#e8b45a"],
+      fallback: ["#120202", "#5c0a0e", "#d4161f"],
+      particles: "embers",
+      ghost: false,
+      giantText: true,
+      streaks: true,
+    },
+  },
+];

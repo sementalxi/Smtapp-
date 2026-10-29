@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TxType {
+  SIGNUP_BONUS
+  PURCHASE
+  SUBSCRIPTION
+  GENERATION
+  REFUND
+  ADMIN_ADJUST
+}
+
+enum BannerStatus {
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum Layout {
+  PLAYER
+  CHAMPIONS
+  EVENT
+}
+
+model User {
+  id                 String              @id @default(cuid())
+  email              String              @unique
+  name               String
+  passwordHash       String
+  role               Role                @default(USER)
+  credits            Int                 @default(0)
+  banned             Boolean             @default(false)
+  locale             String              @default("es")
+  stripeCustomerId   String?             @unique
+  subscriptionId     String?             @unique
+  subscriptionStatus String?
+  planId             String?
+  currentPeriodEnd   DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  transactions       CreditTransaction[] @relation("UserTx")
+  adminActions       CreditTransaction[] @relation("AdminTx")
+  banners            Banner[]
+  payments           Payment[]
+}
+
+model CreditTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation("UserTx", fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int
+  balance   Int
+  type      TxType
+  note      String?
+  adminId   String?
+  admin     User?    @relation("AdminTx", fields: [adminId], references: [id], onDelete: SetNull)
+  bannerId  String?
+  // Stripe event/session id — unique so a webhook can never grant credits twice.
+  externalRef String? @unique
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Template {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  name       String
+  nameEs     String
+  layout     Layout   @default(PLAYER)
+  // Prompt sent to the image model for the background
+  prompt     String
+  // Design tokens used by the canvas renderer (colors, fonts, effects)
+  style      Json
+  cost       Int      @default(1)
+  active     Boolean  @default(true)
+  sort       Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  banners    Banner[]
+}
+
+model Banner {
+  id            String       @id @default(cuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  templateId    String
+  template      Template     @relation(fields: [templateId], references: [id])
+  status        BannerStatus @default(PROCESSING)
+  title         String
+  // What the user typed: name, team, position, roster…
+  inputs        Json
+  // Editor state (offsets, scales, text overrides)
+  design        Json?
+  photoUrl      String?
+  cutoutUrl     String?
+  logoUrl       String?
+  backgroundUrl String?
+  finalUrl      String?
+  error         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([userId, createdAt])
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeRef       String   @unique
+  kind            String // "pack" | "subscription"
+  productId       String
+  amountCents     Int
+  currency        String
+  credits         Int
+  createdAt       DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model Setting {
+  key   String @id
+  value String
+}
