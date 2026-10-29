@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   const es = locale === "es";
   await reapStale(user.id);
 
-  const [banners, artCount, spent, cost] = await Promise.all([
+  const [banners, artCount, spent, cost, playerCards] = await Promise.all([
     db.banner.findMany({
       where: { userId: user.id },
       include: { template: true },
@@ -25,6 +25,12 @@ export default async function DashboardPage() {
     db.banner.count({ where: { userId: user.id, status: "READY" } }),
     db.payment.aggregate({ where: { userId: user.id }, _sum: { amountCents: true } }),
     getNumberSetting("pro_cost"),
+    db.banner.findMany({
+      where: { userId: user.id, mode: "PRO", status: "READY", finalUrl: { not: null }, template: { layout: "PLAYER" } },
+      orderBy: { createdAt: "desc" },
+      take: 12,
+      select: { id: true, finalUrl: true },
+    }),
   ]);
   const first = user.name.split(" ")[0];
   const subscribed = !!user.subscriptionId && user.subscriptionStatus !== "canceled";
@@ -84,6 +90,35 @@ export default async function DashboardPage() {
           </Link>
         ))}
       </div>
+
+      <div className="mt-10 mb-4">
+        <h2 className="text-xl font-extrabold">👥 {es ? "Tarjetas para todo el equipo" : "Cards for the whole team"}</h2>
+        <p className="text-sm text-muted">
+          {es
+            ? "Haz una tarjeta de jugador y luego crea las del resto del equipo con el mismo diseño — solo cambias foto, nombre y número."
+            : "Make one player card, then make the rest of the team with the same design — just change the photo, name and number."}
+        </p>
+      </div>
+      {playerCards.length ? (
+        <div className="flex gap-3 overflow-x-auto pb-2">
+          {playerCards.map((b) => (
+            <Link key={b.id} href={`/create?match=${b.id}`} className="card group w-36 shrink-0 overflow-hidden transition hover:border-lime/60">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={b.finalUrl!} alt="" className="aspect-[4/5] w-full object-cover" />
+              <span className="block px-2 py-2 text-center text-xs font-bold text-lime">＋ {es ? "Mismo diseño" : "Same design"}</span>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <Link href="/create?type=player" className="card flex items-center gap-4 p-4 transition hover:border-lime/60">
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">👥</span>
+          <span className="flex-1">
+            <span className="block font-bold">{es ? "Empieza con la primera tarjeta" : "Start with the first card"}</span>
+            <span className="block text-xs text-muted">{es ? "Después toca \"Siguiente jugador — mismo diseño\"." : "Then tap \"Next player — same design\"."}</span>
+          </span>
+          <span className="text-muted">›</span>
+        </Link>
+      )}
 
       <div className="mt-12 mb-4 flex items-end justify-between">
         <h2 className="text-xl font-extrabold">{t("dash_title")}</h2>

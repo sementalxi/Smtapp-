@@ -814,6 +814,11 @@ export function CreateWizard({
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
                 {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
+                {layout === "PLAYER" && (
+                  <Link href={`/create?match=${result.id}`} className="btn-primary w-full">
+                    👥 {locale === "es" ? "Siguiente jugador — mismo diseño" : "Next player — same design"}
+                  </Link>
+                )}
                 <Link href={`/banner/${result.id}`} className="btn-ghost w-full">✏️ {L.edit}</Link>
                 <button type="button" className="w-full py-2 text-xs text-muted hover:text-white" onClick={reset}>＋ {L.another}</button>
               </div>

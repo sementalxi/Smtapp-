@@ -14,12 +14,14 @@ import {
   generateForBanner,
   generateProForBanner,
   InputsSchema,
+  seriesInfo,
   titleFor,
   toJson,
 } from "@/lib/banners";
 import { proConfigured } from "@/lib/ai";
 import { getNumberSetting } from "@/lib/settings";
 import { EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
+import { createVariation, type Variation } from "@/lib/pro-options";
 
 // Pro AI posters take 1–2 minutes (Vercel allows up to 300 s with Fluid compute).
 export const maxDuration = 300;
@@ -31,7 +33,12 @@ const Body = z.object({
   logoUrl: z.string().max(500).nullish(),
   isCutout: z.boolean().optional(),
   mode: z.enum(["QUICK", "PRO"]).default("QUICK"),
+  /** Team set: make this card with the same design as one of the user's finished player cards. */
+  matchBannerId: z.string().max(40).optional(),
 });
+
+// Per-player fields a team-set card may change; everything else comes from the first card.
+const PLAYER_FIELDS = ["name", "position", "number", "tagline", "subtitle"] as const;
 
 export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
@@ -40,11 +47,32 @@ export const POST = handle(async (req: NextRequest) => {
   assertOwnUrl(body.photoUrl);
   assertOwnUrl(body.logoUrl);
 
-  const template = await db.template.findFirst({ where: { id: body.templateId, active: true } });
+  // Team set: copy the source card's template, inputs, logo and design.
+  const source = body.matchBannerId
+    ? await db.banner.findFirst({
+        where: { id: body.matchBannerId, userId: user.id, mode: "PRO", status: "READY" },
+        include: { template: true },
+      })
+    : null;
+  if (body.matchBannerId && (!source || !source.finalUrl || source.template.layout !== "PLAYER")) throw new HttpError(404, "match_not_found");
+
+  const template = source ? source.template : await db.template.findFirst({ where: { id: body.templateId, active: true } });
   if (!template) throw new HttpError(404, "template_not_found");
   if (template.layout === "PLAYER" && !body.photoUrl) throw new HttpError(400, "photo_required");
 
-  const inputs = { ...EMPTY_INPUTS, ...body.inputs };
+  let inputs = { ...EMPTY_INPUTS, ...body.inputs };
+  let logoUrl = body.logoUrl ?? null;
+  let series: { seriesRootId: string; variation?: Variation; refUrl: string } | null = null;
+  if (source) {
+    const base = { ...EMPTY_INPUTS, ...(source.inputs as unknown as Partial<typeof inputs>) };
+    for (const k of PLAYER_FIELDS) base[k] = body.inputs[k] ?? "";
+    inputs = base;
+    logoUrl = source.logoUrl;
+    const info = seriesInfo(source.design);
+    const rootId = info.seriesRootId ?? source.id;
+    const root = rootId === source.id ? source : await db.banner.findFirst({ where: { id: rootId, userId: user.id, status: "READY" } });
+    series = { seriesRootId: rootId, variation: info.variation, refUrl: root?.finalUrl ?? source.finalUrl! };
+  }
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
   if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");
@@ -58,9 +86,12 @@ export const POST = handle(async (req: NextRequest) => {
     layout: template.layout,
     inputs,
     photoUrl: body.photoUrl,
-    logoUrl: body.logoUrl,
+    logoUrl,
     styleRefUrl: template.styleRefUrl,
+    seriesRefUrl: series?.refUrl,
   });
+  // Saved with the card so a team set can reuse the exact same creative direction.
+  const variation = series?.variation ?? createVariation(template.randomize ? inputs.colorMode : inputs.colorMode === "custom" ? "custom" : "template");
   if (pro) {
     try {
     proPrompt = buildProPrompt({
@@ -71,6 +102,8 @@ export const POST = handle(async (req: NextRequest) => {
       refs,
       instructions: template.proInstructions,
       randomize: template.randomize,
+      variation,
+      series: !!series,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
@@ -84,9 +117,9 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson(defaultDesign()),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}) }),
       photoUrl: body.photoUrl ?? null,
-      logoUrl: body.logoUrl ?? null,
+      logoUrl,
       mode: body.mode,
     },
   });

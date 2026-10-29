@@ -73,6 +73,11 @@ export function ProBannerView({
         {url && !busy && (
           <div className="mt-3">
             <DownloadSizes src={url} baseName={title} />
+            {layout === "PLAYER" && (
+              <Link href={`/create?match=${id}`} className="btn-primary mt-2 w-full">
+                👥 {t("team_set_next")}
+              </Link>
+            )}
           </div>
         )}
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}

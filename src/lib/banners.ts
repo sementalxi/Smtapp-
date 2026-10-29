@@ -212,6 +212,8 @@ export function collectProRefs(opts: {
   photoUrl?: string | null;
   logoUrl?: string | null;
   styleRefUrl?: string | null;
+  /** Team set: the first card of the set, whose design must be copied. */
+  seriesRefUrl?: string | null;
 }): ProRef[] {
   const { inputs: i, layout } = opts;
   const refs: ProRef[] = [];
@@ -241,7 +243,13 @@ export function collectProRefs(opts: {
   if (i.trophyUrl) {
     refs.push({ url: i.trophyUrl, label: "the trophy. Reproduce this exact trophy design, large and shiny, as the centrepiece." });
   }
-  if (opts.styleRefUrl) {
+  if (opts.seriesRefUrl) {
+    refs.push({
+      url: opts.seriesRefUrl,
+      label:
+        "the FIRST CARD of this team set. Recreate THIS EXACT DESIGN as the next card in the same series: same layout and element positions, same background scene, colours, lighting, effects, typography styles, crest treatment and extra words. Only the player changes: use the person from the new player photo (never the person in this card) and the new player's name, number and position.",
+    });
+  } else if (opts.styleRefUrl) {
     refs.push({
       url: opts.styleRefUrl,
       label:
@@ -264,6 +272,8 @@ export function buildProPrompt(opts: {
   instructions?: string | null;
   /** false = keep the style consistent (no random direction) */
   randomize?: boolean;
+  /** Team set card: copy the first card's design instead of a new random direction. */
+  series?: boolean;
 }) {
   const { inputs: raw, style, layout } = opts;
   // When a team has a logo, the poster shows only the logo — never the team's name as text.
@@ -402,7 +412,9 @@ export function buildProPrompt(opts: {
     bgScenePrompt(i.bgScene)
       ? `BACKGROUND SCENE (chosen by the user — use it): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
       : "",
-    randomize
+    opts.series
+      ? `TEAM SET: this card belongs to a matching set for the whole team. Copy the design of the first card (reference image) as closely as possible — same background, colours, layout, fonts and effects — so all cards look like one series. Only the player and the player's text change.`
+      : randomize
       ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`
       : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
     opts.instructions?.trim()
@@ -489,4 +501,20 @@ function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation) {
     return `COLOURS: a ${v.palette.name} palette — main ${v.palette.primary}, accent/glow ${v.palette.accent}, shadows ${v.palette.dark}. Use this palette instead of the base style's colours.`;
   }
   return `COLOURS: main colour ${style.primary}, accent/glow ${style.accent}, deep shadows ${style.dark}.`;
+}
+
+/** Team-set info kept in a banner's design JSON. */
+export function seriesInfo(design: unknown): { seriesRootId?: string; variation?: Variation } {
+  const d = (design ?? {}) as { seriesRootId?: unknown; variation?: unknown };
+  return {
+    seriesRootId: typeof d.seriesRootId === "string" ? d.seriesRootId : undefined,
+    variation: d.variation && typeof d.variation === "object" ? (d.variation as Variation) : undefined,
+  };
+}
+
+/** The current image of a team set's first card (it can change if that card is regenerated). */
+export async function seriesRefUrl(userId: string, rootId: string | undefined) {
+  if (!rootId) return null;
+  const root = await db.banner.findFirst({ where: { id: rootId, userId, status: "READY" }, select: { finalUrl: true } });
+  return root?.finalUrl ?? null;
 }

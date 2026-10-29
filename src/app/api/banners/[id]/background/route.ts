@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
-import { assertInputUrls, buildProPrompt, collectProRefs, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
+import { assertInputUrls, buildProPrompt, collectProRefs, seriesInfo, seriesRefUrl, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
 import { proConfigured } from "@/lib/ai";
 import { getNumberSetting } from "@/lib/settings";
 import { BannerInputs, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
@@ -30,6 +30,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     const inputs: BannerInputs = body.inputs
       ? { ...EMPTY_INPUTS, ...body.inputs }
       : { ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) };
+    const info = seriesInfo(banner.design);
+    const seriesUrl = info.seriesRootId ? await seriesRefUrl(user.id, info.seriesRootId) : null;
     try {
       assertInputUrls(inputs);
       const refs = collectProRefs({
@@ -38,6 +40,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         photoUrl: banner.photoUrl,
         logoUrl: banner.logoUrl,
         styleRefUrl: banner.template.styleRefUrl,
+        seriesRefUrl: seriesUrl,
       });
       const prompt = buildProPrompt({
         layout: banner.template.layout,
@@ -47,6 +50,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         refs,
         instructions: banner.template.proInstructions,
         randomize: banner.template.randomize,
+        variation: seriesUrl ? info.variation : undefined,
+        series: !!seriesUrl,
       });
       await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs) } });
       const updated = await generateProForBanner({
