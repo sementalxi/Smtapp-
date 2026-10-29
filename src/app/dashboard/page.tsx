@@ -20,7 +20,7 @@ export default async function DashboardPage() {
       where: { userId: user.id },
       include: { template: true },
       orderBy: { createdAt: "desc" },
-      take: 8,
+      take: 24,
     }),
     db.banner.count({ where: { userId: user.id, status: "READY" } }),
     db.payment.aggregate({ where: { userId: user.id }, _sum: { amountCents: true } }),
@@ -31,13 +31,10 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <h1 className="font-display chrome text-5xl">
+      <h1 className="text-3xl font-extrabold">
         {es ? `¡Hola, ${first}!` : `Hello, ${first}!`}
       </h1>
-      <p className="mt-2 text-lg text-muted">{es ? "¿Qué quieres crear hoy?" : "What would you like to create today?"}</p>
-      <Link href="/create" className="btn-primary mt-5 w-full py-4 text-base sm:w-auto sm:px-10">
-        ＋ {es ? "Crear un póster" : "Create a poster"}
-      </Link>
+      <p className="mt-1 text-muted">{es ? "¿Qué quieres crear hoy?" : "What would you like to create today?"}</p>
 
       {!subscribed && (
         <Link
@@ -66,7 +63,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="mt-10 mb-4 flex items-end justify-between">
-        <h2 className="font-display chrome text-3xl">{es ? "Crear nuevo arte" : "Create new art"}</h2>
+        <h2 className="text-xl font-extrabold">{es ? "Crear nuevo arte" : "Create new art"}</h2>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         {ART_TYPES.map((a) => (
@@ -75,7 +72,7 @@ export default async function DashboardPage() {
             href={`/create?type=${a.layout.toLowerCase()}`}
             className="card flex items-center gap-4 p-4 transition hover:border-lime/60"
           >
-            <span className="cut grid h-14 w-14 shrink-0 place-items-center bg-panel-2 text-3xl">{a.icon}</span>
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">{a.icon}</span>
             <span className="min-w-0 flex-1">
               <span className="block font-bold">{es ? a.es.name : a.en.name}</span>
               <span className="line-clamp-2 block text-xs text-muted">{es ? a.es.desc : a.en.desc}</span>
@@ -89,8 +86,8 @@ export default async function DashboardPage() {
       </div>
 
       <div className="mt-12 mb-4 flex items-end justify-between">
-        <h2 className="font-display chrome text-3xl">{es ? "Recientes" : "Recent"}</h2>
-        <Link href="/gallery" className="text-sm font-semibold text-lime">{es ? "Ver todo" : "See all"}</Link>
+        <h2 className="text-xl font-extrabold">{t("dash_title")}</h2>
+        <Link href="/create" className="text-sm text-lime">＋ {t("new_banner")}</Link>
       </div>
       {banners.length ? (
         <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} />

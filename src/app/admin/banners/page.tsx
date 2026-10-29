@@ -30,7 +30,7 @@ export default async function AdminBanners({ searchParams }: { searchParams: Pro
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <h1 className="font-display chrome text-4xl">{t("admin_banners")}</h1>
+        <h1 className="font-display text-4xl">{t("admin_banners")}</h1>
         <span className="chip text-muted">{total}</span>
         <div className="ml-auto flex gap-2 text-sm">
           <Link href="/admin/banners" className={`chip ${!status ? "text-lime" : "text-muted"}`}>{t("all")}</Link>

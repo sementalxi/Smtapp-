@@ -29,7 +29,7 @@ export default async function AdminTx({ searchParams }: { searchParams: Promise<
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display chrome text-4xl">{t("admin_tx")}</h1>
+      <h1 className="font-display text-4xl">{t("admin_tx")}</h1>
       <div className="flex flex-wrap gap-2">
         <Link href="/admin/transactions" className={`chip ${!type ? "text-lime" : "text-muted"}`}>{t("all")}</Link>
         {TYPES.map((x) => (

@@ -31,7 +31,7 @@ export default async function AdminUsers({ searchParams }: { searchParams: Promi
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-4">
-        <h1 className="font-display chrome text-4xl">{t("admin_users")}</h1>
+        <h1 className="font-display text-4xl">{t("admin_users")}</h1>
         <span className="chip text-muted">{total}</span>
         <form className="ml-auto w-full max-w-xs">
           <input name="q" defaultValue={q} placeholder={t("search_users")} className="input" />

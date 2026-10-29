@@ -14,7 +14,7 @@ export default async function AdminTemplates() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display chrome text-4xl">{t("admin_templates")}</h1>
+      <h1 className="font-display text-4xl">{t("admin_templates")}</h1>
       <div className="space-y-3">
         {rows.map((r) => (
           <TemplateEditor
