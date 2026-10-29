@@ -45,6 +45,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         style: banner.template.style as unknown as TemplateStyle,
         inputs,
         refs,
+        instructions: banner.template.proInstructions,
+        randomize: banner.template.randomize,
       });
       await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs) } });
       const updated = await generateProForBanner({

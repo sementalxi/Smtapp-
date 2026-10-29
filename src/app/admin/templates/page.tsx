@@ -31,6 +31,8 @@ export default async function AdminTemplates() {
               active: r.active,
               sort: r.sort,
               styleRefUrl: r.styleRefUrl,
+              proInstructions: r.proInstructions,
+              randomize: r.randomize,
               uses: r._count.banners,
             }}
           />

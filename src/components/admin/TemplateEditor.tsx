@@ -20,6 +20,8 @@ export interface AdminTemplate {
   active: boolean;
   sort: number;
   styleRefUrl?: string | null;
+  proInstructions?: string | null;
+  randomize?: boolean;
   uses?: number;
 }
 
@@ -162,7 +164,27 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
           />
         </div>
         <div>
-          <label className="label">{t("prompt")}</label>
+          <label className="label">Design instructions for the AI (Pro AI)</label>
+          <textarea
+            className="input min-h-40 text-sm"
+            maxLength={3000}
+            value={tpl.proInstructions ?? ""}
+            onChange={(e) => set("proInstructions", e.target.value)}
+            placeholder={"Tell the AI exactly what this flyer should look like. Examples:\n• Put the team crest huge in the centre with angel wings behind it.\n• Title CHAMPIONS at the top in cracked gold stone letters, stacked 3 times.\n• Player names in a gold bar under the title.\n• Trophy on the right side, slightly cut off by the frame.\n• Warm sunset light, marble floor, confetti."}
+          />
+          <p className="mt-1 text-xs text-muted">These override the built-in layout instructions. Leave empty to use the defaults.</p>
+        </div>
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" className="mt-1" checked={tpl.randomize !== false} onChange={(e) => set("randomize", e.target.checked)} />
+          <span>
+            <b>Unique look on every poster</b>
+            <span className="block text-xs text-muted">
+              Random palette, background concept, layout and lighting each time. Turn off for a consistent look (e.g. an official league style).
+            </span>
+          </span>
+        </label>
+        <div>
+          <label className="label">AI background / mood description (also used by Quick mode)</label>
           <textarea className="input min-h-24" value={tpl.prompt} onChange={(e) => set("prompt", e.target.value)} />
         </div>
         <details>

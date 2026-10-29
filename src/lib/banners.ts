@@ -255,9 +255,15 @@ export function buildProPrompt(opts: {
   refs: ProRef[];
   /** Random creative direction so every poster is unique (made fresh on each generation). */
   variation?: Variation;
+  /** Admin-written instructions for this style */
+  instructions?: string | null;
+  /** false = keep the style consistent (no random direction) */
+  randomize?: boolean;
 }) {
   const { inputs: i, style, layout } = opts;
-  const v = opts.variation ?? createVariation(i.colorMode);
+  const randomize = opts.randomize !== false;
+  // With randomize off, "unique colours" falls back to the style's own palette.
+  const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details,
     i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers,
@@ -377,7 +383,12 @@ export function buildProPrompt(opts: {
     composition,
     `Visual style (base): ${opts.templatePrompt}.`,
     colourLine(i, style, v),
-    `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`,
+    randomize
+      ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`
+      : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
+    opts.instructions?.trim()
+      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — follow these closely; where they conflict with anything above, these win:\n${opts.instructions.trim()}`
+      : "",
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,

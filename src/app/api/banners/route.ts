@@ -69,6 +69,8 @@ export const POST = handle(async (req: NextRequest) => {
       style: template.style as unknown as TemplateStyle,
       inputs,
       refs,
+      instructions: template.proInstructions,
+      randomize: template.randomize,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
