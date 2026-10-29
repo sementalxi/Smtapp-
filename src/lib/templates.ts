@@ -51,6 +51,7 @@ export interface BannerInputs {
   colorMode: string; // "surprise" | "template" | "custom"
   color1: string;
   color2: string;
+  aiCopy: string; // "on" lets the AI add a couple of hype words
   bgPose: string; // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
   language: string; // language for generic words on the poster
@@ -92,6 +93,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   colorMode: "surprise",
   color1: "",
   color2: "",
+  aiCopy: "on",
   bgPose: "",
   language: "English",
   fontPrimary: "",

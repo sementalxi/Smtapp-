@@ -178,6 +178,9 @@ export function CreateWizard({
   const [playersText, setPlayersText] = useState("");
   const [squadText, setSquadText] = useState("");
   const [scorersText, setScorersText] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiMsg, setAiMsg] = useState("");
+  const [undoText, setUndoText] = useState<BannerInputs | null>(null);
 
   const [credits, setCredits] = useState(initialCredits);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
@@ -234,6 +237,37 @@ export function CreateWizard({
         return !!team && lines(playersText).length > 0;
       case "EVENT":
         return !!inp.headline.trim();
+    }
+  }
+
+  async function improveText() {
+    const es = locale === "es";
+    setAiBusy(true);
+    setAiMsg("");
+    const before = inp;
+    const res = await fetch("/api/ai-text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        layout,
+        language: inp.language || (es ? "Español" : "English"),
+        inputs: Object.fromEntries(
+          Object.entries(finalInputs()).filter(([, v]) => typeof v === "string" && v && !/^https?:|^\/api\//.test(v)),
+        ),
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    setAiBusy(false);
+    if (res.ok && data.fields && Object.keys(data.fields).length) {
+      setUndoText(before);
+      setInp((x) => ({ ...x, ...data.fields }));
+      setAiMsg(es ? "¡Listo! Revisa y edita lo que quieras." : "Done! Check it and edit anything you like.");
+    } else {
+      setAiMsg(
+        data.error === "too_many_requests"
+          ? es ? "Demasiados intentos, espera un poco." : "Too many tries, wait a bit."
+          : es ? "La IA no pudo mejorar el texto, intenta otra vez." : "The AI couldn't improve the text, try again.",
+      );
     }
   }
 
@@ -523,6 +557,45 @@ export function CreateWizard({
           )}
 
           {field({ label: L.footer, k: "footer", max: 48 })}
+          <div className="rounded-xl border border-lime/40 bg-lime/5 p-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <button type="button" className="btn-primary" disabled={aiBusy} onClick={improveText}>
+                {aiBusy ? "…" : `✨ ${locale === "es" ? "Mejorar mi texto con IA" : "Improve my text with AI"}`}
+              </button>
+              {undoText && !aiBusy && (
+                <button
+                  type="button"
+                  className="btn-ghost px-3 py-2 text-xs"
+                  onClick={() => {
+                    setInp(undoText);
+                    setUndoText(null);
+                    setAiMsg("");
+                  }}
+                >
+                  ↩ {locale === "es" ? "Deshacer" : "Undo"}
+                </button>
+              )}
+            </div>
+            <p className="mt-2 text-xs text-muted">
+              {aiMsg ||
+                (locale === "es"
+                  ? "La IA escribe frases con más estilo (títulos, lemas, línea inferior). Gratis — tus nombres no cambian. Tócalo otra vez para otra idea."
+                  : "The AI writes catchier lines (titles, taglines, bottom line). Free — your names stay the same. Tap again for another idea.")}
+            </p>
+            <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm">
+              <input
+                type="checkbox"
+                className="mt-1 accent-[var(--color-lime)]"
+                checked={inp.aiCopy !== "off"}
+                onChange={(e) => set("aiCopy", e.target.checked ? "on" : "off")}
+              />
+              <span>
+                {locale === "es"
+                  ? "Dejar que la IA agregue 1–2 palabras de impacto en el póster (ej. NUEVO FICHAJE, MVP)"
+                  : "Let the AI add 1–2 hype words on the poster (e.g. NEW SIGNING, MVP)"}
+              </span>
+            </label>
+          </div>
           {field({ label: L.extra, k: "extraPrompt", max: 200, ph: L.extraPh })}
           {!detailsValid() && <p className="text-xs text-muted">{L.required}</p>}
           {nav({ canNext: !!detailsValid(), onNext: () => setStep(4) })}

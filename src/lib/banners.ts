@@ -39,6 +39,7 @@ export const InputsSchema = z.object({
   scorers: z.array(z.string().trim().max(40)).max(12).default([]),
   trophy: str(60),
   bgPose: str(40),
+  aiCopy: z.enum(["on", "off", ""]).default("on"),
   colorMode: z.enum(["surprise", "template", "custom", ""]).default("surprise"),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -400,7 +401,10 @@ export function buildProPrompt(opts: {
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     `Keep the bottom-right corner (about 20% of the width) clear of text and important details — a small brand mark goes there.`,
-    `Only write the text items listed above. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
+    i.aiCopy !== "off"
+      ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
+      : "",
+    `Only write the text items listed above${i.aiCopy !== "off" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
   ]
     .filter(Boolean)
     .join("\n\n");
