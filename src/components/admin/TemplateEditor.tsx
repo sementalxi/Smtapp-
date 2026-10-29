@@ -157,6 +157,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
         </div>
         <div>
           <ImageDrop
+            noSearch
             kind="logo"
             label={es ? "Referencia de estilo para IA Pro (opcional)" : "Pro AI style reference (optional)"}
             hint={es ? "Un diseño de ejemplo que la IA Pro debe imitar en estilo. Usa solo diseños tuyos o con permiso para IA." : "An example design the Pro AI should match in look and feel. Only use designs you own or have permission to use for AI."}

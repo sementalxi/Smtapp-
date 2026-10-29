@@ -41,6 +41,7 @@ export default async function AdminHome() {
     [
       [es ? "OPENAI_API_KEY (IA Pro)" : "OPENAI_API_KEY (Pro AI)", process.env.OPENAI_API_KEY],
       [es ? "REPLICATE_API_TOKEN (recorte de foto)" : "REPLICATE_API_TOKEN (photo cut-out)", process.env.REPLICATE_API_TOKEN],
+      [es ? "SERPER_API_KEY (búsqueda de fotos en Google, opcional)" : "SERPER_API_KEY (Google photo search, optional)", process.env.SERPER_API_KEY],
       ["DATABASE_URL", process.env.DATABASE_URL],
       [es ? "STRIPE_SECRET_KEY (pagos)" : "STRIPE_SECRET_KEY (payments)", process.env.STRIPE_SECRET_KEY],
     ] as const

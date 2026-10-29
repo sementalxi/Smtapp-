@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useT } from "@/i18n/client";
+import { ImageSearch } from "./ImageSearch";
 
 /**
  * Downscales big photos in the browser before uploading. Serverless hosts cap
@@ -33,12 +34,17 @@ export function ImageDrop({
   kind,
   value,
   onChange,
+  searchQuery,
+  noSearch,
 }: {
   label: string;
   hint?: string;
   kind: "photo" | "logo";
   value: string | null;
   onChange: (url: string | null) => void;
+  /** Pre-fills the web image search (e.g. the player's name). */
+  searchQuery?: string;
+  noSearch?: boolean;
 }) {
   const { locale } = useT();
   const es = locale === "es";
@@ -46,6 +52,7 @@ export function ImageDrop({
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [drag, setDrag] = useState(false);
+  const [searching, setSearching] = useState(false);
 
   async function upload(file: File) {
     setErr("");
@@ -102,6 +109,16 @@ export function ImageDrop({
         )}
         {busy && <span className="absolute inset-0 grid place-items-center bg-ink/70 text-sm">…</span>}
       </button>
+      {!noSearch && (
+        <button
+          type="button"
+          onClick={() => setSearching(true)}
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-line bg-panel-2 px-3 py-2 text-xs font-bold transition hover:border-lime hover:text-lime"
+        >
+          🔍 {kind === "logo" ? (es ? "Buscar escudo en internet" : "Search crest online") : es ? "Buscar foto en internet" : "Search photo online"}
+        </button>
+      )}
+      {searching && <ImageSearch kind={kind} initial={searchQuery ?? ""} onPick={(u) => onChange(u)} onClose={() => setSearching(false)} />}
       <div className="mt-1 flex items-center justify-between gap-2">
         {hint && <p className="text-xs text-muted">{hint}</p>}
         {value && (

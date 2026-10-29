@@ -388,7 +388,7 @@ export function CreateWizard({
         <div className="card space-y-4 p-5">
           {layout === "PLAYER" && (
             <>
-              <ImageDrop kind="photo" label={`${L.photo} *`} value={photo} onChange={setPhoto} />
+              <ImageDrop kind="photo" label={`${L.photo} *`} value={photo} onChange={setPhoto} searchQuery={[inp.name, inp.team].filter(Boolean).join(" ")} />
               <div>
                 <span className="label">{locale === "es" ? "Segunda imagen del jugador (fondo, creada por la IA)" : "Second player image (background, made by AI)"}</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
