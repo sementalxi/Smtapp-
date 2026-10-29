@@ -394,6 +394,22 @@ export function CreateWizard({
                 <span className="text-muted">›</span>
               </button>
             ))}
+            <Link
+              href="/create?team=1"
+              className="flex w-full items-center gap-4 rounded-xl border border-line bg-panel-2 p-4 text-left transition hover:border-muted"
+            >
+              <span className="text-3xl">👥</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-bold">{locale === "es" ? "Tarjetas del equipo" : "Team player cards"}</span>
+                <span className="block text-xs text-muted">
+                  {locale === "es"
+                    ? "Tarjetas para toda la plantilla con el mismo diseño — solo cambias foto, nombre y número."
+                    : "Cards for the whole squad with the same design — just change the photo, name and number."}
+                </span>
+                <span className="mt-1 block text-xs text-lime">{cost} {locale === "es" ? "créditos por tarjeta" : "credits per card"}</span>
+              </span>
+              <span className="text-muted">›</span>
+            </Link>
           </div>
         </div>
       )}

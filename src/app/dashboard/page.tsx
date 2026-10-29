@@ -89,6 +89,17 @@ export default async function DashboardPage() {
             <span className="text-muted">›</span>
           </Link>
         ))}
+        <Link href="/create?team=1" className="card flex items-center gap-4 p-4 transition hover:border-lime/60">
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">👥</span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-bold">{es ? "Tarjetas del equipo" : "Team player cards"}</span>
+            <span className="line-clamp-2 block text-xs text-muted">
+              {es ? "Toda la plantilla con el mismo diseño." : "The whole squad in the same design."}
+            </span>
+            <span className="mt-1 block text-xs text-lime">{cost} {t("credits")}</span>
+          </span>
+          <span className="text-muted">›</span>
+        </Link>
       </div>
 
       <div className="mt-10 mb-4">
