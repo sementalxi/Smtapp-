@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
-import { getNumberSetting } from "@/lib/settings";
+import { getNumberSetting, getSettings } from "@/lib/settings";
 import { TemplateThumb } from "@/components/TemplateThumb";
 import { PricingCards } from "@/components/PricingCards";
 import type { ClientTemplate } from "@/lib/samples";
@@ -12,7 +12,10 @@ export default async function Home() {
   const { t, locale } = await getT();
   let templates: ClientTemplate[] = [];
   let bonus = 3;
+  let heroImgs: string[] = [];
   try {
+    const st = await getSettings();
+    heroImgs = [st.hero_1, st.hero_2, st.hero_3].filter(Boolean);
     templates = await activeTemplates();
     bonus = await getNumberSetting("signup_credits");
   } catch {
@@ -39,7 +42,22 @@ export default async function Home() {
           </div>
 
           <div className="relative h-[460px] sm:h-[540px]">
-            {hero.map((tpl, i) => (
+            {heroImgs.length > 0 && heroImgs.map((src, i) => (
+              <div
+                key={src}
+                className="absolute w-[56%] overflow-hidden rounded-2xl border border-line shadow-2xl shadow-black/60"
+                style={{
+                  left: `${(heroImgs.length === 1 ? 1 : heroImgs.length === 2 ? i * 2 : i) * 22}%`,
+                  top: `${[8, 0, 14][heroImgs.length === 1 ? 1 : i]}%`,
+                  transform: `rotate(${[-7, 0, 7][heroImgs.length === 1 ? 1 : heroImgs.length === 2 ? i * 2 : i]}deg)`,
+                  zIndex: i === 1 || heroImgs.length === 1 ? 3 : 1,
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt="" className="block aspect-[4/5] w-full object-cover" />
+              </div>
+            ))}
+            {heroImgs.length === 0 && hero.map((tpl, i) => (
               <div
                 key={tpl.id}
                 className="absolute w-[56%] overflow-hidden rounded-2xl border border-line shadow-2xl shadow-black/60"

@@ -7,6 +7,9 @@ export const SETTING_DEFAULTS = {
   max_upload_mb: "10",
   maintenance_message: "",
   discord_webhook: "",
+  hero_1: "",
+  hero_2: "",
+  hero_3: "",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

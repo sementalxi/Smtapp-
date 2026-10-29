@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiAdmin } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
+import { assertOwnUrl } from "@/lib/banners";
 
 const Body = z.object({
   signup_credits: z.coerce.number().int().min(0).max(1000).optional(),
@@ -10,6 +11,9 @@ const Body = z.object({
   pro_quality: z.enum(["low", "medium", "high"]).optional(),
   max_upload_mb: z.coerce.number().int().min(1).max(50).optional(),
   maintenance_message: z.string().max(300).optional(),
+  hero_1: z.string().max(500).optional(),
+  hero_2: z.string().max(500).optional(),
+  hero_3: z.string().max(500).optional(),
   discord_webhook: z
     .string()
     .trim()
@@ -21,6 +25,7 @@ const Body = z.object({
 export const PUT = handle(async (req: NextRequest) => {
   await apiAdmin();
   const body = Body.parse(await req.json());
+  for (const k of ["hero_1", "hero_2", "hero_3"] as const) if (body[k]) assertOwnUrl(body[k]);
   for (const [key, value] of Object.entries(body)) {
     if (value === undefined) continue;
     await db.setting.upsert({ where: { key }, create: { key, value: String(value) }, update: { value: String(value) } });

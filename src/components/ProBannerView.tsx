@@ -126,10 +126,15 @@ function SampleSetter({ bannerId, admin }: { bannerId: string; admin: { template
   return (
     <div className="mt-3 rounded-xl border border-dashed border-line p-3">
       <div className="mb-2 text-xs font-bold uppercase tracking-wider text-muted">
-        {es ? "Admin · usar como imagen de muestra" : "Admin · use as sample image"}
+        {es ? "Admin · usar esta imagen en…" : "Admin · use this image on…"}
       </div>
       <div className="flex gap-2">
         <select className="input py-2 text-xs" value={tpl} onChange={(e) => setTpl(e.target.value)}>
+          {[1, 2, 3].map((n) => (
+            <option key={`hero${n}`} value={`hero:${n}`}>
+              🏠 {es ? "Página principal" : "Home page"} — {es ? ["izquierda", "centro", "derecha"][n - 1] : ["left", "center", "right"][n - 1]}
+            </option>
+          ))}
           {admin.templates.map((x) => (
             <option key={x.id} value={x.id}>
               {x.name}
@@ -141,12 +146,19 @@ function SampleSetter({ bannerId, admin }: { bannerId: string; admin: { template
           className="btn-ghost shrink-0 px-3 py-2 text-xs"
           onClick={async () => {
             setMsg("…");
-            const res = await fetch(`/api/admin/templates/${tpl}/thumb`, {
+            const hero = tpl.startsWith("hero:");
+            const res = await fetch(hero ? "/api/admin/hero" : `/api/admin/templates/${tpl}/thumb`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ bannerId }),
+              body: JSON.stringify(hero ? { bannerId, slot: Number(tpl.slice(5)) } : { bannerId }),
             });
-            setMsg(res.ok ? (es ? "✅ Muestra actualizada" : "✅ Sample updated") : es ? "❌ Error" : "❌ Failed");
+            setMsg(
+              res.ok
+                ? hero
+                  ? es ? "✅ Puesto en la página principal" : "✅ Now on the home page"
+                  : es ? "✅ Muestra actualizada" : "✅ Sample updated"
+                : es ? "❌ Error" : "❌ Failed",
+            );
           }}
         >
           {es ? "Usar" : "Set"}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useT } from "@/i18n/client";
+import { ImageDrop } from "../ImageDrop";
 
 export function SettingsForm({ initial }: { initial: Record<string, string> }) {
   const { t, locale } = useT();
@@ -49,6 +50,26 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       <div>
         <label className="label">{t("maintenance_message")}</label>
         <input className="input" maxLength={300} value={v.maintenance_message} onChange={(e) => setV({ ...v, maintenance_message: e.target.value })} />
+      </div>
+      <div className="rounded-xl border border-line bg-panel-2 p-4">
+        <label className="label">{es ? "Imágenes de la página principal" : "Home page images"}</label>
+        <div className="grid grid-cols-3 gap-2">
+          {(["hero_1", "hero_2", "hero_3"] as const).map((k, n) => (
+            <ImageDrop
+              key={k}
+              noSearch
+              kind="photo"
+              label={es ? ["Izquierda", "Centro", "Derecha"][n] : ["Left", "Center", "Right"][n]}
+              value={v[k] || null}
+              onChange={(url) => setV({ ...v, [k]: url ?? "" })}
+            />
+          ))}
+        </div>
+        <p className="mt-1 text-xs text-muted">
+          {es
+            ? "Las 3 imágenes grandes de la página principal. Vacías = se muestran los primeros estilos. También puedes enviar cualquier póster aquí desde su página. Luego toca Guardar."
+            : "The 3 big pictures on the home page. Empty = the first styles are shown. You can also send any poster here from its page. Then tap Save."}
+        </p>
       </div>
       <div className="rounded-xl border border-line bg-panel-2 p-4">
         <label className="label">{es ? "Registro en Discord (webhook)" : "Discord log (webhook)"}</label>
