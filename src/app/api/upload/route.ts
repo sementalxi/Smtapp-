@@ -22,6 +22,11 @@ export const POST = handle(async (req: NextRequest) => {
   if (!type) throw new HttpError(415, "unsupported_type");
 
   const kind = form.get("kind") === "logo" ? "logos" : "photos";
-  const url = await saveFile(kind, buf, type);
-  return json({ url });
+  try {
+    const url = await saveFile(kind, buf, type);
+    return json({ url });
+  } catch (e) {
+    console.error("upload failed", e);
+    return json({ error: `Upload failed: ${e instanceof Error ? e.message.slice(0, 160) : "unknown"}` }, 500);
+  }
 });

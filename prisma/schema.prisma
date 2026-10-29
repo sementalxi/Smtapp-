@@ -136,3 +136,11 @@ model Setting {
   key   String @id
   value String
 }
+
+// Images stored in the database when no Blob/S3 storage is available.
+model StoredFile {
+  id          String   @id @default(cuid())
+  contentType String
+  data        Bytes
+  createdAt   DateTime @default(now())
+}

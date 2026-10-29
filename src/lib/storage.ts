@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { put, del } from "@vercel/blob";
+import { db } from "./db";
 
 const LOCAL_DIR = path.join(process.cwd(), "uploads");
 
@@ -28,9 +29,29 @@ function client() {
   return s3;
 }
 
-// Vercel Blob is picked automatically when its store is connected to the project.
+// Order: S3 if configured → Vercel Blob if connected → local folder in development →
+// the database otherwise (always works on Vercel, nothing to set up).
 const driver = () =>
-  process.env.STORAGE_DRIVER === "s3" ? "s3" : process.env.BLOB_READ_WRITE_TOKEN ? "blob" : "local";
+  process.env.STORAGE_DRIVER === "s3"
+    ? "s3"
+    : process.env.BLOB_READ_WRITE_TOKEN
+      ? "blob"
+      : process.env.NODE_ENV === "production"
+        ? "db"
+        : "local";
+
+const DB_PREFIX = "/api/files/db/";
+
+async function saveToDb(data: Buffer, contentType: string) {
+  const row = await db.storedFile.create({ data: { contentType, data: new Uint8Array(data) } });
+  return `${DB_PREFIX}${row.id}`;
+}
+
+export async function readDbFile(id: string) {
+  const row = await db.storedFile.findUnique({ where: { id } });
+  if (!row) return null;
+  return { contentType: row.contentType, data: Buffer.from(row.data) };
+}
 
 /** Public hosts our stored files can live on (used to block arbitrary URLs). */
 export function isStorageUrl(url: string) {
@@ -50,9 +71,17 @@ export async function saveFile(folder: string, data: Buffer, contentType: string
   const ext = EXT[contentType] ?? "bin";
   const key = `${folder}/${new Date().toISOString().slice(0, 7)}/${randomUUID()}.${ext}`;
 
+  if (driver() === "db") return saveToDb(data, contentType);
+
   if (driver() === "blob") {
-    const res = await put(key, data, { access: "public", contentType, addRandomSuffix: false });
-    return res.url;
+    try {
+      const res = await put(key, data, { access: "public", contentType, addRandomSuffix: false });
+      return res.url;
+    } catch (e) {
+      // e.g. a private Blob store, or a token problem — don't break uploads.
+      console.error("Vercel Blob upload failed, saving to the database instead", e);
+      return saveToDb(data, contentType);
+    }
   }
 
   if (driver() === "s3") {
@@ -78,7 +107,9 @@ export async function saveFile(folder: string, data: Buffer, contentType: string
 export async function deleteFile(url: string | null | undefined) {
   if (!url) return;
   try {
-    if (url.startsWith("/api/files/")) {
+    if (url.startsWith(DB_PREFIX)) {
+      await db.storedFile.delete({ where: { id: url.slice(DB_PREFIX.length) } });
+    } else if (url.startsWith("/api/files/")) {
       const key = url.slice("/api/files/".length);
       await fs.unlink(path.join(LOCAL_DIR, safeKey(key)));
     } else if (url.includes(".public.blob.vercel-storage.com/")) {
@@ -107,6 +138,11 @@ export async function readLocalFile(key: string) {
 
 /** Reads an uploaded image back as bytes (works for both drivers). */
 export async function loadBytes(url: string): Promise<Buffer> {
+  if (url.startsWith(DB_PREFIX)) {
+    const f = await readDbFile(url.slice(DB_PREFIX.length));
+    if (!f) throw new Error("file not found");
+    return f.data;
+  }
   if (url.startsWith("/api/files/")) return readLocalFile(url.slice("/api/files/".length));
   const res = await fetch(url);
   if (!res.ok) throw new Error(`fetch ${url} → ${res.status}`);

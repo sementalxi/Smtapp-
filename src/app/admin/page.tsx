@@ -46,7 +46,7 @@ export default async function AdminHome() {
     process.env.STORAGE_DRIVER !== "s3" &&
       !process.env.BLOB_READ_WRITE_TOKEN &&
       process.env.NODE_ENV === "production" &&
-      "No file storage connected — in Vercel open Storage → Create → Blob and connect it to this project, then redeploy.",
+      "Images are being stored in the database (fine for testing). For lots of users, connect Vercel Blob storage.",
     failed > 0 && `${failed} failed generation(s) in the last 30 days — see Banners for errors.`,
   ].filter(Boolean) as string[];
 
