@@ -173,39 +173,77 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
   if (!key) throw new Error("OPENAI_API_KEY is not set");
   const model = process.env.PRO_IMAGE_MODEL || "gpt-image-2";
   const quality = process.env.PRO_IMAGE_QUALITY || "medium";
-  const size = process.env.PRO_IMAGE_SIZE || "1088x1360"; // 4:5, multiples of 16
+  // First try an exact 4:5 size; if OpenAI's servers choke, retry with the standard portrait size.
+  const sizes = [process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
+  const deadline = Date.now() + 270_000; // stay under the 300 s function limit so failures can be refunded
 
-  // Stop before the 300 s function limit so a failure can still be refunded.
-  const signal = AbortSignal.timeout(270_000);
-  let res: Response;
-  if (refs.length) {
-    const form = new FormData();
-    form.append("model", model);
-    form.append("prompt", prompt);
-    form.append("size", size);
-    form.append("quality", quality);
-    refs.forEach((r, i) => {
-      const ext = r.type === "image/png" ? "png" : r.type === "image/webp" ? "webp" : "jpg";
-      form.append("image[]", new Blob([new Uint8Array(r.bytes)], { type: r.type }), `ref${i}.${ext}`);
-    });
-    res = await fetch("https://api.openai.com/v1/images/edits", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}` },
-      body: form,
-      signal,
-    });
-  } else {
-    res = await fetch("https://api.openai.com/v1/images/generations", {
+  let lastErr = "";
+  for (let attempt = 0; attempt < sizes.length; attempt++) {
+    const remaining = deadline - Date.now();
+    if (remaining < 45_000) break;
+    try {
+      const res = await callImageApi(key, model, prompt, sizes[attempt], quality, refs, AbortSignal.timeout(remaining));
+      if (res.ok) {
+        const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
+        const item = data.data?.[0];
+        if (item?.b64_json) return Buffer.from(item.b64_json, "base64");
+        if (item?.url) return download(item.url);
+        lastErr = "OpenAI returned no image";
+        continue;
+      }
+      lastErr = `OpenAI image failed: ${res.status} ${cleanError(await res.text())}`;
+      // 4xx = our request/key/policy problem: retrying won't help
+      if (res.status < 500 && res.status !== 429) break;
+    } catch (e) {
+      lastErr = `OpenAI image failed: ${e instanceof Error ? e.message : String(e)}`;
+    }
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  throw new Error(lastErr || "OpenAI image failed");
+}
+
+function callImageApi(
+  key: string,
+  model: string,
+  prompt: string,
+  size: string,
+  quality: string,
+  refs: { bytes: Buffer; type: string }[],
+  signal: AbortSignal,
+) {
+  if (!refs.length) {
+    return fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({ model, prompt, size, quality }),
       signal,
     });
   }
-  if (!res.ok) throw new Error(`OpenAI image failed: ${res.status} ${(await res.text()).slice(0, 400)}`);
-  const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
-  const item = data.data?.[0];
-  if (item?.b64_json) return Buffer.from(item.b64_json, "base64");
-  if (item?.url) return download(item.url);
-  throw new Error("OpenAI returned no image");
+  const form = new FormData();
+  form.append("model", model);
+  form.append("prompt", prompt);
+  form.append("size", size);
+  form.append("quality", quality);
+  refs.forEach((r, i) => {
+    const ext = r.type === "image/png" ? "png" : r.type === "image/webp" ? "webp" : "jpg";
+    form.append("image[]", new Blob([new Uint8Array(r.bytes)], { type: r.type }), `ref${i}.${ext}`);
+  });
+  return fetch("https://api.openai.com/v1/images/edits", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}` },
+    body: form,
+    signal,
+  });
+}
+
+/** Turns an API error body (JSON or an HTML error page) into one short readable line. */
+function cleanError(body: string) {
+  try {
+    const j = JSON.parse(body) as { error?: { message?: string; code?: string } };
+    if (j.error?.message) return `${j.error.code ? j.error.code + ": " : ""}${j.error.message}`.slice(0, 300);
+  } catch {
+    /* not JSON */
+  }
+  const title = body.match(/<title>([^<]*)<\/title>/i)?.[1];
+  return (title || body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ")).trim().slice(0, 200);
 }
