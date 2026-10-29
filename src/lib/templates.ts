@@ -48,6 +48,7 @@ export interface BannerInputs {
   players: string[]; // lineup: "10 Name ST"
   scorers: string[]; // result
   trophy: string; // champions trophy style
+  bgPose: string; // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
   language: string; // language for generic words on the poster
   fontPrimary: string; // titles
@@ -85,6 +86,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   players: [],
   scorers: [],
   trophy: "",
+  bgPose: "",
   language: "English",
   fontPrimary: "",
   fontSecondary: "",

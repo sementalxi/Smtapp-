@@ -82,3 +82,15 @@ export const LANGUAGES = ["English", "Español", "Português", "Français", "Ita
 
 export const fontPrompt = (id: string) => FONT_STYLES.find((f) => f.id === id)?.prompt ?? "";
 export const trophyPrompt = (id: string) => TROPHY_STYLES.find((t) => t.id === id)?.prompt ?? "";
+
+/** Second (AI-made) figure behind the player on player cards. */
+export const BG_POSES = [
+  { id: "closeup", en: "Close-up portrait", es: "Retrato de cerca", prompt: "a dramatic close-up portrait of the face and shoulders, looking slightly to the side with an intense, focused expression" },
+  { id: "celebrate", en: "Celebrating", es: "Celebrando", prompt: "the player celebrating a goal — shouting, fists clenched or arms wide open" },
+  { id: "arms", en: "Arms crossed", es: "Brazos cruzados", prompt: "a confident waist-up pose with arms crossed, looking straight at the camera" },
+  { id: "lookup", en: "Looking up", es: "Mirando arriba", prompt: "looking up to the sky, pointing upwards, emotional moment, upper body" },
+  { id: "profile", en: "Side profile", es: "Perfil", prompt: "a striking side-profile head-and-shoulders shot, serious expression, rim-lit" },
+  { id: "silence", en: "Shush celebration", es: "Celebración silencio", prompt: "the player doing a 'shush' celebration, finger on lips, upper body" },
+];
+
+export const bgPosePrompt = (id: string) => (BG_POSES.find((p) => p.id === id) ?? BG_POSES[0]).prompt;

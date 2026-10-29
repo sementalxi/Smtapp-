@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
-import { ART_TYPES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { ART_TYPES, BG_POSES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
@@ -387,6 +387,26 @@ export function CreateWizard({
           {layout === "PLAYER" && (
             <>
               <ImageDrop kind="photo" label={`${L.photo} *`} value={photo} onChange={setPhoto} />
+              <div>
+                <span className="label">{locale === "es" ? "Segunda imagen del jugador (fondo, creada por la IA)" : "Second player image (background, made by AI)"}</span>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {BG_POSES.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => set("bgPose", p.id)}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || "closeup") === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                    >
+                      {locale === "es" ? p.es : p.en}
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-1 text-xs text-muted">
+                  {locale === "es"
+                    ? "La IA crea una pose nueva del mismo jugador para el fondo, en el mismo estilo del póster."
+                    : "The AI creates a new pose of the same player for the background, in the same style as the poster."}
+                </p>
+              </div>
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               {field({ label: L.name, k: "name", req: true })}
               <div className="grid grid-cols-2 gap-3">
