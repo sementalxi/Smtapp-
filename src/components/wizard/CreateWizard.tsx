@@ -259,7 +259,7 @@ export function CreateWizard({
         data.error === "err_credits"
           ? L.needCredits
           : data.error === "err_blocked"
-            ? locale === "es" ? "Ese contenido no está permitido." : "That content isn't allowed."
+            ? (locale === "es" ? "Ese contenido no está permitido." : "That content isn't allowed.") + (data.detail ? ` — ${data.detail}` : "")
             : (locale === "es" ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : "");
       setError(msg);
       setPhase("error");

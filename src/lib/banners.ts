@@ -253,7 +253,8 @@ export function buildProPrompt(opts: {
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details,
     i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers,
   ].join(" ");
-  if (BLOCKED.test(allText)) throw new HttpError(400, "err_blocked");
+  const hit = allText.match(BLOCKED);
+  if (hit) throw Object.assign(new HttpError(400, "err_blocked"), { detail: `Word filter matched "${hit[0]}"` });
 
   const lines: string[] = [];
   const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
@@ -420,7 +421,7 @@ export async function generateProForBanner(opts: {
       where: { id: opts.bannerId },
       data: opts.regenerate ? { error: msg } : { status: "FAILED", error: msg },
     });
-    if (/moderation|safety|content_policy/i.test(msg)) throw new HttpError(400, "err_blocked");
+    if (/moderation|safety|content_policy/i.test(msg)) throw Object.assign(new HttpError(400, "err_blocked"), { detail: msg });
     throw new HttpError(502, "generation_failed");
   }
 }

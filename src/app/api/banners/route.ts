@@ -62,6 +62,7 @@ export const POST = handle(async (req: NextRequest) => {
     styleRefUrl: template.styleRefUrl,
   });
   if (pro) {
+    try {
     proPrompt = buildProPrompt({
       layout: template.layout,
       templatePrompt: template.prompt,
@@ -69,6 +70,10 @@ export const POST = handle(async (req: NextRequest) => {
       inputs,
       refs,
     }); // throws err_blocked before anything is charged
+    } catch (e) {
+      const detail = (e as { detail?: string }).detail;
+      return json({ error: "err_blocked", ...(user.role === "ADMIN" && detail ? { detail } : {}) }, 400);
+    }
   }
 
   const banner = await db.banner.create({
@@ -107,7 +112,11 @@ export const POST = handle(async (req: NextRequest) => {
   } catch (e) {
     if (e instanceof HttpError && (e.status === 402 || e.message === "err_blocked")) {
       await db.banner.delete({ where: { id: banner.id } });
-      return json({ error: e.status === 402 ? "err_credits" : "err_blocked" }, e.status);
+      const detail = (e as { detail?: string }).detail;
+      return json(
+        { error: e.status === 402 ? "err_credits" : "err_blocked", ...(user.role === "ADMIN" && detail ? { detail } : {}) },
+        e.status,
+      );
     }
     // Admins see the real reason so problems can be fixed quickly.
     const failed = await db.banner.findUnique({ where: { id: banner.id }, select: { error: true } });
