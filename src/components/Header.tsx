@@ -14,7 +14,7 @@ export async function Header() {
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-4">
         <Link href="/" className="flex shrink-0 items-center" aria-label={site}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/kixo-logo.png" alt={site} className="h-6 w-auto sm:h-8" />
+          <img src="/kixo-logo.png" alt={site} className="h-5 w-auto min-[400px]:h-6 sm:h-8" />
         </Link>
 
         <nav className="ml-4 hidden items-center gap-5 text-sm font-semibold text-muted md:flex">
@@ -47,8 +47,8 @@ export async function Header() {
             </>
           ) : (
             <>
-              <Link href="/login" className="btn-ghost whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3">{t("nav_login")}</Link>
-              <Link href="/register" className="btn-primary whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3">{t("nav_register")}</Link>
+              <Link href="/login" className="btn-ghost shrink-0 whitespace-nowrap px-2 py-1.5 text-xs sm:px-3">{t("nav_login")}</Link>
+              <Link href="/register" className="btn-primary shrink-0 whitespace-nowrap px-2 py-1.5 text-xs sm:px-3">{t("nav_register")}</Link>
             </>
           )}
         </div>
