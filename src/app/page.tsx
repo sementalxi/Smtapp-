@@ -52,7 +52,7 @@ export default async function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/kixo-logo.png" alt="KIXO" className="h-auto w-[min(520px,86vw)] drop-shadow-[0_10px_40px_rgb(57_215_255/0.25)]" />
             </div>
-            <h1 className="font-display chrome mt-6 max-w-xl text-[clamp(2.6rem,7vw,4.6rem)]">
+            <h1 className="font-display mt-6 max-w-xl text-[clamp(2.6rem,7vw,4.6rem)] text-white">
               {es ? "Gráficos que pegan como una final." : "Matchday graphics that hit like a final."}
             </h1>
             <p className="mt-5 max-w-md text-lg leading-relaxed text-steel/80">
@@ -80,7 +80,7 @@ export default async function Home() {
             {hero.map((tpl, i) => (
               <div
                 key={tpl.id}
-                className={`absolute top-1/2 left-1/2 w-[58%] ${i === 1 ? "neon-frame-cyan" : "neon-frame"}`}
+                className="cut-lg absolute top-1/2 left-1/2 w-[58%] shadow-[0_30px_60px_-20px_rgb(0_0_0/0.9)]"
                 style={{
                   transform: `translate(-50%, -50%) translateX(${(i - 1) * 34}%) rotate(${(i - 1) * 9}deg) translateY(${i === 1 ? -4 : 6}%)`,
                   zIndex: i === 1 ? 3 : 1,
@@ -123,7 +123,7 @@ export default async function Home() {
         <ol className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
           {steps.map(([title, body], i) => (
             <li key={title} className="bg-panel p-6">
-              <span className="font-display neon-cyan text-5xl">{i + 1}</span>
+              <span className="font-display text-5xl text-lime/90">{i + 1}</span>
               <span className="mt-3 block text-lg font-bold">{title}</span>
               <span className="mt-1 block text-sm text-muted">{body}</span>
             </li>
@@ -138,7 +138,7 @@ export default async function Home() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {templates.map((tpl) => (
               <Link key={tpl.id} href={user ? `/create?type=${tpl.layout.toLowerCase()}` : "/register"} className="group">
-                <div className="neon-frame transition group-hover:shadow-[0_0_0_2px_#00e5ff,0_0_30px_rgb(0_229_255/0.6)]">
+                <div className="cut overflow-hidden transition group-hover:brightness-110">
                   <TemplateThumb template={tpl} />
                 </div>
                 <div className="mt-2 text-sm font-semibold text-steel group-hover:text-lime">{es ? tpl.nameEs : tpl.name}</div>
@@ -156,7 +156,7 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 text-center">
-        <h2 className="font-display chrome mx-auto max-w-2xl text-[clamp(2.2rem,6vw,4rem)]">
+        <h2 className="font-display mx-auto max-w-2xl text-[clamp(2.2rem,6vw,4rem)] text-white">
           {es ? "Tu próximo póster está a dos minutos." : "Your next poster is two minutes away."}
         </h2>
         <Link href={cta} className="btn-primary mt-8 px-8 py-4 text-base">

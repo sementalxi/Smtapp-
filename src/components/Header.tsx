@@ -11,7 +11,7 @@ export async function Header() {
   const es = locale === "es";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-pink/20 bg-ink/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-line/70 bg-ink/75 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
         <Link href={user ? "/dashboard" : "/"} className="flex shrink-0 items-center" aria-label={site}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -37,7 +37,7 @@ export async function Header() {
             <>
               <Link
                 href="/billing"
-                className="flex items-center gap-1.5 rounded-full border border-lime/60 bg-lime/10 px-3 py-1 text-sm font-bold text-lime shadow-[0_0_12px_rgb(0_229_255/0.4)]"
+                className="flex items-center gap-1.5 rounded-full border border-lime/30 bg-lime/10 px-3 py-1 text-sm font-bold text-lime"
                 title={t("balance")}
               >
                 <span aria-hidden>⚡</span>

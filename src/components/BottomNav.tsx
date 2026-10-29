@@ -18,7 +18,7 @@ export function BottomNav() {
   ];
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-pink/30 bg-[#0d0119]/92 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-line/80 bg-ink/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
       aria-label={es ? "Navegación" : "Navigation"}
     >
       <ul className="mx-auto flex max-w-md items-end justify-between px-3">
@@ -30,7 +30,7 @@ export function BottomNav() {
                 <Link
                   href="/create"
                   aria-label={t.label}
-                  className="flex h-16 w-16 flex-col items-center justify-center rounded-full bg-gradient-to-br from-pink to-lime text-white shadow-[0_0_26px_rgb(255_43_214/0.7)] ring-4 ring-ink"
+                  className="cut flex h-16 w-16 flex-col items-center justify-center bg-gradient-to-b from-[#8fe9ff] via-lime to-lime-dim text-[#03111a] shadow-[0_0_24px_rgb(57_215_255/0.45)]"
                 >
                   <span className="text-3xl leading-none font-black">+</span>
                   <span className="text-[10px] font-bold">{t.label}</span>
