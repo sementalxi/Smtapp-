@@ -52,7 +52,8 @@ export interface BannerInputs {
   color1: string;
   color2: string;
   aiCopy: string; // "on" lets the AI add a couple of hype words
-  bgPose: string; // player card: pose of the second, AI-made figure in the background
+  bgPose: string;
+  bgScene: string; // background scene id, "" = surprise // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
   language: string; // language for generic words on the poster
   fontPrimary: string; // titles
@@ -95,6 +96,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   color2: "",
   aiCopy: "on",
   bgPose: "",
+  bgScene: "",
   language: "English",
   fontPrimary: "",
   fontSecondary: "",

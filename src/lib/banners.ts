@@ -6,7 +6,7 @@ import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generate
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
-import { bgPosePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
+import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
 import { stampLogo } from "./stamp";
 import { getSettings } from "./settings";
 
@@ -39,6 +39,7 @@ export const InputsSchema = z.object({
   scorers: z.array(z.string().trim().max(40)).max(12).default([]),
   trophy: str(60),
   bgPose: str(40),
+  bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("on"),
   colorMode: z.enum(["surprise", "template", "custom", ""]).default("surprise"),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -388,8 +389,11 @@ export function buildProPrompt(opts: {
     composition,
     `Visual style (base): ${opts.templatePrompt}.`,
     colourLine(i, style, v),
+    bgScenePrompt(i.bgScene)
+      ? `BACKGROUND SCENE (chosen by the user — use it): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
+      : "",
     randomize
-      ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`
+      ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`
       : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — follow these closely; where they conflict with anything above, these win:\n${opts.instructions.trim()}`

@@ -95,6 +95,25 @@ export const BG_POSES = [
 
 export const bgPosePrompt = (id: string) => (BG_POSES.find((p) => p.id === id) ?? BG_POSES[0]).prompt;
 
+/** Detailed background scenes. Users can pick one; otherwise a random one is used. */
+export const BG_SCENES = [
+  { id: "stadium", icon: "🏟️", en: "Night stadium", es: "Estadio de noche", prompt: "a packed football stadium at night seen from pitch level: blazing floodlights with lens flares, thousands of fans as a bokeh wall, coloured flares and smoke drifting across the stands, wet grass reflecting the lights" },
+  { id: "tunnel", icon: "🚪", en: "Players' tunnel", es: "Túnel de jugadores", prompt: "the players' tunnel of a modern stadium: polished concrete walls, LED strip lights in the main colour, bright pitch light blasting in from the end of the tunnel, haze and light rays" },
+  { id: "lava", icon: "🌋", en: "Lava & fire", es: "Lava y fuego", prompt: "a volcanic landscape of cracked black obsidian rock with glowing lava veins, rising embers, ash in the air and heat haze, molten light underneath" },
+  { id: "storm", icon: "⚡", en: "Thunderstorm", es: "Tormenta eléctrica", prompt: "a violent thunderstorm sky with huge branching lightning bolts, dark rolling clouds, rain streaks lit by flashes, electric arcs crackling around the subject" },
+  { id: "city", icon: "🌃", en: "Neon city", es: "Ciudad neón", prompt: "a rainy cyberpunk city street at night: towering buildings, glowing neon signs (no readable words), wet asphalt with mirror reflections, steam rising from the ground" },
+  { id: "space", icon: "🌌", en: "Galaxy", es: "Galaxia", prompt: "deep space: a vivid nebula in the main colours, a glowing planet edge, star fields and cosmic dust with light streaks, epic sense of scale" },
+  { id: "ice", icon: "❄️", en: "Ice & frost", es: "Hielo y escarcha", prompt: "a frozen arena of giant ice crystals and shattered ice shards, frost particles and cold mist, icy blue light glowing through the ice" },
+  { id: "gold", icon: "👑", en: "Luxury gold", es: "Lujo dorado", prompt: "a luxurious black-marble hall with veins of gold, golden light beams, floating gold dust and confetti, polished reflective floor" },
+  { id: "street", icon: "🎨", en: "Street graffiti", es: "Grafiti urbano", prompt: "an urban street-football cage at night: chain-link fence, concrete wall covered in colourful spray-paint graffiti (no readable words), street lamps, paint drips and smoke" },
+  { id: "glass", icon: "💥", en: "Shattered glass", es: "Vidrio roto", prompt: "an explosion of shattered glass shards frozen mid-air around the subject, each shard catching coloured light, dark backdrop with light streaks" },
+  { id: "ultras", icon: "🔥", en: "Ultras & flares", es: "Ultras y bengalas", prompt: "an ultras stand in full fury: red and coloured pyro flares, thick smoke, huge waving flags and tifo banners (no readable words), silhouettes of fans" },
+  { id: "esports", icon: "🎮", en: "Esports arena", es: "Arena esports", prompt: "a huge esports arena stage: giant LED screens, laser beams cutting through haze, holographic HUD elements, glossy stage floor reflecting the lights" },
+  { id: "liquid", icon: "🌊", en: "Liquid chrome", es: "Cromo líquido", prompt: "abstract waves of flowing liquid chrome and metallic paint in the main colours, splashes frozen in motion, studio reflections" },
+  { id: "temple", icon: "🏛️", en: "Ancient arena", es: "Arena antigua", prompt: "an ancient roman colosseum at golden hour: stone columns, laurel and gold details, dust in the sunbeams, dramatic epic atmosphere" },
+];
+export const bgScenePrompt = (id: string) => BG_SCENES.find((b) => b.id === id)?.prompt ?? "";
+
 // ─── Unique look per poster ────────────────────────────────
 // Every Pro generation draws a random combination, so no two posters look alike.
 
@@ -171,7 +190,7 @@ export function createVariation(colorMode: string): Variation {
   const p = pick(PALETTES);
   return {
     palette: colorMode === "surprise" || !colorMode ? { name: p[0], primary: p[1], accent: p[2], dark: p[3] } : null,
-    motif: pick(MOTIFS),
+    motif: Math.random() < 0.6 ? pick(BG_SCENES).prompt : pick(MOTIFS),
     composition: pick(COMPOSITIONS),
     lighting: pick(LIGHTING),
     texture: pick(TEXTURES),

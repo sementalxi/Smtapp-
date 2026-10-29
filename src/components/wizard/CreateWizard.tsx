@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
-import { ART_TYPES, BG_POSES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { ART_TYPES, BG_POSES, BG_SCENES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
@@ -604,6 +604,26 @@ export function CreateWizard({
 
       {step === 4 && (
         <div className="card space-y-4 p-5">
+          <div>
+            <span className="label">{locale === "es" ? "Fondo" : "Background"}</span>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {[{ id: "", icon: "🎲", en: "Surprise me", es: "Sorpréndeme" }, ...BG_SCENES].map((b) => (
+                <button
+                  key={b.id || "surprise"}
+                  type="button"
+                  onClick={() => set("bgScene", b.id)}
+                  className={`rounded-lg border px-3 py-2.5 text-left text-sm ${inp.bgScene === b.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                >
+                  {b.icon} {locale === "es" ? b.es : b.en}
+                </button>
+              ))}
+            </div>
+            <p className="mt-1 text-xs text-muted">
+              {locale === "es"
+                ? "La IA crea un escenario detallado y realista detrás de tu diseño."
+                : "The AI builds a detailed, realistic scene behind your design."}
+            </p>
+          </div>
           <div>
             <label className="label">{L.lang}</label>
             <select className="input" value={inp.language} onChange={(e) => set("language", e.target.value)}>
