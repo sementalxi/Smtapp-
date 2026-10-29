@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { LangSwitch } from "./LangSwitch";
 
-const site = process.env.NEXT_PUBLIC_SITE_NAME || "BannerForge";
+const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 export async function Header() {
   const user = await getCurrentUser().catch(() => null);
@@ -12,9 +12,9 @@ export async function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
-        <Link href="/" className="font-display text-2xl text-white">
-          {site}
-          <span className="text-lime">.</span>
+        <Link href="/" className="flex shrink-0 items-center" aria-label={site}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/kixo-logo.png" alt={site} className="h-7 w-auto sm:h-8" />
         </Link>
 
         <nav className="ml-4 hidden items-center gap-5 text-sm font-semibold text-muted md:flex">

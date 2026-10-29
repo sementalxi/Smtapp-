@@ -6,7 +6,7 @@ import { loadImage, renderBanner, type RenderAssets } from "@/lib/render/rendere
 import type { BannerInputs, DesignState, LayoutKind, TemplateStyle } from "@/lib/templates";
 import { loadBannerFonts } from "./useBannerFonts";
 
-const site = process.env.NEXT_PUBLIC_SITE_NAME || "BannerForge";
+const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 export interface BannerCanvasProps {
   layout: LayoutKind;

@@ -1,4 +1,4 @@
-# BannerForge — AI sports banner generator
+# KIXO — AI sports banner generator
 
 Users upload a player photo, type their gamertag / team / position (or a roster for a champions poster), and get a 1080×1350 banner with an AI-painted background and an auto-cut-out player. They can then tweak it for free and download a PNG. Generations cost credits, bought as packs or a monthly subscription through Stripe. Admins manage users, credits, templates and settings.
 

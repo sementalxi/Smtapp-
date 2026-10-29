@@ -6,7 +6,7 @@ import { I18nProvider } from "@/i18n/client";
 import { Header } from "@/components/Header";
 import { getSettings } from "@/lib/settings";
 
-const site = process.env.NEXT_PUBLIC_SITE_NAME || "BannerForge";
+const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 export const metadata: Metadata = {
   title: { default: `${site} — AI sports banners`, template: `%s · ${site}` },

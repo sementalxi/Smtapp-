@@ -21,7 +21,7 @@ export const appUrl = () =>
   ).replace(/\/$/, "");
 
 const priceCache = new Map<string, string>();
-const site = process.env.NEXT_PUBLIC_SITE_NAME || "BannerForge";
+const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 /**
  * Returns the Stripe price for a pack or plan, creating the product and price
