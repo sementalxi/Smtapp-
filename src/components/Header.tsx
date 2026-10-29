@@ -11,10 +11,10 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
+      <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-4">
         <Link href="/" className="flex shrink-0 items-center" aria-label={site}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/kixo-logo.png" alt={site} className="h-7 w-auto sm:h-8" />
+          <img src="/kixo-logo.png" alt={site} className="h-6 w-auto sm:h-8" />
         </Link>
 
         <nav className="ml-4 hidden items-center gap-5 text-sm font-semibold text-muted md:flex">
@@ -30,21 +30,25 @@ export async function Header() {
           )}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
           <LangSwitch locale={locale} />
           {user ? (
             <>
-              <Link href="/billing" className="chip border-lime/40 bg-lime/10 py-1 text-lime" title={t("balance")}>
-                ⚡ {user.credits} {user.credits === 1 ? t("credit") : t("credits")}
+              <Link href="/billing" className="chip whitespace-nowrap border-lime/40 bg-lime/10 py-1 text-lime" title={t("balance")}>
+                ⚡ {user.credits}
+                <span className="hidden sm:inline"> {user.credits === 1 ? t("credit") : t("credits")}</span>
               </Link>
               <form action="/api/auth/logout" method="post">
-                <button className="btn-ghost px-3 py-1.5 text-xs">{t("nav_logout")}</button>
+                <button className="btn-ghost whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3" aria-label={t("nav_logout")}>
+                  <span className="sm:hidden">⏻</span>
+                  <span className="hidden sm:inline">{t("nav_logout")}</span>
+                </button>
               </form>
             </>
           ) : (
             <>
-              <Link href="/login" className="btn-ghost px-3 py-1.5 text-xs">{t("nav_login")}</Link>
-              <Link href="/register" className="btn-primary px-3 py-1.5 text-xs">{t("nav_register")}</Link>
+              <Link href="/login" className="btn-ghost whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3">{t("nav_login")}</Link>
+              <Link href="/register" className="btn-primary whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3">{t("nav_register")}</Link>
             </>
           )}
         </div>

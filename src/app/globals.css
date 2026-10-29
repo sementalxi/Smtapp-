@@ -14,6 +14,7 @@
 }
 
 html {
+  overflow-x: clip;
   background: var(--color-ink);
   color: #eef1f6;
   color-scheme: dark;

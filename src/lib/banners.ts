@@ -419,7 +419,7 @@ export function buildProPrompt(opts: {
       ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`
       : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
     opts.instructions?.trim()
-      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — follow these closely; where they conflict with anything above, these win:\n${opts.instructions.trim()}`
+      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — follow these closely; where they conflict with anything above, these win:\n${opts.instructions.trim().slice(0, 20000)}`
       : "",
     typeFx,
     typo,
