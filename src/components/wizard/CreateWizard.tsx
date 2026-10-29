@@ -1,0 +1,644 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useT } from "@/i18n/client";
+import type { ClientTemplate } from "@/lib/samples";
+import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
+import { ART_TYPES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { TemplateThumb } from "../TemplateThumb";
+import { ImageDrop } from "../ImageDrop";
+import { SavedPicker, type SavedItem } from "./SavedPicker";
+
+const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
+const FONT_VAR: Record<string, string> = {
+  anton: "var(--nf-anton)",
+  bebas: "var(--nf-bebas)",
+  gothic: "var(--nf-gothic)",
+  brush: "var(--nf-brush)",
+  sans: "var(--nf-sans)",
+};
+
+const TXT = {
+  en: {
+    steps: ["Type", "Style", "Details", "Fonts", "Generate"],
+    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Choose the fonts", "Generate and download"],
+    next: "Next",
+    back: "Back",
+    photo: "Player photo",
+    photoOpt: "Photo (optional) — a player to feature",
+    team: "Team",
+    home: "Home team",
+    away: "Away team",
+    champ: "Championship / competition",
+    name: "Player name / gamertag",
+    position: "Position",
+    number: "Number",
+    tagline: "Small top word (e.g. WELCOME, MVP)",
+    subtitle: "Accent line",
+    footer: "Bottom line (league, edition)",
+    date: "Date",
+    time: "Kick-off time",
+    venue: "Venue / platform",
+    formation: "Formation",
+    players: "Players — one per line: number name position",
+    playersPh: "1 Bryant GK\n2 Nesta1 RB\n4 Silent54 CB\n…",
+    squad: "List of champion players (one per line or comma-separated)",
+    squadPh: "xChrome, Vernos7, AceKing, ProMan…",
+    trophy: "Trophy style",
+    trophyUpload: "…or upload your own trophy image",
+    prize: "Prize",
+    homeScore: "Home goals",
+    awayScore: "Away goals",
+    scorers: "Goal scorers (one per line)",
+    headline: "Headline",
+    title: "Event title",
+    details: "Times / details",
+    extra: "Extra idea for the AI (optional)",
+    extraPh: "e.g. lightning, snow, golden crown",
+    lang: "Text language",
+    langHint: "Team, player and competition names are always kept exactly as you typed them.",
+    primary: "Primary style (titles, highlight)",
+    secondary: "Secondary style (names, numbers, text)",
+    pick: "Select a style…",
+    preview: "Preview",
+    generate: "Generate art",
+    finish: "Finish",
+    artType: "Art type",
+    status: "Status",
+    creditsUsed: "Credits used",
+    balance: "Your balance",
+    download: "Download",
+    edit: "Edit text / new version",
+    another: "Create another",
+    needCredits: "Not enough credits",
+    getCredits: "Get credits",
+    stages: ["Planning art…", "Generating background…", "Adding elements…", "Applying visual effects…", "Finalizing image…"],
+    wait: "This may take a minute or two — keep this page open.",
+    completed: "Completed",
+    generating: "Generating…",
+    failed: "Failed — credits refunded",
+    noPro: "Pro AI isn't set up yet. Add OPENAI_API_KEY in Vercel.",
+    required: "Fill in the required fields (*) to continue.",
+  },
+  es: {
+    steps: ["Tipo", "Estilo", "Detalles", "Fuentes", "Generar"],
+    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Elige las fuentes", "Genera y descarga"],
+    next: "Siguiente",
+    back: "Atrás",
+    photo: "Foto del jugador",
+    photoOpt: "Foto (opcional) — un jugador destacado",
+    team: "Equipo",
+    home: "Equipo local",
+    away: "Equipo visitante",
+    champ: "Torneo / competición",
+    name: "Nombre / gamertag",
+    position: "Posición",
+    number: "Número",
+    tagline: "Palabra superior (ej. WELCOME, MVP)",
+    subtitle: "Línea de acento",
+    footer: "Línea inferior (liga, edición)",
+    date: "Fecha",
+    time: "Hora",
+    venue: "Lugar / plataforma",
+    formation: "Formación",
+    players: "Jugadores — uno por línea: número nombre posición",
+    playersPh: "1 Bryant POR\n2 Nesta1 LD\n4 Silent54 DFC\n…",
+    squad: "Lista de jugadores campeones (uno por línea o separados por coma)",
+    squadPh: "xChrome, Vernos7, AceKing, ProMan…",
+    trophy: "Estilo de trofeo",
+    trophyUpload: "…o sube la imagen de tu trofeo",
+    prize: "Premio",
+    homeScore: "Goles local",
+    awayScore: "Goles visitante",
+    scorers: "Goleadores (uno por línea)",
+    headline: "Titular",
+    title: "Título del evento",
+    details: "Horarios / detalles",
+    extra: "Idea extra para la IA (opcional)",
+    extraPh: "ej. rayos, nieve, corona dorada",
+    lang: "Idioma del texto",
+    langHint: "Los nombres de equipos, jugadores y torneos se mantienen exactamente como los escribes.",
+    primary: "Estilo principal (títulos)",
+    secondary: "Estilo secundario (nombres, números, texto)",
+    pick: "Elige un estilo…",
+    preview: "Vista previa",
+    generate: "Generar arte",
+    finish: "Final",
+    artType: "Tipo de arte",
+    status: "Estado",
+    creditsUsed: "Créditos usados",
+    balance: "Tu saldo",
+    download: "Descargar",
+    edit: "Editar texto / nueva versión",
+    another: "Crear otro",
+    needCredits: "No tienes créditos suficientes",
+    getCredits: "Conseguir créditos",
+    stages: ["Planeando el arte…", "Generando el fondo…", "Añadiendo elementos…", "Aplicando efectos…", "Finalizando imagen…"],
+    wait: "Puede tardar uno o dos minutos — no cierres esta página.",
+    completed: "Completado",
+    generating: "Generando…",
+    failed: "Falló — créditos devueltos",
+    noPro: "La IA Pro aún no está configurada. Agrega OPENAI_API_KEY en Vercel.",
+    required: "Completa los campos obligatorios (*) para continuar.",
+  },
+};
+
+const lines = (s: string) => s.split(/\n|,/).map((x) => x.trim()).filter(Boolean);
+
+export function CreateWizard({
+  templates,
+  credits: initialCredits,
+  cost,
+  proEnabled,
+  initialLayout,
+}: {
+  templates: ClientTemplate[];
+  credits: number;
+  cost: number;
+  proEnabled: boolean;
+  initialLayout?: LayoutKind;
+}) {
+  const { locale } = useT();
+  const L = TXT[locale === "es" ? "es" : "en"];
+  const [step, setStep] = useState(initialLayout ? 2 : 1);
+  const [layout, setLayout] = useState<LayoutKind>(initialLayout ?? "PLAYER");
+  const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
+  const [tplId, setTplId] = useState<string | null>(null);
+  const tpl = styles.find((t) => t.id === tplId) ?? null;
+
+  const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English" });
+  const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
+  const [photo, setPhoto] = useState<string | null>(null);
+  const [team, setTeam] = useState<SavedItem | null>(null);
+  const [home, setHome] = useState<SavedItem | null>(null);
+  const [away, setAway] = useState<SavedItem | null>(null);
+  const [champ, setChamp] = useState<SavedItem | null>(null);
+  const [playersText, setPlayersText] = useState("");
+  const [squadText, setSquadText] = useState("");
+  const [scorersText, setScorersText] = useState("");
+
+  const [credits, setCredits] = useState(initialCredits);
+  const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
+  const [stage, setStage] = useState(0);
+  const [error, setError] = useState("");
+  const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
+
+  useEffect(() => {
+    if (!styles.some((s) => s.id === tplId)) setTplId(styles[0]?.id ?? null);
+  }, [styles, tplId]);
+
+  // Fake-but-honest progress: advances through the stages while the AI works.
+  useEffect(() => {
+    if (phase !== "busy") return;
+    setStage(0);
+    const marks = [6, 30, 55, 80];
+    const timers = marks.map((s, i) => setTimeout(() => setStage(i + 1), s * 1000));
+    return () => timers.forEach(clearTimeout);
+  }, [phase]);
+
+  const art = ART_TYPES.find((a) => a.layout === layout)!;
+  const artName = locale === "es" ? art.es.name : art.en.name;
+
+  // Compose the final inputs from the pickers and text areas.
+  function finalInputs(): BannerInputs {
+    return {
+      ...inp,
+      team: team?.name ?? inp.team,
+      homeTeam: home?.name ?? inp.homeTeam,
+      awayTeam: away?.name ?? inp.awayTeam,
+      homeLogoUrl: home?.logoUrl ?? "",
+      awayLogoUrl: away?.logoUrl ?? "",
+      eventName: champ?.name ?? inp.eventName,
+      competition: champ?.name ?? inp.competition,
+      champLogoUrl: champ?.logoUrl ?? "",
+      players: lines(playersText).slice(0, 18),
+      roster: lines(squadText).slice(0, 30),
+      scorers: lines(scorersText).slice(0, 12),
+    };
+  }
+
+  function detailsValid() {
+    switch (layout) {
+      case "PLAYER":
+        return !!photo && !!inp.name.trim();
+      case "CHAMPIONS":
+        return !!team;
+      case "MATCHDAY":
+      case "RESULT":
+        return !!home && !!away;
+      case "LINEUP":
+        return !!team && lines(playersText).length > 0;
+      case "EVENT":
+        return !!inp.headline.trim();
+    }
+  }
+
+  async function generate() {
+    setPhase("busy");
+    setError("");
+    const res = await fetch("/api/banners", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        templateId: tpl?.id,
+        inputs: finalInputs(),
+        photoUrl: photo,
+        logoUrl: team?.logoUrl ?? null,
+        mode: "PRO",
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.id) {
+      setResult({ id: data.id, url: data.finalUrl ?? null });
+      setCredits((c) => c - cost);
+      setStage(5);
+      setPhase("done");
+    } else {
+      const msg =
+        data.error === "err_credits"
+          ? L.needCredits
+          : data.error === "err_blocked"
+            ? locale === "es" ? "Ese contenido no está permitido." : "That content isn't allowed."
+            : (locale === "es" ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : "");
+      setError(msg);
+      setPhase("error");
+    }
+  }
+
+  async function download() {
+    if (!result?.url) return;
+    const blob = await (await fetch(result.url)).blob();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `kixo-${layout.toLowerCase()}.png`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+
+  function reset() {
+    setResult(null);
+    setPhase("idle");
+    setStep(1);
+  }
+
+  if (!proEnabled) return <p className="card p-6 text-sm text-amber-200">{L.noPro}</p>;
+
+  // ── UI ─────────────────────────────────────────────────
+  const Stepper = (
+    <div className="mb-6">
+      <div className="flex items-center">
+        {L.steps.map((_, i) => {
+          const n = i + 1;
+          const done = n < step || phase === "done";
+          const active = n === step;
+          return (
+            <div key={n} className="flex flex-1 items-center last:flex-none">
+              <span
+                className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold ${
+                  done ? "bg-lime text-ink" : active ? "border-2 border-lime text-lime" : "border border-line text-muted"
+                }`}
+              >
+                {done ? "✓" : n}
+              </span>
+              {n < 5 && <span className={`mx-1 h-0.5 flex-1 ${n < step ? "bg-lime" : "bg-line"}`} />}
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 text-center">
+        <div className="font-bold">{L.steps[step - 1]}</div>
+        <div className="text-xs text-muted">{L.stepSub[step - 1]}</div>
+      </div>
+    </div>
+  );
+
+  const nav = ({ canNext, onNext, nextLabel }: { canNext: boolean; onNext: () => void; nextLabel?: string }) => (
+    <div className="mt-6 flex items-center justify-between">
+      {step > 1 ? (
+        <button type="button" className="text-sm text-muted hover:text-white" onClick={() => setStep(step - 1)}>
+          ‹ {L.back}
+        </button>
+      ) : (
+        <span />
+      )}
+      <button type="button" className="btn-primary" disabled={!canNext} onClick={onNext}>
+        {nextLabel ?? L.next} ›
+      </button>
+    </div>
+  );
+
+  const field = ({ label, k, req, max = 40, ph }: { label: string; k: keyof BannerInputs; req?: boolean; max?: number; ph?: string }) => (
+    <div>
+      <label className="label">
+        {label} {req && <span className="text-lime">*</span>}
+      </label>
+      <input className="input" maxLength={max} placeholder={ph} value={inp[k] as string} onChange={(e) => set(k, e.target.value as never)} />
+    </div>
+  );
+
+  return (
+    <div className="mx-auto max-w-2xl">
+      {Stepper}
+
+      {step === 1 && (
+        <div className="card p-5">
+          <div className="space-y-3">
+            {ART_TYPES.map((a) => (
+              <button
+                key={a.layout}
+                type="button"
+                onClick={() => { setLayout(a.layout); setStep(2); }}
+                className={`flex w-full items-center gap-4 rounded-xl border p-4 text-left transition ${
+                  a.layout === layout ? "border-lime bg-lime/5" : "border-line bg-panel-2 hover:border-muted"
+                }`}
+              >
+                <span className="text-3xl">{a.icon}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-bold">{locale === "es" ? a.es.name : a.en.name}</span>
+                  <span className="block text-xs text-muted">{locale === "es" ? a.es.desc : a.en.desc}</span>
+                  <span className="mt-1 block text-xs text-lime">{cost} credits</span>
+                </span>
+                <span className="text-muted">›</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="card p-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {styles.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setTplId(s.id)}
+                className={`overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
+              >
+                <TemplateThumb template={s} />
+                <div className="bg-panel-2 px-2 py-1.5 text-xs font-bold">{locale === "es" ? s.nameEs : s.name}</div>
+              </button>
+            ))}
+          </div>
+          {styles.length === 0 && <p className="text-sm text-muted">No styles for this type yet.</p>}
+          <p className="mt-4 text-xs text-muted">
+            {locale === "es"
+              ? "Las miniaturas son una referencia. El arte final lo crea la IA con tus colores, escudos y textos."
+              : "Thumbnails are for reference. The final art is created by the AI with your colors, crests and text."}
+          </p>
+          {nav({ canNext: !!tpl, onNext: () => setStep(3) })}
+        </div>
+      )}
+
+      {step === 3 && (
+        <div className="card space-y-4 p-5">
+          {layout === "PLAYER" && (
+            <>
+              <ImageDrop kind="photo" label={`${L.photo} *`} value={photo} onChange={setPhoto} />
+              <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
+              {field({ label: L.name, k: "name", req: true })}
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: L.position, k: "position", max: 24, ph: "ST · CAM | OM" })}
+                {field({ label: L.number, k: "number", max: 4 })}
+              </div>
+              {field({ label: L.tagline, k: "tagline", max: 30 })}
+              {field({ label: L.subtitle, k: "subtitle" })}
+            </>
+          )}
+
+          {layout === "CHAMPIONS" && (
+            <>
+              <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} required />
+              <SavedPicker kind="championship" label={L.champ} value={champ} onChange={setChamp} />
+              {field({ label: L.date, k: "date", max: 30, ph: "Nov 2026" })}
+              <div>
+                <span className="label">{L.trophy}</span>
+                <div className="grid grid-cols-2 gap-2">
+                  {TROPHY_STYLES.map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => set("trophy", t.id)}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${inp.trophy === t.id && !inp.trophyUrl ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                    >
+                      🏆 {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <ImageDrop kind="logo" label={L.trophyUpload} value={inp.trophyUrl || null} onChange={(u) => set("trophyUrl", u ?? "")} />
+              <div>
+                <label className="label">{L.squad}</label>
+                <textarea className="input min-h-28" placeholder={L.squadPh} value={squadText} onChange={(e) => setSquadText(e.target.value)} />
+              </div>
+              {field({ label: L.prize, k: "prize", max: 24, ph: "$200 PRIZE" })}
+              <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
+            </>
+          )}
+
+          {(layout === "MATCHDAY" || layout === "RESULT") && (
+            <>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <SavedPicker kind="team" label={L.home} value={home} onChange={setHome} required />
+                <SavedPicker kind="team" label={L.away} value={away} onChange={setAway} required />
+              </div>
+              <SavedPicker kind="championship" label={L.champ} value={champ} onChange={setChamp} />
+              {layout === "MATCHDAY" ? (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    {field({ label: L.date, k: "date", max: 30, ph: "Fri · Nov 6" })}
+                    {field({ label: L.time, k: "time", max: 20, ph: "9:00 PM EST" })}
+                  </div>
+                  {field({ label: L.venue, k: "venue", max: 48, ph: "EA FC 27 · Pro Clubs" })}
+                </>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    {field({ label: L.homeScore, k: "homeScore", max: 3 })}
+                    {field({ label: L.awayScore, k: "awayScore", max: 3 })}
+                  </div>
+                  <div>
+                    <label className="label">{L.scorers}</label>
+                    <textarea className="input min-h-24" value={scorersText} onChange={(e) => setScorersText(e.target.value)} placeholder={"Krypto 12'\nSantxz 45+1'"} />
+                  </div>
+                </>
+              )}
+              <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
+            </>
+          )}
+
+          {layout === "LINEUP" && (
+            <>
+              <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} required />
+              <SavedPicker kind="championship" label={L.champ} value={champ} onChange={setChamp} />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="label">{L.formation}</label>
+                  <select className="input" value={inp.formation} onChange={(e) => set("formation", e.target.value)}>
+                    <option value="">—</option>
+                    {FORMATIONS.map((f) => (
+                      <option key={f}>{f}</option>
+                    ))}
+                  </select>
+                </div>
+                {field({ label: L.date, k: "date", max: 30, ph: "Matchday 7" })}
+              </div>
+              <div>
+                <label className="label">
+                  {L.players} <span className="text-lime">*</span>
+                </label>
+                <textarea className="input min-h-56 font-mono text-xs" placeholder={L.playersPh} value={playersText} onChange={(e) => setPlayersText(e.target.value)} />
+                <p className="mt-1 text-xs text-muted">{lines(playersText).length}/11</p>
+              </div>
+            </>
+          )}
+
+          {layout === "EVENT" && (
+            <>
+              {field({ label: L.headline, k: "headline", req: true, max: 30, ph: "$100 WINNER" })}
+              {field({ label: L.title, k: "name", ph: "1v1 Ultimate Team" })}
+              {field({ label: L.subtitle, k: "subtitle", ph: "Free Entry" })}
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: L.date, k: "date", max: 30 })}
+                {field({ label: L.details, k: "details", max: 48, ph: "8 PM · 9 PM" })}
+              </div>
+              {field({ label: L.prize, k: "prize", max: 24 })}
+              <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
+              <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
+            </>
+          )}
+
+          {field({ label: L.footer, k: "footer", max: 48 })}
+          {field({ label: L.extra, k: "extraPrompt", max: 200, ph: L.extraPh })}
+          {!detailsValid() && <p className="text-xs text-muted">{L.required}</p>}
+          {nav({ canNext: !!detailsValid(), onNext: () => setStep(4) })}
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className="card space-y-4 p-5">
+          <div>
+            <label className="label">{L.lang}</label>
+            <select className="input" value={inp.language} onChange={(e) => set("language", e.target.value)}>
+              {LANGUAGES.map((l) => (
+                <option key={l}>{l}</option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-muted">{L.langHint}</p>
+          </div>
+          {(["fontPrimary", "fontSecondary"] as const).map((k) => (
+            <div key={k}>
+              <label className="label">
+                {k === "fontPrimary" ? L.primary : L.secondary} {k === "fontPrimary" && <span className="text-lime">*</span>}
+              </label>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {FONT_STYLES.map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => set(k, f.id)}
+                    className={`rounded-lg border px-3 py-2.5 text-left ${inp[k] === f.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                  >
+                    <span className={`block text-lg leading-tight ${f.previewClass}`} style={{ fontFamily: FONT_VAR[f.preview] }}>
+                      {f.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="rounded-xl border border-line bg-panel-2 p-6 text-center">
+            <div className="label">{L.preview}</div>
+            {(() => {
+              const p = FONT_STYLES.find((f) => f.id === inp.fontPrimary);
+              const s2 = FONT_STYLES.find((f) => f.id === inp.fontSecondary);
+              const title = layout === "LINEUP" ? "LINEUP" : layout === "RESULT" ? "FULL TIME" : layout === "MATCHDAY" ? "MATCH DAY" : layout === "CHAMPIONS" ? "CHAMPIONS" : (inp.name || "PLAYER");
+              return (
+                <>
+                  <div className={`text-4xl ${p?.previewClass ?? ""}`} style={{ fontFamily: FONT_VAR[p?.preview ?? "anton"] }}>{title}</div>
+                  <div className={`mt-2 text-lg text-muted ${s2?.previewClass ?? ""}`} style={{ fontFamily: FONT_VAR[s2?.preview ?? "sans"] }}>
+                    {(team?.name || home?.name || "RONALDO") + (inp.number ? ` #${inp.number}` : " #7")}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+          {nav({ canNext: !!inp.fontPrimary, onNext: () => setStep(5) })}
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className="space-y-4">
+          <div className="card overflow-hidden">
+            {phase === "done" && result?.url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={result.url} alt="" className="block aspect-[4/5] w-full object-cover" />
+            ) : (
+              <div className="grid aspect-[4/5] place-items-center p-8">
+                <div className="w-full max-w-xs">
+                  {L.stages.map((s, i) => {
+                    const done = phase === "busy" ? i < stage : phase === "done";
+                    const active = phase === "busy" && i === stage;
+                    return (
+                      <div key={s} className="flex items-center gap-3 py-1.5 text-sm">
+                        <span
+                          className={`grid h-5 w-5 place-items-center rounded-full ${
+                            done ? "bg-lime text-[10px] text-ink" : active ? "animate-spin border-2 border-lime border-t-transparent" : "border border-line"
+                          }`}
+                        >
+                          {done ? "✓" : ""}
+                        </span>
+                        <span className={done || active ? "text-lime" : "text-muted"}>{s}</span>
+                      </div>
+                    );
+                  })}
+                  {phase === "busy" && <p className="mt-6 text-center text-xs text-muted">{L.wait}</p>}
+                  {phase === "idle" && (
+                    <button type="button" className="btn-primary mt-6 w-full py-3" disabled={credits < cost} onClick={generate}>
+                      ✨ {L.generate} · {cost} cr
+                    </button>
+                  )}
+                  {phase === "error" && (
+                    <>
+                      <p className="mt-6 text-center text-sm text-danger">{error}</p>
+                      <button type="button" className="btn-primary mt-4 w-full" disabled={credits < cost} onClick={generate}>
+                        ↻ {L.generate}
+                      </button>
+                    </>
+                  )}
+                  {credits < cost && phase !== "busy" && (
+                    <Link href="/pricing" className="btn-ghost mt-3 w-full">{L.getCredits}</Link>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="card p-5 text-sm">
+            <h3 className="mb-3 font-bold">{L.finish}</h3>
+            <dl className="space-y-2">
+              <div className="flex justify-between"><dt className="text-muted">{L.artType}</dt><dd>{artName}</dd></div>
+              <div className="flex justify-between">
+                <dt className="text-muted">{L.status}</dt>
+                <dd>{phase === "done" ? L.completed : phase === "busy" ? L.generating : phase === "error" ? L.failed : "—"}</dd>
+              </div>
+              <div className="flex justify-between"><dt className="text-muted">{L.creditsUsed}</dt><dd>{cost}</dd></div>
+              <div className="flex justify-between rounded-lg bg-panel-2 px-3 py-2"><dt className="text-muted">{L.balance}</dt><dd className="font-bold text-lime">{credits} cr</dd></div>
+            </dl>
+            {phase === "done" && result && (
+              <div className="mt-4 space-y-2">
+                <button type="button" className="btn-primary w-full py-3" onClick={download}>⬇ {L.download}</button>
+                <Link href={`/banner/${result.id}`} className="btn-ghost w-full">✏️ {L.edit}</Link>
+                <button type="button" className="w-full py-2 text-xs text-muted hover:text-white" onClick={reset}>＋ {L.another}</button>
+              </div>
+            )}
+          </div>
+          {phase === "idle" && (
+            <button type="button" className="text-sm text-muted hover:text-white" onClick={() => setStep(4)}>‹ {L.back}</button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

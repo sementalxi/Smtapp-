@@ -793,7 +793,7 @@ export function renderBanner(canvas: HTMLCanvasElement, o: RenderOptions) {
   colorGrade(ctx, o);
 
   if (o.layout === "CHAMPIONS") layoutChampions(ctx, o, r);
-  else if (o.layout === "EVENT") layoutEvent(ctx, o, r);
+  else if (o.layout === "EVENT" || o.layout === "MATCHDAY" || o.layout === "LINEUP" || o.layout === "RESULT") layoutEvent(ctx, o, r);
   else layoutPlayer(ctx, o, r);
 
   watermark(ctx, o);

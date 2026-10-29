@@ -6,6 +6,7 @@ import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generate
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
+import { fontPrompt, trophyPrompt } from "./pro-options";
 
 const str = (max: number) => z.string().trim().max(max).default("");
 
@@ -24,6 +25,24 @@ export const InputsSchema = z.object({
   date: str(30),
   details: str(48),
   extraPrompt: str(200),
+  homeTeam: str(40),
+  awayTeam: str(40),
+  homeScore: str(3),
+  awayScore: str(3),
+  competition: str(48),
+  venue: str(48),
+  time: str(20),
+  formation: str(12),
+  players: z.array(z.string().trim().max(40)).max(18).default([]),
+  scorers: z.array(z.string().trim().max(40)).max(12).default([]),
+  trophy: str(60),
+  language: str(20),
+  fontPrimary: str(40),
+  fontSecondary: str(40),
+  homeLogoUrl: str(500),
+  awayLogoUrl: str(500),
+  champLogoUrl: str(500),
+  trophyUrl: str(500),
 });
 
 export const DesignSchema = z.object({
@@ -54,7 +73,8 @@ export function aiConfigured() {
 }
 
 export function titleFor(inputs: BannerInputs) {
-  return (inputs.name || inputs.team || inputs.headline || "Banner").slice(0, 60);
+  const vs = inputs.homeTeam && inputs.awayTeam ? `${inputs.homeTeam} vs ${inputs.awayTeam}` : "";
+  return (inputs.name || vs || inputs.team || inputs.headline || inputs.homeTeam || "Banner").slice(0, 60);
 }
 
 /**
@@ -171,80 +191,183 @@ export async function reapStale(userId?: string) {
 
 const q = (s: string) => `"${s.replace(/"/g, "'")}"`;
 
+/** A reference image sent to the model, with what it is. */
+export interface ProRef {
+  url: string;
+  label: string;
+}
+
+/** Works out which reference images go to the model, in order, with instructions for each. */
+export function collectProRefs(opts: {
+  layout: LayoutKind;
+  inputs: BannerInputs;
+  photoUrl?: string | null;
+  logoUrl?: string | null;
+  styleRefUrl?: string | null;
+}): ProRef[] {
+  const { inputs: i, layout } = opts;
+  const refs: ProRef[] = [];
+  if (opts.photoUrl) {
+    refs.push({
+      url: opts.photoUrl,
+      label:
+        layout === "LINEUP" || layout === "RESULT" || layout === "MATCHDAY"
+          ? "a player photo to feature as the hero image. Keep the face exactly recognisable — same person, not a lookalike."
+          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo.",
+    });
+  }
+  const crest = (url: string, who: string) =>
+    refs.push({ url, label: `the crest of ${who}. Reproduce it faithfully as a glossy chrome/3D emblem with a glow; do not redesign it.` });
+  if (layout === "MATCHDAY" || layout === "RESULT") {
+    if (i.homeLogoUrl) crest(i.homeLogoUrl, `the home team${i.homeTeam ? ` (${i.homeTeam})` : ""}`);
+    if (i.awayLogoUrl) crest(i.awayLogoUrl, `the away team${i.awayTeam ? ` (${i.awayTeam})` : ""}`);
+  } else if (opts.logoUrl) {
+    crest(opts.logoUrl, `the team${i.team ? ` (${i.team})` : ""}`);
+  }
+  if (i.champLogoUrl) {
+    refs.push({ url: i.champLogoUrl, label: `the competition/championship logo${i.eventName || i.competition ? ` (${i.eventName || i.competition})` : ""}. Place it as a smaller badge; reproduce it faithfully.` });
+  }
+  if (i.trophyUrl) {
+    refs.push({ url: i.trophyUrl, label: "the trophy. Reproduce this exact trophy design, large and shiny, as the centrepiece." });
+  }
+  if (opts.styleRefUrl) {
+    refs.push({
+      url: opts.styleRefUrl,
+      label:
+        "a STYLE reference only. Match its overall look: composition and layering, lighting, colour grading, textures, effects and typography feel. Do NOT copy its people, faces, names, text, logos, badges, stickers or watermarks.",
+    });
+  }
+  return refs;
+}
+
 /** Turns the template + the user's text into a detailed design brief for the image model. */
 export function buildProPrompt(opts: {
   layout: LayoutKind;
   templatePrompt: string;
   style: TemplateStyle;
   inputs: BannerInputs;
-  hasPhoto: boolean;
-  hasLogo: boolean;
-  hasStyleRef?: boolean;
+  refs: ProRef[];
 }) {
   const { inputs: i, style, layout } = opts;
-  const allText = [i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.extraPrompt, ...i.roster].join(" ");
+  const allText = [
+    i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details,
+    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers,
+  ].join(" ");
   if (BLOCKED.test(allText)) throw new HttpError(400, "err_blocked");
-
-  const refs: string[] = [];
-  if (opts.hasPhoto) {
-    refs.push(
-      `Reference image 1 is the ${layout === "CHAMPIONS" ? "team's main subject (player or mascot)" : "player"}. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo.`,
-    );
-  }
-  let n = opts.hasPhoto ? 2 : 1;
-  if (opts.hasLogo) {
-    refs.push(`Reference image ${n} is the team crest. Reproduce it faithfully as a glossy chrome/3D emblem with a glow; do not redesign it.`);
-    n++;
-  }
-  if (opts.hasStyleRef) {
-    refs.push(
-      `Reference image ${n} is a STYLE reference only. Match its overall look: composition and layering, lighting, colour grading, textures, effects and typography feel. Do NOT copy its people, faces, names, text, logos, badges, stickers or watermarks.`,
-    );
-  }
 
   const lines: string[] = [];
   const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
+  const finish = `Finish: ultra sharp, high contrast, rich saturated colour grade, cinematic depth, dense layered effects (light streaks, sparks, glitter dust, grain and grunge texture, haze) — clearly a hand-crafted Photoshop design, not a flat AI illustration.`;
+  const frame = `FRAME: thin corner marks and a bottom footer row with three small letter-spaced items.`;
 
   let composition: string;
-  if (layout === "CHAMPIONS") {
-    composition = `A champions celebration poster. Huge 3D metallic title at the top, the team name large in the lower third, the roster as a clean row of names separated by vertical bars below it, a shiny trophy, confetti and sparks.`;
-    add("Title (huge, top)", i.headline || "CHAMPIONS");
-    add("Small line above the title", i.eventName);
-    add("Team name (large)", i.team);
-    if (i.roster.length) lines.push(`- Roster, exactly these names separated by " | ": ${q(i.roster.filter(Boolean).join(" | "))}`);
-    add("Prize badge (bottom right, gold)", i.prize);
-  } else if (layout === "EVENT") {
-    composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle, a bold event title under it, a script-font accent line, and a pill-shaped info bar with the date and times.`;
-    add("Headline (huge, glossy 3D)", i.headline);
-    add("Event title (bold, under the headline)", i.name);
-    add("Script accent line", i.subtitle);
-    add("Info bar", [i.date, i.details].filter(Boolean).join("  ·  "));
-    add("Prize", i.prize);
-  } else {
-    composition = [
-      `A premium pro-clubs / esports football player announcement poster, the dense layered style of top club social-media designers.`,
-      `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) GIANT background lettering of the team name spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player; 3) a very large double-exposure close-up of the player's face/upper body in the upper half, semi-transparent and colour-graded into the background; 4) a sharp full-body cut-out of the player in front (or the pose from the photo), with a strong rim light and glow separating them from the background; 5) effects on top: light streaks, lightning, sparks, glitter dust, grain and grunge texture, stadium floodlights and haze.`,
-      `TYPOGRAPHY: the player's name huge in a tall condensed bold sans-serif (white with metallic gradient and subtle shadow) on the lower left; a small solid coloured tag box above it with the position; a script or gothic accent word; small letter-spaced uppercase text for details. Big outlined jersey number on the right.`,
-      `FRAME: thin corner marks, tiny decorative "× × × ×" marks, and a bottom footer row with three small items (left: number or season, centre: letter-spaced footer text, right: team initials).`,
-      `Finish: ultra sharp, high contrast, rich saturated colour grade, cinematic depth, clearly a hand-crafted Photoshop design — not a flat AI illustration.`,
-    ].join(" ");
-    add("Player name (huge, condensed, bottom left)", i.name);
-    add("Position tag box", i.position);
-    add("Small elegant word above the name", i.tagline);
-    add("Script-font line under the name", i.subtitle);
-    add("Team name (small, letter-spaced)", i.team);
-    add("Jersey number (large outlined, right side)", i.number);
+  switch (layout) {
+    case "CHAMPIONS": {
+      const trophy = i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a large shiny trophy";
+      composition = [
+        `A champions title-celebration poster.`,
+        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, the team crest large and glossy, the team name in big metallic letters in the lower third, the squad list as a clean row of names separated by vertical bars, confetti, sparks and spotlight beams.`,
+        frame,
+        finish,
+      ].join(" ");
+      add("Title (huge, top)", i.headline || "CHAMPIONS");
+      add("Small line above the title (competition)", i.eventName || i.competition);
+      add("Team name (large)", i.team);
+      const squad = (i.roster.length ? i.roster : i.players).filter(Boolean);
+      if (squad.length) lines.push(`- Squad list, exactly these names separated by " | ": ${q(squad.join(" | "))}`);
+      add("Date", i.date);
+      add("Prize badge (gold)", i.prize);
+      break;
+    }
+    case "MATCHDAY":
+      composition = [
+        `A match-day announcement poster for a pro-clubs / football match.`,
+        `The two team crests big and glossy facing each other with a bold "VS" between them (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, the competition name, and a clear info block with date, kick-off time and venue.`,
+        frame,
+        finish,
+      ].join(" ");
+      add("Title (huge)", i.headline || "MATCH DAY");
+      add("Home team name", i.homeTeam);
+      add("Away team name", i.awayTeam);
+      add("Competition", i.competition);
+      add("Date", i.date);
+      add("Kick-off time", i.time);
+      add("Venue", i.venue);
+      break;
+    case "LINEUP":
+      composition = [
+        `A "STARTING XI" lineup graphic.`,
+        `A stylised football pitch seen from above${i.formation ? ` with the players arranged in a ${i.formation} formation` : ""}: each player shown as a clean badge/marker with their shirt number and name, goalkeeper at the bottom, attackers at the top. The team crest large and glossy, a huge "${i.headline || "STARTING XI"}" title, competition and date. Keep all names perfectly legible.`,
+        frame,
+        finish,
+      ].join(" ");
+      add("Title (huge)", i.headline || "STARTING XI");
+      add("Team name", i.team);
+      add("Formation", i.formation);
+      if (i.players.length) lines.push(`- Players (number, name, position) — place every one on the pitch:\n${i.players.filter(Boolean).map((p) => `  • ${q(p)}`).join("\n")}`);
+      add("Competition", i.competition);
+      add("Date / matchday", i.date);
+      break;
+    case "RESULT":
+      composition = [
+        `A full-time result graphic.`,
+        `Both team crests big and glossy on either side, a huge score between them, a bold "${i.headline || "FULL TIME"}" label, the goal scorers listed under each side (or under the score), and the competition name.`,
+        frame,
+        finish,
+      ].join(" ");
+      add("Label", i.headline || "FULL TIME");
+      add("Home team", i.homeTeam);
+      add("Away team", i.awayTeam);
+      add("Score (huge)", `${i.homeScore || "0"} - ${i.awayScore || "0"}`);
+      if (i.scorers.length) lines.push(`- Goal scorers: ${q(i.scorers.filter(Boolean).join(" | "))}`);
+      add("Competition", i.competition);
+      break;
+    case "EVENT":
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle, a bold event title under it, a script-font accent line, and a pill-shaped info bar with the date and times. ${frame} ${finish}`;
+      add("Headline (huge, glossy 3D)", i.headline);
+      add("Event title (bold, under the headline)", i.name);
+      add("Script accent line", i.subtitle);
+      add("Info bar", [i.date, i.details].filter(Boolean).join("  ·  "));
+      add("Prize", i.prize);
+      break;
+    default:
+      composition = [
+        `A premium pro-clubs / esports football player announcement poster, the dense layered style of top club social-media designers.`,
+        `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) GIANT background lettering of the team name spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player; 3) a very large double-exposure close-up of the player's face/upper body in the upper half, semi-transparent and colour-graded into the background; 4) a sharp full-body cut-out of the player in front (or the pose from the photo), with a strong rim light and glow separating them from the background; 5) effects on top.`,
+        `TYPOGRAPHY: the player's name huge on the lower left; a small solid coloured tag box above it with the position; a script or gothic accent word; small letter-spaced uppercase text for details. Big outlined jersey number on the right.`,
+        `${frame} Tiny decorative "× × × ×" marks.`,
+        finish,
+      ].join(" ");
+      add("Player name (huge, bottom left)", i.name);
+      add("Position tag box", i.position);
+      add("Small elegant word above the name", i.tagline);
+      add("Script-font line under the name", i.subtitle);
+      add("Team name (small, letter-spaced)", i.team);
+      add("Jersey number (large outlined, right side)", i.number);
   }
   add("Letter-spaced footer line at the very bottom", i.footer);
+
+  const typo = [
+    i.fontPrimary && `Titles and the main headline in ${fontPrompt(i.fontPrimary)}.`,
+    i.fontSecondary && `Names, numbers and small text in ${fontPrompt(i.fontSecondary)}.`,
+    i.language && i.language !== "English"
+      ? `Write generic words on the poster (titles like MATCH DAY, FULL TIME, CHAMPIONS, STARTING XI, labels, dates) in ${i.language}. Team names, player names and anything quoted below stay exactly as written.`
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const refText = opts.refs.map((r, n) => `Reference image ${n + 1} is ${r.label}`);
 
   return [
     `Design a finished, high-end vertical sports social-media poster (4:5).`,
     composition,
     `Visual style: ${opts.templatePrompt}. Main colour ${style.primary}, accent/glow ${style.accent}, deep shadows ${style.dark}.`,
+    typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
-    ...refs,
+    ...refText,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
-    `Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crest.`,
+    `Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
     `Professional Photoshop-level composition: dramatic lighting, depth, crisp typography, clean edges, no warped faces or hands.`,
   ]
     .filter(Boolean)
@@ -257,9 +380,7 @@ export async function generateProForBanner(opts: {
   userId: string;
   cost: number;
   prompt: string;
-  photoUrl?: string | null;
-  logoUrl?: string | null;
-  styleRefUrl?: string | null;
+  refs: ProRef[];
   regenerate?: boolean;
 }) {
   if (opts.cost > 0) {
@@ -272,13 +393,12 @@ export async function generateProForBanner(opts: {
     });
   }
   try {
-    const refs: { bytes: Buffer; type: string }[] = [];
-    for (const url of [opts.photoUrl, opts.logoUrl, opts.styleRefUrl]) {
-      if (!url) continue;
-      const bytes = await loadBytes(url);
-      refs.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
+    const images: { bytes: Buffer; type: string }[] = [];
+    for (const r of opts.refs) {
+      const bytes = await loadBytes(r.url);
+      images.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
     }
-    const out = await generatePoster(opts.prompt, refs);
+    const out = await generatePoster(opts.prompt, images);
     const url = await saveFile("banners", out, sniffImage(out) ?? "image/png");
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url } });
@@ -300,8 +420,12 @@ export async function generateProForBanner(opts: {
       where: { id: opts.bannerId },
       data: opts.regenerate ? { error: msg } : { status: "FAILED", error: msg },
     });
-    // OpenAI's own safety system rejected the request
     if (/moderation|safety|content_policy/i.test(msg)) throw new HttpError(400, "err_blocked");
     throw new HttpError(502, "generation_failed");
   }
+}
+
+/** All image URLs inside inputs must be ours. */
+export function assertInputUrls(i: BannerInputs) {
+  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl].forEach((u) => assertOwnUrl(u || null));
 }

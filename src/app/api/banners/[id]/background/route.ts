@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
-import { buildProPrompt, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
+import { assertInputUrls, buildProPrompt, collectProRefs, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
 import { proConfigured } from "@/lib/ai";
 import { getNumberSetting } from "@/lib/settings";
 import { BannerInputs, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
@@ -31,14 +31,20 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       ? { ...EMPTY_INPUTS, ...body.inputs }
       : { ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) };
     try {
+      assertInputUrls(inputs);
+      const refs = collectProRefs({
+        layout: banner.template.layout,
+        inputs,
+        photoUrl: banner.photoUrl,
+        logoUrl: banner.logoUrl,
+        styleRefUrl: banner.template.styleRefUrl,
+      });
       const prompt = buildProPrompt({
         layout: banner.template.layout,
         templatePrompt: banner.template.prompt,
         style: banner.template.style as unknown as TemplateStyle,
         inputs,
-        hasPhoto: !!banner.photoUrl,
-        hasLogo: !!banner.logoUrl,
-        hasStyleRef: !!banner.template.styleRefUrl,
+        refs,
       });
       await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs) } });
       const updated = await generateProForBanner({
@@ -46,9 +52,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         userId: user.id,
         cost: await getNumberSetting("pro_cost"),
         prompt,
-        photoUrl: banner.photoUrl,
-        logoUrl: banner.logoUrl,
-        styleRefUrl: banner.template.styleRefUrl,
+        refs,
         regenerate: true,
       });
       return json({ finalUrl: updated.finalUrl });

@@ -31,6 +31,9 @@ enum Layout {
   PLAYER
   CHAMPIONS
   EVENT
+  MATCHDAY
+  LINEUP
+  RESULT
 }
 
 model User {
@@ -145,4 +148,16 @@ model StoredFile {
   contentType String
   data        Bytes
   createdAt   DateTime @default(now())
+}
+
+// Teams and championships a user saves once and reuses (name + logo).
+model SavedItem {
+  id        String   @id @default(cuid())
+  userId    String
+  kind      String // "team" | "championship"
+  name      String
+  logoUrl   String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, kind])
 }

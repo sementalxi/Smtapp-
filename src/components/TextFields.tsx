@@ -35,14 +35,14 @@ export function TextFields({
     <div className="grid gap-4 sm:grid-cols-2">
       {LAYOUT_FIELDS[layout].map((key) => {
         const labelKey: DictKey = layout === "EVENT" && key === "name" ? "title_name" : (`f_${key}` as DictKey);
-        if (key === "roster") {
+        if (Array.isArray(value[key])) {
           return (
             <div key={key} className="sm:col-span-2">
               <label className="label">{t(labelKey)}</label>
               <textarea
                 className="input min-h-36 font-mono"
-                value={value.roster.join("\n")}
-                onChange={(e) => set("roster", e.target.value.split("\n").slice(0, 30).map((s) => s.slice(0, 30)))}
+                value={(value[key] as string[]).join("\n")}
+                onChange={(e) => set(key, e.target.value.split("\n").slice(0, 30).map((s) => s.slice(0, 40)) as never)}
               />
             </div>
           );

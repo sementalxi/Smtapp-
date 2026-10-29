@@ -3,7 +3,7 @@ export const LOCALES: Locale[] = ["es", "en"];
 
 const en = {
   nav_create: "Create",
-  nav_dashboard: "My banners",
+  nav_dashboard: "Home",
   nav_pricing: "Pricing",
   nav_billing: "Billing",
   nav_admin: "Admin",
@@ -122,6 +122,19 @@ const en = {
   pro_note: "AI can occasionally misspell text or change a face slightly — make a new version if it does.",
   pro_cost_label: "Credits per Pro AI poster",
   pro_badge: "PRO",
+  f_homeTeam: "Home team",
+  f_awayTeam: "Away team",
+  f_homeScore: "Home goals",
+  f_awayScore: "Away goals",
+  f_competition: "Competition",
+  f_venue: "Venue",
+  f_time: "Time",
+  f_formation: "Formation",
+  f_players: "Players (one per line)",
+  f_scorers: "Goal scorers (one per line)",
+  layout_MATCHDAY: "Match day",
+  layout_LINEUP: "Lineup",
+  layout_RESULT: "Result",
   editor_title: "Edit banner",
   download: "Download PNG",
   save: "Save",
@@ -201,7 +214,7 @@ export type DictKey = keyof Dict;
 
 const es: Dict = {
   nav_create: "Crear",
-  nav_dashboard: "Mis banners",
+  nav_dashboard: "Inicio",
   nav_pricing: "Precios",
   nav_billing: "Facturación",
   nav_admin: "Admin",
@@ -320,6 +333,19 @@ const es: Dict = {
   pro_note: "La IA a veces escribe mal un texto o cambia un poco la cara — crea una nueva versión si pasa.",
   pro_cost_label: "Créditos por póster IA Pro",
   pro_badge: "PRO",
+  f_homeTeam: "Equipo local",
+  f_awayTeam: "Equipo visitante",
+  f_homeScore: "Goles local",
+  f_awayScore: "Goles visitante",
+  f_competition: "Competición",
+  f_venue: "Lugar",
+  f_time: "Hora",
+  f_formation: "Formación",
+  f_players: "Jugadores (uno por línea)",
+  f_scorers: "Goleadores (uno por línea)",
+  layout_MATCHDAY: "Día de partido",
+  layout_LINEUP: "Alineación",
+  layout_RESULT: "Resultado",
   editor_title: "Editar banner",
   download: "Descargar PNG",
   save: "Guardar",
@@ -396,6 +422,6 @@ const es: Dict = {
 
 export const DICTS: Record<Locale, Dict> = { en, es };
 
-export function format(s: string, vars: Record<string, string | number> = {}) {
-  return s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
+export function format(s: string | undefined, vars: Record<string, string | number> = {}) {
+  return (s ?? "").replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
 }

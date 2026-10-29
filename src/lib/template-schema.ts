@@ -18,7 +18,7 @@ export const TemplateSchema = z.object({
   slug: z.string().trim().toLowerCase().regex(/^[a-z0-9-]{2,40}$/),
   name: z.string().trim().min(1).max(40),
   nameEs: z.string().trim().min(1).max(40),
-  layout: z.enum(["PLAYER", "CHAMPIONS", "EVENT"]),
+  layout: z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT"]),
   prompt: z.string().trim().min(10).max(1000),
   style: StyleSchema,
   cost: z.number().int().min(0).max(50),

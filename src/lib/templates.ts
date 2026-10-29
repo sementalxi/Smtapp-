@@ -1,6 +1,6 @@
 // Shared (client + server) definitions for banner templates and inputs.
 
-export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT";
+export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT";
 
 export type FontKey = "anton" | "bebas" | "gothic" | "brush" | "sans";
 export type Particles = "sparks" | "embers" | "snow" | "none";
@@ -36,6 +36,27 @@ export interface BannerInputs {
   date: string; // EVENT
   details: string; // EVENT ("8 PM · 9 PM · 10 PM")
   extraPrompt: string; // added to the AI background prompt
+  // Match day / lineup / result
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: string;
+  awayScore: string;
+  competition: string;
+  venue: string;
+  time: string;
+  formation: string; // "4-3-3"
+  players: string[]; // lineup: "10 Name ST"
+  scorers: string[]; // result
+  trophy: string; // champions trophy style
+  // Typography (Pro AI)
+  language: string; // language for generic words on the poster
+  fontPrimary: string; // titles
+  fontSecondary: string; // names, numbers
+  // Extra reference images (our own storage URLs)
+  homeLogoUrl: string;
+  awayLogoUrl: string;
+  champLogoUrl: string;
+  trophyUrl: string;
 }
 
 export const EMPTY_INPUTS: BannerInputs = {
@@ -53,6 +74,24 @@ export const EMPTY_INPUTS: BannerInputs = {
   date: "",
   details: "",
   extraPrompt: "",
+  homeTeam: "",
+  awayTeam: "",
+  homeScore: "",
+  awayScore: "",
+  competition: "",
+  venue: "",
+  time: "",
+  formation: "",
+  players: [],
+  scorers: [],
+  trophy: "",
+  language: "English",
+  fontPrimary: "",
+  fontSecondary: "",
+  homeLogoUrl: "",
+  awayLogoUrl: "",
+  champLogoUrl: "",
+  trophyUrl: "",
 };
 
 /** Editor adjustments the user can tweak for free after generating. */
@@ -87,6 +126,9 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   PLAYER: ["name", "team", "position", "number", "tagline", "subtitle", "footer"],
   CHAMPIONS: ["headline", "team", "eventName", "roster", "prize", "footer"],
   EVENT: ["headline", "name", "subtitle", "date", "details", "prize", "footer"],
+  MATCHDAY: ["homeTeam", "awayTeam", "competition", "date", "time", "venue", "footer"],
+  LINEUP: ["team", "formation", "players", "competition", "date", "footer"],
+  RESULT: ["homeTeam", "awayTeam", "homeScore", "awayScore", "scorers", "competition", "footer"],
 };
 
 export const CANVAS_W = 1080;
@@ -281,4 +323,32 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
       streaks: true,
     },
   },
+  ...[
+    ["matchday-floodlights", "Floodlights", "Reflectores", "MATCHDAY", 9, "night stadium under blinding floodlights, blue haze and smoke, wet pitch reflections, crowd silhouettes, electric atmosphere", "#1f6bff", "#8fd3ff", "#020816", "anton", "snow"],
+    ["matchday-derby", "Derby Fire", "Clásico en Llamas", "MATCHDAY", 10, "two halves split by a jagged lightning crack, red fire on one side and blue ice on the other, stadium behind, rivalry energy", "#e3102b", "#ffb347", "#120203", "anton", "embers"],
+    ["lineup-tactics", "Tactics Board", "Pizarra Táctica", "LINEUP", 11, "dark tactical football pitch seen from above with glowing white lines, holographic HUD elements, subtle grid, stadium glow at the edges", "#12c2a0", "#7dffe1", "#02110e", "bebas", "sparks"],
+    ["lineup-gold", "Gold XI", "Once de Oro", "LINEUP", 12, "black marble and gold luxury pitch, gold foil lines, glitter dust and spotlights, premium starting eleven announcement", "#d4a64a", "#ffd77a", "#050403", "bebas", "sparks"],
+    ["result-fulltime", "Full Time", "Final del Partido", "RESULT", 13, "stadium scoreboard atmosphere at night, confetti and smoke, big screen glow, dramatic spotlight beams", "#7a2cff", "#c8a2ff", "#0a0216", "anton", "sparks"],
+    ["result-victory", "Victory", "Victoria", "RESULT", 14, "victory celebration, golden light burst, fireworks over the stadium, sparks and lens flares", "#e09a1f", "#ffd36b", "#1a0f02", "anton", "embers"],
+  ].map(([slug, name, nameEs, layout, sort, prompt, primary, accent, dark, nameFont, particles]) => ({
+    slug: slug as string,
+    name: name as string,
+    nameEs: nameEs as string,
+    layout: layout as LayoutKind,
+    sort: sort as number,
+    prompt: prompt as string,
+    style: {
+      primary: primary as string,
+      accent: accent as string,
+      dark: dark as string,
+      nameFont: nameFont as FontKey,
+      scriptFont: "gothic" as FontKey,
+      nameGradient: ["#ffffff", "#e9eef7", accent as string],
+      fallback: [dark as string, primary as string, accent as string],
+      particles: particles as Particles,
+      ghost: false,
+      giantText: true,
+      streaks: true,
+    },
+  })),
 ];

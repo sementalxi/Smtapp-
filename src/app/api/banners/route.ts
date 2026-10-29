@@ -7,7 +7,9 @@ import { rateLimit } from "@/lib/ratelimit";
 import {
   aiConfigured,
   assertOwnUrl,
+  assertInputUrls,
   buildProPrompt,
+  collectProRefs,
   defaultDesign,
   generateForBanner,
   generateProForBanner,
@@ -45,20 +47,27 @@ export const POST = handle(async (req: NextRequest) => {
   const inputs = { ...EMPTY_INPUTS, ...body.inputs };
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
+  if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");
   const cost = pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
   // Fast path; the real check is atomic when credits are taken.
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
+  assertInputUrls(inputs);
   let proPrompt = "";
+  const refs = collectProRefs({
+    layout: template.layout,
+    inputs,
+    photoUrl: body.photoUrl,
+    logoUrl: body.logoUrl,
+    styleRefUrl: template.styleRefUrl,
+  });
   if (pro) {
     proPrompt = buildProPrompt({
       layout: template.layout,
       templatePrompt: template.prompt,
       style: template.style as unknown as TemplateStyle,
       inputs,
-      hasPhoto: !!body.photoUrl,
-      hasLogo: !!body.logoUrl,
-      hasStyleRef: !!template.styleRefUrl,
+      refs,
     }); // throws err_blocked before anything is charged
   }
 
@@ -75,17 +84,17 @@ export const POST = handle(async (req: NextRequest) => {
     },
   });
 
+  let finalUrl: string | null = null;
   try {
     if (pro) {
-      await generateProForBanner({
+      const done = await generateProForBanner({
         bannerId: banner.id,
         userId: user.id,
         cost,
         prompt: proPrompt,
-        photoUrl: body.photoUrl,
-        logoUrl: body.logoUrl,
-        styleRefUrl: template.styleRefUrl,
+        refs,
       });
+      finalUrl = done.finalUrl;
     } else await generateForBanner({
       bannerId: banner.id,
       userId: user.id,
@@ -108,5 +117,5 @@ export const POST = handle(async (req: NextRequest) => {
     );
   }
 
-  return json({ id: banner.id });
+  return json({ id: banner.id, finalUrl });
 });

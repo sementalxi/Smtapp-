@@ -4,37 +4,95 @@ import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { BannerGrid } from "@/components/BannerGrid";
 import { reapStale } from "@/lib/banners";
+import { getNumberSetting } from "@/lib/settings";
+import { ART_TYPES } from "@/lib/pro-options";
 
-export const metadata = { title: "My banners" };
+export const metadata = { title: "Home" };
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  const { t } = await getT();
+  const { t, locale } = await getT();
+  const es = locale === "es";
   await reapStale(user.id);
-  const banners = await db.banner.findMany({
-    where: { userId: user.id },
-    include: { template: true },
-    orderBy: { createdAt: "desc" },
-    take: 60,
-  });
+
+  const [banners, artCount, spent, cost] = await Promise.all([
+    db.banner.findMany({
+      where: { userId: user.id },
+      include: { template: true },
+      orderBy: { createdAt: "desc" },
+      take: 24,
+    }),
+    db.banner.count({ where: { userId: user.id, status: "READY" } }),
+    db.payment.aggregate({ where: { userId: user.id }, _sum: { amountCents: true } }),
+    getNumberSetting("pro_cost"),
+  ]);
+  const first = user.name.split(" ")[0];
+  const subscribed = !!user.subscriptionId && user.subscriptionStatus !== "canceled";
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <div className="mb-8 flex flex-wrap items-end gap-4">
-        <h1 className="font-display text-5xl">{t("dash_title")}</h1>
-        <div className="ml-auto flex items-center gap-3">
-          <Link href="/billing" className="btn-ghost">⚡ {user.credits} {t("credits")}</Link>
-          <Link href="/create" className="btn-primary">＋ {t("new_banner")}</Link>
-        </div>
+    <div className="mx-auto max-w-5xl px-4 py-8">
+      <h1 className="text-3xl font-extrabold">
+        {es ? "Hola" : "Hello"}, {first}!
+      </h1>
+      <p className="mt-1 text-muted">{es ? "¿Qué quieres crear hoy?" : "What would you like to create today?"}</p>
+
+      {!subscribed && (
+        <Link
+          href="/pricing"
+          className="card mt-5 flex items-center gap-4 border-lime/40 bg-gradient-to-r from-lime/10 to-transparent p-4"
+        >
+          <div className="flex-1">
+            <span className="chip border-lime bg-lime text-[10px] text-ink">{es ? "SUSCRÍBETE" : "SUBSCRIBE"}</span>
+            <div className="mt-1 font-bold">{es ? "Más créditos cada mes" : "Fresh credits every month"}</div>
+          </div>
+          <span className="btn-primary px-4 py-2 text-xs">{es ? "Ver planes" : "See plans"} ›</span>
+        </Link>
+      )}
+
+      <div className="card mt-5 grid grid-cols-3 divide-x divide-line">
+        {[
+          [es ? "Créditos" : "Credits", user.credits],
+          [es ? "Artes" : "Arts", artCount],
+          [es ? "Gastado" : "Spent", `$${((spent._sum.amountCents ?? 0) / 100).toFixed(2)}`],
+        ].map(([label, value]) => (
+          <div key={String(label)} className="p-4 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted">{label}</div>
+            <div className="mt-1 text-xl font-extrabold">{value}</div>
+          </div>
+        ))}
       </div>
 
+      <div className="mt-10 mb-4 flex items-end justify-between">
+        <h2 className="text-xl font-extrabold">{es ? "Crear nuevo arte" : "Create new art"}</h2>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {ART_TYPES.map((a) => (
+          <Link
+            key={a.layout}
+            href={`/create?type=${a.layout.toLowerCase()}`}
+            className="card flex items-center gap-4 p-4 transition hover:border-lime/60"
+          >
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">{a.icon}</span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-bold">{es ? a.es.name : a.en.name}</span>
+              <span className="line-clamp-2 block text-xs text-muted">{es ? a.es.desc : a.en.desc}</span>
+              <span className="mt-1 block text-xs text-lime">
+                {cost} {t("credits")}
+              </span>
+            </span>
+            <span className="text-muted">›</span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-12 mb-4 flex items-end justify-between">
+        <h2 className="text-xl font-extrabold">{t("dash_title")}</h2>
+        <Link href="/create" className="text-sm text-lime">＋ {t("new_banner")}</Link>
+      </div>
       {banners.length ? (
         <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} />
       ) : (
-        <div className="card p-12 text-center">
-          <p className="mb-6 text-muted">{t("dash_empty")}</p>
-          <Link href="/create" className="btn-primary">{t("hero_cta")}</Link>
-        </div>
+        <div className="card p-10 text-center text-sm text-muted">{t("dash_empty")}</div>
       )}
     </div>
   );

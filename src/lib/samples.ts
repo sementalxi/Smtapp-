@@ -1,7 +1,7 @@
 import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "./templates";
 
 /** Placeholder text used for template previews. */
-export const SAMPLE_INPUTS: Record<LayoutKind, BannerInputs> = {
+export const SAMPLE_INPUTS = {
   PLAYER: {
     ...EMPTY_INPUTS,
     name: "XSHADOW_10",
@@ -30,7 +30,13 @@ export const SAMPLE_INPUTS: Record<LayoutKind, BannerInputs> = {
     details: "8 PM",
     footer: "Liga Pro Cup",
   },
-};
+} as Record<LayoutKind, BannerInputs>;
+
+Object.assign(SAMPLE_INPUTS, {
+  MATCHDAY: { ...EMPTY_INPUTS, headline: "Match Day", name: "Blitz FC vs Renegade XI", subtitle: "Liga Pro", date: "Fri · Nov 6", details: "9 PM", footer: "Season 2026" },
+  LINEUP: { ...EMPTY_INPUTS, headline: "Starting XI", name: "Blitz FC", subtitle: "4-3-3", date: "Matchday 7", footer: "Liga Pro" },
+  RESULT: { ...EMPTY_INPUTS, headline: "3 - 1", name: "Full Time", subtitle: "Blitz FC vs Renegade XI", footer: "Liga Pro" },
+});
 
 export interface ClientTemplate {
   id: string;
