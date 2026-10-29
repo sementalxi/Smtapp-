@@ -53,7 +53,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     } catch (e) {
       if (e instanceof HttpError && e.status === 402) return json({ error: "err_credits" }, 402);
       if (e instanceof HttpError && e.message === "err_blocked") return json({ error: "err_blocked" }, 400);
-      throw e;
+      const failed = await db.banner.findUnique({ where: { id }, select: { error: true } });
+      return json({ error: "err_generic", ...(user.role === "ADMIN" && failed?.error ? { detail: failed.error } : {}) }, 502);
     }
   }
 

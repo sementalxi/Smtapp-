@@ -98,7 +98,12 @@ export const POST = handle(async (req: NextRequest) => {
       await db.banner.delete({ where: { id: banner.id } });
       return json({ error: e.status === 402 ? "err_credits" : "err_blocked" }, e.status);
     }
-    throw e;
+    // Admins see the real reason so problems can be fixed quickly.
+    const failed = await db.banner.findUnique({ where: { id: banner.id }, select: { error: true } });
+    return json(
+      { error: "err_generic", ...(user.role === "ADMIN" && failed?.error ? { detail: failed.error } : {}) },
+      e instanceof HttpError ? e.status : 500,
+    );
   }
 
   return json({ id: banner.id });

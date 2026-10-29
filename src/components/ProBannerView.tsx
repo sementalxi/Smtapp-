@@ -58,7 +58,7 @@ export function ProBannerView({
       router.refresh();
     } else {
       const known: DictKey[] = ["err_credits", "err_blocked"];
-      setError(t(known.includes(data.error) ? data.error : "err_generic"));
+      setError(t(known.includes(data.error) ? data.error : "err_generic") + (data.detail ? ` — ${data.detail}` : ""));
     }
     setBusy(false);
   }
