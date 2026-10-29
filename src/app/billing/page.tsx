@@ -44,7 +44,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
             </div>
           </div>
         )}
-        {user.stripeCustomerId && (
+        {user.stripeCustomerId && process.env.STRIPE_SECRET_KEY && (
           <div className="ml-auto w-56">
             <BuyButton kind="portal" label={t("manage_billing")} loggedIn />
           </div>

@@ -9,12 +9,15 @@ export function BuyButton({
   label,
   loggedIn,
   primary,
+  disabled,
 }: {
   kind: "pack" | "plan" | "portal";
   id?: string;
   label: string;
   loggedIn: boolean;
   primary?: boolean;
+  /** Payments not set up yet (no Stripe key) */
+  disabled?: boolean;
 }) {
   const { t } = useT();
   const [busy, setBusy] = useState(false);
@@ -39,6 +42,14 @@ export function BuyButton({
     }
     setErr(t("err_generic"));
     setBusy(false);
+  }
+
+  if (disabled) {
+    return (
+      <button disabled className="btn-ghost w-full">
+        {t("coming_soon")}
+      </button>
+    );
   }
 
   return (

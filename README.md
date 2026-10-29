@@ -56,6 +56,9 @@ Without any AI key the app runs in **demo mode**: generation is free, uses the b
 
 ## Go live (no computer needed — about 15 minutes)
 
+> **Test without payments:** skip `STRIPE_SECRET_KEY` and step 7. The buy buttons show "Coming soon" and you add credits to people from **Admin → Users**. Skip `REPLICATE_API_TOKEN` too and the site runs in free demo mode (built-in backgrounds, no AI cut-out).
+
+
 1. **Import the repo:** go to [vercel.com/new](https://vercel.com/new), sign in with GitHub, pick this repo and click **Deploy**. The first build fails with "DATABASE_URL is missing"; that's expected.
 2. **Database:** in your Vercel project open **Storage → Create Database → Neon** (free plan), connect it to the project.
 3. **File storage:** still in **Storage**, click **Create → Blob**, connect it to the project.

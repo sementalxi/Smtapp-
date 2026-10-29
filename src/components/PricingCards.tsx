@@ -8,6 +8,7 @@ const usd = (n: number) => `$${n.toFixed(2)}`;
 export async function PricingCards({ user }: { user: CurrentUser | null }) {
   const { t } = await getT();
   const activePlan = user?.subscriptionId ? user.planId : null;
+  const off = !process.env.STRIPE_SECRET_KEY; // payments not set up yet
 
   return (
     <div className="space-y-14">
@@ -39,7 +40,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                 {current ? (
                   <BuyButton kind="portal" label={t("manage_billing")} loggedIn={!!user} />
                 ) : (
-                  <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} />
+                  <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} />
                 )}
                 {current && <p className="mt-2 text-center text-xs text-lime">{t("current_plan")}</p>}
               </div>
@@ -64,7 +65,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
               <div className="mb-6 text-sm text-muted">
                 {t("credits")} · {usd(p.priceUsd)}
               </div>
-              <BuyButton kind="pack" id={p.id} label={`${t("buy")} ${usd(p.priceUsd)}`} loggedIn={!!user} primary={p.popular} />
+              <BuyButton kind="pack" id={p.id} label={`${t("buy")} ${usd(p.priceUsd)}`} loggedIn={!!user} primary={p.popular} disabled={off} />
             </div>
           ))}
         </div>

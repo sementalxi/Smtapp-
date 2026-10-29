@@ -41,7 +41,7 @@ export default async function AdminHome() {
   const hasWebhook = hasStripe && !!(await webhookSecret());
   const warnings = [
     !aiConfigured() && "AI is not configured (REPLICATE_API_TOKEN / OPENAI_API_KEY) — generations run in free demo mode.",
-    !process.env.STRIPE_SECRET_KEY && "STRIPE_SECRET_KEY is missing — checkout is disabled.",
+    !process.env.STRIPE_SECRET_KEY && "Payments are off (no STRIPE_SECRET_KEY). Buy buttons show “Coming soon”; you can still add credits to users here.",
     hasStripe && !hasWebhook && "Stripe webhook isn't connected yet — click “Connect Stripe” below, or paid credits won't be delivered.",
     process.env.STORAGE_DRIVER !== "s3" &&
       !process.env.BLOB_READ_WRITE_TOKEN &&
