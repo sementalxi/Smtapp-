@@ -70,7 +70,7 @@ export default async function AdminHome() {
 
   return (
     <div className="space-y-8">
-      <h1 className="font-display text-4xl">{t("admin_overview")}</h1>
+      <h1 className="font-display chrome text-4xl">{t("admin_overview")}</h1>
 
       {warnings.length > 0 && (
         <ul className="card space-y-1 border-amber-400/40 p-4 text-sm text-amber-200">

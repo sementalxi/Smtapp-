@@ -21,7 +21,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
   if (banner.status !== "READY") {
     return (
       <div className="mx-auto max-w-xl px-4 py-20 text-center">
-        <h1 className="font-display text-4xl">{banner.status === "FAILED" ? t("failed") : t("processing")}</h1>
+        <h1 className="font-display chrome text-4xl">{banner.status === "FAILED" ? t("failed") : t("processing")}</h1>
         {banner.status === "FAILED" && <p className="mt-3 text-sm text-muted">{t("err_generic")}</p>}
         <Link href="/create" className="btn-primary mt-8">{t("new_banner")}</Link>
       </div>
@@ -32,7 +32,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-6 flex items-center gap-4">
         <Link href="/dashboard" className="text-sm text-muted hover:text-white">← {t("back")}</Link>
-        <h1 className="font-display text-4xl">{banner.title}</h1>
+        <h1 className="font-display chrome text-4xl">{banner.title}</h1>
       </div>
       {banner.mode === "PRO" ? (
         <ProBannerView

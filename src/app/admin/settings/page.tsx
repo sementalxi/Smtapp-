@@ -11,7 +11,7 @@ export default async function AdminSettings() {
   const settings = await getSettings();
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-4xl">{t("admin_settings")}</h1>
+      <h1 className="font-display chrome text-4xl">{t("admin_settings")}</h1>
       <SettingsForm initial={settings} />
       <div className="card max-w-xl p-6 text-sm text-muted">
         <h2 className="mb-2 font-bold text-white">{t("pricing_title")}</h2>

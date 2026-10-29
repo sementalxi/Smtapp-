@@ -19,7 +19,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="font-display mb-6 text-center text-4xl">{t("create_title")}</h1>
+      <h1 className="font-display chrome mb-6 text-center text-4xl">{t("create_title")}</h1>
       <CreateWizard
         templates={templates}
         credits={user.credits}

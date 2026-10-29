@@ -5,49 +5,86 @@ import { activeTemplates } from "@/lib/queries";
 import { getNumberSetting } from "@/lib/settings";
 import { TemplateThumb } from "@/components/TemplateThumb";
 import { PricingCards } from "@/components/PricingCards";
+import { ART_TYPES } from "@/lib/pro-options";
 import type { ClientTemplate } from "@/lib/samples";
 
 export default async function Home() {
   const user = await getCurrentUser().catch(() => null);
-  const { t, locale } = await getT();
+  const { locale } = await getT();
+  const es = locale === "es";
   let templates: ClientTemplate[] = [];
   let bonus = 3;
+  let cost = 4;
   try {
     templates = await activeTemplates();
     bonus = await getNumberSetting("signup_credits");
+    cost = await getNumberSetting("pro_cost");
   } catch {
     /* DB not ready */
   }
-  const hero = templates.slice(0, 3);
+  // Three contrasting styles for the fanned card stack
+  const pickSlugs = ["inferno", "glacier", "golden-champions"];
+  const fan = pickSlugs.map((s) => templates.find((t) => t.slug === s)).filter(Boolean) as ClientTemplate[];
+  const hero = fan.length === 3 ? fan : templates.slice(0, 3);
+  const cta = user ? "/create" : "/register";
+
+  const steps = es
+    ? [
+        ["Elige qué crear", "Tarjeta de jugador, campeones, día de partido, alineación o resultado."],
+        ["Sube foto y escudo", "Tu equipo y tu torneo quedan guardados para la próxima."],
+        ["Elige estilo y letras", "Cada póster sale con su propia paleta y fondo."],
+        ["Descarga", "Post, historia y banner, listos para publicar."],
+      ]
+    : [
+        ["Pick what to make", "Player card, champions, match day, lineup or result."],
+        ["Add your photo and crest", "Your team and competition are saved for next time."],
+        ["Choose a style and type", "Every poster comes out with its own palette and background."],
+        ["Download", "Post, story and banner sizes, ready to publish."],
+      ];
 
   return (
-    <div>
-      <section className="relative overflow-hidden border-b border-line">
-        <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-lime/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 lg:grid-cols-[1.1fr_1fr] lg:py-24">
+    <div className="overflow-x-clip">
+      {/* ── Hero: the logo is the moment ── */}
+      <section className="relative">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:pt-20 lg:pb-24">
           <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-lime">{t("hero_kicker")}</p>
-            <h1 className="font-display text-6xl leading-[0.95] sm:text-7xl">{t("hero_title")}</h1>
-            <p className="mt-6 max-w-lg text-lg text-muted">{t("hero_sub")}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={user ? "/create" : "/register"} className="btn-primary px-6 py-3 text-base">
-                ⚡ {t("hero_cta")}
-              </Link>
-              <Link href="/pricing" className="btn-ghost px-6 py-3 text-base">{t("hero_cta2")}</Link>
+            <div className="sweep relative inline-block overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/kixo-logo.png" alt="KIXO" className="h-auto w-[min(520px,86vw)] drop-shadow-[0_10px_40px_rgb(57_215_255/0.25)]" />
             </div>
-            {bonus > 0 && <p className="mt-4 text-sm text-muted">{t("free_note", { n: bonus })}</p>}
+            <h1 className="font-display mt-6 max-w-xl text-[clamp(2.6rem,7vw,4.6rem)] text-white">
+              {es ? "Gráficos que pegan como una final." : "Matchday graphics that hit like a final."}
+            </h1>
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-steel/80">
+              {es
+                ? "Sube una foto y tu escudo. KIXO crea tarjetas de jugador, pósters de campeones, alineaciones y resultados para tu club de Pro Clubs."
+                : "Upload a photo and your crest. KIXO builds player cards, champions posters, lineups and results for your Pro Clubs team."}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={cta} className="btn-primary px-7 py-4 text-base">
+                {es ? "Crear mi primer póster" : "Create my first poster"}
+              </Link>
+              <Link href="/pricing" className="btn-ghost px-6 py-4 text-base">
+                {es ? "Ver precios" : "See prices"}
+              </Link>
+            </div>
+            {bonus > 0 && (
+              <p className="mt-4 text-sm text-muted">
+                {es ? `${bonus} créditos gratis al registrarte. Sin tarjeta.` : `${bonus} free credits when you sign up. No card needed.`}
+              </p>
+            )}
           </div>
 
-          <div className="relative h-[460px] sm:h-[540px]">
+          {/* fanned card stack */}
+          <div className="relative mx-auto h-[420px] w-full max-w-[460px] sm:h-[520px]">
             {hero.map((tpl, i) => (
               <div
                 key={tpl.id}
-                className="absolute w-[56%] overflow-hidden rounded-2xl border border-line shadow-2xl shadow-black/60"
+                className="cut-lg absolute top-1/2 left-1/2 w-[58%] shadow-[0_30px_60px_-20px_rgb(0_0_0/0.9)]"
                 style={{
-                  left: `${i * 22}%`,
-                  top: `${[8, 0, 14][i]}%`,
-                  transform: `rotate(${[-7, 0, 7][i]}deg)`,
+                  transform: `translate(-50%, -50%) translateX(${(i - 1) * 34}%) rotate(${(i - 1) * 9}deg) translateY(${i === 1 ? -4 : 6}%)`,
                   zIndex: i === 1 ? 3 : 1,
+                  filter: i === 1 ? "none" : "brightness(0.72) saturate(0.9)",
                 }}
               >
                 <TemplateThumb template={tpl} />
@@ -57,43 +94,74 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="font-display mb-8 text-4xl">{t("how_title")}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {(["1", "2", "3", "4"] as const).map((n) => (
-            <div key={n} className="card p-5">
-              <div className="font-display text-4xl text-lime">0{n}</div>
-              <div className="mt-2 font-bold">{t(`how_${n}_t`)}</div>
-              <p className="mt-1 text-sm text-muted">{t(`how_${n}_d`)}</p>
-            </div>
+      {/* ── What you can make ── */}
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <h2 className="font-display chrome mb-2 text-4xl sm:text-5xl">{es ? "Todo lo que tu club publica" : "Everything your club posts"}</h2>
+        <p className="mb-8 max-w-lg text-muted">
+          {es ? `Cada póster cuesta ${cost} créditos. Editar el texto y descargar en otros tamaños es gratis.` : `Each poster costs ${cost} credits. Editing the text and downloading other sizes is free.`}
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {ART_TYPES.map((a) => (
+            <Link
+              key={a.layout}
+              href={user ? `/create?type=${a.layout.toLowerCase()}` : "/register"}
+              className="card group flex items-start gap-4 p-5 transition hover:border-lime/50"
+            >
+              <span className="text-3xl" aria-hidden>{a.icon}</span>
+              <span>
+                <span className="block text-lg font-bold group-hover:text-lime">{es ? a.es.name : a.en.name}</span>
+                <span className="mt-0.5 block text-sm text-muted">{es ? a.es.desc : a.en.desc}</span>
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
+      {/* ── How it works (a real sequence) ── */}
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <h2 className="font-display chrome mb-8 text-4xl sm:text-5xl">{es ? "Así de fácil" : "This is how easy"}</h2>
+        <ol className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map(([title, body], i) => (
+            <li key={title} className="bg-panel p-6">
+              <span className="font-display text-5xl text-lime/90">{i + 1}</span>
+              <span className="mt-3 block text-lg font-bold">{title}</span>
+              <span className="mt-1 block text-sm text-muted">{body}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── Styles ── */}
       {templates.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-8">
-          <h2 className="font-display mb-8 text-4xl">{t("styles_title")}</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <section className="mx-auto max-w-6xl px-4 py-12">
+          <h2 className="font-display chrome mb-8 text-4xl sm:text-5xl">{es ? "Estilos" : "Styles"}</h2>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {templates.map((tpl) => (
-              <Link
-                key={tpl.id}
-                href={user ? `/create?t=${tpl.slug}` : "/register"}
-                className="group overflow-hidden rounded-xl border border-line transition hover:border-lime"
-              >
-                <TemplateThumb template={tpl} />
-                <div className="bg-panel px-3 py-2 text-sm font-bold group-hover:text-lime">
-                  {locale === "es" ? tpl.nameEs : tpl.name}
+              <Link key={tpl.id} href={user ? `/create?type=${tpl.layout.toLowerCase()}` : "/register"} className="group">
+                <div className="cut overflow-hidden transition group-hover:brightness-110">
+                  <TemplateThumb template={tpl} />
                 </div>
+                <div className="mt-2 text-sm font-semibold text-steel group-hover:text-lime">{es ? tpl.nameEs : tpl.name}</div>
               </Link>
             ))}
           </div>
         </section>
       )}
 
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="font-display text-5xl">{t("pricing_title")}</h2>
-        <p className="mt-2 mb-10 text-muted">{t("pricing_sub")}</p>
+      {/* ── Pricing ── */}
+      <section className="mx-auto max-w-5xl px-4 py-12">
+        <h2 className="font-display chrome mb-2 text-4xl sm:text-5xl">{es ? "Créditos y planes" : "Credits and plans"}</h2>
+        <p className="mb-10 text-muted">{es ? "Paga solo lo que uses, o suscríbete y recibe créditos cada mes." : "Pay as you go, or subscribe and get credits every month."}</p>
         <PricingCards user={user} />
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16 text-center">
+        <h2 className="font-display mx-auto max-w-2xl text-[clamp(2.2rem,6vw,4rem)] text-white">
+          {es ? "Tu próximo póster está a dos minutos." : "Your next poster is two minutes away."}
+        </h2>
+        <Link href={cta} className="btn-primary mt-8 px-8 py-4 text-base">
+          {es ? "Empezar gratis" : "Start free"}
+        </Link>
       </section>
     </div>
   );

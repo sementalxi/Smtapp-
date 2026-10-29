@@ -33,7 +33,7 @@ export function AuthForm({ mode, next }: { mode: "login" | "register"; next?: st
 
   return (
     <div className="mx-auto mt-16 max-w-sm px-4">
-      <h1 className="font-display mb-6 text-4xl">{t(mode === "login" ? "login_title" : "register_title")}</h1>
+      <h1 className="font-display chrome mb-6 text-4xl">{t(mode === "login" ? "login_title" : "register_title")}</h1>
       <form onSubmit={submit} className="card space-y-4 p-6">
         {mode === "register" && (
           <div>

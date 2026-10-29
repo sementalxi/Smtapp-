@@ -1,58 +1,118 @@
 @import "tailwindcss";
 
+/* KIXO — "floodlit chrome": a night stadium in blue-black, chrome type like the
+   logo, electric blue reserved for actions. One signature shape: the angled cut
+   corner from the K/X letterforms, used on buttons and hero panels only. */
+
 @theme {
-  --color-ink: #07080b;
-  --color-panel: #0f1116;
-  --color-panel-2: #161922;
-  --color-line: #252a36;
-  --color-muted: #8a93a6;
-  --color-lime: #3ee0ff;
-  --color-lime-dim: #19b8d8;
-  --color-danger: #ff4d5e;
-  --font-sans: var(--nf-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--nf-anton), Impact, sans-serif;
+  --color-ink: #04060b; /* night sky */
+  --color-panel: #0b1019; /* stand shadow */
+  --color-panel-2: #121a27; /* tunnel */
+  --color-line: #1f2a3b; /* pitch line in shadow */
+  --color-muted: #8796ab; /* steel */
+  --color-steel: #c7d1de;
+  --color-lime: #39d7ff; /* floodlight blue = action colour */
+  --color-lime-dim: #1aa9d6;
+  --color-danger: #ff4058; /* red card */
+  --font-sans: var(--nf-ui), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--nf-ui-cond), "Arial Narrow", sans-serif;
 }
 
 html {
   background: var(--color-ink);
-  color: #eef1f6;
+  color: #e9eef5;
   color-scheme: dark;
 }
 
 body {
   font-family: var(--font-sans);
   min-height: 100dvh;
+  background:
+    /* two floodlights */
+    radial-gradient(60rem 38rem at 12% -12%, rgb(57 215 255 / 0.13), transparent 60%),
+    radial-gradient(50rem 34rem at 92% -8%, rgb(140 170 255 / 0.10), transparent 60%),
+    /* mown pitch stripes, barely there */
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.012) 0 120px, transparent 120px 240px),
+    var(--color-ink);
+  background-attachment: fixed;
 }
 
+/* film grain over everything */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Broadcast titles */
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: 0.01em;
+  font-weight: 800;
+  font-style: italic;
   text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
+}
+
+/* Chrome type, matching the logo */
+.chrome {
+  background: linear-gradient(180deg, #ffffff 0%, #dfe6ee 38%, #7d8a9b 52%, #f2f6fa 64%, #a9b5c4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.6)) drop-shadow(0 10px 24px rgb(57 215 255 / 0.18));
+}
+
+/* Signature cut corner */
+.cut {
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+.cut-lg {
+  clip-path: polygon(28px 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%, 0 28px);
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed bg-lime text-ink hover:bg-white;
+  @apply inline-flex items-center justify-center gap-2 px-5 py-3 text-[15px] font-bold transition disabled:cursor-not-allowed disabled:opacity-40;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  color: #03111a;
+  background: linear-gradient(180deg, #8fe9ff 0%, #39d7ff 45%, #12a6d8 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.12) drop-shadow(0 0 14px rgb(57 215 255 / 0.55));
 }
 .btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-line bg-panel-2 text-white hover:border-muted;
+  @apply inline-flex items-center justify-center gap-2 border border-line bg-panel-2/80 px-5 py-3 text-[15px] font-semibold text-white transition hover:border-steel/50 disabled:cursor-not-allowed disabled:opacity-40;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
 }
 .btn-danger {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-danger/40 bg-danger/10 text-danger hover:bg-danger/20;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-danger/40 bg-danger/10 px-4 py-2.5 text-sm font-bold text-danger transition hover:bg-danger/20 disabled:opacity-50;
 }
+
 .input {
-  @apply w-full rounded-lg border border-line bg-panel-2 px-3 py-2.5 text-sm text-white outline-none placeholder:text-muted/70 focus:border-lime;
+  @apply w-full rounded-lg border border-line bg-ink/70 px-3.5 py-3 text-[15px] text-white outline-none transition placeholder:text-muted/60 focus:border-lime focus:ring-2 focus:ring-lime/20;
 }
 .label {
-  @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted;
+  @apply mb-1.5 block text-[13px] font-semibold text-steel;
 }
 .card {
-  @apply rounded-2xl border border-line bg-panel;
+  @apply rounded-xl border border-line;
+  background: linear-gradient(180deg, rgb(18 26 39 / 0.78), rgb(11 16 25 / 0.86));
+  backdrop-filter: blur(10px);
 }
 .table {
   @apply w-full text-left text-sm;
 }
 .table th {
-  @apply border-b border-line px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted;
+  @apply border-b border-line px-3 py-2 text-xs font-semibold text-muted;
 }
 .table td {
   @apply border-b border-line/60 px-3 py-2.5 align-middle;
@@ -63,4 +123,36 @@ body {
 
 input[type="range"] {
   accent-color: var(--color-lime);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}
+
+/* Floodlight sweep across the hero logo — the one orchestrated motion */
+@keyframes sweep {
+  0% { transform: translateX(-120%) skewX(-18deg); }
+  60%, 100% { transform: translateX(220%) skewX(-18deg); }
+}
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+  animation: sweep 4.5s ease-in-out 0.6s infinite;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sweep::after { animation: none; display: none; }
+}
+
+/* Clipped buttons hide outside outlines, so draw the focus ring inside */
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible,
+.cut:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: -4px;
 }

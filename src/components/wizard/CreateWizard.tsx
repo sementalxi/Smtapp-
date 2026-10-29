@@ -300,14 +300,14 @@ export function CreateWizard({
         })}
       </div>
       <div className="mt-3 text-center">
-        <div className="font-bold">{L.steps[step - 1]}</div>
+        <div className="font-display text-2xl">{L.steps[step - 1]}</div>
         <div className="text-xs text-muted">{L.stepSub[step - 1]}</div>
       </div>
     </div>
   );
 
   const nav = ({ canNext, onNext, nextLabel }: { canNext: boolean; onNext: () => void; nextLabel?: string }) => (
-    <div className="mt-6 flex items-center justify-between">
+    <div className="sticky bottom-24 z-20 -mx-5 mt-6 flex items-center justify-between border-t border-line/70 bg-panel/95 px-5 py-3 backdrop-blur md:static md:mx-0 md:border-0 md:bg-transparent md:p-0">
       {step > 1 ? (
         <button type="button" className="text-sm text-muted hover:text-white" onClick={() => setStep(step - 1)}>
           ‹ {L.back}
@@ -315,7 +315,7 @@ export function CreateWizard({
       ) : (
         <span />
       )}
-      <button type="button" className="btn-primary" disabled={!canNext} onClick={onNext}>
+      <button type="button" className="btn-primary min-w-36 py-3.5" disabled={!canNext} onClick={onNext}>
         {nextLabel ?? L.next} ›
       </button>
     </div>
