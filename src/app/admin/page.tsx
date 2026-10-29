@@ -28,6 +28,23 @@ export default async function AdminHome() {
     db.banner.count({ where: { status: "FAILED", createdAt: { gte: since } } }),
   ]);
 
+  // Shows what the server sees for each key — never the key itself.
+  const describe = (v: string | undefined): [string, boolean] => {
+    if (v === undefined) return ["missing", false];
+    const trimmed = v.trim();
+    if (!trimmed) return ["set but EMPTY", false];
+    const note = trimmed !== v ? " (has extra spaces/newline)" : "";
+    return [`set, ${trimmed.length} characters, starts with "${trimmed.slice(0, 7)}"${note}`, true];
+  };
+  const setup = (
+    [
+      ["OPENAI_API_KEY (Pro AI)", process.env.OPENAI_API_KEY],
+      ["REPLICATE_API_TOKEN (photo cut-out)", process.env.REPLICATE_API_TOKEN],
+      ["DATABASE_URL", process.env.DATABASE_URL],
+      ["STRIPE_SECRET_KEY (payments)", process.env.STRIPE_SECRET_KEY],
+    ] as const
+  ).map(([name, v]) => [name, ...describe(v)] as const);
+
   const stats = [
     [t("stat_users"), users],
     [t("stat_banners"), banners],
@@ -63,6 +80,17 @@ export default async function AdminHome() {
       )}
 
       {hasStripe && !hasWebhook && <ConnectStripeButton />}
+
+      <div className="card p-4 text-sm">
+        <div className="mb-2 font-bold">Setup check</div>
+        <ul className="space-y-1 font-mono text-xs">
+          {setup.map(([name, status, ok]) => (
+            <li key={name} className={ok ? "text-lime" : "text-danger"}>
+              {ok ? "✓" : "✗"} {name}: {status}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         {stats.map(([label, value]) => (

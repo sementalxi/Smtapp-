@@ -109,7 +109,7 @@ export function buildPrompt(templatePrompt: string, extra?: string) {
 /** Generates a 4:5 portrait background. Returns PNG/JPEG/WebP bytes. */
 /** Which service paints Quick-mode backgrounds: Replicate when its token is set, otherwise OpenAI. */
 export const backgroundProvider = () =>
-  process.env.AI_PROVIDER === "openai" || (!process.env.REPLICATE_API_TOKEN && process.env.OPENAI_API_KEY)
+  process.env.AI_PROVIDER === "openai" || (!process.env.REPLICATE_API_TOKEN?.trim() && process.env.OPENAI_API_KEY?.trim())
     ? "openai"
     : process.env.REPLICATE_API_TOKEN
       ? "replicate"
@@ -120,7 +120,7 @@ export const canRemoveBackground = () => !!process.env.REPLICATE_API_TOKEN;
 
 export async function generateBackground(prompt: string): Promise<Buffer> {
   if (backgroundProvider() === "openai") {
-    const key = process.env.OPENAI_API_KEY;
+    const key = process.env.OPENAI_API_KEY?.trim();
     if (!key) throw new Error("OPENAI_API_KEY is not set");
     const res = await fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
@@ -162,14 +162,14 @@ export async function removeBackground(photo: Buffer, contentType: string): Prom
 
 // ─── Pro AI mode: the model designs the whole poster ───────
 
-export const proConfigured = () => !!process.env.OPENAI_API_KEY;
+export const proConfigured = () => !!process.env.OPENAI_API_KEY?.trim();
 
 /**
  * Full-poster generation with OpenAI's image model, using the player photo
  * (and logo) as reference images. Returns PNG bytes.
  */
 export async function generatePoster(prompt: string, refs: { bytes: Buffer; type: string }[]): Promise<Buffer> {
-  const key = process.env.OPENAI_API_KEY;
+  const key = process.env.OPENAI_API_KEY?.trim();
   if (!key) throw new Error("OPENAI_API_KEY is not set");
   const model = process.env.PRO_IMAGE_MODEL || "gpt-image-2";
   const quality = process.env.PRO_IMAGE_QUALITY || "medium";
