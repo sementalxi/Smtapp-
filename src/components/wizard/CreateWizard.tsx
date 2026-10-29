@@ -617,7 +617,16 @@ export function CreateWizard({
               </span>
             </label>
           </div>
-          {field({ label: L.extra, k: "extraPrompt", max: 200, ph: L.extraPh })}
+          <div>
+            <label className="label">{L.extra}</label>
+            <textarea
+              className="input min-h-24"
+              maxLength={1500}
+              placeholder={L.extraPh}
+              value={inp.extraPrompt}
+              onChange={(e) => set("extraPrompt", e.target.value)}
+            />
+          </div>
           {!detailsValid() && <p className="text-xs text-muted">{L.required}</p>}
           {nav({ canNext: !!detailsValid(), onNext: () => setStep(4) })}
         </div>

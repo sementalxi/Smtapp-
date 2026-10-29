@@ -157,7 +157,7 @@ export function CreateForm({
             <label className="label">{t("f_extraPrompt")}</label>
             <input
               className="input"
-              maxLength={200}
+              maxLength={1500}
               placeholder={t("f_extraPrompt_ph")}
               value={inputs.extraPrompt}
               onChange={(e) => setInputs({ ...inputs, extraPrompt: e.target.value })}

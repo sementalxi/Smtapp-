@@ -20,7 +20,7 @@ const EDITABLE: Record<string, Record<string, number>> = {
 const Body = z.object({
   layout: z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT"]),
   language: z.string().max(20).default("English"),
-  inputs: z.record(z.string(), z.string().max(200)),
+  inputs: z.record(z.string(), z.string().max(2000)),
 });
 
 const MODELS = [process.env.OPENAI_TEXT_MODEL?.trim(), "gpt-4.1-mini", "gpt-4o-mini"].filter(Boolean) as string[];

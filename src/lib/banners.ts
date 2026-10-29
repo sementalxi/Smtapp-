@@ -27,7 +27,7 @@ export const InputsSchema = z.object({
   prize: str(24),
   date: str(30),
   details: str(48),
-  extraPrompt: str(200),
+  extraPrompt: str(1500),
   homeTeam: str(40),
   awayTeam: str(40),
   homeScore: str(3),

@@ -12,7 +12,7 @@ import { deleteFile } from "@/lib/storage";
 
 export const maxDuration = 300;
 
-const Body = z.object({ extraPrompt: z.string().trim().max(200).optional(), inputs: InputsSchema.optional() });
+const Body = z.object({ extraPrompt: z.string().trim().max(1500).optional(), inputs: InputsSchema.optional() });
 
 // Paid: paints a brand-new AI background for an existing banner.
 export const POST = handle(async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
