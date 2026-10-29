@@ -276,7 +276,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "CHAMPIONS",
     sort: 6,
     prompt:
-      "golden marble arena with white feathered wings, warm golden light rays, sparks and confetti, epic trophy ceremony atmosphere",
+      "golden marble arena, warm golden light rays, gold confetti and sparks, epic trophy ceremony atmosphere",
     style: {
       primary: "#e09a1f",
       accent: "#ffd36b",

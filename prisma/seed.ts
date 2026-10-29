@@ -22,6 +22,12 @@ async function main() {
       update: {},
     });
   }
+  // One-time fix: the old Golden Champions prompt asked for wings, which the AI turned into an eagle.
+  // Only replaced if the admin never changed it.
+  await db.template.updateMany({
+    where: { slug: "golden-champions", prompt: "golden marble arena with white feathered wings, warm golden light rays, sparks and confetti, epic trophy ceremony atmosphere" },
+    data: { prompt: "golden marble arena, warm golden light rays, gold confetti and sparks, epic trophy ceremony atmosphere" },
+  });
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
   }
