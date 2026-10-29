@@ -41,7 +41,7 @@ Without any AI key the app runs in **demo mode**: generation is free, uses the b
 - Credit packs (one-time): 10 / 30 / 100 credits for $4.99 / $11.99 / $29.99.
 - Plans (monthly): Starter 40 credits $9.99, Pro 120 credits $19.99. Credits are added on every paid invoice and they stack.
 - Every change is written to a ledger, visible to the user (Billing) and to admins (Transactions).
-- Change prices in `src/lib/pricing.ts`, then re-run `npm run stripe:setup`.
+- Change prices in `src/lib/pricing.ts`; Stripe prices are created automatically.
 
 **Admin panel** (`/admin`)
 
@@ -54,73 +54,42 @@ Without any AI key the app runs in **demo mode**: generation is free, uses the b
 
 ---
 
-## Setup
+## Go live (no computer needed — about 15 minutes)
 
-You need Node 20+, a PostgreSQL database, a Stripe account and a Replicate account (or OpenAI).
+1. **Import the repo:** go to [vercel.com/new](https://vercel.com/new), sign in with GitHub, pick this repo and click **Deploy**. The first build fails with "DATABASE_URL is missing"; that's expected.
+2. **Database:** in your Vercel project open **Storage → Create Database → Neon** (free plan), connect it to the project.
+3. **File storage:** still in **Storage**, click **Create → Blob**, connect it to the project.
+4. **Keys:** in **Settings → Environment Variables** add:
+   - `REPLICATE_API_TOKEN` — from replicate.com → Account → API tokens (add a payment card there).
+   - `STRIPE_SECRET_KEY` — from Stripe → Developers → API keys (start with the `sk_test_…` key).
+   - Optional: `NEXT_PUBLIC_SITE_NAME` (your brand name).
+5. **Redeploy:** Deployments → ⋯ → Redeploy. The build creates the tables and the 8 styles by itself.
+6. **Become admin:** open your site and sign up. **The first account becomes admin.**
+7. **Connect Stripe:** open `/admin` and tap **Connect Stripe**. That registers the webhook. Stripe products and prices are created automatically on the first purchase.
 
-### 1. Install
+Test card: `4242 4242 4242 4242`, any future date, any CVC. When ready for real money, swap in your live `sk_live_…` key, redeploy, and tap **Connect Stripe** again.
+
+Also turn on the customer portal in Stripe → Settings → Billing → Customer portal, so users can cancel or switch plans.
+
+### Running it on your computer (optional)
 
 ```bash
 npm install
-cp .env.example .env
+cp .env.example .env      # set DATABASE_URL at least
+npm run build && npm start   # or: npx prisma db push && npm run db:seed && npm run dev
 ```
 
-Fill in `.env` (every variable is explained in `.env.example`). Minimum to run locally: `DATABASE_URL`, `AUTH_SECRET`, `ADMIN_EMAILS`.
+For local Stripe testing: `stripe listen --forward-to localhost:3000/api/stripe/webhook` and put the `whsec_…` it prints in `STRIPE_WEBHOOK_SECRET`.
 
-### 2. Database
+### Other storage / hosts
 
-```bash
-npm run db:push     # creates the tables
-npm run db:seed     # adds the 8 default templates + settings
-```
-
-### 3. Run
-
-```bash
-npm run dev
-```
-
-Open http://localhost:3000 and sign up with the email you put in `ADMIN_EMAILS` — that account becomes admin. (You can also run `npm run make-admin -- you@example.com`.)
-
-### 4. AI
-
-Create a token at replicate.com → Account → API tokens, and set `REPLICATE_API_TOKEN`. Each banner calls two models (background removal + background image); check Replicate's pricing page for the current per-run cost of each model and set your credit prices with some margin. For higher quality backgrounds set `REPLICATE_IMAGE_MODEL="black-forest-labs/flux-1.1-pro"` (costs more per image).
-
-To use OpenAI for backgrounds instead: `AI_PROVIDER="openai"` and `OPENAI_API_KEY`. Background removal still uses Replicate.
-
-### 5. Stripe
-
-1. Put your secret key in `STRIPE_SECRET_KEY` (use a test key `sk_test_…` first).
-2. Run `npm run stripe:setup` — it creates the products and prices and prints the 5 `STRIPE_PRICE_…` lines. Paste them into `.env`.
-3. Create a webhook endpoint in Stripe → Developers → Webhooks:
-   - URL: `https://YOUR-DOMAIN/api/stripe/webhook`
-   - Events: `checkout.session.completed`, `invoice.paid`, `customer.subscription.updated`, `customer.subscription.deleted`
-   - Copy the signing secret into `STRIPE_WEBHOOK_SECRET`.
-4. In Stripe → Settings → Billing → Customer portal, turn on the portal (lets users cancel or switch plans).
-
-For local testing: `stripe listen --forward-to localhost:3000/api/stripe/webhook` and use the `whsec_…` it prints. Test card: `4242 4242 4242 4242`.
-
-### 6. File storage
-
-`STORAGE_DRIVER="local"` saves to `./uploads` — fine for your computer, **not for Vercel** (files disappear). For production use any S3-compatible bucket; Cloudflare R2 is cheap and has free egress:
-
-1. Create an R2 bucket and an API token with read/write.
-2. Enable public access (or attach a custom domain) and put that URL in `S3_PUBLIC_URL`.
-3. Set `STORAGE_DRIVER="s3"`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`.
-4. **Add a CORS rule** allowing `GET` from your site's domain. The editor draws images on a canvas and the browser blocks exporting it without CORS:
+Without Vercel Blob you can use any S3-compatible bucket (e.g. Cloudflare R2): set `STORAGE_DRIVER="s3"` and the `S3_*` variables, and add a CORS rule allowing `GET` from your domain (the editor draws images on a canvas):
 
 ```json
 [{ "AllowedOrigins": ["https://YOUR-DOMAIN"], "AllowedMethods": ["GET"], "AllowedHeaders": ["*"], "MaxAgeSeconds": 86400 }]
 ```
 
-### 7. Deploy (Vercel)
-
-1. Push the project to GitHub and import it in Vercel.
-2. Add all environment variables from `.env` (with `NEXT_PUBLIC_APP_URL` set to your real domain).
-3. Database: Neon or Supabase Postgres both work; run `npm run db:push && npm run db:seed` once against it from your computer.
-4. Generation routes ask for 60 s (`maxDuration`). That's the Hobby plan limit; most generations take 10–30 s. If you see timeouts, upgrade to Pro and raise `maxDuration` in `src/app/api/banners/route.ts` and `.../background/route.ts`.
-
----
+Generation routes ask for 60 s (`maxDuration`), the Vercel Hobby limit. Most generations take 10–30 s.
 
 ## Customizing
 

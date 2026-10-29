@@ -28,7 +28,8 @@ export const POST = handle(async (req: NextRequest) => {
       name: body.name,
       email: body.email,
       passwordHash: await bcrypt.hash(body.password, 11),
-      role: isAdminEmail(body.email) ? "ADMIN" : "USER",
+      // ADMIN_EMAILS get admin; if there's no admin yet, the first account becomes admin.
+      role: isAdminEmail(body.email) || (await db.user.count({ where: { role: "ADMIN" } })) === 0 ? "ADMIN" : "USER",
       locale: req.cookies.get("bf_lang")?.value === "en" ? "en" : "es",
     },
   });

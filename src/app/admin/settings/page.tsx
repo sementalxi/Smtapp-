@@ -15,8 +15,8 @@ export default async function AdminSettings() {
       <div className="card max-w-xl p-6 text-sm text-muted">
         <h2 className="mb-2 font-bold text-white">{t("pricing_title")}</h2>
         <p className="mb-3">
-          Prices are set in <code className="text-lime">src/lib/pricing.ts</code> and in Stripe. After changing them, run{" "}
-          <code className="text-lime">npm run stripe:setup</code> and update the price IDs in your environment.
+          Prices are set in <code className="text-lime">src/lib/pricing.ts</code>. The matching products in Stripe are created
+          automatically on the first purchase (and again whenever you change a price).
         </p>
         <ul className="space-y-1">
           {CREDIT_PACKS.map((p) => (

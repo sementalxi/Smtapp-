@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { db } from "@/lib/db";
-import { stripe } from "@/lib/stripe";
+import { stripe, webhookSecret } from "@/lib/stripe";
 import { grantOnce } from "@/lib/credits";
-import { findPack, planByPriceId } from "@/lib/pricing";
+import { findPack, planFromPrice } from "@/lib/pricing";
 
 // Stripe sends events here. Configure the endpoint in the Stripe dashboard with:
 //   checkout.session.completed, invoice.paid,
@@ -11,7 +11,7 @@ import { findPack, planByPriceId } from "@/lib/pricing";
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get("stripe-signature");
-  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  const secret = await webhookSecret();
   if (!sig || !secret) return new NextResponse("Missing signature", { status: 400 });
 
   let event: Stripe.Event;
@@ -107,10 +107,10 @@ async function onInvoicePaid(inv: Stripe.Invoice) {
   const userId = await userIdFor(idOf(sub.customer), sub.metadata?.userId);
   if (!userId) return;
 
-  const price = sub.items.data[0]?.price?.id ?? "";
-  const plan = planByPriceId(price);
+  const price = sub.items.data[0]?.price;
+  const plan = planFromPrice(price);
   if (!plan) {
-    console.warn("invoice.paid for unknown price", price);
+    console.warn("invoice.paid for unknown price", price?.id);
     return;
   }
 
@@ -153,7 +153,7 @@ async function onSubscriptionChange(sub: Stripe.Subscription, deleted: boolean) 
 }
 
 async function syncSubscription(userId: string, sub: Stripe.Subscription, inv?: Stripe.Invoice) {
-  const plan = planByPriceId(sub.items.data[0]?.price?.id ?? "");
+  const plan = planFromPrice(sub.items.data[0]?.price);
   // current_period_end lives on the subscription (older API) or its items (newer API)
   const rawSub = sub as unknown as { current_period_end?: number };
   const rawItem = sub.items.data[0] as unknown as { current_period_end?: number } | undefined;

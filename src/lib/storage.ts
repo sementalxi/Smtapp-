@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { put, del } from "@vercel/blob";
 
 const LOCAL_DIR = path.join(process.cwd(), "uploads");
 
@@ -27,12 +28,32 @@ function client() {
   return s3;
 }
 
-const driver = () => (process.env.STORAGE_DRIVER === "s3" ? "s3" : "local");
+// Vercel Blob is picked automatically when its store is connected to the project.
+const driver = () =>
+  process.env.STORAGE_DRIVER === "s3" ? "s3" : process.env.BLOB_READ_WRITE_TOKEN ? "blob" : "local";
+
+/** Public hosts our stored files can live on (used to block arbitrary URLs). */
+export function isStorageUrl(url: string) {
+  if (url.startsWith("/api/files/")) return true;
+  const s3 = (process.env.S3_PUBLIC_URL ?? "").replace(/\/$/, "");
+  if (s3 && url.startsWith(s3 + "/")) return true;
+  try {
+    const u = new URL(url);
+    return u.protocol === "https:" && u.hostname.endsWith(".public.blob.vercel-storage.com");
+  } catch {
+    return false;
+  }
+}
 
 /** Saves bytes and returns a public URL. `folder` is e.g. "photos" or "banners". */
 export async function saveFile(folder: string, data: Buffer, contentType: string): Promise<string> {
   const ext = EXT[contentType] ?? "bin";
   const key = `${folder}/${new Date().toISOString().slice(0, 7)}/${randomUUID()}.${ext}`;
+
+  if (driver() === "blob") {
+    const res = await put(key, data, { access: "public", contentType, addRandomSuffix: false });
+    return res.url;
+  }
 
   if (driver() === "s3") {
     await client().send(
@@ -60,6 +81,8 @@ export async function deleteFile(url: string | null | undefined) {
     if (url.startsWith("/api/files/")) {
       const key = url.slice("/api/files/".length);
       await fs.unlink(path.join(LOCAL_DIR, safeKey(key)));
+    } else if (url.includes(".public.blob.vercel-storage.com/")) {
+      await del(url);
     } else if (driver() === "s3") {
       const base = (process.env.S3_PUBLIC_URL ?? "").replace(/\/$/, "");
       if (base && url.startsWith(base + "/")) {

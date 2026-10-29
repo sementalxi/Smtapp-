@@ -4,7 +4,8 @@ import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/lib/auth";
 import { TxTable } from "@/components/TxTable";
 import { aiConfigured } from "@/lib/banners";
-import { CREDIT_PACKS, PLANS, priceId } from "@/lib/pricing";
+import { webhookSecret } from "@/lib/stripe";
+import { ConnectStripeButton } from "@/components/admin/ConnectStripeButton";
 
 export default async function AdminHome() {
   await requireAdmin();
@@ -36,13 +37,16 @@ export default async function AdminHome() {
     [t("stat_credits"), credits._sum.credits ?? 0],
   ] as const;
 
-  const missingPrices = [...CREDIT_PACKS, ...PLANS].filter((p) => !priceId(p.envKey)).map((p) => p.envKey);
+  const hasStripe = !!process.env.STRIPE_SECRET_KEY;
+  const hasWebhook = hasStripe && !!(await webhookSecret());
   const warnings = [
     !aiConfigured() && "AI is not configured (REPLICATE_API_TOKEN / OPENAI_API_KEY) — generations run in free demo mode.",
     !process.env.STRIPE_SECRET_KEY && "STRIPE_SECRET_KEY is missing — checkout is disabled.",
-    process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_WEBHOOK_SECRET && "STRIPE_WEBHOOK_SECRET is missing — paid credits won't be delivered.",
-    missingPrices.length > 0 && `Missing Stripe price IDs: ${missingPrices.join(", ")} (run npm run stripe:setup).`,
-    process.env.STORAGE_DRIVER !== "s3" && process.env.NODE_ENV === "production" && "STORAGE_DRIVER is 'local' — uploads won't persist on serverless hosting.",
+    hasStripe && !hasWebhook && "Stripe webhook isn't connected yet — click “Connect Stripe” below, or paid credits won't be delivered.",
+    process.env.STORAGE_DRIVER !== "s3" &&
+      !process.env.BLOB_READ_WRITE_TOKEN &&
+      process.env.NODE_ENV === "production" &&
+      "No file storage connected — in Vercel open Storage → Create → Blob and connect it to this project, then redeploy.",
     failed > 0 && `${failed} failed generation(s) in the last 30 days — see Banners for errors.`,
   ].filter(Boolean) as string[];
 
@@ -57,6 +61,8 @@ export default async function AdminHome() {
           ))}
         </ul>
       )}
+
+      {hasStripe && !hasWebhook && <ConnectStripeButton />}
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         {stats.map(([label, value]) => (

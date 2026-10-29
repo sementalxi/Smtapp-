@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { db } from "./db";
 import { HttpError } from "./auth";
 import { buildPrompt, generateBackground, removeBackground } from "./ai";
-import { loadBytes, saveFile, sniffImage } from "./storage";
+import { isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS } from "./templates";
 
@@ -46,9 +46,7 @@ export function normalizeInputs(raw: unknown): BannerInputs {
 /** Accept only URLs that point at our own storage (prevents SSRF). */
 export function assertOwnUrl(url: string | null | undefined) {
   if (!url) return;
-  const s3 = (process.env.S3_PUBLIC_URL ?? "").replace(/\/$/, "");
-  const ok = url.startsWith("/api/files/") || (s3 && url.startsWith(s3 + "/"));
-  if (!ok) throw new HttpError(400, "bad_file_url");
+  if (!isStorageUrl(url)) throw new HttpError(400, "bad_file_url");
 }
 
 export function aiConfigured() {

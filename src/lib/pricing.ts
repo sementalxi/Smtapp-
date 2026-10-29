@@ -1,6 +1,7 @@
 // Credit packs (one-time) and subscription plans (monthly).
-// Prices shown on the site live here; the Stripe Price IDs come from env vars
-// (created for you by `npm run stripe:setup`). Edit both together.
+// Edit prices here. The matching Stripe products/prices are created
+// automatically the first time someone buys (see getStripePriceId in stripe.ts).
+// The env vars below are optional overrides if you prefer to manage prices yourself.
 
 export interface CreditPack {
   id: "small" | "medium" | "large";
@@ -37,6 +38,14 @@ export function findPack(id: string) {
 export function findPlan(id: string) {
   return PLANS.find((p) => p.id === id);
 }
-export function planByPriceId(price: string) {
-  return PLANS.find((p) => priceId(p.envKey) === price);
+/** Stable Stripe lookup key; includes the amount so a price change makes a new Stripe price. */
+export const lookupKey = (kind: "pack" | "plan", id: string, priceUsd: number) =>
+  `bf_${kind}_${id}_${Math.round(priceUsd * 100)}`;
+
+/** Finds our plan from a Stripe price (by lookup key, or by an env-configured price id). */
+export function planFromPrice(price: { id?: string; lookup_key?: string | null } | null | undefined) {
+  if (!price) return undefined;
+  const m = price.lookup_key?.match(/^bf_plan_([a-z]+)_\d+$/);
+  if (m) return findPlan(m[1]);
+  return PLANS.find((p) => priceId(p.envKey) && priceId(p.envKey) === price.id);
 }
