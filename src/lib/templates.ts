@@ -94,7 +94,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   colorMode: "surprise",
   color1: "",
   color2: "",
-  aiCopy: "on",
+  aiCopy: "off",
   bgPose: "",
   bgScene: "",
   language: "English",

@@ -591,7 +591,7 @@ export function CreateWizard({
               <input
                 type="checkbox"
                 className="mt-1 accent-[var(--color-lime)]"
-                checked={inp.aiCopy !== "off"}
+                checked={inp.aiCopy === "on"}
                 onChange={(e) => set("aiCopy", e.target.checked ? "on" : "off")}
               />
               <span>
