@@ -12,7 +12,7 @@ export async function stampLogo(input: Buffer): Promise<Buffer> {
     const { width: W = 0, height: H = 0 } = await base.metadata();
     if (!W || !H) return input;
 
-    const logoW = Math.round(W * 0.17);
+    const logoW = Math.round(W * 0.13);
     const logo = await sharp(Buffer.from(BRAND_LOGO_PNG_BASE64, "base64")).resize({ width: logoW }).png().toBuffer();
     const { height: logoH = 0 } = await sharp(logo).metadata();
 
@@ -35,9 +35,37 @@ export async function stampLogo(input: Buffer): Promise<Buffer> {
       .png()
       .toBuffer();
 
-    const margin = Math.round(W * 0.035);
-    const left = W - margin - logoW;
-    const top = H - margin - logoH;
+    const margin = Math.round(W * 0.03);
+    // Put the logo in the calmest corner (least detail), so it never covers faces or text.
+    const corners = [
+      { left: W - margin - logoW, top: H - margin - logoH }, // bottom-right (preferred on ties)
+      { left: margin, top: H - margin - logoH }, // bottom-left
+      { left: W - margin - logoW, top: margin }, // top-right
+      { left: margin, top: margin }, // top-left
+    ];
+    let best = corners[0];
+    let bestScore = Infinity;
+    for (const [n, c] of corners.entries()) {
+      try {
+        const region = await sharp(input)
+          .extract({ left: Math.max(0, c.left - pad), top: Math.max(0, c.top - pad), width: Math.min(logoW + pad * 2, W), height: Math.min(logoH + pad * 2, H) })
+          .greyscale()
+          .resize(64, 16, { fit: "fill" })
+          .raw()
+          .toBuffer();
+        // Busy-ness = average difference between neighbouring pixels.
+        let diff = 0;
+        for (let k = 1; k < region.length; k++) diff += Math.abs(region[k] - region[k - 1]);
+        const score = diff / region.length + n * 0.5; // slight preference order
+        if (score < bestScore) {
+          bestScore = score;
+          best = c;
+        }
+      } catch {
+        /* skip this corner */
+      }
+    }
+    const { left, top } = best;
     const stamped = base.composite([
       { input: shadow, left: left - pad + 2, top: top - pad + 3 },
       { input: logo, left, top },

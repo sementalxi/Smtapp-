@@ -289,7 +289,7 @@ export function buildProPrompt(opts: {
   const lines: string[] = [];
   const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
   const finish = `BACKGROUND & FINISH: a deep, detailed scene with real depth — sharp foreground particles and debris, the subject in the midground, an environment with bokeh and atmosphere behind — never a flat texture or noise. Dense layered effects (light streaks, sparks, embers, glitter dust, lens flares, fine grain, haze) and a rich, contrasty cinematic colour grade.`;
-  const frame = `FRAME: thin corner marks and a bottom footer row with three small letter-spaced items.`;
+  const frame = `FULL-BLEED: the artwork runs edge to edge — no border, no frame lines, no corner marks, no crop marks, no decorative lines along the edges.`;
 
   let composition: string;
   switch (layout) {
@@ -369,7 +369,7 @@ export function buildProPrompt(opts: {
         `4) in front, the player from the uploaded photo as a sharp full cut-out (same pose as the photo), with a strong rim light and glow separating them from the background; 5) effects on top.`,
         `The two figures must clearly differ (e.g. one a dramatic close-up, the other the action/full-body pose), like a pro designer's double-shot player card.`,
         `TYPOGRAPHY: the player's name huge on the lower left; a small solid coloured tag box above it with the position; a script or gothic accent word; small letter-spaced uppercase text for details. Big outlined jersey number on the right.`,
-        `${frame} Tiny decorative "× × × ×" marks.`,
+        frame,
         finish,
       ].join(" ");
       add("Player name (huge, bottom left)", i.name);
@@ -414,7 +414,7 @@ export function buildProPrompt(opts: {
     ...refText,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
-    `Keep the bottom-right corner (about 20% of the width) clear of text and important details — a small brand mark goes there.`,
+    `Keep at least one corner of the poster calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
     i.aiCopy !== "off"
       ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
       : "",
