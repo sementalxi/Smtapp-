@@ -179,6 +179,7 @@ export function buildProPrompt(opts: {
   inputs: BannerInputs;
   hasPhoto: boolean;
   hasLogo: boolean;
+  hasStyleRef?: boolean;
 }) {
   const { inputs: i, style, layout } = opts;
   const allText = [i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.extraPrompt, ...i.roster].join(" ");
@@ -190,8 +191,15 @@ export function buildProPrompt(opts: {
       `Reference image 1 is the ${layout === "CHAMPIONS" ? "team's main subject (player or mascot)" : "player"}. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo.`,
     );
   }
+  let n = opts.hasPhoto ? 2 : 1;
   if (opts.hasLogo) {
-    refs.push(`Reference image ${opts.hasPhoto ? 2 : 1} is the team crest. Reproduce it faithfully, do not redesign it.`);
+    refs.push(`Reference image ${n} is the team crest. Reproduce it faithfully as a glossy chrome/3D emblem with a glow; do not redesign it.`);
+    n++;
+  }
+  if (opts.hasStyleRef) {
+    refs.push(
+      `Reference image ${n} is a STYLE reference only. Match its overall look: composition and layering, lighting, colour grading, textures, effects and typography feel. Do NOT copy its people, faces, names, text, logos, badges, stickers or watermarks.`,
+    );
   }
 
   const lines: string[] = [];
@@ -213,7 +221,13 @@ export function buildProPrompt(opts: {
     add("Info bar", [i.date, i.details].filter(Boolean).join("  ·  "));
     add("Prize", i.prize);
   } else {
-    composition = `A premium esports / football player card poster in the style of pro club social media graphics. Show the player twice: a very large, semi-transparent, colour-tinted close-up portrait of their face in the background (upper area), and a sharp full cut-out of them in front with a glowing rim light. Giant outlined background lettering, light streaks, particles and texture overlays. The player's name in a huge condensed bold font, bottom left, with a small coloured tag box above it for the position.`;
+    composition = [
+      `A premium pro-clubs / esports football player announcement poster, the dense layered style of top club social-media designers.`,
+      `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) GIANT background lettering of the team name spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player; 3) a very large double-exposure close-up of the player's face/upper body in the upper half, semi-transparent and colour-graded into the background; 4) a sharp full-body cut-out of the player in front (or the pose from the photo), with a strong rim light and glow separating them from the background; 5) effects on top: light streaks, lightning, sparks, glitter dust, grain and grunge texture, stadium floodlights and haze.`,
+      `TYPOGRAPHY: the player's name huge in a tall condensed bold sans-serif (white with metallic gradient and subtle shadow) on the lower left; a small solid coloured tag box above it with the position; a script or gothic accent word; small letter-spaced uppercase text for details. Big outlined jersey number on the right.`,
+      `FRAME: thin corner marks, tiny decorative "× × × ×" marks, and a bottom footer row with three small items (left: number or season, centre: letter-spaced footer text, right: team initials).`,
+      `Finish: ultra sharp, high contrast, rich saturated colour grade, cinematic depth, clearly a hand-crafted Photoshop design — not a flat AI illustration.`,
+    ].join(" ");
     add("Player name (huge, condensed, bottom left)", i.name);
     add("Position tag box", i.position);
     add("Small elegant word above the name", i.tagline);
@@ -245,6 +259,7 @@ export async function generateProForBanner(opts: {
   prompt: string;
   photoUrl?: string | null;
   logoUrl?: string | null;
+  styleRefUrl?: string | null;
   regenerate?: boolean;
 }) {
   if (opts.cost > 0) {
@@ -258,7 +273,7 @@ export async function generateProForBanner(opts: {
   }
   try {
     const refs: { bytes: Buffer; type: string }[] = [];
-    for (const url of [opts.photoUrl, opts.logoUrl]) {
+    for (const url of [opts.photoUrl, opts.logoUrl, opts.styleRefUrl]) {
       if (!url) continue;
       const bytes = await loadBytes(url);
       refs.push({ bytes, type: sniffImage(bytes) ?? "image/png" });

@@ -30,6 +30,7 @@ export default async function AdminTemplates() {
               cost: r.cost,
               active: r.active,
               sort: r.sort,
+              styleRefUrl: r.styleRefUrl,
               uses: r._count.banners,
             }}
           />

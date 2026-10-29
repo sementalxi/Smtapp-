@@ -24,4 +24,5 @@ export const TemplateSchema = z.object({
   cost: z.number().int().min(0).max(50),
   active: z.boolean(),
   sort: z.number().int().min(0).max(1000),
+  styleRefUrl: z.string().max(500).nullable().optional(),
 });

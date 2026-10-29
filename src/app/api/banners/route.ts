@@ -58,6 +58,7 @@ export const POST = handle(async (req: NextRequest) => {
       inputs,
       hasPhoto: !!body.photoUrl,
       hasLogo: !!body.logoUrl,
+      hasStyleRef: !!template.styleRefUrl,
     }); // throws err_blocked before anything is charged
   }
 
@@ -83,6 +84,7 @@ export const POST = handle(async (req: NextRequest) => {
         prompt: proPrompt,
         photoUrl: body.photoUrl,
         logoUrl: body.logoUrl,
+        styleRefUrl: template.styleRefUrl,
       });
     } else await generateForBanner({
       bannerId: banner.id,

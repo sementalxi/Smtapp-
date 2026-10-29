@@ -38,6 +38,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         inputs,
         hasPhoto: !!banner.photoUrl,
         hasLogo: !!banner.logoUrl,
+        hasStyleRef: !!banner.template.styleRefUrl,
       });
       await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs) } });
       const updated = await generateProForBanner({
@@ -47,6 +48,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         prompt,
         photoUrl: banner.photoUrl,
         logoUrl: banner.logoUrl,
+        styleRefUrl: banner.template.styleRefUrl,
         regenerate: true,
       });
       return json({ finalUrl: updated.finalUrl });

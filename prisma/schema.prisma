@@ -84,6 +84,8 @@ model Template {
   // Design tokens used by the canvas renderer (colors, fonts, effects)
   style      Json
   cost       Int      @default(1)
+  // Optional example design (owned by you) the Pro AI should match in look and feel
+  styleRefUrl String?
   active     Boolean  @default(true)
   sort       Int      @default(0)
   createdAt  DateTime @default(now())

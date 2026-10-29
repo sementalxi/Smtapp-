@@ -6,6 +6,7 @@ import { useT } from "@/i18n/client";
 import { DEFAULT_DESIGN, LayoutKind, TemplateStyle } from "@/lib/templates";
 import { SAMPLE_INPUTS } from "@/lib/samples";
 import { BannerCanvas } from "../BannerCanvas";
+import { ImageDrop } from "../ImageDrop";
 
 export interface AdminTemplate {
   id?: string;
@@ -18,6 +19,7 @@ export interface AdminTemplate {
   cost: number;
   active: boolean;
   sort: number;
+  styleRefUrl?: string | null;
   uses?: number;
 }
 
@@ -146,6 +148,15 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
             <label className="label">{t("order")}</label>
             <input type="number" min={0} className="input" value={tpl.sort} onChange={(e) => set("sort", Number(e.target.value))} />
           </div>
+        </div>
+        <div>
+          <ImageDrop
+            kind="logo"
+            label="Pro AI style reference (optional)"
+            hint="An example design the Pro AI should match in look and feel. Only use designs you own or have permission to use for AI."
+            value={tpl.styleRefUrl ?? null}
+            onChange={(url) => set("styleRefUrl", url)}
+          />
         </div>
         <div>
           <label className="label">{t("prompt")}</label>

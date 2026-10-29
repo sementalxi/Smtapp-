@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { apiAdmin, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
-import { toJson } from "@/lib/banners";
+import { assertOwnUrl, toJson } from "@/lib/banners";
 import { TemplateSchema } from "@/lib/template-schema";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -11,6 +11,7 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
   await apiAdmin();
   const { id } = await params;
   const body = TemplateSchema.partial().parse(await req.json());
+  assertOwnUrl(body.styleRefUrl);
   if (body.slug) {
     const clash = await db.template.findFirst({ where: { slug: body.slug, NOT: { id } } });
     if (clash) return json({ error: "Slug already used" }, 409);
