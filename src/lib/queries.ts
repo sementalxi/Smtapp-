@@ -12,5 +12,6 @@ export async function activeTemplates(): Promise<ClientTemplate[]> {
     layout: r.layout,
     style: r.style as unknown as TemplateStyle,
     cost: r.cost,
+    thumbUrl: r.thumbUrl,
   }));
 }

@@ -10,6 +10,12 @@ const Body = z.object({
   pro_quality: z.enum(["low", "medium", "high"]).optional(),
   max_upload_mb: z.coerce.number().int().min(1).max(50).optional(),
   maintenance_message: z.string().max(300).optional(),
+  discord_webhook: z
+    .string()
+    .trim()
+    .max(300)
+    .refine((u) => !u || /^https:\/\/(?:ptb\.|canary\.)?discord(?:app)?\.com\/api\/webhooks\//.test(u), "Not a Discord webhook URL")
+    .optional(),
 });
 
 export const PUT = handle(async (req: NextRequest) => {

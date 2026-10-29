@@ -18,6 +18,7 @@ export function ProBannerView({
   cost,
   credits,
   title,
+  admin,
 }: {
   id: string;
   imageUrl: string | null;
@@ -26,6 +27,8 @@ export function ProBannerView({
   cost: number;
   credits: number;
   title: string;
+  /** Admins can set this poster as a style's sample image. */
+  admin?: { templateId: string; templates: { id: string; name: string }[] };
 }) {
   const { t } = useT();
   const router = useRouter();
@@ -80,6 +83,7 @@ export function ProBannerView({
             )}
           </div>
         )}
+        {admin && url && <SampleSetter bannerId={id} admin={admin} />}
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <p className="mt-2 text-xs text-muted">{t("pro_note")}</p>
       </div>
@@ -110,6 +114,45 @@ export function ProBannerView({
           )}
         </section>
       </div>
+    </div>
+  );
+}
+
+function SampleSetter({ bannerId, admin }: { bannerId: string; admin: { templateId: string; templates: { id: string; name: string }[] } }) {
+  const { locale } = useT();
+  const es = locale === "es";
+  const [tpl, setTpl] = useState(admin.templateId);
+  const [msg, setMsg] = useState("");
+  return (
+    <div className="mt-3 rounded-xl border border-dashed border-line p-3">
+      <div className="mb-2 text-xs font-bold uppercase tracking-wider text-muted">
+        {es ? "Admin · usar como imagen de muestra" : "Admin · use as sample image"}
+      </div>
+      <div className="flex gap-2">
+        <select className="input py-2 text-xs" value={tpl} onChange={(e) => setTpl(e.target.value)}>
+          {admin.templates.map((x) => (
+            <option key={x.id} value={x.id}>
+              {x.name}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          className="btn-ghost shrink-0 px-3 py-2 text-xs"
+          onClick={async () => {
+            setMsg("…");
+            const res = await fetch(`/api/admin/templates/${tpl}/thumb`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ bannerId }),
+            });
+            setMsg(res.ok ? (es ? "✅ Muestra actualizada" : "✅ Sample updated") : es ? "❌ Error" : "❌ Failed");
+          }}
+        >
+          {es ? "Usar" : "Set"}
+        </button>
+      </div>
+      {msg && <p className="mt-1 text-xs">{msg}</p>}
     </div>
   );
 }

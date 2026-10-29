@@ -89,6 +89,8 @@ model Template {
   cost       Int      @default(1)
   // Optional example design (owned by you) the Pro AI should match in look and feel
   styleRefUrl String?
+  // Sample image shown in style pickers (replaces the drawn preview)
+  thumbUrl   String?
   // Admin's own instructions for the Pro AI for this style (take priority over the defaults)
   proInstructions String?
   // Random palette/concept/layout per poster (off = consistent look every time)

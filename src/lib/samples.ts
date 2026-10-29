@@ -46,4 +46,5 @@ export interface ClientTemplate {
   layout: LayoutKind;
   style: import("./templates").TemplateStyle;
   cost: number;
+  thumbUrl?: string | null;
 }

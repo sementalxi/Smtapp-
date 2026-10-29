@@ -20,6 +20,7 @@ export interface AdminTemplate {
   active: boolean;
   sort: number;
   styleRefUrl?: string | null;
+  thumbUrl?: string | null;
   proInstructions?: string | null;
   randomize?: boolean;
   uses?: number;
@@ -154,6 +155,16 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
             <label className="label">{t("order")}</label>
             <input type="number" min={0} className="input" value={tpl.sort} onChange={(e) => set("sort", Number(e.target.value))} />
           </div>
+        </div>
+        <div>
+          <ImageDrop
+            noSearch
+            kind="photo"
+            label={es ? "Imagen de muestra (la que ven los usuarios)" : "Sample image (what users see)"}
+            hint={es ? "Reemplaza la vista previa de este estilo en la página principal y en el creador. Mejor en vertical 4:5." : "Replaces this style's preview on the home page and in the creator. Best as a vertical 4:5 image."}
+            value={tpl.thumbUrl ?? null}
+            onChange={(url) => set("thumbUrl", url)}
+          />
         </div>
         <div>
           <ImageDrop

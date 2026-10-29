@@ -43,6 +43,17 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
           layout={banner.template.layout}
           cost={await getNumberSetting("pro_cost")}
           credits={user.credits}
+          admin={
+            user.role === "ADMIN"
+              ? {
+                  templateId: banner.templateId,
+                  templates: (await db.template.findMany({ orderBy: [{ layout: "asc" }, { sort: "asc" }], select: { id: true, name: true, layout: true } })).map((x) => ({
+                    id: x.id,
+                    name: `${x.name} (${x.layout.toLowerCase()})`,
+                  })),
+                }
+              : undefined
+          }
         />
       ) : (
       <BannerEditor

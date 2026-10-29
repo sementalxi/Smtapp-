@@ -8,6 +8,7 @@ import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
 import { stampLogo } from "./stamp";
+import { logGeneration } from "./discord";
 import { getSettings } from "./settings";
 
 const str = (max: number) => z.string().trim().max(max).default("");
@@ -466,6 +467,7 @@ export async function generateProForBanner(opts: {
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
+    await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: true, regenerate: opts.regenerate, image: out });
     return updated;
   } catch (err) {
     console.error("pro generation failed", err);
@@ -479,6 +481,7 @@ export async function generateProForBanner(opts: {
       });
     }
     const msg = String(err instanceof Error ? err.message : err).slice(0, 500);
+    await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: false, regenerate: opts.regenerate, error: msg });
     await db.banner.update({
       where: { id: opts.bannerId },
       data: opts.regenerate ? { error: msg } : { status: "FAILED", error: msg },

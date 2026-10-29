@@ -12,6 +12,7 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
   const { id } = await params;
   const body = TemplateSchema.partial().parse(await req.json());
   assertOwnUrl(body.styleRefUrl);
+  assertOwnUrl(body.thumbUrl);
   if (body.slug) {
     const clash = await db.template.findFirst({ where: { slug: body.slug, NOT: { id } } });
     if (clash) return json({ error: "Slug already used" }, 409);

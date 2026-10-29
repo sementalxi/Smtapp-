@@ -9,6 +9,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
   const [v, setV] = useState(initial);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
+  const [test, setTest] = useState("");
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -48,6 +49,39 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       <div>
         <label className="label">{t("maintenance_message")}</label>
         <input className="input" maxLength={300} value={v.maintenance_message} onChange={(e) => setV({ ...v, maintenance_message: e.target.value })} />
+      </div>
+      <div className="rounded-xl border border-line bg-panel-2 p-4">
+        <label className="label">{es ? "Registro en Discord (webhook)" : "Discord log (webhook)"}</label>
+        <input
+          className="input"
+          placeholder="https://discord.com/api/webhooks/…"
+          value={v.discord_webhook ?? ""}
+          onChange={(e) => setV({ ...v, discord_webhook: e.target.value })}
+        />
+        <p className="mt-1 text-xs text-muted">
+          {es
+            ? "Cada póster creado (y cada error) se publica en tu canal de Discord con la imagen, quién lo hizo y los créditos. En Discord: Ajustes del canal → Integraciones → Webhooks → Nuevo webhook → Copiar URL."
+            : "Every poster made (and every failure) is posted to your Discord channel with the image, who made it and the credits. In Discord: Channel settings → Integrations → Webhooks → New Webhook → Copy Webhook URL."}
+        </p>
+        <div className="mt-2 flex items-center gap-3">
+          <button
+            type="button"
+            className="btn-ghost px-3 py-2 text-xs"
+            disabled={!v.discord_webhook}
+            onClick={async () => {
+              setTest("…");
+              const res = await fetch("/api/admin/discord-test", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: v.discord_webhook }),
+              });
+              setTest(res.ok ? (es ? "✅ Mensaje enviado — revisa Discord" : "✅ Sent — check Discord") : es ? "❌ No funcionó — revisa la URL" : "❌ Didn't work — check the URL");
+            }}
+          >
+            {es ? "Enviar prueba" : "Send test"}
+          </button>
+          {test && <span className="text-xs">{test}</span>}
+        </div>
       </div>
       <div className="flex items-center gap-3">
         <button disabled={busy} className="btn-primary">{t("save")}</button>

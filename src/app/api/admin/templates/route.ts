@@ -18,6 +18,7 @@ export const POST = handle(async (req: NextRequest) => {
     ...raw,
   });
   assertOwnUrl(body.styleRefUrl);
+  assertOwnUrl(body.thumbUrl);
   const exists = await db.template.findUnique({ where: { slug: body.slug } });
   if (exists) return json({ error: "Slug already used" }, 409);
   const t = await db.template.create({ data: { ...body, style: toJson(body.style) } });

@@ -25,6 +25,7 @@ export const TemplateSchema = z.object({
   active: z.boolean(),
   sort: z.number().int().min(0).max(1000),
   styleRefUrl: z.string().max(500).nullable().optional(),
+  thumbUrl: z.string().max(500).nullable().optional(),
   proInstructions: z.string().max(3000).nullable().optional(),
   randomize: z.boolean().optional(),
 });
