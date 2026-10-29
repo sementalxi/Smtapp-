@@ -11,7 +11,7 @@ export function BuyButton({
   primary,
   disabled,
 }: {
-  kind: "pack" | "plan" | "portal";
+  kind: "pack" | "plan" | "portal" | "cancel";
   id?: string;
   label: string;
   loggedIn: boolean;
@@ -19,13 +19,26 @@ export function BuyButton({
   /** Payments not set up yet (no Stripe key) */
   disabled?: boolean;
 }) {
-  const { t } = useT();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [confirm, setConfirm] = useState(false);
+  const { t, locale } = useT();
+  const es = locale === "es";
 
   async function go() {
     if (!loggedIn) {
       window.location.href = "/register";
+      return;
+    }
+    if (kind === "cancel") {
+      if (!confirm) return setConfirm(true);
+      setBusy(true);
+      const res = await fetch("/api/square/cancel", { method: "POST" });
+      if (res.ok) window.location.reload();
+      else {
+        setErr(t("err_generic"));
+        setBusy(false);
+      }
       return;
     }
     setBusy(true);
@@ -55,7 +68,7 @@ export function BuyButton({
   return (
     <div>
       <button onClick={go} disabled={busy} className={`${primary ? "btn-primary" : "btn-ghost"} w-full`}>
-        {busy ? "…" : label}
+        {busy ? "…" : confirm ? (es ? "¿Seguro? Toca para cancelar" : "Sure? Tap to cancel") : label}
       </button>
       {err && <p className="mt-2 text-xs text-danger">{err}</p>}
     </div>

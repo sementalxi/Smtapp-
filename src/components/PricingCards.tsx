@@ -2,13 +2,17 @@ import { CREDIT_PACKS, PLANS } from "@/lib/pricing";
 import { getT } from "@/i18n/server";
 import type { CurrentUser } from "@/lib/auth";
 import { BuyButton } from "./BuyButton";
+import { paymentProvider } from "@/lib/payments";
 
 const usd = (n: number) => `$${n.toFixed(2)}`;
 
 export async function PricingCards({ user }: { user: CurrentUser | null }) {
   const { t } = await getT();
   const activePlan = user?.subscriptionId ? user.planId : null;
-  const off = !process.env.STRIPE_SECRET_KEY; // payments not set up yet
+  const provider = paymentProvider();
+  const off = !provider; // payments not set up yet
+  const { locale } = await getT();
+  const cancelLabel = locale === "es" ? "Cancelar suscripción" : "Cancel subscription";
 
   return (
     <div className="space-y-14">
@@ -37,7 +41,13 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                   <b className="text-lime">{p.monthlyCredits}</b> {t("credits_per_month")}
                   <span className="text-muted"> · ${(p.priceUsd / p.monthlyCredits).toFixed(2)}/{t("credit")}</span>
                 </p>
-                {current ? (
+                {current && provider === "square" ? (
+                  user?.subscriptionStatus === "canceling" ? (
+                    <p className="text-center text-xs text-muted">{locale === "es" ? "Se cancela al final del mes pagado" : "Ends at the end of the paid month"}</p>
+                  ) : (
+                    <BuyButton kind="cancel" label={cancelLabel} loggedIn={!!user} />
+                  )
+                ) : current ? (
                   <BuyButton kind="portal" label={t("manage_billing")} loggedIn={!!user} />
                 ) : (
                   <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} />

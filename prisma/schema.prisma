@@ -167,3 +167,15 @@ model SavedItem {
 
   @@index([userId, kind])
 }
+
+// A Square checkout link we created, so the webhook knows who paid for what.
+model SquareCheckout {
+  orderId   String   @id
+  userId    String
+  kind      String // "pack" | "plan"
+  productId String
+  credits   Int
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

@@ -4,12 +4,40 @@ import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { appUrl, ensureCustomer, getStripePriceId, stripe } from "@/lib/stripe";
 import { findPack, findPlan } from "@/lib/pricing";
+import { paymentProvider } from "@/lib/payments";
+import { createSquareCheckout } from "@/lib/square";
+
+const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 const Body = z.object({ kind: z.enum(["pack", "plan"]), id: z.string() });
 
 export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
   const body = Body.parse(await req.json());
+
+  // Square (if set up) takes the payment instead of Stripe.
+  if (paymentProvider() === "square") {
+    if (body.kind === "pack") {
+      const pack = findPack(body.id);
+      if (!pack) throw new HttpError(400, "unknown_pack");
+      const url = await createSquareCheckout({ user, kind: "pack", productId: pack.id, name: `${site} — ${pack.credits} credits`, priceUsd: pack.priceUsd, credits: pack.credits });
+      return json({ url });
+    }
+    const plan = findPlan(body.id);
+    if (!plan) throw new HttpError(400, "unknown_plan");
+    if (user.subscriptionId && ["active", "canceling", "pending"].includes(user.subscriptionStatus ?? "")) throw new HttpError(400, "already_subscribed");
+    const url = await createSquareCheckout({
+      user,
+      kind: "plan",
+      productId: plan.id,
+      name: `${site} ${plan.id.toUpperCase()} — ${plan.monthlyCredits} credits/month`,
+      priceUsd: plan.priceUsd,
+      credits: plan.monthlyCredits,
+      plan,
+    });
+    return json({ url });
+  }
+
   const customer = await ensureCustomer(user);
   const base = appUrl();
 
