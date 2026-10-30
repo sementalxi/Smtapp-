@@ -9,7 +9,7 @@ https://nextjs.org/telemetry
      · serverActions
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 14.1s
+ ✓ Compiled successfully in 10.9s
    Linting and checking validity of types ...
    Collecting page data ...
    Generating static pages (0/56) ...
@@ -101,4 +101,4 @@ Route (app)                                 Size  First Load JS
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
-exit 0
+done

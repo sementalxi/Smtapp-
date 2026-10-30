@@ -95,7 +95,6 @@ export async function Header() {
           )}
         </div>
       </div>
-      {user && <NavLinks variant="mobile" items={items} />}
     </header>
   );
 }

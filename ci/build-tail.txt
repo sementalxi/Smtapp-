@@ -57,4 +57,4 @@
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
-exit 0
+done
