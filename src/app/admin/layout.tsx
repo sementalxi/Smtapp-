@@ -18,10 +18,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ] as const;
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 md:grid-cols-[200px_1fr]">
-      <aside>
+    <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-8 md:py-8">
+      <aside className="min-w-0">
         <div className="font-display mb-4 text-2xl text-lime">{t("admin_title")}</div>
-        <nav className="flex gap-1 overflow-x-auto md:flex-col">
+        <nav className="-mx-4 flex max-w-[100vw] gap-1 overflow-x-auto px-4 pb-1 md:mx-0 md:max-w-none md:flex-col md:px-0">
           {links.map(([href, label]) => (
             <Link
               key={href}

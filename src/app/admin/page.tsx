@@ -92,7 +92,7 @@ export default async function AdminHome() {
 
       <div className="card p-4 text-sm">
         <div className="mb-2 font-bold">{es ? "Revisión de configuración" : "Setup check"}</div>
-        <ul className="space-y-1 font-mono text-xs">
+        <ul className="space-y-1 break-words font-mono text-xs">
           {setup.map(([name, status, ok]) => (
             <li key={name} className={ok ? "text-lime" : "text-danger"}>
               {ok ? "✓" : "✗"} {name}: {status}

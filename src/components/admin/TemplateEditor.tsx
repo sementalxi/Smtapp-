@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
-import { DEFAULT_DESIGN, LayoutKind, TemplateStyle } from "@/lib/templates";
-import { SAMPLE_INPUTS } from "@/lib/samples";
-import { BannerCanvas } from "../BannerCanvas";
+import { LayoutKind, TemplateStyle } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
 
 export interface AdminTemplate {
@@ -94,7 +92,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
             // eslint-disable-next-line @next/next/no-img-element
             <img src={tpl.thumbUrl} alt="" className="block aspect-[4/5] w-full object-cover" />
           ) : (
-            <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
+            <div className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-lg">🖼️</div>
           )}
         </div>
         <div className="min-w-0 flex-1">
@@ -113,17 +111,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
   }
 
   return (
-    <div className="card grid gap-6 p-5 lg:grid-cols-[260px_1fr]">
-      <div>
-        <div className="overflow-hidden rounded-lg">
-          {tpl.thumbUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={tpl.thumbUrl} alt="" className="block aspect-[4/5] w-full object-cover" />
-          ) : (
-            <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
-          )}
-        </div>
-      </div>
+    <div className="card min-w-0 p-5">
 
       <div className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-3">
