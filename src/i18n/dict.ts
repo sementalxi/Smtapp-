@@ -14,6 +14,7 @@ const en = {
   credit: "credit",
 
   hero_kicker: "Pro Clubs · eSports · Football",
+  home_partners_title: "Trusted by leagues & organizations",
   hero_feat_title: "Next-level sports graphics",
   hero_feat_1: "Pro player cards",
   hero_feat_2: "Match & tournament posters",
@@ -241,6 +242,7 @@ const es: Dict = {
   credit: "crédito",
 
   hero_kicker: "Clubes Pro · eSports · Fútbol",
+  home_partners_title: "Confían en KIXO",
   hero_feat_title: "Gráficos deportivos de otro nivel",
   hero_feat_1: "Player cards profesionales",
   hero_feat_2: "Posters de partidos y torneos",

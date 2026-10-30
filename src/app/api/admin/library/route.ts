@@ -6,7 +6,7 @@ import { handle, json } from "@/lib/api";
 import { assertOwnUrl } from "@/lib/banners";
 
 const Body = z.object({
-  kind: z.enum(["championship", "team"]),
+  kind: z.enum(["championship", "team", "partner"]),
   name: z.string().trim().min(1).max(40),
   logoUrl: z.string().max(500).nullish(),
 });

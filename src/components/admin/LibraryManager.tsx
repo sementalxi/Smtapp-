@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useT } from "@/i18n/client";
 import { ImageDrop } from "../ImageDrop";
 
-type Item = { id: string; kind: "championship" | "team"; name: string; logoUrl: string | null };
+type Item = { id: string; kind: "championship" | "team" | "partner"; name: string; logoUrl: string | null };
 
 /** Admin: official league / competition / team logos that every user can pick. */
 export function LibraryManager({ initial }: { initial: Item[] }) {
@@ -47,6 +47,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
   const kinds: [Item["kind"], string][] = [
     ["championship", es ? "🏆 Ligas / torneos" : "🏆 Leagues / competitions"],
     ["team", es ? "🛡️ Equipos" : "🛡️ Teams"],
+    ["partner", es ? "🤝 Organizaciones" : "🤝 Organizations"],
   ];
 
   return (
@@ -69,7 +70,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
         <div className="grid gap-4 sm:grid-cols-[1fr_200px]">
           <div>
             <label className="label">{es ? "Nombre" : "Name"} *</label>
-            <input className="input" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} placeholder={kind === "championship" ? "Liga MX, VPG, Copa KIXO…" : "SMT, Chivas…"} />
+            <input className="input" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} placeholder={kind === "championship" ? "Liga MX, VPG, Copa KIXO…" : kind === "partner" ? "AFH Afterhours, VPG…" : "SMT, Chivas…"} />
           </div>
           <ImageDrop kind="logo" label="Logo" value={logo} onChange={setLogo} />
         </div>
@@ -79,7 +80,15 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
           </button>
           {msg && <span className="text-sm">{msg}</span>}
         </div>
-        <p className="text-xs text-muted">{es ? "Mejor un PNG con fondo transparente." : "A PNG with a transparent background works best."}</p>
+        <p className="text-xs text-muted">
+          {kind === "partner"
+            ? es
+              ? "Las organizaciones aparecen abajo en la página principal en “Confían en KIXO”. Mejor un PNG con fondo transparente."
+              : "Organizations show at the bottom of the home page under “Trusted by”. A PNG with a transparent background works best."
+            : es
+              ? "Mejor un PNG con fondo transparente."
+              : "A PNG with a transparent background works best."}
+        </p>
       </div>
 
       <div>
