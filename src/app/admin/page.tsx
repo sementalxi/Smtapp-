@@ -44,6 +44,7 @@ export default async function AdminHome() {
       [es ? "OPENAI_API_KEY (IA Pro — necesaria)" : "OPENAI_API_KEY (Pro AI — required)", process.env.OPENAI_API_KEY, false],
       ["DATABASE_URL", process.env.DATABASE_URL, false],
       [es ? "SQUARE_ACCESS_TOKEN (pagos — necesaria para vender créditos)" : "SQUARE_ACCESS_TOKEN (payments — needed to sell credits)", process.env.SQUARE_ACCESS_TOKEN, false],
+      [es ? "SQUARE_APPLICATION_ID (pago en ventana dentro de la página)" : "SQUARE_APPLICATION_ID (pay in a popup on the page)", process.env.SQUARE_APPLICATION_ID, true],
       [es ? "TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN (SMS, opcional)" : "TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN (SMS, optional)", process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN, true],
       [es ? "TWILIO_VERIFY_SID (verificar teléfono al registrarse)" : "TWILIO_VERIFY_SID (phone check at sign-up)", process.env.TWILIO_VERIFY_SID, true],
       [es ? "TWILIO_FROM (número que envía los pósters por mensaje)" : "TWILIO_FROM (number that texts the posters)", process.env.TWILIO_FROM || process.env.TWILIO_MESSAGING_SID, true],

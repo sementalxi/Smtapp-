@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useT } from "@/i18n/client";
+import { PayModal } from "./PayModal";
 
 export function BuyButton({
   kind,
@@ -10,6 +11,7 @@ export function BuyButton({
   loggedIn,
   primary,
   disabled,
+  checkout,
 }: {
   kind: "pack" | "plan" | "deal" | "portal" | "cancel";
   id?: string;
@@ -18,6 +20,8 @@ export function BuyButton({
   primary?: boolean;
   /** Payments not set up yet (no Stripe key) */
   disabled?: boolean;
+  /** Shown in the on-page payment popup (Square). */
+  checkout?: { title: string; price: string; subtitle?: string };
 }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -25,9 +29,15 @@ export function BuyButton({
   const { t, locale } = useT();
   const es = locale === "es";
 
-  async function go() {
+  const [modal, setModal] = useState(false);
+
+  async function go(skipModal = false) {
     if (!loggedIn) {
       window.location.href = "/register";
+      return;
+    }
+    if (!skipModal && checkout && (kind === "pack" || kind === "plan" || kind === "deal")) {
+      setModal(true);
       return;
     }
     if (kind === "cancel") {
@@ -73,7 +83,23 @@ export function BuyButton({
 
   return (
     <div>
-      <button onClick={go} disabled={busy} className={`${primary ? "btn-primary" : "btn-ghost"} w-full`}>
+      {checkout && (kind === "pack" || kind === "plan" || kind === "deal") && id && (
+        <PayModal
+          open={modal}
+          onClose={() => setModal(false)}
+          kind={kind}
+          id={id}
+          title={checkout.title}
+          price={checkout.price}
+          subtitle={checkout.subtitle}
+          es={es}
+          onFallback={() => {
+            setModal(false);
+            go(true);
+          }}
+        />
+      )}
+      <button onClick={() => go()} disabled={busy} className={`${primary ? "btn-primary" : "btn-ghost"} w-full`}>
         {busy ? "…" : confirm ? (es ? "¿Seguro? Toca para cancelar" : "Sure? Tap to cancel") : label}
       </button>
       {err && <p className="mt-2 text-xs text-danger">{err}</p>}

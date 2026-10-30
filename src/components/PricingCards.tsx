@@ -54,7 +54,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                 ) : current ? (
                   <BuyButton kind="portal" label={t("manage_billing")} loggedIn={!!user} />
                 ) : (
-                  <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} />
+                  <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} checkout={{ title: `Plan ${p.id[0].toUpperCase()}${p.id.slice(1)}`, price: usd(p.priceUsd), subtitle: `${p.monthlyCredits} ${t("credits")} / ${locale === "es" ? "mes" : "month"}` }} />
                 )}
                 {current && <p className="mt-2 text-center text-xs text-lime">{t("current_plan")}</p>}
               </div>
@@ -79,7 +79,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
               <div className="mb-6 text-sm text-muted">
                 {t("credits")} · {usd(p.priceUsd)}
               </div>
-              <BuyButton kind="pack" id={p.id} label={`${t("buy")} ${usd(p.priceUsd)}`} loggedIn={!!user} primary={p.popular} disabled={off} />
+              <BuyButton kind="pack" id={p.id} label={`${t("buy")} ${usd(p.priceUsd)}`} loggedIn={!!user} primary={p.popular} disabled={off} checkout={{ title: `${p.credits} ${t("credits")}`, price: usd(p.priceUsd), subtitle: locale === "es" ? "Pago único" : "One-time purchase" }} />
             </div>
           ))}
         </div>

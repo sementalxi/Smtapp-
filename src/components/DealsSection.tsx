@@ -138,7 +138,7 @@ export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[];
                   )}
                   <div className="flex items-center justify-center gap-2 text-xs text-muted">🔒 {tt("deals_secure")}</div>
                   {d.buyable ? (
-                    <BuyButton kind="deal" id={d.id} label={d.ctaLabel || tt("deals_cta")} loggedIn={loggedIn} primary />
+                    <BuyButton kind="deal" id={d.id} label={d.ctaLabel || tt("deals_cta")} loggedIn={loggedIn} primary checkout={{ title: d.title, price: d.price, subtitle: d.subtitle }} />
                   ) : (
                     <Link href={d.ctaHref || "/pricing"} className="btn-primary kixo-shine w-full py-3">
                       {d.ctaLabel || tt("deals_cta")}
