@@ -29,7 +29,7 @@ jobs:
           curl -s -X POST -H 'content-type: application/json' -d '{}' https://smtapp-ten.vercel.app/api/upload/from-url; echo
       - name: screenshots
         run: |
-          npx -y playwright@1.49.1 install --with-deps chromium webkit >/dev/null 2>&1
+          npx -y playwright@1.49.1 install --with-deps chromium >/dev/null 2>&1
           cat > shot.mjs <<'JS'
           import { chromium } from "playwright";
           const b = await chromium.launch();
@@ -55,6 +55,13 @@ jobs:
             console.log(name, "errors:", JSON.stringify(errors));
           }
           await b.close();
+          JS
+          mkdir -p shots && npm i --no-save playwright@1.49.1 >/dev/null 2>&1 && node shot.mjs > ci/browser.txt 2>&1 || true
+      - name: safari shots
+        continue-on-error: true
+        run: |
+          npx -y playwright@1.49.1 install --with-deps webkit >/dev/null 2>&1
+          cat > wk.mjs <<'JS'
           import { webkit } from "playwright";
           const wb = await webkit.launch();
           for (const lang of ["es", "en"]) {
@@ -67,8 +74,9 @@ jobs:
           }
           await wb.close();
           JS
-          mkdir -p shots && npm i --no-save playwright@1.49.1 >/dev/null 2>&1 && node shot.mjs > ci/browser.txt 2>&1 || true
+          mkdir -p shots && node wk.mjs > ci/safari.txt 2>&1 || true
       - name: save results
+        if: always()
         run: |
           mkdir -p ci/shots && cp shots/*.png ci/shots/ 2>/dev/null || true
           git config user.name ci && git config user.email ci@users.noreply.github.com
