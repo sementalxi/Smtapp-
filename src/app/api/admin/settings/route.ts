@@ -18,6 +18,7 @@ const Body = z.object({
   hero_video: z.string().trim().max(600).refine((u) => !u || /^https:\/\/\S+$/.test(u), "Use an https:// video link").optional(),
   hero_video_opacity: z.coerce.number().int().min(10).max(100).optional(),
   sms_posters: z.enum(["0", "1"]).optional(),
+  hero_effect: z.enum(["stadium", "smoke", "fire", "lightning", "rain", "speed", "grid", "stars", "aurora", "confetti", "none"]).optional(),
   hero_bg_mode: z.enum(["image", "video", "none"]).optional(),
   discord_webhook: z
     .string()
