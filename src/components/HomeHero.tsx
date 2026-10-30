@@ -71,7 +71,7 @@ export function HomeHero({
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
           {/* Phone: crest on the right, beside the title */}
-          <div className="pointer-events-none absolute -right-3 top-2 -z-10 w-[54%] max-w-[300px] lg:hidden">
+          <div className="pointer-events-none absolute -right-5 top-8 -z-10 w-[46%] max-w-[260px] opacity-95 lg:hidden">
             <Crest />
           </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
