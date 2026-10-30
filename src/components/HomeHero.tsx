@@ -34,11 +34,13 @@ export function HomeHero({
   t,
   user,
   bonus,
+  heroBg,
 }: {
   t: T;
   user: boolean;
   bonus: number;
   heroImgs?: string[];
+  heroBg?: { mode: string; video: string; opacity: number };
   templates?: ClientTemplate[];
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
@@ -54,7 +56,22 @@ export function HomeHero({
   return (
     <section className="kixo-letterbox relative overflow-hidden border-b border-line">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
+      {heroBg?.mode === "video" && heroBg.video ? (
+        <video
+          src={heroBg.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/kixo-hero-bg.webp"
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          style={{ opacity: heroBg.opacity / 100 }}
+        />
+      ) : heroBg?.mode === "none" ? null : (
+        <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
+      )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/70 to-ink lg:bg-gradient-to-r lg:from-ink lg:via-ink/75 lg:to-ink/10" />
       <div className="kixo-beam" style={{ left: "8%" }} aria-hidden />
       <div className="kixo-beam" style={{ right: "4%", animationDelay: "-4.5s", animationDuration: "11s" }} aria-hidden />
