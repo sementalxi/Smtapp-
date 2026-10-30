@@ -36,7 +36,12 @@ jobs:
             p.on("console", (m) => m.type() === "error" && errors.push(m.text()));
             for (const path of ["/", "/login", "/register", "/pricing"]) {
               await p.goto("https://smtapp-ten.vercel.app" + path, { waitUntil: "networkidle", timeout: 60000 });
+              // scroll like a person so scroll-reveal content appears
+              for (let y = 0; y < 12000; y += 500) { await p.evaluate((v) => window.scrollTo(0, v), y); await p.waitForTimeout(120); }
+              await p.evaluate(() => window.scrollTo(0, 0));
               await p.waitForTimeout(1500);
+              const hidden = await p.evaluate(() => [...document.querySelectorAll("[data-reveal]")].filter((e) => getComputedStyle(e).opacity === "0").length);
+              console.log(name, path, "hidden reveal elements:", hidden);
               const safe = path === "/" ? "home" : path.slice(1);
               await p.screenshot({ path: `shots/${name}-${safe}.png`, fullPage: true });
             }
