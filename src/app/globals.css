@@ -111,7 +111,7 @@ input[type="range"] {
 
 /* Scroll reveal (only active once the script runs, so content never stays hidden) */
 html.kixo-reveal [data-reveal] { opacity: 0; transform: translateY(28px) scale(0.985); filter: blur(10px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.9s ease; }
-html.kixo-reveal [data-reveal].is-visible { opacity: 1; transform: none; filter: none; }
+html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .kixo-float, .kixo-fade-up, .kixo-glow, .kixo-icon-pulse, .kixo-bg-pan, .kixo-spark, .kixo-marquee, .kixo-shine::after { animation: none !important; }
@@ -212,7 +212,7 @@ html.kixo-reveal [data-reveal].is-visible { opacity: 1; transform: none; filter:
 /* Section heading underline that draws in */
 .kixo-chapter { position: relative; display: inline-block; }
 .kixo-chapter::after { content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0; background: linear-gradient(90deg, #b7ff45, #46d5ae, transparent); transition: width 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s; }
-.is-visible .kixo-chapter::after, .is-visible.kixo-chapter::after { width: 100%; }
+[data-shown] .kixo-chapter::after, [data-shown].kixo-chapter::after { width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   .kixo-grain, .kixo-beam, .kixo-fog, .kixo-ai-scan, .kixo-focus-in, .kixo-typing, .kixo-letterbox::before, .kixo-letterbox::after { animation: none !important; }
