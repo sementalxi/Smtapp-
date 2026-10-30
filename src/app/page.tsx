@@ -5,6 +5,7 @@ import { activeTemplates } from "@/lib/queries";
 import { getNumberSetting, getSettings } from "@/lib/settings";
 import { TemplateThumb } from "@/components/TemplateThumb";
 import { PricingCards } from "@/components/PricingCards";
+import { HomeHero } from "@/components/HomeHero";
 import type { ClientTemplate } from "@/lib/samples";
 
 export default async function Home() {
@@ -21,59 +22,10 @@ export default async function Home() {
   } catch {
     /* DB not ready */
   }
-  const hero = templates.slice(0, 3);
 
   return (
     <div>
-      <section className="relative overflow-hidden border-b border-line">
-        <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-lime/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 lg:grid-cols-[1.1fr_1fr] lg:py-24">
-          <div>
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-lime">{t("hero_kicker")}</p>
-            <h1 className="font-display text-6xl leading-[0.95] sm:text-7xl">{t("hero_title")}</h1>
-            <p className="mt-6 max-w-lg text-lg text-muted">{t("hero_sub")}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={user ? "/create" : "/register"} className="btn-primary px-6 py-3 text-base">
-                ⚡ {t("hero_cta")}
-              </Link>
-              <Link href="/pricing" className="btn-ghost px-6 py-3 text-base">{t("hero_cta2")}</Link>
-            </div>
-            {bonus > 0 && <p className="mt-4 text-sm text-muted">{t("free_note", { n: bonus })}</p>}
-          </div>
-
-          <div className="relative h-[460px] sm:h-[540px]">
-            {heroImgs.length > 0 && heroImgs.map((src, i) => (
-              <div
-                key={src}
-                className="absolute w-[56%] overflow-hidden rounded-2xl border border-line shadow-2xl shadow-black/60"
-                style={{
-                  left: `${(heroImgs.length === 1 ? 1 : heroImgs.length === 2 ? i * 2 : i) * 22}%`,
-                  top: `${[8, 0, 14][heroImgs.length === 1 ? 1 : i]}%`,
-                  transform: `rotate(${[-7, 0, 7][heroImgs.length === 1 ? 1 : heroImgs.length === 2 ? i * 2 : i]}deg)`,
-                  zIndex: i === 1 || heroImgs.length === 1 ? 3 : 1,
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt="" className="block aspect-[4/5] w-full object-cover" />
-              </div>
-            ))}
-            {heroImgs.length === 0 && hero.map((tpl, i) => (
-              <div
-                key={tpl.id}
-                className="absolute w-[56%] overflow-hidden rounded-2xl border border-line shadow-2xl shadow-black/60"
-                style={{
-                  left: `${i * 22}%`,
-                  top: `${[8, 0, 14][i]}%`,
-                  transform: `rotate(${[-7, 0, 7][i]}deg)`,
-                  zIndex: i === 1 ? 3 : 1,
-                }}
-              >
-                <TemplateThumb template={tpl} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} templates={templates} />
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="font-display mb-8 text-4xl">{t("how_title")}</h2>
