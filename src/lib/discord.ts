@@ -52,7 +52,7 @@ export async function logGeneration(opts: {
     const embed: Record<string, unknown> = {
       title: opts.ok ? `🖼️ ${banner?.title || "New poster"}` : `❌ Failed: ${banner?.title || "poster"}`,
       url: `${appUrl()}/admin/banners`,
-      color: opts.ok ? 0x3ee0ff : 0xff4d5e,
+      color: opts.ok ? 0xd4af37 : 0xff4d5e,
       fields: [
         { name: "User", value: `${user?.name ?? "?"}\n${user?.email ?? ""}`.slice(0, 1000), inline: true },
         { name: "Type", value: `${kind}\n${banner?.template.name ?? ""}`.slice(0, 1000), inline: true },

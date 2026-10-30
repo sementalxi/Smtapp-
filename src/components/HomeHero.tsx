@@ -84,7 +84,7 @@ export function HomeHero({
               .split(" ")
               .map((w, n) => (
                 <span key={n} className="kixo-fade-up inline-block" style={{ animationDelay: `${120 + n * 90}ms` }}>
-                  {w}&nbsp;
+                  <span className="gold-text">{w}</span>&nbsp;
                 </span>
               ))}
           </h1>
@@ -100,7 +100,7 @@ export function HomeHero({
           </div>
           {bonus > 0 && <p className="mt-3 text-sm text-muted">{tt("free_note", { n: bonus })}</p>}
 
-          <h2 className="font-display mt-10 text-2xl tracking-wide text-lime sm:text-3xl">{tt("hero_feat_title")}</h2>
+          <h2 className="font-display mt-10 text-2xl tracking-wide text-lime sm:text-3xl" style={{ textShadow: "0 0 24px rgba(227,18,45,0.45)" }}>{tt("hero_feat_title")}</h2>
           <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
             {feats.map(([icon, key]) => (
               <div key={key} data-reveal data-reveal-delay={feats.findIndex((f) => f[1] === key) * 70} className="group flex items-center gap-3">

@@ -12,6 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     ["/admin/templates", t("admin_templates")],
     ["/admin/leagues", locale === "es" ? "Ligas y logos" : "Leagues & logos"],
     ["/admin/texts", locale === "es" ? "Textos del sitio" : "Site texts"],
+    ["/admin/deals", locale === "es" ? "Ofertas" : "Deals"],
     ["/admin/transactions", t("admin_tx")],
     ["/admin/payments", t("admin_payments")],
     ["/admin/settings", t("admin_settings")],

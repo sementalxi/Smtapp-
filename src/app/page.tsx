@@ -6,6 +6,7 @@ import { getNumberSetting, getSettings } from "@/lib/settings";
 import { PricingCards } from "@/components/PricingCards";
 import { HomeHero } from "@/components/HomeHero";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { DealsSection, type PublicDeal } from "@/components/DealsSection";
 import { db } from "@/lib/db";
 import type { ClientTemplate } from "@/lib/samples";
 
@@ -16,11 +17,16 @@ export default async function Home() {
   let bonus = 3;
   let heroImgs: string[] = [];
   let partners: { id: string; name: string; logoUrl: string | null }[] = [];
+  let deals: PublicDeal[] = [];
   try {
     const st = await getSettings();
     heroImgs = [st.hero_1, st.hero_2, st.hero_3].filter(Boolean);
     templates = await activeTemplates();
     bonus = await getNumberSetting("signup_credits");
+    const now = new Date();
+    deals = (
+      await db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 })
+    ).map((x) => ({ id: x.id, title: x.title, subtitle: x.subtitle, price: x.price, tags: x.tags, included: x.included, imageUrl: x.imageUrl, ctaLabel: x.ctaLabel, ctaHref: x.ctaHref, endsAt: x.endsAt ? x.endsAt.toISOString() : null }));
     partners = await db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } });
   } catch {
     /* DB not ready */
@@ -36,7 +42,7 @@ export default async function Home() {
       {/* How it works — compact numbered steps */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
         <p data-reveal className="text-xs font-bold uppercase tracking-[0.35em] text-lime">01 — 04</p>
-        <h2 data-reveal className="font-display mt-2 text-4xl sm:text-5xl">{t("how_title")}</h2>
+        <h2 data-reveal className="font-display mt-2 text-4xl sm:text-5xl"><span className="gold-text">{t("how_title")}</span></h2>
         <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {(["1", "2", "3", "4"] as const).map((n) => (
             <div key={n} data-reveal data-reveal-delay={(Number(n) - 1) * 110} className="group relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-panel p-4 transition hover:-translate-y-1 hover:border-lime/50 sm:p-5">
@@ -54,7 +60,7 @@ export default async function Home() {
         <section className="border-y border-line bg-panel/30">
           <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
             <div className="flex items-end justify-between gap-4">
-              <h2 data-reveal className="font-display text-4xl sm:text-5xl">{t("styles_title")}</h2>
+              <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text">{t("styles_title")}</span></h2>
               <Link href={user ? "/create" : "/register"} className="shrink-0 text-sm font-bold text-lime hover:text-white">
                 {t("hero_cta")} ›
               </Link>
@@ -80,9 +86,11 @@ export default async function Home() {
         </section>
       )}
 
+      {deals.length > 0 && <DealsSection deals={deals} />}
+
       {/* Pricing */}
       <section className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
-        <h2 data-reveal className="font-display text-4xl sm:text-5xl">{t("pricing_title")}</h2>
+        <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text">{t("pricing_title")}</span></h2>
         <p data-reveal className="mt-2 mb-10 text-muted">{t("pricing_sub")}</p>
         <div data-reveal>
           <PricingCards user={user} />
@@ -91,9 +99,9 @@ export default async function Home() {
 
       {/* Final call to action */}
       <section className="px-4 pb-16">
-        <div data-reveal className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-lime/30 bg-gradient-to-br from-lime/15 via-panel to-panel px-6 py-12 text-center sm:py-16">
+        <div data-reveal className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border gold-border bg-gradient-to-br from-lime/15 via-panel to-panel px-6 py-12 text-center sm:py-16">
           <div className="kixo-bg-pan pointer-events-none absolute -top-24 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-lime/20 blur-3xl" />
-          <h2 className="font-display relative text-4xl sm:text-6xl">{t("home_cta_title")}</h2>
+          <h2 className="font-display relative text-4xl sm:text-6xl"><span className="gold-text">{t("home_cta_title")}</span></h2>
           <p className="relative mx-auto mt-3 max-w-md text-muted">{t("home_cta_sub")}</p>
           <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine relative mt-7 px-8 py-3.5 text-base">
             ⚡ {t("hero_cta")}

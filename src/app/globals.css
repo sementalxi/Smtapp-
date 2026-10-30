@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #07080b;
-  --color-panel: #0f1116;
-  --color-panel-2: #161922;
-  --color-line: #252a36;
-  --color-muted: #8a93a6;
-  --color-lime: #3ee0ff;
-  --color-lime-dim: #19b8d8;
+  --color-ink: #070505;
+  --color-panel: #110c0d;
+  --color-panel-2: #1a1314;
+  --color-line: #2f2224;
+  --color-muted: #a3979a;
+  /* "lime" is the accent token used everywhere — now KIXO red */
+  --color-lime: #e3122d;
+  --color-lime-dim: #a50d20;
+  --color-gold: #d4af37;
+  --color-gold-light: #f6e27a;
   --color-danger: #ff4d5e;
   --font-sans: var(--nf-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--nf-anton), Impact, sans-serif;
@@ -15,7 +18,8 @@
 
 html {
   overflow-x: clip;
-  background: var(--color-ink);
+  background: radial-gradient(1200px 600px at 50% -200px, rgba(227, 18, 45, 0.12), transparent 70%), var(--color-ink);
+  background-attachment: fixed;
   color: #eef1f6;
   color-scheme: dark;
 }
@@ -32,7 +36,7 @@ body {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed bg-lime text-ink hover:bg-white;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed bg-lime text-white shadow-[0_8px_24px_-10px_rgba(227,18,45,0.8)] hover:bg-gold hover:text-ink;
 }
 .btn-ghost {
   @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-line bg-panel-2 text-white hover:border-muted;
@@ -84,11 +88,11 @@ input[type="range"] {
 /* ───── Site motion ───── */
 @keyframes kixo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 @keyframes kixo-fade-up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-@keyframes kixo-glow { 0%, 100% { box-shadow: 0 0 12px -2px rgba(62, 224, 255, 0.6); opacity: 0.85; } 50% { box-shadow: 0 0 28px 2px rgba(62, 224, 255, 0.9); opacity: 1; } }
+@keyframes kixo-glow { 0%, 100% { box-shadow: 0 0 12px -2px rgba(227, 18, 45, 0.7); opacity: 0.85; } 50% { box-shadow: 0 0 28px 2px rgba(246, 214, 110, 0.8); opacity: 1; } }
 @keyframes kixo-drift { 0% { transform: translateY(0) translateX(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-420px) translateX(30px); opacity: 0; } }
 @keyframes kixo-btn-shine { 0% { transform: translateX(-120%) skewX(-20deg); } 60%, 100% { transform: translateX(220%) skewX(-20deg); } }
 @keyframes kixo-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes kixo-icon-pulse { 0%, 100% { box-shadow: 0 0 14px -8px rgba(62, 224, 255, 0.6); } 50% { box-shadow: 0 0 24px -4px rgba(62, 224, 255, 0.85); } }
+@keyframes kixo-icon-pulse { 0%, 100% { box-shadow: 0 0 14px -8px rgba(227, 18, 45, 0.7); } 50% { box-shadow: 0 0 24px -4px rgba(227, 18, 45, 0.95); } }
 @keyframes kixo-bg-pan { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-40px, 30px) scale(1.1); } 100% { transform: translate(0, 0) scale(1); } }
 
 .kixo-float { animation: kixo-float 6s ease-in-out infinite; }
@@ -96,7 +100,7 @@ input[type="range"] {
 .kixo-glow { animation: kixo-glow 2.6s ease-in-out infinite; }
 .kixo-icon-pulse { animation: kixo-icon-pulse 3s ease-in-out infinite; }
 .kixo-bg-pan { animation: kixo-bg-pan 14s ease-in-out infinite; }
-.kixo-spark { position: absolute; border-radius: 9999px; background: rgba(62, 224, 255, 0.9); box-shadow: 0 0 8px rgba(62, 224, 255, 0.9); animation: kixo-drift linear infinite; }
+.kixo-spark { position: absolute; border-radius: 9999px; background: rgba(246, 214, 110, 0.95); box-shadow: 0 0 8px rgba(212, 175, 55, 0.95); animation: kixo-drift linear infinite; }
 .kixo-shine { position: relative; overflow: hidden; }
 .kixo-shine::after { content: ""; position: absolute; inset: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent); animation: kixo-btn-shine 3.2s ease-in-out infinite; pointer-events: none; }
 .kixo-marquee { animation: kixo-marquee 28s linear infinite; }
@@ -111,3 +115,17 @@ html.kixo-reveal [data-reveal].is-visible { opacity: 1; transform: none; }
   .kixo-spark { display: none; }
   html.kixo-reveal [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
+
+/* Real gold shine for titles */
+@keyframes kixo-gold-shine { from { background-position: 200% 50%; } to { background-position: -200% 50%; } }
+.gold-text {
+  background: linear-gradient(110deg, #8a6a1f 0%, #d4af37 18%, #f6e27a 30%, #fff8d6 38%, #d4af37 48%, #9c7a24 60%, #f6e27a 75%, #b8892d 88%, #8a6a1f 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: kixo-gold-shine 7s linear infinite;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.6)) drop-shadow(0 0 18px rgba(212, 175, 55, 0.25));
+}
+.gold-border { border-color: rgba(212, 175, 55, 0.45); }
+@media (prefers-reduced-motion: reduce) { .gold-text { animation: none; } }

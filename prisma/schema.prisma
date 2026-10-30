@@ -193,3 +193,20 @@ model LibraryItem {
 
   @@index([kind, sort])
 }
+
+// Limited-time offers shown on the home page ("Don't miss these deals"), managed in Admin → Deals.
+model Deal {
+  id        String    @id @default(cuid())
+  title     String
+  subtitle  String    @default("")
+  price     String    @default("")
+  tags      String    @default("") // comma-separated chips, e.g. "Limited time, Best value"
+  included  String    @default("") // one item per line
+  imageUrl  String?
+  ctaLabel  String    @default("")
+  ctaHref   String    @default("/pricing")
+  endsAt    DateTime?
+  active    Boolean   @default(true)
+  sort      Int       @default(0)
+  createdAt DateTime  @default(now())
+}
