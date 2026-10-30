@@ -446,8 +446,8 @@ export function buildProPrompt(opts: {
 
   const typeFx = `TYPOGRAPHY TREATMENT (very important): every title is a designed lettering piece by a pro designer, never plain typed text. The main name/headline: thick 3D extruded letters with bevelled edges, polished chrome or brushed-metal faces with a gradient in the main colour, sharp specular highlights, a coloured outline or inner glow, a hard drop shadow and subtle wear/texture; it may be slightly slanted, tightly kerned and overlap the subject in places. Mix 2–3 contrasting type styles (huge condensed caps + a gothic or brush-script accent + tiny letter-spaced caps) with a clear size hierarchy. Tag boxes and badges look like real graphic elements (bevel, gradient, glow). No flat, thin, default-looking white text.`;
   const typo = [
-    i.fontPrimary && `Titles and the main headline in ${fontPrompt(i.fontPrimary)}.`,
-    i.fontSecondary && `Names, numbers and small text in ${fontPrompt(i.fontSecondary)}.`,
+    fontPrompt(i.fontPrimary) && `Titles and the main headline in ${fontPrompt(i.fontPrimary)}.`,
+    fontPrompt(i.fontSecondary) && `Names, numbers and small text in ${fontPrompt(i.fontSecondary)}.`,
     i.language && i.language !== "English"
       ? `Write generic words on the poster (titles like MATCH DAY, FULL TIME, CHAMPIONS, STARTING XI, labels, dates) in ${i.language}. Team names, player names and anything quoted below stay exactly as written.`
       : "",

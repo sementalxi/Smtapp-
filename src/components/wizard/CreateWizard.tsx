@@ -703,9 +703,17 @@ export function CreateWizard({
           {(["fontPrimary", "fontSecondary"] as const).map((k) => (
             <div key={k}>
               <label className="label">
-                {k === "fontPrimary" ? L.primary : L.secondary} {k === "fontPrimary" && <span className="text-lime">*</span>}
+                {k === "fontPrimary" ? L.primary : L.secondary}
               </label>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                <button
+                  type="button"
+                  onClick={() => set(k, "")}
+                  className={`rounded-lg border px-3 py-2.5 text-left text-sm font-bold ${!inp[k] ? "border-lime bg-lime/5 text-lime" : "border-line bg-panel-2"}`}
+                >
+                  ⭐ {locale === "es" ? "Recomendado" : "Recommended"}
+                  <span className="block text-[10px] font-normal text-muted">{locale === "es" ? "El estilo / la IA decide" : "The style / AI decides"}</span>
+                </button>
                 {FONT_STYLES.map((f) => (
                   <button
                     key={f.id}
@@ -811,7 +819,7 @@ export function CreateWizard({
               );
             })()}
           </div>
-          {nav({ canNext: !!inp.fontPrimary, onNext: () => setStep(5) })}
+          {nav({ canNext: true, onNext: () => setStep(5) })}
         </div>
       )}
 
