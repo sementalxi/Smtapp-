@@ -40,14 +40,17 @@ async function setSetting(k: string, value: string) {
   await db.setting.upsert({ where: { key: k }, create: { key: k, value }, update: { value } });
 }
 
-/** The Square location that takes the payments (env, saved, or the first active one). */
+/** The Square location that takes the payments: env, else one named "KIXO" (or the site name), else the first active one. */
 export async function locationId() {
   const env = process.env.SQUARE_LOCATION_ID?.trim();
-  if (env) return env;
-  const saved = await getSetting("square_location_id");
-  if (saved) return saved;
-  const { locations = [] } = await sq<{ locations?: { id: string; status?: string }[] }>("/locations");
-  const loc = locations.find((l) => l.status === "ACTIVE") ?? locations[0];
+  const { locations = [] } = await sq<{ locations?: { id: string; status?: string; name?: string; business_name?: string }[] }>("/locations");
+  const active = locations.filter((l) => l.status !== "INACTIVE");
+  // A valid env value wins; a wrong/cut-off one is ignored instead of breaking every checkout.
+  if (env && active.some((l) => l.id === env)) return env;
+  if (env) console.warn(`SQUARE_LOCATION_ID "${env}" is not one of this account's locations — picking automatically`);
+  const want = site.toLowerCase();
+  const named = active.find((l) => (l.name ?? "").toLowerCase().includes(want) || (l.business_name ?? "").toLowerCase().includes(want));
+  const loc = named ?? active[0] ?? locations[0];
   if (!loc) throw new SquareError("No Square location found on this account");
   await setSetting("square_location_id", loc.id);
   return loc.id;
