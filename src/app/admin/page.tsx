@@ -6,6 +6,8 @@ import { TxTable } from "@/components/TxTable";
 import { aiConfigured } from "@/lib/banners";
 import { webhookSecret } from "@/lib/stripe";
 import { ConnectStripeButton } from "@/components/admin/ConnectStripeButton";
+import { ConnectSquareButton } from "@/components/admin/ConnectSquareButton";
+import { squareWebhookConfig } from "@/lib/square";
 
 export default async function AdminHome() {
   await requireAdmin();
@@ -39,13 +41,14 @@ export default async function AdminHome() {
   };
   const setup = (
     [
-      [es ? "OPENAI_API_KEY (IA Pro)" : "OPENAI_API_KEY (Pro AI)", process.env.OPENAI_API_KEY],
-      [es ? "REPLICATE_API_TOKEN (recorte de foto)" : "REPLICATE_API_TOKEN (photo cut-out)", process.env.REPLICATE_API_TOKEN],
-      [es ? "SERPER_API_KEY (búsqueda de fotos en Google, opcional)" : "SERPER_API_KEY (Google photo search, optional)", process.env.SERPER_API_KEY],
-      ["DATABASE_URL", process.env.DATABASE_URL],
-      [es ? "STRIPE_SECRET_KEY (pagos)" : "STRIPE_SECRET_KEY (payments)", process.env.STRIPE_SECRET_KEY],
+      [es ? "OPENAI_API_KEY (IA Pro — necesaria)" : "OPENAI_API_KEY (Pro AI — required)", process.env.OPENAI_API_KEY, false],
+      ["DATABASE_URL", process.env.DATABASE_URL, false],
+      [es ? "SQUARE_ACCESS_TOKEN (pagos — necesaria para vender créditos)" : "SQUARE_ACCESS_TOKEN (payments — needed to sell credits)", process.env.SQUARE_ACCESS_TOKEN, false],
+      [es ? "SERPER_API_KEY (búsqueda en Google, opcional)" : "SERPER_API_KEY (Google photo search, optional)", process.env.SERPER_API_KEY, true],
+      [es ? "REPLICATE_API_TOKEN (modo rápido antiguo, no se usa)" : "REPLICATE_API_TOKEN (old Quick mode, not used)", process.env.REPLICATE_API_TOKEN, true],
+      [es ? "STRIPE_SECRET_KEY (no se usa con Square)" : "STRIPE_SECRET_KEY (not needed with Square)", process.env.STRIPE_SECRET_KEY, true],
     ] as const
-  ).map(([name, v]) => [name, ...describe(v)] as const);
+  ).map(([name, v, optional]) => [name, ...describe(v), optional] as const);
 
   const stats = [
     [t("stat_users"), users],
@@ -56,11 +59,14 @@ export default async function AdminHome() {
     [t("stat_credits"), credits._sum.credits ?? 0],
   ] as const;
 
-  const hasStripe = !!process.env.STRIPE_SECRET_KEY;
+  const hasSquare = !!process.env.SQUARE_ACCESS_TOKEN?.trim();
+  const squareConnected = hasSquare && !!(await squareWebhookConfig()).key;
+  const hasStripe = !hasSquare && !!process.env.STRIPE_SECRET_KEY;
   const hasWebhook = hasStripe && !!(await webhookSecret());
   const warnings = [
     !aiConfigured() && (es ? "La IA no está configurada (REPLICATE_API_TOKEN / OPENAI_API_KEY) — las generaciones van en modo demo gratis." : "AI is not configured (REPLICATE_API_TOKEN / OPENAI_API_KEY) — generations run in free demo mode."),
-    !process.env.STRIPE_SECRET_KEY && (es ? "Pagos apagados (sin STRIPE_SECRET_KEY). Los botones de compra muestran “Próximamente”; igual puedes dar créditos aquí." : "Payments are off (no STRIPE_SECRET_KEY). Buy buttons show “Coming soon”; you can still add credits to users here."),
+    !hasSquare && !process.env.STRIPE_SECRET_KEY && (es ? "Pagos apagados (sin SQUARE_ACCESS_TOKEN). Los botones de compra muestran “Próximamente”; igual puedes dar créditos aquí." : "Payments are off (no SQUARE_ACCESS_TOKEN). Buy buttons show “Coming soon”; you can still add credits to users here."),
+    hasSquare && !squareConnected && (es ? "Square no está conectado — toca “Conectar Square” abajo o los créditos pagados no llegarán." : "Square isn't connected yet — click “Connect Square” below, or paid credits won't be delivered."),
     hasStripe && !hasWebhook && (es ? "El webhook de Stripe no está conectado — toca “Conectar Stripe” abajo o los créditos pagados no llegarán." : "Stripe webhook isn't connected yet — click “Connect Stripe” below, or paid credits won't be delivered."),
     process.env.STORAGE_DRIVER !== "s3" &&
       !process.env.BLOB_READ_WRITE_TOKEN &&
@@ -82,13 +88,14 @@ export default async function AdminHome() {
       )}
 
       {hasStripe && !hasWebhook && <ConnectStripeButton es={es} />}
+      {hasSquare && <ConnectSquareButton es={es} connected={squareConnected} />}
 
       <div className="card p-4 text-sm">
         <div className="mb-2 font-bold">{es ? "Revisión de configuración" : "Setup check"}</div>
-        <ul className="space-y-1 font-mono text-xs">
-          {setup.map(([name, status, ok]) => (
-            <li key={name} className={ok ? "text-lime" : "text-danger"}>
-              {ok ? "✓" : "✗"} {name}: {status}
+        <ul className="space-y-1 break-words font-mono text-xs">
+          {setup.map(([name, status, ok, optional]) => (
+            <li key={name} className={ok ? "text-lime" : optional ? "text-muted" : "text-danger"}>
+              {ok ? "✓" : optional ? "–" : "✗"} {name}: {status}
             </li>
           ))}
         </ul>

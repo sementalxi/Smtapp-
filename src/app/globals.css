@@ -1,21 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #07080b;
-  --color-panel: #0f1116;
-  --color-panel-2: #161922;
-  --color-line: #252a36;
-  --color-muted: #8a93a6;
-  --color-lime: #3ee0ff;
-  --color-lime-dim: #19b8d8;
+  --color-ink: #090d0b;
+  --color-panel: #111814;
+  --color-panel-2: #19221d;
+  --color-line: #26332b;
+  --color-muted: #9aaba1;
+  /* "lime" is the main accent token used everywhere */
+  --color-lime: #b7ff45;
+  --color-lime-dim: #8fd12a;
+  --color-teal: #46d5ae;
+  --color-text: #f1f8f3;
+  /* "gold" tokens now map to the teal/lime accents (kept for existing classes) */
+  --color-gold: #46d5ae;
+  --color-gold-light: #b7ff45;
   --color-danger: #ff4d5e;
   --font-sans: var(--nf-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--nf-anton), Impact, sans-serif;
 }
 
 html {
-  background: var(--color-ink);
-  color: #eef1f6;
+  overflow-x: clip;
+  background: radial-gradient(1100px 600px at 85% -150px, rgba(183, 255, 69, 0.1), transparent 70%), radial-gradient(900px 500px at 0% 30%, rgba(70, 213, 174, 0.06), transparent 70%), var(--color-ink);
+  background-attachment: fixed;
+  color: #f1f8f3;
   color-scheme: dark;
 }
 
@@ -31,10 +39,10 @@ body {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed bg-lime text-ink hover:bg-white;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed bg-lime text-ink shadow-[0_8px_28px_-10px_rgba(183,255,69,0.75)] hover:bg-white;
 }
 .btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-line bg-panel-2 text-white hover:border-muted;
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-teal/40 bg-panel-2 text-white hover:border-teal;
 }
 .btn-danger {
   @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-danger/40 bg-danger/10 text-danger hover:bg-danger/20;
@@ -63,4 +71,91 @@ body {
 
 input[type="range"] {
   accent-color: var(--color-lime);
+}
+
+/* Generation progress: scanning light + bar shimmer */
+@keyframes kixo-scan {
+  0% { top: -6rem; }
+  100% { top: 100%; }
+}
+.kixo-scan { animation: kixo-scan 2.6s linear infinite; }
+@keyframes kixo-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.kixo-shimmer { animation: kixo-shimmer 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .kixo-scan, .kixo-shimmer { animation: none; }
+}
+
+/* ───── Site motion ───── */
+@keyframes kixo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes kixo-fade-up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes kixo-glow { 0%, 100% { box-shadow: 0 0 12px -2px rgba(183, 255, 69, 0.6); opacity: 0.85; } 50% { box-shadow: 0 0 28px 2px rgba(183, 255, 69, 0.9); opacity: 1; } }
+@keyframes kixo-drift { 0% { transform: translateY(0) translateX(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-420px) translateX(30px); opacity: 0; } }
+@keyframes kixo-btn-shine { 0% { transform: translateX(-120%) skewX(-20deg); } 60%, 100% { transform: translateX(220%) skewX(-20deg); } }
+@keyframes kixo-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes kixo-icon-pulse { 0%, 100% { box-shadow: 0 0 14px -8px rgba(70, 213, 174, 0.6); } 50% { box-shadow: 0 0 24px -4px rgba(70, 213, 174, 0.9); } }
+@keyframes kixo-bg-pan { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-40px, 30px) scale(1.1); } 100% { transform: translate(0, 0) scale(1); } }
+
+.kixo-float { animation: kixo-float 6s ease-in-out infinite; }
+.kixo-fade-up { animation: kixo-fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.kixo-glow { animation: kixo-glow 2.6s ease-in-out infinite; }
+.kixo-icon-pulse { animation: kixo-icon-pulse 3s ease-in-out infinite; }
+.kixo-bg-pan { animation: kixo-bg-pan 14s ease-in-out infinite; }
+.kixo-spark { position: absolute; border-radius: 9999px; background: rgba(183, 255, 69, 0.95); box-shadow: 0 0 8px rgba(183, 255, 69, 0.9); animation: kixo-drift linear infinite; }
+.kixo-shine { position: relative; overflow: hidden; }
+.kixo-shine::after { content: ""; position: absolute; inset: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent); animation: kixo-btn-shine 3.2s ease-in-out infinite; pointer-events: none; }
+.kixo-marquee { animation: kixo-marquee 28s linear infinite; }
+.kixo-marquee:hover { animation-play-state: paused; }
+
+/* Scroll reveal (only active once the script runs, so content never stays hidden) */
+html.kixo-reveal [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+html.kixo-reveal [data-reveal].is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kixo-float, .kixo-fade-up, .kixo-glow, .kixo-icon-pulse, .kixo-bg-pan, .kixo-spark, .kixo-marquee, .kixo-shine::after { animation: none !important; }
+  .kixo-spark { display: none; }
+  html.kixo-reveal [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
+/* Real gold shine for titles */
+@keyframes kixo-gold-shine { from { background-position: 200% 50%; } to { background-position: -200% 50%; } }
+.gold-text {
+  background: linear-gradient(110deg, #9aa7a0 0%, #f1f8f3 20%, #ffffff 32%, #c9d4ce 46%, #f1f8f3 60%, #ffffff 72%, #aab6af 88%, #9aa7a0 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: kixo-gold-shine 7s linear infinite;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.6)) drop-shadow(0 0 16px rgba(241, 248, 243, 0.12));
+}
+.lime-text { color: #b7ff45; text-shadow: 0 0 30px rgba(183, 255, 69, 0.35); }
+.gold-border { border-color: rgba(183, 255, 69, 0.35); }
+@media (prefers-reduced-motion: reduce) { .gold-text { animation: none; } }
+
+/* Home hero: animated KIXO crest */
+@keyframes kixo-logo-in { from { opacity: 0; transform: scale(0.82) translateY(24px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes kixo-logo-float { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-14px) rotate(1.2deg); } }
+@keyframes kixo-logo-glow { 0%, 100% { filter: drop-shadow(0 10px 24px rgba(0,0,0,0.7)) drop-shadow(0 0 10px rgba(70,213,174,0.35)); } 50% { filter: drop-shadow(0 18px 30px rgba(0,0,0,0.7)) drop-shadow(0 0 26px rgba(183,255,69,0.55)); } }
+@keyframes kixo-logo-ring { 0% { transform: translate(-50%, -50%) scale(0.75); opacity: 0.9; } 100% { transform: translate(-50%, -50%) scale(1.35); opacity: 0; } }
+@keyframes kixo-logo-aura { 0%, 100% { opacity: 0.45; transform: scale(0.95); } 50% { opacity: 0.85; transform: scale(1.08); } }
+@keyframes kixo-logo-shine { 0%, 55% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@keyframes kixo-hero-bg { 0%, 100% { transform: scale(1.06) translate3d(0, 0, 0); } 50% { transform: scale(1.12) translate3d(-1.5%, -1%, 0); } }
+.kixo-logo-in { animation: kixo-logo-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.kixo-logo-float { animation: kixo-logo-float 6s ease-in-out infinite; will-change: transform; }
+.kixo-logo-glow { animation: kixo-logo-glow 4s ease-in-out infinite; }
+.kixo-logo-ring { animation: kixo-logo-ring 3.2s ease-out infinite; }
+.kixo-logo-aura { animation: kixo-logo-aura 4s ease-in-out infinite; }
+.kixo-logo-shine {
+  background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  -webkit-mask: url(/kixo-hero-logo.webp) center / contain no-repeat;
+  mask: url(/kixo-hero-logo.webp) center / contain no-repeat;
+  animation: kixo-logo-shine 4.5s ease-in-out infinite;
+  mix-blend-mode: overlay;
+}
+.kixo-hero-bg { animation: kixo-hero-bg 24s ease-in-out infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) {
+  .kixo-logo-in, .kixo-logo-float, .kixo-logo-glow, .kixo-logo-ring, .kixo-logo-aura, .kixo-logo-shine, .kixo-hero-bg { animation: none; }
 }

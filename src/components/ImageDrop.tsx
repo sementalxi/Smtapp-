@@ -74,6 +74,10 @@ export function ImageDrop({
         unsupported_type: ["Only JPG, PNG or WebP", "Solo JPG, PNG o WebP"],
         too_many_requests: ["Too many uploads, wait a bit", "Demasiadas subidas, espera un poco"],
         unauthorized: ["Please log in again", "Vuelve a iniciar sesión"],
+        unsafe_image: [
+          "This image isn't allowed (sexual or graphic content). Use a normal photo — e.g. a player in their kit.",
+          "Esta imagen no está permitida (contenido sexual o violento). Usa una foto normal — p. ej. un jugador con su uniforme.",
+        ],
       };
       const known = msg[data.error as string];
       setErr(known ? known[es ? 1 : 0] : (es ? "No se pudo subir" : "Upload failed") + (data.error?.startsWith?.("Upload failed:") ? ` (${data.error.slice(14)})` : ""));

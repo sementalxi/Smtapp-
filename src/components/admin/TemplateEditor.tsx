@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
-import { DEFAULT_DESIGN, LayoutKind, TemplateStyle } from "@/lib/templates";
-import { SAMPLE_INPUTS } from "@/lib/samples";
-import { BannerCanvas } from "../BannerCanvas";
+import { LayoutKind, TemplateStyle } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
 
 export interface AdminTemplate {
@@ -55,7 +53,13 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
       setBusy(false);
       return;
     }
-    const body = { ...tpl, style };
+    const auto = (tpl.name || tpl.nameEs || "style").toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30) || "style";
+    const body = {
+      ...tpl,
+      style,
+      slug: tpl.slug?.trim() || `${auto}-${Math.random().toString(36).slice(2, 6)}`,
+      prompt: (tpl.prompt ?? "").trim().length >= 10 ? tpl.prompt : "premium sports social-media poster, dramatic lighting, detailed background",
+    };
     delete body.id;
     delete body.uses;
     const res = await fetch(isNew ? "/api/admin/templates" : `/api/admin/templates/${tpl.id}`, {
@@ -88,7 +92,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
             // eslint-disable-next-line @next/next/no-img-element
             <img src={tpl.thumbUrl} alt="" className="block aspect-[4/5] w-full object-cover" />
           ) : (
-            <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
+            <div className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-lg">🖼️</div>
           )}
         </div>
         <div className="min-w-0 flex-1">
@@ -96,7 +100,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
             {tpl.name} <span className="text-muted">/ {tpl.nameEs}</span>
           </div>
           <div className="text-xs text-muted">
-            {tpl.slug} · {tpl.layout} · {t("cost")}: {tpl.cost} · {tpl.uses ?? 0} uses
+            {tpl.layout} · {tpl.uses ?? 0} {es ? "usos" : "uses"}{tpl.proInstructions?.trim() ? (es ? " · ✅ con instrucciones" : " · ✅ has instructions") : ""}
           </div>
         </div>
         <span className={`chip ${tpl.active ? "border-lime/50 text-lime" : "text-muted"}`}>
@@ -107,30 +111,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
   }
 
   return (
-    <div className="card grid gap-6 p-5 lg:grid-cols-[260px_1fr]">
-      <div>
-        <div className="overflow-hidden rounded-lg">
-          {tpl.thumbUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={tpl.thumbUrl} alt="" className="block aspect-[4/5] w-full object-cover" />
-          ) : (
-            <BannerCanvas layout={tpl.layout} style={tpl.style} inputs={SAMPLE_INPUTS[tpl.layout]} design={DEFAULT_DESIGN} />
-          )}
-        </div>
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          {COLOR_KEYS.map((k) => (
-            <label key={k} className="text-center text-[10px] uppercase text-muted">
-              <input
-                type="color"
-                value={tpl.style[k].slice(0, 7)}
-                onChange={(e) => setStyle({ ...tpl.style, [k]: e.target.value })}
-                className="h-9 w-full cursor-pointer rounded border border-line bg-transparent"
-              />
-              {k}
-            </label>
-          ))}
-        </div>
-      </div>
+    <div className="card min-w-0 p-5">
 
       <div className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-3">
@@ -143,10 +124,6 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
             <input className="input" value={tpl.nameEs} onChange={(e) => set("nameEs", e.target.value)} />
           </div>
           <div>
-            <label className="label">{t("slug")}</label>
-            <input className="input" value={tpl.slug} onChange={(e) => set("slug", e.target.value)} />
-          </div>
-          <div>
             <label className="label">{t("layout")}</label>
             <select className="input" value={tpl.layout} onChange={(e) => set("layout", e.target.value as LayoutKind)}>
               <option value="PLAYER">PLAYER</option>
@@ -156,14 +133,6 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
               <option value="LINEUP">LINEUP</option>
               <option value="RESULT">RESULT</option>
             </select>
-          </div>
-          <div>
-            <label className="label">{t("cost")}</label>
-            <input type="number" min={0} className="input" value={tpl.cost} onChange={(e) => set("cost", Number(e.target.value))} />
-          </div>
-          <div>
-            <label className="label">{t("order")}</label>
-            <input type="number" min={0} className="input" value={tpl.sort} onChange={(e) => set("sort", Number(e.target.value))} />
           </div>
         </div>
         <div>
@@ -202,12 +171,51 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
           <span>
             <b>{es ? "Diseño único en cada póster" : "Unique look on every poster"}</b>
             <span className="block text-xs text-muted">
-              {es
-                ? "Paleta, fondo, composición y luz aleatorios cada vez. Apágalo para un estilo constante (ej. el estilo oficial de una liga)."
-                : "Random palette, background concept, layout and lighting each time. Turn off for a consistent look (e.g. an official league style)."}
+              {tpl.proInstructions?.trim()
+                ? es
+                  ? "Con tus instrucciones: solo cambian detalles pequeños en cada póster — tu diseño y tus colores se respetan. Apágalo para que salga casi igual cada vez."
+                  : "With your instructions: only small details change per poster — your layout and colours are kept. Turn off to get nearly the same result every time."
+                : es
+                  ? "Paleta, fondo, composición y luz aleatorios cada vez. Apágalo para un estilo constante (ej. el estilo oficial de una liga)."
+                  : "Random palette, background concept, layout and lighting each time. Turn off for a consistent look (e.g. an official league style)."}
             </span>
           </span>
         </label>
+        <details className="rounded-xl border border-line p-3">
+          <summary className="cursor-pointer text-sm font-bold text-muted">⚙️ {es ? "Avanzado (opcional)" : "Advanced (optional)"}</summary>
+          <div className="mt-3 space-y-4">
+            <p className="text-xs text-muted">
+              {es
+                ? "No hace falta tocar esto. Si el estilo tiene Instrucciones de diseño, la IA solo lee esas instrucciones."
+                : "You don't need to touch these. If the style has Design instructions, the AI only reads those instructions."}
+            </p>
+            <div className="grid gap-3 sm:grid-cols-3">
+          <div>
+            <label className="label">{t("slug")}</label>
+            <input className="input" value={tpl.slug} onChange={(e) => set("slug", e.target.value)} />
+          </div>
+          <div>
+            <label className="label">{t("cost")}</label>
+            <input type="number" min={0} className="input" value={tpl.cost} onChange={(e) => set("cost", Number(e.target.value))} />
+          </div>
+          <div>
+            <label className="label">{t("order")}</label>
+            <input type="number" min={0} className="input" value={tpl.sort} onChange={(e) => set("sort", Number(e.target.value))} />
+          </div>
+            </div>
+        <div className="grid grid-cols-3 gap-2">
+          {COLOR_KEYS.map((k) => (
+            <label key={k} className="text-center text-[10px] uppercase text-muted">
+              <input
+                type="color"
+                value={tpl.style[k].slice(0, 7)}
+                onChange={(e) => setStyle({ ...tpl.style, [k]: e.target.value })}
+                className="h-9 w-full cursor-pointer rounded border border-line bg-transparent"
+              />
+              {k}
+            </label>
+          ))}
+        </div>
         <div>
           <label className="label">{es ? "Descripción del fondo / ambiente para la IA (también la usa el modo Rápido)" : "AI background / mood description (also used by Quick mode)"}</label>
           <textarea className="input min-h-24" value={tpl.prompt} onChange={(e) => set("prompt", e.target.value)} />
@@ -226,6 +234,8 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
               }
             }}
           />
+        </details>
+          </div>
         </details>
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" checked={tpl.active} onChange={(e) => set("active", e.target.checked)} />

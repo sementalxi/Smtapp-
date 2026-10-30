@@ -2,6 +2,7 @@ import { db } from "./db";
 
 export const SETTING_DEFAULTS = {
   signup_credits: "3",
+  referral_reward: "20",
   pro_cost: "4",
   pro_quality: "high",
   max_upload_mb: "10",

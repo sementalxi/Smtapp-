@@ -1,22 +1,30 @@
-import { CREDIT_PACKS, PLANS } from "@/lib/pricing";
+import { CREDIT_PACKS, PLANS, loadPricing } from "@/lib/pricing";
 import { getT } from "@/i18n/server";
 import type { CurrentUser } from "@/lib/auth";
 import { BuyButton } from "./BuyButton";
+import { paymentProvider } from "@/lib/payments";
 
 const usd = (n: number) => `$${n.toFixed(2)}`;
 
 export async function PricingCards({ user }: { user: CurrentUser | null }) {
+  await loadPricing();
   const { t } = await getT();
   const activePlan = user?.subscriptionId ? user.planId : null;
-  const off = !process.env.STRIPE_SECRET_KEY; // payments not set up yet
+  const provider = paymentProvider();
+  const off = !provider; // payments not set up yet
+  const { locale } = await getT();
+  const cancelLabel = locale === "es" ? "Cancelar suscripción" : "Cancel subscription";
+
+  const shownPlans = PLANS.filter((p) => p.active !== false || activePlan === p.id);
+  const shownPacks = CREDIT_PACKS.filter((p) => p.active !== false);
 
   return (
     <div className="space-y-14">
-      <section>
+      <section className={shownPlans.length ? "" : "hidden"}>
         <h2 className="font-display text-3xl">{t("plans_title")}</h2>
         <p className="mb-5 text-sm text-muted">{t("plans_sub")}</p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {PLANS.map((p) => {
+        <div className={`grid gap-4 ${shownPlans.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}>
+          {shownPlans.map((p) => {
             const current = activePlan === p.id;
             return (
               <div
@@ -37,7 +45,13 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                   <b className="text-lime">{p.monthlyCredits}</b> {t("credits_per_month")}
                   <span className="text-muted"> · ${(p.priceUsd / p.monthlyCredits).toFixed(2)}/{t("credit")}</span>
                 </p>
-                {current ? (
+                {current && provider === "square" ? (
+                  user?.subscriptionStatus === "canceling" ? (
+                    <p className="text-center text-xs text-muted">{locale === "es" ? "Se cancela al final del mes pagado" : "Ends at the end of the paid month"}</p>
+                  ) : (
+                    <BuyButton kind="cancel" label={cancelLabel} loggedIn={!!user} />
+                  )
+                ) : current ? (
                   <BuyButton kind="portal" label={t("manage_billing")} loggedIn={!!user} />
                 ) : (
                   <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} />
@@ -49,11 +63,11 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
         </div>
       </section>
 
-      <section>
+      <section className={shownPacks.length ? "" : "hidden"}>
         <h2 className="font-display text-3xl">{t("packs_title")}</h2>
         <p className="mb-5 text-sm text-muted">{t("packs_sub")}</p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {CREDIT_PACKS.map((p) => (
+        <div className={`grid gap-4 ${shownPacks.length >= 3 ? "sm:grid-cols-3" : shownPacks.length === 2 ? "sm:grid-cols-2" : "max-w-md"}`}>
+          {shownPacks.map((p) => (
             <div key={p.id} className={`card relative p-6 ${p.popular ? "border-lime/60" : ""}`}>
               {p.popular && (
                 <span className="chip absolute -top-3 right-5 border-lime bg-lime text-ink">{t("popular")}</span>

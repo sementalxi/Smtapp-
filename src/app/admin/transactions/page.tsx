@@ -5,7 +5,7 @@ import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/lib/auth";
 import { TxTable } from "@/components/TxTable";
 
-const TYPES: TxType[] = ["SIGNUP_BONUS", "PURCHASE", "SUBSCRIPTION", "GENERATION", "REFUND", "ADMIN_ADJUST"];
+const TYPES: TxType[] = ["SIGNUP_BONUS", "PURCHASE", "SUBSCRIPTION", "GENERATION", "REFUND", "ADMIN_ADJUST", "REFERRAL"];
 const PER_PAGE = 50;
 
 export default async function AdminTx({ searchParams }: { searchParams: Promise<{ type?: string; page?: string }> }) {

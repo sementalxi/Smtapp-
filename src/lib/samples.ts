@@ -47,4 +47,6 @@ export interface ClientTemplate {
   style: import("./templates").TemplateStyle;
   cost: number;
   thumbUrl?: string | null;
+  /** The style has admin-written Pro AI design instructions */
+  hasInstructions?: boolean;
 }

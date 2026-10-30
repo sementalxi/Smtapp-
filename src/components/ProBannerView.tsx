@@ -8,6 +8,9 @@ import type { DictKey } from "@/i18n/dict";
 import type { BannerInputs, LayoutKind } from "@/lib/templates";
 import { TextFields } from "./TextFields";
 import { DownloadSizes } from "./DownloadSizes";
+import { MotionCTA } from "./MotionStudio";
+import { waitForBanner } from "@/lib/wait-banner";
+import { EditDesign } from "./EditDesign";
 
 /** Result page for a Pro AI banner: the finished image, download, and "new version". */
 export function ProBannerView({
@@ -28,9 +31,9 @@ export function ProBannerView({
   credits: number;
   title: string;
   /** Admins can set this poster as a style's sample image. */
-  admin?: { templateId: string; templates: { id: string; name: string }[] };
+  admin?: { templateId: string; templates: { id: string; name: string }[]; prompt?: string | null; hasInstructions?: boolean; templateName?: string };
 }) {
-  const { t } = useT();
+  const { t, locale } = useT();
   const router = useRouter();
   const [url, setUrl] = useState(imageUrl);
   const [inputs, setInputs] = useState(initial);
@@ -45,13 +48,21 @@ export function ProBannerView({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ inputs }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data.finalUrl) {
+    let data = await res.json().catch(() => ({}));
+    if (res.ok && data.pending) {
+      const w = await waitForBanner(id, { previousUrl: data.previousUrl ?? url });
+      data = w.ok ? { finalUrl: w.url } : { error: w.error, detail: w.detail };
+    }
+    if (data.finalUrl) {
       setUrl(data.finalUrl);
       router.refresh();
     } else {
       const known: DictKey[] = ["err_credits", "err_blocked"];
-      setError(t(known.includes(data.error) ? data.error : "err_generic") + (data.detail ? ` — ${data.detail}` : ""));
+      setError(
+        (data.error === "err_photo_blocked"
+          ? "⚠ " + (locale === "es" ? "El filtro de seguridad rechazó la foto de este póster (créditos devueltos)." : "The AI's safety filter rejected this poster's photo (credits refunded).")
+          : t(known.includes(data.error) ? data.error : "err_generic")) + (data.detail ? ` — ${data.detail}` : ""),
+      );
     }
     setBusy(false);
   }
@@ -75,7 +86,10 @@ export function ProBannerView({
         </div>
         {url && !busy && (
           <div className="mt-3">
-            <DownloadSizes src={url} baseName={title} />
+            <MotionCTA src={url} baseName={title} />
+            <div className="mt-2">
+              <DownloadSizes src={url} baseName={title} />
+            </div>
             {layout === "PLAYER" && (
               <Link href={`/create?match=${id}`} className="btn-primary mt-2 w-full">
                 👥 {t("team_set_next")}
@@ -84,13 +98,35 @@ export function ProBannerView({
           </div>
         )}
         {admin && url && <SampleSetter bannerId={id} admin={admin} />}
+        {admin && (
+          <details className="mt-3 rounded-xl border border-dashed border-line p-3 text-xs">
+            <summary className="cursor-pointer font-bold uppercase tracking-wider text-muted">
+              {locale === "es" ? "Admin · ver lo que se le pidió a la IA" : "Admin · see what the AI was asked"}
+            </summary>
+            <p className={`mt-2 ${admin.hasInstructions ? "text-lime" : "text-amber-200"}`}>
+              {admin.hasInstructions
+                ? locale === "es"
+                  ? `✅ El estilo “${admin.templateName}” tiene tus instrucciones de diseño — van primero en el pedido.`
+                  : `✅ The “${admin.templateName}” style has your design instructions — they go first in the brief.`
+                : locale === "es"
+                  ? `⚠ El estilo “${admin.templateName}” NO tiene instrucciones de diseño. Agrégalas en Admin → Estilos para ese estilo.`
+                  : `⚠ The “${admin.templateName}” style has NO design instructions. Add them in Admin → Styles for that style.`}
+            </p>
+            {admin.prompt ? (
+              <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-ink p-3 text-[11px] leading-relaxed text-muted">{admin.prompt}</pre>
+            ) : (
+              <p className="mt-2 text-muted">{locale === "es" ? "Este póster se hizo antes de guardar los pedidos." : "This poster was made before briefs were saved."}</p>
+            )}
+          </details>
+        )}
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <p className="mt-2 text-xs text-muted">{t("pro_note")}</p>
       </div>
 
       <div className="space-y-6">
+        {url && !busy && <EditDesign id={id} layout={layout} inputs={initial} cost={cost} credits={credits} imageUrl={url} />}
         <section className="card space-y-4 p-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{t("text")}</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{locale === "es" ? "O haz una versión nueva (diseño diferente)" : "Or make a new version (different design)"}</h2>
           <TextFields layout={layout} value={inputs} onChange={setInputs} />
           <div>
             <label className="label">{t("f_extraPrompt")}</label>

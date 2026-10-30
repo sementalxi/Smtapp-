@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import { EMPTY_INPUTS } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
 import { DownloadSizes } from "../DownloadSizes";
+import { GenerationProgress } from "../GenerationProgress";
+import { MotionCTA } from "../MotionStudio";
+import { forgetPending, rememberPending, waitForBanner } from "@/lib/wait-banner";
 
 /** Team set: next player card with the same design as an earlier card. */
 export function TeamSetForm({
@@ -28,14 +31,6 @@ export function TeamSetForm({
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
   const [made, setMade] = useState(0);
-  const [secs, setSecs] = useState(0);
-
-  useEffect(() => {
-    if (phase !== "busy") return;
-    setSecs(0);
-    const t = setInterval(() => setSecs((s) => s + 1), 1000);
-    return () => clearInterval(t);
-  }, [phase]);
 
   const field = (k: keyof typeof f, label: string, max: number, req = false, ph = "") => (
     <div>
@@ -60,8 +55,14 @@ export function TeamSetForm({
         inputs: { ...EMPTY_INPUTS, ...f },
       }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data.id) {
+    let data = await res.json().catch(() => ({}));
+    if (res.ok && data.id && !data.finalUrl) {
+      rememberPending(data.id);
+      const w = await waitForBanner(data.id);
+      forgetPending();
+      data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
+    }
+    if (data.id && data.finalUrl) {
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setMade((n) => n + 1);
@@ -71,6 +72,10 @@ export function TeamSetForm({
       setError(
         data.error === "err_credits"
           ? es ? "No tienes créditos suficientes." : "You don't have enough credits."
+          : data.error === "err_photo_blocked"
+            ? (es ? "El filtro de seguridad de la IA rechazó esta FOTO (créditos devueltos). Usa otra foto." : "The AI's safety filter rejected this PHOTO (credits refunded). Use a different photo.") + (data.detail ? ` — ${data.detail}` : "")
+          : data.error === "err_blocked"
+            ? (es ? "El filtro de seguridad de la IA bloqueó esta tarjeta (créditos devueltos). Prueba con otra foto." : "The AI's safety filter blocked this card (credits refunded). Try a different photo.") + (data.detail ? ` — ${data.detail}` : "")
           : (es ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : ""),
       );
       setPhase("error");
@@ -129,11 +134,7 @@ export function TeamSetForm({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="h-full w-full object-cover" />
             ) : phase === "busy" ? (
-              <div className="p-6 text-center">
-                <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-lime border-t-transparent" />
-                <p className="mt-4 text-sm text-lime">{es ? "Creando la tarjeta…" : "Making the card…"} {secs}s</p>
-                <p className="mt-1 text-xs text-muted">{es ? "Tarda 1–2 minutos. No cierres esta página." : "Takes 1–2 minutes. Keep this page open."}</p>
-              </div>
+              <GenerationProgress photo={photo} expectedSeconds={100} />
             ) : (
               <div className="p-6 text-center text-sm text-muted">
                 {phase === "error" ? <span className="text-danger">{error}</span> : es ? "Aquí aparecerá la tarjeta." : "The card will appear here."}
@@ -143,6 +144,7 @@ export function TeamSetForm({
 
           {phase === "done" && result ? (
             <>
+              {result.url && <MotionCTA src={result.url} baseName={`kixo-${f.name || "player"}`} />}
               {result.url && <DownloadSizes src={result.url} baseName={`kixo-${f.name || "player"}`} />}
               <button type="button" className="btn-primary w-full py-3" onClick={nextPlayer}>
                 👥 {es ? "Siguiente jugador — mismo diseño" : "Next player — same design"}

@@ -5,25 +5,22 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
-import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
 import { DownloadSizes } from "../DownloadSizes";
+import { GenerationProgress } from "../GenerationProgress";
+import { MotionCTA } from "../MotionStudio";
+import { forgetPending, pendingBanner, rememberPending, waitForBanner } from "@/lib/wait-banner";
+import { useRouter } from "next/navigation";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
-const FONT_VAR: Record<string, string> = {
-  anton: "var(--nf-anton)",
-  bebas: "var(--nf-bebas)",
-  gothic: "var(--nf-gothic)",
-  brush: "var(--nf-brush)",
-  sans: "var(--nf-sans)",
-};
 
 const TXT = {
   en: {
-    steps: ["Type", "Style", "Details", "Fonts & colors", "Generate"],
-    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Typography and color", "Generate and download"],
+    steps: ["Type", "Style", "Details", "Look & colors", "Generate"],
+    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Logo, background and colors", "Generate and download"],
     next: "Next",
     back: "Back",
     photo: "Player photo",
@@ -83,8 +80,8 @@ const TXT = {
     required: "Fill in the required fields (*) to continue.",
   },
   es: {
-    steps: ["Tipo", "Estilo", "Detalles", "Fuentes y colores", "Generar"],
-    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Tipografía y color", "Genera y descarga"],
+    steps: ["Tipo", "Estilo", "Detalles", "Aspecto y colores", "Generar"],
+    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Logo, fondo y colores", "Genera y descarga"],
     next: "Siguiente",
     back: "Atrás",
     photo: "Foto del jugador",
@@ -158,12 +155,15 @@ export function CreateWizard({
   cost,
   proEnabled,
   initialLayout,
+  categories,
 }: {
   templates: ClientTemplate[];
   credits: number;
   cost: number;
   proEnabled: boolean;
   initialLayout?: LayoutKind;
+  /** Visible categories in the admin's order. */
+  categories?: LayoutKind[];
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -189,7 +189,6 @@ export function CreateWizard({
 
   const [credits, setCredits] = useState(initialCredits);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
-  const [stage, setStage] = useState(0);
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
 
@@ -197,14 +196,15 @@ export function CreateWizard({
     if (!styles.some((s) => s.id === tplId)) setTplId(styles[0]?.id ?? null);
   }, [styles, tplId]);
 
-  // Fake-but-honest progress: advances through the stages while the AI works.
+  // If the browser reloaded the page while a poster was being made, jump to it.
+  const router = useRouter();
   useEffect(() => {
-    if (phase !== "busy") return;
-    setStage(0);
-    const marks = [6, 30, 55, 80];
-    const timers = marks.map((s, i) => setTimeout(() => setStage(i + 1), s * 1000));
-    return () => timers.forEach(clearTimeout);
-  }, [phase]);
+    const id = pendingBanner();
+    if (id) {
+      forgetPending();
+      router.push(`/banner/${id}`);
+    }
+  }, [router]);
 
   const art = ART_TYPES.find((a) => a.layout === layout)!;
   const artName = locale === "es" ? art.es.name : art.en.name;
@@ -213,6 +213,7 @@ export function CreateWizard({
   function finalInputs(): BannerInputs {
     return {
       ...inp,
+      bgPose: inp.bgPose || "style",
       color1: inp.colorMode === "custom" ? inp.color1 || "#1d5bff" : inp.color1,
       color2: inp.colorMode === "custom" ? inp.color2 || "#ffd35a" : inp.color2,
       team: team?.name ?? inp.team,
@@ -290,18 +291,30 @@ export function CreateWizard({
         mode: "PRO",
       }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data.id) {
+    let data = await res.json().catch(() => ({}));
+    if (res.ok && data.id && !data.finalUrl) {
+      // Made in the background — wait for it (survives the screen turning off).
+      rememberPending(data.id);
+      const w = await waitForBanner(data.id);
+      forgetPending();
+      data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
+    }
+    if (data.id && data.finalUrl) {
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
-      setStage(5);
       setPhase("done");
     } else {
       const msg =
         data.error === "err_credits"
           ? L.needCredits
+          : data.error === "err_photo_blocked"
+            ? (locale === "es"
+                ? "El filtro de seguridad de la IA rechazó esta FOTO (no se cobraron créditos). Usa otra foto: una persona adulta, con ropa, sin armas — las fotos de famosos a veces se rechazan."
+                : "The AI's safety filter rejected this PHOTO (no credits were charged). Use a different photo: an adult, fully clothed, no weapons — photos of famous people are sometimes refused.") + (data.detail ? ` — ${data.detail}` : "")
           : data.error === "err_blocked"
-            ? (locale === "es" ? "Ese contenido no está permitido." : "That content isn't allowed.") + (data.detail ? ` — ${data.detail}` : "")
+            ? (locale === "es"
+                ? "El filtro de seguridad de la IA bloqueó este póster (no se cobraron créditos). Prueba con otra foto o cambia palabras fuertes en el texto."
+                : "The AI's safety filter blocked this poster (no credits were charged). Try a different photo or change strong words in the text.") + (data.detail ? ` — ${data.detail}` : "")
             : (locale === "es" ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : "");
       setError(msg);
       setPhase("error");
@@ -376,7 +389,7 @@ export function CreateWizard({
       {step === 1 && (
         <div className="card p-5">
           <div className="space-y-3">
-            {ART_TYPES.map((a) => (
+            {(categories ? categories.map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean) : ART_TYPES).map((a) => (
               <button
                 key={a.layout}
                 type="button"
@@ -447,12 +460,16 @@ export function CreateWizard({
               <div>
                 <span className="label">{locale === "es" ? "Segunda imagen del jugador (fondo, creada por la IA)" : "Second player image (background, made by AI)"}</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {BG_POSES.map((p) => (
+                  {[
+                    { id: "style", en: "⭐ Recommended", es: "⭐ Recomendado" },
+                    ...BG_POSES,
+                    { id: "none", en: "🚫 No second image", es: "🚫 Sin segunda imagen" },
+                  ].map((p) => (
                     <button
                       key={p.id}
                       type="button"
                       onClick={() => set("bgPose", p.id)}
-                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || "closeup") === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || "style") === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                     >
                       {locale === "es" ? p.es : p.en}
                     </button>
@@ -634,6 +651,22 @@ export function CreateWizard({
 
       {step === 4 && (
         <div className="card space-y-4 p-5">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-panel-2 p-4 text-sm">
+            <input
+              type="checkbox"
+              className="mt-1 accent-[var(--color-lime)]"
+              checked={inp.aiLogo !== "off"}
+              onChange={(e) => set("aiLogo", e.target.checked ? "on" : "off")}
+            />
+            <span>
+              <span className="block font-bold">{locale === "es" ? "Logo 3D hecho por la IA" : "AI-made 3D logo"}</span>
+              <span className="block text-xs text-muted">
+                {locale === "es"
+                  ? "Encendido (recomendado): la IA integra tu logo en el diseño como un emblema 3D — se ve espectacular, pero puede cambiar algún detalle pequeño. Apagado: tu logo real se coloca exacto, pixel por pixel, en una esquina."
+                  : "On (recommended): the AI builds your logo into the design as a 3D emblem — looks amazing, but can change small details. Off: your real logo is placed exactly, pixel for pixel, in a corner."}
+              </span>
+            </span>
+          </label>
           <div>
             <span className="label">{locale === "es" ? "Fondo" : "Background"}</span>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -663,40 +696,20 @@ export function CreateWizard({
             </select>
             <p className="mt-1 text-xs text-muted">{L.langHint}</p>
           </div>
-          {(["fontPrimary", "fontSecondary"] as const).map((k) => (
-            <div key={k}>
-              <label className="label">
-                {k === "fontPrimary" ? L.primary : L.secondary} {k === "fontPrimary" && <span className="text-lime">*</span>}
-              </label>
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {FONT_STYLES.map((f) => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => set(k, f.id)}
-                    className={`rounded-lg border px-3 py-2.5 text-left ${inp[k] === f.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
-                  >
-                    <span className={`block text-lg leading-tight ${f.previewClass}`} style={{ fontFamily: FONT_VAR[f.preview] }}>
-                      {f.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
           <div>
             <span className="label">{locale === "es" ? "Colores" : "Colors"}</span>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {([
+                ["team", locale === "es" ? "🛡️ Del equipo" : "🛡️ Team colors", locale === "es" ? "Colores del logo del equipo" : "Taken from the team logo"],
                 ["surprise", locale === "es" ? "🎲 Únicos" : "🎲 Unique", locale === "es" ? "Paleta nueva en cada póster" : "New palette every poster"],
                 ["template", locale === "es" ? "🎨 Del estilo" : "🎨 Style's own", locale === "es" ? "Colores del estilo elegido" : "Colors of the chosen style"],
-                ["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Ej. colores del equipo" : "e.g. team colors"],
+                ["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Elige tus colores" : "Pick your own"],
               ] as const).map(([id, label, sub]) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => set("colorMode", id)}
-                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || "surprise") === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || (team?.logoUrl || home?.logoUrl ? "team" : "surprise")) === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                 >
                   <span className="block text-sm font-bold">{label}</span>
                   <span className="block text-[11px] text-muted">{sub}</span>
@@ -758,23 +771,7 @@ export function CreateWizard({
                 : "Every poster also gets its own background concept, layout, lighting and texture, so no two look the same."}
             </p>
           </div>
-          <div className="rounded-xl border border-line bg-panel-2 p-6 text-center">
-            <div className="label">{L.preview}</div>
-            {(() => {
-              const p = FONT_STYLES.find((f) => f.id === inp.fontPrimary);
-              const s2 = FONT_STYLES.find((f) => f.id === inp.fontSecondary);
-              const title = layout === "LINEUP" ? "LINEUP" : layout === "RESULT" ? "FULL TIME" : layout === "MATCHDAY" ? "MATCH DAY" : layout === "CHAMPIONS" ? "CHAMPIONS" : (inp.name || "PLAYER");
-              return (
-                <>
-                  <div className={`text-4xl ${p?.previewClass ?? ""}`} style={{ fontFamily: FONT_VAR[p?.preview ?? "anton"] }}>{title}</div>
-                  <div className={`mt-2 text-lg text-muted ${s2?.previewClass ?? ""}`} style={{ fontFamily: FONT_VAR[s2?.preview ?? "sans"] }}>
-                    {(team?.name || home?.name || "RONALDO") + (inp.number ? ` #${inp.number}` : " #7")}
-                  </div>
-                </>
-              );
-            })()}
-          </div>
-          {nav({ canNext: !!inp.fontPrimary, onNext: () => setStep(5) })}
+          {nav({ canNext: true, onNext: () => setStep(5) })}
         </div>
       )}
 
@@ -784,40 +781,35 @@ export function CreateWizard({
             {phase === "done" && result?.url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="block aspect-[4/5] w-full object-cover" />
+            ) : phase === "busy" ? (
+              <GenerationProgress photo={photo} expectedSeconds={100} />
             ) : (
-              <div className="grid aspect-[4/5] place-items-center p-8">
-                <div className="w-full max-w-xs">
-                  {L.stages.map((s, i) => {
-                    const done = phase === "busy" ? i < stage : phase === "done";
-                    const active = phase === "busy" && i === stage;
-                    return (
-                      <div key={s} className="flex items-center gap-3 py-1.5 text-sm">
-                        <span
-                          className={`grid h-5 w-5 place-items-center rounded-full ${
-                            done ? "bg-lime text-[10px] text-ink" : active ? "animate-spin border-2 border-lime border-t-transparent" : "border border-line"
-                          }`}
-                        >
-                          {done ? "✓" : ""}
-                        </span>
-                        <span className={done || active ? "text-lime" : "text-muted"}>{s}</span>
-                      </div>
-                    );
-                  })}
-                  {phase === "busy" && <p className="mt-6 text-center text-xs text-muted">{L.wait}</p>}
-                  {phase === "idle" && (
-                    <button type="button" className="btn-primary mt-6 w-full py-3" disabled={credits < cost} onClick={generate}>
-                      ✨ {L.generate} · {cost} {locale === "es" ? "créditos" : "credits"}
-                    </button>
-                  )}
-                  {phase === "error" && (
-                    <>
-                      <p className="mt-6 text-center text-sm text-danger">{error}</p>
-                      <button type="button" className="btn-primary mt-4 w-full" disabled={credits < cost} onClick={generate}>
-                        ↻ {L.generate}
-                      </button>
-                    </>
-                  )}
-                  {credits < cost && phase !== "busy" && (
+              <div className="relative grid aspect-[4/5] place-items-center overflow-hidden p-8">
+                {photo && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photo} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-2xl" />
+                )}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(62,224,255,0.14),transparent_65%)]" />
+                <div className="relative w-full max-w-xs text-center">
+                  <div className="mx-auto grid h-20 w-20 place-items-center rounded-2xl border border-lime/40 bg-lime/10 text-4xl shadow-[0_0_60px_-10px] shadow-lime/50">
+                    {phase === "error" ? "⚠️" : art.icon}
+                  </div>
+                  <div className="font-display mt-5 text-3xl">
+                    {phase === "error" ? (locale === "es" ? "No se pudo crear" : "Couldn't create it") : locale === "es" ? "Todo listo" : "Ready to create"}
+                  </div>
+                  <div className="mt-3 flex flex-wrap justify-center gap-1.5 text-[11px]">
+                    <span className="chip text-muted">{artName}</span>
+                    {tpl && <span className="chip text-muted">{locale === "es" ? tpl.nameEs : tpl.name}</span>}
+                    <span className="chip border-lime/40 text-lime">
+                      {cost} {locale === "es" ? "créditos" : "credits"}
+                    </span>
+                  </div>
+                  {phase === "error" && <p className="mt-4 text-sm text-danger">{error}</p>}
+                  <button type="button" className="btn-primary mt-6 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
+                    {phase === "error" ? "↻" : "✨"} {L.generate}
+                  </button>
+                  <p className="mt-2 text-[11px] text-muted">{locale === "es" ? "Tarda 1–2 minutos" : "Takes 1–2 minutes"}</p>
+                  {credits < cost && (
                     <Link href="/pricing" className="btn-ghost mt-3 w-full">{L.getCredits}</Link>
                   )}
                 </div>
@@ -838,6 +830,7 @@ export function CreateWizard({
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
+                {result.url && <MotionCTA src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {layout === "PLAYER" && (
                   <Link href={`/create?match=${result.id}`} className="btn-primary w-full">

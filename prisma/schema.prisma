@@ -19,6 +19,7 @@ enum TxType {
   GENERATION
   REFUND
   ADMIN_ADJUST
+  REFERRAL
 }
 
 enum BannerStatus {
@@ -50,6 +51,8 @@ model User {
   subscriptionStatus String?
   planId             String?
   currentPeriodEnd   DateTime?
+  refCode            String?             @unique // personal invite code
+  referredById       String? // who invited this user
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   transactions       CreditTransaction[] @relation("UserTx")
@@ -104,6 +107,8 @@ model Template {
 
 model Banner {
   id            String       @id @default(cuid())
+  // The exact brief sent to the AI (admins can view it on the poster page)
+  prompt        String?
   userId        String
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   templateId    String
@@ -166,4 +171,47 @@ model SavedItem {
   createdAt DateTime @default(now())
 
   @@index([userId, kind])
+}
+
+// A Square checkout link we created, so the webhook knows who paid for what.
+model SquareCheckout {
+  orderId   String   @id
+  userId    String
+  kind      String // "pack" | "plan"
+  productId String
+  credits   Int
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Official logos the admin adds (leagues / competitions / teams) — everyone can pick them.
+model LibraryItem {
+  id        String   @id @default(cuid())
+  kind      String // "championship" | "team"
+  name      String
+  logoUrl   String?
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([kind, sort])
+}
+
+// Limited-time offers shown on the home page ("Don't miss these deals"), managed in Admin → Deals.
+model Deal {
+  id        String    @id @default(cuid())
+  title     String
+  subtitle  String    @default("")
+  price     String    @default("")
+  priceUsd  Float? // real checkout price — when set with credits, the button buys the deal
+  credits   Int       @default(0)
+  tags      String    @default("") // comma-separated chips, e.g. "Limited time, Best value"
+  included  String    @default("") // one item per line
+  imageUrl  String?
+  ctaLabel  String    @default("")
+  ctaHref   String    @default("/pricing")
+  endsAt    DateTime?
+  active    Boolean   @default(true)
+  sort      Int       @default(0)
+  createdAt DateTime  @default(now())
 }

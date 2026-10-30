@@ -15,6 +15,21 @@ async function ownBanner(id: string, userId: string, isAdmin: boolean) {
   return banner;
 }
 
+/** Status of a banner, for pages waiting on a Pro poster. */
+export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
+  const user = await apiUser();
+  const { id } = await params;
+  const b = await ownBanner(id, user.id, user.role === "ADMIN");
+  const err = b.error ?? "";
+  const error = !err ? null : err === "err_credits" ? "err_credits" : /PHOTO_BLOCKED/.test(err) ? "err_photo_blocked" : /moderation|safety system|err_blocked/i.test(err) ? "err_blocked" : "err_generic";
+  return json({
+    status: b.status,
+    finalUrl: b.finalUrl,
+    error,
+    ...(user.role === "ADMIN" && err ? { detail: err } : {}),
+  });
+});
+
 const Patch = z.object({
   design: DesignSchema.optional(),
   inputs: InputsSchema.optional(),

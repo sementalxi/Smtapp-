@@ -168,21 +168,26 @@ export const proConfigured = () => !!process.env.OPENAI_API_KEY?.trim();
  * Full-poster generation with OpenAI's image model, using the player photo
  * (and logo) as reference images. Returns PNG bytes.
  */
-export async function generatePoster(prompt: string, refs: { bytes: Buffer; type: string }[], qualityOverride?: string): Promise<Buffer> {
+export async function generatePoster(prompt: string, refs: { bytes: Buffer; type: string }[], qualityOverride?: string, sizesOverride?: string[]): Promise<Buffer> {
   const key = process.env.OPENAI_API_KEY?.trim();
   if (!key) throw new Error("OPENAI_API_KEY is not set");
   const model = process.env.PRO_IMAGE_MODEL || "gpt-image-2";
   const quality = (["low", "medium", "high"].includes(qualityOverride ?? "") ? qualityOverride : null) ?? process.env.PRO_IMAGE_QUALITY ?? "medium";
   // First try an exact 4:5 size; if OpenAI's servers choke, retry with the standard portrait size.
-  const sizes = [process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
+  const sizes = sizesOverride?.length ? sizesOverride : [process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
+  // OpenAI's image prompt limit is 32,000 characters.
+  if (prompt.length > 31_900) prompt = prompt.slice(0, 31_900);
   const deadline = Date.now() + 270_000; // stay under the 300 s function limit so failures can be refunded
 
   let lastErr = "";
-  for (let attempt = 0; attempt < sizes.length; attempt++) {
+  let sizeIdx = 0;
+  let soft = 0; // after a safety block: 1 = toned-down wording, 2 = also drop the art director's and user's extra text
+  let lowModeration = true; // ask for OpenAI's less strict filter (dropped if the API doesn't accept it)
+  for (let attempt = 0; attempt < 4; attempt++) {
     const remaining = deadline - Date.now();
     if (remaining < 45_000) break;
     try {
-      const res = await callImageApi(key, model, prompt, sizes[attempt], quality, refs, AbortSignal.timeout(remaining));
+      const res = await callImageApi(key, model, soft === 0 ? prompt : softenPrompt(soft === 2 ? stripOptional(prompt) : prompt), sizes[sizeIdx], quality, refs, AbortSignal.timeout(remaining), lowModeration);
       if (res.ok) {
         const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
         const item = data.data?.[0];
@@ -191,13 +196,25 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
         lastErr = "OpenAI returned no image";
         continue;
       }
-      lastErr = `OpenAI image failed: ${res.status} ${cleanError(await res.text())}`;
-      // 4xx = our request/key/policy problem: retrying won't help
+      const body = await res.text();
+      lastErr = `OpenAI image failed: ${res.status} ${cleanError(body)}`;
+      if (res.status === 400 && lowModeration && /moderation/i.test(body) && /unknown|unsupported|invalid/i.test(body) && !/moderation_blocked/i.test(body)) {
+        lowModeration = false; // this endpoint doesn't take the setting — just retry without it
+        continue;
+      }
+      if (/moderation_blocked|safety system/i.test(body)) {
+        if (soft >= 2) break;
+        soft++;
+        continue;
+      }
+      // other 4xx = our request/key problem: retrying won't help
       if (res.status < 500 && res.status !== 429) break;
+      sizeIdx = Math.min(sizeIdx + 1, sizes.length - 1);
     } catch (e) {
       lastErr = `OpenAI image failed: ${e instanceof Error ? e.message : String(e)}`;
+      sizeIdx = Math.min(sizeIdx + 1, sizes.length - 1);
     }
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 1500));
   }
   throw new Error(lastErr || "OpenAI image failed");
 }
@@ -210,12 +227,13 @@ function callImageApi(
   quality: string,
   refs: { bytes: Buffer; type: string }[],
   signal: AbortSignal,
+  lowModeration = false,
 ) {
   if (!refs.length) {
     return fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model, prompt, size, quality }),
+      body: JSON.stringify({ model, prompt, size, quality, ...(lowModeration ? { moderation: "low" } : {}) }),
       signal,
     });
   }
@@ -224,6 +242,7 @@ function callImageApi(
   form.append("prompt", prompt);
   form.append("size", size);
   form.append("quality", quality);
+  if (lowModeration) form.append("moderation", "low");
   refs.forEach((r, i) => {
     const ext = r.type === "image/png" ? "png" : r.type === "image/webp" ? "webp" : "jpg";
     form.append("image[]", new Blob([new Uint8Array(r.bytes)], { type: r.type }), `ref${i}.${ext}`);
@@ -246,4 +265,35 @@ function cleanError(body: string) {
   }
   const title = body.match(/<title>([^<]*)<\/title>/i)?.[1];
   return (title || body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ")).trim().slice(0, 200);
+}
+
+/**
+ * OpenAI's safety filter sometimes blocks harmless sports posters because of
+ * dramatic wording. This tones those words down for one retry.
+ */
+const SOFTEN: [RegExp, string][] = [
+  [/\b(violent|violently|brutal|savage|vicious)\b/gi, "dramatic"],
+  [/\b(aggressive|aggression|angry|furious|fury|rage|menacing|intimidating)\b/gi, "bold"],
+  [/\b(explosions?|exploding|explode|blast|detonat\w*)\b/gi, "burst of light"],
+  [/\b(blood|bloody|gore|wounds?)\b/gi, "crimson"],
+  [/\b(kill\w*|murder\w*|dead|death|deadly|lethal)\b/gi, "legendary"],
+  [/\b(war|battle|warrior|weapons?|guns?|rifles?|bullets?|swords?|knife|knives)\b/gi, "competition"],
+  [/\b(pyro flares?|pyro|riot|ultras in full fury)\b/gi, "stadium lights"],
+  [/\b(shattered|smash\w*|destroy\w*|crush\w*)\b/gi, "sparkling"],
+  [/\b(skulls?|demons?|devil|hell|evil)\b/gi, "dark"],
+  [/\b(sexy|seductive|nude|naked)\b/gi, "stylish"],
+];
+
+export function softenPrompt(prompt: string) {
+  let out = prompt;
+  for (const [re, rep] of SOFTEN) out = out.replace(re, rep);
+  return `${out}\n\nThis is a friendly, family-safe sports and esports celebration poster: no violence, weapons or gore.`;
+}
+
+/** Removes the optional free-text sections (art director instructions, user's extra idea) for a last safe retry. */
+function stripOptional(prompt: string) {
+  return prompt
+    .split("\n\n")
+    .filter((sec) => !/^DESIGN INSTRUCTIONS FROM THE ART DIRECTOR|^Extra direction from the user/.test(sec.trim()))
+    .join("\n\n");
 }

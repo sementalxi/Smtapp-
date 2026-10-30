@@ -77,6 +77,7 @@ export function ImageSearch({
       too_small: ["That image is too small — pick a bigger one", "Esa imagen es muy pequeña — elige otra más grande"],
       file_too_large: ["That image is too large", "Esa imagen es demasiado grande"],
       unsupported_type: ["That image format isn't supported", "Ese formato de imagen no es compatible"],
+      unsafe_image: ["That image isn't allowed (sexual or graphic content) — pick another", "Esa imagen no está permitida (contenido sexual o violento) — elige otra"],
     };
     const known = msg[data.error as string];
     setErr(known ? known[es ? 1 : 0] : es ? "No se pudo descargar esa imagen — prueba otra" : "Couldn't get that image — try another one");

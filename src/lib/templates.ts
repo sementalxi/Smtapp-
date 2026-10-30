@@ -52,6 +52,7 @@ export interface BannerInputs {
   color1: string;
   color2: string;
   aiCopy: string; // "on" lets the AI add a couple of hype words
+  aiLogo: string; // "on" = AI redraws the crest in 3D (may change details); default pastes the real logo
   bgPose: string;
   bgScene: string; // background scene id, "" = surprise // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
@@ -91,10 +92,11 @@ export const EMPTY_INPUTS: BannerInputs = {
   players: [],
   scorers: [],
   trophy: "",
-  colorMode: "surprise",
+  colorMode: "",
   color1: "",
   color2: "",
   aiCopy: "off",
+  aiLogo: "",
   bgPose: "",
   bgScene: "",
   language: "English",
@@ -232,7 +234,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "PLAYER",
     sort: 4,
     prompt:
-      "royal purple baroque ornaments, violet lightning storm, golden light flare, stadium spotlights, purple clouds and mist, luxurious dark atmosphere",
+      "epic royal throne-room arena in deep purple and gold: towering baroque gold ornaments and pillars, a violent violet lightning storm cracking across a dark sky, golden light beams and lens flares, floating gold particles and shattered amethyst crystal shards flying toward the camera, swirling purple smoke, stadium floodlights far behind, luxurious, powerful, dramatic",
     style: {
       primary: "#8b3dff",
       accent: "#d9a6ff",
