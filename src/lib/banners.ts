@@ -335,7 +335,7 @@ export function buildProPrompt(opts: {
       const trophy = i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a large shiny trophy";
       composition = [
         `A champions title-celebration poster.`,
-        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${exactLogos ? "the glowing focal spot in the lower centre for the team crest (added afterwards — draw no crest)" : hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}${(i.roster.length || i.players.length) ? ", the squad list on a designed gold nameplate along the bottom" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
+        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${exactLogos ? "the glowing focal spot in the lower centre for the team crest (added afterwards — draw no crest)" : hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}${(i.roster.length || i.players.length) ? ", the squad list on a designed metal nameplate along the bottom" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
         frame,
         finish,
       ].join(" ");
@@ -446,7 +446,7 @@ export function buildProPrompt(opts: {
   // Champions posters need a lot of celebration energy — always added, even for admin-led styles.
   const champsEnergy =
     layout === "CHAMPIONS"
-      ? `CHAMPIONS ENERGY (dense, maximalist, never sparse): a storm of gold and colour confetti and streamers filling the air, fireworks bursting behind, strong light beams/god-rays from above, a packed stadium crowd with phone lights and flags far behind, a glossy reflective floor, ${spots.includes("hero") ? "a raised glowing podium with a laurel-wreath ring and 3–5 championship stars arching above the crest spot (the crest itself is added afterwards — keep the inside of the ring empty), " : ""}the title huge with deep 3D extrusion, bevel and texture${(i.roster.length || i.players.length) ? `. SQUAD NAMES: not plain text — set them on a designed element along the bottom: a polished gold/chrome nameplate ribbon or a glass bar with bevelled edges, glow and reflections, the names in bold 3D metallic lettering with small separators${(i.roster.length || i.players.length) > 6 ? ", split into two neat rows" : ""}, every name perfectly readable` : ""}. Fill the whole frame with layered detail — NO large empty dark areas.`
+      ? `CHAMPIONS ENERGY (dense, maximalist, never sparse): a storm of confetti and streamers in the poster's colours filling the air, fireworks bursting behind, strong light beams/god-rays from above, a packed stadium crowd with phone lights and flags far behind, a glossy reflective floor, ${spots.includes("hero") ? "a raised glowing podium with a laurel-wreath ring and 3–5 championship stars arching above the crest spot (the crest itself is added afterwards — keep the inside of the ring empty), " : ""}the title huge with deep 3D extrusion, bevel and texture${(i.roster.length || i.players.length) ? `. SQUAD NAMES: not plain text — set them on a designed element along the bottom: a polished metal nameplate ribbon (in the poster's colours — chrome, coloured metal, or gold only if the palette is gold) or a glass bar with bevelled edges, glow and reflections, the names in bold 3D metallic lettering with small separators${(i.roster.length || i.players.length) > 6 ? ", split into two neat rows" : ""}, every name perfectly readable` : ""}. Fill the whole frame with layered detail — NO large empty dark areas.`
       : "";
   const logoRule = exactLogos
     ? `LOGO SPACE: leave ${spotText} — no text, faces or objects there — because the official team crest${spots.length > 1 ? "s are" : " is"} placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
@@ -460,7 +460,7 @@ export function buildProPrompt(opts: {
     adminLed
       ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS below — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
       : composition,
-    `Visual style (base): ${opts.templatePrompt}.`,
+    `Visual style (base${(i.colorMode === "custom" && i.color1) || v.palette ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
     colourLine(i, style, v),
     bgScenePrompt(i.bgScene)
       ? `BACKGROUND SCENE (chosen by the user${adminLed ? " — use it unless the art director's instructions define the background" : " — use it"}): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
@@ -582,10 +582,10 @@ export function assertInputUrls(i: BannerInputs) {
 
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation) {
   if (i.colorMode === "custom" && i.color1) {
-    return `COLOURS: main colour ${i.color1}${i.color2 ? `, second colour ${i.color2}` : ""}, with deep dark shadows. Use these as the dominant palette.`;
+    return `COLOURS: main colour ${i.color1}${i.color2 ? `, second colour ${i.color2}` : ""}, with deep dark shadows. Recolour EVERYTHING to this palette — lighting, background, title, confetti, effects and metals. Do not default to gold unless it is one of these colours.`;
   }
   if (v.palette) {
-    return `COLOURS: a ${v.palette.name} palette — main ${v.palette.primary}, accent/glow ${v.palette.accent}, shadows ${v.palette.dark}. Use this palette instead of the base style's colours.`;
+    return `COLOURS: a ${v.palette.name} palette — main ${v.palette.primary}, accent/glow ${v.palette.accent}, shadows ${v.palette.dark}. Recolour EVERYTHING to this palette — lighting, background, title, confetti, effects and metals — instead of the base style's colours. Do not default to gold unless gold is in this palette.`;
   }
   return `COLOURS: main colour ${style.primary}, accent/glow ${style.accent}, deep shadows ${style.dark}.`;
 }

@@ -4,12 +4,14 @@ import { getT } from "@/i18n/server";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await requireAdmin();
-  const { t } = await getT();
+  const { t, locale } = await getT();
   const links = [
     ["/admin", t("admin_overview")],
     ["/admin/users", t("admin_users")],
     ["/admin/banners", t("admin_banners")],
     ["/admin/templates", t("admin_templates")],
+    ["/admin/leagues", locale === "es" ? "Ligas y logos" : "Leagues & logos"],
+    ["/admin/texts", locale === "es" ? "Textos del sitio" : "Site texts"],
     ["/admin/transactions", t("admin_tx")],
     ["/admin/payments", t("admin_payments")],
     ["/admin/settings", t("admin_settings")],

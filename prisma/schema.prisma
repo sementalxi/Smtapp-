@@ -179,3 +179,15 @@ model SquareCheckout {
 
   @@index([userId])
 }
+
+// Official logos the admin adds (leagues / competitions / teams) — everyone can pick them.
+model LibraryItem {
+  id        String   @id @default(cuid())
+  kind      String // "championship" | "team"
+  name      String
+  logoUrl   String?
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([kind, sort])
+}

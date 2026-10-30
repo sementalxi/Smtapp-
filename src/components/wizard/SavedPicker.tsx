@@ -8,6 +8,8 @@ export interface SavedItem {
   id: string;
   name: string;
   logoUrl: string | null;
+  /** Added by the admin — available to everyone */
+  official?: boolean;
 }
 
 const cache: Record<string, SavedItem[] | undefined> = {};
@@ -42,6 +44,7 @@ export function SavedPicker({
   const [name, setName] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [q, setQ] = useState("");
 
   useEffect(() => {
     const l = () => setItems(cache[kind]);
@@ -101,10 +104,25 @@ export function SavedPicker({
             </button>
           )}
           {items === undefined && <p className="px-3 py-2 text-sm text-muted">…</p>}
+          {(items?.length ?? 0) > 8 && (
+            <input
+              className="input mb-1 py-2 text-sm"
+              placeholder={es ? "🔍 Buscar…" : "🔍 Search…"}
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
           {items?.length === 0 && <p className="px-3 py-2 text-sm text-muted">{es ? "Nada guardado aún" : "Nothing saved yet"}</p>}
-          {items?.map((it) => (
+          {items
+            ?.filter((it) => !q.trim() || it.name.toLowerCase().includes(q.trim().toLowerCase()))
+            .map((it, idx, arr) => (
+            <div key={it.id}>
+            {idx === 0 && it.official && <div className="px-3 pt-1 pb-0.5 text-[10px] font-bold uppercase tracking-widest text-lime">⭐ {es ? "Oficiales" : "Official"}</div>}
+            {!it.official && (idx === 0 || arr[idx - 1]?.official) && arr.some((x) => x.official) && (
+              <div className="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-widest text-muted">{es ? "Mis guardados" : "My saved"}</div>
+            )}
             <button
-              key={it.id}
               type="button"
               onClick={() => { onChange(it); setOpen(false); }}
               className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm hover:bg-panel-2"
@@ -117,6 +135,7 @@ export function SavedPicker({
               )}
               {it.name}
             </button>
+            </div>
           ))}
           <button type="button" onClick={() => setAdding(true)} className="mt-1 w-full rounded-lg border-t border-line px-3 py-2.5 text-left text-sm font-bold text-lime hover:bg-panel-2">
             ＋ {addLabel}

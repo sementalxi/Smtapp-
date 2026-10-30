@@ -11,12 +11,12 @@ const Kind = z.enum(["team", "championship"]);
 export const GET = handle(async (req: NextRequest) => {
   const user = await apiUser();
   const kind = Kind.parse(req.nextUrl.searchParams.get("kind"));
-  const items = await db.savedItem.findMany({
-    where: { userId: user.id, kind },
-    orderBy: { createdAt: "desc" },
-    select: { id: true, name: true, logoUrl: true },
-  });
-  return json({ items });
+  const [official, mine] = await Promise.all([
+    db.libraryItem.findMany({ where: { kind }, orderBy: [{ sort: "asc" }, { name: "asc" }], select: { id: true, name: true, logoUrl: true } }),
+    db.savedItem.findMany({ where: { userId: user.id, kind }, orderBy: { createdAt: "desc" }, select: { id: true, name: true, logoUrl: true } }),
+  ]);
+  // Official (admin) logos first, then the user's own.
+  return json({ items: [...official.map((o) => ({ ...o, official: true })), ...mine] });
 });
 
 const Body = z.object({
