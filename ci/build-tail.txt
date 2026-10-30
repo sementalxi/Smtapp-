@@ -1,58 +1,58 @@
-├ ƒ /api/admin/square-connect              249 B         103 kB
-├ ƒ /api/admin/stripe-webhook              249 B         103 kB
-├ ƒ /api/admin/studio                      249 B         103 kB
-├ ƒ /api/admin/templates                   249 B         103 kB
-├ ƒ /api/admin/templates/[id]              249 B         103 kB
-├ ƒ /api/admin/templates/[id]/thumb        249 B         103 kB
-├ ƒ /api/admin/templates/arrange           249 B         103 kB
-├ ƒ /api/admin/texts                       249 B         103 kB
-├ ƒ /api/admin/users/[id]                  249 B         103 kB
-├ ƒ /api/admin/users/[id]/credits          249 B         103 kB
-├ ƒ /api/admin/users/gift                  249 B         103 kB
-├ ƒ /api/ai-text                           249 B         103 kB
-├ ƒ /api/auth/login                        249 B         103 kB
-├ ƒ /api/auth/logout                       249 B         103 kB
-├ ƒ /api/auth/phone                        249 B         103 kB
-├ ƒ /api/auth/register                     249 B         103 kB
-├ ƒ /api/banners                           249 B         103 kB
-├ ƒ /api/banners/[id]                      249 B         103 kB
-├ ƒ /api/banners/[id]/background           249 B         103 kB
-├ ƒ /api/banners/[id]/edit                 249 B         103 kB
-├ ƒ /api/banners/[id]/final                249 B         103 kB
-├ ƒ /api/files/[...key]                    249 B         103 kB
-├ ƒ /api/image-search                      249 B         103 kB
-├ ƒ /api/locale                            249 B         103 kB
-├ ƒ /api/saved                             249 B         103 kB
-├ ƒ /api/saved/[id]                        249 B         103 kB
-├ ƒ /api/square/cancel                     249 B         103 kB
-├ ƒ /api/square/config                     249 B         103 kB
-├ ƒ /api/square/pay                        249 B         103 kB
-├ ƒ /api/square/webhook                    249 B         103 kB
-├ ƒ /api/stripe/checkout                   249 B         103 kB
-├ ƒ /api/stripe/portal                     249 B         103 kB
-├ ƒ /api/stripe/webhook                    249 B         103 kB
-├ ƒ /api/upload                            249 B         103 kB
-├ ƒ /api/upload/from-url                   249 B         103 kB
-├ ○ /apple-icon.png                          0 B            0 B
-├ ƒ /banner/[id]                          9.9 kB         139 kB
-├ ƒ /billing                               405 B         116 kB
-├ ƒ /create                              16.4 kB         146 kB
-├ ƒ /credits                             1.27 kB         107 kB
-├ ƒ /dashboard                           1.23 kB         121 kB
-├ ƒ /history                             1.23 kB         121 kB
-├ ○ /icon.png                                0 B            0 B
-├ ƒ /invite                              1.82 kB         108 kB
-├ ƒ /login                                 128 B         114 kB
-├ ƒ /pricing                               162 B         112 kB
-├ ƒ /profile                             8.87 kB         115 kB
-└ ƒ /register                              128 B         114 kB
-+ First Load JS shared by all             103 kB
-  ├ chunks/1255-dc3ddf72a1dc71a7.js      46.6 kB
-  ├ chunks/4bd1b696-f785427dddbba9fb.js  54.2 kB
-  └ other shared chunks (total)          1.93 kB
+├ ƒ /api/admin/square-connect                                     252 B         103 kB
+├ ƒ /api/admin/stripe-webhook                                     252 B         103 kB
+├ ƒ /api/admin/studio                                             252 B         103 kB
+├ ƒ /api/admin/templates                                          252 B         103 kB
+├ ƒ /api/admin/templates/[id]                                     252 B         103 kB
+├ ƒ /api/admin/templates/[id]/thumb                               252 B         103 kB
+├ ƒ /api/admin/templates/arrange                                  252 B         103 kB
+├ ƒ /api/admin/texts                                              252 B         103 kB
+├ ƒ /api/admin/users/[id]                                         252 B         103 kB
+├ ƒ /api/admin/users/[id]/credits                                 252 B         103 kB
+├ ƒ /api/admin/users/gift                                         252 B         103 kB
+├ ƒ /api/ai-text                                                  252 B         103 kB
+├ ƒ /api/auth/login                                               252 B         103 kB
+├ ƒ /api/auth/logout                                              252 B         103 kB
+├ ƒ /api/auth/phone                                               252 B         103 kB
+├ ƒ /api/auth/register                                            252 B         103 kB
+├ ƒ /api/banners                                                  252 B         103 kB
+├ ƒ /api/banners/[id]                                             252 B         103 kB
+├ ƒ /api/banners/[id]/background                                  252 B         103 kB
+├ ƒ /api/banners/[id]/edit                                        252 B         103 kB
+├ ƒ /api/banners/[id]/final                                       252 B         103 kB
+├ ƒ /api/files/[...key]                                           252 B         103 kB
+├ ƒ /api/image-search                                             252 B         103 kB
+├ ƒ /api/locale                                                   252 B         103 kB
+├ ƒ /api/saved                                                    252 B         103 kB
+├ ƒ /api/saved/[id]                                               252 B         103 kB
+├ ƒ /api/square/cancel                                            252 B         103 kB
+├ ƒ /api/square/config                                            252 B         103 kB
+├ ƒ /api/square/pay                                               252 B         103 kB
+├ ƒ /api/square/webhook                                           252 B         103 kB
+├ ƒ /api/stripe/checkout                                          252 B         103 kB
+├ ƒ /api/stripe/portal                                            252 B         103 kB
+├ ƒ /api/stripe/webhook                                           252 B         103 kB
+├ ƒ /api/upload                                                   252 B         103 kB
+├ ƒ /api/upload/from-url                                          252 B         103 kB
+├ ○ /apple-icon.png                                                 0 B            0 B
+├ ƒ /banner/[id]                                                 9.9 kB         139 kB
+├ ƒ /billing                                                      405 B         117 kB
+├ ƒ /create                                                     16.4 kB         146 kB
+├ ƒ /credits                                                    1.27 kB         107 kB
+├ ƒ /dashboard                                                  1.23 kB         121 kB
+├ ƒ /history                                                    1.23 kB         121 kB
+├ ○ /icon.png                                                       0 B            0 B
+├ ƒ /invite                                                     1.82 kB         108 kB
+├ ƒ /login                                                        128 B         114 kB
+├ ƒ /pricing                                                      162 B         113 kB
+├ ƒ /profile                                                    8.87 kB         115 kB
+└ ƒ /register                                                     128 B         114 kB
++ First Load JS shared by all                                    103 kB
+  ├ chunks/1255-dc3ddf72a1dc71a7.js                             46.6 kB
+  ├ chunks/4bd1b696-f785427dddbba9fb.js                         54.2 kB
+  └ other shared chunks (total)                                 1.93 kB
 
 
-ƒ Middleware                             39.6 kB
+ƒ Middleware                                                    39.6 kB
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand

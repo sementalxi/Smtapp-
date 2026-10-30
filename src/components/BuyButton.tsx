@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useT } from "@/i18n/client";
 import { PayModal } from "./PayModal";
 
@@ -30,6 +30,16 @@ export function BuyButton({
   const es = locale === "es";
 
   const [modal, setModal] = useState(false);
+  // Back from the Cash App: reopen the same popup so the payment can finish.
+  useEffect(() => {
+    if (!checkout || !id) return;
+    try {
+      const p = JSON.parse(sessionStorage.getItem("kixo_pay") || "null");
+      if (p && p.kind === kind && p.id === id && Date.now() - p.at < 15 * 60_000) setModal(true);
+    } catch {
+      /* ignore */
+    }
+  }, [checkout, id, kind]);
 
   async function go(skipModal = false) {
     if (!loggedIn) {
