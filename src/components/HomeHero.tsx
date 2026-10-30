@@ -22,7 +22,15 @@ const ICONS = {
   coins: ico("M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"),
 };
 
-/** Home page hero: big title, feature tiles, poster fan with a phone mockup. */
+// Fixed spark positions (no randomness → same on server and client).
+const SPARKS = Array.from({ length: 18 }, (_, n) => ({
+  x: (n * 37 + 11) % 100,
+  size: 2 + (n % 3),
+  dur: 7 + (n % 5) * 2,
+  delay: (n * 1.7) % 12,
+}));
+
+/** Home page hero: big title, feature tiles, floating poster fan, feature strip. */
 export function HomeHero({
   t,
   user,
@@ -56,17 +64,34 @@ export function HomeHero({
 
   return (
     <section className="relative overflow-hidden border-b border-line">
-      <div className="pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" />
+      <div className="kixo-bg-pan pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
+      <div className="kixo-bg-pan pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" style={{ animationDelay: "-7s" }} />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        {SPARKS.map((sp, n) => (
+          <span
+            key={n}
+            className="kixo-spark"
+            style={{ left: `${sp.x}%`, bottom: `-${sp.size * 4}px`, width: sp.size, height: sp.size, animationDuration: `${sp.dur}s`, animationDelay: `-${sp.delay}s`, opacity: 0.7 }}
+          />
+        ))}
+      </div>
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-20">
         {/* Left: title, copy, feature tiles */}
         <div>
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-lime">{tt("hero_kicker")}</p>
-          <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">{tt("hero_title")}</h1>
-          <div className="mt-6 h-1 w-24 rounded-full bg-lime" />
-          <p className="mt-6 max-w-lg text-lg text-muted">{tt("hero_sub")}</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link href={user ? "/create" : "/register"} className="btn-primary px-6 py-3 text-base">
+          <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-lime">{tt("hero_kicker")}</p>
+          <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">
+            {tt("hero_title")
+              .split(" ")
+              .map((w, n) => (
+                <span key={n} className="kixo-fade-up inline-block" style={{ animationDelay: `${120 + n * 90}ms` }}>
+                  {w}&nbsp;
+                </span>
+              ))}
+          </h1>
+          <div className="kixo-glow kixo-fade-up mt-6 h-1 w-24 rounded-full bg-lime" style={{ animationDelay: "500ms, 500ms" }} />
+          <p className="kixo-fade-up mt-6 max-w-lg text-lg text-muted" style={{ animationDelay: "600ms" }}>{tt("hero_sub")}</p>
+          <div className="kixo-fade-up mt-7 flex flex-wrap gap-3" style={{ animationDelay: "700ms" }}>
+            <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine px-6 py-3 text-base">
               ⚡ {tt("hero_cta")}
             </Link>
             <Link href="/pricing" className="btn-ghost px-6 py-3 text-base">
@@ -78,8 +103,8 @@ export function HomeHero({
           <h2 className="font-display mt-10 text-2xl tracking-wide text-lime sm:text-3xl">{tt("hero_feat_title")}</h2>
           <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
             {feats.map(([icon, key]) => (
-              <div key={key} className="flex items-center gap-3">
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-lime/40 bg-lime/5 text-lime shadow-[0_0_20px_-8px] shadow-lime/60">
+              <div key={key} data-reveal data-reveal-delay={feats.findIndex((f) => f[1] === key) * 70} className="group flex items-center gap-3">
+                <span className="kixo-icon-pulse grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-lime/40 bg-lime/5 text-lime transition group-hover:scale-110 group-hover:bg-lime/15">
                   {ICONS[icon]}
                 </span>
                 <span className="text-xs font-bold uppercase leading-snug tracking-wide sm:text-sm">{tt(key)}</span>
@@ -101,15 +126,17 @@ export function HomeHero({
             return (
               <div
                 key={key}
-                className="absolute w-[56%] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/70"
+                className="absolute w-[56%]"
                 style={{ left: `${p.l}%`, top: `${p.t}%`, transform: `rotate(${p.r}deg)`, zIndex: i === 1 ? 3 : 2 }}
               >
-                {tpl ? (
-                  <TemplateThumb template={tpl} />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={key} alt="" className="block aspect-[4/5] w-full object-cover" />
-                )}
+                <div className="kixo-float overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/70" style={{ animationDelay: `${-i * 2}s`, animationDuration: `${6 + i}s` }}>
+                  {tpl ? (
+                    <TemplateThumb template={tpl} />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={key} alt="" className="block aspect-[4/5] w-full object-cover" />
+                  )}
+                </div>
               </div>
             );
           })}
@@ -121,8 +148,8 @@ export function HomeHero({
       <div className="relative border-t border-line bg-panel/60">
         <div className="mx-auto grid max-w-6xl grid-cols-2 divide-line px-4 sm:grid-cols-4 sm:divide-x">
           {strip.map(([icon, key]) => (
-            <div key={key} className="flex flex-col items-center gap-2 px-3 py-6 text-center">
-              <span className="text-lime">{ICONS[icon]}</span>
+            <div key={key} data-reveal data-reveal-delay={strip.findIndex((x) => x[1] === key) * 90} className="group flex flex-col items-center gap-2 px-3 py-6 text-center">
+              <span className="text-lime transition duration-300 group-hover:-translate-y-1 group-hover:scale-125">{ICONS[icon]}</span>
               <span className="text-[11px] font-bold uppercase leading-snug tracking-wider">{tt(key)}</span>
             </div>
           ))}
