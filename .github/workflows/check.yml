@@ -50,6 +50,7 @@ jobs:
               console.log(name, path, "hidden reveal elements:", hidden);
               const safe = path === "/" ? "home" : path.slice(1);
               await p.screenshot({ path: `shots/${name}-${safe}.png`, fullPage: true });
+              if (path === "/") { await p.click('button[aria-label="Menu"]'); await p.waitForTimeout(900); await p.screenshot({ path: `shots/${name}-menu.png` }); await p.keyboard.press("Escape"); await p.waitForTimeout(400); }
             }
             console.log(name, "errors:", JSON.stringify(errors));
           }
