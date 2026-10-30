@@ -8,6 +8,7 @@ import { EMPTY_INPUTS } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
+import { MotionCTA } from "../MotionStudio";
 
 /** Team set: next player card with the same design as an earlier card. */
 export function TeamSetForm({
@@ -132,6 +133,7 @@ export function TeamSetForm({
 
           {phase === "done" && result ? (
             <>
+              {result.url && <MotionCTA src={result.url} baseName={`kixo-${f.name || "player"}`} />}
               {result.url && <DownloadSizes src={result.url} baseName={`kixo-${f.name || "player"}`} />}
               <button type="button" className="btn-primary w-full py-3" onClick={nextPlayer}>
                 👥 {es ? "Siguiente jugador — mismo diseño" : "Next player — same design"}

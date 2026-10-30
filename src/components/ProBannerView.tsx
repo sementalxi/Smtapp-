@@ -8,6 +8,7 @@ import type { DictKey } from "@/i18n/dict";
 import type { BannerInputs, LayoutKind } from "@/lib/templates";
 import { TextFields } from "./TextFields";
 import { DownloadSizes } from "./DownloadSizes";
+import { MotionCTA } from "./MotionStudio";
 
 /** Result page for a Pro AI banner: the finished image, download, and "new version". */
 export function ProBannerView({
@@ -75,7 +76,10 @@ export function ProBannerView({
         </div>
         {url && !busy && (
           <div className="mt-3">
-            <DownloadSizes src={url} baseName={title} />
+            <MotionCTA src={url} baseName={title} />
+            <div className="mt-2">
+              <DownloadSizes src={url} baseName={title} />
+            </div>
             {layout === "PLAYER" && (
               <Link href={`/create?match=${id}`} className="btn-primary mt-2 w-full">
                 👥 {t("team_set_next")}

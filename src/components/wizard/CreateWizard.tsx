@@ -11,6 +11,7 @@ import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
+import { MotionCTA } from "../MotionStudio";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
 const FONT_VAR: Record<string, string> = {
@@ -841,6 +842,7 @@ export function CreateWizard({
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
+                {result.url && <MotionCTA src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {layout === "PLAYER" && (
                   <Link href={`/create?match=${result.id}`} className="btn-primary w-full">
