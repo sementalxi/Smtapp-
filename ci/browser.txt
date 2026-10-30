@@ -1,2 +1,10 @@
+mobile / hidden reveal elements: 0
+mobile /login hidden reveal elements: 0
+mobile /register hidden reveal elements: 0
+mobile /pricing hidden reveal elements: 0
 mobile errors: []
+desktop / hidden reveal elements: 0
+desktop /login hidden reveal elements: 0
+desktop /register hidden reveal elements: 0
+desktop /pricing hidden reveal elements: 0
 desktop errors: []
