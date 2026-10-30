@@ -5,6 +5,7 @@ import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import { saveFile } from "@/lib/storage";
 import { downloadImage } from "@/lib/image-search";
+import { imageBlockedReason } from "@/lib/moderation";
 
 export const maxDuration = 30;
 
@@ -17,6 +18,8 @@ export const POST = handle(async (req: NextRequest) => {
   const body = Body.parse(await req.json());
   try {
     const { data, type } = await downloadImage(body.url);
+    const blocked = await imageBlockedReason(data);
+    if (blocked) return json({ error: "unsafe_image", category: blocked }, 422);
     const url = await saveFile(body.kind === "logo" ? "logos" : "photos", data, type);
     return json({ url });
   } catch (e) {
