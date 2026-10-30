@@ -39,7 +39,6 @@ export async function AccountShell({ user, children }: { user: CurrentUser; chil
         </div>
       </aside>
       <div className="min-w-0 space-y-5">
-        <AccountNav links={links} variant="chips" />
         {children}
       </div>
     </div>
