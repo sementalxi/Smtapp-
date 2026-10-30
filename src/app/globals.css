@@ -247,3 +247,24 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 @media (prefers-reduced-motion: reduce) {
   .fx-smoke, .fx-ember, .fx-heat, .fx-flash, .fx-bolt, .fx-rain, .fx-streak, .fx-grid, .fx-star, .fx-aurora, .fx-confetti { animation: none !important; }
 }
+
+/* ============ Deal cards: red animated border that grabs attention ============ */
+@property --deal-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.deal-hot {
+  background: conic-gradient(from var(--deal-angle), #ff1f3d, #ff6a3d 15%, #3a0a10 30%, #ff1f3d 50%, #ff8a3d 65%, #3a0a10 80%, #ff1f3d);
+  animation: deal-spin 3.5s linear infinite, deal-pulse 2.2s ease-in-out infinite;
+}
+@keyframes deal-spin { to { --deal-angle: 360deg; } }
+@keyframes deal-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 31, 61, 0.55), 0 10px 40px -12px rgba(255, 31, 61, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 31, 61, 0), 0 16px 60px -10px rgba(255, 31, 61, 0.85); }
+}
+.deal-hot-badge {
+  position: absolute; z-index: 5; top: -10px; left: 14px; padding: 3px 10px; border-radius: 9999px;
+  background: linear-gradient(90deg, #ff1f3d, #ff6a3d); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 0.12em;
+  box-shadow: 0 4px 16px rgba(255, 31, 61, 0.6); animation: deal-badge 1.4s ease-in-out infinite;
+}
+@keyframes deal-badge { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.08) rotate(2deg); } }
+.deal-hot-shine { pointer-events: none; position: absolute; inset: 0; z-index: 4; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.18) 50%, transparent 65%); background-size: 250% 100%; animation: deal-shine 3.2s ease-in-out infinite; }
+@keyframes deal-shine { 0%, 50% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@media (prefers-reduced-motion: reduce) { .deal-hot, .deal-hot-badge, .deal-hot-shine { animation: none; } }
