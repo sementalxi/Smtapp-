@@ -60,7 +60,7 @@ jobs:
       - name: safari shots
         continue-on-error: true
         run: |
-          npx -y playwright@1.49.1 install --with-deps webkit >/dev/null 2>&1
+          npx -y playwright@1.49.1 install --with-deps webkit > ci/safari-install.txt 2>&1 || true
           cat > wk.mjs <<'JS'
           import { webkit } from "playwright";
           const wb = await webkit.launch();
