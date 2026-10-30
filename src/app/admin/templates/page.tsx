@@ -20,7 +20,7 @@ export default async function AdminTemplates() {
       <h1 className="font-display text-4xl">{t("admin_templates")}</h1>
       <TemplateArranger
         categories={categories}
-        initial={rows.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, active: r.active, thumbUrl: r.thumbUrl, uses: r._count.banners }))}
+        initial={rows.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, active: r.active, thumbUrl: r.thumbUrl, uses: r._count.banners, badge: r.badge }))}
       />
       <h2 className="font-display pt-4 text-2xl">{locale === "es" ? "Editar estilos" : "Edit styles"}</h2>
       <div className="space-y-3">

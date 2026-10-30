@@ -14,5 +14,6 @@ export async function activeTemplates(): Promise<ClientTemplate[]> {
     cost: r.cost,
     thumbUrl: r.thumbUrl,
     hasInstructions: !!r.proInstructions?.trim(),
+    badge: r.badge,
   }));
 }

@@ -101,6 +101,8 @@ model Template {
   proInstructions String?
   // Random palette/concept/layout per poster (off = consistent look every time)
   randomize  Boolean  @default(true)
+  // "recommended" | "fire" | null — label shown on the style in the Create page
+  badge      String?
   active     Boolean  @default(true)
   sort       Int      @default(0)
   createdAt  DateTime @default(now())

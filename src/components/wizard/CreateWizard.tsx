@@ -435,9 +435,15 @@ export function CreateWizard({
                 key={s.id}
                 type="button"
                 onClick={() => setTplId(s.id)}
-                className={`overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
+                className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
                 <TemplateThumb template={s} />
+                {s.badge === "recommended" && (
+                  <span className="absolute top-1.5 left-1.5 rounded-md bg-lime px-1.5 py-0.5 text-[10px] font-black uppercase text-ink shadow">⭐ {locale === "es" ? "Recomendado" : "Recommended"}</span>
+                )}
+                {s.badge === "fire" && (
+                  <span className="absolute top-1.5 left-1.5 rounded-md bg-gradient-to-r from-orange-500 to-red-500 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow">🔥 {locale === "es" ? "Lo más fire" : "Fire"}</span>
+                )}
                 <div className="bg-panel-2 px-2 py-1.5 text-xs font-bold">{locale === "es" ? s.nameEs : s.name}</div>
               </button>
             ))}

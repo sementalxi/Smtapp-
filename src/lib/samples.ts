@@ -49,4 +49,6 @@ export interface ClientTemplate {
   thumbUrl?: string | null;
   /** The style has admin-written Pro AI design instructions */
   hasInstructions?: boolean;
+  /** "recommended" | "fire" */
+  badge?: string | null;
 }

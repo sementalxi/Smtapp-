@@ -6,7 +6,7 @@ import { useT } from "@/i18n/client";
 import { ART_TYPES } from "@/lib/pro-options";
 import type { LayoutKind } from "@/lib/templates";
 
-export type ArrangeItem = { id: string; name: string; nameEs: string; layout: LayoutKind; active: boolean; thumbUrl: string | null; uses: number };
+export type ArrangeItem = { id: string; name: string; nameEs: string; layout: LayoutKind; active: boolean; thumbUrl: string | null; uses: number; badge: string | null };
 
 function Switch({ on, onChange, es }: { on: boolean; onChange: (v: boolean) => void; es: boolean }) {
   return (
@@ -75,7 +75,7 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
 
   async function save() {
     setBusy(true);
-    const templates = order.flatMap((l) => inCat(l).map((t, n) => ({ id: t.id, layout: t.layout, active: t.active, sort: order.indexOf(l) * 1000 + n })));
+    const templates = order.flatMap((l) => inCat(l).map((t, n) => ({ id: t.id, layout: t.layout, active: t.active, badge: t.badge, sort: order.indexOf(l) * 1000 + n })));
     const res = await fetch("/api/admin/templates/arrange", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ categories: { order, hidden }, templates }) });
     setBusy(false);
     if (res.ok) {
@@ -136,6 +136,13 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
                       </div>
                       <div className="min-w-0 flex-1 space-y-1">
                         <div className="truncate text-sm font-bold">{es ? t.nameEs || t.name : t.name}</div>
+                        <div className="flex gap-1">
+                          {([["", es ? "Sin etiqueta" : "No label"], ["recommended", es ? "⭐ Recomendado" : "⭐ Recommended"], ["fire", "🔥 Fire"]] as const).map(([v, lbl]) => (
+                            <button key={v} type="button" onClick={() => patch(t.id, { badge: v || null })} className={`rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.badge ?? "") === v ? (v === "fire" ? "border-orange-400 bg-orange-500/20 text-orange-300" : "border-lime bg-lime/15 text-lime") : "border-line text-muted"}`}>
+                              {lbl}
+                            </button>
+                          ))}
+                        </div>
                         <select className="input w-full py-1 text-xs" value={t.layout} onChange={(e) => patch(t.id, { layout: e.target.value as LayoutKind })}>
                           {order.map((c) => (
                             <option key={c} value={c}>

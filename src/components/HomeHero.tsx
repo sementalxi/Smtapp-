@@ -76,7 +76,7 @@ export function HomeHero({
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
           {/* Phone: crest on the right, beside the title */}
-          <div className="pointer-events-none absolute -right-4 top-20 -z-10 w-[44%] max-w-[260px] lg:hidden">
+          <div className="pointer-events-none absolute -right-4 top-24 -z-10 w-[40%] max-w-[240px] lg:hidden">
             <Crest />
           </div>
           <div className="kixo-fade-up mb-4 inline-flex items-center gap-2 rounded-full border border-lime/30 bg-ink/60 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-lime backdrop-blur">
@@ -84,7 +84,7 @@ export function HomeHero({
             <span className="kixo-typing">AI ENGINE · ONLINE</span>
           </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
-          <h1 className="font-display max-w-[60%] text-[3.4rem] leading-[0.9] sm:max-w-[64%] sm:text-7xl lg:max-w-none lg:text-[5.2rem]">
+          <h1 className="font-display max-w-[70%] text-[3.05rem] leading-[0.9] sm:max-w-[64%] sm:text-7xl lg:max-w-none lg:text-[5.2rem]">
             {(() => {
               const words = tt("hero_title").split(" ");
               const a = Math.ceil(words.length * 0.4);
