@@ -9,6 +9,7 @@ import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle }
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
 import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
+import { textPoster } from "./twilio";
 import { getSettings } from "./settings";
 
 const str = (max: number) => z.string().trim().max(max).default("");
@@ -586,6 +587,7 @@ export async function generateProForBanner(opts: {
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url, prompt: opts.prompt.slice(0, 40000) } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: true, regenerate: opts.regenerate, image: out });
+    await textPoster({ userId: opts.userId, imageUrl: url, bannerId: opts.bannerId });
     return updated;
   } catch (err) {
     console.error("pro generation failed", err);

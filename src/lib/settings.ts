@@ -14,6 +14,7 @@ export const SETTING_DEFAULTS = {
   hero_video: "",
   hero_video_opacity: "70",
   hero_bg_mode: "image",
+  sms_posters: "1",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

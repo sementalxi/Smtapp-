@@ -53,6 +53,7 @@ model User {
   currentPeriodEnd   DateTime?
   refCode            String? // personal invite code (checked unique in code)
   referredById       String? // who invited this user
+  phone              String? // verified phone (E.164) — one account per number, checked in code
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   transactions       CreditTransaction[] @relation("UserTx")
@@ -61,6 +62,7 @@ model User {
   payments           Payment[]
 
   @@index([refCode])
+  @@index([phone])
   @@index([referredById])
 }
 
