@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ClientTemplate } from "@/lib/samples";
-import { TemplateThumb } from "./TemplateThumb";
 
 type T = (key: never, vars?: Record<string, string | number>) => string;
 
@@ -35,14 +34,12 @@ export function HomeHero({
   t,
   user,
   bonus,
-  heroImgs,
-  templates,
 }: {
   t: T;
   user: boolean;
   bonus: number;
-  heroImgs: string[];
-  templates: ClientTemplate[];
+  heroImgs?: string[];
+  templates?: ClientTemplate[];
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
   const feats: [keyof typeof ICONS, string][] = [
@@ -59,11 +56,12 @@ export function HomeHero({
     ["sliders", "hero_strip_3"],
     ["coins", "hero_strip_4"],
   ];
-  const posters = heroImgs.length ? heroImgs.slice(0, 3) : [];
-  const tplPosters = posters.length ? [] : templates.slice(0, 3);
 
   return (
     <section className="relative overflow-hidden border-b border-line">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/70 to-ink lg:bg-gradient-to-r lg:from-ink lg:via-ink/75 lg:to-ink/10" />
       <div className="kixo-bg-pan pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
       <div className="kixo-bg-pan pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" style={{ animationDelay: "-7s" }} />
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -126,34 +124,18 @@ export function HomeHero({
           </div>
         </div>
 
-        {/* Right: poster fan */}
-        <div className="relative mx-auto h-[310px] w-full max-w-[360px] sm:h-[520px] sm:max-w-[520px]">
-          {(posters.length ? posters : tplPosters.map((x) => x.id)).map((key, i, arr) => {
-            const pos = arr.length === 1 ? [{ l: 20, t: 4, r: 0 }] : [
-              { l: 4, t: 10, r: -8 },
-              { l: 22, t: 0, r: 0 },
-              { l: 40, t: 10, r: 8 },
-            ];
-            const p = pos[i] ?? pos[0];
-            const tpl = tplPosters.find((x) => x.id === key);
-            return (
-              <div
-                key={key}
-                className="absolute w-[56%]"
-                style={{ left: `${p.l}%`, top: `${p.t}%`, transform: `rotate(${p.r}deg)`, zIndex: i === 1 ? 3 : 2 }}
-              >
-                <div className="kixo-float overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/70" style={{ animationDelay: `${-i * 2}s`, animationDuration: `${6 + i}s` }}>
-                  {tpl ? (
-                    <TemplateThumb template={tpl} />
-                  ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={key} alt="" className="block aspect-[4/5] w-full object-cover" />
-                  )}
-                </div>
-              </div>
-            );
-          })}
-
+        {/* Right: animated KIXO crest */}
+        <div className="relative order-first mx-auto w-full max-w-[260px] sm:max-w-[340px] lg:order-none lg:max-w-[460px]">
+          <div className="kixo-logo-in relative">
+            <div className="kixo-logo-aura pointer-events-none absolute inset-[8%] rounded-full bg-teal/30 blur-3xl" />
+            <div className="kixo-logo-ring pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-lime/40" />
+            <div className="kixo-logo-ring pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-teal/40" style={{ animationDelay: "-1.6s" }} />
+            <div className="kixo-logo-float relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/kixo-hero-logo.webp" alt="KIXO" width={553} height={655} className="kixo-logo-glow relative block h-auto w-full" />
+              <span className="kixo-logo-shine pointer-events-none absolute inset-0" aria-hidden />
+            </div>
+          </div>
         </div>
       </div>
 
