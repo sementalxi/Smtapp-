@@ -205,7 +205,7 @@ export function CreateWizard({
   function finalInputs(): BannerInputs {
     return {
       ...inp,
-      bgPose: inp.bgPose || (tpl?.hasInstructions ? "style" : "closeup"),
+      bgPose: inp.bgPose || "style",
       color1: inp.colorMode === "custom" ? inp.color1 || "#1d5bff" : inp.color1,
       color2: inp.colorMode === "custom" ? inp.color2 || "#ffd35a" : inp.color2,
       team: team?.name ?? inp.team,
@@ -442,7 +442,7 @@ export function CreateWizard({
                 <span className="label">{locale === "es" ? "Segunda imagen del jugador (fondo, creada por la IA)" : "Second player image (background, made by AI)"}</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {[
-                    { id: "style", en: "🎨 From the style's settings", es: "🎨 Según el estilo (admin)" },
+                    { id: "style", en: "⭐ Recommended", es: "⭐ Recomendado" },
                     ...BG_POSES,
                     { id: "none", en: "🚫 No second image", es: "🚫 Sin segunda imagen" },
                   ].map((p) => (
@@ -450,7 +450,7 @@ export function CreateWizard({
                       key={p.id}
                       type="button"
                       onClick={() => set("bgPose", p.id)}
-                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || (tpl?.hasInstructions ? "style" : "closeup")) === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || "style") === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                     >
                       {locale === "es" ? p.es : p.en}
                     </button>
