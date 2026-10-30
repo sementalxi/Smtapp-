@@ -234,14 +234,14 @@ export function collectProRefs(opts: {
     });
   }
   // Default: the real logo is pasted onto the finished poster (the AI redraws logos inaccurately).
-  // "" = default per type: Champions lets the AI render the crest as a 3D hero emblem (it looks far better integrated).
-  const exact = i.aiLogo === "off" || (i.aiLogo !== "on" && layout !== "CHAMPIONS");
+  // Default: the AI builds the crest into the design as a 3D emblem (blends far better). "off" = paste the exact logo.
+  const exact = i.aiLogo === "off";
   const crest = (url: string, who: string, corner: LogoSpot = "tl") =>
     exact
       ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
       : refs.push({
       url,
-      label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent; you may also echo it huge and ghosted in the background.`,
+      label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
     });
   if (layout === "MATCHDAY" || layout === "RESULT") {
     if (i.homeLogoUrl) crest(i.homeLogoUrl, "the home team", "left");
