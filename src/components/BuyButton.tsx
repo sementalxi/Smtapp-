@@ -53,7 +53,13 @@ export function BuyButton({
       window.location.href = data.url;
       return;
     }
-    setErr(t("err_generic"));
+    setErr(
+      data.error === "already_subscribed"
+        ? locale === "es" ? "Ya tienes una suscripción activa." : "You already have an active subscription."
+        : data.error === "unauthorized"
+          ? locale === "es" ? "Inicia sesión otra vez." : "Please log in again."
+          : t("err_generic") + (data.detail ? ` — ${data.detail}` : data.error ? ` (${data.error})` : ""),
+    );
     setBusy(false);
   }
 

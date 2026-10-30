@@ -17,6 +17,7 @@ export const POST = handle(async (req: NextRequest) => {
 
   // Square (if set up) takes the payment instead of Stripe.
   if (paymentProvider() === "square") {
+    try {
     if (body.kind === "pack") {
       const pack = findPack(body.id);
       if (!pack) throw new HttpError(400, "unknown_pack");
@@ -36,6 +37,11 @@ export const POST = handle(async (req: NextRequest) => {
       plan,
     });
     return json({ url });
+    } catch (e) {
+      if (e instanceof HttpError) throw e;
+      console.error("square checkout failed", e);
+      return json({ error: "checkout_failed", detail: e instanceof Error ? e.message.slice(0, 300) : "unknown" }, 502);
+    }
   }
 
   const customer = await ensureCustomer(user);

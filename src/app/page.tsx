@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
 import { getNumberSetting, getSettings } from "@/lib/settings";
-import { TemplateThumb } from "@/components/TemplateThumb";
 import { PricingCards } from "@/components/PricingCards";
 import { HomeHero } from "@/components/HomeHero";
 import { db } from "@/lib/db";
@@ -26,48 +25,76 @@ export default async function Home() {
     /* DB not ready */
   }
 
+  const gallery = templates.filter((x) => x.thumbUrl).slice(0, 8);
+
   return (
     <div>
       <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} templates={templates} />
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="font-display mb-8 text-4xl">{t("how_title")}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* How it works — compact numbered steps */}
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+        <p className="text-xs font-bold uppercase tracking-[0.35em] text-lime">01 — 04</p>
+        <h2 className="font-display mt-2 text-4xl sm:text-5xl">{t("how_title")}</h2>
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {(["1", "2", "3", "4"] as const).map((n) => (
-            <div key={n} className="card p-5">
-              <div className="font-display text-4xl text-lime">0{n}</div>
-              <div className="mt-2 font-bold">{t(`how_${n}_t`)}</div>
-              <p className="mt-1 text-sm text-muted">{t(`how_${n}_d`)}</p>
+            <div key={n} className="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-panel p-4 sm:p-5">
+              <div className="font-display pointer-events-none absolute -top-3 -right-1 text-7xl text-white/[0.04] sm:text-8xl">0{n}</div>
+              <span className="grid h-9 w-9 place-items-center rounded-full border border-lime/50 bg-lime/10 text-sm font-extrabold text-lime">{n}</span>
+              <div className="mt-3 text-sm font-extrabold uppercase tracking-wide sm:text-base">{t(`how_${n}_t`)}</div>
+              <p className="mt-1 text-xs leading-relaxed text-muted sm:text-sm">{t(`how_${n}_d`)}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {templates.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-8">
-          <h2 className="font-display mb-8 text-4xl">{t("styles_title")}</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {templates.map((tpl) => (
-              <Link
-                key={tpl.id}
-                href={user ? `/create?t=${tpl.slug}` : "/register"}
-                className="group overflow-hidden rounded-xl border border-line transition hover:border-lime"
-              >
-                <TemplateThumb template={tpl} />
-                <div className="bg-panel px-3 py-2 text-sm font-bold group-hover:text-lime">
-                  {locale === "es" ? tpl.nameEs : tpl.name}
-                </div>
+      {/* Styles gallery — only styles with a real sample image */}
+      {gallery.length >= 2 && (
+        <section className="border-y border-line bg-panel/30">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="font-display text-4xl sm:text-5xl">{t("styles_title")}</h2>
+              <Link href={user ? "/create" : "/register"} className="shrink-0 text-sm font-bold text-lime hover:text-white">
+                {t("hero_cta")} ›
               </Link>
-            ))}
+            </div>
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+              {gallery.map((tpl) => (
+                <Link
+                  key={tpl.id}
+                  href={user ? `/create?t=${tpl.slug}` : "/register"}
+                  className="group relative overflow-hidden rounded-2xl border border-line transition hover:-translate-y-1 hover:border-lime hover:shadow-[0_20px_50px_-20px] hover:shadow-lime/40"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={tpl.thumbUrl!} alt={tpl.name} loading="lazy" className="block aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pt-10 pb-3">
+                    <div className="text-sm font-extrabold uppercase tracking-wide">{locale === "es" ? tpl.nameEs : tpl.name}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       )}
 
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="font-display text-5xl">{t("pricing_title")}</h2>
+      {/* Pricing */}
+      <section className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+        <h2 className="font-display text-4xl sm:text-5xl">{t("pricing_title")}</h2>
         <p className="mt-2 mb-10 text-muted">{t("pricing_sub")}</p>
         <PricingCards user={user} />
       </section>
+
+      {/* Final call to action */}
+      <section className="px-4 pb-16">
+        <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-lime/30 bg-gradient-to-br from-lime/15 via-panel to-panel px-6 py-12 text-center sm:py-16">
+          <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-lime/20 blur-3xl" />
+          <h2 className="font-display relative text-4xl sm:text-6xl">{t("home_cta_title")}</h2>
+          <p className="relative mx-auto mt-3 max-w-md text-muted">{t("home_cta_sub")}</p>
+          <Link href={user ? "/create" : "/register"} className="btn-primary relative mt-7 px-8 py-3.5 text-base">
+            ⚡ {t("hero_cta")}
+          </Link>
+        </div>
+      </section>
+
       {partners.length > 0 && (
         <section className="border-t border-line bg-panel/40">
           <div className="mx-auto max-w-6xl px-4 py-14 text-center">
