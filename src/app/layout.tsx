@@ -7,7 +7,6 @@ import { Header } from "@/components/Header";
 import { RefCapture } from "@/components/RefCapture";
 import { LangPrompt } from "@/components/LangPrompt";
 import { cookies } from "next/headers";
-import { LOCALE_COOKIE } from "@/i18n/server";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
 
@@ -20,7 +19,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
-  const chosen = !!(await cookies()).get(LOCALE_COOKIE)?.value;
+  // Ask once per browser (separate from the language cookie, so people who already had one still see it once).
+  const chosen = !!(await cookies()).get("kixo_lang_asked")?.value;
   let notice = "";
   try {
     notice = (await getSettings()).maintenance_message;
