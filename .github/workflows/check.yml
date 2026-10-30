@@ -34,7 +34,9 @@ jobs:
           import { chromium } from "playwright";
           const b = await chromium.launch();
           for (const [name, w, h] of [["mobile", 390, 844], ["desktop", 1366, 900]]) {
-            const p = await b.newPage({ viewport: { width: w, height: h } });
+            const ctx = await b.newContext({ viewport: { width: w, height: h } });
+            await ctx.addCookies([{ name: "kixo_lang_asked", value: "1", url: "https://smtapp-ten.vercel.app" }]);
+            const p = await ctx.newPage();
             const errors = [];
             p.on("pageerror", (e) => errors.push(String(e)));
             p.on("console", (m) => m.type() === "error" && errors.push(m.text()));
