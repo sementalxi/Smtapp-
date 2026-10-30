@@ -18,7 +18,7 @@ export async function stampLogo(input: Buffer, avoid: ("tl" | "tr" | "bl" | "br"
 
     // Shadow: the logo's silhouette in 55% black, blurred.
     const pad = 12;
-    const shadow = await sharp({
+    const shadowBase = await sharp({
       create: { width: logoW + pad * 2, height: logoH + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
     })
       .composite([
@@ -31,9 +31,9 @@ export async function stampLogo(input: Buffer, avoid: ("tl" | "tr" | "bl" | "br"
           top: pad,
         },
       ])
-      .blur(5)
       .png()
       .toBuffer();
+    const shadow = await sharp(shadowBase).blur(5).png().toBuffer();
 
     const margin = Math.round(W * 0.03);
     // Put the logo in the calmest corner (least detail), so it never covers faces or text.
@@ -81,43 +81,77 @@ export async function stampLogo(input: Buffer, avoid: ("tl" | "tr" | "bl" | "br"
 }
 
 /**
- * Pastes the user's real team logo(s) into the top corner(s) of the finished poster,
- * exactly as uploaded, with a soft glow so it sits naturally on any background.
+ * Pastes the user's real team logo(s) onto the finished poster exactly as uploaded:
+ * small in a top corner, big as the hero (champions), or left/right of the VS (match day / result).
+ * A coloured glow plus a soft shadow makes it look lit into the scene rather than stuck on.
  */
-export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: "tl" | "tr" }[]): Promise<Buffer> {
+export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: "tl" | "tr" | "hero" | "left" | "right" }[]): Promise<Buffer> {
   try {
     const { width: W = 0, height: H = 0 } = await sharp(input).metadata();
     if (!W || !H) return input;
-    const box = Math.round(W * 0.22);
-    const margin = Math.round(W * 0.04);
-    const pad = Math.round(box * 0.18);
     const layers: { input: Buffer; left: number; top: number }[] = [];
     for (const l of logos) {
-      const logo = await sharp(l.bytes).rotate().trim({ threshold: 12 }).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer().catch(() =>
-        sharp(l.bytes).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer(),
-      );
-      const { width: lw = box, height: lh = box } = await sharp(logo).metadata();
-      // Soft dark halo behind the logo (its silhouette, blurred) for contrast.
-      const halo = await sharp({ create: { width: lw + pad * 2, height: lh + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
-        .composite([
-          {
-            input: await sharp({ create: { width: lw, height: lh, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0.75 } } })
-              .composite([{ input: logo, blend: "dest-in" }])
-              .png()
-              .toBuffer(),
-            left: pad,
-            top: pad,
-          },
-        ])
-        .blur(Math.max(4, Math.round(pad / 2.5)))
+      const spot = {
+        tl: { size: 0.22, cx: 0.04 + 0.11, cy: null as number | null },
+        tr: { size: 0.22, cx: 1 - 0.04 - 0.11, cy: null as number | null },
+        hero: { size: 0.44, cx: 0.5, cy: 0.62 },
+        left: { size: 0.3, cx: 0.25, cy: 0.4 },
+        right: { size: 0.3, cx: 0.75, cy: 0.4 },
+      }[l.corner];
+      const box = Math.round(W * spot.size);
+      const logo = await sharp(l.bytes)
+        .rotate()
+        .trim({ threshold: 12 })
+        .resize({ width: box, height: box, fit: "inside" })
+        .ensureAlpha()
         .png()
-        .toBuffer();
-      const left = l.corner === "tl" ? margin + Math.round((box - lw) / 2) : W - margin - box + Math.round((box - lw) / 2);
-      const top = margin + Math.round((box - lh) / 2);
-      layers.push({ input: halo, left: Math.max(0, left - pad), top: Math.max(0, top - pad + Math.round(pad * 0.15)) });
+        .toBuffer()
+        .catch(() => sharp(l.bytes).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer());
+      const { width: lw = box, height: lh = box } = await sharp(logo).metadata();
+      const big = l.corner === "hero" || l.corner === "left" || l.corner === "right";
+      const pad = Math.round(box * (big ? 0.35 : 0.18));
+      const silhouette = (r: number, g: number, b: number, a: number) =>
+        sharp({ create: { width: lw, height: lh, channels: 4, background: { r, g, b, alpha: a } } })
+          .composite([{ input: logo, blend: "dest-in" }])
+          .png()
+          .toBuffer();
+      const blurred = async (sil: Buffer, blur: number) =>
+        sharp(
+          await sharp({ create: { width: lw + pad * 2, height: lh + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+            .composite([{ input: sil, left: pad, top: pad }])
+            .png()
+            .toBuffer(),
+        )
+          .blur(Math.max(3, blur))
+          .png()
+          .toBuffer();
+      const left = Math.round(W * spot.cx - lw / 2);
+      const top = spot.cy === null ? Math.round(W * 0.04 + (box - lh) / 2) : Math.round(H * spot.cy - lh / 2);
+      // 1) dark shadow for contrast, 2) warm light glow so it sits "in" the light, 3) the logo itself.
+      if (big) {
+        // Bright halo: an enlarged, blurred light-coloured silhouette, stacked for strength.
+        const grow = Math.round(lw * 0.12);
+        const bigSil = await sharp(await silhouette(255, 240, 200, 0.75)).resize({ width: lw + grow * 2, height: lh + grow * 2, fit: "fill" }).png().toBuffer();
+        const halo = await sharp(
+          await sharp({ create: { width: lw + pad * 2, height: lh + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+            .composite([{ input: bigSil, left: pad - grow, top: pad - grow }])
+            .png()
+            .toBuffer(),
+        )
+          .blur(Math.max(4, pad / 3.5))
+          .png()
+          .toBuffer();
+        layers.push({ input: halo, left: left - pad, top: top - pad });
+        layers.push({ input: halo, left: left - pad, top: top - pad });
+        layers.push({ input: await blurred(await silhouette(0, 0, 0, 0.6), pad / 8), left: left - pad, top: top - pad + 6 });
+      } else {
+        layers.push({ input: await blurred(await silhouette(0, 0, 0, 0.8), pad / 2.5), left: left - pad, top: top - pad + Math.round(pad * 0.12) });
+      }
       layers.push({ input: logo, left, top });
     }
-    return await sharp(input).composite(layers).png().toBuffer();
+    // Keep every layer inside the canvas.
+    const safe = layers.map((x) => ({ ...x, left: Math.max(0, x.left), top: Math.max(0, x.top) }));
+    return await sharp(input).composite(safe).png().toBuffer();
   } catch (e) {
     console.error("placeLogos failed", e);
     return input;
