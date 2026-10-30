@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroEffect } from "./HeroEffect";
 import type { ClientTemplate } from "@/lib/samples";
 
 type T = (key: never, vars?: Record<string, string | number>) => string;
@@ -21,13 +22,6 @@ const ICONS = {
   coins: ico("M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"),
 };
 
-// Fixed spark positions (no randomness → same on server and client).
-const SPARKS = Array.from({ length: 18 }, (_, n) => ({
-  x: (n * 37 + 11) % 100,
-  size: 2 + (n % 3),
-  dur: 7 + (n % 5) * 2,
-  delay: (n * 1.7) % 12,
-}));
 
 /** Home page hero: big title, feature tiles, animated KIXO crest. */
 export function HomeHero({
@@ -40,7 +34,7 @@ export function HomeHero({
   user: boolean;
   bonus: number;
   heroImgs?: string[];
-  heroBg?: { mode: string; video: string; opacity: number };
+  heroBg?: { mode: string; video: string; opacity: number; effect?: string };
   templates?: ClientTemplate[];
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
@@ -74,26 +68,14 @@ export function HomeHero({
         <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
-      <div className="kixo-beam" style={{ left: "8%" }} aria-hidden />
-      <div className="kixo-beam" style={{ right: "4%", animationDelay: "-4.5s", animationDuration: "11s" }} aria-hidden />
-      <div className="kixo-fog bottom-[-10%] left-[-10%] h-72 w-[70%] bg-teal/15" aria-hidden />
-      <div className="kixo-fog top-[20%] right-[-15%] h-80 w-[60%] bg-lime/10" style={{ animationDelay: "-9s" }} aria-hidden />
+      <HeroEffect effect={heroBg?.effect ?? "stadium"} />
       <div className="kixo-bg-pan pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
       <div className="kixo-bg-pan pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" style={{ animationDelay: "-7s" }} />
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        {SPARKS.map((sp, n) => (
-          <span
-            key={n}
-            className="kixo-spark"
-            style={{ left: `${sp.x}%`, bottom: `-${sp.size * 4}px`, width: sp.size, height: sp.size, animationDuration: `${sp.dur}s`, animationDelay: `-${sp.delay}s`, opacity: 0.7 }}
-          />
-        ))}
-      </div>
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1.05fr_1fr] lg:py-24">
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
           {/* Phone: crest on the right, beside the title */}
-          <div className="pointer-events-none absolute -right-4 top-24 -z-10 w-[40%] max-w-[240px] lg:hidden">
+          <div className="pointer-events-none absolute -right-4 top-10 -z-10 w-[40%] max-w-[240px] lg:hidden">
             <Crest />
           </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>

@@ -4,15 +4,17 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
 import { useT } from "@/i18n/client";
+import { HERO_EFFECTS, HeroEffect } from "../HeroEffect";
 
 /** Admin: choose the home page background — the KIXO picture, your own video, or nothing. */
-export function HeroBackground({ initial, blobReady }: { initial: { mode: string; video: string; opacity: number }; blobReady: boolean }) {
+export function HeroBackground({ initial, blobReady }: { initial: { mode: string; video: string; opacity: number; effect?: string }; blobReady: boolean }) {
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
   const [mode, setMode] = useState(initial.mode || "image");
   const [video, setVideo] = useState(initial.video);
   const [opacity, setOpacity] = useState(initial.opacity || 70);
+  const [effect, setEffect] = useState(initial.effect || "stadium");
   const [pct, setPct] = useState<number | null>(null);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
@@ -43,7 +45,7 @@ export function HeroBackground({ initial, blobReady }: { initial: { mode: string
     const r = await fetch("/api/admin/settings", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ hero_bg_mode: mode, hero_video: video, hero_video_opacity: opacity }),
+      body: JSON.stringify({ hero_bg_mode: mode, hero_video: video, hero_video_opacity: opacity, hero_effect: effect }),
     });
     const d = await r.json().catch(() => ({}));
     setBusy(false);
@@ -117,6 +119,27 @@ export function HeroBackground({ initial, blobReady }: { initial: { mode: string
           </p>
         </div>
       )}
+
+      <div>
+        <div className="label">{es ? "Efecto en movimiento (encima del fondo)" : "Motion effect (on top of the background)"}</div>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {HERO_EFFECTS.map((fx) => (
+            <button
+              key={fx.id}
+              type="button"
+              onClick={() => { setEffect(fx.id); setMsg(""); }}
+              className={`group relative h-20 overflow-hidden rounded-xl border text-left transition ${effect === fx.id ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-teal/60"}`}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(183,255,69,0.15),transparent_60%),#0b100d]" />
+              <HeroEffect effect={fx.id} />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent px-2 pt-4 pb-1.5 text-[11px] font-bold">
+                {fx.icon} {es ? fx.es : fx.en}
+              </span>
+              {effect === fx.id && <span className="absolute top-1.5 right-1.5 grid h-5 w-5 place-items-center rounded-full bg-lime text-[11px] font-black text-ink">✓</span>}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="flex items-center gap-3">
         <button type="button" className="btn-primary px-6" disabled={busy || (mode === "video" && !video)} onClick={save}>

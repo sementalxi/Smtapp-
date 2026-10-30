@@ -218,3 +218,32 @@ html.kixo-reveal [data-reveal].is-visible { opacity: 1; transform: none; filter:
   .kixo-grain, .kixo-beam, .kixo-fog, .kixo-ai-scan, .kixo-focus-in, .kixo-typing, .kixo-letterbox::before, .kixo-letterbox::after { animation: none !important; }
   .kixo-letterbox::before, .kixo-letterbox::after { display: none; }
 }
+
+/* ============ Hero background effects (admin picks one) ============ */
+.fx-smoke { position: absolute; width: 60%; aspect-ratio: 1; border-radius: 9999px; filter: blur(50px); animation: fx-smoke 18s ease-in-out infinite; }
+@keyframes fx-smoke { 0% { transform: translate3d(0, 20%, 0) scale(0.8); opacity: 0; } 30% { opacity: 1; } 100% { transform: translate3d(15%, -70%, 0) scale(1.4); opacity: 0; } }
+.fx-ember { position: absolute; bottom: -10px; border-radius: 9999px; background: #ffb347; box-shadow: 0 0 8px 2px rgba(255, 120, 40, 0.8); animation: fx-ember linear infinite; }
+@keyframes fx-ember { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 50% { transform: translate(18px, -45vh); } 100% { transform: translate(-12px, -95vh); opacity: 0; } }
+.fx-heat { animation: fx-heat 2.4s ease-in-out infinite; }
+@keyframes fx-heat { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+.fx-flash { opacity: 0; animation: fx-flash 6s linear infinite; }
+@keyframes fx-flash { 0%, 89%, 100% { opacity: 0; } 90% { opacity: 0.18; } 91% { opacity: 0.02; } 92.5% { opacity: 0.12; } 94% { opacity: 0; } }
+.fx-bolt { opacity: 0; filter: drop-shadow(0 0 8px #b7ff45) drop-shadow(0 0 20px #46d5ae); animation: fx-bolt 6s linear infinite; }
+@keyframes fx-bolt { 0%, 89%, 100% { opacity: 0; } 90%, 92.5% { opacity: 1; } 91% { opacity: 0.2; } 94% { opacity: 0; } }
+.fx-rain { background-image: linear-gradient(transparent 0 70%, rgba(200, 255, 230, 0.35) 70% 100%); background-size: 2px 90px; background-repeat: repeat; transform: rotate(12deg); animation: fx-rain 0.4s linear infinite;
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 23px); mask: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 23px); }
+@keyframes fx-rain { from { background-position: 0 0; } to { background-position: 0 90px; } }
+.fx-streak { position: absolute; left: -40%; height: 2px; border-radius: 9999px; animation: fx-streak linear infinite; }
+@keyframes fx-streak { from { transform: translateX(0); } to { transform: translateX(380%); } }
+.fx-grid { background-image: linear-gradient(rgba(183, 255, 69, 0.45) 1px, transparent 1px), linear-gradient(90deg, rgba(183, 255, 69, 0.45) 1px, transparent 1px); background-size: 48px 48px; animation: fx-grid 1.6s linear infinite;
+  -webkit-mask: linear-gradient(to top, #000 30%, transparent 90%); mask: linear-gradient(to top, #000 30%, transparent 90%); }
+@keyframes fx-grid { from { background-position: 0 0; } to { background-position: 0 48px; } }
+.fx-star { position: absolute; border-radius: 9999px; background: #eafff3; box-shadow: 0 0 6px rgba(183, 255, 69, 0.8); animation: fx-star ease-in-out infinite; }
+@keyframes fx-star { 0%, 100% { opacity: 0.15; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.3); } }
+.fx-aurora { filter: blur(40px); animation: fx-aurora 12s ease-in-out infinite; }
+@keyframes fx-aurora { 0%, 100% { transform: translateX(-10%) skewY(-6deg); opacity: 0.6; } 50% { transform: translateX(10%) skewY(4deg); opacity: 1; } }
+.fx-confetti { position: absolute; top: -20px; border-radius: 2px; animation: fx-confetti linear infinite; opacity: 0.85; }
+@keyframes fx-confetti { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(40px, 110vh) rotate(720deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .fx-smoke, .fx-ember, .fx-heat, .fx-flash, .fx-bolt, .fx-rain, .fx-streak, .fx-grid, .fx-star, .fx-aurora, .fx-confetti { animation: none !important; }
+}

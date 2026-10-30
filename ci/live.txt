@@ -1,14 +1,14 @@
-/                            200 0.478144s
-/login                       200 0.125006s
-/register                    200 0.168697s
-/pricing                     200 0.234381s
-/dashboard                   307 0.089480s
-/create                      307 0.076559s
-/admin                       307 0.100331s
-/api/banners                 405 0.637513s
-/api/image-search?q=messi    401 0.338285s
-/api/files/db/none           404 0.374586s
-/.well-known/apple-developer-merchantid-domain-association 200 0.279434s
+/                            200 0.790501s
+/login                       200 0.213230s
+/register                    200 0.164963s
+/pricing                     200 0.159543s
+/dashboard                   307 0.094046s
+/create                      307 0.074685s
+/admin                       307 0.143958s
+/api/banners                 405 0.822788s
+/api/image-search?q=messi    401 0.434588s
+/api/files/db/none           404 0.512801s
+/.well-known/apple-developer-merchantid-domain-association 200 0.221465s
 --- POST api checks (expect 401/400)
 {"error":"unauthorized"}
 {"error":"unauthorized"}

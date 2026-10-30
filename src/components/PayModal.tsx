@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type TokenResult = { status: string; token?: string; errors?: { message: string }[] };
-type SqCard = { attach: (sel: string | HTMLElement, opts?: unknown) => Promise<void>; tokenize: () => Promise<TokenResult>; destroy: () => Promise<void> };
+type SqCard = { attach: (sel: string | HTMLElement, opts?: unknown) => Promise<void>; tokenize: (details?: unknown) => Promise<TokenResult>; destroy: () => Promise<void> };
 type SqCashApp = SqCard & { addEventListener: (ev: string, cb: (e: { detail: { tokenResult?: TokenResult; error?: { message?: string } } }) => void) => void };
 type SqPayments = {
   card: (opts?: unknown) => Promise<SqCard>;
@@ -61,6 +61,8 @@ export function PayModal({
   const google = useRef<SqCard | null>(null);
   const cash = useRef<SqCashApp | null>(null);
   const [wallets, setWallets] = useState({ apple: false, google: false, cash: false });
+  const amountRef = useRef("0");
+  const [adminNote, setAdminNote] = useState("");
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -79,6 +81,7 @@ export function PayModal({
           onFallback();
           return;
         }
+        amountRef.current = String(cfg.amount ?? "0");
         await loadSquare(!!cfg.sandbox);
         if (!alive || !window.Square || !box.current) return;
         const payments = window.Square.payments(cfg.appId, cfg.locationId);
@@ -103,8 +106,8 @@ export function PayModal({
             const ap = await payments.applePay(req);
             apple.current = ap;
             if (alive) setWallets((w) => ({ ...w, apple: true }));
-          } catch {
-            /* not Safari / not set up */
+          } catch (e) {
+            if (cfg.applePay !== undefined) setAdminNote(`Apple Pay: ${e instanceof Error ? e.message : String(e)} · domain: ${cfg.applePay}`);
           }
           try {
             const gp = await payments.googlePay(req);
@@ -163,7 +166,20 @@ export function PayModal({
     setBusy(true);
     setErr("");
     try {
-      const t = await method.tokenize();
+      // Card: include buyer verification (3-D Secure) so banks don't decline it.
+      const t =
+        method === card.current
+          ? await method
+              .tokenize({
+                amount: amountRef.current,
+                currencyCode: "USD",
+                intent: kind === "plan" ? "STORE" : "CHARGE",
+                customerInitiated: true,
+                sellerKeyedIn: false,
+                billingContact: {},
+              })
+              .catch(() => method.tokenize())
+          : await method.tokenize();
       if (t.status !== "OK" || !t.token) {
         if (t.status !== "Cancel") setErr(t.errors?.[0]?.message ?? (es ? "Revisa los datos de pago" : "Check the payment details"));
         setBusy(false);
@@ -193,7 +209,7 @@ export function PayModal({
       } else {
         setErr(
           d.error === "declined"
-            ? es ? "La tarjeta fue rechazada. Prueba con otra." : "The card was declined. Try another one."
+            ? (es ? "La tarjeta fue rechazada. Prueba con otra." : "The card was declined. Try another one.") + (d.detail ? ` (${d.detail})` : "")
             : d.error === "already_subscribed"
               ? es ? "Ya tienes una suscripción activa." : "You already have an active subscription."
               : (es ? "No se pudo completar el pago" : "Payment couldn't be completed") + (d.detail ? ` — ${d.detail}` : ""),
@@ -257,6 +273,7 @@ export function PayModal({
               {!ready && !err && <div className="p-6 text-center text-xs text-muted">{es ? "Cargando formulario seguro…" : "Loading secure form…"}</div>}
             </div>
             {err && <p className="text-sm text-danger">{err}</p>}
+            {adminNote && <p className="rounded-lg border border-line p-2 text-[10px] text-muted">🛠 {adminNote}</p>}
             <button type="button" className="btn-primary kixo-shine w-full py-3.5 text-base" disabled={!ready || busy} onClick={() => pay()}>
               {busy ? (es ? "Procesando…" : "Processing…") : `🔒 ${es ? "Pagar" : "Pay"} ${price}`}
             </button>

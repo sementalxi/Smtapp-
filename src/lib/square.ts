@@ -12,6 +12,38 @@ const base = () => (sandbox() ? "https://connect.squareupsandbox.com/v2" : "http
 
 export class SquareError extends Error {}
 
+/**
+ * The Application ID that owns SQUARE_ACCESS_TOKEN (asked from Square), so the on-page card form
+ * always matches the token. Falls back to SQUARE_APPLICATION_ID.
+ */
+export async function squareAppId(): Promise<string> {
+  const envId = process.env.SQUARE_APPLICATION_ID?.trim() ?? "";
+  const token = process.env.SQUARE_ACCESS_TOKEN?.trim();
+  if (!token) return envId;
+  const cacheKey = `square_app_id_${token.slice(-8)}`;
+  const cached = (await db.setting.findUnique({ where: { key: cacheKey } }))?.value;
+  if (cached) return cached;
+  try {
+    const host = sandbox() ? "https://connect.squareupsandbox.com" : "https://connect.squareup.com";
+    const res = await fetch(`${host}/oauth2/token/status`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Square-Version": VERSION, "Content-Type": "application/json" },
+      body: "{}",
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    const data = (await res.json().catch(() => ({}))) as { client_id?: string };
+    if (res.ok && data.client_id) {
+      if (envId && envId !== data.client_id) console.warn(`SQUARE_APPLICATION_ID (${envId}) doesn't match the access token's app (${data.client_id}) — using the token's`);
+      await db.setting.upsert({ where: { key: cacheKey }, create: { key: cacheKey, value: data.client_id }, update: { value: data.client_id } });
+      return data.client_id;
+    }
+  } catch {
+    /* fall back */
+  }
+  return envId;
+}
+
 /** Calls the Square API and returns the JSON body (throws with Square's error detail). */
 export async function sq<T = Record<string, unknown>>(path: string, init: { method?: string; body?: unknown } = {}): Promise<T> {
   const token = process.env.SQUARE_ACCESS_TOKEN?.trim();

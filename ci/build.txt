@@ -9,7 +9,7 @@ https://nextjs.org/telemetry
      · serverActions
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 14.8s
+ ✓ Compiled successfully in 14.7s
    Linting and checking validity of types ...
    Collecting page data ...
    Generating static pages (0/61) ...
@@ -29,7 +29,7 @@ Route (app)                                                        Size  First L
 ├ ƒ /admin/deals                                                3.37 kB         115 kB
 ├ ƒ /admin/leagues                                              1.97 kB         114 kB
 ├ ƒ /admin/payments                                               172 B         106 kB
-├ ƒ /admin/settings                                             20.2 kB         132 kB
+├ ƒ /admin/settings                                             22.2 kB         134 kB
 ├ ƒ /admin/studio                                               4.02 kB         123 kB
 ├ ƒ /admin/templates                                            9.01 kB         121 kB
 ├ ƒ /admin/texts                                                8.48 kB         111 kB

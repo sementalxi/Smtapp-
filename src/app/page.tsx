@@ -16,13 +16,13 @@ export default async function Home() {
   let templates: ClientTemplate[] = [];
   let bonus = 3;
   let heroImgs: string[] = [];
-  let heroBg: { mode: string; video: string; opacity: number } = { mode: "image", video: "", opacity: 70 };
+  let heroBg: { mode: string; video: string; opacity: number; effect?: string } = { mode: "image", video: "", opacity: 70, effect: "stadium" };
   let partners: { id: string; name: string; logoUrl: string | null }[] = [];
   let deals: PublicDeal[] = [];
   try {
     const st = await getSettings();
     heroImgs = [st.hero_1, st.hero_2, st.hero_3].filter(Boolean);
-    heroBg = { mode: st.hero_bg_mode, video: st.hero_video, opacity: Number(st.hero_video_opacity) || 70 };
+    heroBg = { mode: st.hero_bg_mode, video: st.hero_video, opacity: Number(st.hero_video_opacity) || 70, effect: st.hero_effect };
     templates = await activeTemplates();
     bonus = await getNumberSetting("signup_credits");
     const now = new Date();
