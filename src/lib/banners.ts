@@ -7,7 +7,7 @@ import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./sto
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
-import { stampLogo } from "./stamp";
+import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
 import { getSettings } from "./settings";
 
@@ -42,6 +42,7 @@ export const InputsSchema = z.object({
   bgPose: str(40),
   bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("off"),
+  aiLogo: z.enum(["on", "off", ""]).default("off"),
   colorMode: z.enum(["surprise", "template", "custom", ""]).default("surprise"),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -204,6 +205,8 @@ const q = (s: string) => `"${s.replace(/"/g, "'")}"`;
 export interface ProRef {
   url: string;
   label: string;
+  /** Exact-logo mode: not sent to the AI — pasted into this corner of the finished poster instead. */
+  overlay?: "tl" | "tr";
 }
 
 /** Works out which reference images go to the model, in order, with instructions for each. */
@@ -227,14 +230,18 @@ export function collectProRefs(opts: {
           : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo. Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
     });
   }
-  const crest = (url: string, who: string) =>
-    refs.push({
+  // Default: the real logo is pasted onto the finished poster (the AI redraws logos inaccurately).
+  const exact = i.aiLogo !== "on";
+  const crest = (url: string, who: string, corner: "tl" | "tr" = "tl") =>
+    exact
+      ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
+      : refs.push({
       url,
       label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent; you may also echo it huge and ghosted in the background.`,
     });
   if (layout === "MATCHDAY" || layout === "RESULT") {
     if (i.homeLogoUrl) crest(i.homeLogoUrl, "the home team");
-    if (i.awayLogoUrl) crest(i.awayLogoUrl, "the away team");
+    if (i.awayLogoUrl) crest(i.awayLogoUrl, "the away team", "tr");
   } else if (opts.logoUrl) {
     crest(opts.logoUrl, "the team");
   }
@@ -248,7 +255,7 @@ export function collectProRefs(opts: {
     refs.push({
       url: opts.seriesRefUrl,
       label:
-        "the FIRST CARD of this team set. Recreate THIS EXACT DESIGN as the next card in the same series: same layout and element positions, same background scene, colours, lighting, effects, typography styles, crest treatment and extra words. Only the player changes: use the person from the new player photo (never the person in this card) and the new player's name, number and position.",
+        "the FIRST CARD of this team set. Recreate THIS EXACT DESIGN as the next card in the same series: same layout and element positions, same background scene, colours, lighting, effects, typography styles, crest treatment and extra words (if a crest sits in a top corner of that card, leave that corner empty — the real crest is added afterwards; do not redraw it). Only the player changes: use the person from the new player photo (never the person in this card) and the new player's name, number and position.",
     });
   } else if (opts.styleRefUrl) {
     refs.push({
@@ -279,6 +286,9 @@ export function buildProPrompt(opts: {
   const { inputs: raw, style, layout } = opts;
   // When a team has a logo, the poster shows only the logo — never the team's name as text.
   const hasTeamLogo = opts.refs.some((r) => r.label.startsWith("the crest/logo of the team"));
+  const overlays = opts.refs.filter((r) => r.overlay);
+  const exactLogos = overlays.length > 0;
+  const aiRefs = opts.refs.filter((r) => !r.overlay);
   const i: BannerInputs = {
     ...raw,
     team: hasTeamLogo ? "" : raw.team,
@@ -308,7 +318,7 @@ export function buildProPrompt(opts: {
       const trophy = i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a large shiny trophy";
       composition = [
         `A champions title-celebration poster.`,
-        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}${(i.roster.length || i.players.length) ? ", the squad list as a clean row of names separated by vertical bars" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
+        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${exactLogos ? "no crest drawn (the official crest is added afterwards)" : hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}${(i.roster.length || i.players.length) ? ", the squad list as a clean row of names separated by vertical bars" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
         frame,
         finish,
       ].join(" ");
@@ -324,7 +334,7 @@ export function buildProPrompt(opts: {
     case "MATCHDAY":
       composition = [
         `A match-day announcement poster for a pro-clubs / football match.`,
-        `The two team crests big and glossy facing each other with a bold "VS" between them (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, ${i.competition ? "the competition name, " : ""}${[i.date, i.time, i.venue].some(Boolean) ? "and a clear info block with the listed date/time/venue" : "no info block"}.`,
+        `${exactLogos ? `A bold "VS" in the centre (do not draw any crests — the two official crests are added afterwards in the top corners)` : `The two team crests big and glossy facing each other with a bold "VS" between them`} (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, ${i.competition ? "the competition name, " : ""}${[i.date, i.time, i.venue].some(Boolean) ? "and a clear info block with the listed date/time/venue" : "no info block"}.`,
         frame,
         finish,
       ].join(" ");
@@ -339,7 +349,7 @@ export function buildProPrompt(opts: {
     case "LINEUP":
       composition = [
         `A "STARTING XI" lineup graphic.`,
-        `A stylised football pitch seen from above${i.formation ? ` with the players arranged in a ${i.formation} formation` : ""}: each player shown as a clean badge/marker with their shirt number and name, goalkeeper at the bottom, attackers at the top. The team crest large and glossy, a huge "${i.headline || "STARTING XI"}" title${i.competition ? ", the competition" : ""}${i.date ? ", the date" : ""}. Keep all names perfectly legible.`,
+        `A stylised football pitch seen from above${i.formation ? ` with the players arranged in a ${i.formation} formation` : ""}: each player shown as a clean badge/marker with their shirt number and name, goalkeeper at the bottom, attackers at the top. ${exactLogos ? "No crest drawn (the official crest is added afterwards)," : "The team crest large and glossy,"} a huge "${i.headline || "STARTING XI"}" title${i.competition ? ", the competition" : ""}${i.date ? ", the date" : ""}. Keep all names perfectly legible.`,
         frame,
         finish,
       ].join(" ");
@@ -353,7 +363,7 @@ export function buildProPrompt(opts: {
     case "RESULT":
       composition = [
         `A full-time result graphic.`,
-        `Both team crests big and glossy on either side, a huge score between them, a bold "${i.headline || "FULL TIME"}" label, ${i.scorers.length ? "the goal scorers listed under each side (or under the score)" : "no goal scorers"}${i.competition ? ", and the competition name" : ""}.`,
+        `${exactLogos ? "The home side on the left and the away side on the right (do not draw any crests — the official crests are added afterwards in the top corners)" : "Both team crests big and glossy on either side"}, a huge score between them, a bold "${i.headline || "FULL TIME"}" label, ${i.scorers.length ? "the goal scorers listed under each side (or under the score)" : "no goal scorers"}${i.competition ? ", and the competition name" : ""}.`,
         frame,
         finish,
       ].join(" ");
@@ -375,7 +385,7 @@ export function buildProPrompt(opts: {
     default:
       composition = [
         `A premium pro-clubs / esports football player announcement poster, the dense layered style of top club social-media designers.`,
-        `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) ${i.team ? "GIANT background lettering of the team name spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player" : hasTeamLogo ? "the team crest echoed HUGE, ghosted and partly hidden behind the player (no team name text)" : "giant abstract graphic shapes and light"};`,
+        `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) ${i.team ? "GIANT background lettering of the team name spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player" : hasTeamLogo && !exactLogos ? "the team crest echoed HUGE, ghosted and partly hidden behind the player (no team name text)" : "giant abstract graphic shapes and light"};`,
         `3) a SECOND, NEWLY CREATED image of the SAME player, very large in the upper half/behind: ${bgPosePrompt(i.bgPose)}. This must be a genuinely different shot generated by you — different pose, angle and expression from the uploaded photo, NOT a copy, crop or enlargement of it — but clearly the same person (same face, hair, skin tone, beard, kit). Render it in the same style as the rest of the poster: colour-graded and tinted with the main colour, slightly faded/double-exposed into the background, with light rays and texture over it;`,
         `4) in front, the player from the uploaded photo as a sharp full cut-out (same pose as the photo), with a strong rim light and glow separating them from the background; 5) effects on top.`,
         `The two figures must clearly differ (e.g. one a dramatic close-up, the other the action/full-body pose), like a pro designer's double-shot player card.`,
@@ -403,7 +413,11 @@ export function buildProPrompt(opts: {
     .filter(Boolean)
     .join(" ");
 
-  const refText = opts.refs.map((r, n) => `Reference image ${n + 1} is ${r.label}`);
+  const refText = aiRefs.map((r, n) => `Reference image ${n + 1} is ${r.label}`);
+  const corners = [...new Set(overlays.map((o) => o.overlay))];
+  const logoRule = exactLogos
+    ? `LOGO SPACE: leave the ${corners.length > 1 ? "top-left and top-right corners" : "top-left corner"} (a square about 26% of the poster width, plus margin) calm and empty — just background, no text, faces or important details — because the official team crest is placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
+    : "";
 
   return [
     `Design a finished, high-end vertical sports social-media poster (4:5).`,
@@ -425,11 +439,12 @@ export function buildProPrompt(opts: {
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
+    logoRule,
     `No animals, mascots or creatures (eagles, lions, dragons, birds…) unless the user or the art director asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
-    `Keep at least one corner of the poster calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
+    `Keep ${exactLogos ? "one of the bottom corners" : "at least one corner of the poster"} calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
     i.aiCopy === "on"
       ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
       : "",
@@ -459,12 +474,19 @@ export async function generateProForBanner(opts: {
   }
   try {
     const images: { bytes: Buffer; type: string }[] = [];
-    for (const r of opts.refs) {
+    for (const r of opts.refs.filter((x) => !x.overlay)) {
       const bytes = await loadBytes(r.url);
       images.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
     }
     const quality = (await getSettings()).pro_quality;
-    const out = await stampLogo(await generatePoster(opts.prompt, images, quality));
+    let poster = await generatePoster(opts.prompt, images, quality);
+    const overlays = opts.refs.filter((x) => x.overlay);
+    if (overlays.length) {
+      const logos: { bytes: Buffer; corner: "tl" | "tr" }[] = [];
+      for (const o of overlays) logos.push({ bytes: await loadBytes(o.url), corner: o.overlay! });
+      poster = await placeLogos(poster, logos);
+    }
+    const out = await stampLogo(poster, overlays.length ? (overlays.some((o) => o.overlay === "tr") ? ["tl", "tr"] : ["tl"]) : []);
     const url = await saveFile("banners", out, "image/png");
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url } });

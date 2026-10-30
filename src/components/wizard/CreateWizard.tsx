@@ -636,6 +636,22 @@ export function CreateWizard({
 
       {step === 4 && (
         <div className="card space-y-4 p-5">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-panel-2 p-4 text-sm">
+            <input
+              type="checkbox"
+              className="mt-1 accent-[var(--color-lime)]"
+              checked={inp.aiLogo === "on"}
+              onChange={(e) => set("aiLogo", e.target.checked ? "on" : "off")}
+            />
+            <span>
+              <span className="block font-bold">{locale === "es" ? "Logo 3D hecho por la IA" : "AI-made 3D logo"}</span>
+              <span className="block text-xs text-muted">
+                {locale === "es"
+                  ? "Apagado (recomendado): tu logo real se coloca exacto en la esquina. Encendido: la IA lo redibuja en 3D cromado — se ve espectacular pero puede cambiar letras o detalles."
+                  : "Off (recommended): your real logo is placed exactly in the corner. On: the AI redraws it in 3D chrome — looks amazing but can change letters or details."}
+              </span>
+            </span>
+          </label>
           <div>
             <span className="label">{locale === "es" ? "Fondo" : "Background"}</span>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">

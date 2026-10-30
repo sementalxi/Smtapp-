@@ -52,6 +52,7 @@ export interface BannerInputs {
   color1: string;
   color2: string;
   aiCopy: string; // "on" lets the AI add a couple of hype words
+  aiLogo: string; // "on" = AI redraws the crest in 3D (may change details); default pastes the real logo
   bgPose: string;
   bgScene: string; // background scene id, "" = surprise // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
@@ -95,6 +96,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   color1: "",
   color2: "",
   aiCopy: "off",
+  aiLogo: "off",
   bgPose: "",
   bgScene: "",
   language: "English",

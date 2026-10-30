@@ -6,7 +6,7 @@ import { BRAND_LOGO_PNG_BASE64 } from "./brand-logo";
  * shadow so it reads on light and dark designs. Returns the original bytes if
  * anything goes wrong — a missing logo must never cost the user their poster.
  */
-export async function stampLogo(input: Buffer): Promise<Buffer> {
+export async function stampLogo(input: Buffer, avoid: ("tl" | "tr" | "bl" | "br")[] = []): Promise<Buffer> {
   try {
     const base = sharp(input);
     const { width: W = 0, height: H = 0 } = await base.metadata();
@@ -38,11 +38,11 @@ export async function stampLogo(input: Buffer): Promise<Buffer> {
     const margin = Math.round(W * 0.03);
     // Put the logo in the calmest corner (least detail), so it never covers faces or text.
     const corners = [
-      { left: W - margin - logoW, top: H - margin - logoH }, // bottom-right (preferred on ties)
-      { left: margin, top: H - margin - logoH }, // bottom-left
-      { left: W - margin - logoW, top: margin }, // top-right
-      { left: margin, top: margin }, // top-left
-    ];
+      { id: "br", left: W - margin - logoW, top: H - margin - logoH }, // bottom-right (preferred on ties)
+      { id: "bl", left: margin, top: H - margin - logoH }, // bottom-left
+      { id: "tr", left: W - margin - logoW, top: margin }, // top-right
+      { id: "tl", left: margin, top: margin }, // top-left
+    ].filter((c) => !avoid.includes(c.id as "tl"));
     let best = corners[0];
     let bestScore = Infinity;
     for (const [n, c] of corners.entries()) {
@@ -76,6 +76,50 @@ export async function stampLogo(input: Buffer): Promise<Buffer> {
     return await stamped.jpeg({ quality: 92, mozjpeg: true }).toBuffer();
   } catch (e) {
     console.error("stampLogo failed", e);
+    return input;
+  }
+}
+
+/**
+ * Pastes the user's real team logo(s) into the top corner(s) of the finished poster,
+ * exactly as uploaded, with a soft glow so it sits naturally on any background.
+ */
+export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: "tl" | "tr" }[]): Promise<Buffer> {
+  try {
+    const { width: W = 0, height: H = 0 } = await sharp(input).metadata();
+    if (!W || !H) return input;
+    const box = Math.round(W * 0.22);
+    const margin = Math.round(W * 0.04);
+    const pad = Math.round(box * 0.18);
+    const layers: { input: Buffer; left: number; top: number }[] = [];
+    for (const l of logos) {
+      const logo = await sharp(l.bytes).rotate().trim({ threshold: 12 }).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer().catch(() =>
+        sharp(l.bytes).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer(),
+      );
+      const { width: lw = box, height: lh = box } = await sharp(logo).metadata();
+      // Soft dark halo behind the logo (its silhouette, blurred) for contrast.
+      const halo = await sharp({ create: { width: lw + pad * 2, height: lh + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+        .composite([
+          {
+            input: await sharp({ create: { width: lw, height: lh, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0.75 } } })
+              .composite([{ input: logo, blend: "dest-in" }])
+              .png()
+              .toBuffer(),
+            left: pad,
+            top: pad,
+          },
+        ])
+        .blur(Math.max(4, Math.round(pad / 2.5)))
+        .png()
+        .toBuffer();
+      const left = l.corner === "tl" ? margin + Math.round((box - lw) / 2) : W - margin - box + Math.round((box - lw) / 2);
+      const top = margin + Math.round((box - lh) / 2);
+      layers.push({ input: halo, left: Math.max(0, left - pad), top: Math.max(0, top - pad + Math.round(pad * 0.15)) });
+      layers.push({ input: logo, left, top });
+    }
+    return await sharp(input).composite(layers).png().toBuffer();
+  } catch (e) {
+    console.error("placeLogos failed", e);
     return input;
   }
 }
