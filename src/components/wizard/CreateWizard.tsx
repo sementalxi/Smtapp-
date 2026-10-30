@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
-import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, FONT_STYLES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
@@ -16,18 +16,11 @@ import { forgetPending, pendingBanner, rememberPending, waitForBanner } from "@/
 import { useRouter } from "next/navigation";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
-const FONT_VAR: Record<string, string> = {
-  anton: "var(--nf-anton)",
-  bebas: "var(--nf-bebas)",
-  gothic: "var(--nf-gothic)",
-  brush: "var(--nf-brush)",
-  sans: "var(--nf-sans)",
-};
 
 const TXT = {
   en: {
-    steps: ["Type", "Style", "Details", "Fonts & colors", "Generate"],
-    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Typography and color", "Generate and download"],
+    steps: ["Type", "Style", "Details", "Look & colors", "Generate"],
+    stepSub: ["What are you making?", "Choose the visual", "Fill in the details", "Logo, background and colors", "Generate and download"],
     next: "Next",
     back: "Back",
     photo: "Player photo",
@@ -87,8 +80,8 @@ const TXT = {
     required: "Fill in the required fields (*) to continue.",
   },
   es: {
-    steps: ["Tipo", "Estilo", "Detalles", "Fuentes y colores", "Generar"],
-    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Tipografía y color", "Genera y descarga"],
+    steps: ["Tipo", "Estilo", "Detalles", "Aspecto y colores", "Generar"],
+    stepSub: ["¿Qué vas a crear?", "Elige el visual", "Completa los detalles", "Logo, fondo y colores", "Genera y descarga"],
     next: "Siguiente",
     back: "Atrás",
     photo: "Foto del jugador",
@@ -700,35 +693,6 @@ export function CreateWizard({
             </select>
             <p className="mt-1 text-xs text-muted">{L.langHint}</p>
           </div>
-          {(["fontPrimary", "fontSecondary"] as const).map((k) => (
-            <div key={k}>
-              <label className="label">
-                {k === "fontPrimary" ? L.primary : L.secondary}
-              </label>
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                <button
-                  type="button"
-                  onClick={() => set(k, "")}
-                  className={`rounded-lg border px-3 py-2.5 text-left text-sm font-bold ${!inp[k] ? "border-lime bg-lime/5 text-lime" : "border-line bg-panel-2"}`}
-                >
-                  ⭐ {locale === "es" ? "Recomendado" : "Recommended"}
-                  <span className="block text-[10px] font-normal text-muted">{locale === "es" ? "El estilo / la IA decide" : "The style / AI decides"}</span>
-                </button>
-                {FONT_STYLES.map((f) => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => set(k, f.id)}
-                    className={`rounded-lg border px-3 py-2.5 text-left ${inp[k] === f.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
-                  >
-                    <span className={`block text-lg leading-tight ${f.previewClass}`} style={{ fontFamily: FONT_VAR[f.preview] }}>
-                      {f.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
           <div>
             <span className="label">{locale === "es" ? "Colores" : "Colors"}</span>
             <div className="grid grid-cols-3 gap-2">
@@ -802,22 +766,6 @@ export function CreateWizard({
                 ? "Cada póster también recibe su propio fondo, composición, luz y textura, así ninguno sale igual."
                 : "Every poster also gets its own background concept, layout, lighting and texture, so no two look the same."}
             </p>
-          </div>
-          <div className="rounded-xl border border-line bg-panel-2 p-6 text-center">
-            <div className="label">{L.preview}</div>
-            {(() => {
-              const p = FONT_STYLES.find((f) => f.id === inp.fontPrimary);
-              const s2 = FONT_STYLES.find((f) => f.id === inp.fontSecondary);
-              const title = layout === "LINEUP" ? "LINEUP" : layout === "RESULT" ? "FULL TIME" : layout === "MATCHDAY" ? "MATCH DAY" : layout === "CHAMPIONS" ? "CHAMPIONS" : (inp.name || "PLAYER");
-              return (
-                <>
-                  <div className={`text-4xl ${p?.previewClass ?? ""}`} style={{ fontFamily: FONT_VAR[p?.preview ?? "anton"] }}>{title}</div>
-                  <div className={`mt-2 text-lg text-muted ${s2?.previewClass ?? ""}`} style={{ fontFamily: FONT_VAR[s2?.preview ?? "sans"] }}>
-                    {(team?.name || home?.name || "RONALDO") + (inp.number ? ` #${inp.number}` : " #7")}
-                  </div>
-                </>
-              );
-            })()}
           </div>
           {nav({ canNext: true, onNext: () => setStep(5) })}
         </div>
