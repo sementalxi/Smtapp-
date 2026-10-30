@@ -377,7 +377,7 @@ export function buildProPrompt(opts: {
     case "MATCHDAY":
       composition = [
         `A match-day announcement poster for a pro-clubs / football match.`,
-        `${exactLogos ? `A bold "VS" in the centre between two glowing spots for the crests (do not draw any crests — the two official crests are added afterwards)` : `The two team crests big and glossy facing each other with a bold "VS" between them`} (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, ${i.competition ? "the competition name, " : ""}${[i.date, i.time, i.venue].some(Boolean) ? "and a clear info block with the listed date/time/venue" : "no info block"}.`,
+        `${exactLogos ? `A bold "VS" in the centre between two glowing spots for the crests (do not draw any crests — the two official crests are added afterwards)` : `The two team crests big and glossy facing each other with a bold "VS" between them`} (or the hero player in front if a player photo is given), a huge "${i.headline || "MATCH DAY"}" title, ${i.competition ? "the competition name, " : ""}${[i.date, i.time, i.venue].some(Boolean) ? "and the listed date/time/venue as designed 3D lettering with glow and thin dividers (no boxes, panels or icons)" : "no info block"}.`,
         frame,
         finish,
       ].join(" ");
@@ -418,11 +418,11 @@ export function buildProPrompt(opts: {
       add("Competition", i.competition);
       break;
     case "EVENT":
-      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and a pill-shaped info bar with the date and times" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times as designed glowing lettering with thin dividers (no boxes or pills)" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
       add("Headline (huge, glossy 3D)", i.headline);
       add("Event title (bold, under the headline)", i.name);
       add("Script accent line", i.subtitle);
-      add("Info bar", [i.date, i.details].filter(Boolean).join("  ·  "));
+      add("Date & times (designed lettering, no box)", [i.date, i.details].filter(Boolean).join("  ·  "));
       add("Prize", i.prize);
       break;
     default:

@@ -3,7 +3,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { DEFAULT_TEMPLATES } from "../src/lib/templates";
 import { SETTING_DEFAULTS } from "../src/lib/settings";
-import { PRESET_INSTRUCTIONS } from "../src/lib/style-presets";
+import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS } from "../src/lib/style-presets";
 
 const db = new PrismaClient();
 
@@ -36,7 +36,11 @@ async function main() {
   });
   // Ready-made design instructions — only where the admin hasn't written any.
   for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
-    await db.template.updateMany({ where: { slug, OR: [{ proInstructions: null }, { proInstructions: "" }] }, data: { proInstructions: text } });
+    const prev = PRESET_PREVIOUS[slug];
+    await db.template.updateMany({
+      where: { slug, OR: [{ proInstructions: null }, { proInstructions: "" }, ...(prev ? [{ proInstructions: prev }] : [])] },
+      data: { proInstructions: text },
+    });
   }
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
