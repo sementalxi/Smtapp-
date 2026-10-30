@@ -168,13 +168,13 @@ export const proConfigured = () => !!process.env.OPENAI_API_KEY?.trim();
  * Full-poster generation with OpenAI's image model, using the player photo
  * (and logo) as reference images. Returns PNG bytes.
  */
-export async function generatePoster(prompt: string, refs: { bytes: Buffer; type: string }[], qualityOverride?: string): Promise<Buffer> {
+export async function generatePoster(prompt: string, refs: { bytes: Buffer; type: string }[], qualityOverride?: string, sizesOverride?: string[]): Promise<Buffer> {
   const key = process.env.OPENAI_API_KEY?.trim();
   if (!key) throw new Error("OPENAI_API_KEY is not set");
   const model = process.env.PRO_IMAGE_MODEL || "gpt-image-2";
   const quality = (["low", "medium", "high"].includes(qualityOverride ?? "") ? qualityOverride : null) ?? process.env.PRO_IMAGE_QUALITY ?? "medium";
   // First try an exact 4:5 size; if OpenAI's servers choke, retry with the standard portrait size.
-  const sizes = [process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
+  const sizes = sizesOverride?.length ? sizesOverride : [process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
   // OpenAI's image prompt limit is 32,000 characters.
   if (prompt.length > 31_900) prompt = prompt.slice(0, 31_900);
   const deadline = Date.now() + 270_000; // stay under the 300 s function limit so failures can be refunded

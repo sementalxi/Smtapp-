@@ -1,4 +1,4 @@
-import { CREDIT_PACKS, PLANS } from "@/lib/pricing";
+import { CREDIT_PACKS, PLANS, loadPricing } from "@/lib/pricing";
 import { getT } from "@/i18n/server";
 import type { CurrentUser } from "@/lib/auth";
 import { BuyButton } from "./BuyButton";
@@ -7,6 +7,7 @@ import { paymentProvider } from "@/lib/payments";
 const usd = (n: number) => `$${n.toFixed(2)}`;
 
 export async function PricingCards({ user }: { user: CurrentUser | null }) {
+  await loadPricing();
   const { t } = await getT();
   const activePlan = user?.subscriptionId ? user.planId : null;
   const provider = paymentProvider();

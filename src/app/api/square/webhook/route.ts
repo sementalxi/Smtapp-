@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { grantOnce } from "@/lib/credits";
-import { findPack, findPlan } from "@/lib/pricing";
+import { findPack, findPlan, loadPricing } from "@/lib/pricing";
 import { planFromVariation, sq, squareWebhookConfig, verifySquareSignature } from "@/lib/square";
 
 // Square sends payment / subscription / invoice events here (registered by Admin → Connect Square).
@@ -12,6 +12,7 @@ type SqSubscription = { id: string; status?: string; customer_id?: string; plan_
 type SqInvoice = { id: string; subscription_id?: string; primary_recipient?: { customer_id?: string } };
 
 export async function POST(req: NextRequest) {
+  await loadPricing();
   const raw = await req.text();
   const { key, url } = await squareWebhookConfig();
   if (!verifySquareSignature(raw, req.headers.get("x-square-hmacsha256-signature"), key, url)) {
@@ -75,7 +76,7 @@ async function onPayment(p: SqPayment | undefined) {
       userId: co.userId,
       amount: credits,
       type: "PURCHASE",
-      note: `Credit pack: ${co.productId}`,
+      note: `${pack ? "Credit pack" : "Deal"}: ${co.productId}`,
       externalRef: `sq_pay_${p.id}`,
     });
     if (granted) {

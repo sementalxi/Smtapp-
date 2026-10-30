@@ -11,7 +11,7 @@ export function BuyButton({
   primary,
   disabled,
 }: {
-  kind: "pack" | "plan" | "portal" | "cancel";
+  kind: "pack" | "plan" | "deal" | "portal" | "cancel";
   id?: string;
   label: string;
   loggedIn: boolean;

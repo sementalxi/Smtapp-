@@ -12,6 +12,8 @@ export default async function AdminDeals() {
     title: d.title,
     subtitle: d.subtitle,
     price: d.price,
+    priceUsd: d.priceUsd,
+    credits: d.credits,
     tags: d.tags,
     included: d.included,
     imageUrl: d.imageUrl,

@@ -7,6 +7,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { t, locale } = await getT();
   const links = [
     ["/admin", t("admin_overview")],
+    ["/admin/studio", locale === "es" ? "🎨 Estudio libre" : "🎨 Free studio"],
     ["/admin/users", t("admin_users")],
     ["/admin/banners", t("admin_banners")],
     ["/admin/templates", t("admin_templates")],

@@ -10,6 +10,8 @@ export interface AdminDeal {
   title: string;
   subtitle: string;
   price: string;
+  priceUsd: number | null;
+  credits: number;
   tags: string;
   included: string;
   imageUrl: string | null;
@@ -28,7 +30,7 @@ const toLocalInput = (iso: string) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 };
 
-const EMPTY: AdminDeal = { title: "", subtitle: "", price: "", tags: "", included: "", imageUrl: null, ctaLabel: "", ctaHref: "/pricing", endsAt: "", active: true, sort: 0 };
+const EMPTY: AdminDeal = { title: "", subtitle: "", price: "", priceUsd: null, credits: 0, tags: "", included: "", imageUrl: null, ctaLabel: "", ctaHref: "/pricing", endsAt: "", active: true, sort: 0 };
 
 /** Admin: create and edit the home page deals. */
 export function DealsManager({ initial }: { initial: AdminDeal[] }) {
@@ -105,7 +107,28 @@ export function DealsManager({ initial }: { initial: AdminDeal[] }) {
           <div className="font-bold">{edit.id ? (es ? "Editar oferta" : "Edit deal") : es ? "Nueva oferta" : "New deal"}</div>
           <div className="grid gap-3 sm:grid-cols-2">
             {f("title", es ? "Título *" : "Title *", es ? "Paquete Equipo — 15% menos" : "Team Pack — 15% OFF")}
-            {f("price", es ? "Precio" : "Price", "$9.99")}
+            {f("price", es ? "Precio a mostrar (texto)" : "Price shown (text)", es ? "Ej: $9.99 (antes $14.99)" : "e.g. $9.99 (was $14.99)")}
+          </div>
+          <div className="rounded-xl border border-lime/40 bg-lime/5 p-3">
+            <div className="mb-1 text-sm font-bold text-lime">💳 {es ? "Venta real (opcional)" : "Real checkout (optional)"}</div>
+            <p className="mb-3 text-xs text-muted">
+              {es
+                ? "Pon el precio que se cobra y los créditos que recibe. El botón de la oferta abrirá el pago (Square/Stripe) y los créditos se agregan solos al pagar. Déjalo vacío para que el botón solo sea un enlace."
+                : "Set the price to charge and the credits the buyer gets. The deal's button then opens checkout (Square/Stripe) and the credits are added automatically after payment. Leave empty to keep the button as a plain link."}
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="label">{es ? "Precio a cobrar (USD)" : "Charge price (USD)"}</label>
+                <input type="number" min={0.5} step={0.01} inputMode="decimal" className="input" placeholder="9.99" value={edit.priceUsd ?? ""} onChange={(e) => setEdit((x) => (x ? { ...x, priceUsd: e.target.value === "" ? null : Number(e.target.value) } : x))} />
+              </div>
+              <div>
+                <label className="label">{es ? "Créditos que recibe" : "Credits given"}</label>
+                <input type="number" min={0} inputMode="numeric" className="input" placeholder="30" value={edit.credits || ""} onChange={(e) => setEdit((x) => (x ? { ...x, credits: Number(e.target.value) || 0 } : x))} />
+              </div>
+            </div>
+            {edit.priceUsd && edit.credits > 0 ? (
+              <div className="mt-2 text-xs text-teal">✓ {es ? `Se venderá a $${edit.priceUsd.toFixed(2)} por ${edit.credits} créditos ($${(edit.priceUsd / edit.credits).toFixed(2)} c/u)` : `Sells for $${edit.priceUsd.toFixed(2)} → ${edit.credits} credits ($${(edit.priceUsd / edit.credits).toFixed(2)} each)`}</div>
+            ) : null}
           </div>
           {f("subtitle", es ? "Descripción corta" : "Short description", es ? "30 créditos para todo tu equipo…" : "30 credits for your whole squad…")}
           {f("tags", es ? "Etiquetas (separadas por coma)" : "Tags (comma-separated)", es ? "Tiempo limitado, Mejor valor" : "Limited time, Best value")}
@@ -121,7 +144,7 @@ export function DealsManager({ initial }: { initial: AdminDeal[] }) {
           <ImageDrop noSearch kind="photo" label={es ? "Imagen (opcional)" : "Image (optional)"} value={edit.imageUrl} onChange={(u) => setEdit((x) => (x ? { ...x, imageUrl: u } : x))} />
           <div className="grid gap-3 sm:grid-cols-2">
             {f("ctaLabel", es ? "Texto del botón" : "Button text", es ? "Lo quiero" : "Get it now")}
-            {f("ctaHref", es ? "Enlace del botón" : "Button link", "/pricing")}
+            {!(edit.priceUsd && edit.credits > 0) && f("ctaHref", es ? "Enlace del botón" : "Button link", "/pricing")}
             {f("endsAt", es ? "Termina (opcional)" : "Ends (optional)", "", "datetime-local")}
             {f("sort", es ? "Orden" : "Order", "0", "number")}
           </div>
@@ -153,7 +176,7 @@ export function DealsManager({ initial }: { initial: AdminDeal[] }) {
             <div className="min-w-0 flex-1">
               <div className="truncate font-bold">{d.title}</div>
               <div className="text-xs text-muted">
-                {d.price} {d.endsAt ? `· ${es ? "termina" : "ends"} ${new Date(d.endsAt).toLocaleString(locale)}` : ""}
+                {d.price || (d.priceUsd ? `$${d.priceUsd.toFixed(2)}` : "")} {d.priceUsd && d.credits > 0 ? `· 💳 ${d.credits} ${es ? "créditos" : "credits"}` : ""} {d.endsAt ? `· ${es ? "termina" : "ends"} ${new Date(d.endsAt).toLocaleString(locale)}` : ""}
               </div>
               <div className="mt-2 flex flex-wrap gap-2 text-xs">
                 <button type="button" className="text-lime hover:underline" onClick={() => setEdit({ ...d, endsAt: toLocalInput(d.endsAt) })}>

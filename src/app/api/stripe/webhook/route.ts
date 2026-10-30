@@ -3,13 +3,14 @@ import type Stripe from "stripe";
 import { db } from "@/lib/db";
 import { stripe, webhookSecret } from "@/lib/stripe";
 import { grantOnce } from "@/lib/credits";
-import { findPack, planFromPrice } from "@/lib/pricing";
+import { findPack, planFromPrice, loadPricing } from "@/lib/pricing";
 
 // Stripe sends events here. Configure the endpoint in the Stripe dashboard with:
 //   checkout.session.completed, invoice.paid,
 //   customer.subscription.updated, customer.subscription.deleted
 
 export async function POST(req: NextRequest) {
+  await loadPricing();
   const sig = req.headers.get("stripe-signature");
   const secret = await webhookSecret();
   if (!sig || !secret) return new NextResponse("Missing signature", { status: 400 });
@@ -65,7 +66,7 @@ async function onCheckoutCompleted(s: Stripe.Checkout.Session) {
       userId,
       amount: credits,
       type: "PURCHASE",
-      note: `Credit pack: ${pack?.id ?? s.metadata.productId}`,
+      note: `${pack ? "Credit pack" : "Deal"}: ${pack?.id ?? s.metadata.productId}`,
       externalRef: `cs_${s.id}`,
     });
     if (granted) {
@@ -75,7 +76,7 @@ async function onCheckoutCompleted(s: Stripe.Checkout.Session) {
           userId,
           stripeRef: s.id,
           kind: "pack",
-          productId: pack?.id ?? "",
+          productId: pack?.id ?? s.metadata.productId ?? "",
           amountCents: s.amount_total ?? 0,
           currency: s.currency ?? "usd",
           credits,

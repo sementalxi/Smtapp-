@@ -26,7 +26,7 @@ export default async function Home() {
     const now = new Date();
     deals = (
       await db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 })
-    ).map((x) => ({ id: x.id, title: x.title, subtitle: x.subtitle, price: x.price, tags: x.tags, included: x.included, imageUrl: x.imageUrl, ctaLabel: x.ctaLabel, ctaHref: x.ctaHref, endsAt: x.endsAt ? x.endsAt.toISOString() : null }));
+    ).map((x) => ({ id: x.id, title: x.title, subtitle: x.subtitle, price: x.price || (x.priceUsd ? `$${x.priceUsd.toFixed(2)}` : ""), buyable: !!(x.priceUsd && x.credits > 0), tags: x.tags, included: x.included, imageUrl: x.imageUrl, ctaLabel: x.ctaLabel, ctaHref: x.ctaHref, endsAt: x.endsAt ? x.endsAt.toISOString() : null }));
     partners = await db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } });
   } catch {
     /* DB not ready */
@@ -86,7 +86,7 @@ export default async function Home() {
         </section>
       )}
 
-      {deals.length > 0 && <DealsSection deals={deals} />}
+      {deals.length > 0 && <DealsSection deals={deals} loggedIn={!!user} />}
 
       {/* Pricing */}
       <section className="mx-auto max-w-5xl px-4 py-14 sm:py-20">

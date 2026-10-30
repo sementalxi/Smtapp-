@@ -4,6 +4,8 @@ export const DealSchema = z.object({
   title: z.string().trim().min(1).max(80),
   subtitle: z.string().trim().max(300).default(""),
   price: z.string().trim().max(30).default(""),
+  priceUsd: z.coerce.number().min(0.5).max(9999).nullish(),
+  credits: z.coerce.number().int().min(0).max(100000).default(0),
   tags: z.string().trim().max(120).default(""),
   included: z.string().trim().max(1500).default(""),
   imageUrl: z.string().max(500).nullish(),

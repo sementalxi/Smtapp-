@@ -200,6 +200,8 @@ model Deal {
   title     String
   subtitle  String    @default("")
   price     String    @default("")
+  priceUsd  Float? // real checkout price — when set with credits, the button buys the deal
+  credits   Int       @default(0)
   tags      String    @default("") // comma-separated chips, e.g. "Limited time, Best value"
   included  String    @default("") // one item per line
   imageUrl  String?

@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/client";
+import { BuyButton } from "./BuyButton";
 
 export interface PublicDeal {
   id: string;
   title: string;
   subtitle: string;
   price: string;
+  buyable?: boolean;
   tags: string;
   included: string;
   imageUrl: string | null;
@@ -47,7 +49,7 @@ function Countdown({ endsAt, es }: { endsAt: string; es: boolean }) {
 }
 
 /** "Don't miss these deals" — admin-managed offer cards that open into details. */
-export function DealsSection({ deals }: { deals: PublicDeal[] }) {
+export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[]; loggedIn?: boolean }) {
   const { t, locale } = useT();
   const es = locale === "es";
   const tt = t as unknown as (k: string) => string;
@@ -135,9 +137,13 @@ export function DealsSection({ deals }: { deals: PublicDeal[] }) {
                     </div>
                   )}
                   <div className="flex items-center justify-center gap-2 text-xs text-muted">🔒 {tt("deals_secure")}</div>
-                  <Link href={d.ctaHref || "/pricing"} className="btn-primary kixo-shine w-full py-3">
-                    {d.ctaLabel || tt("deals_cta")}
-                  </Link>
+                  {d.buyable ? (
+                    <BuyButton kind="deal" id={d.id} label={d.ctaLabel || tt("deals_cta")} loggedIn={loggedIn} primary />
+                  ) : (
+                    <Link href={d.ctaHref || "/pricing"} className="btn-primary kixo-shine w-full py-3">
+                      {d.ctaLabel || tt("deals_cta")}
+                    </Link>
+                  )}
                 </div>
               )}
             </div>

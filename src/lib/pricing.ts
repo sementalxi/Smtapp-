@@ -30,6 +30,46 @@ export const PLANS: Plan[] = [
   { id: "pro", monthlyCredits: 120, priceUsd: 19.99, envKey: "STRIPE_PRICE_PLAN_PRO", popular: true },
 ];
 
+/** Original prices (used for "reset" in admin). */
+export const DEFAULT_PRICING = {
+  packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular })),
+  plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular })),
+};
+export type PricingConfig = typeof DEFAULT_PRICING;
+
+/**
+ * Applies the admin's prices (Setting "pricing") onto CREDIT_PACKS / PLANS.
+ * Call it (await) before reading prices on the server.
+ */
+export async function loadPricing(): Promise<PricingConfig> {
+  let saved: Partial<PricingConfig> = {};
+  try {
+    const { db } = await import("./db");
+    const row = await db.setting.findUnique({ where: { key: "pricing" } });
+    if (row?.value) saved = JSON.parse(row.value);
+  } catch {
+    /* use defaults */
+  }
+  for (const p of CREDIT_PACKS) {
+    const d = DEFAULT_PRICING.packs.find((x) => x.id === p.id)!;
+    const s = saved.packs?.find((x) => x.id === p.id);
+    p.credits = s?.credits && s.credits > 0 ? Math.round(s.credits) : d.credits;
+    p.priceUsd = s?.priceUsd && s.priceUsd >= 0.5 ? Math.round(s.priceUsd * 100) / 100 : d.priceUsd;
+    p.popular = s ? !!s.popular : d.popular;
+  }
+  for (const p of PLANS) {
+    const d = DEFAULT_PRICING.plans.find((x) => x.id === p.id)!;
+    const s = saved.plans?.find((x) => x.id === p.id);
+    p.monthlyCredits = s?.monthlyCredits && s.monthlyCredits > 0 ? Math.round(s.monthlyCredits) : d.monthlyCredits;
+    p.priceUsd = s?.priceUsd && s.priceUsd >= 0.5 ? Math.round(s.priceUsd * 100) / 100 : d.priceUsd;
+    p.popular = s ? !!s.popular : d.popular;
+  }
+  return {
+    packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular })),
+    plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular })),
+  };
+}
+
 export const priceId = (envKey: string) => process.env[envKey] ?? "";
 
 export function findPack(id: string) {
