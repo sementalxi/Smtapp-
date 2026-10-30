@@ -3,7 +3,7 @@ import { handle, json } from "@/lib/api";
 import { apiUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { findPack, findPlan, loadPricing } from "@/lib/pricing";
-import { locationId, sq, squareConfigured } from "@/lib/square";
+import { locationId, sq, squareAppId, squareConfigured } from "@/lib/square";
 
 /** Registers this site for Apple Pay with Square once per domain (needs the .well-known file we serve). */
 async function ensureApplePayDomain(host: string): Promise<string> {
@@ -27,8 +27,9 @@ async function ensureApplePayDomain(host: string): Promise<string> {
 /** Public Square IDs + the exact amount the on-page payment popup needs. */
 export const GET = handle(async (req: NextRequest) => {
   const user = await apiUser();
-  const appId = process.env.SQUARE_APPLICATION_ID?.trim();
-  if (!squareConfigured() || !appId) return json({ inline: false });
+  if (!squareConfigured()) return json({ inline: false });
+  const appId = await squareAppId();
+  if (!appId) return json({ inline: false });
   await loadPricing();
   const kind = req.nextUrl.searchParams.get("kind");
   const id = req.nextUrl.searchParams.get("id") ?? "";
