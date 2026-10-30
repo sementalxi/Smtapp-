@@ -155,12 +155,15 @@ export function CreateWizard({
   cost,
   proEnabled,
   initialLayout,
+  categories,
 }: {
   templates: ClientTemplate[];
   credits: number;
   cost: number;
   proEnabled: boolean;
   initialLayout?: LayoutKind;
+  /** Visible categories in the admin's order. */
+  categories?: LayoutKind[];
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -386,7 +389,7 @@ export function CreateWizard({
       {step === 1 && (
         <div className="card p-5">
           <div className="space-y-3">
-            {ART_TYPES.map((a) => (
+            {(categories ? categories.map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean) : ART_TYPES).map((a) => (
               <button
                 key={a.layout}
                 type="button"

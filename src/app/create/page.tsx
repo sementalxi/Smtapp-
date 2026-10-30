@@ -9,6 +9,7 @@ import { TeamSetForm } from "@/components/wizard/TeamSetForm";
 import { db } from "@/lib/db";
 import { seriesInfo } from "@/lib/banners";
 import type { LayoutKind } from "@/lib/templates";
+import { visibleCategories } from "@/lib/categories";
 
 export const metadata = { title: "Create" };
 
@@ -95,6 +96,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
 
   const initial = TYPES.find((x) => x === type?.toUpperCase());
 
+  const cats = await visibleCategories();
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="font-display mb-6 text-center text-4xl">{t("create_title")}</h1>
@@ -104,6 +106,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         cost={await getNumberSetting("pro_cost")}
         proEnabled={proConfigured()}
         initialLayout={initial}
+        categories={cats}
       />
     </div>
   );

@@ -9,6 +9,7 @@ export interface CreditPack {
   priceUsd: number;
   envKey: string;
   popular?: boolean;
+  active?: boolean;
 }
 
 export interface Plan {
@@ -17,6 +18,7 @@ export interface Plan {
   priceUsd: number;
   envKey: string;
   popular?: boolean;
+  active?: boolean;
 }
 
 export const CREDIT_PACKS: CreditPack[] = [
@@ -32,8 +34,8 @@ export const PLANS: Plan[] = [
 
 /** Original prices (used for "reset" in admin). */
 export const DEFAULT_PRICING = {
-  packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular })),
-  plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular })),
+  packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular, active: true })),
+  plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular, active: true })),
 };
 export type PricingConfig = typeof DEFAULT_PRICING;
 
@@ -56,6 +58,7 @@ export async function loadPricing(): Promise<PricingConfig> {
     p.credits = s?.credits && s.credits > 0 ? Math.round(s.credits) : d.credits;
     p.priceUsd = s?.priceUsd && s.priceUsd >= 0.5 ? Math.round(s.priceUsd * 100) / 100 : d.priceUsd;
     p.popular = s ? !!s.popular : d.popular;
+    p.active = s ? s.active !== false : true;
   }
   for (const p of PLANS) {
     const d = DEFAULT_PRICING.plans.find((x) => x.id === p.id)!;
@@ -63,10 +66,11 @@ export async function loadPricing(): Promise<PricingConfig> {
     p.monthlyCredits = s?.monthlyCredits && s.monthlyCredits > 0 ? Math.round(s.monthlyCredits) : d.monthlyCredits;
     p.priceUsd = s?.priceUsd && s.priceUsd >= 0.5 ? Math.round(s.priceUsd * 100) / 100 : d.priceUsd;
     p.popular = s ? !!s.popular : d.popular;
+    p.active = s ? s.active !== false : true;
   }
   return {
-    packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular })),
-    plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular })),
+    packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular, active: p.active !== false })),
+    plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular, active: p.active !== false })),
   };
 }
 

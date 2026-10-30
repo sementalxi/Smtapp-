@@ -5,6 +5,24 @@ import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import type { PricingConfig } from "@/lib/pricing";
 
+/** On/off switch: on = shown on the pricing page and buyable. */
+function Toggle({ on, onChange, es }: { on: boolean; onChange: (v: boolean) => void; es: boolean }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onClick={() => onChange(!on)}
+      className={`flex items-center gap-1.5 rounded-full border px-2 py-1 text-[11px] font-bold uppercase tracking-wider transition ${on ? "border-lime/60 bg-lime/10 text-lime" : "border-line text-muted"}`}
+    >
+      <span className={`relative h-4 w-7 rounded-full transition ${on ? "bg-lime" : "bg-line"}`}>
+        <span className={`absolute top-0.5 h-3 w-3 rounded-full bg-ink transition-all ${on ? "left-3.5" : "left-0.5"}`} />
+      </span>
+      {on ? (es ? "Activo" : "Active") : es ? "Oculto" : "Hidden"}
+    </button>
+  );
+}
+
 /** Admin: edit credit packs and monthly plans (credits, price, "popular" badge). */
 export function PricingEditor({ initial }: { initial: PricingConfig }) {
   const { locale } = useT();
@@ -55,8 +73,8 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
         <h2 className="text-lg font-bold">💲 {es ? "Precios y créditos" : "Prices & credits"}</h2>
         <p className="text-sm text-muted">
           {es
-            ? "Cambia cuántos créditos y cuánto cuesta cada paquete y plan. Se actualiza en la página de precios y en el pago (Square/Stripe) al instante. Las suscripciones activas siguen con su precio anterior."
-            : "Change how many credits each pack and plan gives and what it costs. Updates the pricing page and checkout (Square/Stripe) instantly. Active subscriptions keep their old price."}
+            ? "Cambia cuántos créditos y cuánto cuesta cada paquete y plan, y activa u oculta cualquiera (oculto = no se muestra ni se puede comprar). Se actualiza en la página de precios y en el pago (Square/Stripe) al instante. Las suscripciones activas siguen con su precio anterior."
+            : "Change how many credits each pack and plan gives and what it costs, and switch any of them on or off (off = hidden and can't be bought). Updates the pricing page and checkout (Square/Stripe) instantly. Active subscriptions keep their old price."}
         </p>
       </div>
 
@@ -64,12 +82,15 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
         <div className="mb-2 text-xs font-bold uppercase tracking-widest text-teal">{es ? "Paquetes (pago único)" : "Credit packs (one-time)"}</div>
         <div className="space-y-2">
           {cfg.packs.map((p, i) => (
-            <div key={p.id} className="rounded-xl border border-line bg-panel-2/60 p-3">
+            <div key={p.id} className={`rounded-xl border p-3 transition ${p.active ? "border-line bg-panel-2/60" : "border-dashed border-line/70 bg-panel/40 opacity-60"}`}>
               <div className="mb-2 flex items-center justify-between">
                 <b className="text-sm">{packName[p.id]}</b>
-                <label className="flex items-center gap-1.5 text-xs text-muted">
-                  <input type="checkbox" checked={p.popular} onChange={(e) => setPack(i, { popular: e.target.checked })} /> ⭐ {es ? "Popular" : "Popular"}
-                </label>
+                <div className="flex items-center gap-3">
+                  <label className="flex items-center gap-1.5 text-xs text-muted">
+                    <input type="checkbox" checked={p.popular} onChange={(e) => setPack(i, { popular: e.target.checked })} /> ⭐ Popular
+                  </label>
+                  <Toggle on={p.active} onChange={(v) => setPack(i, { active: v })} es={es} />
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <label className="block">
@@ -91,12 +112,15 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
         <div className="mb-2 text-xs font-bold uppercase tracking-widest text-teal">{es ? "Planes mensuales" : "Monthly plans"}</div>
         <div className="space-y-2">
           {cfg.plans.map((p, i) => (
-            <div key={p.id} className="rounded-xl border border-line bg-panel-2/60 p-3">
+            <div key={p.id} className={`rounded-xl border p-3 transition ${p.active ? "border-line bg-panel-2/60" : "border-dashed border-line/70 bg-panel/40 opacity-60"}`}>
               <div className="mb-2 flex items-center justify-between">
                 <b className="text-sm">Plan {planName[p.id]}</b>
-                <label className="flex items-center gap-1.5 text-xs text-muted">
-                  <input type="checkbox" checked={p.popular} onChange={(e) => setPlan(i, { popular: e.target.checked })} /> ⭐ {es ? "Popular" : "Popular"}
-                </label>
+                <div className="flex items-center gap-3">
+                  <label className="flex items-center gap-1.5 text-xs text-muted">
+                    <input type="checkbox" checked={p.popular} onChange={(e) => setPlan(i, { popular: e.target.checked })} /> ⭐ Popular
+                  </label>
+                  <Toggle on={p.active} onChange={(v) => setPlan(i, { active: v })} es={es} />
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <label className="block">

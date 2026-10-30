@@ -9,8 +9,8 @@ import { loadPricing } from "@/lib/pricing";
 const Money = z.coerce.number().min(0.5).max(9999);
 const Count = z.coerce.number().int().min(1).max(100000);
 const Schema = z.object({
-  packs: z.array(z.object({ id: z.enum(["small", "medium", "large"]), credits: Count, priceUsd: Money, popular: z.boolean() })),
-  plans: z.array(z.object({ id: z.enum(["starter", "pro"]), monthlyCredits: Count, priceUsd: Money, popular: z.boolean() })),
+  packs: z.array(z.object({ id: z.enum(["small", "medium", "large"]), credits: Count, priceUsd: Money, popular: z.boolean(), active: z.boolean().default(true) })),
+  plans: z.array(z.object({ id: z.enum(["starter", "pro"]), monthlyCredits: Count, priceUsd: Money, popular: z.boolean(), active: z.boolean().default(true) })),
 });
 
 /** Admin: save credit pack and plan prices. */

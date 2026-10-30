@@ -15,13 +15,16 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
   const { locale } = await getT();
   const cancelLabel = locale === "es" ? "Cancelar suscripción" : "Cancel subscription";
 
+  const shownPlans = PLANS.filter((p) => p.active !== false || activePlan === p.id);
+  const shownPacks = CREDIT_PACKS.filter((p) => p.active !== false);
+
   return (
     <div className="space-y-14">
-      <section>
+      <section className={shownPlans.length ? "" : "hidden"}>
         <h2 className="font-display text-3xl">{t("plans_title")}</h2>
         <p className="mb-5 text-sm text-muted">{t("plans_sub")}</p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {PLANS.map((p) => {
+        <div className={`grid gap-4 ${shownPlans.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}>
+          {shownPlans.map((p) => {
             const current = activePlan === p.id;
             return (
               <div
@@ -60,11 +63,11 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
         </div>
       </section>
 
-      <section>
+      <section className={shownPacks.length ? "" : "hidden"}>
         <h2 className="font-display text-3xl">{t("packs_title")}</h2>
         <p className="mb-5 text-sm text-muted">{t("packs_sub")}</p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {CREDIT_PACKS.map((p) => (
+        <div className={`grid gap-4 ${shownPacks.length >= 3 ? "sm:grid-cols-3" : shownPacks.length === 2 ? "sm:grid-cols-2" : "max-w-md"}`}>
+          {shownPacks.map((p) => (
             <div key={p.id} className={`card relative p-6 ${p.popular ? "border-lime/60" : ""}`}>
               {p.popular && (
                 <span className="chip absolute -top-3 right-5 border-lime bg-lime text-ink">{t("popular")}</span>

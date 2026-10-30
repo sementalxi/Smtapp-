@@ -17,6 +17,9 @@ export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
   const body = Body.parse(await req.json());
 
+  if (body.kind === "pack" && findPack(body.id)?.active === false) throw new HttpError(400, "unavailable");
+  if (body.kind === "plan" && findPlan(body.id)?.active === false) throw new HttpError(400, "unavailable");
+
   // A deal from the home page with a real price + credits.
   let deal: { id: string; title: string; priceUsd: number; credits: number } | null = null;
   if (body.kind === "deal") {

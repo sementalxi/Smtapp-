@@ -2,6 +2,28 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  inferno: `PLAYER CARD — premium editorial sports poster in deep crimson red, cream and black, magazine-cover quality.
+
+BACKGROUND
+- Rich crimson-red grunge texture: big diagonal paint-brush strokes, scratched paper, ink splatter and dust, with a faint stadium and crowd glowing red in the far background. Floating red embers and sparks. Never a plain gradient.
+- Giant faded brush-script letters or the team name painted diagonally behind everything (very low opacity).
+
+THE PLAYER — shown THREE times, all the SAME person from the photo (same face, kit and colours):
+1. Big hero portrait in the centre-top: head and chest, arms crossed, confident look, sharp rim light.
+2. A second, slightly smaller side shot on the left, half faded into the red background.
+3. A full-body ACTION shot in front at the bottom centre, running with the ball, overlapping the big name lettering.
+- If a team logo is given: render the crest large in the upper right as a glossy 3D emblem, and small (about 8% width) in the top-left corner with tiny text under it.
+
+LETTERING
+- The player's NAME huge across the bottom in a tall, elegant high-contrast condensed SERIF (like a fashion magazine masthead), warm cream/off-white with a subtle paper texture; the action shot overlaps part of the letters.
+- The small word above the name in a refined small serif, cream.
+- The accent line in flowing red handwritten brush SCRIPT, written across the bottom of the name.
+- The shirt NUMBER very large on the right in the same serif style, deep red with a thin cream outline.
+- The position in small serif capitals inside a thin cream rectangle under the number.
+- Spell every text exactly as given; don't add any other words.
+
+FINISH
+- Cinematic lighting, high detail fur/fabric/skin texture, film grain, strong contrast. Palette: crimson #b5121b, blood red, cream #efe6d8, black.`,
   "matchday-floodlights": `MATCH DAY poster — night game under blazing stadium floodlights, premium pro-clubs social-media style.
 
 LAYOUT

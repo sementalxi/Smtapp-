@@ -6,6 +6,7 @@ import { BannerGrid } from "@/components/BannerGrid";
 import { reapStale } from "@/lib/banners";
 import { getNumberSetting } from "@/lib/settings";
 import { ART_TYPES } from "@/lib/pro-options";
+import { visibleCategories } from "@/lib/categories";
 
 export const metadata = { title: "Home" };
 
@@ -72,7 +73,7 @@ export default async function DashboardPage() {
         <h2 className="text-xl font-extrabold">{es ? "Crear nuevo arte" : "Create new art"}</h2>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
-        {ART_TYPES.map((a) => (
+        {(await visibleCategories()).map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean).map((a) => (
           <Link
             key={a.layout}
             href={`/create?type=${a.layout.toLowerCase()}`}
