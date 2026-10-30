@@ -60,7 +60,7 @@ jobs:
       - name: safari shots
         continue-on-error: true
         run: |
-          npx -y playwright@1.49.1 install --with-deps webkit > ci/safari-install.txt 2>&1 || true
+          mkdir -p /tmp/wk && cd /tmp/wk && npm init -y >/dev/null && npm i playwright@1.56.1 >/dev/null 2>&1 && npx playwright install --with-deps webkit > $GITHUB_WORKSPACE/ci/safari-install.txt 2>&1 || true; cd $GITHUB_WORKSPACE
           cat > wk.mjs <<'JS'
           import { webkit } from "playwright";
           const wb = await webkit.launch();
@@ -70,11 +70,11 @@ jobs:
             const pg = await c.newPage();
             await pg.goto("https://smtapp-ten.vercel.app/", { waitUntil: "networkidle", timeout: 60000 });
             await pg.waitForTimeout(3500);
-            await pg.screenshot({ path: `shots/safari-${lang}.png` });
+            await pg.screenshot({ path: `/tmp/wk/shots/safari-${lang}.png` });
           }
           await wb.close();
           JS
-          mkdir -p shots && node wk.mjs > ci/safari.txt 2>&1 || true
+          mkdir -p shots && mkdir -p /tmp/wk/shots && cp wk.mjs /tmp/wk/ && (cd /tmp/wk && node wk.mjs > $GITHUB_WORKSPACE/ci/safari.txt 2>&1) || true; cp /tmp/wk/shots/*.png shots/ 2>/dev/null || true
       - name: save results
         if: always()
         run: |
