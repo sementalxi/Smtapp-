@@ -181,13 +181,13 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
 
   let lastErr = "";
   let sizeIdx = 0;
-  let soft = false; // after a safety block: retry once with toned-down wording
+  let soft = 0; // after a safety block: 1 = toned-down wording, 2 = also drop the art director's and user's extra text
   let lowModeration = true; // ask for OpenAI's less strict filter (dropped if the API doesn't accept it)
   for (let attempt = 0; attempt < 4; attempt++) {
     const remaining = deadline - Date.now();
     if (remaining < 45_000) break;
     try {
-      const res = await callImageApi(key, model, soft ? softenPrompt(prompt) : prompt, sizes[sizeIdx], quality, refs, AbortSignal.timeout(remaining), lowModeration);
+      const res = await callImageApi(key, model, soft === 0 ? prompt : softenPrompt(soft === 2 ? stripOptional(prompt) : prompt), sizes[sizeIdx], quality, refs, AbortSignal.timeout(remaining), lowModeration);
       if (res.ok) {
         const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
         const item = data.data?.[0];
@@ -203,8 +203,8 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
         continue;
       }
       if (/moderation_blocked|safety system/i.test(body)) {
-        if (soft) break;
-        soft = true;
+        if (soft >= 2) break;
+        soft++;
         continue;
       }
       // other 4xx = our request/key problem: retrying won't help
@@ -288,4 +288,12 @@ export function softenPrompt(prompt: string) {
   let out = prompt;
   for (const [re, rep] of SOFTEN) out = out.replace(re, rep);
   return `${out}\n\nThis is a friendly, family-safe sports and esports celebration poster: no violence, weapons or gore.`;
+}
+
+/** Removes the optional free-text sections (art director instructions, user's extra idea) for a last safe retry. */
+function stripOptional(prompt: string) {
+  return prompt
+    .split("\n\n")
+    .filter((sec) => !/^DESIGN INSTRUCTIONS FROM THE ART DIRECTOR|^Extra direction from the user/.test(sec.trim()))
+    .join("\n\n");
 }

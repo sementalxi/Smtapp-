@@ -135,6 +135,8 @@ export const POST = handle(async (req: NextRequest) => {
       try {
         await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs });
       } catch (e) {
+        // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
+        if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
         const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
         await db.banner.update({ where: { id: banner.id }, data: { status: "FAILED", error: msg } }).catch(() => {});
       }
