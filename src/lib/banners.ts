@@ -43,7 +43,7 @@ export const InputsSchema = z.object({
   bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("off"),
   aiLogo: z.enum(["on", "off", ""]).default(""),
-  colorMode: z.enum(["surprise", "template", "custom", ""]).default("surprise"),
+  colorMode: z.enum(["surprise", "template", "custom", "team", ""]).default(""),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   language: str(20),
@@ -316,6 +316,10 @@ export function buildProPrompt(opts: {
     competition: raw.champLogoUrl ? "" : raw.competition,
   };
   const randomize = opts.randomize !== false;
+  // Colours: "" = automatic — the team crest's colours when the AI can see the crest, otherwise a fresh palette.
+  const crestVisible = aiRefs.some((r) => /crest/i.test(r.label));
+  if (!i.colorMode) i.colorMode = crestVisible ? "team" : "surprise";
+  if (i.colorMode === "team" && !crestVisible) i.colorMode = "surprise";
   // With randomize off, "unique colours" falls back to the style's own palette.
   const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
@@ -362,7 +366,10 @@ export function buildProPrompt(opts: {
       add("Small line above the title (competition)", i.eventName || i.competition);
       add("Team name (large)", i.team);
       const squad = (i.roster.length ? i.roster : i.players).filter(Boolean);
-      if (squad.length) lines.push(`- Squad list, exactly these names separated by " | ": ${q(squad.join(" | "))}`);
+      if (squad.length)
+        lines.push(
+          `- Squad list, exactly these names separated by " | ": ${q(squad.join(" | "))} — NOT plain text: set them on a designed element (a polished metal nameplate ribbon or glass bar in the poster's colours, with bevel, glow and reflections), bold 3D lettering${squad.length > 6 ? ", split into two neat rows" : ""}`,
+        );
       add("Date", i.date);
       add("Prize badge (gold)", i.prize);
       break;
@@ -485,7 +492,7 @@ export function buildProPrompt(opts: {
       ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
       : composition,
     // With admin instructions, the AI only reads those (the old background description is not sent).
-    adminLed ? "" : `Visual style (base${(i.colorMode === "custom" && i.color1) || v.palette ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
+    adminLed ? "" : `Visual style (base${(i.colorMode === "custom" && i.color1) || v.palette || i.colorMode === "team" ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
     colourLine(i, style, v, adminLed),
     bgScenePrompt(i.bgScene)
       ? `BACKGROUND SCENE (chosen by the user${adminLed ? " — use it unless the art director's instructions define the background" : " — use it"}): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
@@ -610,6 +617,9 @@ export function assertInputUrls(i: BannerInputs) {
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {
   if (i.colorMode === "custom" && i.color1) {
     return `COLOURS: main colour ${i.color1}${i.color2 ? `, second colour ${i.color2}` : ""}, with deep dark shadows. Recolour EVERYTHING to this palette — lighting, background, title, confetti, effects and metals. Do not default to gold unless it is one of these colours.`;
+  }
+  if (i.colorMode === "team") {
+    return `COLOURS: take the palette from the TEAM CREST (reference image) — its own main colours dominate the lighting, background glow, title, confetti and effects, with deep dark shadows${adminLed ? " (unless the art director's instructions specify colours)" : ""}. Do not default to gold unless gold is one of the crest's main colours.`;
   }
   if (v.palette && adminLed) {
     // The art director's colours win over the random palette.

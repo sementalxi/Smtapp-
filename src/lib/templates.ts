@@ -92,7 +92,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   players: [],
   scorers: [],
   trophy: "",
-  colorMode: "surprise",
+  colorMode: "",
   color1: "",
   color2: "",
   aiCopy: "off",

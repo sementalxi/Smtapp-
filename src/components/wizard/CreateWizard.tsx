@@ -695,17 +695,18 @@ export function CreateWizard({
           </div>
           <div>
             <span className="label">{locale === "es" ? "Colores" : "Colors"}</span>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {([
+                ["team", locale === "es" ? "🛡️ Del equipo" : "🛡️ Team colors", locale === "es" ? "Colores del logo del equipo" : "Taken from the team logo"],
                 ["surprise", locale === "es" ? "🎲 Únicos" : "🎲 Unique", locale === "es" ? "Paleta nueva en cada póster" : "New palette every poster"],
                 ["template", locale === "es" ? "🎨 Del estilo" : "🎨 Style's own", locale === "es" ? "Colores del estilo elegido" : "Colors of the chosen style"],
-                ["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Ej. colores del equipo" : "e.g. team colors"],
+                ["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Elige tus colores" : "Pick your own"],
               ] as const).map(([id, label, sub]) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => set("colorMode", id)}
-                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || "surprise") === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || (team?.logoUrl || home?.logoUrl ? "team" : "surprise")) === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                 >
                   <span className="block text-sm font-bold">{label}</span>
                   <span className="block text-[11px] text-muted">{sub}</span>
