@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const P = {
   create: <path d="M12 5v14M5 12h14" />,
@@ -37,6 +38,8 @@ export function SideMenu({
   footer: { loggedIn: boolean; title: string; text: string; cta: string; ctaHref: string; credits?: number; name?: string; email?: string };
 }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const path = usePathname() || "/";
 
   useEffect(() => setOpen(false), [path]);
@@ -62,6 +65,7 @@ export function SideMenu({
         </svg>
       </button>
 
+      {mounted && createPortal(
       <div className={`fixed inset-0 z-[70] transition ${open ? "pointer-events-auto" : "pointer-events-none"}`} aria-hidden={!open}>
         <div className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`} onClick={() => setOpen(false)} />
         <aside
@@ -135,7 +139,8 @@ export function SideMenu({
             </Link>
           </div>
         </aside>
-      </div>
+      </div>,
+      document.body)}
     </>
   );
 }
