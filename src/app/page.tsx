@@ -57,7 +57,7 @@ export default async function Home() {
 
       {/* Styles gallery — only styles with a real sample image */}
       {gallery.length >= 2 && (
-        <section className="border-y border-line bg-panel/30">
+        <section id="styles" className="scroll-mt-20 border-y border-line bg-panel/30">
           <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
             <div className="flex items-end justify-between gap-4">
               <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text kixo-chapter">{t("styles_title")}</span></h2>
