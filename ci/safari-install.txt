@@ -1,0 +1,26 @@
+Installing dependencies...
+Switching to root user to install dependencies...
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+Hit:2 http://azure.archive.ubuntu.com/ubuntu resolute InRelease
+Hit:6 https://packages.microsoft.com/ubuntu/26.04/prod resolute InRelease
+Hit:3 http://azure.archive.ubuntu.com/ubuntu resolute-updates InRelease
+Hit:4 http://azure.archive.ubuntu.com/ubuntu resolute-backports InRelease
+Hit:5 http://azure.archive.ubuntu.com/ubuntu resolute-security InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Package libicu74 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package libxml2 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'libicu74' has no installation candidate
+E: Unable to locate package libvpx9
+E: Package 'libxml2' has no installation candidate
+E: Unable to locate package libx264-164
+Failed to install browsers
+Error: Installation process exited with code: 100
