@@ -78,37 +78,50 @@ export function HomeHero({
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-20">
         {/* Left: title, copy, feature tiles */}
         <div>
-          <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-lime">{tt("hero_kicker")}</p>
+          <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
           <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">
-            {tt("hero_title")
-              .split(" ")
-              .map((w, n) => (
+            {(() => {
+              const words = tt("hero_title").split(" ");
+              const a = Math.ceil(words.length * 0.4);
+              const b = Math.max(a + 1, Math.ceil(words.length * 0.8));
+              return words.map((w, n) => (
                 <span key={n} className="kixo-fade-up inline-block" style={{ animationDelay: `${120 + n * 90}ms` }}>
-                  <span className="gold-text">{w}</span>&nbsp;
+                  <span className={n >= a && n < b ? "lime-text" : "gold-text"}>{w}</span>&nbsp;
                 </span>
-              ))}
+              ));
+            })()}
           </h1>
           <div className="kixo-glow kixo-fade-up mt-6 h-1 w-24 rounded-full bg-lime" style={{ animationDelay: "500ms, 500ms" }} />
           <p className="kixo-fade-up mt-6 max-w-lg text-lg text-muted" style={{ animationDelay: "600ms" }}>{tt("hero_sub")}</p>
           <div className="kixo-fade-up mt-7 flex flex-wrap gap-3" style={{ animationDelay: "700ms" }}>
             <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine px-6 py-3 text-base">
-              ⚡ {tt("hero_cta")}
+              ⚡ {tt("hero_cta")} <span className="ml-1">›</span>
             </Link>
             <Link href="/pricing" className="btn-ghost px-6 py-3 text-base">
-              {tt("hero_cta2")}
+              {tt("hero_cta2")} <span className="ml-1 text-teal">›</span>
             </Link>
           </div>
           {bonus > 0 && <p className="mt-3 text-sm text-muted">{tt("free_note", { n: bonus })}</p>}
 
-          <h2 className="font-display mt-10 text-2xl tracking-wide text-lime sm:text-3xl" style={{ textShadow: "0 0 24px rgba(227,18,45,0.45)" }}>{tt("hero_feat_title")}</h2>
-          <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
+          <div className="mt-10 flex items-center gap-4">
+            <h2 className="font-display lime-text shrink-0 text-2xl tracking-wide sm:text-3xl">{tt("hero_feat_title")}</h2>
+            <span className="h-px flex-1 bg-gradient-to-r from-teal/70 to-transparent" />
+          </div>
+          <div className="mt-4 grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2">
             {feats.map(([icon, key]) => (
-              <div key={key} data-reveal data-reveal-delay={feats.findIndex((f) => f[1] === key) * 70} className="group flex items-center gap-3">
-                <span className="kixo-icon-pulse grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-lime/40 bg-lime/5 text-lime transition group-hover:scale-110 group-hover:bg-lime/15">
+              <Link
+                key={key}
+                href={user ? "/create" : "/register"}
+                data-reveal
+                data-reveal-delay={feats.findIndex((f) => f[1] === key) * 70}
+                className="group flex items-center gap-3 rounded-xl border border-line bg-panel-2/60 p-2.5 transition hover:border-lime/50 hover:bg-panel-2"
+              >
+                <span className={`kixo-icon-pulse grid h-11 w-11 shrink-0 place-items-center rounded-lg border transition group-hover:scale-110 ${feats.findIndex((f) => f[1] === key) % 2 ? "border-teal/60 text-teal" : "border-lime/60 text-lime"}`}>
                   {ICONS[icon]}
                 </span>
-                <span className="text-xs font-bold uppercase leading-snug tracking-wide sm:text-sm">{tt(key)}</span>
-              </div>
+                <span className="flex-1 text-xs font-bold uppercase leading-snug tracking-wide sm:text-[13px]">{tt(key)}</span>
+                <span className="text-teal transition group-hover:translate-x-0.5">›</span>
+              </Link>
             ))}
           </div>
         </div>

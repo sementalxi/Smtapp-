@@ -75,7 +75,7 @@ export function DealsSection({ deals }: { deals: PublicDeal[] }) {
               key={d.id}
               data-reveal
               data-reveal-delay={(n % 3) * 100}
-              className={`group overflow-hidden rounded-2xl border bg-gradient-to-b from-panel-2 to-panel transition ${isOpen ? "border-gold/60 shadow-[0_20px_60px_-25px_rgba(212,175,55,0.6)]" : "border-line hover:-translate-y-1 hover:border-lime/60"}`}
+              className={`group overflow-hidden rounded-2xl border bg-gradient-to-b from-panel-2 to-panel transition ${isOpen ? "border-gold/60 shadow-[0_20px_60px_-25px_rgba(183,255,69,0.45)]" : "border-line hover:-translate-y-1 hover:border-lime/60"}`}
             >
               <button type="button" onClick={() => setOpen(isOpen ? null : d.id)} className="block w-full text-left">
                 <div className="relative">
@@ -83,8 +83,8 @@ export function DealsSection({ deals }: { deals: PublicDeal[] }) {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={d.imageUrl} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
                   ) : (
-                    <div className="grid aspect-[16/9] w-full place-items-center bg-[radial-gradient(circle_at_50%_40%,rgba(227,18,45,0.35),transparent_70%)]">
-                      <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-lime text-3xl text-white shadow-[0_0_40px_-6px] shadow-lime">
+                    <div className="grid aspect-[16/9] w-full place-items-center bg-[radial-gradient(circle_at_50%_40%,rgba(183,255,69,0.25),transparent_70%)]">
+                      <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-lime text-3xl text-ink shadow-[0_0_40px_-6px] shadow-lime">
                         %
                         <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-gold shadow-[0_0_10px] shadow-gold" />
                       </span>
@@ -93,7 +93,7 @@ export function DealsSection({ deals }: { deals: PublicDeal[] }) {
                   {tags.length > 0 && (
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                       {tags.map((tg, k) => (
-                        <span key={tg} className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider shadow ${k === 0 ? "bg-lime text-white" : "bg-gold text-ink"}`}>
+                        <span key={tg} className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider shadow ${k === 0 ? "bg-lime text-ink" : "bg-teal text-ink"}`}>
                           {tg}
                         </span>
                       ))}
