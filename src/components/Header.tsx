@@ -2,12 +2,23 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { LangSwitch } from "./LangSwitch";
+import { NavLinks } from "./NavLinks";
 
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 export async function Header() {
   const user = await getCurrentUser().catch(() => null);
   const { t, locale } = await getT();
+  const items = [
+    ...(user
+      ? [
+          { href: "/create", label: t("nav_create"), icon: "create" as const },
+          { href: "/dashboard", label: t("nav_dashboard"), icon: "home" as const },
+        ]
+      : []),
+    { href: "/pricing", label: t("nav_pricing"), icon: "pricing" as const },
+    ...(user?.role === "ADMIN" ? [{ href: "/admin", label: t("nav_admin"), icon: "admin" as const, admin: true }] : []),
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-ink/85 backdrop-blur">
@@ -17,18 +28,7 @@ export async function Header() {
           <img src="/kixo-logo.png" alt={site} className="h-5 w-auto min-[400px]:h-6 sm:h-8" />
         </Link>
 
-        <nav className="ml-4 hidden items-center gap-5 text-sm font-semibold text-muted md:flex">
-          {user && (
-            <>
-              <Link href="/create" className="hover:text-white">{t("nav_create")}</Link>
-              <Link href="/dashboard" className="hover:text-white">{t("nav_dashboard")}</Link>
-            </>
-          )}
-          <Link href="/pricing" className="hover:text-white">{t("nav_pricing")}</Link>
-          {user?.role === "ADMIN" && (
-            <Link href="/admin" className="text-lime hover:text-white">{t("nav_admin")}</Link>
-          )}
-        </nav>
+        <NavLinks variant="desktop" items={items} />
 
         <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2">
           <LangSwitch locale={locale} />
@@ -53,14 +53,7 @@ export async function Header() {
           )}
         </div>
       </div>
-      {user && (
-        <nav className="flex gap-5 overflow-x-auto border-t border-line px-4 py-2 text-sm font-semibold text-muted md:hidden">
-          <Link href="/create">{t("nav_create")}</Link>
-          <Link href="/dashboard">{t("nav_dashboard")}</Link>
-          <Link href="/pricing">{t("nav_pricing")}</Link>
-          {user.role === "ADMIN" && <Link href="/admin" className="text-lime">{t("nav_admin")}</Link>}
-        </nav>
-      )}
+      {user && <NavLinks variant="mobile" items={items} />}
     </header>
   );
 }
