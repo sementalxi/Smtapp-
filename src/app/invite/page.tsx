@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
@@ -32,9 +31,9 @@ export default async function InvitePage({ searchParams }: { searchParams: Promi
   const pending = refs.filter((r) => !paidRefs.has(r.id)).length;
   const shown = f === "paid" ? refs.filter((r) => paidRefs.has(r.id)) : f === "pending" ? refs.filter((r) => !paidRefs.has(r.id)) : refs;
   const tab = (key: string | undefined, label: string) => (
-    <Link href={key ? `/invite?f=${key}` : "/invite"} className={`rounded-lg px-3 py-1.5 text-xs font-bold ${f === key || (!f && !key) ? "bg-lime text-ink" : "text-muted"}`}>
+    <a href={key ? `/invite?f=${key}` : "/invite"} className={`rounded-lg px-3 py-1.5 text-xs font-bold ${f === key || (!f && !key) ? "bg-lime text-ink" : "text-muted"}`}>
       {label}
-    </Link>
+    </a>
   );
 
   return (

@@ -1,0 +1,104 @@
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   ▲ Next.js 15.5.28
+   - Experiments (use with caution):
+     · serverActions
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 13.8s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/56) ...
+   Generating static pages (14/56) 
+   Generating static pages (28/56) 
+   Generating static pages (42/56) 
+ ✓ Generating static pages (56/56)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    2.64 kB         116 kB
+├ ƒ /_not-found                            239 B         103 kB
+├ ƒ /admin                               1.17 kB         107 kB
+├ ƒ /admin/banners                         190 B         120 kB
+├ ƒ /admin/deals                         3.37 kB         115 kB
+├ ƒ /admin/leagues                       1.97 kB         114 kB
+├ ƒ /admin/payments                        172 B         106 kB
+├ ƒ /admin/settings                      3.94 kB         116 kB
+├ ƒ /admin/studio                        4.02 kB         123 kB
+├ ƒ /admin/templates                     8.83 kB         121 kB
+├ ƒ /admin/texts                         8.48 kB         111 kB
+├ ƒ /admin/transactions                    165 B         106 kB
+├ ƒ /admin/users                         7.88 kB         114 kB
+├ ƒ /admin/users/[id]                    1.27 kB         121 kB
+├ ƒ /api/account                           239 B         103 kB
+├ ƒ /api/account/password                  239 B         103 kB
+├ ƒ /api/admin/deals                       239 B         103 kB
+├ ƒ /api/admin/deals/[id]                  239 B         103 kB
+├ ƒ /api/admin/discord-test                239 B         103 kB
+├ ƒ /api/admin/hero                        239 B         103 kB
+├ ƒ /api/admin/library                     239 B         103 kB
+├ ƒ /api/admin/library/[id]                239 B         103 kB
+├ ƒ /api/admin/pricing                     239 B         103 kB
+├ ƒ /api/admin/settings                    239 B         103 kB
+├ ƒ /api/admin/square-connect              239 B         103 kB
+├ ƒ /api/admin/stripe-webhook              239 B         103 kB
+├ ƒ /api/admin/studio                      239 B         103 kB
+├ ƒ /api/admin/templates                   239 B         103 kB
+├ ƒ /api/admin/templates/[id]              239 B         103 kB
+├ ƒ /api/admin/templates/[id]/thumb        239 B         103 kB
+├ ƒ /api/admin/templates/arrange           239 B         103 kB
+├ ƒ /api/admin/texts                       239 B         103 kB
+├ ƒ /api/admin/users/[id]                  239 B         103 kB
+├ ƒ /api/admin/users/[id]/credits          239 B         103 kB
+├ ƒ /api/admin/users/gift                  239 B         103 kB
+├ ƒ /api/ai-text                           239 B         103 kB
+├ ƒ /api/auth/login                        239 B         103 kB
+├ ƒ /api/auth/logout                       239 B         103 kB
+├ ƒ /api/auth/register                     239 B         103 kB
+├ ƒ /api/banners                           239 B         103 kB
+├ ƒ /api/banners/[id]                      239 B         103 kB
+├ ƒ /api/banners/[id]/background           239 B         103 kB
+├ ƒ /api/banners/[id]/edit                 239 B         103 kB
+├ ƒ /api/banners/[id]/final                239 B         103 kB
+├ ƒ /api/files/[...key]                    239 B         103 kB
+├ ƒ /api/image-search                      239 B         103 kB
+├ ƒ /api/locale                            239 B         103 kB
+├ ƒ /api/saved                             239 B         103 kB
+├ ƒ /api/saved/[id]                        239 B         103 kB
+├ ƒ /api/square/cancel                     239 B         103 kB
+├ ƒ /api/square/webhook                    239 B         103 kB
+├ ƒ /api/stripe/checkout                   239 B         103 kB
+├ ƒ /api/stripe/portal                     239 B         103 kB
+├ ƒ /api/stripe/webhook                    239 B         103 kB
+├ ƒ /api/upload                            239 B         103 kB
+├ ƒ /api/upload/from-url                   239 B         103 kB
+├ ○ /apple-icon.png                          0 B            0 B
+├ ƒ /banner/[id]                          9.9 kB         139 kB
+├ ƒ /billing                               405 B         113 kB
+├ ƒ /create                              16.3 kB         146 kB
+├ ƒ /credits                             1.27 kB         107 kB
+├ ƒ /dashboard                           1.23 kB         121 kB
+├ ƒ /history                             1.23 kB         121 kB
+├ ○ /icon.png                                0 B            0 B
+├ ƒ /invite                              1.82 kB         108 kB
+├ ƒ /login                                 128 B         113 kB
+├ ƒ /pricing                               162 B         110 kB
+├ ƒ /profile                             8.87 kB         115 kB
+└ ƒ /register                              128 B         113 kB
++ First Load JS shared by all             103 kB
+  ├ chunks/1255-dc3ddf72a1dc71a7.js      46.6 kB
+  ├ chunks/4bd1b696-f785427dddbba9fb.js  54.2 kB
+  └ other shared chunks (total)          1.93 kB
+
+
+ƒ Middleware                             39.6 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+exit 0
