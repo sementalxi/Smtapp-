@@ -16,10 +16,14 @@ export function RevealOnScroll() {
     const root = document.documentElement;
     root.classList.add("kixo-reveal");
 
+    // Uses a data attribute (not only a class): React rewrites className when a card changes
+    // (e.g. opening a deal), which used to wipe the class and make the card fade out again.
     const show = (el: HTMLElement) => {
-      if (el.classList.contains("is-visible")) return;
+      if (el.hasAttribute("data-shown")) return;
       el.style.transitionDelay = `${Number(el.dataset.revealDelay ?? 0)}ms`;
+      el.setAttribute("data-shown", "");
       el.classList.add("is-visible");
+      setTimeout(() => (el.style.transitionDelay = ""), 1500);
     };
 
     const io = new IntersectionObserver(
@@ -35,7 +39,7 @@ export function RevealOnScroll() {
     );
 
     const watch = (scope: ParentNode) => {
-      scope.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)").forEach((el) => io.observe(el));
+      scope.querySelectorAll<HTMLElement>("[data-reveal]:not([data-shown])").forEach((el) => io.observe(el));
     };
     watch(document);
 
@@ -53,13 +57,13 @@ export function RevealOnScroll() {
 
     // Safety net: never leave anything invisible.
     const safety = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)").forEach((el) => {
+      document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-shown])").forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.top < window.innerHeight * 1.2) show(el);
       });
     }, 1500);
     const onScrollEnd = () => {
-      document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)").forEach((el) => {
+      document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-shown])").forEach((el) => {
         if (el.getBoundingClientRect().top < window.innerHeight) show(el);
       });
     };

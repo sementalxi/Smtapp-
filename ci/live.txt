@@ -1,16 +1,16 @@
 kixo.pro 200
 www.kixo.pro 200
-/                            200 0.189818s
-/login                       200 0.144987s
-/register                    200 0.157121s
-/pricing                     200 0.127803s
-/dashboard                   307 0.120923s
-/create                      307 0.088999s
-/admin                       307 0.102646s
-/api/banners                 405 0.700555s
-/api/image-search?q=messi    401 0.262742s
-/api/files/db/none           404 0.097422s
-/.well-known/apple-developer-merchantid-domain-association 200 0.156647s
+/                            200 0.306545s
+/login                       200 0.192610s
+/register                    200 0.266793s
+/pricing                     200 0.200577s
+/dashboard                   307 0.722942s
+/create                      307 0.108902s
+/admin                       307 0.139183s
+/api/banners                 405 0.279120s
+/api/image-search?q=messi    401 0.345940s
+/api/files/db/none           404 0.209669s
+/.well-known/apple-developer-merchantid-domain-association 200 0.193356s
 --- POST api checks (expect 401/400)
 {"error":"unauthorized"}
 {"error":"unauthorized"}

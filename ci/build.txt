@@ -9,7 +9,7 @@ https://nextjs.org/telemetry
      · serverActions
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 14.6s
+ ✓ Compiled successfully in 10.9s
    Linting and checking validity of types ...
    Collecting page data ...
    Generating static pages (0/61) ...
@@ -21,7 +21,7 @@ https://nextjs.org/telemetry
    Collecting build traces ...
 
 Route (app)                                                        Size  First Load JS  Revalidate  Expire
-┌ ƒ /                                                           2.66 kB         119 kB
+┌ ƒ /                                                           2.69 kB         119 kB
 ├ ƒ /_not-found                                                   252 B         103 kB
 ├ ○ /.well-known/apple-developer-merchantid-domain-association    252 B         103 kB          1d      1y
 ├ ƒ /admin                                                      1.17 kB         107 kB
