@@ -65,7 +65,7 @@ export async function Header() {
         />
         <Link href="/" className="flex shrink-0 items-center" aria-label={site}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/kixo-logo.png" alt={site} className="h-5 w-auto min-[400px]:h-6 sm:h-8" />
+          <img src="/kixo-wordmark.png" alt={site} className="h-6 w-auto min-[400px]:h-7 sm:h-9" />
         </Link>
 
         <NavLinks variant="desktop" items={items} />
