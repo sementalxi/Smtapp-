@@ -425,23 +425,28 @@ export function buildProPrompt(opts: {
     ? `LOGO SPACE: leave the ${corners.length > 1 ? "top-left and top-right corners" : "top-left corner"} (a square about 26% of the poster width, plus margin) calm and empty — just background, no text, faces or important details — because the official team crest is placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
     : "";
 
+  // A style with admin design instructions: those describe the whole design; the built-in layout recipe is skipped.
+  const adminLed = !!opts.instructions?.trim();
+  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", RESULT: "full-time result", EVENT: "tournament / event" }[layout] ?? "sports";
   return [
     `Design a finished, high-end vertical sports social-media poster (4:5).`,
-    composition,
+    adminLed
+      ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS below — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame}`
+      : composition,
     `Visual style (base): ${opts.templatePrompt}.`,
     colourLine(i, style, v),
     bgScenePrompt(i.bgScene)
-      ? `BACKGROUND SCENE (chosen by the user — use it): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
+      ? `BACKGROUND SCENE (chosen by the user${adminLed ? " — use it unless the art director's instructions define the background" : " — use it"}): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
       : "",
     opts.series
       ? `TEAM SET: this card belongs to a matching set for the whole team. Copy the design of the first card (reference image) as closely as possible — same background, colours, layout, fonts and effects — so all cards look like one series. Only the player and the player's text change.`
       : randomize
-      ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif}; composition: ${v.composition}; lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style; invent fresh details rather than a generic template.`
+      ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif};${adminLed ? "" : ` composition: ${v.composition};`} lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style${adminLed ? " without changing the layout the art director defined" : ""}; invent fresh details rather than a generic template.`
       : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
     opts.instructions?.trim()
-      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — follow these closely; where they conflict with anything above, these win:\n${opts.instructions.trim().slice(0, 20000)}`
+      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
       : "",
-    typeFx,
+    adminLed ? "" : typeFx,
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
