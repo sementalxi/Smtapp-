@@ -26,7 +26,7 @@ export const POST = handle(async (req: NextRequest) => {
 
   // Invited by a friend? (?ref=CODE link → cookie)
   const refCode = req.cookies.get(REF_COOKIE)?.value?.trim().toUpperCase();
-  const referrer = refCode && /^[A-Z0-9]{4,12}$/.test(refCode) ? await db.user.findUnique({ where: { refCode }, select: { id: true } }) : null;
+  const referrer = refCode && /^[A-Z0-9]{4,12}$/.test(refCode) ? await db.user.findFirst({ where: { refCode }, select: { id: true } }) : null;
 
   const user = await db.user.create({
     data: {
