@@ -21,6 +21,7 @@ jobs:
       - name: live pages
         run: |
           exec > ci/live.txt 2>&1
+          curl -s -o /dev/null -w "kixo.pro %{http_code}\n" --max-time 20 https://kixo.pro/ || echo "kixo.pro unreachable"; curl -s -o /dev/null -w "www.kixo.pro %{http_code}\n" --max-time 20 https://www.kixo.pro/ || echo "www unreachable"
           for p in / /login /register /pricing /dashboard /create /admin /api/banners /api/image-search?q=messi /api/files/db/none /.well-known/apple-developer-merchantid-domain-association; do
             printf "%-28s " "$p"; curl -s -o /dev/null -w "%{http_code} %{time_total}s\n" --max-time 30 "https://smtapp-ten.vercel.app$p"
           done
