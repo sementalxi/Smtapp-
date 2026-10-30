@@ -5,6 +5,9 @@ import { getLocale } from "@/i18n/server";
 import { I18nProvider } from "@/i18n/client";
 import { Header } from "@/components/Header";
 import { RefCapture } from "@/components/RefCapture";
+import { LangPrompt } from "@/components/LangPrompt";
+import { cookies } from "next/headers";
+import { LOCALE_COOKIE } from "@/i18n/server";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
 
@@ -17,6 +20,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const chosen = !!(await cookies()).get(LOCALE_COOKIE)?.value;
   let notice = "";
   try {
     notice = (await getSettings()).maintenance_message;
@@ -29,6 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
           {notice && <div className="bg-lime px-4 py-2 text-center text-sm font-bold text-ink">{notice}</div>}
           <RefCapture />
+          {!chosen && <LangPrompt suggested={locale} />}
           <Header />
           <main>{children}</main>
           <footer className="mt-24 border-t border-line py-8 text-center text-xs text-muted">

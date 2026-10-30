@@ -12,12 +12,9 @@ export async function ensureRefCode(userId: string): Promise<string> {
   for (let i = 0; i < 5; i++) {
     const code = randomBytes(5).toString("base64url").replace(/[-_]/g, "").slice(0, 7).toUpperCase();
     if (code.length < 6) continue;
-    try {
-      await db.user.update({ where: { id: userId }, data: { refCode: code } });
-      return code;
-    } catch {
-      /* clash — try again */
-    }
+    if (await db.user.findFirst({ where: { refCode: code }, select: { id: true } })) continue;
+    await db.user.update({ where: { id: userId }, data: { refCode: code } });
+    return code;
   }
   throw new Error("could not create invite code");
 }
