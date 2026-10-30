@@ -431,10 +431,15 @@ export function buildProPrompt(opts: {
   const refText = aiRefs.map((r, n) => `Reference image ${n + 1} is ${r.label}`);
   const spots = [...new Set(overlays.map((o) => o.overlay))];
   const spotText = spots.includes("hero")
-    ? "a large glowing circular spotlight / halo area in the lower-centre of the poster (about 48% of the poster width, centred, its middle at roughly 62% of the height) — make it the visual focal point, with light rays, glow and particles radiating around it but its centre clean (just glowing light), and keep the trophy to the right side and the squad names below it"
+    ? "a large glowing circular spotlight / halo area in the lower-centre of the poster (about 48% of the poster width, centred, its middle at roughly 62% of the height) — make it the visual focal point — a glowing podium with a laurel-wreath ring and light rays, glow and particles radiating around it, but the inside of the ring clean (just glowing light) — and keep the trophy to the right side and the squad names below it"
     : spots.includes("left")
       ? `two glowing circular spotlight areas at mid-height — one on the left (centred at ~25% width, ~40% height) and one on the right (~75% width, ~40% height), each about 32% of the poster width, with the "VS" between them; keep their centres clean (just glowing light)`
       : `the top-left corner (a square about 26% of the poster width, plus margin) calm and empty`;
+  // Champions posters need a lot of celebration energy — always added, even for admin-led styles.
+  const champsEnergy =
+    layout === "CHAMPIONS"
+      ? `CHAMPIONS ENERGY (dense, maximalist, never sparse): a storm of gold and colour confetti and streamers filling the air, fireworks bursting behind, strong light beams/god-rays from above, a packed stadium crowd with phone lights and flags far behind, a glossy reflective floor, ${spots.includes("hero") ? "a raised glowing podium with a laurel-wreath ring and 3–5 championship stars arching above the crest spot (the crest itself is added afterwards — keep the inside of the ring empty), " : ""}the title huge with deep 3D extrusion, bevel and texture, and every name readable. Fill the whole frame with layered detail — NO large empty dark areas.`
+      : "";
   const logoRule = exactLogos
     ? `LOGO SPACE: leave ${spotText} — no text, faces or objects there — because the official team crest${spots.length > 1 ? "s are" : " is"} placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
     : "";
@@ -465,6 +470,7 @@ export function buildProPrompt(opts: {
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
     logoRule,
+    champsEnergy,
     `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind${i.extraPrompt ? " unless the user's extra direction explicitly asks for one" : ""} — this overrides any other instruction.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",

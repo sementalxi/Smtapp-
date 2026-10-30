@@ -148,6 +148,26 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
         layers.push({ input: await blurred(await silhouette(0, 0, 0, 0.8), pad / 2.5), left: left - pad, top: top - pad + Math.round(pad * 0.12) });
       }
       layers.push({ input: logo, left, top });
+      if (big) try {
+        // Glossy 3D finish: a metallic sheen and a light top-left edge / dark bottom-right edge, clipped to the logo.
+        const sheenSvg = Buffer.from(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="${lw}" height="${lh}"><defs><linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.12"/><stop offset="0.5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.28"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`,
+        );
+        const sheen = await sharp(sheenSvg).composite([{ input: logo, blend: "dest-in" }]).png().toBuffer();
+        const edge = Math.max(2, Math.round(lw * 0.008));
+        const solid = await silhouette(0, 0, 0, 1);
+        // Copy of the logo shape shifted down-right / up-left by `edge` px (same canvas size).
+        const none = { r: 0, g: 0, b: 0, alpha: 0 };
+        const shiftDR = await sharp(await sharp(solid).extend({ top: edge, left: edge, bottom: 0, right: 0, background: none }).png().toBuffer()).extract({ left: 0, top: 0, width: lw, height: lh }).png().toBuffer();
+        const shiftUL = await sharp(await sharp(solid).extend({ top: 0, left: 0, bottom: edge, right: edge, background: none }).png().toBuffer()).extract({ left: edge, top: edge, width: lw, height: lh }).png().toBuffer();
+        const rimLight = await sharp(await silhouette(255, 255, 255, 0.5)).composite([{ input: shiftDR, blend: "dest-out" }]).png().toBuffer();
+        const rimDark = await sharp(await silhouette(0, 0, 0, 0.45)).composite([{ input: shiftUL, blend: "dest-out" }]).png().toBuffer();
+        layers.push({ input: sheen, left, top });
+        layers.push({ input: rimLight, left, top });
+        layers.push({ input: rimDark, left, top });
+      } catch (e) {
+        console.error("logo finish failed (logo still placed)", e);
+      }
     }
     // Keep every layer inside the canvas.
     const safe = layers.map((x) => ({ ...x, left: Math.max(0, x.left), top: Math.max(0, x.top) }));
