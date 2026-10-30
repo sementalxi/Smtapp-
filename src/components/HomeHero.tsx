@@ -29,7 +29,7 @@ const SPARKS = Array.from({ length: 18 }, (_, n) => ({
   delay: (n * 1.7) % 12,
 }));
 
-/** Home page hero: big title, feature tiles, floating poster fan, feature strip. */
+/** Home page hero: big title, feature tiles, animated KIXO crest. */
 export function HomeHero({
   t,
   user,
@@ -50,12 +50,6 @@ export function HomeHero({
     ["users", "hero_feat_5"],
     ["crown", "hero_feat_6"],
   ];
-  const strip: [keyof typeof ICONS, string][] = [
-    ["bolt", "hero_strip_1"],
-    ["gem", "hero_strip_2"],
-    ["sliders", "hero_strip_3"],
-    ["coins", "hero_strip_4"],
-  ];
 
   return (
     <section className="relative overflow-hidden border-b border-line">
@@ -75,7 +69,11 @@ export function HomeHero({
       </div>
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-20">
         {/* Left: title, copy, feature tiles */}
-        <div>
+        <div className="relative isolate">
+          {/* Phone: crest on the right, beside the title */}
+          <div className="pointer-events-none absolute -right-3 top-2 -z-10 w-[54%] max-w-[300px] lg:hidden">
+            <Crest />
+          </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
           <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">
             {(() => {
@@ -124,32 +122,28 @@ export function HomeHero({
           </div>
         </div>
 
-        {/* Right: animated KIXO crest */}
-        <div className="relative order-first mx-auto w-full max-w-[260px] sm:max-w-[340px] lg:order-none lg:max-w-[460px]">
-          <div className="kixo-logo-in relative">
-            <div className="kixo-logo-aura pointer-events-none absolute inset-[8%] rounded-full bg-teal/30 blur-3xl" />
-            <div className="kixo-logo-ring pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-lime/40" />
-            <div className="kixo-logo-ring pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-teal/40" style={{ animationDelay: "-1.6s" }} />
-            <div className="kixo-logo-float relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/kixo-hero-logo.webp" alt="KIXO" width={553} height={655} className="kixo-logo-glow relative block h-auto w-full" />
-              <span className="kixo-logo-shine pointer-events-none absolute inset-0" aria-hidden />
-            </div>
-          </div>
+        {/* Right (desktop): animated KIXO crest */}
+        <div className="relative mx-auto hidden w-full max-w-[460px] lg:block">
+          <Crest />
         </div>
       </div>
 
-      {/* Feature strip */}
-      <div className="relative border-t border-line bg-panel/60">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 divide-line px-4 sm:grid-cols-4 sm:divide-x">
-          {strip.map(([icon, key]) => (
-            <div key={key} data-reveal data-reveal-delay={strip.findIndex((x) => x[1] === key) * 90} className="group flex flex-col items-center gap-2 px-3 py-6 text-center">
-              <span className="text-lime transition duration-300 group-hover:-translate-y-1 group-hover:scale-125">{ICONS[icon]}</span>
-              <span className="text-[11px] font-bold uppercase leading-snug tracking-wider">{tt(key)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </section>
+  );
+}
+
+/** The KIXO wolf crest: floats, glows, shines, with pulsing rings. */
+function Crest() {
+  return (
+    <div className="kixo-logo-in relative">
+      <div className="kixo-logo-aura pointer-events-none absolute inset-[8%] rounded-full bg-teal/30 blur-3xl" />
+      <div className="kixo-logo-ring pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-lime/40" />
+      <div className="kixo-logo-ring pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-teal/40" style={{ animationDelay: "-1.6s" }} />
+      <div className="kixo-logo-float relative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/kixo-hero-logo.webp" alt="KIXO" width={553} height={655} className="kixo-logo-glow relative block h-auto w-full" />
+        <span className="kixo-logo-shine pointer-events-none absolute inset-0" aria-hidden />
+      </div>
+    </div>
   );
 }
