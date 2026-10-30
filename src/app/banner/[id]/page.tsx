@@ -6,6 +6,7 @@ import { getT } from "@/i18n/server";
 import { aiConfigured } from "@/lib/banners";
 import { BannerEditor } from "@/components/BannerEditor";
 import { ProBannerView } from "@/components/ProBannerView";
+import { AutoRefresh } from "@/components/AutoRefresh";
 import { getNumberSetting } from "@/lib/settings";
 import { BannerInputs, DEFAULT_DESIGN, DesignState, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
 
@@ -23,6 +24,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
       <div className="mx-auto max-w-xl px-4 py-20 text-center">
         <h1 className="font-display text-4xl">{banner.status === "FAILED" ? t("failed") : t("processing")}</h1>
         {banner.status === "FAILED" && <p className="mt-3 text-sm text-muted">{t("err_generic")}</p>}
+        {banner.status !== "FAILED" && <AutoRefresh seconds={4} times={150} />}
         <Link href="/create" className="btn-primary mt-8">{t("new_banner")}</Link>
       </div>
     );

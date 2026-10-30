@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
@@ -53,16 +53,19 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         variation: seriesUrl ? info.variation : undefined,
         series: !!seriesUrl,
       });
-      await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs) } });
-      const updated = await generateProForBanner({
-        bannerId: banner.id,
-        userId: user.id,
-        cost: await getNumberSetting("pro_cost"),
-        prompt,
-        refs,
-        regenerate: true,
+      const cost = await getNumberSetting("pro_cost");
+      if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
+      await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs), error: null } });
+      // Runs in the background; the page polls until finalUrl changes or an error is saved.
+      after(async () => {
+        try {
+          await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt, refs, regenerate: true });
+        } catch (e) {
+          const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
+          await db.banner.update({ where: { id }, data: { error: msg } }).catch(() => {});
+        }
       });
-      return json({ finalUrl: updated.finalUrl });
+      return json({ pending: true, previousUrl: banner.finalUrl });
     } catch (e) {
       if (e instanceof HttpError && e.status === 402) return json({ error: "err_credits" }, 402);
       if (e instanceof HttpError && e.message === "err_blocked") return json({ error: "err_blocked" }, 400);

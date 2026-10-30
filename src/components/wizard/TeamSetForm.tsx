@@ -9,6 +9,7 @@ import { ImageDrop } from "../ImageDrop";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
 import { MotionCTA } from "../MotionStudio";
+import { forgetPending, rememberPending, waitForBanner } from "@/lib/wait-banner";
 
 /** Team set: next player card with the same design as an earlier card. */
 export function TeamSetForm({
@@ -54,8 +55,14 @@ export function TeamSetForm({
         inputs: { ...EMPTY_INPUTS, ...f },
       }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data.id) {
+    let data = await res.json().catch(() => ({}));
+    if (res.ok && data.id && !data.finalUrl) {
+      rememberPending(data.id);
+      const w = await waitForBanner(data.id);
+      forgetPending();
+      data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
+    }
+    if (data.id && data.finalUrl) {
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setMade((n) => n + 1);

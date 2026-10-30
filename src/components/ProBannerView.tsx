@@ -9,6 +9,7 @@ import type { BannerInputs, LayoutKind } from "@/lib/templates";
 import { TextFields } from "./TextFields";
 import { DownloadSizes } from "./DownloadSizes";
 import { MotionCTA } from "./MotionStudio";
+import { waitForBanner } from "@/lib/wait-banner";
 
 /** Result page for a Pro AI banner: the finished image, download, and "new version". */
 export function ProBannerView({
@@ -46,8 +47,12 @@ export function ProBannerView({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ inputs }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data.finalUrl) {
+    let data = await res.json().catch(() => ({}));
+    if (res.ok && data.pending) {
+      const w = await waitForBanner(id, { previousUrl: data.previousUrl ?? url });
+      data = w.ok ? { finalUrl: w.url } : { error: w.error, detail: w.detail };
+    }
+    if (data.finalUrl) {
       setUrl(data.finalUrl);
       router.refresh();
     } else {

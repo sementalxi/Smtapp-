@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
@@ -127,18 +127,24 @@ export const POST = handle(async (req: NextRequest) => {
     },
   });
 
+  // Pro posters take 1–2 minutes: answer right away and keep working in the background,
+  // so a phone that locks its screen (and drops the connection) still gets its poster.
+  // The page polls GET /api/banners/[id] until it's ready.
+  if (pro) {
+    after(async () => {
+      try {
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs });
+      } catch (e) {
+        const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
+        await db.banner.update({ where: { id: banner.id }, data: { status: "FAILED", error: msg } }).catch(() => {});
+      }
+    });
+    return json({ id: banner.id, finalUrl: null, pending: true });
+  }
+
   let finalUrl: string | null = null;
   try {
-    if (pro) {
-      const done = await generateProForBanner({
-        bannerId: banner.id,
-        userId: user.id,
-        cost,
-        prompt: proPrompt,
-        refs,
-      });
-      finalUrl = done.finalUrl;
-    } else await generateForBanner({
+    await generateForBanner({
       bannerId: banner.id,
       userId: user.id,
       cost: template.cost,

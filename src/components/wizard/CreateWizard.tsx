@@ -12,6 +12,8 @@ import { SavedPicker, type SavedItem } from "./SavedPicker";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
 import { MotionCTA } from "../MotionStudio";
+import { forgetPending, pendingBanner, rememberPending, waitForBanner } from "@/lib/wait-banner";
+import { useRouter } from "next/navigation";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
 const FONT_VAR: Record<string, string> = {
@@ -198,6 +200,16 @@ export function CreateWizard({
     if (!styles.some((s) => s.id === tplId)) setTplId(styles[0]?.id ?? null);
   }, [styles, tplId]);
 
+  // If the browser reloaded the page while a poster was being made, jump to it.
+  const router = useRouter();
+  useEffect(() => {
+    const id = pendingBanner();
+    if (id) {
+      forgetPending();
+      router.push(`/banner/${id}`);
+    }
+  }, [router]);
+
   const art = ART_TYPES.find((a) => a.layout === layout)!;
   const artName = locale === "es" ? art.es.name : art.en.name;
 
@@ -283,8 +295,15 @@ export function CreateWizard({
         mode: "PRO",
       }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (res.ok && data.id) {
+    let data = await res.json().catch(() => ({}));
+    if (res.ok && data.id && !data.finalUrl) {
+      // Made in the background — wait for it (survives the screen turning off).
+      rememberPending(data.id);
+      const w = await waitForBanner(data.id);
+      forgetPending();
+      data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
+    }
+    if (data.id && data.finalUrl) {
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setPhase("done");
