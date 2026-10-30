@@ -10,6 +10,7 @@ import { TextFields } from "./TextFields";
 import { DownloadSizes } from "./DownloadSizes";
 import { MotionCTA } from "./MotionStudio";
 import { waitForBanner } from "@/lib/wait-banner";
+import { EditDesign } from "./EditDesign";
 
 /** Result page for a Pro AI banner: the finished image, download, and "new version". */
 export function ProBannerView({
@@ -123,8 +124,9 @@ export function ProBannerView({
       </div>
 
       <div className="space-y-6">
+        {url && !busy && <EditDesign id={id} layout={layout} inputs={initial} cost={cost} credits={credits} imageUrl={url} />}
         <section className="card space-y-4 p-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{t("text")}</h2>
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{locale === "es" ? "O haz una versión nueva (diseño diferente)" : "Or make a new version (different design)"}</h2>
           <TextFields layout={layout} value={inputs} onChange={setInputs} />
           <div>
             <label className="label">{t("f_extraPrompt")}</label>
