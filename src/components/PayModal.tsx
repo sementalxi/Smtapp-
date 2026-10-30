@@ -30,6 +30,22 @@ function loadSquare(sandbox: boolean) {
   });
 }
 
+// Cached across popups so the second open is instant.
+type Cfg = { inline: boolean; appId?: string; locationId?: string; sandbox?: boolean; amount?: string; applePay?: string };
+const cfgCache = new Map<string, Promise<Cfg>>();
+const getCfg = (kind: string, id: string) => {
+  const k = `${kind}:${id}`;
+  if (!cfgCache.has(k)) cfgCache.set(k, fetch(`/api/square/config?kind=${kind}&id=${encodeURIComponent(id)}`).then((r) => r.json()).catch(() => ({ inline: false })));
+  return cfgCache.get(k)!;
+};
+let preloaded = false;
+/** Warm up the payment form in the background (called when buy buttons appear). */
+export function preloadSquarePay(kind: string, id: string) {
+  getCfg(kind, id).then((c) => c.inline && loadSquare(!!c.sandbox).catch(() => {}));
+  if (preloaded) return;
+  preloaded = true;
+}
+
 /** On-page checkout popup: card form by Square, charged without leaving KIXO. */
 export function PayModal({
   open,
@@ -76,8 +92,8 @@ export function PayModal({
     setReady(false);
     (async () => {
       try {
-        const cfg = await fetch(`/api/square/config?kind=${kind}&id=${encodeURIComponent(id)}`).then((r) => r.json());
-        if (!cfg.inline) {
+        const cfg = await getCfg(kind, id);
+        if (!cfg.inline || !cfg.appId || !cfg.locationId) {
           onFallback();
           return;
         }
@@ -85,64 +101,64 @@ export function PayModal({
         await loadSquare(!!cfg.sandbox);
         if (!alive || !window.Square || !box.current) return;
         const payments = window.Square.payments(cfg.appId, cfg.locationId);
-        const c = await payments.card({
-          style: {
-            input: { color: "#f1f8f3", fontSize: "16px" },
-            "input::placeholder": { color: "#7f8f86" },
-            ".input-container": { borderColor: "#26332b", borderRadius: "12px" },
-            ".input-container.is-focus": { borderColor: "#b7ff45" },
-            ".message-text": { color: "#9aaba1" },
-            ".message-icon": { color: "#9aaba1" },
-          },
-        });
-        await c.attach(box.current);
-        card.current = c;
-        if (alive) setReady(true);
+        const useWallets = kind !== "plan" && Number(cfg.amount) > 0;
+        const req = useWallets ? payments.paymentRequest({ countryCode: "US", currencyCode: "USD", total: { amount: String(cfg.amount), label: title.slice(0, 60) || "KIXO" } }) : null;
+        const no = Promise.reject(new Error("off"));
+        no.catch(() => {});
 
-        // Wallets — one-time purchases only (Square subscriptions need a saved card).
-        if (kind !== "plan" && Number(cfg.amount) > 0) {
-          const req = payments.paymentRequest({ countryCode: "US", currencyCode: "USD", total: { amount: String(cfg.amount), label: title.slice(0, 60) || "KIXO" } });
-          try {
-            const ap = await payments.applePay(req);
-            apple.current = ap;
-            if (alive) setWallets((w) => ({ ...w, apple: true }));
-          } catch (e) {
-            if (cfg.applePay !== undefined) setAdminNote(`Apple Pay: ${e instanceof Error ? e.message : String(e)} · domain: ${cfg.applePay}`);
-          }
-          try {
-            const gp = await payments.googlePay(req);
-            if (gpBox.current) {
-              await gp.attach(gpBox.current, { buttonColor: "white", buttonSizeMode: "fill", buttonType: "long" });
-              google.current = gp;
-              if (alive) setWallets((w) => ({ ...w, google: true }));
-            }
-          } catch {
-            /* unavailable */
-          }
-          try {
-            const ca = await payments.cashAppPay(req, { redirectURL: window.location.href, referenceId: `${kind}-${id}`.slice(0, 40) });
-            if (capBox.current) {
-              // Phones leave for the Cash App and come back to this page — remember to reopen this popup.
-              capBox.current.onclick = () => {
-                try {
-                  sessionStorage.setItem("kixo_pay", JSON.stringify({ kind, id, at: Date.now() }));
-                } catch {
-                  /* ignore */
-                }
-              };
-              await ca.attach(capBox.current, { shape: "semiround", width: "full" });
-              ca.addEventListener("ontokenization", (e) => {
-                const { tokenResult, error } = e.detail;
-                if (error || tokenResult?.status !== "OK" || !tokenResult.token) setErr(error?.message || (es ? "Cash App no completó el pago" : "Cash App didn't complete the payment"));
-                else charge(tokenResult.token);
-              });
-              cash.current = ca;
-              if (alive) setWallets((w) => ({ ...w, cash: true }));
-            }
-          } catch {
-            /* unavailable */
-          }
+        // Create every payment method at the same time…
+        const [c, ap, gp, ca] = await Promise.allSettled([
+          payments.card({
+            style: {
+              input: { color: "#f1f8f3", fontSize: "16px" },
+              "input::placeholder": { color: "#7f8f86" },
+              ".input-container": { borderColor: "#26332b", borderRadius: "12px" },
+              ".input-container.is-focus": { borderColor: "#b7ff45" },
+              ".message-text": { color: "#9aaba1" },
+              ".message-icon": { color: "#9aaba1" },
+            },
+          }),
+          req ? payments.applePay(req) : no,
+          req ? payments.googlePay(req) : no,
+          req ? payments.cashAppPay(req, { redirectURL: window.location.href, referenceId: `${kind}-${id}`.slice(0, 40) }) : no,
+        ]);
+        if (!alive) return;
+        if (c.status === "rejected") throw c.reason;
+        if (ap.status === "rejected" && req && cfg.applePay !== undefined) {
+          const e = ap.reason;
+          setAdminNote(`Apple Pay: ${e instanceof Error ? e.message : String(e)} · domain: ${cfg.applePay}`);
         }
+        if (capBox.current) {
+          // Phones leave for the Cash App and come back to this page — remember to reopen this popup.
+          capBox.current.onclick = () => {
+            try {
+              sessionStorage.setItem("kixo_pay", JSON.stringify({ kind, id, at: Date.now() }));
+            } catch {
+              /* ignore */
+            }
+          };
+        }
+        // …and draw them all at the same time, then show everything at once.
+        const [cOk, gOk, caOk] = await Promise.allSettled([
+          c.value.attach(box.current),
+          gp.status === "fulfilled" && gpBox.current ? gp.value.attach(gpBox.current, { buttonColor: "white", buttonSizeMode: "fill", buttonType: "long" }) : no,
+          ca.status === "fulfilled" && capBox.current ? ca.value.attach(capBox.current, { shape: "semiround", width: "full" }) : no,
+        ]);
+        if (!alive) return;
+        if (cOk.status === "rejected") throw cOk.reason;
+        card.current = c.value;
+        if (ap.status === "fulfilled") apple.current = ap.value;
+        if (gOk.status === "fulfilled" && gp.status === "fulfilled") google.current = gp.value;
+        if (caOk.status === "fulfilled" && ca.status === "fulfilled") {
+          cash.current = ca.value;
+          ca.value.addEventListener("ontokenization", (e) => {
+            const { tokenResult, error } = e.detail;
+            if (error || tokenResult?.status !== "OK" || !tokenResult.token) setErr(error?.message || (es ? "Cash App no completó el pago" : "Cash App didn't complete the payment"));
+            else charge(tokenResult.token);
+          });
+        }
+        setWallets({ apple: ap.status === "fulfilled", google: gOk.status === "fulfilled", cash: caOk.status === "fulfilled" });
+        setReady(true);
       } catch (e) {
         if (alive) setErr(e instanceof Error ? e.message : "error");
       }
@@ -249,6 +265,21 @@ export function PayModal({
                 {kind === "plan" && <div className="text-[10px] text-muted">{es ? "por mes" : "per month"}</div>}
               </div>
             </div>
+            <div className="relative">
+            {!ready && !err && (
+              <div className="absolute inset-0 z-10 space-y-2" aria-hidden>
+                {kind !== "plan" && (
+                  <>
+                    <div className="h-12 animate-pulse rounded-xl bg-white/10" />
+                    <div className="h-12 animate-pulse rounded-xl bg-white/10" />
+                    <div className="h-12 animate-pulse rounded-xl bg-white/5" />
+                    <div className="h-4" />
+                  </>
+                )}
+                <div className="h-[96px] animate-pulse rounded-2xl bg-white/5" />
+              </div>
+            )}
+            <div className={`space-y-4 transition-opacity duration-300 ${ready ? "opacity-100" : "pointer-events-none opacity-0"} ${!ready && kind !== "plan" ? "min-h-[270px]" : ""}`}>
             {kind !== "plan" && (
               <div className="space-y-2">
                 {wallets.apple && (
@@ -270,7 +301,8 @@ export function PayModal({
             )}
             <div className="min-h-[96px] rounded-2xl border border-line bg-ink/40 p-2">
               <div ref={box} />
-              {!ready && !err && <div className="p-6 text-center text-xs text-muted">{es ? "Cargando formulario seguro…" : "Loading secure form…"}</div>}
+            </div>
+            </div>
             </div>
             {err && <p className="text-sm text-danger">{err}</p>}
             {adminNote && <p className="rounded-lg border border-line p-2 text-[10px] text-muted">🛠 {adminNote}</p>}

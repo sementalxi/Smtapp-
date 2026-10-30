@@ -37,6 +37,9 @@ export const GET = handle(async (req: NextRequest) => {
   if (kind === "pack") amount = findPack(id)?.priceUsd ?? 0;
   else if (kind === "plan") amount = findPlan(id)?.priceUsd ?? 0;
   else if (kind === "deal") amount = (await db.deal.findUnique({ where: { id }, select: { priceUsd: true } }))?.priceUsd ?? 0;
-  const applePay = await ensureApplePayDomain(req.headers.get("x-forwarded-host") ?? req.nextUrl.host);
-  return json({ inline: true, ...(user.role === "ADMIN" ? { applePay } : {}), appId, locationId: await locationId(), sandbox: process.env.SQUARE_ENV?.trim() === "sandbox", amount: amount.toFixed(2) });
+  const [applePay, loc] = await Promise.all([
+    ensureApplePayDomain(req.headers.get("x-forwarded-host") ?? req.nextUrl.host),
+    db.setting.findUnique({ where: { key: "square_location_id" } }).then((r) => r?.value || locationId()),
+  ]);
+  return json({ inline: true, ...(user.role === "ADMIN" ? { applePay } : {}), appId, locationId: loc, sandbox: process.env.SQUARE_ENV?.trim() === "sandbox", amount: amount.toFixed(2) });
 });
