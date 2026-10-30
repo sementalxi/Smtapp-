@@ -659,15 +659,15 @@ export function CreateWizard({
             <input
               type="checkbox"
               className="mt-1 accent-[var(--color-lime)]"
-              checked={inp.aiLogo === "on"}
+              checked={inp.aiLogo === "on" || (inp.aiLogo === "" && layout === "CHAMPIONS")}
               onChange={(e) => set("aiLogo", e.target.checked ? "on" : "off")}
             />
             <span>
               <span className="block font-bold">{locale === "es" ? "Logo 3D hecho por la IA" : "AI-made 3D logo"}</span>
               <span className="block text-xs text-muted">
                 {locale === "es"
-                  ? "Apagado (recomendado): tu logo real se coloca exacto en la esquina. Encendido: la IA lo redibuja en 3D cromado — se ve espectacular pero puede cambiar letras o detalles."
-                  : "Off (recommended): your real logo is placed exactly in the corner. On: the AI redraws it in 3D chrome — looks amazing but can change letters or details."}
+                  ? "Encendido: la IA dibuja tu logo como un emblema 3D cromado integrado en la escena — se ve espectacular, pero puede cambiar algún detalle (recomendado para Campeones). Apagado: tu logo real se coloca exacto, pixel por pixel."
+                  : "On: the AI draws your logo as a 3D chrome emblem built into the scene — looks amazing, but can change small details (recommended for Champions). Off: your real logo is placed exactly, pixel for pixel."}
               </span>
             </span>
           </label>

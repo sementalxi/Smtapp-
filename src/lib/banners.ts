@@ -42,7 +42,7 @@ export const InputsSchema = z.object({
   bgPose: str(40),
   bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("off"),
-  aiLogo: z.enum(["on", "off", ""]).default("off"),
+  aiLogo: z.enum(["on", "off", ""]).default(""),
   colorMode: z.enum(["surprise", "template", "custom", ""]).default("surprise"),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -234,7 +234,8 @@ export function collectProRefs(opts: {
     });
   }
   // Default: the real logo is pasted onto the finished poster (the AI redraws logos inaccurately).
-  const exact = i.aiLogo !== "on";
+  // "" = default per type: Champions lets the AI render the crest as a 3D hero emblem (it looks far better integrated).
+  const exact = i.aiLogo === "off" || (i.aiLogo !== "on" && layout !== "CHAMPIONS");
   const crest = (url: string, who: string, corner: LogoSpot = "tl") =>
     exact
       ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
@@ -333,13 +334,31 @@ export function buildProPrompt(opts: {
   switch (layout) {
     case "CHAMPIONS": {
       const trophy = i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a large shiny trophy";
+      const title = i.headline || "CHAMPIONS";
+      const crestHero = exactLogos
+        ? "the glowing focal spot in the lower centre for the team crest (added afterwards — draw no crest)"
+        : hasTeamLogo
+          ? "the TEAM CREST as the hero: a huge, flawless 3D chrome-and-enamel emblem faithful to the reference (same shape, letters and symbols), with deep bevels, reflections and a powerful glow"
+          : "the team name as a huge 3D metallic emblem";
+      // Four distinct layouts so champions posters don't all look like one template (stable per variation).
+      const champLayouts = [
+        `LAYOUT — "Crest on top": ${crestHero} large in the centre, the "${title}" title in massive 3D letters across the top, ${trophy} standing beside the crest on a reflective stage, light beams crossing behind.`,
+        `LAYOUT — "Trophy hero": ${trophy} huge in the centre foreground with light exploding behind it, ${exactLogos ? "the glowing crest spot just above the trophy (crest added afterwards — draw none)" : hasTeamLogo ? "the team crest as a big glowing 3D chrome emblem floating above/behind the trophy, faithful to the reference" : "the team name glowing above the trophy"}, the "${title}" title stacked in giant letters behind, partly hidden by the trophy.`,
+        `LAYOUT — "Big title": the "${title}" title enormous and slightly angled across the middle of the poster with sparks bursting through the letters, ${crestHero} above it, ${trophy} at the bottom in front of the title.`,
+        `LAYOUT — "Diagonal energy": a dynamic diagonal composition — ${crestHero} upper-left, ${trophy} lower-right, the "${title}" title running diagonally between them with motion streaks, light trails and shards of light along the diagonal.`,
+      ];
+      // Exact-logo mode pastes the crest in the lower centre, so it needs the matching layout.
+      const pickLayout = exactLogos
+        ? `LAYOUT: the "${title}" title in massive 3D letters across the top, ${crestHero}, ${trophy} on the right side on a reflective stage, light beams crossing behind.`
+        : champLayouts[Math.abs(v.seed) % champLayouts.length];
       composition = [
-        `A champions title-celebration poster.`,
-        `A huge 3D metallic "${i.headline || "CHAMPIONS"}" title (can repeat or stack for impact), ${trophy} as the centrepiece, ${exactLogos ? "the glowing focal spot in the lower centre for the team crest (added afterwards — draw no crest)" : hasTeamLogo ? "the team crest very large and glossy in the lower third (no team name text)" : `the team crest large and glossy, the team name in big metallic letters in the lower third`}${(i.roster.length || i.players.length) ? ", the squad list on a designed metal nameplate along the bottom" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
+        `A premium champions title-celebration poster — the kind a top club's media team posts after winning a trophy.`,
+        pickLayout,
+        `Also: ${hasTeamLogo || exactLogos ? "no team name text" : "the team name in big metallic letters"}${(i.roster.length || i.players.length) ? ", the squad list on a designed metal nameplate along the bottom" : ""}${i.prize ? ", a gold prize badge" : ""}, confetti, sparks and spotlight beams. ${!(i.roster.length || i.players.length) ? "NO player names or squad list anywhere. " : ""}${!i.prize ? "NO prize, money amount or prize badge. " : ""}`,
         frame,
         finish,
       ].join(" ");
-      add("Title (huge, top)", i.headline || "CHAMPIONS");
+      add("Title (huge)", i.headline || "CHAMPIONS");
       add("Small line above the title (competition)", i.eventName || i.competition);
       add("Team name (large)", i.team);
       const squad = (i.roster.length ? i.roster : i.players).filter(Boolean);
@@ -439,14 +458,14 @@ export function buildProPrompt(opts: {
   const refText = aiRefs.map((r, n) => `Reference image ${n + 1} is ${r.label}`);
   const spots = [...new Set(overlays.map((o) => o.overlay))];
   const spotText = spots.includes("hero")
-    ? "a large glowing circular spotlight / halo area in the lower-centre of the poster (about 48% of the poster width, centred, its middle at roughly 62% of the height) — make it the visual focal point — a glowing podium with a laurel-wreath ring and light rays, glow and particles radiating around it, but the inside of the ring clean (just glowing light) — and keep the trophy to the right side and the squad names below it"
+    ? "a large glowing circular spotlight / halo area in the lower-centre of the poster (about 48% of the poster width, centred, its middle at roughly 62% of the height) — make it the visual focal point — a glowing podium with light rays, glow and particles radiating around it, but the centre clean (just glowing light) — and keep the trophy to the right side and the squad names below it"
     : spots.includes("left")
       ? `two glowing circular spotlight areas at mid-height — one on the left (centred at ~25% width, ~40% height) and one on the right (~75% width, ~40% height), each about 32% of the poster width, with the "VS" between them; keep their centres clean (just glowing light)`
       : `the top-left corner (a square about 26% of the poster width, plus margin) calm and empty`;
   // Champions posters need a lot of celebration energy — always added, even for admin-led styles.
   const champsEnergy =
     layout === "CHAMPIONS"
-      ? `CHAMPIONS ENERGY (dense, maximalist, never sparse): a storm of confetti and streamers in the poster's colours filling the air, fireworks bursting behind, strong light beams/god-rays from above, a packed stadium crowd with phone lights and flags far behind, a glossy reflective floor, ${spots.includes("hero") ? "a raised glowing podium with a laurel-wreath ring and 3–5 championship stars arching above the crest spot (the crest itself is added afterwards — keep the inside of the ring empty), " : ""}the title huge with deep 3D extrusion, bevel and texture${(i.roster.length || i.players.length) ? `. SQUAD NAMES: not plain text — set them on a designed element along the bottom: a polished metal nameplate ribbon (in the poster's colours — chrome, coloured metal, or gold only if the palette is gold) or a glass bar with bevelled edges, glow and reflections, the names in bold 3D metallic lettering with small separators${(i.roster.length || i.players.length) > 6 ? ", split into two neat rows" : ""}, every name perfectly readable` : ""}. Fill the whole frame with layered detail — NO large empty dark areas.`
+      ? `CHAMPIONS ENERGY (dense, maximalist, never sparse): a storm of confetti and streamers in the poster's colours filling the air, fireworks bursting behind, strong light beams/god-rays from above, a packed stadium crowd with phone lights and flags far behind, a glossy reflective floor, ${spots.includes("hero") ? "a raised glowing podium with 3–5 championship stars arching above the crest spot (the crest itself is added afterwards — keep that spot empty), " : ""}the title huge with deep 3D extrusion, bevel and texture${(i.roster.length || i.players.length) ? `. SQUAD NAMES: not plain text — set them on a designed element along the bottom: a polished metal nameplate ribbon (in the poster's colours — chrome, coloured metal, or gold only if the palette is gold) or a glass bar with bevelled edges, glow and reflections, the names in bold 3D metallic lettering with small separators${(i.roster.length || i.players.length) > 6 ? ", split into two neat rows" : ""}, every name perfectly readable` : ""}. Fill the whole frame with layered detail — NO large empty dark areas.`
       : "";
   const logoRule = exactLogos
     ? `LOGO SPACE: leave ${spotText} — no text, faces or objects there — because the official team crest${spots.length > 1 ? "s are" : " is"} placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
