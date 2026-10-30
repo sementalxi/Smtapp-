@@ -42,7 +42,7 @@ export default async function Home() {
       {/* How it works — compact numbered steps */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
         <p data-reveal className="text-xs font-bold uppercase tracking-[0.35em] text-lime">01 — 04</p>
-        <h2 data-reveal className="font-display mt-2 text-4xl sm:text-5xl"><span className="gold-text">{t("how_title")}</span></h2>
+        <h2 data-reveal className="font-display mt-2 text-4xl sm:text-5xl"><span className="gold-text kixo-chapter">{t("how_title")}</span></h2>
         <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {(["1", "2", "3", "4"] as const).map((n) => (
             <div key={n} data-reveal data-reveal-delay={(Number(n) - 1) * 110} className="group relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-panel p-4 transition hover:-translate-y-1 hover:border-lime/50 sm:p-5">
@@ -60,7 +60,7 @@ export default async function Home() {
         <section className="border-y border-line bg-panel/30">
           <div className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
             <div className="flex items-end justify-between gap-4">
-              <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text">{t("styles_title")}</span></h2>
+              <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text kixo-chapter">{t("styles_title")}</span></h2>
               <Link href={user ? "/create" : "/register"} className="shrink-0 text-sm font-bold text-lime hover:text-white">
                 {t("hero_cta")} ›
               </Link>
@@ -75,7 +75,8 @@ export default async function Home() {
                   className="group relative overflow-hidden rounded-2xl border border-line transition hover:-translate-y-1 hover:border-lime hover:shadow-[0_20px_50px_-20px] hover:shadow-lime/40"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={tpl.thumbUrl!} alt={tpl.name} loading="lazy" className="block aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" />
+                  <img src={tpl.thumbUrl!} alt={tpl.name} loading="lazy" className="kixo-grade block aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-110" />
+                  <span className="kixo-card-scan" aria-hidden />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pt-10 pb-3">
                     <div className="text-sm font-extrabold uppercase tracking-wide">{locale === "es" ? tpl.nameEs : tpl.name}</div>
                   </div>
@@ -90,7 +91,7 @@ export default async function Home() {
 
       {/* Pricing */}
       <section className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
-        <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text">{t("pricing_title")}</span></h2>
+        <h2 data-reveal className="font-display text-4xl sm:text-5xl"><span className="gold-text kixo-chapter">{t("pricing_title")}</span></h2>
         <p data-reveal className="mt-2 mb-10 text-muted">{t("pricing_sub")}</p>
         <div data-reveal>
           <PricingCards user={user} />

@@ -52,10 +52,15 @@ export function HomeHero({
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-line">
+    <section className="kixo-letterbox relative overflow-hidden border-b border-line">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/70 to-ink lg:bg-gradient-to-r lg:from-ink lg:via-ink/75 lg:to-ink/10" />
+      <div className="kixo-beam" style={{ left: "8%" }} aria-hidden />
+      <div className="kixo-beam" style={{ right: "4%", animationDelay: "-4.5s", animationDuration: "11s" }} aria-hidden />
+      <div className="kixo-fog bottom-[-10%] left-[-10%] h-72 w-[70%] bg-teal/15" aria-hidden />
+      <div className="kixo-fog top-[20%] right-[-15%] h-80 w-[60%] bg-lime/10" style={{ animationDelay: "-9s" }} aria-hidden />
+      <div className="kixo-ai-scan" aria-hidden />
       <div className="kixo-bg-pan pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
       <div className="kixo-bg-pan pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" style={{ animationDelay: "-7s" }} />
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -74,6 +79,10 @@ export function HomeHero({
           <div className="pointer-events-none absolute -right-5 top-8 -z-10 w-[46%] max-w-[260px] opacity-95 lg:hidden">
             <Crest />
           </div>
+          <div className="kixo-fade-up mb-4 inline-flex items-center gap-2 rounded-full border border-lime/30 bg-ink/60 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-lime backdrop-blur">
+            <span className="kixo-live-dot" />
+            <span className="kixo-typing">AI ENGINE · ONLINE</span>
+          </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
           <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">
             {(() => {
@@ -81,7 +90,7 @@ export function HomeHero({
               const a = Math.ceil(words.length * 0.4);
               const b = Math.max(a + 1, Math.ceil(words.length * 0.8));
               return words.map((w, n) => (
-                <span key={n} className="kixo-fade-up inline-block" style={{ animationDelay: `${120 + n * 90}ms` }}>
+                <span key={n} className="kixo-focus-in inline-block" style={{ animationDelay: `${450 + n * 110}ms` }}>
                   <span className={n >= a && n < b ? "lime-text" : "gold-text"}>{w}</span>&nbsp;
                 </span>
               ));

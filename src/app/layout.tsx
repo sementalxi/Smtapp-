@@ -32,6 +32,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="antialiased">
         <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
           {notice && <div className="bg-lime px-4 py-2 text-center text-sm font-bold text-ink">{notice}</div>}
+          <div className="kixo-grain" aria-hidden />
+          <div className="kixo-vignette" aria-hidden />
           <RefCapture />
           {!chosen && <LangPrompt suggested={locale} />}
           <Header />
