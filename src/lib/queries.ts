@@ -13,5 +13,6 @@ export async function activeTemplates(): Promise<ClientTemplate[]> {
     style: r.style as unknown as TemplateStyle,
     cost: r.cost,
     thumbUrl: r.thumbUrl,
+    hasInstructions: !!r.proInstructions?.trim(),
   }));
 }
