@@ -202,9 +202,13 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
           <span>
             <b>{es ? "Diseño único en cada póster" : "Unique look on every poster"}</b>
             <span className="block text-xs text-muted">
-              {es
-                ? "Paleta, fondo, composición y luz aleatorios cada vez. Apágalo para un estilo constante (ej. el estilo oficial de una liga)."
-                : "Random palette, background concept, layout and lighting each time. Turn off for a consistent look (e.g. an official league style)."}
+              {tpl.proInstructions?.trim()
+                ? es
+                  ? "Con tus instrucciones: solo cambian detalles pequeños en cada póster — tu diseño y tus colores se respetan. Apágalo para que salga casi igual cada vez."
+                  : "With your instructions: only small details change per poster — your layout and colours are kept. Turn off to get nearly the same result every time."
+                : es
+                  ? "Paleta, fondo, composición y luz aleatorios cada vez. Apágalo para un estilo constante (ej. el estilo oficial de una liga)."
+                  : "Random palette, background concept, layout and lighting each time. Turn off for a consistent look (e.g. an official league style)."}
             </span>
           </span>
         </label>

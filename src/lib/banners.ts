@@ -484,8 +484,8 @@ export function buildProPrompt(opts: {
     adminLed
       ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
       : composition,
-    `Visual style (base${(i.colorMode === "custom" && i.color1) || v.palette ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
-    colourLine(i, style, v),
+    `Visual style (base${(i.colorMode === "custom" && i.color1) || (v.palette && !adminLed) ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
+    colourLine(i, style, v, adminLed),
     bgScenePrompt(i.bgScene)
       ? `BACKGROUND SCENE (chosen by the user${adminLed ? " — use it unless the art director's instructions define the background" : " — use it"}): ${bgScenePrompt(i.bgScene)}. Render it as a real, detailed, photographic environment with depth, tinted with the poster colours — not a flat or simple backdrop.`
       : "",
@@ -606,9 +606,13 @@ export function assertInputUrls(i: BannerInputs) {
   [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl].forEach((u) => assertOwnUrl(u || null));
 }
 
-function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation) {
+function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {
   if (i.colorMode === "custom" && i.color1) {
     return `COLOURS: main colour ${i.color1}${i.color2 ? `, second colour ${i.color2}` : ""}, with deep dark shadows. Recolour EVERYTHING to this palette — lighting, background, title, confetti, effects and metals. Do not default to gold unless it is one of these colours.`;
+  }
+  if (v.palette && adminLed) {
+    // The art director's colours win over the random palette.
+    return `COLOURS: use the colours the art director's instructions describe. Only if they don't mention colours, use a ${v.palette.name} palette (main ${v.palette.primary}, accent ${v.palette.accent}, shadows ${v.palette.dark}).`;
   }
   if (v.palette) {
     return `COLOURS: a ${v.palette.name} palette — main ${v.palette.primary}, accent/glow ${v.palette.accent}, shadows ${v.palette.dark}. Recolour EVERYTHING to this palette — lighting, background, title, confetti, effects and metals — instead of the base style's colours. Do not default to gold unless gold is in this palette.`;
