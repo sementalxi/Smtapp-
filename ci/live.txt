@@ -1,13 +1,13 @@
-/                            200 0.672225s
-/login                       200 0.132459s
-/register                    200 0.117998s
-/pricing                     200 0.186599s
-/dashboard                   307 0.172550s
-/create                      307 0.071128s
-/admin                       307 0.066980s
-/api/banners                 405 0.629091s
-/api/image-search?q=messi    401 0.089042s
-/api/files/db/none           404 0.126833s
+/                            200 0.308093s
+/login                       200 0.749359s
+/register                    200 0.184319s
+/pricing                     200 0.210209s
+/dashboard                   307 0.190194s
+/create                      307 0.135690s
+/admin                       307 0.199666s
+/api/banners                 405 1.521870s
+/api/image-search?q=messi    401 0.367362s
+/api/files/db/none           404 0.190389s
 --- POST api checks (expect 401/400)
 {"error":"unauthorized"}
 {"error":"unauthorized"}
