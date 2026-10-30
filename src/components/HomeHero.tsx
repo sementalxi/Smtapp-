@@ -34,11 +34,13 @@ export function HomeHero({
   t,
   user,
   bonus,
+  heroBg,
 }: {
   t: T;
   user: boolean;
   bonus: number;
   heroImgs?: string[];
+  heroBg?: { mode: string; video: string; opacity: number };
   templates?: ClientTemplate[];
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
@@ -52,15 +54,30 @@ export function HomeHero({
   ];
 
   return (
+    <>
     <section className="kixo-letterbox relative overflow-hidden border-b border-line">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/70 to-ink lg:bg-gradient-to-r lg:from-ink lg:via-ink/75 lg:to-ink/10" />
+      {heroBg?.mode === "video" && heroBg.video ? (
+        <video
+          src={heroBg.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/kixo-hero-bg.webp"
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          style={{ opacity: heroBg.opacity / 100 }}
+        />
+      ) : heroBg?.mode === "none" ? null : (
+        <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
+      )}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
       <div className="kixo-beam" style={{ left: "8%" }} aria-hidden />
       <div className="kixo-beam" style={{ right: "4%", animationDelay: "-4.5s", animationDuration: "11s" }} aria-hidden />
       <div className="kixo-fog bottom-[-10%] left-[-10%] h-72 w-[70%] bg-teal/15" aria-hidden />
       <div className="kixo-fog top-[20%] right-[-15%] h-80 w-[60%] bg-lime/10" style={{ animationDelay: "-9s" }} aria-hidden />
-      <div className="kixo-ai-scan" aria-hidden />
       <div className="kixo-bg-pan pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
       <div className="kixo-bg-pan pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" style={{ animationDelay: "-7s" }} />
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -72,19 +89,15 @@ export function HomeHero({
           />
         ))}
       </div>
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-20">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1.05fr_1fr] lg:py-24">
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
           {/* Phone: crest on the right, beside the title */}
-          <div className="pointer-events-none absolute -right-4 top-20 -z-10 w-[44%] max-w-[260px] lg:hidden">
+          <div className="pointer-events-none absolute -right-4 top-24 -z-10 w-[40%] max-w-[240px] lg:hidden">
             <Crest />
           </div>
-          <div className="kixo-fade-up mb-4 inline-flex items-center gap-2 rounded-full border border-lime/30 bg-ink/60 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-lime backdrop-blur">
-            <span className="kixo-live-dot" />
-            <span className="kixo-typing">AI ENGINE · ONLINE</span>
-          </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
-          <h1 className="font-display max-w-[60%] text-[3.4rem] leading-[0.9] sm:max-w-[64%] sm:text-7xl lg:max-w-none lg:text-[5.2rem]">
+          <h1 className="font-display max-w-[70%] text-[3.05rem] leading-[0.9] sm:max-w-[64%] sm:text-7xl lg:max-w-none lg:text-[5.2rem]">
             {(() => {
               const words = tt("hero_title").split(" ");
               const a = Math.ceil(words.length * 0.4);
@@ -97,7 +110,7 @@ export function HomeHero({
             })()}
           </h1>
           <div className="kixo-glow kixo-fade-up mt-6 h-1 w-24 rounded-full bg-lime" style={{ animationDelay: "500ms, 500ms" }} />
-          <p className="kixo-fade-up mt-6 max-w-lg text-lg text-muted" style={{ animationDelay: "600ms" }}>{tt("hero_sub")}</p>
+          <p className="kixo-fade-up mt-6 max-w-lg text-lg text-white/80 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]" style={{ animationDelay: "600ms" }}>{tt("hero_sub")}</p>
           <div className="kixo-fade-up mt-7 flex flex-wrap gap-3" style={{ animationDelay: "700ms" }}>
             <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine px-6 py-3 text-base">
               ⚡ {tt("hero_cta")} <span className="ml-1">›</span>
@@ -107,12 +120,24 @@ export function HomeHero({
             </Link>
           </div>
           {bonus > 0 && <p className="mt-3 text-sm text-muted">{tt("free_note", { n: bonus })}</p>}
+        </div>
 
-          <div className="mt-10 flex items-center gap-4">
+        {/* Right (desktop): animated KIXO crest */}
+        <div className="relative mx-auto hidden w-full max-w-[460px] lg:block">
+          <Crest />
+        </div>
+      </div>
+
+    </section>
+
+    {/* Feature tiles — their own clean section under the hero */}
+    <section className="relative border-b border-line bg-ink">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+          <div className="flex items-center gap-4">
             <h2 className="font-display lime-text shrink-0 text-2xl tracking-wide sm:text-3xl">{tt("hero_feat_title")}</h2>
             <span className="h-px flex-1 bg-gradient-to-r from-teal/70 to-transparent" />
           </div>
-          <div className="mt-4 grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
             {feats.map(([icon, key]) => (
               <Link
                 key={key}
@@ -129,15 +154,9 @@ export function HomeHero({
               </Link>
             ))}
           </div>
-        </div>
-
-        {/* Right (desktop): animated KIXO crest */}
-        <div className="relative mx-auto hidden w-full max-w-[460px] lg:block">
-          <Crest />
-        </div>
       </div>
-
     </section>
+    </>
   );
 }
 

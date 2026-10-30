@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { grantOnce } from "@/lib/credits";
 import { rewardReferrer } from "@/lib/referral";
-import { findPack, findPlan, loadPricing } from "@/lib/pricing";
+import { findPack, loadPricing } from "@/lib/pricing";
+import { grantPlanMonth } from "@/lib/square-grants";
 import { planFromVariation, sq, squareWebhookConfig, verifySquareSignature } from "@/lib/square";
 
 // Square sends payment / subscription / invoice events here (registered by Admin → Connect Square).
@@ -43,28 +44,6 @@ export async function POST(req: NextRequest) {
 }
 
 /** One grant per user per calendar month for plans, so a first payment + first invoice never double-count. */
-const monthKey = () => new Date().toISOString().slice(0, 7);
-
-async function grantPlanMonth(userId: string, planId: string, amountCents: number, ref: string) {
-  const plan = findPlan(planId);
-  if (!plan) return;
-  const granted = await grantOnce({
-    userId,
-    amount: plan.monthlyCredits,
-    type: "SUBSCRIPTION",
-    note: `Monthly credits: ${plan.id}`,
-    externalRef: `sq_plan_${userId}_${monthKey()}`,
-  });
-  if (granted) {
-    await rewardReferrer(userId);
-    await db.payment.upsert({
-      where: { stripeRef: ref },
-      create: { userId, stripeRef: ref, kind: "subscription", productId: plan.id, amountCents, currency: "usd", credits: plan.monthlyCredits },
-      update: {},
-    });
-  }
-}
-
 async function onPayment(p: SqPayment | undefined) {
   if (!p?.order_id || p.status !== "COMPLETED") return;
   const co = await db.squareCheckout.findUnique({ where: { orderId: p.order_id } });
