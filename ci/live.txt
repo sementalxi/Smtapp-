@@ -1,14 +1,16 @@
-/                            200 0.790501s
-/login                       200 0.213230s
-/register                    200 0.164963s
-/pricing                     200 0.159543s
-/dashboard                   307 0.094046s
-/create                      307 0.074685s
-/admin                       307 0.143958s
-/api/banners                 405 0.822788s
-/api/image-search?q=messi    401 0.434588s
-/api/files/db/none           404 0.512801s
-/.well-known/apple-developer-merchantid-domain-association 200 0.221465s
+kixo.pro 200
+www.kixo.pro 200
+/                            200 0.141608s
+/login                       200 0.079345s
+/register                    200 0.100387s
+/pricing                     200 0.146075s
+/dashboard                   307 0.061242s
+/create                      307 0.145005s
+/admin                       307 0.058823s
+/api/banners                 405 1.439869s
+/api/image-search?q=messi    401 0.245990s
+/api/files/db/none           404 0.132151s
+/.well-known/apple-developer-merchantid-domain-association 200 0.116913s
 --- POST api checks (expect 401/400)
 {"error":"unauthorized"}
 {"error":"unauthorized"}
