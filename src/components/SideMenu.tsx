@@ -79,7 +79,7 @@ export function SideMenu({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/kixo-hero-logo.webp" alt="" className="h-9 w-auto" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/kixo-logo.png" alt={site} className="h-6 w-auto" />
+              <img src="/kixo-wordmark.png" alt={site} className="h-7 w-auto" />
             </Link>
             <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg border border-line text-muted hover:text-white">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" aria-hidden>
