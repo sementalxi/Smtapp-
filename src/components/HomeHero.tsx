@@ -69,8 +69,6 @@ export function HomeHero({
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
       <HeroEffect effect={heroBg?.effect ?? "stadium"} />
-      <div className="kixo-bg-pan pointer-events-none absolute -top-40 right-0 h-[600px] w-[700px] rounded-full bg-lime/10 blur-3xl" />
-      <div className="kixo-bg-pan pointer-events-none absolute bottom-0 left-0 h-[300px] w-[500px] rounded-full bg-lime/5 blur-3xl" style={{ animationDelay: "-7s" }} />
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1.05fr_1fr] lg:py-24">
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">

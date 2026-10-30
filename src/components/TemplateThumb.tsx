@@ -3,13 +3,14 @@
 import { BannerCanvas } from "./BannerCanvas";
 import { SAMPLE_INPUTS, type ClientTemplate } from "@/lib/samples";
 import { DEFAULT_DESIGN } from "@/lib/templates";
+import { thumb } from "@/lib/thumb";
 
 /** Live preview of a template with sample text and the procedural background. */
 export function TemplateThumb({ template }: { template: ClientTemplate }) {
   if (template.thumbUrl)
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={template.thumbUrl} alt={template.name} loading="lazy" className="block aspect-[4/5] w-full object-cover" />
+      <img src={thumb(template.thumbUrl, 420)} alt={template.name} loading="lazy" className="block aspect-[4/5] w-full object-cover" />
     );
   return (
     <BannerCanvas

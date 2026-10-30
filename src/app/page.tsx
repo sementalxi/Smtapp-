@@ -2,13 +2,14 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
-import { getNumberSetting, getSettings } from "@/lib/settings";
+import { getSettings } from "@/lib/settings";
 import { PricingCards } from "@/components/PricingCards";
 import { HomeHero } from "@/components/HomeHero";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { DealsSection, type PublicDeal } from "@/components/DealsSection";
 import { db } from "@/lib/db";
 import type { ClientTemplate } from "@/lib/samples";
+import { thumb } from "@/lib/thumb";
 
 export default async function Home() {
   const user = await getCurrentUser().catch(() => null);
@@ -20,16 +21,20 @@ export default async function Home() {
   let partners: { id: string; name: string; logoUrl: string | null }[] = [];
   let deals: PublicDeal[] = [];
   try {
-    const st = await getSettings();
+    const now = new Date();
+    // All home-page data in parallel.
+    const [st, tpls, dealRows, partnerRows] = await Promise.all([
+      getSettings(),
+      activeTemplates(),
+      db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 }),
+      db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } }),
+    ]);
     heroImgs = [st.hero_1, st.hero_2, st.hero_3].filter(Boolean);
     heroBg = { mode: st.hero_bg_mode, video: st.hero_video, opacity: Number(st.hero_video_opacity) || 70, effect: st.hero_effect };
-    templates = await activeTemplates();
-    bonus = await getNumberSetting("signup_credits");
-    const now = new Date();
-    deals = (
-      await db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 })
-    ).map((x) => ({ id: x.id, title: x.title, subtitle: x.subtitle, price: x.price || (x.priceUsd ? `$${x.priceUsd.toFixed(2)}` : ""), buyable: !!(x.priceUsd && x.credits > 0), tags: x.tags, included: x.included, imageUrl: x.imageUrl, ctaLabel: x.ctaLabel, ctaHref: x.ctaHref, endsAt: x.endsAt ? x.endsAt.toISOString() : null }));
-    partners = await db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } });
+    templates = tpls;
+    bonus = Number(st.signup_credits) || 0;
+    deals = dealRows.map((x) => ({ id: x.id, title: x.title, subtitle: x.subtitle, price: x.price || (x.priceUsd ? `$${x.priceUsd.toFixed(2)}` : ""), buyable: !!(x.priceUsd && x.credits > 0), tags: x.tags, included: x.included, imageUrl: x.imageUrl, ctaLabel: x.ctaLabel, ctaHref: x.ctaHref, endsAt: x.endsAt ? x.endsAt.toISOString() : null }));
+    partners = partnerRows;
   } catch {
     /* DB not ready */
   }
@@ -77,7 +82,7 @@ export default async function Home() {
                   className="group relative overflow-hidden rounded-2xl border border-line transition hover:-translate-y-1 hover:border-lime hover:shadow-[0_20px_50px_-20px] hover:shadow-lime/40"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={tpl.thumbUrl!} alt={tpl.name} loading="lazy" className="kixo-grade block aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-110" />
+                  <img src={thumb(tpl.thumbUrl, 480)} alt={tpl.name} loading="lazy" decoding="async" className="kixo-grade block aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-110" />
                   <span className="kixo-card-scan" aria-hidden />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pt-10 pb-3">
                     <div className="text-sm font-extrabold uppercase tracking-wide">{locale === "es" ? tpl.nameEs : tpl.name}</div>
@@ -123,7 +128,7 @@ export default async function Home() {
                     <div key={`${p.id}-${k}`} className="group flex w-28 shrink-0 flex-col items-center gap-2 sm:w-32">
                       {p.logoUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={p.logoUrl} alt={p.name} loading="lazy" className="h-16 w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 sm:h-20" />
+                        <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="h-16 w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 sm:h-20" />
                       ) : (
                         <div className="grid h-16 w-16 place-items-center rounded-2xl bg-panel-2 text-2xl font-extrabold sm:h-20 sm:w-20">{p.name[0]}</div>
                       )}
@@ -138,7 +143,7 @@ export default async function Home() {
                 <div key={p.id} className="group flex w-28 flex-col items-center gap-2 sm:w-32">
                   {p.logoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={p.logoUrl} alt={p.name} loading="lazy" className="h-16 w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 sm:h-20" />
+                    <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="h-16 w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 sm:h-20" />
                   ) : (
                     <div className="grid h-16 w-16 place-items-center rounded-2xl bg-panel-2 text-2xl font-extrabold sm:h-20 sm:w-20">{p.name[0]}</div>
                   )}
