@@ -89,19 +89,19 @@ export function HomeHero({
         </div>
 
         {/* Right: poster fan + phone mockup */}
-        <div className="relative mx-auto h-[440px] w-full max-w-[520px] sm:h-[560px]">
+        <div className="relative mx-auto h-[380px] w-full max-w-[340px] sm:h-[560px] sm:max-w-[520px]">
           {(posters.length ? posters : tplPosters.map((x) => x.id)).map((key, i, arr) => {
-            const pos = arr.length === 1 ? [{ l: 14, t: 2, r: 0 }] : [
-              { l: 0, t: 10, r: -9 },
-              { l: 22, t: 0, r: 3 },
-              { l: 40, t: 14, r: 10 },
+            const pos = arr.length === 1 ? [{ l: 18, t: 2, r: 0 }] : [
+              { l: 6, t: 10, r: -8 },
+              { l: 22, t: 0, r: 2 },
+              { l: 38, t: 12, r: 8 },
             ];
             const p = pos[i] ?? pos[0];
             const tpl = tplPosters.find((x) => x.id === key);
             return (
               <div
                 key={key}
-                className="absolute w-[62%] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/70"
+                className="absolute w-[56%] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/70 sm:w-[62%]"
                 style={{ left: `${p.l}%`, top: `${p.t}%`, transform: `rotate(${p.r}deg)`, zIndex: i === 1 ? 3 : 2 }}
               >
                 {tpl ? (
@@ -115,7 +115,7 @@ export function HomeHero({
           })}
 
           {/* Phone */}
-          <div className="absolute right-0 bottom-0 z-10 w-[46%] max-w-[230px] rotate-[6deg] rounded-[2.2rem] border-[6px] border-[#1d2029] bg-[#0b0d12] p-3 shadow-[0_30px_80px_-10px_rgba(0,0,0,0.9),0_0_60px_-20px_rgba(62,224,255,0.5)]">
+          <div className="absolute right-1 bottom-0 z-10 w-[40%] max-w-[230px] rotate-[6deg] rounded-[1.8rem] border-[5px] border-[#1d2029] bg-[#0b0d12] p-2.5 sm:right-0 sm:w-[46%] sm:rounded-[2.2rem] sm:border-[6px] sm:p-3 shadow-[0_30px_80px_-10px_rgba(0,0,0,0.9),0_0_60px_-20px_rgba(62,224,255,0.5)]">
             <div className="mx-auto mb-3 h-4 w-16 rounded-full bg-black" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/kixo-logo.png" alt="KIXO" className="mx-auto mb-3 h-5 w-auto" />
