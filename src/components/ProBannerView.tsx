@@ -32,7 +32,7 @@ export function ProBannerView({
   /** Admins can set this poster as a style's sample image. */
   admin?: { templateId: string; templates: { id: string; name: string }[] };
 }) {
-  const { t } = useT();
+  const { t, locale } = useT();
   const router = useRouter();
   const [url, setUrl] = useState(imageUrl);
   const [inputs, setInputs] = useState(initial);
@@ -57,7 +57,11 @@ export function ProBannerView({
       router.refresh();
     } else {
       const known: DictKey[] = ["err_credits", "err_blocked"];
-      setError(t(known.includes(data.error) ? data.error : "err_generic") + (data.detail ? ` — ${data.detail}` : ""));
+      setError(
+        (data.error === "err_photo_blocked"
+          ? "⚠ " + (locale === "es" ? "El filtro de seguridad rechazó la foto de este póster (créditos devueltos)." : "The AI's safety filter rejected this poster's photo (credits refunded).")
+          : t(known.includes(data.error) ? data.error : "err_generic")) + (data.detail ? ` — ${data.detail}` : ""),
+      );
     }
     setBusy(false);
   }

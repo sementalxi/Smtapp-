@@ -72,6 +72,10 @@ export function TeamSetForm({
       setError(
         data.error === "err_credits"
           ? es ? "No tienes créditos suficientes." : "You don't have enough credits."
+          : data.error === "err_photo_blocked"
+            ? (es ? "El filtro de seguridad de la IA rechazó esta FOTO (créditos devueltos). Usa otra foto." : "The AI's safety filter rejected this PHOTO (credits refunded). Use a different photo.") + (data.detail ? ` — ${data.detail}` : "")
+          : data.error === "err_blocked"
+            ? (es ? "El filtro de seguridad de la IA bloqueó esta tarjeta (créditos devueltos). Prueba con otra foto." : "The AI's safety filter blocked this card (credits refunded). Try a different photo.") + (data.detail ? ` — ${data.detail}` : "")
           : (es ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : ""),
       );
       setPhase("error");

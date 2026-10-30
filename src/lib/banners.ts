@@ -490,7 +490,27 @@ export async function generateProForBanner(opts: {
       images.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
     }
     const quality = (await getSettings()).pro_quality;
-    let poster = await generatePoster(opts.prompt, images, quality);
+    let poster: Buffer;
+    try {
+      poster = await generatePoster(opts.prompt, images, quality);
+    } catch (e) {
+      const m = e instanceof Error ? e.message : String(e);
+      // Still blocked after the text retries: one of the extra images (style reference, logo, trophy)
+      // may be what the filter dislikes — try once more with only the first image (the photo).
+      if (!/moderation_blocked|safety system/i.test(m)) throw e;
+      if (images.length <= 1) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m}`);
+      const onlyFirst = opts.prompt
+        .split("\n\n")
+        .filter((sec) => !/^Reference image (?!1 )\d+ is /.test(sec.trim()))
+        .join("\n\n");
+      try {
+        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality);
+      } catch (e2) {
+        const m2 = e2 instanceof Error ? e2.message : String(e2);
+        if (/moderation_blocked|safety system/i.test(m2)) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m2}`);
+        throw e2;
+      }
+    }
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {
       const logos: { bytes: Buffer; corner: "tl" | "tr" }[] = [];

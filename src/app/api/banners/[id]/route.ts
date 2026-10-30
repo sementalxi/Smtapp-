@@ -21,7 +21,7 @@ export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
   const { id } = await params;
   const b = await ownBanner(id, user.id, user.role === "ADMIN");
   const err = b.error ?? "";
-  const error = !err ? null : err === "err_credits" ? "err_credits" : /moderation|safety system|err_blocked/i.test(err) ? "err_blocked" : "err_generic";
+  const error = !err ? null : err === "err_credits" ? "err_credits" : /PHOTO_BLOCKED/.test(err) ? "err_photo_blocked" : /moderation|safety system|err_blocked/i.test(err) ? "err_blocked" : "err_generic";
   return json({
     status: b.status,
     finalUrl: b.finalUrl,

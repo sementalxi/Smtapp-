@@ -311,6 +311,10 @@ export function CreateWizard({
       const msg =
         data.error === "err_credits"
           ? L.needCredits
+          : data.error === "err_photo_blocked"
+            ? (locale === "es"
+                ? "El filtro de seguridad de la IA rechazó esta FOTO (no se cobraron créditos). Usa otra foto: una persona adulta, con ropa, sin armas — las fotos de famosos a veces se rechazan."
+                : "The AI's safety filter rejected this PHOTO (no credits were charged). Use a different photo: an adult, fully clothed, no weapons — photos of famous people are sometimes refused.") + (data.detail ? ` — ${data.detail}` : "")
           : data.error === "err_blocked"
             ? (locale === "es"
                 ? "El filtro de seguridad de la IA bloqueó este póster (no se cobraron créditos). Prueba con otra foto o cambia palabras fuertes en el texto."
