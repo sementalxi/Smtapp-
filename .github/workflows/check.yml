@@ -10,10 +10,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      - name: use main's code
+        run: git fetch origin main && git checkout origin/main -- src prisma package.json public next.config.ts tsconfig.json postcss.config.mjs 2>/dev/null || git checkout origin/main -- src prisma package.json public
       - run: npm install --no-audit --no-fund
       - run: npx prisma generate
       - name: typecheck
         run: mkdir -p ci && (npx tsc --noEmit > ci/typecheck.txt 2>&1; echo "exit $?" >> ci/typecheck.txt)
+      - name: build
+        run: (DATABASE_URL="postgresql://u:p@localhost:5432/db" SESSION_SECRET=ci-check-secret-ci-check-secret-1234 npx next build > ci/build.txt 2>&1; echo "exit $?" >> ci/build.txt); tail -60 ci/build.txt > ci/build-tail.txt
       - name: live pages
         run: |
           exec > ci/live.txt 2>&1
