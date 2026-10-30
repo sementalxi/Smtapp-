@@ -41,9 +41,12 @@ const getCfg = (kind: string, id: string) => {
 let preloaded = false;
 /** Warm up the payment form in the background (called when buy buttons appear). */
 export function preloadSquarePay(kind: string, id: string) {
-  getCfg(kind, id).then((c) => c.inline && loadSquare(!!c.sandbox).catch(() => {}));
-  if (preloaded) return;
-  preloaded = true;
+  getCfg(kind, id).then((c) => {
+    if (c.inline && !preloaded) {
+      preloaded = true;
+      loadSquare(!!c.sandbox).catch(() => {});
+    }
+  });
 }
 
 /** On-page checkout popup: card form by Square, charged without leaving KIXO. */
