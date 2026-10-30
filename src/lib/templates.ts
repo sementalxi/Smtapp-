@@ -234,7 +234,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "PLAYER",
     sort: 4,
     prompt:
-      "royal purple baroque ornaments, violet lightning storm, golden light flare, stadium spotlights, purple clouds and mist, luxurious dark atmosphere",
+      "epic royal throne-room arena in deep purple and gold: towering baroque gold ornaments and pillars, a violent violet lightning storm cracking across a dark sky, golden light beams and lens flares, floating gold particles and shattered amethyst crystal shards flying toward the camera, swirling purple smoke, stadium floodlights far behind, luxurious, powerful, dramatic",
     style: {
       primary: "#8b3dff",
       accent: "#d9a6ff",
