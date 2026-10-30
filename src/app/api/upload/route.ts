@@ -4,7 +4,6 @@ import { handle, json } from "@/lib/api";
 import { saveFile, sniffImage } from "@/lib/storage";
 import { getNumberSetting } from "@/lib/settings";
 import { rateLimit } from "@/lib/ratelimit";
-import { imageBlockedReason } from "@/lib/moderation";
 
 // Uploads a photo or logo. Returns { url }.
 export const POST = handle(async (req: NextRequest) => {
@@ -21,10 +20,6 @@ export const POST = handle(async (req: NextRequest) => {
   const buf = Buffer.from(await file.arrayBuffer());
   const type = sniffImage(buf);
   if (!type) throw new HttpError(415, "unsupported_type");
-
-  // Refuse images the AI would block anyway (sexual, graphic violence…), right away.
-  const blocked = await imageBlockedReason(buf);
-  if (blocked) return json({ error: "unsafe_image", category: blocked }, 422);
 
   const kind = form.get("kind") === "logo" ? "logos" : "photos";
   try {
