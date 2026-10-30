@@ -89,7 +89,7 @@ export function HomeHero({
         </div>
 
         {/* Right: poster fan */}
-        <div className="relative mx-auto h-[400px] w-full max-w-[360px] sm:h-[560px] sm:max-w-[520px]">
+        <div className="relative mx-auto h-[310px] w-full max-w-[360px] sm:h-[520px] sm:max-w-[520px]">
           {(posters.length ? posters : tplPosters.map((x) => x.id)).map((key, i, arr) => {
             const pos = arr.length === 1 ? [{ l: 20, t: 4, r: 0 }] : [
               { l: 4, t: 10, r: -8 },
