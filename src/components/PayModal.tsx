@@ -62,6 +62,7 @@ export function PayModal({
   const cash = useRef<SqCashApp | null>(null);
   const [wallets, setWallets] = useState({ apple: false, google: false, cash: false });
   const amountRef = useRef("0");
+  const [adminNote, setAdminNote] = useState("");
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -105,8 +106,8 @@ export function PayModal({
             const ap = await payments.applePay(req);
             apple.current = ap;
             if (alive) setWallets((w) => ({ ...w, apple: true }));
-          } catch {
-            /* not Safari / not set up */
+          } catch (e) {
+            if (cfg.applePay !== undefined) setAdminNote(`Apple Pay: ${e instanceof Error ? e.message : String(e)} · domain: ${cfg.applePay}`);
           }
           try {
             const gp = await payments.googlePay(req);
@@ -272,6 +273,7 @@ export function PayModal({
               {!ready && !err && <div className="p-6 text-center text-xs text-muted">{es ? "Cargando formulario seguro…" : "Loading secure form…"}</div>}
             </div>
             {err && <p className="text-sm text-danger">{err}</p>}
+            {adminNote && <p className="rounded-lg border border-line p-2 text-[10px] text-muted">🛠 {adminNote}</p>}
             <button type="button" className="btn-primary kixo-shine w-full py-3.5 text-base" disabled={!ready || busy} onClick={() => pay()}>
               {busy ? (es ? "Procesando…" : "Processing…") : `🔒 ${es ? "Pagar" : "Pay"} ${price}`}
             </button>

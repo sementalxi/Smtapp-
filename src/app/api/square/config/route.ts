@@ -6,21 +6,27 @@ import { findPack, findPlan, loadPricing } from "@/lib/pricing";
 import { locationId, sq, squareConfigured } from "@/lib/square";
 
 /** Registers this site for Apple Pay with Square once per domain (needs the .well-known file we serve). */
-async function ensureApplePayDomain(host: string) {
-  if (process.env.SQUARE_ENV?.trim() === "sandbox" || !host || host.startsWith("localhost")) return;
+async function ensureApplePayDomain(host: string): Promise<string> {
+  if (process.env.SQUARE_ENV?.trim() === "sandbox") return "sandbox: Apple Pay needs production";
+  if (!host || host.startsWith("localhost")) return "local";
   const key = `applepay_domain_${host}`;
-  if (await db.setting.findUnique({ where: { key } })) return;
+  const row = await db.setting.findUnique({ where: { key } });
+  if (row?.value === "ok") return "ok";
   try {
-    await sq("/apple-pay/domains", { body: { domain_name: host } });
-    await db.setting.upsert({ where: { key }, create: { key, value: "ok" }, update: { value: "ok" } });
+    const r = await sq<{ status?: string }>("/apple-pay/domains", { body: { domain_name: host } });
+    const v = r.status === "VERIFIED" || !r.status ? "ok" : `status ${r.status}`;
+    await db.setting.upsert({ where: { key }, create: { key, value: v }, update: { value: v } });
+    return v;
   } catch (e) {
-    console.warn("apple pay domain registration failed", e instanceof Error ? e.message : e);
+    const msg = e instanceof Error ? e.message : String(e);
+    await db.setting.upsert({ where: { key }, create: { key, value: msg.slice(0, 300) }, update: { value: msg.slice(0, 300) } });
+    return msg;
   }
 }
 
 /** Public Square IDs + the exact amount the on-page payment popup needs. */
 export const GET = handle(async (req: NextRequest) => {
-  await apiUser();
+  const user = await apiUser();
   const appId = process.env.SQUARE_APPLICATION_ID?.trim();
   if (!squareConfigured() || !appId) return json({ inline: false });
   await loadPricing();
@@ -30,6 +36,6 @@ export const GET = handle(async (req: NextRequest) => {
   if (kind === "pack") amount = findPack(id)?.priceUsd ?? 0;
   else if (kind === "plan") amount = findPlan(id)?.priceUsd ?? 0;
   else if (kind === "deal") amount = (await db.deal.findUnique({ where: { id }, select: { priceUsd: true } }))?.priceUsd ?? 0;
-  await ensureApplePayDomain(req.headers.get("x-forwarded-host") ?? req.nextUrl.host);
-  return json({ inline: true, appId, locationId: await locationId(), sandbox: process.env.SQUARE_ENV?.trim() === "sandbox", amount: amount.toFixed(2) });
+  const applePay = await ensureApplePayDomain(req.headers.get("x-forwarded-host") ?? req.nextUrl.host);
+  return json({ inline: true, ...(user.role === "ADMIN" ? { applePay } : {}), appId, locationId: await locationId(), sandbox: process.env.SQUARE_ENV?.trim() === "sandbox", amount: amount.toFixed(2) });
 });
