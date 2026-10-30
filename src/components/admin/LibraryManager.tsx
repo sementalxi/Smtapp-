@@ -47,7 +47,6 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
   const kinds: [Item["kind"], string][] = [
     ["championship", es ? "🏆 Ligas / torneos" : "🏆 Leagues / competitions"],
     ["team", es ? "🛡️ Equipos" : "🛡️ Teams"],
-    ["partner", es ? "🤝 Organizaciones" : "🤝 Organizations"],
   ];
 
   return (
@@ -81,10 +80,10 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
           {msg && <span className="text-sm">{msg}</span>}
         </div>
         <p className="text-xs text-muted">
-          {kind === "partner"
+          {kind === "championship"
             ? es
-              ? "Las organizaciones aparecen abajo en la página principal en “Confían en KIXO”. Mejor un PNG con fondo transparente."
-              : "Organizations show at the bottom of the home page under “Trusted by”. A PNG with a transparent background works best."
+              ? "Las ligas también aparecen abajo en la página principal en “Confían en KIXO”. Mejor un PNG con fondo transparente."
+              : "Leagues also show at the bottom of the home page under “Trusted by”. A PNG with a transparent background works best."
             : es
               ? "Mejor un PNG con fondo transparente."
               : "A PNG with a transparent background works best."}

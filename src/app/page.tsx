@@ -21,7 +21,7 @@ export default async function Home() {
     heroImgs = [st.hero_1, st.hero_2, st.hero_3].filter(Boolean);
     templates = await activeTemplates();
     bonus = await getNumberSetting("signup_credits");
-    partners = await db.libraryItem.findMany({ where: { kind: "partner" }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } });
+    partners = await db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } });
   } catch {
     /* DB not ready */
   }
