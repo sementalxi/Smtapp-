@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { db } from "@/lib/db";
 import { stripe, webhookSecret } from "@/lib/stripe";
 import { grantOnce } from "@/lib/credits";
+import { rewardReferrer } from "@/lib/referral";
 import { findPack, planFromPrice, loadPricing } from "@/lib/pricing";
 
 // Stripe sends events here. Configure the endpoint in the Stripe dashboard with:
@@ -70,6 +71,7 @@ async function onCheckoutCompleted(s: Stripe.Checkout.Session) {
       externalRef: `cs_${s.id}`,
     });
     if (granted) {
+      await rewardReferrer(userId);
       await db.payment.upsert({
         where: { stripeRef: s.id },
         create: {
@@ -123,6 +125,7 @@ async function onInvoicePaid(inv: Stripe.Invoice) {
     externalRef: `in_${inv.id}`,
   });
   if (granted) {
+    await rewardReferrer(userId);
     await db.payment.upsert({
       where: { stripeRef: inv.id ?? `in_${Date.now()}` },
       create: {

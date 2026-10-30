@@ -31,6 +31,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />
       </div>
       <div>
+        <label className="label">{es ? "Créditos por invitar (cuando el invitado paga)" : "Invite reward credits (when the invited friend pays)"}</label>
+        <input type="number" min={0} className="input" value={v.referral_reward} onChange={(e) => setV({ ...v, referral_reward: e.target.value })} />
+      </div>
+      <div>
         <label className="label">{t("pro_cost_label")}</label>
         <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
       </div>

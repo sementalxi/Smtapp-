@@ -19,6 +19,7 @@ enum TxType {
   GENERATION
   REFUND
   ADMIN_ADJUST
+  REFERRAL
 }
 
 enum BannerStatus {
@@ -50,6 +51,8 @@ model User {
   subscriptionStatus String?
   planId             String?
   currentPeriodEnd   DateTime?
+  refCode            String?             @unique // personal invite code
+  referredById       String? // who invited this user
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   transactions       CreditTransaction[] @relation("UserTx")

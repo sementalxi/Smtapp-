@@ -7,6 +7,7 @@ import { reapStale } from "@/lib/banners";
 import { getNumberSetting } from "@/lib/settings";
 import { ART_TYPES } from "@/lib/pro-options";
 import { visibleCategories } from "@/lib/categories";
+import { AccountShell } from "@/components/account/AccountShell";
 
 export const metadata = { title: "Home" };
 
@@ -37,7 +38,8 @@ export default async function DashboardPage() {
   const subscribed = !!user.subscriptionId && user.subscriptionStatus !== "canceled";
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
+    <AccountShell user={user}>
+    <div>
       <h1 className="text-3xl font-extrabold">
         {es ? `¡Hola, ${first}!` : `Hello, ${first}!`}
       </h1>
@@ -142,5 +144,6 @@ export default async function DashboardPage() {
         <div className="card p-10 text-center text-sm text-muted">{t("dash_empty")}</div>
       )}
     </div>
+    </AccountShell>
   );
 }

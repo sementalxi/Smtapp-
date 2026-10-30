@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { grantOnce } from "@/lib/credits";
+import { rewardReferrer } from "@/lib/referral";
 import { findPack, findPlan, loadPricing } from "@/lib/pricing";
 import { planFromVariation, sq, squareWebhookConfig, verifySquareSignature } from "@/lib/square";
 
@@ -55,6 +56,7 @@ async function grantPlanMonth(userId: string, planId: string, amountCents: numbe
     externalRef: `sq_plan_${userId}_${monthKey()}`,
   });
   if (granted) {
+    await rewardReferrer(userId);
     await db.payment.upsert({
       where: { stripeRef: ref },
       create: { userId, stripeRef: ref, kind: "subscription", productId: plan.id, amountCents, currency: "usd", credits: plan.monthlyCredits },
@@ -80,6 +82,7 @@ async function onPayment(p: SqPayment | undefined) {
       externalRef: `sq_pay_${p.id}`,
     });
     if (granted) {
+      await rewardReferrer(co.userId);
       await db.payment.upsert({
         where: { stripeRef: `sq_${p.id}` },
         create: { userId: co.userId, stripeRef: `sq_${p.id}`, kind: "pack", productId: co.productId, amountCents, currency: "usd", credits },

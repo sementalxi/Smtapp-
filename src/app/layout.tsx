@@ -4,6 +4,7 @@ import { fontVariables } from "./fonts";
 import { getLocale } from "@/i18n/server";
 import { I18nProvider } from "@/i18n/client";
 import { Header } from "@/components/Header";
+import { RefCapture } from "@/components/RefCapture";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
 
@@ -27,6 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="antialiased">
         <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
           {notice && <div className="bg-lime px-4 py-2 text-center text-sm font-bold text-ink">{notice}</div>}
+          <RefCapture />
           <Header />
           <main>{children}</main>
           <footer className="mt-24 border-t border-line py-8 text-center text-xs text-muted">

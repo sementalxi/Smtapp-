@@ -8,6 +8,7 @@ const TYPE_STYLE: Record<string, string> = {
   GENERATION: "text-muted",
   REFUND: "text-amber-300",
   ADMIN_ADJUST: "text-fuchsia-300",
+  REFERRAL: "text-teal",
 };
 
 const TYPE_LABEL: Record<string, [string, string]> = {
@@ -17,6 +18,7 @@ const TYPE_LABEL: Record<string, [string, string]> = {
   GENERATION: ["Generation", "Generación"],
   REFUND: ["Refund", "Reembolso"],
   ADMIN_ADJUST: ["Admin adjustment", "Ajuste del admin"],
+  REFERRAL: ["Invite reward", "Premio por invitar"],
 };
 
 // Notes the system writes, translated for Spanish readers.

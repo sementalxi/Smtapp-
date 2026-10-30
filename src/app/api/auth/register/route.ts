@@ -8,6 +8,7 @@ import { signSession, SESSION_COOKIE, sessionCookieOptions } from "@/lib/session
 import { getNumberSetting } from "@/lib/settings";
 import { changeCredits } from "@/lib/credits";
 import { rateLimit } from "@/lib/ratelimit";
+import { REF_COOKIE } from "@/lib/referral";
 
 const Body = z.object({
   name: z.string().trim().min(1).max(60),
@@ -23,6 +24,10 @@ export const POST = handle(async (req: NextRequest) => {
     return json({ error: "err_exists" }, 409);
   }
 
+  // Invited by a friend? (?ref=CODE link → cookie)
+  const refCode = req.cookies.get(REF_COOKIE)?.value?.trim().toUpperCase();
+  const referrer = refCode && /^[A-Z0-9]{4,12}$/.test(refCode) ? await db.user.findUnique({ where: { refCode }, select: { id: true } }) : null;
+
   const user = await db.user.create({
     data: {
       name: body.name,
@@ -31,6 +36,7 @@ export const POST = handle(async (req: NextRequest) => {
       // ADMIN_EMAILS get admin; if there's no admin yet, the first account becomes admin.
       role: isAdminEmail(body.email) || (await db.user.count({ where: { role: "ADMIN" } })) === 0 ? "ADMIN" : "USER",
       locale: req.cookies.get("bf_lang")?.value === "en" ? "en" : "es",
+      referredById: referrer?.id ?? null,
     },
   });
 
@@ -38,6 +44,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (bonus > 0) await changeCredits({ userId: user.id, amount: bonus, type: "SIGNUP_BONUS", note: "Welcome bonus" });
 
   const res = json({ ok: true });
+  if (referrer) res.cookies.delete(REF_COOKIE);
   res.cookies.set(SESSION_COOKIE, await signSession(user.id), sessionCookieOptions);
   return res;
 });
