@@ -48,6 +48,9 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
           admin={
             user.role === "ADMIN"
               ? {
+                  prompt: banner.prompt,
+                  hasInstructions: !!banner.template.proInstructions?.trim(),
+                  templateName: banner.template.name,
                   templateId: banner.templateId,
                   templates: (await db.template.findMany({ orderBy: [{ layout: "asc" }, { sort: "asc" }], select: { id: true, name: true, layout: true } })).map((x) => ({
                     id: x.id,

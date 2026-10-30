@@ -30,7 +30,7 @@ export function ProBannerView({
   credits: number;
   title: string;
   /** Admins can set this poster as a style's sample image. */
-  admin?: { templateId: string; templates: { id: string; name: string }[] };
+  admin?: { templateId: string; templates: { id: string; name: string }[]; prompt?: string | null; hasInstructions?: boolean; templateName?: string };
 }) {
   const { t, locale } = useT();
   const router = useRouter();
@@ -97,6 +97,27 @@ export function ProBannerView({
           </div>
         )}
         {admin && url && <SampleSetter bannerId={id} admin={admin} />}
+        {admin && (
+          <details className="mt-3 rounded-xl border border-dashed border-line p-3 text-xs">
+            <summary className="cursor-pointer font-bold uppercase tracking-wider text-muted">
+              {locale === "es" ? "Admin · ver lo que se le pidió a la IA" : "Admin · see what the AI was asked"}
+            </summary>
+            <p className={`mt-2 ${admin.hasInstructions ? "text-lime" : "text-amber-200"}`}>
+              {admin.hasInstructions
+                ? locale === "es"
+                  ? `✅ El estilo “${admin.templateName}” tiene tus instrucciones de diseño — van primero en el pedido.`
+                  : `✅ The “${admin.templateName}” style has your design instructions — they go first in the brief.`
+                : locale === "es"
+                  ? `⚠ El estilo “${admin.templateName}” NO tiene instrucciones de diseño. Agrégalas en Admin → Estilos para ese estilo.`
+                  : `⚠ The “${admin.templateName}” style has NO design instructions. Add them in Admin → Styles for that style.`}
+            </p>
+            {admin.prompt ? (
+              <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-ink p-3 text-[11px] leading-relaxed text-muted">{admin.prompt}</pre>
+            ) : (
+              <p className="mt-2 text-muted">{locale === "es" ? "Este póster se hizo antes de guardar los pedidos." : "This poster was made before briefs were saved."}</p>
+            )}
+          </details>
+        )}
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         <p className="mt-2 text-xs text-muted">{t("pro_note")}</p>
       </div>

@@ -474,10 +474,15 @@ export function buildProPrompt(opts: {
   // A style with admin design instructions: those describe the whole design; the built-in layout recipe is skipped.
   const adminLed = !!opts.instructions?.trim();
   const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", RESULT: "full-time result", EVENT: "tournament / event" }[layout] ?? "sports";
+  const directorBlock =
+    opts.instructions?.trim()
+      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
+      : "";
   return [
     `Design a finished, high-end vertical sports social-media poster (4:5).`,
+    directorBlock,
     adminLed
-      ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS below — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
+      ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
       : composition,
     `Visual style (base${(i.colorMode === "custom" && i.color1) || v.palette ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
     colourLine(i, style, v),
@@ -486,25 +491,27 @@ export function buildProPrompt(opts: {
       : "",
     opts.series
       ? `TEAM SET: this card belongs to a matching set for the whole team. Copy the design of the first card (reference image) as closely as possible — same background, colours, layout, fonts and effects — so all cards look like one series. Only the player and the player's text change.`
+      : randomize && adminLed
+      ? `Make this poster feel fresh (variation #${v.seed}) with new small details, but keep the layout, concept and style the art director defined.`
       : randomize
       ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif};${adminLed ? "" : ` composition: ${v.composition};`} lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style${adminLed ? " without changing the layout the art director defined" : ""}; invent fresh details rather than a generic template.`
       : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
-    opts.instructions?.trim()
-      ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
-      : "",
     adminLed ? "" : typeFx,
     typo,
     i.extraPrompt ? `Extra direction from the user: ${i.extraPrompt}.` : "",
     ...refText,
     logoRule,
-    champsEnergy,
-    `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind${i.extraPrompt ? " unless the user's extra direction explicitly asks for one" : ""} — this overrides any other instruction.`,
+    adminLed ? "" : champsEnergy,
+    `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
-    `REALISM: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
+    `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     `Keep ${exactLogos ? "one of the bottom corners" : "at least one corner of the poster"} calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
     i.aiCopy === "on"
       ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
+      : "",
+    adminLed
+      ? `FINAL REMINDER: the layout, composition, figures, style and effects must follow the ART DIRECTOR'S DESIGN INSTRUCTIONS at the top of this brief.`
       : "",
     `Only write the text items listed above${i.aiCopy === "on" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
   ]
@@ -568,7 +575,7 @@ export async function generateProForBanner(opts: {
     const out = await stampLogo(poster, avoid);
     const url = await saveFile("banners", out, "image/png");
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
-    const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url } });
+    const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url, prompt: opts.prompt.slice(0, 40000) } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: true, regenerate: opts.regenerate, image: out });
     return updated;

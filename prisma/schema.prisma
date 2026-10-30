@@ -104,6 +104,8 @@ model Template {
 
 model Banner {
   id            String       @id @default(cuid())
+  // The exact brief sent to the AI (admins can view it on the poster page)
+  prompt        String?
   userId        String
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   templateId    String
