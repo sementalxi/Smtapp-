@@ -65,3 +65,18 @@ body {
 input[type="range"] {
   accent-color: var(--color-lime);
 }
+
+/* Generation progress: scanning light + bar shimmer */
+@keyframes kixo-scan {
+  0% { top: -6rem; }
+  100% { top: 100%; }
+}
+.kixo-scan { animation: kixo-scan 2.6s linear infinite; }
+@keyframes kixo-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.kixo-shimmer { animation: kixo-shimmer 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .kixo-scan, .kixo-shimmer { animation: none; }
+}

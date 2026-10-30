@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import { EMPTY_INPUTS } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
 import { DownloadSizes } from "../DownloadSizes";
+import { GenerationProgress } from "../GenerationProgress";
 
 /** Team set: next player card with the same design as an earlier card. */
 export function TeamSetForm({
@@ -28,14 +29,6 @@ export function TeamSetForm({
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
   const [made, setMade] = useState(0);
-  const [secs, setSecs] = useState(0);
-
-  useEffect(() => {
-    if (phase !== "busy") return;
-    setSecs(0);
-    const t = setInterval(() => setSecs((s) => s + 1), 1000);
-    return () => clearInterval(t);
-  }, [phase]);
 
   const field = (k: keyof typeof f, label: string, max: number, req = false, ph = "") => (
     <div>
@@ -129,11 +122,7 @@ export function TeamSetForm({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="h-full w-full object-cover" />
             ) : phase === "busy" ? (
-              <div className="p-6 text-center">
-                <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-lime border-t-transparent" />
-                <p className="mt-4 text-sm text-lime">{es ? "Creando la tarjeta…" : "Making the card…"} {secs}s</p>
-                <p className="mt-1 text-xs text-muted">{es ? "Tarda 1–2 minutos. No cierres esta página." : "Takes 1–2 minutes. Keep this page open."}</p>
-              </div>
+              <GenerationProgress photo={photo} expectedSeconds={100} />
             ) : (
               <div className="p-6 text-center text-sm text-muted">
                 {phase === "error" ? <span className="text-danger">{error}</span> : es ? "Aquí aparecerá la tarjeta." : "The card will appear here."}

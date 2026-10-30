@@ -10,6 +10,7 @@ import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
 import { DownloadSizes } from "../DownloadSizes";
+import { GenerationProgress } from "../GenerationProgress";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
 const FONT_VAR: Record<string, string> = {
@@ -189,22 +190,12 @@ export function CreateWizard({
 
   const [credits, setCredits] = useState(initialCredits);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
-  const [stage, setStage] = useState(0);
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
 
   useEffect(() => {
     if (!styles.some((s) => s.id === tplId)) setTplId(styles[0]?.id ?? null);
   }, [styles, tplId]);
-
-  // Fake-but-honest progress: advances through the stages while the AI works.
-  useEffect(() => {
-    if (phase !== "busy") return;
-    setStage(0);
-    const marks = [6, 30, 55, 80];
-    const timers = marks.map((s, i) => setTimeout(() => setStage(i + 1), s * 1000));
-    return () => timers.forEach(clearTimeout);
-  }, [phase]);
 
   const art = ART_TYPES.find((a) => a.layout === layout)!;
   const artName = locale === "es" ? art.es.name : art.en.name;
@@ -294,7 +285,6 @@ export function CreateWizard({
     if (res.ok && data.id) {
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
-      setStage(5);
       setPhase("done");
     } else {
       const msg =
@@ -802,40 +792,35 @@ export function CreateWizard({
             {phase === "done" && result?.url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="block aspect-[4/5] w-full object-cover" />
+            ) : phase === "busy" ? (
+              <GenerationProgress photo={photo} expectedSeconds={100} />
             ) : (
-              <div className="grid aspect-[4/5] place-items-center p-8">
-                <div className="w-full max-w-xs">
-                  {L.stages.map((s, i) => {
-                    const done = phase === "busy" ? i < stage : phase === "done";
-                    const active = phase === "busy" && i === stage;
-                    return (
-                      <div key={s} className="flex items-center gap-3 py-1.5 text-sm">
-                        <span
-                          className={`grid h-5 w-5 place-items-center rounded-full ${
-                            done ? "bg-lime text-[10px] text-ink" : active ? "animate-spin border-2 border-lime border-t-transparent" : "border border-line"
-                          }`}
-                        >
-                          {done ? "✓" : ""}
-                        </span>
-                        <span className={done || active ? "text-lime" : "text-muted"}>{s}</span>
-                      </div>
-                    );
-                  })}
-                  {phase === "busy" && <p className="mt-6 text-center text-xs text-muted">{L.wait}</p>}
-                  {phase === "idle" && (
-                    <button type="button" className="btn-primary mt-6 w-full py-3" disabled={credits < cost} onClick={generate}>
-                      ✨ {L.generate} · {cost} {locale === "es" ? "créditos" : "credits"}
-                    </button>
-                  )}
-                  {phase === "error" && (
-                    <>
-                      <p className="mt-6 text-center text-sm text-danger">{error}</p>
-                      <button type="button" className="btn-primary mt-4 w-full" disabled={credits < cost} onClick={generate}>
-                        ↻ {L.generate}
-                      </button>
-                    </>
-                  )}
-                  {credits < cost && phase !== "busy" && (
+              <div className="relative grid aspect-[4/5] place-items-center overflow-hidden p-8">
+                {photo && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photo} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-2xl" />
+                )}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(62,224,255,0.14),transparent_65%)]" />
+                <div className="relative w-full max-w-xs text-center">
+                  <div className="mx-auto grid h-20 w-20 place-items-center rounded-2xl border border-lime/40 bg-lime/10 text-4xl shadow-[0_0_60px_-10px] shadow-lime/50">
+                    {phase === "error" ? "⚠️" : art.icon}
+                  </div>
+                  <div className="font-display mt-5 text-3xl">
+                    {phase === "error" ? (locale === "es" ? "No se pudo crear" : "Couldn't create it") : locale === "es" ? "Todo listo" : "Ready to create"}
+                  </div>
+                  <div className="mt-3 flex flex-wrap justify-center gap-1.5 text-[11px]">
+                    <span className="chip text-muted">{artName}</span>
+                    {tpl && <span className="chip text-muted">{locale === "es" ? tpl.nameEs : tpl.name}</span>}
+                    <span className="chip border-lime/40 text-lime">
+                      {cost} {locale === "es" ? "créditos" : "credits"}
+                    </span>
+                  </div>
+                  {phase === "error" && <p className="mt-4 text-sm text-danger">{error}</p>}
+                  <button type="button" className="btn-primary mt-6 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
+                    {phase === "error" ? "↻" : "✨"} {L.generate}
+                  </button>
+                  <p className="mt-2 text-[11px] text-muted">{locale === "es" ? "Tarda 1–2 minutos" : "Takes 1–2 minutes"}</p>
+                  {credits < cost && (
                     <Link href="/pricing" className="btn-ghost mt-3 w-full">{L.getCredits}</Link>
                   )}
                 </div>
