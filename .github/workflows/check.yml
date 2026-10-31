@@ -25,6 +25,7 @@ jobs:
           for p in / /login /register /pricing /dashboard /create /admin /api/banners /api/image-search?q=messi /api/files/db/none /.well-known/apple-developer-merchantid-domain-association; do
             printf "%-28s " "$p"; curl -s -o /dev/null -w "%{http_code} %{time_total}s\n" --max-time 30 "https://smtapp-ten.vercel.app$p"
           done
+          echo "--- health"; curl -s --max-time 30 https://smtapp-ten.vercel.app/api/health; echo
           echo "--- POST api checks (expect 401/400)"
           curl -s -X POST -H 'content-type: application/json' -d '{}' https://smtapp-ten.vercel.app/api/ai-text; echo
           curl -s -X POST -H 'content-type: application/json' -d '{}' https://smtapp-ten.vercel.app/api/upload/from-url; echo
