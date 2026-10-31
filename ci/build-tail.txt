@@ -1,60 +1,44 @@
-├ ƒ /api/admin/studio                                             257 B         103 kB
-├ ƒ /api/admin/templates                                          257 B         103 kB
-├ ƒ /api/admin/templates/[id]                                     257 B         103 kB
-├ ƒ /api/admin/templates/[id]/thumb                               257 B         103 kB
-├ ƒ /api/admin/templates/arrange                                  257 B         103 kB
-├ ƒ /api/admin/texts                                              257 B         103 kB
-├ ƒ /api/admin/users/[id]                                         257 B         103 kB
-├ ƒ /api/admin/users/[id]/credits                                 257 B         103 kB
-├ ƒ /api/admin/users/gift                                         257 B         103 kB
-├ ƒ /api/ai-text                                                  257 B         103 kB
-├ ƒ /api/auth/login                                               257 B         103 kB
-├ ƒ /api/auth/logout                                              257 B         103 kB
-├ ƒ /api/auth/phone                                               257 B         103 kB
-├ ƒ /api/auth/register                                            257 B         103 kB
-├ ƒ /api/banners                                                  257 B         103 kB
-├ ƒ /api/banners/[id]                                             257 B         103 kB
-├ ƒ /api/banners/[id]/background                                  257 B         103 kB
-├ ƒ /api/banners/[id]/edit                                        257 B         103 kB
-├ ƒ /api/banners/[id]/final                                       257 B         103 kB
-├ ƒ /api/files/[...key]                                           257 B         103 kB
-├ ƒ /api/health                                                   257 B         103 kB
-├ ƒ /api/image-search                                             257 B         103 kB
-├ ƒ /api/locale                                                   257 B         103 kB
-├ ƒ /api/saved                                                    257 B         103 kB
-├ ƒ /api/saved/[id]                                               257 B         103 kB
-├ ƒ /api/square/cancel                                            257 B         103 kB
-├ ƒ /api/square/config                                            257 B         103 kB
-├ ƒ /api/square/pay                                               257 B         103 kB
-├ ƒ /api/square/webhook                                           257 B         103 kB
-├ ƒ /api/stripe/checkout                                          257 B         103 kB
-├ ƒ /api/stripe/portal                                            257 B         103 kB
-├ ƒ /api/stripe/webhook                                           257 B         103 kB
-├ ƒ /api/thumb                                                    257 B         103 kB
-├ ƒ /api/upload                                                   257 B         103 kB
-├ ƒ /api/upload/from-url                                          257 B         103 kB
-├ ○ /apple-icon.png                                                 0 B            0 B
-├ ƒ /banner/[id]                                                 9.9 kB         139 kB
-├ ƒ /billing                                                      405 B         117 kB
-├ ƒ /create                                                     16.5 kB         146 kB
-├ ƒ /credits                                                    1.27 kB         107 kB
-├ ƒ /dashboard                                                  1.23 kB         121 kB
-├ ƒ /history                                                    1.23 kB         121 kB
-├ ○ /icon.png                                                       0 B            0 B
-├ ƒ /invite                                                     1.82 kB         108 kB
-├ ƒ /login                                                        128 B         114 kB
-├ ƒ /pricing                                                      162 B         114 kB
-├ ƒ /profile                                                    8.87 kB         115 kB
-└ ƒ /register                                                     128 B         114 kB
-+ First Load JS shared by all                                    103 kB
-  ├ chunks/1255-dc3ddf72a1dc71a7.js                             46.6 kB
-  ├ chunks/4bd1b696-f785427dddbba9fb.js                         54.2 kB
-  └ other shared chunks (total)                                 1.93 kB
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   ▲ Next.js 15.5.28
+   - Experiments (use with caution):
+     · serverActions
+
+   Creating an optimized production build ...
+Failed to compile.
+
+src/app/fonts.ts
+An error occurred in `next/font`.
+
+TypeError: Cannot read properties of null (reading '1')
+    at /home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/compiled/@next/font/dist/google/loader.js:122:78
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Promise.all (index 1)
+    at async nextFontGoogleFontLoader (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/compiled/@next/font/dist/google/loader.js:104:33)
+    at async Span.traceAsyncFn (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/trace/trace.js:157:20)
+    at async /home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:84:87
+    at async Span.traceAsyncFn (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/trace/trace.js:157:20)
+
+src/app/fonts.ts
+An error occurred in `next/font`.
+
+TypeError: Cannot read properties of null (reading '1')
+    at /home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/compiled/@next/font/dist/google/loader.js:122:78
+    at Array.map (<anonymous>)
+    at nextFontGoogleFontLoader (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/compiled/@next/font/dist/google/loader.js:104:61)
+    at /home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:84:155
+    at Span.traceAsyncFn (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/trace/trace.js:157:26)
+    at /home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:84:138
+    at Span.traceAsyncFn (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/trace/trace.js:157:26)
+    at Object.nextFontLoader (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js:23:31)
+    at LOADER_EXECUTION (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:4134)
+    at runSyncOrAsync (/home/runner/work/Smtapp-/Smtapp-/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:4145)
 
 
-ƒ Middleware                                                    39.6 kB
-
-○  (Static)   prerendered as static content
-ƒ  (Dynamic)  server-rendered on demand
-
+> Build failed because of webpack errors
+build failed
 done
