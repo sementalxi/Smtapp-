@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { put, del } from "@vercel/blob";
 
 export const dynamic = "force-dynamic";
 
@@ -20,5 +21,16 @@ export async function GET() {
     out.error = msg.replace(/postgres(ql)?:\/\/\S+/g, "[db-url]").split("\n").filter(Boolean).slice(-3).join(" ").slice(0, 400);
     out.code = (e as { code?: string }).code;
   }
+  // Can we save a public file to Vercel Blob? (writes and deletes a tiny test file)
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const b = await put(`health/check-${Date.now()}.txt`, "ok", { access: "public", addRandomSuffix: true });
+      out.blobWrite = "ok";
+      await del(b.url).catch(() => {});
+    } catch (e) {
+      out.blobWrite = (e instanceof Error ? e.message : String(e)).slice(0, 200);
+    }
+  }
+  out.blobVars = Object.keys(process.env).filter((k) => /BLOB/.test(k)).sort();
   return NextResponse.json(out, { status: out.ok ? 200 : 500 });
 }
