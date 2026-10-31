@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 /** Quick status check: can the site reach its database? (no secrets in the output) */
 export async function GET() {
-  const out: Record<string, unknown> = { ok: true, blob: !!process.env.BLOB_READ_WRITE_TOKEN };
+  const out: Record<string, unknown> = { ok: true, blob: !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) };
   try {
     const t = Date.now();
     await db.$queryRaw`SELECT 1`;
@@ -22,7 +22,7 @@ export async function GET() {
     out.code = (e as { code?: string }).code;
   }
   // Can we save a public file to Vercel Blob? (writes and deletes a tiny test file)
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) {
     try {
       const b = await put(`health/check-${Date.now()}.txt`, "ok", { access: "public", addRandomSuffix: true });
       out.blobWrite = "ok";
