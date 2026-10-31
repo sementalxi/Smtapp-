@@ -14,6 +14,11 @@ jobs:
         run: git fetch origin main && git checkout origin/main -- src prisma package.json public next.config.ts tsconfig.json postcss.config.mjs 2>/dev/null || git checkout origin/main -- src prisma package.json public
       - run: npm install --no-audit --no-fund
       - run: npx prisma generate
+      - name: blobcheck
+        continue-on-error: true
+        run: |
+          mkdir -p ci /tmp/bc && cd /tmp/bc && npm init -y >/dev/null && npm i @vercel/blob@latest >/dev/null 2>&1
+          { echo "version: $(node -p "require('@vercel/blob/package.json').version")"; grep -rhoE "VERCEL_OIDC_TOKEN|BLOB_STORE_ID|x-vercel-oidc[a-z-]*|getVercelOidcToken" node_modules/@vercel/blob/dist | sort | uniq -c; grep -rhoE "access: *['\"](public|private)['\"]|access must be [^\"']*" node_modules/@vercel/blob/dist | sort | uniq -c | head; } > $GITHUB_WORKSPACE/ci/blobcheck.txt 2>&1
       - name: typecheck
         run: mkdir -p ci && (npx tsc --noEmit > ci/typecheck.txt 2>&1; echo "exit $?" >> ci/typecheck.txt)
       - name: build
