@@ -34,7 +34,7 @@ function client() {
 const driver = () =>
   process.env.STORAGE_DRIVER === "s3"
     ? "s3"
-    : process.env.BLOB_READ_WRITE_TOKEN
+    : process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID
       ? "blob"
       : process.env.NODE_ENV === "production"
         ? "db"

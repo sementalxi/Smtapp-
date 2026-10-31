@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 
 /** Gives the admin's browser a one-time token to upload a background video straight to Vercel Blob. */
 export async function POST(req: NextRequest) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return NextResponse.json({ error: "no_blob" }, { status: 400 });
+  if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) return NextResponse.json({ error: "no_blob" }, { status: 400 });
   const body = (await req.json()) as HandleUploadBody;
   try {
     const res = await handleUpload({
