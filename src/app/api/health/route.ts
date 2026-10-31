@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 /** Quick status check: can the site reach its database? (no secrets in the output) */
 export async function GET() {
-  const out: Record<string, unknown> = { ok: true };
+  const out: Record<string, unknown> = { ok: true, blob: !!process.env.BLOB_READ_WRITE_TOKEN };
   try {
     const t = Date.now();
     await db.$queryRaw`SELECT 1`;

@@ -1,18 +1,18 @@
 kixo.pro 200
 www.kixo.pro 200
-/                            200 0.277829s
-/login                       200 0.176136s
-/register                    200 0.212843s
-/pricing                     200 0.214344s
-/dashboard                   307 0.161248s
-/create                      307 0.175538s
-/admin                       307 0.133409s
-/api/banners                 405 0.723433s
-/api/image-search?q=messi    401 0.374112s
-/api/files/db/none           404 0.452007s
-/.well-known/apple-developer-merchantid-domain-association 200 0.183857s
+/                            200 0.237367s
+/login                       200 0.216736s
+/register                    200 0.210453s
+/pricing                     200 0.203648s
+/dashboard                   307 0.146280s
+/create                      307 0.099726s
+/admin                       307 0.126280s
+/api/banners                 405 0.740309s
+/api/image-search?q=messi    401 0.403251s
+/api/files/db/none           404 0.492648s
+/.well-known/apple-developer-merchantid-domain-association 200 0.267040s
 --- health
-{"ok":true,"dbMs":6,"users":6,"dbSize":"151 MB","storedFiles":180}
+{"ok":true,"blob":false,"dbMs":5,"users":6,"dbSize":"157 MB","storedFiles":184}
 --- POST api checks (expect 401/400)
 {"error":"unauthorized"}
 {"error":"unauthorized"}
