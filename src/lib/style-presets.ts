@@ -24,7 +24,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (logo/trophy placement, where the headline sits). No invented people or players — only the person from an uploaded photo, if one is given. This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -51,7 +51,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (logo/trophy placement, where the headline sits). No invented people or players — only the person from an uploaded photo, if one is given. This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -60,7 +60,7 @@ PRO FLYER LOOK (this is what makes it high-end, not cheap)
 SCENE
 - A huge esports arena: giant LED screens, cyan and magenta laser beams, haze, glowing stage floor with reflections, crowd silhouettes holding phone lights.
 - Holographic HUD details (thin lines, brackets, scan lines) framing the poster — subtle, never covering the text.
-- If a player photo is given: the player in front with a strong cyan/magenta rim light, plus a large faded holographic version behind.
+- If a player photo is given: that person once, with a strong cyan/magenta rim light. Never invent people.
 
 LETTERING
 - HEADLINE: huge futuristic 3D letters in glossy chrome with neon cyan edges and a magenta glow, slight glitch/RGB split on the edges.
@@ -78,7 +78,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (logo/trophy placement, where the headline sits). No invented people or players — only the person from an uploaded photo, if one is given. This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -105,7 +105,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (logo/trophy placement, where the headline sits). No invented people or players — only the person from an uploaded photo, if one is given. This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -113,7 +113,7 @@ PRO FLYER LOOK (this is what makes it high-end, not cheap)
 
 SCENE
 - A street football cage at night under orange sodium street lights: chain-link fence, graffiti-covered concrete walls, puddles reflecting the lights, smoke and flying sparks.
-- If a player photo is given: the player in front with a hard orange rim light; otherwise a ball smashing into the fence as the hero.
+- If a player photo is given: that person once, with a hard orange rim light; otherwise a ball smashing into the fence. Never invent people.
 - Gritty textures: spray-paint drips, stencil marks, torn paper posters, halftone dots — but keep the main texts clean and readable.
 
 LETTERING
@@ -132,7 +132,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (logo/trophy placement, where the headline sits). No invented people or players — only the person from an uploaded photo, if one is given. This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -253,7 +253,7 @@ PRO FLYER LOOK (this is what makes it high-end, not cheap)
 SCENE
 - A huge esports arena: giant LED screens, cyan and magenta laser beams, haze, glowing stage floor with reflections, crowd silhouettes holding phone lights.
 - Holographic HUD details (thin lines, brackets, scan lines) framing the poster — subtle, never covering the text.
-- If a player photo is given: the player in front with a strong cyan/magenta rim light, plus a large faded holographic version behind.
+- If a player photo is given: that person once, with a strong cyan/magenta rim light. Never invent people.
 
 LETTERING
 - HEADLINE: huge futuristic 3D letters in glossy chrome with neon cyan edges and a magenta glow, slight glitch/RGB split on the edges.
@@ -306,7 +306,7 @@ PRO FLYER LOOK (this is what makes it high-end, not cheap)
 
 SCENE
 - A street football cage at night under orange sodium street lights: chain-link fence, graffiti-covered concrete walls, puddles reflecting the lights, smoke and flying sparks.
-- If a player photo is given: the player in front with a hard orange rim light; otherwise a ball smashing into the fence as the hero.
+- If a player photo is given: that person once, with a hard orange rim light; otherwise a ball smashing into the fence. Never invent people.
 - Gritty textures: spray-paint drips, stencil marks, torn paper posters, halftone dots — but keep the main texts clean and readable.
 
 LETTERING

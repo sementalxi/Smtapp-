@@ -293,15 +293,14 @@ export function collectProRefs(opts: {
  * and the quality bar of a top tournament design studio.
  */
 function eventDirection(seed: number, hasPhoto: boolean, hasLogo: boolean) {
-  const hero = hasPhoto
-    ? "the person from the uploaded photo"
-    : "an ORIGINAL athlete created by you (a generic pro football / esports player in a plain kit with no real club badges, not a real or famous person, face partly in dramatic shadow)";
+  // No invented people: only the uploaded photo's person may appear.
+  const person = hasPhoto ? " The person from the uploaded photo appears once, cut out and rim-lit, to one side of the centrepiece." : " NO people, players, athletes, faces or silhouettes anywhere on the poster.";
   const logo = hasLogo ? "the provided league/team logo as a big glossy 3D emblem" : "a large glossy 3D trophy";
   const layouts = [
-    `FACE-OFF: ${hero} on one side and a second original rival athlete on the other, facing each other, big and cropped at the waist, rim-lit in two contrasting colours; ${logo} glowing between and above their heads; the headline across the bottom third in front of both, the prize below it.`,
-    `HERO STRIKE: ${hero} in a powerful action pose (striking a ball or celebrating with arms out) bursting toward the camera from the middle, the ball or shockwave exploding with energy and debris; ${logo} at the top; the headline behind the athlete's legs and partly hidden by them, the prize in front at the bottom.`,
-    `TROPHY ALTAR: ${logo} on a tall glowing pedestal in the centre, blasted by vertical light beams; ${hero} large and dark-silhouetted on one side, looking up at it; the headline in an arc or angle over the bottom, the prize as a heavy 3D plate on the pedestal.`,
-    `MONUMENT: ${logo} turned into a HUGE monument filling the upper half, like a colossal metal sculpture in the stadium with smoke at its base; ${hero} small-to-medium in front, walking toward the camera; the headline as a massive 3D word across the middle, overlapping the base of the monument, the prize glowing below.`,
+    `EMBLEM HERO: ${logo} big in the upper half, floating, with a polished metal rim, deep reflections and a glowing energy ring behind it; light beams fanning out behind; the headline as a massive 3D word across the middle, slightly overlapping the bottom of the emblem; the prize huge and glossy below; the date on a sleek ribbon at the bottom.${person}`,
+    `SHATTER BURST: ${logo} in the centre breaking through a wall of shattering glass/crystal, shards flying toward the camera, an energy shockwave ring around it; the headline angled across the lower third with shards passing in front of the letters; the prize below; the date on an angled light bar.${person}`,
+    `PEDESTAL: ${logo} standing on a tall dark glossy pedestal in the centre, hit by vertical spotlights and smoke rolling around the base; the headline arcing over the bottom of the pedestal; the prize engraved as a heavy gold 3D plate on the pedestal front; the date at the very bottom.${person}`,
+    `MONUMENT: ${logo} turned into a HUGE sculpture filling the upper half, like colossal metal art standing in the stadium, smoke and sparks at its base; the headline as a massive 3D word across the middle overlapping the sculpture's base; the prize glowing below; the date on a ribbon.${person}`,
   ];
   const typeLooks = [
     "headline in thick brushed-chrome 3D letters with a coloured bevel and a hard drop shadow",
@@ -312,8 +311,8 @@ function eventDirection(seed: number, hasPhoto: boolean, hasLogo: boolean) {
   const n = Math.abs(seed);
   return [
     `EVENT FLYER — LAYOUT FOR THIS POSTER (follow it unless the art director's instructions above define a different layout): ${layouts[n % layouts.length]}`,
-    `TYPOGRAPHY LOOK: ${typeLooks[(n >> 2) % typeLooks.length]}; the event title in a contrasting cleaner style, the accent line in a hand-written brush script, the prize as a premium 3D element. All texts form ONE designed lock-up that interacts with the hero (overlapping, angled, mixed sizes) — never a plain stack of centred lines.`,
-    `QUALITY BAR: like a flyer from a top esports / tournament design studio. Real photographic lighting and materials, deep layering (environment → giant faded echo of the headline or logo → hero figures → lettering → foreground sparks, smoke and debris crossing over the letters), a cinematic colour grade, and NO big empty dark areas. The date/time sits on a sleek integrated ribbon or light bar that belongs to the scene (not a flat app-style box). Every text item is written completely — never cut, cropped or abbreviated.`,
+    `TYPOGRAPHY LOOK: ${typeLooks[(n >> 2) % typeLooks.length]}; the event title in a contrasting cleaner style, the accent line in a hand-written brush script, the prize as a premium 3D element. All texts form ONE designed lock-up that interacts with the centrepiece (overlapping, angled, mixed sizes) — never a plain stack of centred lines.`,
+    `QUALITY BAR: like a flyer from a top esports / tournament design studio. Real photographic lighting and materials, deep layering (environment → giant faded echo of the headline or logo → centrepiece → lettering → foreground sparks, smoke and debris crossing over the letters), a cinematic colour grade, and NO big empty dark areas. The date/time sits on a sleek integrated ribbon or light bar that belongs to the scene (not a flat app-style box). Every text item is written completely — never cut, cropped or abbreviated.`,
   ].join("\n");
 }
 
