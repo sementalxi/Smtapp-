@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/client";
 import { BuyButton } from "./BuyButton";
+import { thumb } from "@/lib/thumb";
 
 export interface PublicDeal {
   id: string;
@@ -73,17 +74,15 @@ export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[];
           const tags = d.tags.split(",").map((x) => x.trim()).filter(Boolean);
           const items = d.included.split("\n").map((x) => x.trim()).filter(Boolean);
           return (
-            <div
-              key={d.id}
-              data-reveal
-              data-reveal-delay={(n % 3) * 100}
-              className={`group overflow-hidden rounded-2xl border bg-gradient-to-b from-panel-2 to-panel transition ${isOpen ? "border-gold/60 shadow-[0_20px_60px_-25px_rgba(183,255,69,0.45)]" : "border-line hover:-translate-y-1 hover:border-lime/60"}`}
-            >
+            <div key={d.id} data-reveal data-reveal-delay={(n % 3) * 100} className="deal-hot group relative rounded-2xl p-[2px] transition hover:-translate-y-1">
+              <span className="deal-hot-badge">🔥 {es ? "OFERTA" : "HOT DEAL"}</span>
+              <div className="relative overflow-hidden rounded-[14px] bg-gradient-to-b from-panel-2 to-panel">
+              <span className="deal-hot-shine" aria-hidden />
               <button type="button" onClick={() => setOpen(isOpen ? null : d.id)} className="block w-full text-left">
                 <div className="relative">
                   {d.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={d.imageUrl} alt="" loading="lazy" className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
+                    <img src={thumb(d.imageUrl, 900)} alt="" loading="lazy" decoding="async" className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
                   ) : (
                     <div className="grid aspect-[16/9] w-full place-items-center bg-[radial-gradient(circle_at_50%_40%,rgba(183,255,69,0.25),transparent_70%)]">
                       <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-lime text-3xl text-ink shadow-[0_0_40px_-6px] shadow-lime">
@@ -146,6 +145,7 @@ export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[];
                   )}
                 </div>
               )}
+              </div>
             </div>
           );
         })}

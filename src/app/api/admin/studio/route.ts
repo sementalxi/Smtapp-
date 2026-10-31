@@ -32,6 +32,8 @@ export const POST = handle(async (req: NextRequest) => {
   b.images.forEach((i) => assertOwnUrl(i.url));
   if (!process.env.OPENAI_API_KEY?.trim()) throw new HttpError(400, "OPENAI_API_KEY is not set");
 
+  // Old finished jobs aren't needed (the result is in "Recent").
+  db.setting.deleteMany({ where: { key: { startsWith: "studio_job_" }, NOT: { value: { contains: "PENDING" } } } }).catch(() => {});
   const id = randomUUID();
   const save = (j: Job) => db.setting.upsert({ where: { key: key(id) }, create: { key: key(id), value: JSON.stringify(j) }, update: { value: JSON.stringify(j) } });
   await save({ status: "PENDING", at: Date.now() });

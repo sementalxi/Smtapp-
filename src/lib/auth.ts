@@ -1,16 +1,18 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { db } from "./db";
 import { SESSION_COOKIE, verifySession } from "./session";
 
-export async function getCurrentUser() {
+/** The logged-in user (memoized per render, so the header and the page share one lookup). */
+export const getCurrentUser = cache(async () => {
   const store = await cookies();
   const userId = await verifySession(store.get(SESSION_COOKIE)?.value);
   if (!userId) return null;
   const user = await db.user.findUnique({ where: { id: userId } });
   if (!user || user.banned) return null;
   return user;
-}
+});
 
 export type CurrentUser = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
 

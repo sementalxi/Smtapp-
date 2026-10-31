@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useT } from "@/i18n/client";
-import { PayModal } from "./PayModal";
+import { PayModal, preloadSquarePay } from "./PayModal";
 
 export function BuyButton({
   kind,
@@ -30,6 +30,12 @@ export function BuyButton({
   const es = locale === "es";
 
   const [modal, setModal] = useState(false);
+  // Warm up the payment form in the background so the popup opens instantly.
+  useEffect(() => {
+    if (!checkout || !id || !loggedIn || !(kind === "pack" || kind === "plan" || kind === "deal")) return;
+    const t = setTimeout(() => preloadSquarePay(kind, id), 1200);
+    return () => clearTimeout(t);
+  }, [checkout, id, kind, loggedIn]);
   // Back from the Cash App: reopen the same popup so the payment can finish.
   useEffect(() => {
     if (!checkout || !id) return;

@@ -163,9 +163,8 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 /* ============ Cinematic layer ============ */
 /* Film grain + vignette over the whole site */
 .kixo-grain {
-  pointer-events: none; position: fixed; inset: -50%; z-index: 60; opacity: 0.07; mix-blend-mode: overlay;
+  pointer-events: none; position: fixed; inset: 0; z-index: 60; opacity: 0.045;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: kixo-grain 0.9s steps(6) infinite;
 }
 @keyframes kixo-grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-4%, 3%); } 40% { transform: translate(3%, -5%); } 60% { transform: translate(-6%, -2%); } 80% { transform: translate(5%, 4%); } 100% { transform: translate(0, 0); } }
 .kixo-vignette { pointer-events: none; position: fixed; inset: 0; z-index: 59; background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%); }
@@ -182,7 +181,7 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 @keyframes kixo-beam { 0%, 100% { transform: rotate(-16deg); opacity: 0.55; } 50% { transform: rotate(14deg); opacity: 1; } }
 
 /* Drifting fog */
-.kixo-fog { position: absolute; pointer-events: none; border-radius: 9999px; filter: blur(60px); animation: kixo-fog 18s ease-in-out infinite; }
+.kixo-fog { position: absolute; pointer-events: none; border-radius: 9999px; filter: blur(60px); animation: kixo-fog 18s ease-in-out infinite; will-change: transform; }
 @keyframes kixo-fog { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(8%, -6%, 0) scale(1.15); } }
 
 /* AI scan line sweeping down the hero */
@@ -247,3 +246,24 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 @media (prefers-reduced-motion: reduce) {
   .fx-smoke, .fx-ember, .fx-heat, .fx-flash, .fx-bolt, .fx-rain, .fx-streak, .fx-grid, .fx-star, .fx-aurora, .fx-confetti { animation: none !important; }
 }
+
+/* ============ Deal cards: red animated border that grabs attention ============ */
+@property --deal-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.deal-hot {
+  background: conic-gradient(from var(--deal-angle), #ff1f3d, #ff6a3d 15%, #3a0a10 30%, #ff1f3d 50%, #ff8a3d 65%, #3a0a10 80%, #ff1f3d);
+  animation: deal-spin 3.5s linear infinite, deal-pulse 2.2s ease-in-out infinite;
+}
+@keyframes deal-spin { to { --deal-angle: 360deg; } }
+@keyframes deal-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 31, 61, 0.55), 0 10px 40px -12px rgba(255, 31, 61, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 31, 61, 0), 0 16px 60px -10px rgba(255, 31, 61, 0.85); }
+}
+.deal-hot-badge {
+  position: absolute; z-index: 5; top: -10px; left: 14px; padding: 3px 10px; border-radius: 9999px;
+  background: linear-gradient(90deg, #ff1f3d, #ff6a3d); color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 0.12em;
+  box-shadow: 0 4px 16px rgba(255, 31, 61, 0.6); animation: deal-badge 1.4s ease-in-out infinite;
+}
+@keyframes deal-badge { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.08) rotate(2deg); } }
+.deal-hot-shine { pointer-events: none; position: absolute; inset: 0; z-index: 4; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.18) 50%, transparent 65%); background-size: 250% 100%; animation: deal-shine 3.2s ease-in-out infinite; }
+@keyframes deal-shine { 0%, 50% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@media (prefers-reduced-motion: reduce) { .deal-hot, .deal-hot-badge, .deal-hot-shine { animation: none; } }
