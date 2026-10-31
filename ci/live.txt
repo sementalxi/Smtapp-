@@ -1,18 +1,18 @@
 kixo.pro 200
 www.kixo.pro 200
-/                            200 0.346174s
-/login                       200 0.213659s
-/register                    200 0.229099s
-/pricing                     200 0.264144s
-/dashboard                   307 0.256159s
-/create                      307 0.153093s
-/admin                       307 0.157435s
-/api/banners                 405 0.927820s
-/api/image-search?q=messi    401 0.422079s
-/api/files/db/none           404 0.598604s
-/.well-known/apple-developer-merchantid-domain-association 200 0.284274s
+/                            200 0.232488s
+/login                       200 0.192945s
+/register                    200 0.149654s
+/pricing                     200 0.145705s
+/dashboard                   307 0.109807s
+/create                      307 0.076819s
+/admin                       307 0.060632s
+/api/banners                 405 0.687469s
+/api/image-search?q=messi    401 0.353599s
+/api/files/db/none           404 0.450439s
+/.well-known/apple-developer-merchantid-domain-association 200 0.226080s
 --- health
-{"ok":true,"blob":false,"dbMs":6,"users":6,"dbSize":"157 MB","storedFiles":184,"blobVars":["BLOB_STORE_ID","BLOB_WEBHOOK_PUBLIC_KEY"]}
+{"ok":true,"blob":false,"dbMs":4,"users":6,"dbSize":"157 MB","storedFiles":186,"blobVars":["BLOB_STORE_ID","BLOB_WEBHOOK_PUBLIC_KEY"]}
 --- POST api checks (expect 401/400)
 {"error":"unauthorized"}
 {"error":"unauthorized"}
