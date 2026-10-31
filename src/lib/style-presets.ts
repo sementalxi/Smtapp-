@@ -2,6 +2,105 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "tournament-night": `TOURNAMENT NIGHT — big final event poster, premium esports / pro-clubs social-media style, built to stop the scroll.
+
+SCENE
+- A packed stadium at night under a steel truss roof: red flares and smoke in the stands, flags waving, bokeh stadium lights, light haze over the pitch. Cinematic depth — never a flat or plain background.
+- A big glossy trophy (or the event logo if given) as the hero in the upper-middle, lit by a hard spotlight with lens flares and floating embers.
+
+LETTERING
+- HEADLINE: huge, wide, glossy 3D chrome letters with a red rim light and sharp reflections, slightly tilted for energy, filling the width.
+- Event title under it in bold condensed white letters with a thin red outline.
+- Accent line in a fiery hand-written brush script crossing the title.
+- PRIZE: giant 3D gold metallic numbers/text with sparkle, the second focal point, low in the frame.
+- Date & times at the very bottom in clean condensed letters.
+
+PALETTE: deep red, black, white and gold — unless a team logo is given, then build the palette from the logo colours.
+TEXT RULES
+- Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
+- Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
+- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+  "lightning-cup": `LIGHTNING CUP — electric tournament / free-entry event poster, ultra dramatic.
+
+SCENE
+- A dark stormy stadium at night: violent purple and white lightning bolts cracking across the sky and around the edges, storm clouds, rain-wet reflective ground.
+- A polished silver trophy (or the event logo if given) as the hero at the top centre, with a lightning-bolt emblem on it, lit from behind with electric glow.
+- Shattered glass and crystal shards flying toward the camera, gold sparks and purple energy particles.
+
+LETTERING
+- HEADLINE: enormous cracked-stone / chrome 3D letters with a purple electric outline and lightning running through them, spanning the full width.
+- Event title under it in heavy silver 3D letters with a violet glow.
+- Accent line in a gold hand-written brush script, slanted.
+- PRIZE: massive cracked gold 3D numbers/text (e.g. "$50") with shine — the second focal point.
+- Date & times in bold white letters with a thin dot divider.
+
+PALETTE: deep purple, electric violet, silver, gold and black.
+TEXT RULES
+- Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
+- Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
+- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+  "neon-arena": `NEON ARENA — esports tournament poster, futuristic and clean.
+
+SCENE
+- A huge esports arena: giant LED screens, cyan and magenta laser beams, haze, glowing stage floor with reflections, crowd silhouettes holding phone lights.
+- Holographic HUD details (thin lines, brackets, scan lines) framing the poster — subtle, never covering the text.
+- If a player photo is given: the player in front with a strong cyan/magenta rim light, plus a large faded holographic version behind.
+
+LETTERING
+- HEADLINE: huge futuristic 3D letters in glossy chrome with neon cyan edges and a magenta glow, slight glitch/RGB split on the edges.
+- Event title in clean bold tech font.
+- Accent line in a neon tube script (pink).
+- PRIZE: big glowing neon-outlined numbers with a soft bloom.
+- Date & times in thin wide-spaced tech letters with glowing dividers.
+
+PALETTE: black, cyan, magenta and white — unless a team logo is given, then use its colours as the neon colours.
+TEXT RULES
+- Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
+- Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
+- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+  "gold-showdown": `GOLD SHOWDOWN — luxury VIP tournament / cash prize poster.
+
+SCENE
+- A black-and-gold luxury arena: golden spotlights cutting through haze from above, polished black marble floor with mirror reflections, falling gold confetti and a few gold coins in the air.
+- A heavy gold trophy or crown (or the event logo if given) as the hero, glowing, centred.
+- Elegant gold art-deco frame lines and ornaments around the edges — thin and premium, not busy.
+
+LETTERING
+- HEADLINE: huge brushed-gold 3D letters with bevels and bright highlights, very premium.
+- Event title in elegant wide-spaced white serif or condensed caps.
+- Accent line in a fine gold signature script.
+- PRIZE: the biggest gold element after the headline — thick gold 3D numbers with diamond sparkle.
+- Date & times in small white caps with gold dividers.
+
+PALETTE: black, gold and white only.
+TEXT RULES
+- Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
+- Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
+- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+  "street-cup": `STREET CUP — underground street football / 1v1 cage tournament poster.
+
+SCENE
+- A street football cage at night under orange sodium street lights: chain-link fence, graffiti-covered concrete walls, puddles reflecting the lights, smoke and flying sparks.
+- If a player photo is given: the player in front with a hard orange rim light; otherwise a ball smashing into the fence as the hero.
+- Gritty textures: spray-paint drips, stencil marks, torn paper posters, halftone dots — but keep the main texts clean and readable.
+
+LETTERING
+- HEADLINE: massive spray-paint / bold graffiti-style 3D letters with drips and a thick black outline, slightly rotated.
+- Event title in heavy stencil letters.
+- Accent line in a white marker-pen script.
+- PRIZE: big chunky yellow/orange 3D numbers like a street sign or sticker.
+- Date & times in bold condensed letters on tape-like strips (no boxes or buttons).
+
+PALETTE: orange, yellow, black, concrete grey and white — unless a team logo is given, then use its colours.
+TEXT RULES
+- Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
+- Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
+- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
   inferno: `PLAYER CARD — premium editorial sports poster, magazine-cover quality.
 
 COLOURS — NO fixed colour: build the whole palette from the player's photo (kit colours) and the team logo. The main kit/logo colour becomes the background colour, its second colour the accents, plus cream/off-white and black. Only use red if the kit or logo is red.
