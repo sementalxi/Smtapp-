@@ -425,6 +425,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
       streaks: true,
     },
   },
+  {
+    slug: "grunge-cup",
+    name: "Grunge Cup",
+    nameEs: "Copa Grunge",
+    layout: "EVENT",
+    sort: 7,
+    prompt:
+      "layered torn paper and grunge poster textures, giant distressed lettering, halftone and scratches, stadium lights glowing through, glossy trophy hero",
+    style: {
+      primary: "#8b3dff",
+      accent: "#ffd23f",
+      dark: "#0d0518",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#f1e6ff", "#cfa8ff"],
+      fallback: ["#0d0518", "#3b1475", "#8b3dff"],
+      particles: "sparks",
+      ghost: false,
+      giantText: true,
+      streaks: true,
+    },
+  },
   ...[
     ["matchday-floodlights", "Floodlights", "Reflectores", "MATCHDAY", 9, "night stadium under blinding floodlights, blue haze and smoke, wet pitch reflections, crowd silhouettes, electric atmosphere", "#1f6bff", "#8fd3ff", "#020816", "anton", "snow"],
     ["matchday-derby", "Derby Fire", "Clásico en Llamas", "MATCHDAY", 10, "two halves split by a jagged lightning crack, red fire on one side and blue ice on the other, stadium behind, rivalry energy", "#e3102b", "#ffb347", "#120203", "anton", "embers"],

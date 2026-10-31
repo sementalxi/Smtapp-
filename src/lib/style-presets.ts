@@ -2,6 +2,30 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "grunge-cup": `[FIXED LAYOUT] GRUNGE CUP — premium esports / pro-clubs tournament flyer in a layered editorial grunge style. A trophy is the hero — NO people, players or faces.
+
+COLOURS
+- Monochrome-led: one strong main colour (taken from the league logo if given — otherwise deep violet/purple) with white and black, plus a gold accent on the logo and trophy details. Everything is colour-graded in that main colour.
+
+BACKGROUND (dense, never plain)
+- Many layers of torn and ripped paper, crumpled poster sheets, scratched metal and concrete textures, halftone dots, dust, grain and light leaks, all tinted in the main colour.
+- The HEADLINE repeated as a GIANT distressed background word running across the whole width at mid-height (bigger than the poster, cut off at both edges), with a scratched/printed texture and a faded colour — like old posters layered behind.
+- Stadium floodlight panels glowing in a corner, light flares and a few streaks. Small abstract tech marks (thin lines, crosshairs, corner ticks) — but no readable extra words.
+
+LAYOUT (top to bottom)
+1. TOP CENTRE: the league/event logo (if given) as a premium glossy 3D emblem with gold/chrome bevels and a soft glow, overlapping the top of the giant background word. If there is no logo, write the HEADLINE there as a bold 3D emblem-style wordmark with a chrome bevel.
+2. CENTRE: a big polished TROPHY CUP (silver or gold, real metal reflections, a strong rim light in the main colour) standing in front of the giant background word, cut out sharply, with sparks and glow around it — the trophy takes about 35–40% of the poster height.
+3. EVENT TITLE (if given): a thin, wide, outlined futuristic font in yellow/gold, letter-spaced, centred just under the trophy.
+4. TWO BIG COLUMNS side by side in tall condensed heavy italic sports letters (like a sports-magazine cover):
+   - LEFT column: the accent line written BIG over two lines in the main colour with a white highlight gradient (e.g. "INSCRIPCIÓN / GRATIS").
+   - RIGHT column: the PRIZE written BIG over two lines in white/silver chrome with a slight grunge texture (e.g. "PREMIO / $200" — use the prize text exactly as given).
+5. A full-width solid bar in the main colour with the DATE & TIME in white bold extended letters (e.g. "HORA: 9PM CDMX | 16 DE AGOSTO" — use the texts exactly as given, joined with " | ").
+6. The INFO LINE (if given) in small white bold letters centred under the bar.
+- Everything sits on the textured background; the lettering has crisp edges, a subtle inner gradient and a soft shadow, with a little paper texture over it.
+
+TEXT RULES
+- Use ONLY the texts given. Spell every word EXACTLY as written — never fix, translate, shorten or invent words; never add platform logos, sponsor names, websites or social handles.
+- Every item is written completely — never cut or abbreviated (except the giant faded background word, which runs off both edges by design).`,
   "tournament-night": `TOURNAMENT NIGHT — big final event poster, premium esports / pro-clubs social-media style, built to stop the scroll.
 
 SCENE

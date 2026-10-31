@@ -21,7 +21,7 @@ export const InputsSchema = z.object({
   number: str(4),
   tagline: str(30),
   subtitle: str(40),
-  footer: str(48),
+  footer: str(120),
   headline: str(30),
   eventName: str(48),
   roster: z.array(z.string().trim().max(30)).max(30).default([]),
@@ -292,7 +292,7 @@ export function collectProRefs(opts: {
  * Event flyers: a strong layout chosen per poster (so they don't all look the same), an athlete hero,
  * and the quality bar of a top tournament design studio.
  */
-function eventDirection(seed: number, hasPhoto: boolean, hasLogo: boolean) {
+function eventDirection(seed: number, fixedLayout: boolean, hasPhoto: boolean, hasLogo: boolean) {
   // No invented people: only the uploaded photo's person may appear.
   const person = hasPhoto ? " The person from the uploaded photo appears once, cut out and rim-lit, to one side of the centrepiece." : " NO people, players, athletes, faces or silhouettes anywhere on the poster.";
   const logo = hasLogo ? "the provided league/team logo as a big glossy 3D emblem" : "a large glossy 3D trophy";
@@ -309,6 +309,8 @@ function eventDirection(seed: number, hasPhoto: boolean, hasLogo: boolean) {
     "headline in cracked stone / concrete 3D letters with fire or energy glowing through the cracks",
   ];
   const n = Math.abs(seed);
+  if (fixedLayout)
+    return `QUALITY BAR: like a flyer from a top esports / tournament design studio — follow the art director's FIXED LAYOUT exactly. Real lighting and materials, deep layering, rich textures, a cinematic colour grade, and NO big empty areas. Every text item is written completely — never cut, cropped or abbreviated.${hasPhoto ? "" : " NO people, players, faces or silhouettes."}`;
   return [
     `EVENT FLYER — LAYOUT FOR THIS POSTER (follow it unless the art director's instructions above define a different layout): ${layouts[n % layouts.length]}`,
     `TYPOGRAPHY LOOK: ${typeLooks[(n >> 2) % typeLooks.length]}; the event title in a contrasting cleaner style, the accent line in a hand-written brush script, the prize as a premium 3D element. All texts form ONE designed lock-up that interacts with the centrepiece (overlapping, angled, mixed sizes) — never a plain stack of centred lines.`,
@@ -541,7 +543,7 @@ export function buildProPrompt(opts: {
     ...refText,
     logoRule,
     adminLed ? "" : champsEnergy,
-    layout === "EVENT" ? eventDirection(v.seed, !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
+    layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",

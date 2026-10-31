@@ -30,6 +30,8 @@ const TXT = {
     away: "Away team",
     champ: "Championship / competition",
     league: "League / organizer logo",
+    infoLine: "Info line (optional, small at the bottom)",
+    infoPh: "Free 11v11 clubs tournament with cash prizes",
     name: "Player name / gamertag",
     position: "Position",
     number: "Number",
@@ -92,6 +94,8 @@ const TXT = {
     away: "Equipo visitante",
     champ: "Torneo / competición",
     league: "Logo de la liga / organizador",
+    infoLine: "Línea de información (opcional, pequeña abajo)",
+    infoPh: "Relámpago de clubes 11v11 gratis con premios en efectivo",
     name: "Nombre / gamertag",
     position: "Posición",
     number: "Número",
@@ -597,6 +601,7 @@ export function CreateWizard({
                 {field({ label: L.details, k: "details", max: 48, ph: "8 PM · 9 PM" })}
               </div>
               {field({ label: L.prize, k: "prize", max: 24 })}
+              {field({ label: L.infoLine, k: "footer", max: 110, ph: L.infoPh })}
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
