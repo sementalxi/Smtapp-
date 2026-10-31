@@ -421,11 +421,11 @@ export function buildProPrompt(opts: {
       add("Competition", i.competition);
       break;
     case "EVENT":
-      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times as designed glowing lettering with thin dividers (no boxes or pills)" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
       add("Headline (huge, glossy 3D)", i.headline);
       add("Event title (bold, under the headline)", i.name);
       add("Script accent line", i.subtitle);
-      add("Date & times (designed lettering, no box)", [i.date, i.details].filter(Boolean).join("  ·  "));
+      add("Date & times (designed lock-up on a ribbon / light bar)", [i.date, i.details].filter(Boolean).join("  ·  "));
       add("Prize", i.prize);
       break;
     default:
@@ -513,6 +513,9 @@ export function buildProPrompt(opts: {
     ...refText,
     logoRule,
     adminLed ? "" : champsEnergy,
+    layout === "EVENT"
+      ? `EVENT FLYER QUALITY BAR (always applies): this must look like a flyer from a top esports / tournament design studio, not a template. One dominant hero centrepiece (the league/event logo as a big 3D emblem, a trophy, or the player) with dramatic light and depth; the headline, title, prize and date combined into ONE designed typographic lock-up that overlaps and interacts with the hero (mixed sizes and weights, a slight angle, real 3D materials, rim light and cast shadows) — never a plain stack of centred text lines over a generic backdrop. Rich layering: environment → giant faded echo of the headline or logo → hero → lettering → foreground particles and debris crossing over the letters. Make the prize a premium 3D element (metal, gold or neon) and give the date/time a sleek integrated ribbon or light bar that belongs to the scene (not a flat app-style box). No empty dark areas. Every text item must be written completely — never cut off, cropped or abbreviated.`
+      : "",
     `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
