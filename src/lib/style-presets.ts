@@ -24,7 +24,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -51,7 +51,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -78,7 +78,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -105,7 +105,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -132,7 +132,7 @@ TEXT RULES
 - If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
 
 PRO FLYER LOOK (this is what makes it high-end, not cheap)
-- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- COMPOSITION & FIGURES: use the "EVENT FLYER — LAYOUT FOR THIS POSTER" given later in this brief (athletes, logo/trophy placement, where the headline sits). This style defines the scene, colours, lighting and lettering materials — the trophy or logo described above becomes part of that layout.
 - The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
 - Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
 - Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
@@ -212,8 +212,15 @@ PALETTE: deep red, black, white and gold — unless a team logo is given, then b
 TEXT RULES
 - Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
 - Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
-- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
-- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+- Date & time as a designed lock-up: on a sleek angled metallic ribbon, a glowing light bar or engraved into a 3D plate that is part of the scene — never flat app-style boxes, pills, buttons or icons.
+- Write every item COMPLETELY — never cut, crop or abbreviate a word (scale the lettering down instead).
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
+
+PRO FLYER LOOK (this is what makes it high-end, not cheap)
+- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
+- Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
+- Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
   "lightning-cup": `LIGHTNING CUP — electric tournament / free-entry event poster, ultra dramatic.
 
 SCENE
@@ -232,8 +239,15 @@ PALETTE: deep purple, electric violet, silver, gold and black.
 TEXT RULES
 - Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
 - Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
-- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
-- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+- Date & time as a designed lock-up: on a sleek angled metallic ribbon, a glowing light bar or engraved into a 3D plate that is part of the scene — never flat app-style boxes, pills, buttons or icons.
+- Write every item COMPLETELY — never cut, crop or abbreviate a word (scale the lettering down instead).
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
+
+PRO FLYER LOOK (this is what makes it high-end, not cheap)
+- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
+- Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
+- Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
   "neon-arena": `NEON ARENA — esports tournament poster, futuristic and clean.
 
 SCENE
@@ -252,8 +266,15 @@ PALETTE: black, cyan, magenta and white — unless a team logo is given, then us
 TEXT RULES
 - Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
 - Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
-- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
-- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+- Date & time as a designed lock-up: on a sleek angled metallic ribbon, a glowing light bar or engraved into a 3D plate that is part of the scene — never flat app-style boxes, pills, buttons or icons.
+- Write every item COMPLETELY — never cut, crop or abbreviate a word (scale the lettering down instead).
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
+
+PRO FLYER LOOK (this is what makes it high-end, not cheap)
+- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
+- Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
+- Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
   "gold-showdown": `GOLD SHOWDOWN — luxury VIP tournament / cash prize poster.
 
 SCENE
@@ -272,8 +293,15 @@ PALETTE: black, gold and white only.
 TEXT RULES
 - Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
 - Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
-- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
-- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+- Date & time as a designed lock-up: on a sleek angled metallic ribbon, a glowing light bar or engraved into a 3D plate that is part of the scene — never flat app-style boxes, pills, buttons or icons.
+- Write every item COMPLETELY — never cut, crop or abbreviate a word (scale the lettering down instead).
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
+
+PRO FLYER LOOK (this is what makes it high-end, not cheap)
+- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
+- Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
+- Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
   "street-cup": `STREET CUP — underground street football / 1v1 cage tournament poster.
 
 SCENE
@@ -292,8 +320,15 @@ PALETTE: orange, yellow, black, concrete grey and white — unless a team logo i
 TEXT RULES
 - Use ONLY the texts given (headline, event title, accent line, date/times, prize). Spell every word EXACTLY as written — never fix, translate, shorten or invent words. No extra slogans, no fake sponsors, no website addresses.
 - Clear hierarchy: HEADLINE biggest → event title → prize → date/time → accent line.
-- Date & time as designed lettering separated by thin glowing dividers — NO boxes, pills, buttons or icons.
-- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.`,
+- Date & time as a designed lock-up: on a sleek angled metallic ribbon, a glowing light bar or engraved into a 3D plate that is part of the scene — never flat app-style boxes, pills, buttons or icons.
+- Write every item COMPLETELY — never cut, crop or abbreviate a word (scale the lettering down instead).
+- If a team / league logo is given, show it faithfully (exact shapes and colours) as a glossy 3D emblem near the top; if a player photo is given, keep the same face and kit.
+
+PRO FLYER LOOK (this is what makes it high-end, not cheap)
+- One dominant HERO centrepiece taking ~40% of the poster (the league logo emblem, the trophy, or the player), dramatically lit, with real depth and something overlapping it (smoke, sparks, shards).
+- The texts are ONE designed title lock-up, not a plain stack of centred lines: the headline overlaps the hero, words have different sizes and weights, a slight angle or curve, real materials (chrome, gold, glass, neon) with bevels, rim light and a hard shadow onto the scene.
+- Layering: background scene → giant faded echo of the headline or logo → hero → title lock-up → foreground particles and debris flying over the letters.
+- Fill the frame with intentional detail: no big empty dark areas, no generic stadium-only backdrop.`,
   inferno: `PLAYER CARD — premium editorial sports poster in deep crimson red, cream and black, magazine-cover quality.
 
 BACKGROUND
