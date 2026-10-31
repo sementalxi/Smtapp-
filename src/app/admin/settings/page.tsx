@@ -5,6 +5,7 @@ import { SettingsForm } from "@/components/admin/SettingsForm";
 import { loadPricing } from "@/lib/pricing";
 import { PricingEditor } from "@/components/admin/PricingEditor";
 import { HeroBackground } from "@/components/admin/HeroBackground";
+import { MigrateFiles } from "@/components/admin/MigrateFiles";
 
 export default async function AdminSettings() {
   await requireAdmin();
@@ -14,6 +15,7 @@ export default async function AdminSettings() {
   return (
     <div className="space-y-6">
       <h1 className="font-display text-4xl">{t("admin_settings")}</h1>
+      <MigrateFiles />
       <HeroBackground initial={{ mode: settings.hero_bg_mode, video: settings.hero_video, opacity: Number(settings.hero_video_opacity) || 70, effect: settings.hero_effect }} blobReady={!!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID)} />
       <SettingsForm initial={settings} />
       <div className="max-w-xl">
