@@ -264,7 +264,9 @@ export function collectProRefs(opts: {
       label:
         layout === "CHAMPIONS"
           ? "the competition/championship logo. Put it ONLY on the trophy — engraved or embossed on the front of the cup, reproduced faithfully. Do not show it anywhere else and never as a big logo on the poster."
-          : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
+          : layout === "EVENT"
+            ? "the league / event logo (the organiser of this tournament). Keep its exact shape, letters, symbols and colours — do not redesign it — and make it a HERO element: a large glossy premium 3D emblem with a polished rim, depth, reflections and a coloured glow, placed prominently near the top centre (if there is a trophy, it can sit just above it or be engraved on it as well), lit by the scene's lights with particles around it — never a flat sticker in a corner. Build the poster's colour palette from this logo's colours (unless the user picked colours). If the logo has a solid background square, ignore the square and use only the emblem."
+            : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
     });
   }
   if (i.trophyUrl) {

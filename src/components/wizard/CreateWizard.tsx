@@ -29,6 +29,7 @@ const TXT = {
     home: "Home team",
     away: "Away team",
     champ: "Championship / competition",
+    league: "League / organizer logo",
     name: "Player name / gamertag",
     position: "Position",
     number: "Number",
@@ -90,6 +91,7 @@ const TXT = {
     home: "Equipo local",
     away: "Equipo visitante",
     champ: "Torneo / competición",
+    league: "Logo de la liga / organizador",
     name: "Nombre / gamertag",
     position: "Posición",
     number: "Número",
@@ -595,6 +597,7 @@ export function CreateWizard({
                 {field({ label: L.details, k: "details", max: 48, ph: "8 PM · 9 PM" })}
               </div>
               {field({ label: L.prize, k: "prize", max: 24 })}
+              <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
             </>
