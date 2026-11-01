@@ -44,6 +44,7 @@ export default async function AdminHome() {
       [es ? "OPENAI_API_KEY (IA Pro — necesaria)" : "OPENAI_API_KEY (Pro AI — required)", process.env.OPENAI_API_KEY, false],
       ["DATABASE_URL", process.env.DATABASE_URL, false],
       [es ? "SQUARE_ACCESS_TOKEN (pagos — necesaria para vender créditos)" : "SQUARE_ACCESS_TOKEN (payments — needed to sell credits)", process.env.SQUARE_ACCESS_TOKEN, false],
+      [es ? "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET (pagar con PayPal)" : "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET (pay with PayPal)", process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET, true],
       [es ? "RESEND_API_KEY (enviar emails de promoción)" : "RESEND_API_KEY (send promo emails)", process.env.RESEND_API_KEY, true],
       [es ? "SQUARE_APPLICATION_ID (pago en ventana dentro de la página)" : "SQUARE_APPLICATION_ID (pay in a popup on the page)", process.env.SQUARE_APPLICATION_ID, true],
       [es ? "TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN (SMS, opcional)" : "TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN (SMS, optional)", process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN, true],

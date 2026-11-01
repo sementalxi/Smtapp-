@@ -13,8 +13,10 @@ type SqPayments = {
   googlePay: (req: unknown) => Promise<SqCard>;
   cashAppPay: (req: unknown, opts: unknown) => Promise<SqCashApp>;
 };
+type PayPalNS = { Buttons: (o: Record<string, unknown>) => { render: (el: HTMLElement) => Promise<void>; isEligible: () => boolean; close?: () => Promise<void> } };
 declare global {
   interface Window {
+    paypal?: PayPalNS;
     Square?: { payments: (appId: string, locationId: string) => SqPayments };
   }
 }
@@ -31,7 +33,7 @@ function loadSquare(sandbox: boolean) {
 }
 
 // Cached across popups so the second open is instant.
-type Cfg = { inline: boolean; appId?: string; locationId?: string; sandbox?: boolean; amount?: string; applePay?: string };
+type Cfg = { inline: boolean; appId?: string; locationId?: string; sandbox?: boolean; amount?: string; applePay?: string; paypal?: string };
 const cfgCache = new Map<string, Promise<Cfg>>();
 const getCfg = (kind: string, id: string) => {
   const k = `${kind}:${id}`;
@@ -46,6 +48,17 @@ export function preloadSquarePay(kind: string, id: string) {
       preloaded = true;
       loadSquare(!!c.sandbox).catch(() => {});
     }
+  });
+}
+
+function loadPayPal(clientId: string) {
+  return new Promise<void>((resolve, reject) => {
+    if (window.paypal) return resolve();
+    const s = document.createElement("script");
+    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(clientId)}&currency=USD&intent=capture&components=buttons&disable-funding=card,credit,paylater`;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("PayPal didn't load"));
+    document.head.appendChild(s);
   });
 }
 
@@ -76,6 +89,8 @@ export function PayModal({
   const card = useRef<SqCard | null>(null);
   const gpBox = useRef<HTMLDivElement>(null);
   const capBox = useRef<HTMLDivElement>(null);
+  const ppBox = useRef<HTMLDivElement>(null);
+  const [paypalOn, setPaypalOn] = useState(false);
   const apple = useRef<SqCard | null>(null);
   const google = useRef<SqCard | null>(null);
   const cash = useRef<SqCashApp | null>(null);
@@ -162,6 +177,38 @@ export function PayModal({
         }
         setWallets({ apple: ap.status === "fulfilled", google: gOk.status === "fulfilled", cash: caOk.status === "fulfilled" });
         setReady(true);
+        // PayPal (one-time purchases) — loads after the rest so it never slows the popup down.
+        if (cfg.paypal && kind !== "plan" && ppBox.current) {
+          loadPayPal(cfg.paypal)
+            .then(async () => {
+              if (!alive || !window.paypal || !ppBox.current) return;
+              const btn = window.paypal.Buttons({
+                style: { layout: "horizontal", color: "gold", shape: "rect", height: 48, tagline: false, label: "paypal" },
+                createOrder: async () => {
+                  const r = await fetch("/api/paypal/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id }) });
+                  const d = await r.json();
+                  if (!d.id) throw new Error(d.detail || d.error || "order failed");
+                  return d.id;
+                },
+                onApprove: async (data: { orderID: string }) => {
+                  setBusy(true);
+                  const r = await fetch("/api/paypal/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID }) });
+                  const d = await r.json().catch(() => ({}));
+                  setBusy(false);
+                  if (r.ok && d.ok) {
+                    setDone({ credits: d.credits });
+                    setTimeout(() => window.location.assign("/credits"), 2200);
+                  } else setErr((es ? "PayPal no completó el pago" : "PayPal didn't complete the payment") + (d.detail ? ` — ${d.detail}` : ""));
+                },
+                onError: (e: unknown) => setErr(`PayPal: ${e instanceof Error ? e.message : String(e)}`),
+              });
+              if (btn.isEligible()) {
+                await btn.render(ppBox.current);
+                if (alive) setPaypalOn(true);
+              }
+            })
+            .catch(() => {});
+        }
       } catch (e) {
         if (alive) setErr(e instanceof Error ? e.message : "error");
       }
@@ -298,7 +345,8 @@ export function PayModal({
                 )}
                 <div ref={gpBox} className={wallets.google ? "h-12 overflow-hidden rounded-xl" : "hidden"} />
                 <div ref={capBox} className={wallets.cash ? "" : "hidden"} />
-                {(wallets.apple || wallets.google || wallets.cash) && (
+                <div ref={ppBox} className={paypalOn ? "overflow-hidden rounded-xl [&_iframe]:!rounded-xl" : "h-0 overflow-hidden"} />
+                {(wallets.apple || wallets.google || wallets.cash || paypalOn) && (
                   <div className="flex items-center gap-3 py-1 text-[11px] uppercase tracking-widest text-muted">
                     <span className="h-px flex-1 bg-line" />
                     {es ? "o con tarjeta" : "or pay with card"}
