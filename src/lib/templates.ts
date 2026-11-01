@@ -441,7 +441,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
       scriptFont: "brush",
       nameGradient: ["#fff8e1", "#ffe08a", "#d4a64a"],
       fallback: ["#070605", "#3a2a0c", "#d4a64a"],
-      particles: "confetti",
+      particles: "sparks",
       ghost: true,
       giantText: true,
       streaks: true,
