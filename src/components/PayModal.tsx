@@ -85,7 +85,7 @@ export function PayModal({
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
-  const [done, setDone] = useState<null | { credits: number; pending?: boolean }>(null);
+  const [done, setDone] = useState<null | { credits: number; pending?: boolean; renews?: boolean }>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -104,7 +104,7 @@ export function PayModal({
         await loadSquare(!!cfg.sandbox);
         if (!alive || !window.Square || !box.current) return;
         const payments = window.Square.payments(cfg.appId, cfg.locationId);
-        const useWallets = kind !== "plan" && Number(cfg.amount) > 0;
+        const useWallets = Number(cfg.amount) > 0;
         const req = useWallets ? payments.paymentRequest({ countryCode: "US", currencyCode: "USD", total: { amount: String(cfg.amount), label: title.slice(0, 60) || "KIXO" } }) : null;
         const no = Promise.reject(new Error("off"));
         no.catch(() => {});
@@ -157,7 +157,7 @@ export function PayModal({
           ca.value.addEventListener("ontokenization", (e) => {
             const { tokenResult, error } = e.detail;
             if (error || tokenResult?.status !== "OK" || !tokenResult.token) setErr(error?.message || (es ? "Cash App no completó el pago" : "Cash App didn't complete the payment"));
-            else charge(tokenResult.token);
+            else charge(tokenResult.token, false, true);
           });
         }
         setWallets({ apple: ap.status === "fulfilled", google: gOk.status === "fulfilled", cash: caOk.status === "fulfilled" });
@@ -204,18 +204,18 @@ export function PayModal({
         setBusy(false);
         return;
       }
-      await charge(t.token, true);
+      await charge(t.token, true, method !== card.current);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "error");
     }
     setBusy(false);
   }
 
-  async function charge(token: string, already = false) {
+  async function charge(token: string, already = false, wallet = false) {
     if (!already) setBusy(true);
     setErr("");
     try {
-      const r = await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token }) });
+      const r = await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token, wallet }) });
       const d = await r.json().catch(() => ({}));
       try {
         sessionStorage.removeItem("kixo_pay");
@@ -223,7 +223,7 @@ export function PayModal({
         /* ignore */
       }
       if (r.ok && d.ok) {
-        setDone({ credits: d.credits, pending: d.pending });
+        setDone({ credits: d.credits, pending: d.pending, renews: d.renews });
         setTimeout(() => window.location.assign("/credits"), d.pending ? 4500 : 2200);
       } else {
         setErr(
@@ -253,6 +253,11 @@ export function PayModal({
               {done.pending
                 ? es ? `Tu plan está activo. Tus ${done.credits} créditos llegan en unos segundos…` : `Your plan is active. Your ${done.credits} credits arrive in a few seconds…`
                 : es ? `+${done.credits} créditos agregados a tu cuenta` : `+${done.credits} credits added to your account`}
+              {done.renews === false && (
+                <span className="mt-2 block text-xs text-teal">
+                  {es ? "Este mes está pagado. Para que se renueve solo cada mes, suscríbete con una tarjeta." : "This month is paid. To renew automatically every month, subscribe with a card."}
+                </span>
+              )}
             </p>
           </div>
         ) : (
@@ -271,7 +276,7 @@ export function PayModal({
             <div className="relative">
             {!ready && !err && (
               <div className="absolute inset-0 z-10 space-y-2" aria-hidden>
-                {kind !== "plan" && (
+                {(
                   <>
                     <div className="h-12 animate-pulse rounded-xl bg-white/10" />
                     <div className="h-12 animate-pulse rounded-xl bg-white/10" />
@@ -282,8 +287,8 @@ export function PayModal({
                 <div className="h-[96px] animate-pulse rounded-2xl bg-white/5" />
               </div>
             )}
-            <div className={`space-y-4 transition-opacity duration-300 ${ready ? "opacity-100" : "pointer-events-none opacity-0"} ${!ready && kind !== "plan" ? "min-h-[270px]" : ""}`}>
-            {kind !== "plan" && (
+            <div className={`space-y-4 transition-opacity duration-300 ${ready ? "opacity-100" : "pointer-events-none opacity-0"} ${!ready ? "min-h-[270px]" : ""}`}>
+            {(
               <div className="space-y-2">
                 {wallets.apple && (
                   <button type="button" disabled={busy} onClick={() => pay(apple.current)} className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl bg-white text-[17px] font-semibold text-black disabled:opacity-50">
@@ -316,12 +321,6 @@ export function PayModal({
               <span>🔒 {es ? "Procesado por Square · no guardamos tu tarjeta" : "Processed by Square · we never store your card"}</span>
               <button type="button" className="underline" disabled={busy} onClick={onClose}>{es ? "Cancelar" : "Cancel"}</button>
             </div>
-            {kind === "plan" && (
-              <button type="button" disabled={busy} onClick={onFallback} className="flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-panel-2/60 py-3 text-sm font-semibold text-white transition hover:border-teal/60">
-                <span aria-hidden> Pay · G Pay · $ Cash App</span>
-                <span className="text-muted">— {es ? "abrir pago de Square" : "open Square checkout"} ›</span>
-              </button>
-            )}
             {kind === "plan" && <p className="text-[11px] text-muted">{es ? "Se renueva cada mes. Cancela cuando quieras desde Facturación." : "Renews monthly. Cancel anytime from Billing."}</p>}
           </div>
         )}
