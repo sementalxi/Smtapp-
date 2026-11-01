@@ -118,6 +118,9 @@ export function AuthForm({ mode, next, phoneRequired }: { mode: "login" | "regis
           </div>
         )}
         {error && <p className="text-sm text-danger">{error}</p>}
+        {mode === "register" && (
+          <p className="text-[11px] text-muted">{es ? "Podemos enviarte ofertas por correo de vez en cuando. Puedes darte de baja cuando quieras." : "We may email you offers now and then. You can unsubscribe anytime."}</p>
+        )}
         <button disabled={busy || (mode === "register" && phoneRequired && (!sent || code.length < 4))} className="btn-primary w-full">
           {busy ? "…" : t(mode === "login" ? "nav_login" : "nav_register")}
         </button>
