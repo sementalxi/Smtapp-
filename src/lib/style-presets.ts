@@ -2,6 +2,30 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "champions-pro": `CHAMPIONS PRO — a professional title-celebration flyer, the quality of a top club's official social-media graphic. The team crest and the trophy are the heroes — NO people, players or faces.
+
+COLOURS
+- Built from the TEAM CREST's colours (main colour dominant in lights, smoke and graphics) plus gold for the trophy and celebration details, with deep black shadows. Without a crest: black and gold.
+
+BACKGROUND (dense, never plain)
+- A dark stadium at night after the final whistle: golden ticker-tape and confetti falling through the floodlights, gold pyro sparks shooting up from the bottom, smoke rolling across, lens flares.
+- Layered editorial textures over it: torn paper edges, scratches, halftone, fine grain — tinted in the team colour.
+- The TITLE (e.g. "CAMPEONES") repeated as a GIANT faded word across the whole width behind everything, running off both edges, with a printed/scratched texture.
+
+LAYOUT (top to bottom)
+1. TOP: the competition line small and letter-spaced in gold (only if given).
+2. UPPER HALF: the TEAM CREST as the main hero — big (about half the poster width), a premium 3D emblem with a thick polished rim, bevels, enamel colours, sharp reflections and a glowing aura in the team colour, slightly tilted, with confetti and sparks passing in front of it.
+3. CENTRE: the TITLE in huge heavy 3D letters (brushed gold with a dark bevel and a strong drop shadow, slight angle), overlapping the bottom of the crest.
+4. TROPHY: a big polished trophy standing just below/beside the title, catching the floodlights (the competition logo engraved on its front if given), confetti landing on it.
+5. Team name (if given) in clean bold white letters under the title.
+6. SQUAD (if given): the player names in two or three neat columns on a dark glass nameplate with a thin gold border at the bottom — clean, readable, evenly spaced.
+7. PRIZE (if given) as a gold 3D badge; date (if given) small and letter-spaced at the very bottom.
+
+FINISH: real photographic lighting and materials (true gold, chrome, enamel, glass, smoke), deep layering, cinematic colour grade, crisp lettering, no empty areas.
+
+TEXT RULES
+- Use ONLY the texts given. Spell every word and every player name EXACTLY as written — never fix, translate, shorten or invent words; no sponsor names, platform logos, websites or social handles.
+- Every item is written completely — never cut or abbreviated (except the giant faded background word, which runs off both edges by design).`,
   "grunge-cup": `[FIXED LAYOUT] GRUNGE CUP — premium esports / pro-clubs tournament flyer in a layered editorial grunge style. A trophy is the hero — NO people, players or faces.
 
 COLOURS

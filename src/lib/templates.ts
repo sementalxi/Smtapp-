@@ -426,6 +426,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "champions-pro",
+    name: "Champions Pro",
+    nameEs: "Campeones Pro",
+    layout: "CHAMPIONS",
+    sort: 5,
+    prompt:
+      "championship celebration in a dark stadium: ticker-tape and confetti falling, golden pyro sparks, smoke, floodlights, layered torn poster textures, the team crest and trophy as heroes",
+    style: {
+      primary: "#d4a64a",
+      accent: "#fff1b8",
+      dark: "#070605",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#fff8e1", "#ffe08a", "#d4a64a"],
+      fallback: ["#070605", "#3a2a0c", "#d4a64a"],
+      particles: "confetti",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "grunge-cup",
     name: "Grunge Cup",
     nameEs: "Copa Grunge",
