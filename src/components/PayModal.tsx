@@ -302,7 +302,7 @@ export function PayModal({
                 )}
               </div>
             )}
-            <div className="min-h-[96px] rounded-2xl border border-line bg-ink/40 p-2">
+            <div className="rounded-2xl border border-line bg-ink/40 px-2 pt-2">
               <div ref={box} />
             </div>
             </div>
@@ -316,6 +316,12 @@ export function PayModal({
               <span>🔒 {es ? "Procesado por Square · no guardamos tu tarjeta" : "Processed by Square · we never store your card"}</span>
               <button type="button" className="underline" disabled={busy} onClick={onClose}>{es ? "Cancelar" : "Cancel"}</button>
             </div>
+            {kind === "plan" && (
+              <button type="button" disabled={busy} onClick={onFallback} className="flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-panel-2/60 py-3 text-sm font-semibold text-white transition hover:border-teal/60">
+                <span aria-hidden> Pay · G Pay · $ Cash App</span>
+                <span className="text-muted">— {es ? "abrir pago de Square" : "open Square checkout"} ›</span>
+              </button>
+            )}
             {kind === "plan" && <p className="text-[11px] text-muted">{es ? "Se renueva cada mes. Cancela cuando quieras desde Facturación." : "Renews monthly. Cancel anytime from Billing."}</p>}
           </div>
         )}
