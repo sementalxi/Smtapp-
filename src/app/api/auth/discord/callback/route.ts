@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import { db } from "@/lib/db";
 import { isAdminEmail } from "@/lib/auth";
 import { signSession, SESSION_COOKIE, sessionCookieOptions } from "@/lib/session";
+import { getCurrentUser } from "@/lib/auth";
 import { getNumberSetting } from "@/lib/settings";
 import { changeCredits } from "@/lib/credits";
 import { REF_COOKIE } from "@/lib/referral";
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
   if (!discordAuthReady()) return fail(req, "discord_off");
   const code = req.nextUrl.searchParams.get("code");
   const state = req.nextUrl.searchParams.get("state");
-  const [savedState, next] = (req.cookies.get(DISCORD_STATE_COOKIE)?.value ?? "").split("|");
+  const [savedState, next, mode] = (req.cookies.get(DISCORD_STATE_COOKIE)?.value ?? "").split("|");
   if (!code || !state || state !== savedState) return fail(req, "discord_state");
 
   const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
@@ -40,6 +41,22 @@ export async function GET(req: NextRequest) {
     verified?: boolean;
   };
   if (!me.id) return fail(req, "discord_user");
+  const discordName = (me.global_name || me.username || "").slice(0, 60) || null;
+
+  // Linking from the profile page (already logged in).
+  if (mode === "link") {
+    const back = (q: string) => {
+      const r = NextResponse.redirect(new URL(`/profile?discord=${q}`, req.url));
+      r.cookies.delete(DISCORD_STATE_COOKIE);
+      return r;
+    };
+    const current = await getCurrentUser().catch(() => null);
+    if (!current) return fail(req, "discord_state");
+    const owner = await db.user.findFirst({ where: { discordId: me.id }, select: { id: true } });
+    if (owner && owner.id !== current.id) return back("taken");
+    await db.user.update({ where: { id: current.id }, data: { discordId: me.id, discordName } });
+    return back("linked");
+  }
   const email = me.email?.trim().toLowerCase();
   if (!email || !me.verified) return fail(req, "discord_email");
 
@@ -48,7 +65,7 @@ export async function GET(req: NextRequest) {
   let isNew = false;
   if (user) {
     if (user.banned) return fail(req, "err_banned");
-    if (!user.discordId) await db.user.update({ where: { id: user.id }, data: { discordId: me.id } });
+    if (!user.discordId || user.discordName !== discordName) await db.user.update({ where: { id: user.id }, data: { discordId: user.discordId || me.id, discordName } });
   } else {
     const refCode = req.cookies.get(REF_COOKIE)?.value?.trim().toUpperCase();
     const referrer = refCode && /^[A-Z0-9]{4,12}$/.test(refCode) ? await db.user.findFirst({ where: { refCode }, select: { id: true } }) : null;
@@ -61,6 +78,7 @@ export async function GET(req: NextRequest) {
         role: isAdminEmail(email) ? "ADMIN" : "USER",
         locale: req.cookies.get("bf_lang")?.value === "en" ? "en" : "es",
         discordId: me.id,
+        discordName,
         referredById: referrer?.id ?? null,
       },
     });

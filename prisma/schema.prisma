@@ -54,6 +54,7 @@ model User {
   refCode            String? // personal invite code (checked unique in code)
   referredById       String? // who invited this user
   discordId          String? // linked Discord account (checked unique in code)
+  discordName        String? // Discord username shown on the profile
   emailOptOut        Boolean             @default(false) // unsubscribed from promo emails
   phone              String? // verified phone (E.164) — one account per number, checked in code
   createdAt          DateTime            @default(now())

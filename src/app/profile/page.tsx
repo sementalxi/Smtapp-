@@ -3,10 +3,13 @@ import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { AccountHeader, AccountShell, StatTile } from "@/components/account/AccountShell";
 import { ProfileForms } from "@/components/account/ProfileForms";
+import { DiscordLink } from "@/components/account/DiscordLink";
+import { discordAuthReady } from "@/lib/discord-auth";
 
 export const metadata = { title: "Profile" };
 
-export default async function ProfilePage() {
+export default async function ProfilePage({ searchParams }: { searchParams: Promise<{ discord?: string }> }) {
+  const sp = await searchParams;
   const user = await requireUser();
   const { locale } = await getT();
   const es = locale === "es";
@@ -22,6 +25,7 @@ export default async function ProfilePage() {
         <StatTile label={es ? "Artes" : "Arts"} value={arts} />
         <StatTile label={es ? "Gastado" : "Spent"} value={`$${((spent._sum.amountCents ?? 0) / 100).toFixed(2)}`} />
       </div>
+      {discordAuthReady() && <DiscordLink linked={!!user.discordId} name={user.discordName ?? null} es={es} status={sp.discord} />}
       <ProfileForms name={user.name} email={user.email} isAdmin={user.role === "ADMIN"} />
     </AccountShell>
   );
