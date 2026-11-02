@@ -26,7 +26,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         <StatTile label={es ? "Gastado" : "Spent"} value={`$${((spent._sum.amountCents ?? 0) / 100).toFixed(2)}`} />
       </div>
       {discordAuthReady() && <DiscordLink linked={!!user.discordId} name={user.discordName ?? null} es={es} status={sp.discord} />}
-      <ProfileForms name={user.name} email={user.email} isAdmin={user.role === "ADMIN"} />
+      <ProfileForms name={user.name} email={user.email} isAdmin={user.role === "ADMIN"} showcase={!user.showcaseOptOut} />
     </AccountShell>
   );
 }

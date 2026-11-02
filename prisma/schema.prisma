@@ -56,6 +56,7 @@ model User {
   discordId          String? // linked Discord account (checked unique in code)
   discordName        String? // Discord username shown on the profile
   emailOptOut        Boolean             @default(false) // unsubscribed from promo emails
+  showcaseOptOut     Boolean             @default(false) // don't post my posters in the public Discord showcase
   phone              String? // verified phone (E.164) — one account per number, checked in code
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt

@@ -2,9 +2,10 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { apiAdmin } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
-import { LOG_CHANNELS, getLogHooks, saveLogHooks, testLog, type LogKey } from "@/lib/discord-logs";
+import { LOG_CHANNELS, getLogHooks, saveLogHooks, testLog, getShowcaseHook, setShowcaseHook, type LogKey } from "@/lib/discord-logs";
+import { postToDiscord } from "@/lib/discord";
 import { discordWebhook } from "@/lib/discord";
-import { botReady, createLogChannels, guildId } from "@/lib/discord-bot";
+import { botReady, createLogChannels, createWebhookIn, guildId } from "@/lib/discord-bot";
 
 export const maxDuration = 60;
 
@@ -15,6 +16,8 @@ export const GET = handle(async () => {
   return json({
     main: !!(await discordWebhook()),
     canAuto: botReady() && !!guildId(),
+    bot: botReady(),
+    showcase: !!(await getShowcaseHook()),
     channels: LOG_CHANNELS.map((c) => ({ key: c.key, label: c.label, labelEs: c.labelEs, connected: !!(h as Record<string, string>)[c.key] })),
   });
 });
@@ -23,12 +26,33 @@ const Body = z.discriminatedUnion("action", [
   z.object({ action: z.literal("auto") }),
   z.object({ action: z.literal("set"), key: z.string(), url: z.string().max(300) }),
   z.object({ action: z.literal("test"), key: z.string() }),
+  z.object({ action: z.literal("showcase_set"), url: z.string().max(300) }),
+  z.object({ action: z.literal("showcase_channel"), channelId: z.string().regex(/^\d{15,22}$/) }),
+  z.object({ action: z.literal("showcase_test") }),
 ]);
 
 export const POST = handle(async (req: NextRequest) => {
   await apiAdmin();
   const b = Body.parse(await req.json());
   const keys = LOG_CHANNELS.map((c) => c.key) as string[];
+  if (b.action === "showcase_set") {
+    const u = b.url.trim();
+    if (u && !/^https:\/\/(?:ptb\.|canary\.)?discord(?:app)?\.com\/api\/webhooks\//.test(u)) return json({ error: "bad_url" }, 400);
+    await setShowcaseHook(u);
+    return json({ ok: true });
+  }
+  if (b.action === "showcase_channel") {
+    const r = await createWebhookIn(b.channelId);
+    if (!r.url) return json({ error: r.error }, 400);
+    await setShowcaseHook(r.url);
+    return json({ ok: true });
+  }
+  if (b.action === "showcase_test") {
+    const url = await getShowcaseHook();
+    if (!url) return json({ error: "not_set" }, 400);
+    const ok = await postToDiscord({ username: "KIXO Showcase", embeds: [{ title: "🔥 KIXO Showcase is live", description: "New posters made on kixo.pro will show up here.", url: "https://kixo.pro/create", color: 0xff2e88 }] }, undefined, url);
+    return json({ ok });
+  }
   if (b.action === "auto") {
     const r = await createLogChannels(LOG_CHANNELS);
     if (r.hooks && Object.keys(r.hooks).length) await saveLogHooks({ ...(await getLogHooks()), ...r.hooks });

@@ -13,7 +13,8 @@ function Section({ title, children, danger }: { title: string; children: React.R
   );
 }
 
-export function ProfileForms({ name: initialName, email, isAdmin }: { name: string; email: string; isAdmin: boolean }) {
+export function ProfileForms({ name: initialName, email, isAdmin, showcase: initialShowcase = true }: { name: string; email: string; isAdmin: boolean; showcase?: boolean }) {
+  const [showcase, setShowcase] = useState(initialShowcase);
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
@@ -72,6 +73,25 @@ export function ProfileForms({ name: initialName, email, isAdmin }: { name: stri
           </button>
           {nameMsg && <span className="text-sm">{nameMsg}</span>}
         </div>
+      </Section>
+
+      <Section title={es ? "Privacidad" : "Privacy"}>
+        <label className="flex cursor-pointer items-start gap-3 text-sm">
+          <input
+            type="checkbox"
+            className="mt-1 accent-[var(--color-lime)]"
+            checked={showcase}
+            onChange={async (e) => {
+              const on = e.target.checked;
+              setShowcase(on);
+              await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ showcaseOptOut: !on }) }).catch(() => {});
+            }}
+          />
+          <span>
+            <span className="block font-semibold">{es ? "Mostrar mis pósters en la vitrina de Discord de KIXO" : "Show my posters in the KIXO Discord showcase"}</span>
+            <span className="block text-xs text-muted">{es ? "Se publican con tu nombre de jugador (nunca tu email)." : "They're posted with your player name (never your email)."}</span>
+          </span>
+        </label>
       </Section>
 
       <Section title={es ? "Cambiar contraseña" : "Change password"}>

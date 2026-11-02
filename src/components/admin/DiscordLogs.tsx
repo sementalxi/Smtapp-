@@ -6,7 +6,9 @@ type Ch = { key: string; label: string; labelEs: string; connected: boolean };
 
 /** Admin: one Discord channel per kind of log. */
 export function DiscordLogs({ es }: { es: boolean }) {
-  const [d, setD] = useState<{ main: boolean; canAuto: boolean; channels: Ch[] } | null>(null);
+  const [d, setD] = useState<{ main: boolean; canAuto: boolean; bot: boolean; showcase: boolean; channels: Ch[] } | null>(null);
+  const [chId, setChId] = useState("");
+  const [scUrl, setScUrl] = useState("");
   const [busy, setBusy] = useState("");
   const [msg, setMsg] = useState("");
   const [edit, setEdit] = useState<string | null>(null);
@@ -47,8 +49,51 @@ export function DiscordLogs({ es }: { es: boolean }) {
     load();
   }
 
+  async function showcase(body: object, okMsg: string) {
+    setBusy("sc");
+    const r = await post(body);
+    setBusy("");
+    setMsg(
+      r.ok
+        ? okMsg
+        : r.error === "no_webhook_permission"
+          ? es ? "❌ El bot necesita “Gestionar webhooks” en ese canal." : "❌ The bot needs “Manage Webhooks” in that channel."
+          : r.error === "no_channel" ? (es ? "❌ No encontré ese canal (¿ID correcto? ¿el bot lo ve?)" : "❌ Couldn't find that channel (right ID? can the bot see it?)")
+          : `❌ ${r.error ?? "error"}`,
+    );
+    setChId("");
+    setScUrl("");
+    load();
+  }
+
   if (!d) return <div className="card p-5 text-sm text-muted">…</div>;
   return (
+    <>
+    <div className="card space-y-3 p-5">
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h2 className="text-lg font-bold">{es ? "🌍 Vitrina pública" : "🌍 Public showcase"}</h2>
+          <p className="text-xs text-muted">{es ? "Cada póster terminado se publica en tu canal público con el nombre del jugador (sin emails). Los usuarios pueden desactivarlo en su Perfil." : "Every finished poster is posted to your public channel with the player's name (no emails). Users can turn it off in their Profile."}</p>
+        </div>
+        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${d.showcase ? "bg-teal/15 text-teal" : "bg-panel-2 text-muted"}`}>{d.showcase ? (es ? "Activa" : "On") : es ? "Apagada" : "Off"}</span>
+      </div>
+      {d.bot && (
+        <div className="flex gap-2">
+          <input className="input min-w-0 flex-1 py-2 text-sm" inputMode="numeric" placeholder={es ? "ID del canal (mantén pulsado el canal → Copiar ID)" : "Channel ID (long-press the channel → Copy ID)"} value={chId} onChange={(e) => setChId(e.target.value.replace(/\D/g, ""))} />
+          <button type="button" className="btn-primary px-3 py-2 text-xs" disabled={!!busy || chId.length < 15} onClick={() => showcase({ action: "showcase_channel", channelId: chId }, es ? "✅ Vitrina conectada a ese canal" : "✅ Showcase connected to that channel")}>{busy === "sc" ? "…" : es ? "Conectar" : "Connect"}</button>
+        </div>
+      )}
+      <div className="flex gap-2">
+        <input className="input min-w-0 flex-1 py-2 text-xs" placeholder={es ? "…o pega el webhook del canal" : "…or paste the channel's webhook"} value={scUrl} onChange={(e) => setScUrl(e.target.value)} />
+        <button type="button" className="btn-ghost px-3 py-2 text-xs" disabled={!!busy || !scUrl.trim()} onClick={() => showcase({ action: "showcase_set", url: scUrl }, es ? "✅ Guardado" : "✅ Saved")}>{es ? "Guardar" : "Save"}</button>
+      </div>
+      {d.showcase && (
+        <div className="flex gap-2">
+          <button type="button" className="btn-ghost flex-1 py-2 text-xs" disabled={!!busy} onClick={() => showcase({ action: "showcase_test" }, es ? "✅ Prueba enviada" : "✅ Test sent")}>{es ? "Enviar prueba" : "Send test"}</button>
+          <button type="button" className="btn-ghost py-2 text-xs" disabled={!!busy} onClick={() => showcase({ action: "showcase_set", url: "" }, es ? "Vitrina apagada" : "Showcase off")}>{es ? "Apagar" : "Turn off"}</button>
+        </div>
+      )}
+    </div>
     <div className="card space-y-4 p-5">
       <div>
         <h2 className="text-lg font-bold">{es ? "📊 Registros en Discord" : "📊 Discord logs"}</h2>
@@ -81,5 +126,6 @@ export function DiscordLogs({ es }: { es: boolean }) {
         ))}
       </ul>
     </div>
+    </>
   );
 }

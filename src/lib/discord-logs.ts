@@ -156,3 +156,56 @@ export async function logGiftPlan(p: { userId: string; action: "given" | "remove
     console.error("discord gift log failed", e);
   }
 }
+
+// ── 🌍 Public showcase: finished posters posted to a public channel (no emails or private info) ──
+export async function getShowcaseHook() {
+  const s = await db.setting.findUnique({ where: { key: "discord_showcase_hook" } }).catch(() => null);
+  return s?.value && HOOK_RE.test(s.value) ? s.value : "";
+}
+export async function setShowcaseHook(url: string) {
+  if (!url) return db.setting.deleteMany({ where: { key: "discord_showcase_hook" } });
+  return db.setting.upsert({ where: { key: "discord_showcase_hook" }, create: { key: "discord_showcase_hook", value: url }, update: { value: url } });
+}
+
+const TYPE_NAMES: Record<string, string> = { PLAYER: "Player card", CHAMPIONS: "Champions", MATCHDAY: "Match day", LINEUP: "Lineup", RESULT: "Result", EVENT: "Tournament" };
+const TYPE_ICON: Record<string, string> = { PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️" };
+
+/** Posts a finished poster to the public showcase channel. Never throws. */
+export async function postShowcase(o: { bannerId: string; userId: string; image: Buffer }) {
+  try {
+    const url = await getShowcaseHook();
+    if (!url) return;
+    const [u, b] = await Promise.all([
+      db.user.findUnique({ where: { id: o.userId }, select: { name: true, discordId: true, discordName: true, showcaseOptOut: true, banned: true } }),
+      db.banner.findUnique({ where: { id: o.bannerId }, select: { template: { select: { name: true, layout: true } } } }),
+    ]);
+    if (!u || u.showcaseOptOut || u.banned) return;
+    const layout = b?.template.layout ?? "";
+    const who = u.discordId ? `<@${u.discordId}>` : (u.discordName || u.name.split(/\s+/)[0] || "A player").slice(0, 40);
+    const isPng = o.image[0] === 0x89;
+    const name = `kixo-${o.bannerId}.${isPng ? "png" : "jpg"}`;
+    if (o.image.length > 9.5 * 1024 * 1024) return;
+    await postToDiscord(
+      {
+        username: "KIXO Showcase",
+        avatar_url: `${appUrl()}/kixo-logo.png`,
+        content: `${TYPE_ICON[layout] ?? "🔥"} New **${TYPE_NAMES[layout] ?? "poster"}** by ${who}`,
+        allowed_mentions: { parse: [] }, // shows the @name without pinging
+        embeds: [
+          {
+            title: `${b?.template.name ?? "KIXO"} style`,
+            url: `${appUrl()}/create`,
+            color: 0xff2e88,
+            image: { url: `attachment://${name}` },
+            footer: { text: "Made with KIXO · make yours at kixo.pro" },
+            timestamp: new Date().toISOString(),
+          },
+        ],
+      },
+      { bytes: o.image, name, type: isPng ? "image/png" : "image/jpeg" },
+      url,
+    );
+  } catch (e) {
+    console.error("showcase post failed", e);
+  }
+}

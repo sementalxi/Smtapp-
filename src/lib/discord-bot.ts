@@ -104,3 +104,12 @@ export async function createLogChannels(channels: readonly { key: string; channe
   }
   return { ok: true, hooks };
 }
+
+/** Makes a webhook in an existing channel (for the public showcase). Needs Manage Webhooks. */
+export async function createWebhookIn(channelId: string): Promise<{ url?: string; error?: string }> {
+  if (!botReady()) return { error: "missing" };
+  const r = await call(`/channels/${channelId}/webhooks`, { method: "POST", body: JSON.stringify({ name: "KIXO Showcase" }) }).catch(() => null);
+  if (!r?.ok) return { error: r?.status === 403 ? "no_webhook_permission" : r?.status === 404 ? "no_channel" : `http_${r?.status ?? "net"}` };
+  const w = await r.json();
+  return { url: `https://discord.com/api/webhooks/${w.id}/${w.token}` };
+}
