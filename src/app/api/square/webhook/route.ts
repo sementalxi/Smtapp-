@@ -5,6 +5,7 @@ import { rewardReferrer } from "@/lib/referral";
 import { findPack, loadPricing } from "@/lib/pricing";
 import { grantPlanMonth } from "@/lib/square-grants";
 import { planFromVariation, sq, squareWebhookConfig, verifySquareSignature } from "@/lib/square";
+import { logPayment } from "@/lib/discord-logs";
 
 // Square sends payment / subscription / invoice events here (registered by Admin → Connect Square).
 
@@ -67,6 +68,7 @@ async function onPayment(p: SqPayment | undefined) {
         create: { userId: co.userId, stripeRef: `sq_${p.id}`, kind: "pack", productId: co.productId, amountCents, currency: "usd", credits },
         update: {},
       });
+      await logPayment({ userId: co.userId, kind: pack ? "pack" : "deal", productId: co.productId, amountCents, credits, source: "Square checkout" });
     }
     return;
   }

@@ -80,3 +80,27 @@ export async function addToGuild(discordId: string, userAccessToken: string) {
   if (!botReady() || !g) return;
   await call(`/guilds/${g}/members/${discordId}`, { method: "PUT", body: JSON.stringify({ access_token: userAccessToken }) }).catch(() => null);
 }
+
+/** Creates a private "KIXO LOGS" category with one channel + webhook per log kind. Needs Manage Channels + Manage Webhooks. */
+export async function createLogChannels(channels: readonly { key: string; channel: string }[]): Promise<{ ok: boolean; hooks?: Record<string, string>; error?: string }> {
+  const g = guildId();
+  if (!botReady() || !g) return { ok: false, error: "missing" };
+  const cat = await call(`/guilds/${g}/channels`, {
+    method: "POST",
+    // type 4 = category; hidden from @everyone (role id = guild id)
+    body: JSON.stringify({ name: "📊 KIXO LOGS", type: 4, permission_overwrites: [{ id: g, type: 0, deny: "1024" }] }),
+  }).catch(() => null);
+  if (!cat?.ok) return { ok: false, error: cat?.status === 403 ? "no_permission" : `http_${cat?.status ?? "net"}` };
+  const { id: parent } = await cat.json();
+  const hooks: Record<string, string> = {};
+  for (const c of channels) {
+    const ch = await call(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name: c.channel, type: 0, parent_id: parent }) }).catch(() => null);
+    if (!ch?.ok) return { ok: false, error: ch?.status === 403 ? "no_permission" : `http_${ch?.status ?? "net"}`, hooks };
+    const { id } = await ch.json();
+    const wh = await call(`/channels/${id}/webhooks`, { method: "POST", body: JSON.stringify({ name: "KIXO Log" }) }).catch(() => null);
+    if (!wh?.ok) return { ok: false, error: wh?.status === 403 ? "no_webhook_permission" : `http_${wh?.status ?? "net"}`, hooks };
+    const w = await wh.json();
+    hooks[c.key] = `https://discord.com/api/webhooks/${w.id}/${w.token}`;
+  }
+  return { ok: true, hooks };
+}

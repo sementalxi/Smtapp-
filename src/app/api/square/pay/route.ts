@@ -10,6 +10,7 @@ import { findPack, findPlan, loadPricing } from "@/lib/pricing";
 import { locationId, planVariationId, sq, SquareError } from "@/lib/square";
 import { rateLimit } from "@/lib/ratelimit";
 import { grantPlanMonth } from "@/lib/square-grants";
+import { logPayment } from "@/lib/discord-logs";
 
 export const maxDuration = 60;
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
@@ -57,6 +58,7 @@ export const POST = handle(async (req: NextRequest) => {
           create: { userId: user.id, stripeRef: `sq_${payment.id}`, kind: "pack", productId, amountCents: Math.round(price * 100), currency: "usd", credits },
           update: {},
         });
+        await logPayment({ userId: user.id, kind: b.kind === "deal" ? "deal" : "pack", productId, amountCents: Math.round(price * 100), credits, source: "Square (card / wallet)" });
         await rewardReferrer(user.id);
       }
       return json({ ok: true, credits });

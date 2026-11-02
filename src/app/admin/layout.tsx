@@ -1,41 +1,47 @@
-import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { getT } from "@/i18n/server";
+import { AdminNav, type AdminGroup } from "@/components/admin/AdminNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await requireAdmin();
   const { t, locale } = await getT();
-  const links = [
-    ["/admin", t("admin_overview")],
-    ["/admin/studio", locale === "es" ? "🎨 Estudio libre" : "🎨 Free studio"],
-    ["/admin/users", t("admin_users")],
-    ["/admin/banners", t("admin_banners")],
-    ["/admin/templates", t("admin_templates")],
-    ["/admin/leagues", locale === "es" ? "Ligas y logos" : "Leagues & logos"],
-    ["/admin/texts", locale === "es" ? "Textos del sitio" : "Site texts"],
-    ["/admin/deals", locale === "es" ? "Ofertas" : "Deals"],
-    ["/admin/email", locale === "es" ? "✉️ Email a usuarios" : "✉️ Email users"],
-    ["/admin/discord", locale === "es" ? "💬 Mensaje Discord" : "💬 Discord message"],
-    ["/admin/transactions", t("admin_tx")],
-    ["/admin/payments", t("admin_payments")],
-    ["/admin/settings", t("admin_settings")],
-  ] as const;
+  const es = locale === "es";
+  const groups: AdminGroup[] = [
+    { title: es ? "Inicio" : "Home", links: [{ href: "/admin", label: t("admin_overview"), icon: "📊" }] },
+    {
+      title: es ? "Crear y contenido" : "Create & content",
+      links: [
+        { href: "/admin/studio", label: es ? "Estudio libre" : "Free studio", icon: "🎨" },
+        { href: "/admin/templates", label: es ? "Estilos" : "Styles", icon: "🖼️" },
+        { href: "/admin/leagues", label: es ? "Ligas y logos" : "Leagues & logos", icon: "🛡️" },
+        { href: "/admin/deals", label: es ? "Ofertas" : "Deals", icon: "🔥" },
+        { href: "/admin/texts", label: es ? "Textos del sitio" : "Site texts", icon: "✏️" },
+      ],
+    },
+    {
+      title: es ? "Usuarios" : "People",
+      links: [
+        { href: "/admin/users", label: t("admin_users"), icon: "👥" },
+        { href: "/admin/banners", label: es ? "Pósters creados" : "Posters made", icon: "🧾" },
+        { href: "/admin/email", label: es ? "Email" : "Email", icon: "✉️" },
+        { href: "/admin/discord", label: "Discord", icon: "💬" },
+      ],
+    },
+    {
+      title: es ? "Dinero" : "Money",
+      links: [
+        { href: "/admin/payments", label: es ? "Pagos" : "Payments", icon: "💳" },
+        { href: "/admin/transactions", label: t("admin_tx"), icon: "📜" },
+      ],
+    },
+    { title: es ? "Sistema" : "System", links: [{ href: "/admin/settings", label: t("admin_settings"), icon: "⚙️" }] },
+  ];
 
   return (
     <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-8 md:py-8">
       <aside className="min-w-0">
-        <div className="font-display mb-4 text-2xl text-lime">{t("admin_title")}</div>
-        <nav className="-mx-4 flex max-w-[100vw] gap-1 overflow-x-auto px-4 pb-1 md:mx-0 md:max-w-none md:flex-col md:px-0">
-          {links.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-muted hover:bg-panel-2 hover:text-white"
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <div className="font-display mb-3 text-2xl text-lime md:mb-5">{t("admin_title")}</div>
+        <AdminNav groups={groups} />
       </aside>
       <div className="min-w-0">{children}</div>
     </div>

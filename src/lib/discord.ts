@@ -39,12 +39,14 @@ export async function logGeneration(opts: {
   error?: string;
 }) {
   try {
-    const url = await discordWebhook();
-    if (!url) return;
     const [user, banner] = await Promise.all([
       db.user.findUnique({ where: { id: opts.userId }, select: { name: true, email: true, credits: true } }),
       db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, design: true, template: { select: { name: true, layout: true } } } }),
     ]);
+    // Each flyer type goes to its own channel (falls back to the main webhook).
+    const { hookFor } = await import("./discord-logs");
+    const url = await hookFor(banner?.template.layout ?? "");
+    if (!url) return;
     const teamSet = !!(banner?.design as unknown as { seriesRootId?: string } | null)?.seriesRootId;
     const kind = [LAYOUT_NAMES[banner?.template.layout ?? ""] ?? "Poster", teamSet ? "· team set" : "", opts.regenerate ? "· new version" : ""].join(" ").trim();
     const isPng = opts.image ? opts.image[0] === 0x89 : true;
@@ -52,7 +54,7 @@ export async function logGeneration(opts: {
     const embed: Record<string, unknown> = {
       title: opts.ok ? `🖼️ ${banner?.title || "New poster"}` : `❌ Failed: ${banner?.title || "poster"}`,
       url: `${appUrl()}/admin/banners`,
-      color: opts.ok ? 0xb7ff45 : 0xff4d5e,
+      color: opts.ok ? 0xff2e88 : 0xff4d5e,
       fields: [
         { name: "User", value: `${user?.name ?? "?"}\n${user?.email ?? ""}`.slice(0, 1000), inline: true },
         { name: "Type", value: `${kind}\n${banner?.template.name ?? ""}`.slice(0, 1000), inline: true },
@@ -63,7 +65,7 @@ export async function logGeneration(opts: {
       ...(opts.ok && opts.image ? { image: { url: `attachment://${name}` } } : {}),
     };
     await postToDiscord(
-      { embeds: [embed] },
+      { username: `KIXO · ${LAYOUT_NAMES[banner?.template.layout ?? ""] ?? "Posters"}`, embeds: [embed] },
       opts.ok && opts.image && opts.image.length < 9.5 * 1024 * 1024 ? { bytes: opts.image, name, type: isPng ? "image/png" : "image/jpeg" } : undefined,
       url,
     );

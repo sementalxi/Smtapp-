@@ -10,6 +10,7 @@ import { changeCredits } from "@/lib/credits";
 import { rateLimit } from "@/lib/ratelimit";
 import { REF_COOKIE } from "@/lib/referral";
 import { checkCode, normalizePhone, phoneTaken, phoneVerifyReady } from "@/lib/twilio";
+import { logSignup } from "@/lib/discord-logs";
 
 const Body = z.object({
   name: z.string().trim().min(1).max(60),
@@ -55,6 +56,7 @@ export const POST = handle(async (req: NextRequest) => {
 
   const bonus = await getNumberSetting("signup_credits");
   if (bonus > 0) await changeCredits({ userId: user.id, amount: bonus, type: "SIGNUP_BONUS", note: "Welcome bonus" });
+  await logSignup(user.id, "email");
 
   const res = json({ ok: true });
   if (referrer) res.cookies.delete(REF_COOKIE);

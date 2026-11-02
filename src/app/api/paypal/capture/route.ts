@@ -6,6 +6,7 @@ import { handle, json } from "@/lib/api";
 import { grantOnce } from "@/lib/credits";
 import { rewardReferrer } from "@/lib/referral";
 import { paypalReady, pp } from "@/lib/paypal";
+import { logPayment } from "@/lib/discord-logs";
 
 type Capture = {
   status: string;
@@ -38,6 +39,7 @@ export const POST = handle(async (req: NextRequest) => {
       create: { userId: user.id, stripeRef: `pp_${cap.id}`, kind: "pack", productId, amountCents: Math.round(Number(cap.amount.value) * 100), currency: "usd", credits },
       update: {},
     });
+    await logPayment({ userId: user.id, kind: "pack", productId, amountCents: Math.round(Number(cap.amount.value) * 100), credits, source: "PayPal" });
     await rewardReferrer(user.id);
   }
   return json({ ok: true, credits });

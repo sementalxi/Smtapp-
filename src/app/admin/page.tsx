@@ -108,9 +108,30 @@ export default async function AdminHome() {
     failed > 0 && (es ? `${failed} generación(es) fallida(s) en 30 días — mira Banners para ver los errores.` : `${failed} failed generation(s) in the last 30 days — see Banners for errors.`),
   ].filter(Boolean) as string[];
 
+  const actions = [
+    ["/admin/studio", "🎨", es ? "Crear un flyer" : "Make a flyer"],
+    ["/admin/discord", "💬", es ? "Mensaje Discord" : "Discord message"],
+    ["/admin/email", "✉️", es ? "Enviar email" : "Send email"],
+    ["/admin/deals", "🔥", es ? "Ofertas" : "Deals"],
+    ["/admin/templates", "🖼️", es ? "Estilos" : "Styles"],
+    ["/admin/users", "👥", es ? "Usuarios" : "Users"],
+    ["/admin/settings", "💲", es ? "Precios" : "Prices"],
+    ["/admin/banners", "🧾", es ? "Pósters creados" : "Posters made"],
+  ] as const;
+  const missing = setup.filter(([, , ok, optional]) => !ok && !optional).length;
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <h1 className="font-display text-4xl">{t("admin_overview")}</h1>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {stats.map(([label, value]) => (
+          <div key={label} className="rounded-2xl border border-line bg-gradient-to-br from-panel-2 to-panel p-4">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-muted">{label}</div>
+            <div className="font-display mt-1 text-3xl tabular-nums sm:text-4xl">{value}</div>
+          </div>
+        ))}
+      </div>
 
       {warnings.length > 0 && (
         <ul className="card space-y-1 border-amber-400/40 p-4 text-sm text-amber-200">
@@ -120,28 +141,20 @@ export default async function AdminHome() {
         </ul>
       )}
 
+      <div>
+        <div className="mb-2 text-[11px] font-bold uppercase tracking-widest text-muted">{es ? "Acciones rápidas" : "Quick actions"}</div>
+        <div className="grid grid-cols-4 gap-2">
+          {actions.map(([href, icon, label]) => (
+            <Link key={href} href={href} className="flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-panel/70 px-1 py-3 text-center transition hover:border-lime/50 active:scale-95">
+              <span className="text-2xl">{icon}</span>
+              <span className="text-[11px] font-bold leading-tight">{label}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {hasStripe && !hasWebhook && <ConnectStripeButton es={es} />}
       {hasSquare && <ConnectSquareButton es={es} connected={squareConnected} />}
-
-      <div className="card p-4 text-sm">
-        <div className="mb-2 font-bold">{es ? "Revisión de configuración" : "Setup check"}</div>
-        <ul className="space-y-1 break-words font-mono text-xs">
-          {setup.map(([name, status, ok, optional]) => (
-            <li key={name} className={ok ? "text-lime" : optional ? "text-muted" : "text-danger"}>
-              {ok ? "✓" : optional ? "–" : "✗"} {name}: {status}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        {stats.map(([label, value]) => (
-          <div key={label} className="card p-5">
-            <div className="label">{label}</div>
-            <div className="font-display text-4xl">{value}</div>
-          </div>
-        ))}
-      </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
         <div className="card overflow-x-auto">
@@ -166,6 +179,18 @@ export default async function AdminHome() {
           </ul>
         </div>
       </div>
+      <details className="card p-4 text-sm">
+        <summary className="cursor-pointer font-bold">
+          ⚙️ {es ? "Revisión de configuración" : "Setup check"} {missing ? <span className="text-danger">· {missing} {es ? "falta(n)" : "missing"}</span> : <span className="text-teal">· {es ? "todo bien" : "all good"}</span>}
+        </summary>
+        <ul className="mt-3 space-y-1 break-words font-mono text-xs">
+          {setup.map(([name, status, ok, optional]) => (
+            <li key={name} className={ok ? "text-lime" : optional ? "text-muted" : "text-danger"}>
+              {ok ? "✓" : optional ? "–" : "✗"} {name}: {status}
+            </li>
+          ))}
+        </ul>
+      </details>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { isAdminEmail } from "@/lib/auth";
 import { signSession, SESSION_COOKIE, sessionCookieOptions } from "@/lib/session";
 import { getCurrentUser } from "@/lib/auth";
 import { addToGuild } from "@/lib/discord-bot";
+import { logSignup } from "@/lib/discord-logs";
 import { getNumberSetting } from "@/lib/settings";
 import { changeCredits } from "@/lib/credits";
 import { REF_COOKIE } from "@/lib/referral";
@@ -104,6 +105,7 @@ export async function GET(req: NextRequest) {
     isNew = true;
     const bonus = await getNumberSetting("signup_credits");
     if (bonus > 0) await changeCredits({ userId: user.id, amount: bonus, type: "SIGNUP_BONUS", note: "Welcome bonus" });
+    await logSignup(user.id, "discord");
   }
 
   const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : isNew ? "/create" : "/dashboard";
