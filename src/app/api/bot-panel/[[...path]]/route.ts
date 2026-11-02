@@ -28,9 +28,10 @@ async function login(force = false) {
     const h = r.headers as Headers & { getSetCookie?: () => string[] };
     const all = [...(h.getSetCookie?.() ?? []), r.headers.get("set-cookie") ?? ""];
     r.headers.forEach((v, k) => { if (k.toLowerCase() === "set-cookie") all.push(v); });
-    const m = all.join("; ").match(/smt_admin=([^;,\s]+)/);
-    if (r.ok && m) {
-      session = { cookie: `smt_admin=${m[1]}`, exp: Date.now() + 11 * 60 * 60_000 };
+    // Keep every cookie the panel hands back (name=value part only), whatever it's called.
+    const pairs = [...new Set(all.flatMap((c) => c.split(/,(?=\s*[A-Za-z0-9_.-]+=)/)).map((c) => c.split(";")[0].trim()).filter((c) => /^[^=\s]+=.+/.test(c)))];
+    if (r.ok && pairs.length) {
+      session = { cookie: pairs.join("; "), exp: Date.now() + 11 * 60 * 60_000 };
       return session.cookie;
     }
     const said = (await r.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 160);
