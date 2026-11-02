@@ -85,8 +85,11 @@ TEXT RULES
   "champions-victory": `[OWN LOOK] VICTORY NIGHT — the moment after the final whistle, captured by a top sports photographer. Clean, powerful, real. NO people, players or faces.
 
 SCENE
-- A real stadium at night shot from pitch level: the TROPHY standing alone on the centre circle, lit by ONE hard white spotlight from above, a ticker-tape storm in the team colours and gold falling through the beam with motion blur, the crowd and floodlights as huge creamy bokeh behind, wet grass glistening.
-- Lighting and grade: high-contrast black-and-white feel with ONLY the team colours and the gold trophy in colour.
+- A DARK, cinematic stadium at night shot from pitch level: almost black, swallowed in thick haze and smoke. The TROPHY stands alone on the centre spot, lit by ONE hard white spotlight from directly above — a visible cone of light cutting through the smoke, a bright pool of light on the wet grass, everything outside the beam falling into darkness.
+- Behind: only a few huge soft floodlight flares and god-rays high up, a faint silhouette of the stands — NO busy crowd, NO glitter or sparkle bokeh everywhere.
+- Ticker-tape kept to a FEW pieces in gold and the team colour, drifting slowly through the light beam with motion blur — never a storm.
+- Grade: moody high-contrast, mostly black, white light and silver; only the team colour and the gold accents in colour. Clean negative space so the title and trophy dominate.
+- The TEAM CREST appears ONLY ONCE (small, top centre) — no second big crest or medallion anywhere else.
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
@@ -470,7 +473,7 @@ TYPOGRAPHY
 - Team name: small, wide letter-spaced white capitals above the title. The TEAM CREST small and sharp at the top centre.
 - Date (if given): tiny letter-spaced at the bottom.
 
-SQUAD NAMES (if given) — DESIGNED, never plain text: the names in bold italic condensed sports capitals with a real brushed-silver / white-metal finish, a subtle bevel and a soft team-colour glow, a short hard shadow, each name with a tiny gold star or thin team-colour slash before it; arranged in 2–3 perfectly aligned columns on a sleek dark glass strip along the bottom with a thin gold line on top, a light sweep reflection across it and confetti passing in front. Uniform size, fully readable. Spell every name EXACTLY as written.
+SQUAD NAMES (if given) — like the BILLING BLOCK of a movie poster: the names in the SAME tall ultra-condensed upright sans-serif as the title (NOT italic, NOT wide, NOT bold-black), clean white with a very subtle silver sheen, all the same size, wide letter-spacing, tight line-height, centred in 2–3 short balanced rows at the bottom; names separated by small gold dots ( · ); a thin gold hairline above and below the block. Elegant, cinematic and premium — sitting on the photo itself (dark gradient at the bottom), no box, no stars, no glow. Spell every name EXACTLY as written.
 
 REALISM
 - A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
