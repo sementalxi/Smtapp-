@@ -19,9 +19,18 @@ async function main() {
         prompt: t.prompt,
         style: t.style as unknown as Prisma.InputJsonValue,
         sort: t.sort,
+        thumbUrl: t.thumbUrl ?? null,
       },
       update: {},
     });
+    // Built-in sample thumbnails (only if the admin hasn't set their own).
+    if (t.thumbUrl) await db.template.updateMany({ where: { slug: t.slug, OR: [{ thumbUrl: null }, { thumbUrl: "" }] }, data: { thumbUrl: t.thumbUrl } });
+  }
+  // One-time: the owner replaced the Champions styles with the 10 new sample styles — hide the old ones (kept for history, can be re-shown in Admin → Templates).
+  if (!(await db.setting.findUnique({ where: { key: "champions_v3" } }))) {
+    await db.template.updateMany({ where: { layout: "CHAMPIONS", NOT: { slug: { startsWith: "champ-" } } }, data: { active: false } });
+    await db.template.updateMany({ where: { slug: { startsWith: "champ-" } }, data: { active: true } });
+    await db.setting.create({ data: { key: "champions_v3", value: new Date().toISOString() } });
   }
   // One-time fix: the old Golden Champions prompt asked for wings, which the AI turned into an eagle.
   // Only replaced if the admin never changed it.
