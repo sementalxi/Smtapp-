@@ -77,7 +77,7 @@ export function AccountNav({ links, variant }: { links: AccountLink[]; variant: 
               a ? "bg-lime/10 text-lime" : "text-muted hover:bg-panel-2 hover:text-white"
             }`}
           >
-            {a && <span className="absolute top-2 bottom-2 left-0 w-1 rounded-full bg-lime shadow-[0_0_10px_rgba(183,255,69,0.8)]" />}
+            {a && <span className="absolute top-2 bottom-2 left-0 w-1 rounded-full bg-lime shadow-[0_0_10px_rgba(255,46,136,0.8)]" />}
             <Icon name={l.icon} />
             <span className="flex-1">{l.label}</span>
             {l.badge && <span className="rounded-full bg-teal/15 px-2 py-0.5 text-[10px] font-bold text-teal">{l.badge}</span>}

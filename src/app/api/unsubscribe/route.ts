@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
 /** Link in the email footer. */
 export async function GET(req: NextRequest) {
   const ok = await unsub(req);
-  const html = `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0;background:#090d0b;color:#f1f8f3;font-family:Arial,sans-serif;display:grid;place-items:center;min-height:100vh;text-align:center;padding:20px">
-<div><img src="/kixo-wordmark.png" alt="KIXO" style="height:40px"><h1 style="color:#b7ff45">${ok ? "You're unsubscribed · Te diste de baja" : "Link not valid · Enlace no válido"}</h1>
-<p style="color:#9aaba1">${ok ? "You won't get promo emails anymore. · Ya no recibirás correos de promociones." : ""}</p><a href="/" style="color:#46d5ae">kixo.pro</a></div></body>`;
+  const html = `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0;background:#0d090f;color:#f6f1f6;font-family:Arial,sans-serif;display:grid;place-items:center;min-height:100vh;text-align:center;padding:20px">
+<div><img src="/kixo-wordmark.png" alt="KIXO" style="height:40px"><h1 style="color:#ff2e88">${ok ? "You're unsubscribed · Te diste de baja" : "Link not valid · Enlace no válido"}</h1>
+<p style="color:#a99aac">${ok ? "You won't get promo emails anymore. · Ya no recibirás correos de promociones." : ""}</p><a href="/" style="color:#2fd8e8">kixo.pro</a></div></body>`;
   return new NextResponse(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }

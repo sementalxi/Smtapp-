@@ -34,7 +34,7 @@ export function NavLinks({ items, variant }: { items: Item[]; variant: "desktop"
               href={it.href}
               aria-current={on ? "page" : undefined}
               className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 transition ${
-                on ? "bg-lime text-ink shadow-[0_0_18px_-6px_rgba(183,255,69,0.8)]" : it.admin ? "text-teal hover:bg-panel-2 hover:text-white" : "text-muted hover:bg-panel-2 hover:text-white"
+                on ? "bg-lime text-ink shadow-[0_0_18px_-6px_rgba(255,46,136,0.8)]" : it.admin ? "text-teal hover:bg-panel-2 hover:text-white" : "text-muted hover:bg-panel-2 hover:text-white"
               }`}
             >
               <Icon name={it.icon} className="h-4 w-4" />
@@ -62,7 +62,7 @@ export function NavLinks({ items, variant }: { items: Item[]; variant: "desktop"
             >
               <Icon name={it.icon} className="h-5 w-5" />
               {it.label}
-              {on && <span className="absolute -bottom-1.5 h-0.5 w-8 rounded-full bg-lime shadow-[0_0_10px_rgba(183,255,69,0.9)]" />}
+              {on && <span className="absolute -bottom-1.5 h-0.5 w-8 rounded-full bg-lime shadow-[0_0_10px_rgba(255,46,136,0.9)]" />}
             </Link>
           );
         })}

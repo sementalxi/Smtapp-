@@ -23,7 +23,7 @@ export function LineupBuilder({ formation, slots, onChange, es }: { formation: s
 
   return (
     <div className="space-y-3">
-      <div className="relative overflow-hidden rounded-2xl border border-line bg-[linear-gradient(180deg,#0f2a1a,#0b1f14)] px-2 py-4">
+      <div className="relative overflow-hidden rounded-2xl border border-line bg-[linear-gradient(180deg,#24112a,#180b1d)] px-2 py-4">
         {/* pitch lines */}
         <div className="pointer-events-none absolute inset-3 rounded-lg border border-white/10" />
         <div className="pointer-events-none absolute inset-x-3 top-1/2 h-px bg-white/10" />

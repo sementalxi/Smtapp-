@@ -65,7 +65,7 @@ export function HomeHero({
           style={{ opacity: heroBg.opacity / 100 }}
         />
       ) : heroBg?.mode === "none" ? null : (
-        <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90" />
+        <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90 [filter:hue-rotate(195deg)_saturate(1.1)]" />
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
       <HeroEffect effect={heroBg?.effect ?? "stadium"} />

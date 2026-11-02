@@ -134,7 +134,7 @@ export function EmailComposer() {
       <div className="space-y-2">
         <div className="text-xs font-bold uppercase tracking-widest text-teal">{es ? "Vista previa" : "Preview"}</div>
         <div className="overflow-hidden rounded-2xl border border-line">
-          <iframe title="preview" srcDoc={html} className="h-[640px] w-full bg-[#090d0b]" />
+          <iframe title="preview" srcDoc={html} className="h-[640px] w-full bg-[#0d090f]" />
         </div>
       </div>
     </div>

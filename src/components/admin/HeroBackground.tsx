@@ -110,7 +110,7 @@ export function HeroBackground({ initial, blobReady }: { initial: { mode: string
           )}
           <div>
             <label className="label">{es ? "Brillo del video" : "Video brightness"}: {opacity}%</label>
-            <input type="range" min={10} max={100} value={opacity} onChange={(e) => setOpacity(Number(e.target.value))} className="w-full accent-[#b7ff45]" />
+            <input type="range" min={10} max={100} value={opacity} onChange={(e) => setOpacity(Number(e.target.value))} className="w-full accent-[#ff2e88]" />
           </div>
           <p className="text-[11px] text-muted">
             {es
@@ -130,7 +130,7 @@ export function HeroBackground({ initial, blobReady }: { initial: { mode: string
               onClick={() => { setEffect(fx.id); setMsg(""); }}
               className={`group relative h-20 overflow-hidden rounded-xl border text-left transition ${effect === fx.id ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-teal/60"}`}
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(183,255,69,0.15),transparent_60%),#0b100d]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,46,136,0.15),transparent_60%),#0f0a11]" />
               <HeroEffect effect={fx.id} />
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent px-2 pt-4 pb-1.5 text-[11px] font-bold">
                 {fx.icon} {es ? fx.es : fx.en}

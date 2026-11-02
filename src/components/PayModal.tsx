@@ -128,12 +128,12 @@ export function PayModal({
         const [c, ap, gp, ca] = await Promise.allSettled([
           payments.card({
             style: {
-              input: { color: "#f1f8f3", fontSize: "16px" },
-              "input::placeholder": { color: "#7f8f86" },
-              ".input-container": { borderColor: "#26332b", borderRadius: "12px" },
-              ".input-container.is-focus": { borderColor: "#b7ff45" },
-              ".message-text": { color: "#9aaba1" },
-              ".message-icon": { color: "#9aaba1" },
+              input: { color: "#f6f1f6", fontSize: "16px" },
+              "input::placeholder": { color: "#8a7d8d" },
+              ".input-container": { borderColor: "#2e2232", borderRadius: "12px" },
+              ".input-container.is-focus": { borderColor: "#ff2e88" },
+              ".message-text": { color: "#a99aac" },
+              ".message-icon": { color: "#a99aac" },
             },
           }),
           req ? payments.applePay(req) : no,
@@ -294,7 +294,7 @@ export function PayModal({
         <div className="pointer-events-none absolute -top-20 left-1/2 h-40 w-72 -translate-x-1/2 rounded-full bg-lime/15 blur-3xl" />
         {done ? (
           <div className="relative py-8 text-center">
-            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-lime text-3xl text-ink shadow-[0_0_40px_rgba(183,255,69,0.6)]">✓</div>
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-lime text-3xl text-ink shadow-[0_0_40px_rgba(255,46,136,0.6)]">✓</div>
             <div className="font-display mt-4 text-3xl">{es ? "¡Pago completado!" : "Payment complete!"}</div>
             <p className="mt-1 text-sm text-muted">
               {done.pending
