@@ -28,3 +28,13 @@ export async function sendBatch(items: { to: string; subject: string; html: stri
   });
   if (!res.ok) throw new Error(`Resend ${res.status}: ${(await res.text()).slice(0, 300)}`);
 }
+
+/** One transactional email (e.g. password reset). */
+export async function sendOne(to: string, subject: string, html: string) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY?.trim()}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from: from(), to: [to], subject, html }),
+  });
+  if (!res.ok) throw new Error(`Resend ${res.status}`);
+}

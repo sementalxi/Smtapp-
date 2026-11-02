@@ -144,6 +144,11 @@ export function AuthForm({ mode, next, phoneRequired, discord, err }: { mode: "l
             <p className="text-[11px] text-muted">{es ? "Una cuenta por número. También te enviaremos tus pósters por mensaje." : "One account per number. We'll also text you your posters."}</p>
           </div>
         )}
+        {mode === "login" && (
+          <div className="-mt-2 text-right">
+            <Link href="/forgot" className="text-xs font-semibold text-lime">{es ? "¿Olvidaste tu contraseña?" : "Forgot password?"}</Link>
+          </div>
+        )}
         {error && <p className="text-sm text-danger">{error}</p>}
         {mode === "register" && (
           <p className="text-[11px] text-muted">{es ? "Podemos enviarte ofertas por correo de vez en cuando. Puedes darte de baja cuando quieras." : "We may email you offers now and then. You can unsubscribe anytime."}</p>
