@@ -29,6 +29,10 @@ export function ImageSearch({
   const [busy, setBusy] = useState(false);
   const [picking, setPicking] = useState<string | null>(null);
   const [err, setErr] = useState("");
+  const [page, setPage] = useState(1);
+  const [more, setMore] = useState(false);
+  const [moreBusy, setMoreBusy] = useState(false);
+  const [lastQ, setLastQ] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -53,6 +57,9 @@ export function ImageSearch({
     setBusy(false);
     if (res.ok) {
       setResults(data.results ?? []);
+      setPage(1);
+      setLastQ(term.trim());
+      setMore(data.provider !== "free" && (data.results ?? []).length >= 10);
       if (data.providerError) setErr(`⚠️ Admin: ${data.providerError}`);
       else if (!(data.results ?? []).length) setErr(es ? "Sin resultados — prueba otro nombre" : "No results — try another name");
     }
@@ -60,6 +67,21 @@ export function ImageSearch({
       setResults([]);
       setErr(data.error === "too_many_requests" ? (es ? "Demasiadas búsquedas, espera un poco" : "Too many searches, wait a bit") : es ? "La búsqueda falló, intenta de nuevo" : "Search failed, try again");
     }
+  }
+
+  async function loadMore() {
+    setMoreBusy(true);
+    const next = page + 1;
+    const res = await fetch(`/api/image-search?kind=${kind}&page=${next}&q=${encodeURIComponent(lastQ)}`);
+    const data = await res.json().catch(() => ({}));
+    setMoreBusy(false);
+    const fresh: Result[] = data.results ?? [];
+    setResults((cur) => {
+      const seen = new Set((cur ?? []).map((x) => x.url));
+      return [...(cur ?? []), ...fresh.filter((x) => !seen.has(x.url))];
+    });
+    setPage(next);
+    setMore(res.ok && fresh.length >= 10 && next < 10);
   }
 
   async function pick(r: Result) {
@@ -161,6 +183,11 @@ export function ImageSearch({
                 </button>
               ))}
             </div>
+          )}
+          {results && !busy && results.length > 0 && more && (
+            <button type="button" onClick={loadMore} disabled={moreBusy} className="mt-3 w-full rounded-xl border border-line bg-panel-2 py-3 text-sm font-bold text-lime transition hover:border-lime/50">
+              {moreBusy ? (es ? "Cargando…" : "Loading…") : es ? "Cargar más" : "Load more"}
+            </button>
           )}
         </div>
         <p className="border-t border-line px-3 py-2 text-[11px] text-muted">

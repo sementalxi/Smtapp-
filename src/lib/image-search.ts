@@ -32,11 +32,11 @@ const isHttp = (u: unknown): u is string => typeof u === "string" && /^https?:\/
 
 export let lastSearchError = "";
 
-async function serper(q: string): Promise<ImageResult[]> {
+async function serper(q: string, page = 1): Promise<ImageResult[]> {
   const res = await fetch("https://google.serper.dev/images", {
     method: "POST",
     headers: { "X-API-KEY": process.env.SERPER_API_KEY!.trim().replace(/^["']|["']$/g, ""), "Content-Type": "application/json" },
-    body: JSON.stringify({ q, num: 20 }),
+    body: JSON.stringify({ q, num: 20, page }),
     signal: AbortSignal.timeout(10_000),
     cache: "no-store",
   });
@@ -55,8 +55,8 @@ async function serper(q: string): Promise<ImageResult[]> {
     }));
 }
 
-async function brave(q: string): Promise<ImageResult[]> {
-  const data = await getJson(`https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(q)}&count=40&safesearch=strict`, {
+async function brave(q: string, page = 1): Promise<ImageResult[]> {
+  const data = await getJson(`https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(q)}&count=40&offset=${(page - 1) * 40}&safesearch=strict`, {
     headers: { "X-Subscription-Token": process.env.BRAVE_API_KEY!.trim(), Accept: "application/json" },
   });
   return ((data.results ?? []) as { title?: string; source?: string; url?: string; properties?: { url?: string }; thumbnail?: { src?: string } }[])
@@ -104,20 +104,20 @@ async function wikipedia(q: string): Promise<ImageResult[]> {
   return out;
 }
 
-export async function searchImages(q: string, kind: "photo" | "logo"): Promise<ImageResult[]> {
+export async function searchImages(q: string, kind: "photo" | "logo", page = 1): Promise<ImageResult[]> {
   const provider = imageSearchProvider();
   const query = kind === "logo" && provider !== "free" ? `${q} logo crest png` : q;
   let results: ImageResult[] = [];
   lastSearchError = "";
   // Google/Brave first; if that fails (bad key, no credits…) fall back to the free sources instead of failing.
   try {
-    if (provider === "google") results = await serper(query);
-    else if (provider === "brave") results = await brave(query);
+    if (provider === "google") results = await serper(query, page);
+    else if (provider === "brave") results = await brave(query, page);
   } catch (e) {
     lastSearchError = e instanceof Error ? e.message : String(e);
     console.error("image search provider failed", lastSearchError);
   }
-  if (!results.length) {
+  if (!results.length && page === 1) {
     const [a, b] = await Promise.allSettled([sportsDb(q, kind), wikipedia(q)]);
     results = [...(a.status === "fulfilled" ? a.value : []), ...(b.status === "fulfilled" ? b.value : [])];
   }
