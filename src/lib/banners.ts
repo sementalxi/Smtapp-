@@ -543,6 +543,9 @@ export function buildProPrompt(opts: {
     ...refText,
     logoRule,
     adminLed ? "" : champsEnergy,
+    layout === "MATCHDAY" || layout === "RESULT"
+      ? `TYPOGRAPHY QUALITY (always applies): the title is a designed lock-up, not plain tall condensed letters — mix a heavy wide italic metal word (thick extrusion, coloured bevel, hard shadow) with a smaller bold brush-script word in the accent colour overlapping it at an angle, with motion streaks and sparks crossing the letters. The date / time / venue (or score details) sit in a sleek broadcast-style lower-third: an angled metallic bar split into the two team colours, wide extended bold white letters, the time slightly bigger — part of the scene with reflections and glow, never a flat box. Never rewrite text that appears inside a logo as separate lettering; write each text item only once.`
+      : "",
     layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,

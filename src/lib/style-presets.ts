@@ -211,6 +211,53 @@ FINISH
   "matchday-floodlights": `MATCH DAY poster — night game under blazing stadium floodlights, premium pro-clubs social-media style.
 
 LAYOUT
+- Top: the competition logo (if given) as a crisp glossy badge, then the title as a designed lock-up (see TYPOGRAPHY below).
+- Centre: the two team crests HUGE (each about 40% of the poster width), glossy 3D emblems facing each other, each blasted by its own floodlight beam with rim light and glow; a heavy metallic "VS" between them exploding with light flares and sparks.
+- Background: each team's crest repeated GIANT and faded (about 10–15% opacity) on its own half, behind the stadium haze, like it's projected in light.
+- Bottom: the match info lock-up (see TYPOGRAPHY below).
+
+BACKGROUND & EFFECTS
+- A packed stadium at night: tall floodlight towers firing light beams through haze, big lens flares, crowd as bokeh, wet pitch reflecting the crests and lights.
+- Light rays, drifting haze, sparks, fine film grain; deep shadows and high contrast.
+
+COLOURS: each team's colours glowing on its own half, joined by cold white floodlight light.
+FEEL: powerful, broadcast-quality — like an official club match-day graphic.
+
+TYPOGRAPHY (this is what makes it look pro — never plain tall condensed letters)
+- TITLE LOCK-UP: the two words get different treatments — the first word (e.g. "MATCH") in a heavy wide italic sports font in thick brushed metal with a coloured bevel, deep extrusion and a hard drop shadow; the second word (e.g. "DAY") smaller in a bold hand-painted brush script in the accent colour, overlapping the first word at an angle. Add motion streaks behind the letters and let sparks/smoke pass over them. One-word titles: heavy wide italic metal with a brush-script underline swash.
+- MATCH INFO LOCK-UP at the bottom: the date, time and venue on a sleek angled metallic bar that's split in the middle — left half tinted in the home colour, right half in the away colour — with the text in a wide extended bold font (white, letter-spaced) and the time slightly bigger. It should feel like a broadcast lower-third, part of the scene (reflections, glow) — not a flat app box, no icons.
+- The "VS" is a chunky 3D metal monogram, smaller than the crests, with a bright glint.
+- Never rewrite text that is inside a logo as separate lettering (e.g. don't write the competition's name again under its logo); write each text item only once.`,
+
+  "matchday-derby": `DERBY MATCH DAY poster — a fierce rivalry, premium pro-clubs social-media style.
+
+LAYOUT
+- The poster is split diagonally down the middle by a jagged, glowing crack full of sparks.
+- Home side: engulfed in roaring fire and embers in the home team's colour; away side: crackling lightning and electric energy in the away team's colour.
+- Each team crest HUGE (about 40% of the poster width) and glowing on its own side, facing the other, wrapped in its side's fire or lightning; a heavy 3D metallic "VS" sits right on the crack with sparks flying off it.
+- Background: each team's crest repeated GIANT and faded (about 10–15% opacity) behind its own half, half-hidden in smoke.
+- Top: the title as a designed lock-up (see TYPOGRAPHY below), lit by the fire on one edge and the lightning on the other.
+- Bottom: the match info lock-up (see TYPOGRAPHY below).
+
+BACKGROUND & EFFECTS
+- Stadium at night behind both halves: smoke, coloured flares, waving flags and ultras silhouettes as bokeh.
+- Embers, sparks, smoke trails, heat haze and fine grain; very high contrast.
+
+COLOURS: home colour vs away colour, clashing at the crack.
+FEEL: intense, explosive, big-game energy — the poster for the biggest match of the season.
+
+TYPOGRAPHY (this is what makes it look pro — never plain tall condensed letters)
+- TITLE LOCK-UP: the two words get different treatments — the first word (e.g. "MATCH") in a heavy wide italic sports font in thick brushed metal with a coloured bevel, deep extrusion and a hard drop shadow; the second word (e.g. "DAY") smaller in a bold hand-painted brush script in the accent colour, overlapping the first word at an angle. Add motion streaks behind the letters and let sparks/smoke pass over them. One-word titles: heavy wide italic metal with a brush-script underline swash.
+- MATCH INFO LOCK-UP at the bottom: the date, time and venue on a sleek angled metallic bar that's split in the middle — left half tinted in the home colour, right half in the away colour — with the text in a wide extended bold font (white, letter-spaced) and the time slightly bigger. It should feel like a broadcast lower-third, part of the scene (reflections, glow) — not a flat app box, no icons.
+- The "VS" is a chunky 3D metal monogram, smaller than the crests, with a bright glint.
+- Never rewrite text that is inside a logo as separate lettering (e.g. don't write the competition's name again under its logo); write each text item only once.`,
+};
+
+/** Earlier versions — replaced automatically if the admin never edited them. */
+export const PRESET_PREVIOUS: Record<string, string> = {
+  "matchday-floodlights": `MATCH DAY poster — night game under blazing stadium floodlights, premium pro-clubs social-media style.
+
+LAYOUT
 - Top: the title in huge, tall, condensed 3D chrome letters with a cold white-blue glow and sharp reflections; the competition logo or name small above it.
 - Centre: the two team crests HUGE (each about 40% of the poster width), glossy 3D emblems facing each other, each blasted by its own floodlight beam with rim light and glow; a heavy metallic "VS" between them exploding with light flares and sparks.
 - Background: each team's crest repeated GIANT and faded (about 10–15% opacity) on its own half, behind the stadium haze, like it's projected in light.
@@ -222,7 +269,6 @@ BACKGROUND & EFFECTS
 
 COLOURS: each team's colours glowing on its own half, joined by cold white floodlight light.
 FEEL: powerful, broadcast-quality — like an official club match-day graphic.`,
-
   "matchday-derby": `DERBY MATCH DAY poster — a fierce rivalry, premium pro-clubs social-media style.
 
 LAYOUT
@@ -239,10 +285,6 @@ BACKGROUND & EFFECTS
 
 COLOURS: home colour vs away colour, clashing at the crack.
 FEEL: intense, explosive, big-game energy — the poster for the biggest match of the season.`,
-};
-
-/** Earlier versions — replaced automatically if the admin never edited them. */
-export const PRESET_PREVIOUS: Record<string, string> = {
   "tournament-night": `TOURNAMENT NIGHT — big final event poster, premium esports / pro-clubs social-media style, built to stop the scroll.
 
 SCENE
@@ -399,33 +441,5 @@ LETTERING
 
 FINISH
 - Cinematic lighting, high detail fur/fabric/skin texture, film grain, strong contrast. Palette: crimson #b5121b, blood red, cream #efe6d8, black.`,
-  "matchday-floodlights": `MATCH DAY poster — night game under blazing stadium floodlights, premium pro-clubs social-media style.
 
-LAYOUT
-- Top: the title in huge, tall, condensed 3D chrome letters with a cold white-blue glow and sharp reflections; the competition name small and letter-spaced above it.
-- Centre: the two team crests big, glossy and facing each other, each lit by its own floodlight beam, with a bold metallic "VS" between them bursting with light flares.
-- Bottom: date, kick-off time and venue on a sleek glass/chrome info bar with thin glowing dividers.
-
-BACKGROUND & EFFECTS
-- A packed stadium at night: tall floodlight towers firing light beams through haze, big lens flares, crowd as bokeh, wet pitch reflecting the lights.
-- Light rays, drifting haze, small sparks, fine film grain; deep shadows and high contrast.
-
-COLOURS: the two teams' colours on their sides, joined by cold white floodlight glow.
-FEEL: clean, powerful, broadcast-quality — like an official club match-day graphic.`,
-
-  "matchday-derby": `DERBY MATCH DAY poster — a fierce rivalry, premium pro-clubs social-media style.
-
-LAYOUT
-- The poster is split diagonally down the middle by a jagged, glowing crack full of sparks.
-- Home side: engulfed in roaring fire and embers in the home team's colour; away side: crackling lightning and electric energy in the away team's colour.
-- Each team crest big and glowing on its own side, facing the other; a heavy 3D metallic "VS" sits right on the crack with sparks flying off it.
-- Top: the title in massive 3D metal letters lit by the fire on one edge and the lightning on the other.
-- Bottom: date, kick-off time and venue on a dark metal plate with a thin glowing edge.
-
-BACKGROUND & EFFECTS
-- Stadium at night behind both halves: smoke, coloured flares, waving flags and ultras silhouettes as bokeh.
-- Embers, sparks, smoke trails, heat haze and fine grain; very high contrast.
-
-COLOURS: home colour vs away colour, clashing at the crack.
-FEEL: intense, explosive, big-game energy — the poster for the biggest match of the season.`,
 };
