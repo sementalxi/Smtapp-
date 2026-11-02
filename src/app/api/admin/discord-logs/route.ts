@@ -104,5 +104,5 @@ export const POST = handle(async (req: NextRequest) => {
     await saveLogHooks(h);
     return json({ ok: true });
   }
-  return json({ ok: await testLog(b.key as LogKey) });
+  return json(await testLog(b.key as LogKey));
 });

@@ -85,18 +85,27 @@ export async function addToGuild(discordId: string, userAccessToken: string) {
 export async function createLogChannels(channels: readonly { key: string; channel: string }[]): Promise<{ ok: boolean; hooks?: Record<string, string>; error?: string }> {
   const g = guildId();
   if (!botReady() || !g) return { ok: false, error: "missing" };
-  const cat = await call(`/guilds/${g}/channels`, {
-    method: "POST",
-    // type 4 = category; hidden from @everyone (role id = guild id)
-    body: JSON.stringify({ name: "📊 KIXO LOGS", type: 4, permission_overwrites: [{ id: g, type: 0, deny: "1024" }] }),
-  }).catch(() => null);
-  if (!cat?.ok) return { ok: false, error: cat?.status === 403 ? "no_permission" : `http_${cat?.status ?? "net"}` };
-  const { id: parent } = await cat.json();
+  const list = await call(`/guilds/${g}/channels`, { method: "GET" }).catch(() => null);
+  if (list && !list.ok) return { ok: false, error: list.status === 401 ? "bad_token" : list.status === 403 || list.status === 404 ? "not_in_server" : `http_${list.status}` };
+  const existing = list ? ((await list.json()) as { id: string; name: string; type: number; parent_id?: string }[]) : [];
+  let parent = existing.find((c) => c.type === 4 && /kixo logs/i.test(c.name))?.id;
+  if (!parent) {
+    const cat = await call(`/guilds/${g}/channels`, {
+      method: "POST",
+      // type 4 = category; hidden from @everyone (role id = guild id)
+      body: JSON.stringify({ name: "📊 KIXO LOGS", type: 4, permission_overwrites: [{ id: g, type: 0, deny: "1024" }] }),
+    }).catch(() => null);
+    if (!cat?.ok) return { ok: false, error: cat?.status === 403 ? "no_permission" : `http_${cat?.status ?? "net"}` };
+    parent = (await cat.json()).id as string;
+  }
   const hooks: Record<string, string> = {};
   for (const c of channels) {
-    const ch = await call(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name: c.channel, type: 0, parent_id: parent }) }).catch(() => null);
-    if (!ch?.ok) return { ok: false, error: ch?.status === 403 ? "no_permission" : `http_${ch?.status ?? "net"}`, hooks };
-    const { id } = await ch.json();
+    let id = existing.find((x) => x.type === 0 && x.parent_id === parent && x.name === c.channel)?.id;
+    if (!id) {
+      const ch = await call(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name: c.channel, type: 0, parent_id: parent }) }).catch(() => null);
+      if (!ch?.ok) return { ok: false, error: ch?.status === 403 ? "no_permission" : `http_${ch?.status ?? "net"}`, hooks };
+      id = (await ch.json()).id as string;
+    }
     const wh = await call(`/channels/${id}/webhooks`, { method: "POST", body: JSON.stringify({ name: "KIXO Log" }) }).catch(() => null);
     if (!wh?.ok) return { ok: false, error: wh?.status === 403 ? "no_webhook_permission" : `http_${wh?.status ?? "net"}`, hooks };
     const w = await wh.json();

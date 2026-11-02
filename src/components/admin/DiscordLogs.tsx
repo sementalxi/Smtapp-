@@ -32,7 +32,13 @@ export function DiscordLogs({ es }: { es: boolean }) {
         ? es ? "✅ Canales creados en tu servidor (categoría 📊 KIXO LOGS, privada)." : "✅ Channels created in your server (private 📊 KIXO LOGS category)."
         : r.error === "no_permission" || r.error === "no_webhook_permission"
           ? es ? "❌ El bot necesita permisos: en Discord → Ajustes del servidor → Roles → KIXO → activa “Gestionar canales” y “Gestionar webhooks”. Luego vuelve a tocar." : "❌ The bot needs permissions: Discord → Server Settings → Roles → KIXO → turn on “Manage Channels” and “Manage Webhooks”, then tap again."
-          : `❌ ${r.error ?? "error"}`,
+          : r.error === "bad_token"
+            ? es ? "❌ El token del bot en Vercel (DISCORD_BOT_TOKEN) ya no sirve — si lo reiniciaste, pega el nuevo en Vercel y redeploy." : "❌ The bot token on Vercel (DISCORD_BOT_TOKEN) no longer works — if you reset it, paste the new one in Vercel and redeploy."
+            : r.error === "not_in_server"
+              ? es ? "❌ El bot no está en tu servidor (o DISCORD_GUILD_ID está mal)." : "❌ The bot isn't in your server (or DISCORD_GUILD_ID is wrong)."
+              : r.error === "missing"
+                ? es ? "❌ Falta DISCORD_BOT_TOKEN o DISCORD_GUILD_ID en Vercel." : "❌ DISCORD_BOT_TOKEN or DISCORD_GUILD_ID is missing on Vercel."
+                : `❌ ${r.error ?? "error"}`,
     );
     load();
   }
@@ -40,7 +46,15 @@ export function DiscordLogs({ es }: { es: boolean }) {
     setBusy(key);
     const r = await post({ action: "test", key });
     setBusy("");
-    setMsg(r.ok ? (es ? "✅ Prueba enviada — revisa Discord" : "✅ Test sent — check Discord") : es ? "❌ No hay canal conectado" : "❌ No channel connected");
+    setMsg(
+      r.ok
+        ? es ? "✅ Prueba enviada — revisa Discord" : "✅ Test sent — check Discord"
+        : r.error === "no_channel"
+          ? es ? "❌ No hay canal conectado — toca “Crear canales automáticamente”" : "❌ No channel connected — tap auto-create channels"
+          : r.error === "deleted"
+            ? es ? "❌ Ese canal o webhook fue borrado en Discord — toca “Crear canales automáticamente” para reconectarlo" : "❌ That channel/webhook was deleted in Discord — tap auto-create channels to reconnect it"
+            : `❌ ${r.error ?? "error"}`,
+    );
   }
   async function save(key: string) {
     setBusy(key);

@@ -14,6 +14,7 @@ export const LOG_CHANNELS = [
   { key: "LINEUP", channel: "lineups", label: "📋 Lineups", labelEs: "📋 Alineaciones" },
   { key: "RESULT", channel: "results", label: "⚽ Results", labelEs: "⚽ Resultados" },
   { key: "EVENT", channel: "tournaments", label: "🎟️ Tournaments / events", labelEs: "🎟️ Torneos / eventos" },
+  { key: "TEAM", channel: "roster-banners", label: "👥 Roster banners", labelEs: "👥 Banners de plantilla" },
 ] as const;
 export type LogKey = (typeof LOG_CHANNELS)[number]["key"];
 
@@ -116,11 +117,14 @@ export async function logPayment(p: { userId: string; kind: "pack" | "deal" | "s
 }
 
 /** Test message to one channel (from the admin page). */
-export async function testLog(key: LogKey) {
+export async function testLog(key: LogKey): Promise<{ ok: boolean; error?: string }> {
   const url = await hookFor(key);
-  if (!url) return false;
+  if (!url) return { ok: false, error: "no_channel" };
   const c = LOG_CHANNELS.find((x) => x.key === key);
-  return postToDiscord({ username: "KIXO Log", embeds: [{ title: `✅ ${c?.label ?? key} — test`, description: "Logs for this kind will show up here.", color: 0xff2e88, timestamp: new Date().toISOString() }] }, undefined, url);
+  const ok = await postToDiscord({ username: "KIXO Log", embeds: [{ title: `✅ ${c?.label ?? key} — test`, description: "Logs for this kind will show up here.", color: 0xff2e88, timestamp: new Date().toISOString() }] }, undefined, url);
+  if (ok) return { ok };
+  const d = await import("./discord");
+  return { ok: false, error: /discord_404/.test(d.lastDiscordError) ? "deleted" : d.lastDiscordError || "failed" };
 }
 
 /** 🎁 Gift plan given / removed / monthly credits added. Never throws. */

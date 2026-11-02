@@ -9,14 +9,31 @@ export async function discordWebhook() {
   return /^https:\/\/(?:ptb\.|canary\.)?discord(?:app)?\.com\/api\/webhooks\//.test(url) ? url : "";
 }
 
+export let lastDiscordError = "";
 export async function postToDiscord(payload: Record<string, unknown>, image?: { bytes: Buffer; name: string; type: string }, webhook?: string) {
   const url = webhook ?? (await discordWebhook());
-  if (!url) return false;
-  const form = new FormData();
-  form.append("payload_json", JSON.stringify({ username: "KIXO Log", allowed_mentions: { parse: [] }, ...payload }));
-  if (image) form.append("files[0]", new Blob([new Uint8Array(image.bytes)], { type: image.type }), image.name);
-  const res = await fetch(url, { method: "POST", body: form, signal: AbortSignal.timeout(8000) });
-  return res.ok;
+  if (!url) { lastDiscordError = "no_channel"; return false; }
+  const send = async (withImage: boolean) => {
+    const form = new FormData();
+    form.append("payload_json", JSON.stringify({ username: "KIXO Log", allowed_mentions: { parse: [] }, ...payload }));
+    if (withImage && image) form.append("files[0]", new Blob([new Uint8Array(image.bytes)], { type: image.type }), image.name);
+    const res = await fetch(url, { method: "POST", body: form, signal: AbortSignal.timeout(withImage ? 20000 : 10000) });
+    if (!res.ok) lastDiscordError = `discord_${res.status}: ${(await res.text().catch(() => "")).slice(0, 120)}`;
+    return res;
+  };
+  try {
+    let res = await send(!!image);
+    // Too big / slow image → still log it, just without the picture.
+    if (!res.ok && image && res.status !== 404 && res.status !== 401) res = await send(false);
+    if (res.ok) lastDiscordError = "";
+    return res.ok;
+  } catch (e) {
+    lastDiscordError = e instanceof Error ? e.message : "network";
+    if (image) {
+      try { const r = await send(false); if (r.ok) { lastDiscordError = ""; return true; } } catch {}
+    }
+    return false;
+  }
 }
 
 const LAYOUT_NAMES: Record<string, string> = {
