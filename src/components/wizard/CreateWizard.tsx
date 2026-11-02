@@ -547,7 +547,7 @@ export function CreateWizard({
               <button
                 key={s.id}
                 type="button"
-                onClick={() => setTplId(s.id)}
+                onClick={() => { setTplId(s.id); setTimeout(() => setStep(3), 180); }}
                 className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
                 <TemplateThumb template={s} eager={styles.indexOf(s) < 4} />
