@@ -2,6 +2,31 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "player-shatter": `SHATTERED SIGNING — a premium esports / pro-clubs player signing card in a bold monochrome editorial style, like the work of a top club graphics studio. Cinematic, sharp and expensive.
+
+COLOURS (changes every poster)
+- MONOCHROME in ONE main colour taken from the COLOURS line below (a different colour every time), plus black and white. The whole scene is graded in that one colour: deep dark tones, a mid tone and bright highlights — no other hues.
+
+BACKGROUND (dense, layered)
+- Dramatic smoky storm clouds and dark textures in the main colour, with big SHATTERED GLASS shards and angular broken panels flying across the frame, catching the light; fine dust, grain and subtle light streaks.
+- The TEAM NAME (if given) in GIANT bold condensed capitals filling the width of the poster behind the player, in a pale tint of the main colour with a soft texture, partly hidden behind the figures and cut off at the edges. Under it, the team name repeated once more in small, very widely letter-spaced white capitals.
+- The team crest (if given) also appears large and faded in the background behind the player.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, tattoos and features):
+1. A BIG close-up / bust of the player filling the upper half, behind everything, slightly desaturated and blended into the colour grade with soft edges.
+2. In FRONT, centred and smaller: a full-body shot of the same player standing in a confident pose, sharp and fully in colour, with a strong rim light separating them from the background.
+
+GRAPHIC DETAILS
+- TOP-RIGHT: the team crest (if given) inside a thin circular ring of small letter-spaced text made of the team name repeated around the circle.
+- LEFT, upper-middle: the jersey NUMBER and POSITION together in bold slanted capitals in the main colour (e.g. number then position), with the player name / gamertag right under it in bold white capitals.
+- BOTTOM, overlapping the full-body figure's legs: the player's NAME in a huge white hand-painted BRUSH SCRIPT with dry-brush texture, slanted upward.
+- Ignore the placement hints in the text list below — follow this layout.
+
+QUALITY
+- Photoreal and cinematic: the player looks like a real high-end photo shoot, natural skin and fabric, crisp detail, true lighting; razor-sharp lettering, never melted or misspelled.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team). Never invent words, sponsors, studio names, QR codes, logos, websites or handles. Write each item once (except the team name repeated as described).`,
   "lineup-hologram": `HOLOGRAM XI — a futuristic tactical hologram over a dark stadium.
 
 SCENE

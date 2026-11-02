@@ -208,6 +208,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "player-shatter",
+    name: "Shattered Signing",
+    nameEs: "Fichaje Estallido",
+    layout: "PLAYER",
+    sort: 1,
+    prompt:
+      "monochrome editorial esports signing graphic: giant close-up of the player behind, full-body shot in front, giant team name letters, shattered glass shards, smoky clouds, brush-script name",
+    style: {
+      primary: "#e0142b",
+      accent: "#ffffff",
+      dark: "#0c0204",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#f1f1f1", "#cfcfcf"],
+      fallback: ["#0c0204", "#4a0710", "#e0142b"],
+      particles: "sparks",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "inferno",
     name: "Inferno",
     nameEs: "Infierno",
