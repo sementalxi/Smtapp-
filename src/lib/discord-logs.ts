@@ -158,6 +158,31 @@ export async function logGiftPlan(p: { userId: string; action: "given" | "remove
 }
 
 // ── 🌍 Public showcase: finished posters posted to a public channel (no emails or private info) ──
+export const SHOWCASE_TYPES = [
+  { key: "PLAYER", label: "🧍 Player cards", labelEs: "🧍 Tarjetas de jugador", match: /player|jugador/i },
+  { key: "TEAM", label: "👥 Team cards", labelEs: "👥 Tarjetas de equipo", match: /^teams?$|team-?cards?|equipos?/i },
+  { key: "CHAMPIONS", label: "🏆 Champions", labelEs: "🏆 Campeones", match: /champ|campeon/i },
+  { key: "LINEUP", label: "📋 Lineups", labelEs: "📋 Alineaciones", match: /line-?ups?|lien-?ups?|alinea/i },
+  { key: "MATCHDAY", label: "📅 Match day", labelEs: "📅 Día de partido", match: /match-?days?|partido/i },
+  { key: "RESULT", label: "⚽ Results", labelEs: "⚽ Resultados", match: /result|resultado/i },
+  { key: "EVENT", label: "🎟️ Tournaments / leagues", labelEs: "🎟️ Torneos / ligas", match: /tourn|league|torneo|liga|event/i },
+] as const;
+export type ShowcaseKey = (typeof SHOWCASE_TYPES)[number]["key"];
+
+export async function getShowcaseHooks(): Promise<Partial<Record<ShowcaseKey, string>>> {
+  const s = await db.setting.findUnique({ where: { key: "discord_showcase_hooks" } }).catch(() => null);
+  try {
+    const o = s ? JSON.parse(s.value) : {};
+    return Object.fromEntries(Object.entries(o).filter(([, v]) => typeof v === "string" && HOOK_RE.test(v as string))) as Partial<Record<ShowcaseKey, string>>;
+  } catch {
+    return {};
+  }
+}
+export async function saveShowcaseHooks(h: Partial<Record<ShowcaseKey, string>>) {
+  const v = JSON.stringify(Object.fromEntries(Object.entries(h).filter(([, x]) => x && HOOK_RE.test(x))));
+  await db.setting.upsert({ where: { key: "discord_showcase_hooks" }, create: { key: "discord_showcase_hooks", value: v }, update: { value: v } });
+}
+
 export async function getShowcaseHook() {
   const s = await db.setting.findUnique({ where: { key: "discord_showcase_hook" } }).catch(() => null);
   return s?.value && HOOK_RE.test(s.value) ? s.value : "";
@@ -167,20 +192,23 @@ export async function setShowcaseHook(url: string) {
   return db.setting.upsert({ where: { key: "discord_showcase_hook" }, create: { key: "discord_showcase_hook", value: url }, update: { value: url } });
 }
 
-const TYPE_NAMES: Record<string, string> = { PLAYER: "Player card", CHAMPIONS: "Champions", MATCHDAY: "Match day", LINEUP: "Lineup", RESULT: "Result", EVENT: "Tournament" };
-const TYPE_ICON: Record<string, string> = { PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️" };
+const TYPE_NAMES: Record<string, string> = { TEAM: "Team card", PLAYER: "Player card", CHAMPIONS: "Champions", MATCHDAY: "Match day", LINEUP: "Lineup", RESULT: "Result", EVENT: "Tournament" };
+const TYPE_ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️" };
 
 /** Posts a finished poster to the public showcase channel. Never throws. */
 export async function postShowcase(o: { bannerId: string; userId: string; image: Buffer }) {
   try {
-    const url = await getShowcaseHook();
-    if (!url) return;
     const [u, b] = await Promise.all([
       db.user.findUnique({ where: { id: o.userId }, select: { name: true, discordId: true, discordName: true, showcaseOptOut: true, banned: true } }),
-      db.banner.findUnique({ where: { id: o.bannerId }, select: { template: { select: { name: true, layout: true } } } }),
+      db.banner.findUnique({ where: { id: o.bannerId }, select: { design: true, template: { select: { name: true, layout: true } } } }),
     ]);
     if (!u || u.showcaseOptOut || u.banned) return;
-    const layout = b?.template.layout ?? "";
+    const teamSet = !!(b?.design as { seriesRootId?: string } | null)?.seriesRootId;
+    const layout = teamSet ? "TEAM" : b?.template.layout ?? "";
+    // Each poster type goes to its own public channel (falls back to the single showcase channel).
+    const hooks = await getShowcaseHooks();
+    const url = (hooks as Record<string, string>)[layout] || (teamSet ? (hooks as Record<string, string>).PLAYER : "") || (await getShowcaseHook());
+    if (!url) return;
     const who = u.discordId ? `<@${u.discordId}>` : (u.discordName || u.name.split(/\s+/)[0] || "A player").slice(0, 40);
     const isPng = o.image[0] === 0x89;
     const name = `kixo-${o.bannerId}.${isPng ? "png" : "jpg"}`;

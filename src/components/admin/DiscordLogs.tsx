@@ -6,7 +6,9 @@ type Ch = { key: string; label: string; labelEs: string; connected: boolean };
 
 /** Admin: one Discord channel per kind of log. */
 export function DiscordLogs({ es }: { es: boolean }) {
-  const [d, setD] = useState<{ main: boolean; canAuto: boolean; bot: boolean; showcase: boolean; channels: Ch[] } | null>(null);
+  const [d, setD] = useState<{ main: boolean; canAuto: boolean; bot: boolean; showcase: boolean; showcaseTypes: Ch[]; channels: Ch[] } | null>(null);
+  const [typeEdit, setTypeEdit] = useState<string | null>(null);
+  const [typeCh, setTypeCh] = useState("");
   const [chId, setChId] = useState("");
   const [scUrl, setScUrl] = useState("");
   const [busy, setBusy] = useState("");
@@ -59,10 +61,14 @@ export function DiscordLogs({ es }: { es: boolean }) {
         : r.error === "no_webhook_permission"
           ? es ? "❌ El bot necesita “Gestionar webhooks” en ese canal." : "❌ The bot needs “Manage Webhooks” in that channel."
           : r.error === "no_channel" ? (es ? "❌ No encontré ese canal (¿ID correcto? ¿el bot lo ve?)" : "❌ Couldn't find that channel (right ID? can the bot see it?)")
+          : r.error === "no_channels" ? (es ? "❌ El bot no ve canales en tu servidor" : "❌ The bot can't see any channels in your server")
           : `❌ ${r.error ?? "error"}`,
     );
+    if (r.ok && Array.isArray(r.done)) setMsg(r.done.length ? `✅ ${es ? "Conectados" : "Connected"}: ${r.done.join(" · ")}` : es ? "⚠️ No encontré canales con esos nombres" : "⚠️ No channels with those names found");
     setChId("");
     setScUrl("");
+    setTypeEdit(null);
+    setTypeCh("");
     load();
   }
 
@@ -75,8 +81,34 @@ export function DiscordLogs({ es }: { es: boolean }) {
           <h2 className="text-lg font-bold">{es ? "🌍 Vitrina pública" : "🌍 Public showcase"}</h2>
           <p className="text-xs text-muted">{es ? "Cada póster terminado se publica en tu canal público con el nombre del jugador (sin emails). Los usuarios pueden desactivarlo en su Perfil." : "Every finished poster is posted to your public channel with the player's name (no emails). Users can turn it off in their Profile."}</p>
         </div>
-        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${d.showcase ? "bg-teal/15 text-teal" : "bg-panel-2 text-muted"}`}>{d.showcase ? (es ? "Activa" : "On") : es ? "Apagada" : "Off"}</span>
+        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${d.showcase ? "bg-teal/15 text-teal" : "bg-panel-2 text-muted"}`}>{d.showcase || d.showcaseTypes.some((t) => t.connected) ? (es ? "Activa" : "On") : es ? "Apagada" : "Off"}</span>
       </div>
+      {d.bot && (
+        <div className="space-y-2 rounded-xl border border-line bg-panel-2/40 p-3">
+          <div className="text-xs font-bold">{es ? "Un canal por tipo de póster" : "One channel per poster type"}</div>
+          <button type="button" className="btn-primary w-full py-2.5 text-sm" disabled={!!busy} onClick={() => showcase({ action: "showcase_auto" }, "✅")}>
+            {busy === "sc" ? "…" : es ? "⚡ Conectar cada tipo a su canal (por nombre)" : "⚡ Connect each type to its channel (by name)"}
+          </button>
+          <ul className="divide-y divide-line">
+            {d.showcaseTypes.map((t) => (
+              <li key={t.key} className="py-2">
+                <div className="flex items-center gap-2">
+                  <span className="min-w-0 flex-1 truncate text-sm">{es ? t.labelEs : t.label}</span>
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${t.connected ? "bg-teal/15 text-teal" : "bg-panel-2 text-muted"}`}>{t.connected ? (es ? "Conectado" : "Connected") : es ? "Sin canal" : "No channel"}</span>
+                  <button type="button" className="rounded-lg border border-line px-2 py-1 text-xs" onClick={() => { setTypeEdit(typeEdit === t.key ? null : t.key); setTypeCh(""); }}>✏️</button>
+                </div>
+                {typeEdit === t.key && (
+                  <div className="mt-2 flex gap-2">
+                    <input className="input min-w-0 flex-1 py-2 text-xs" inputMode="numeric" placeholder={es ? "ID del canal (vacío = quitar)" : "Channel ID (empty = remove)"} value={typeCh} onChange={(e) => setTypeCh(e.target.value.replace(/\D/g, ""))} />
+                    <button type="button" className="btn-primary px-3 py-2 text-xs" disabled={!!busy} onClick={() => showcase({ action: "showcase_type", key: t.key, channelId: typeCh }, es ? "✅ Guardado" : "✅ Saved")}>{es ? "Guardar" : "Save"}</button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p className="text-[11px] text-muted">{es ? "Tipos sin canal usan el canal general de abajo (si hay)." : "Types without a channel use the general channel below (if set)."}</p>
+        </div>
+      )}
       {d.bot && (
         <div className="flex gap-2">
           <input className="input min-w-0 flex-1 py-2 text-sm" inputMode="numeric" placeholder={es ? "ID del canal (mantén pulsado el canal → Copiar ID)" : "Channel ID (long-press the channel → Copy ID)"} value={chId} onChange={(e) => setChId(e.target.value.replace(/\D/g, ""))} />

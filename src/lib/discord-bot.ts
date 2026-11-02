@@ -113,3 +113,13 @@ export async function createWebhookIn(channelId: string): Promise<{ url?: string
   const w = await r.json();
   return { url: `https://discord.com/api/webhooks/${w.id}/${w.token}` };
 }
+
+/** Text channels in your server (id + name). */
+export async function listTextChannels(): Promise<{ id: string; name: string }[]> {
+  const g = guildId();
+  if (!botReady() || !g) return [];
+  const r = await call(`/guilds/${g}/channels`, { method: "GET" }).catch(() => null);
+  if (!r?.ok) return [];
+  const all = (await r.json()) as { id: string; name: string; type: number }[];
+  return all.filter((c) => c.type === 0 || c.type === 5).map((c) => ({ id: c.id, name: c.name }));
+}
