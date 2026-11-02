@@ -600,10 +600,10 @@ export function buildProPrompt(opts: {
       : "",
     opts.series
       ? `TEAM SET: this card belongs to a matching set for the whole team. Copy the design of the first card (reference image) as closely as possible — same background, colours, layout, fonts and effects — so all cards look like one series. Only the player and the player's text change.`
-      : randomize && adminLed
-      ? `Make this poster feel fresh (variation #${v.seed}) with new small details, but keep the layout, concept and style the art director defined.`
+      : randomize && (layout === "LINEUP" || /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""))
+      ? `Make this poster feel fresh (variation #${v.seed}) with new small details, but keep the layout, concept and style ${adminLed ? "the art director defined" : "of the base style"}.`
       : randomize
-      ? `UNIQUE CREATIVE DIRECTION for this poster (variation #${v.seed}) — make it look clearly different from other posters in this series: background concept: ${bgScenePrompt(i.bgScene) ? "the chosen scene above, with touches of " : ""}${v.motif};${adminLed ? "" : ` composition: ${v.composition};`} lighting: ${v.lighting}; texture: ${v.texture}. Blend these with the base style${adminLed ? " without changing the layout the art director defined" : ""}; invent fresh details rather than a generic template.`
+      ? `SAME STYLE, NEW ARRANGEMENT (variation #${v.seed}): keep EXACTLY the ${adminLed ? "art director's" : "base"} style — the same kind of scene and background, the same colours, materials, typography, effects and quality — so it clearly belongs to this style. Only the POSITIONS change this time: ${v.arrangement ?? "a fresh arrangement of the same elements"}. Keep every required element and all text readable, and keep the brand-mark corner calm.`
       : `Keep this poster consistent with the base style — same kind of background, layout and mood every time.`,
     adminLed ? "" : typeFx,
     typo,

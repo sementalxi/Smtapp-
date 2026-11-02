@@ -202,6 +202,20 @@ export const COMPOSITIONS = [
   "split-screen two-tone layout",
 ];
 
+/** Same style, different arrangement — picked per poster so no two look identical. */
+export const ARRANGEMENTS = [
+  "the main subject centred and large, the title above it, the details in a clean block at the bottom",
+  "the main subject slightly to the LEFT, the title stacked on the RIGHT side, details bottom-right",
+  "the main subject slightly to the RIGHT, the title stacked on the LEFT side, details bottom-left",
+  "the main subject big in the lower half rising up, the title huge across the top",
+  "the title enormous across the middle, the main subject in front overlapping the letters",
+  "a diagonal layout: the main subject lower-left, the title upper-right, energy running along the diagonal",
+  "a low camera angle: the main subject towering over the viewer, the title across the bottom",
+  "a tight, close framing: the main subject filling most of the frame, the text in a clean band along the bottom",
+  "the title split in two lines — one above and one below the main subject",
+  "the main subject slightly smaller and centred with lots of depth behind, the title big and bold above",
+];
+
 export const LIGHTING = [
   "strong backlight with bright rim light",
   "single hard top spotlight in darkness",
@@ -216,6 +230,7 @@ export interface Variation {
   palette: { name: string; primary: string; accent: string; dark: string } | null;
   motif: string;
   composition: string;
+  arrangement: string;
   lighting: string;
   texture: string;
   seed: number;
@@ -230,6 +245,7 @@ export function createVariation(colorMode: string): Variation {
     palette: colorMode === "surprise" || !colorMode ? { name: p[0], primary: p[1], accent: p[2], dark: p[3] } : null,
     motif: Math.random() < 0.6 ? pick(BG_SCENES).prompt : pick(MOTIFS),
     composition: pick(COMPOSITIONS),
+    arrangement: pick(ARRANGEMENTS),
     lighting: pick(LIGHTING),
     texture: pick(TEXTURES),
     seed: Math.floor(Math.random() * 1_000_000),
