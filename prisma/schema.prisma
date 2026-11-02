@@ -53,6 +53,7 @@ model User {
   currentPeriodEnd   DateTime?
   refCode            String? // personal invite code (checked unique in code)
   referredById       String? // who invited this user
+  discordId          String? // linked Discord account (checked unique in code)
   emailOptOut        Boolean             @default(false) // unsubscribed from promo emails
   phone              String? // verified phone (E.164) — one account per number, checked in code
   createdAt          DateTime            @default(now())
@@ -64,6 +65,7 @@ model User {
 
   @@index([refCode])
   @@index([phone])
+  @@index([discordId])
   @@index([referredById])
 }
 

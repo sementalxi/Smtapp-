@@ -11,7 +11,7 @@ const COUNTRIES = [
   ["+506", "🇨🇷 +506"], ["+507", "🇵🇦 +507"], ["+591", "🇧🇴 +591"], ["+595", "🇵🇾 +595"], ["+598", "🇺🇾 +598"], ["+55", "🇧🇷 +55"], ["+44", "🇬🇧 +44"],
 ] as const;
 
-export function AuthForm({ mode, next, phoneRequired }: { mode: "login" | "register"; next?: string; phoneRequired?: boolean }) {
+export function AuthForm({ mode, next, phoneRequired, discord, err }: { mode: "login" | "register"; next?: string; phoneRequired?: boolean; discord?: boolean; err?: string }) {
   const { t, locale } = useT();
   const es = locale === "es";
   const [cc, setCc] = useState("+1");
@@ -72,6 +72,31 @@ export function AuthForm({ mode, next, phoneRequired }: { mode: "login" | "regis
   return (
     <div className="mx-auto mt-16 max-w-sm px-4">
       <h1 className="font-display mb-6 text-4xl">{t(mode === "login" ? "login_title" : "register_title")}</h1>
+      {discord && (
+        <div className="mb-4 space-y-3">
+          <a
+            href={`/api/auth/discord${next ? `?next=${encodeURIComponent(next)}` : ""}`}
+            className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#5865F2] py-3.5 text-base font-bold text-white shadow-[0_8px_28px_-10px_rgba(88,101,242,0.8)] transition hover:brightness-110"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
+              <path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.4 18.4 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.9 19.9 0 0 0 6 3l1.3-2a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4a12.9 12.9 0 0 1-2 1l1.3 2a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7ZM8.1 15.4c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Zm7.8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4Z" />
+            </svg>
+            {es ? "Continuar con Discord" : "Continue with Discord"}
+          </a>
+          {err?.startsWith("discord") && (
+            <p className="text-center text-xs text-danger">
+              {err === "discord_email"
+                ? es ? "Tu cuenta de Discord necesita un email verificado." : "Your Discord account needs a verified email."
+                : es ? "No se pudo entrar con Discord. Inténtalo otra vez." : "Couldn't sign in with Discord. Please try again."}
+            </p>
+          )}
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-muted">
+            <span className="h-px flex-1 bg-line" />
+            {es ? "o con email" : "or with email"}
+            <span className="h-px flex-1 bg-line" />
+          </div>
+        </div>
+      )}
       <form onSubmit={submit} className="card space-y-4 p-6">
         {mode === "register" && (
           <div>
