@@ -516,6 +516,27 @@ export function CreateWizard({
               );
             })}
             <Link
+              href="/create/roster"
+              className="group relative col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-lime/40 bg-gradient-to-r from-lime/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-lime/70 active:scale-[0.99] sm:p-4"
+            >
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-lime/40 bg-lime/10 text-lime">
+                <TypeIcon layout="RESULT" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-2">
+                  <span className="text-[15px] font-extrabold sm:text-base">{locale === "es" ? "Banners de plantilla" : "Roster banners"}</span>
+                  <span className="rounded-full bg-lime px-1.5 py-0.5 text-[9px] font-extrabold text-ink">{locale === "es" ? "NUEVO" : "NEW"}</span>
+                </span>
+                <span className="mt-0.5 line-clamp-2 block text-[11px] leading-snug text-muted sm:text-xs">
+                  {locale === "es" ? "Sube varios jugadores y recibe un banner ancho por cada uno, mismo diseño." : "Upload several players, get one wide banner each — same design."}
+                </span>
+              </span>
+              <span className="shrink-0 text-right">
+                <span className="block text-[10px] font-bold text-muted">⚡ {cost}</span>
+                <span className="block text-[9px] text-muted">{locale === "es" ? "c/u" : "each"}</span>
+              </span>
+            </Link>
+            <Link
               href="/create?team=1"
               className="group relative col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-teal/40 bg-gradient-to-r from-teal/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-teal/70 active:scale-[0.99] sm:p-4"
             >

@@ -30,6 +30,7 @@ export async function Header() {
         { href: "/dashboard", label: es ? "Inicio" : "Home", icon: "home" },
         { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "shield", badge: es ? "NUEVO" : "NEW" },
         { href: "/create?team=1", label: es ? "Tarjetas del equipo" : "Team cards", icon: "team" },
+        { href: "/create/roster", label: es ? "Banners de plantilla" : "Roster banners", icon: "explore", badge: es ? "NUEVO" : "NEW" },
         { href: "/history", label: es ? "Historial" : "History", icon: "history" },
         { href: "/credits", label: es ? "Créditos" : "Credits", icon: "credits" },
         { href: "/pricing", label: es ? "Precios" : "Pricing", icon: "pricing" },

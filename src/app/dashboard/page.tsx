@@ -98,6 +98,12 @@ export default async function DashboardPage() {
           </span>
           <span className="text-[11px] font-bold leading-tight">{es ? "Tarjetas del equipo" : "Team cards"}</span>
         </Link>
+        <Link href="/create/roster" className="flex flex-col items-center gap-1.5 rounded-2xl border border-lime/40 bg-gradient-to-b from-lime/10 to-panel px-1 py-3 text-center transition hover:border-lime/70 active:scale-95">
+          <span className="grid h-10 w-10 place-items-center rounded-xl border border-lime/40 bg-lime/10 text-lime">
+            <TypeIcon layout="RESULT" className="h-5 w-5" />
+          </span>
+          <span className="text-[11px] font-bold leading-tight">{es ? "Banners de plantilla" : "Roster banners"}</span>
+        </Link>
       </div>
 
       <div className="mt-8 mb-3 flex items-end justify-between">

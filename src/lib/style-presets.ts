@@ -2,6 +2,24 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "player-roster-banner": `[WIDE] ROSTER BANNER — a WIDE landscape (3:2) esports / pro-clubs roster banner, the kind a pro team posts to announce each player. Bold, clean, cinematic. Built so a whole roster can be made in the same design, one banner per player.
+
+COMPOSITION (left to right)
+- LEFT HALF: the player from the photo as a sharp cut-out from the waist up, facing the camera, lit with a crisp rim light in the team colour. Directly behind them, on the far left, a LARGE second shot of the SAME player (a different pose — e.g. a candid close-up or looking to the side) as a dark duotone image graded in the team colour, partly faded into the background.
+- CENTRE: the team crest (if given) small, as a subtle emblem on the dividing line between the halves.
+- RIGHT HALF: a dark, textured background (smoke, grunge, faint graphic shapes) in near-black with the team colour.
+
+TYPOGRAPHY (right half, vertically centred)
+- The GAMERTAG (player name) HUGE in ultra-condensed heavy capitals, white with a subtle texture — the LAST letter in the team accent colour. A short thick accent bar in the team colour runs behind the start of the name.
+- The player's real name (the small word above the name, if given) in tiny, very widely letter-spaced white capitals just above the gamertag.
+- Team name (if given) small and letter-spaced near the bottom of the right half.
+
+EFFECTS & COLOURS
+- Team colours drive everything (main colour + black + white). Glitch light streaks and torn light strips in the main colour along the far right edge and the bottom, a few sparks, film grain.
+
+RULES
+- Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
+- Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
   "player-shatter": `SHATTERED SIGNING — a premium esports / pro-clubs player signing card in a bold monochrome editorial style, like the work of a top club graphics studio. Cinematic, sharp and expensive.
 
 COLOURS (changes every poster)

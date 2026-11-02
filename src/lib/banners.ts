@@ -586,7 +586,7 @@ export function buildProPrompt(opts: {
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
       : "";
   return [
-    `Design a finished, high-end vertical sports social-media poster (4:5).`,
+    /\[WIDE\]/.test(opts.instructions ?? "") ? `Design a finished, high-end WIDE landscape sports banner (3:2).` : `Design a finished, high-end vertical sports social-media poster (4:5).`,
     directorBlock,
     adminLed
       ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
@@ -685,7 +685,9 @@ export async function generateProForBanner(opts: {
     const quality = await qualityFor(opts.userId);
     let poster: Buffer;
     try {
-      poster = await generatePoster(opts.prompt, images, quality);
+      // Wide styles ([WIDE] in the art director's instructions) are made in landscape.
+      const wide = /\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined;
+      poster = await generatePoster(opts.prompt, images, quality, wide);
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
       // Still blocked after the text retries: one of the extra images (style reference, logo, trophy)
@@ -697,7 +699,7 @@ export async function generateProForBanner(opts: {
         .filter((sec) => !/^Reference image (?!1 )\d+ is /.test(sec.trim()))
         .join("\n\n");
       try {
-        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality);
+        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, /\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined);
       } catch (e2) {
         const m2 = e2 instanceof Error ? e2.message : String(e2);
         if (/moderation_blocked|safety system/i.test(m2)) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m2}`);

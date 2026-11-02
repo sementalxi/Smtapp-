@@ -208,6 +208,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "player-roster-banner",
+    name: "Roster Banner",
+    nameEs: "Banner de Plantilla",
+    layout: "PLAYER",
+    sort: 2,
+    prompt:
+      "wide esports roster banner: player cut-out on the left with a dark duotone second shot behind, giant condensed gamertag on the right, glitch light streaks",
+    style: {
+      primary: "#e3102b",
+      accent: "#ffffff",
+      dark: "#0b0507",
+      nameFont: "anton",
+      scriptFont: "sans",
+      nameGradient: ["#ffffff", "#f1f1f1", "#d8d8d8"],
+      fallback: ["#0b0507", "#4a0710", "#e3102b"],
+      particles: "sparks",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "player-shatter",
     name: "Shattered Signing",
     nameEs: "Fichaje Estallido",
