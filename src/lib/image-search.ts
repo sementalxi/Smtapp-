@@ -30,12 +30,21 @@ async function getJson(url: string, init?: RequestInit) {
 
 const isHttp = (u: unknown): u is string => typeof u === "string" && /^https?:\/\//i.test(u);
 
+export let lastSearchError = "";
+
 async function serper(q: string): Promise<ImageResult[]> {
-  const data = await getJson("https://google.serper.dev/images", {
+  const res = await fetch("https://google.serper.dev/images", {
     method: "POST",
-    headers: { "X-API-KEY": process.env.SERPER_API_KEY!.trim(), "Content-Type": "application/json" },
-    body: JSON.stringify({ q, num: 40 }),
+    headers: { "X-API-KEY": process.env.SERPER_API_KEY!.trim().replace(/^["']|["']$/g, ""), "Content-Type": "application/json" },
+    body: JSON.stringify({ q, num: 20 }),
+    signal: AbortSignal.timeout(10_000),
+    cache: "no-store",
   });
+  if (!res.ok) {
+    const body = (await res.text().catch(() => "")).slice(0, 160);
+    throw new Error(`Google search ${res.status}${body ? `: ${body}` : ""}`);
+  }
+  const data = await res.json();
   return ((data.images ?? []) as Record<string, unknown>[])
     .filter((r) => isHttp(r.imageUrl))
     .map((r) => ({
@@ -99,9 +108,16 @@ export async function searchImages(q: string, kind: "photo" | "logo"): Promise<I
   const provider = imageSearchProvider();
   const query = kind === "logo" && provider !== "free" ? `${q} logo crest png` : q;
   let results: ImageResult[] = [];
-  if (provider === "google") results = await serper(query);
-  else if (provider === "brave") results = await brave(query);
-  else {
+  lastSearchError = "";
+  // Google/Brave first; if that fails (bad key, no credits…) fall back to the free sources instead of failing.
+  try {
+    if (provider === "google") results = await serper(query);
+    else if (provider === "brave") results = await brave(query);
+  } catch (e) {
+    lastSearchError = e instanceof Error ? e.message : String(e);
+    console.error("image search provider failed", lastSearchError);
+  }
+  if (!results.length) {
     const [a, b] = await Promise.allSettled([sportsDb(q, kind), wikipedia(q)]);
     results = [...(a.status === "fulfilled" ? a.value : []), ...(b.status === "fulfilled" ? b.value : [])];
   }

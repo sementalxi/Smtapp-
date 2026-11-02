@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
-import { imageSearchProvider, searchImages } from "@/lib/image-search";
+import { imageSearchProvider, searchImages, lastSearchError } from "@/lib/image-search";
 
 // GET /api/image-search?q=messi&kind=photo → { provider, results: [{thumb,url,title,source}] }
 export const GET = handle(async (req: NextRequest) => {
@@ -12,7 +12,9 @@ export const GET = handle(async (req: NextRequest) => {
   if (q.length < 2) throw new HttpError(400, "query_too_short");
   const kind = req.nextUrl.searchParams.get("kind") === "logo" ? "logo" : "photo";
   try {
-    return json({ provider: imageSearchProvider(), results: await searchImages(q, kind) });
+    const results = await searchImages(q, kind);
+    // Admins see why Google search failed (e.g. a bad key); everyone else just gets the fallback results.
+    return json({ provider: imageSearchProvider(), results, ...(user.role === "ADMIN" && lastSearchError ? { providerError: lastSearchError } : {}) });
   } catch (e) {
     console.error("image search failed", e);
     return json({ error: "search_failed" }, 502);

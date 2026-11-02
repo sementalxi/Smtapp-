@@ -51,7 +51,11 @@ export function ImageSearch({
     const res = await fetch(`/api/image-search?kind=${kind}&q=${encodeURIComponent(term.trim())}`);
     const data = await res.json().catch(() => ({}));
     setBusy(false);
-    if (res.ok) setResults(data.results ?? []);
+    if (res.ok) {
+      setResults(data.results ?? []);
+      if (data.providerError) setErr(`⚠️ Admin: ${data.providerError}`);
+      else if (!(data.results ?? []).length) setErr(es ? "Sin resultados — prueba otro nombre" : "No results — try another name");
+    }
     else {
       setResults([]);
       setErr(data.error === "too_many_requests" ? (es ? "Demasiadas búsquedas, espera un poco" : "Too many searches, wait a bit") : es ? "La búsqueda falló, intenta de nuevo" : "Search failed, try again");
