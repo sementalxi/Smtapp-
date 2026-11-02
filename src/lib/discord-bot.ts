@@ -29,10 +29,17 @@ export async function botInfo(): Promise<{ ok: boolean; name?: string; error?: s
 
 export type DmMessage = { content: string; title?: string; imageUrl?: string; linkUrl?: string; linkLabel?: string };
 
+export let lastDmError = "";
+
 /** Sends a DM. Returns "ok", "closed" (DMs off / no shared server) or "error". */
 export async function dmUser(discordId: string, m: DmMessage): Promise<"ok" | "closed" | "error"> {
+  lastDmError = "";
   const ch = await call("/users/@me/channels", { method: "POST", body: JSON.stringify({ recipient_id: discordId }) }).catch(() => null);
-  if (!ch?.ok) return "error";
+  if (!ch?.ok) {
+    const e = ch ? await ch.json().catch(() => ({})) : {};
+    lastDmError = `${ch?.status ?? "net"} ${e.code ?? ""} ${e.message ?? ""}`.trim();
+    return "error";
+  }
   const { id } = await ch.json();
   const embed =
     m.title || m.imageUrl
@@ -48,6 +55,8 @@ export async function dmUser(discordId: string, m: DmMessage): Promise<"ok" | "c
   }).catch(() => null);
   if (!res) return "error";
   if (res.ok) return "ok";
+  const e = await res.json().catch(() => ({}));
+  lastDmError = `${res.status} ${e.code ?? ""} ${e.message ?? ""}`.trim();
   return res.status === 403 ? "closed" : "error";
 }
 

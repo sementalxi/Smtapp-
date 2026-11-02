@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiAdmin } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
-import { botInfo, botReady, dmUser, guildId } from "@/lib/discord-bot";
+import { botInfo, botReady, dmUser, guildId, lastDmError } from "@/lib/discord-bot";
 
 export const maxDuration = 300;
 
@@ -35,7 +35,13 @@ export const POST = handle(async (req: NextRequest) => {
     const me = await db.user.findUnique({ where: { id: admin.id }, select: { discordId: true } });
     if (!me?.discordId) return json({ error: "admin_not_linked" }, 400);
     const r = await dmUser(me.discordId, msg);
-    return json({ sent: r === "ok" ? 1 : 0, closed: r === "closed" ? 1 : 0, failed: r === "error" ? 1 : 0 });
+    let inServer: boolean | null = null;
+    const g = guildId();
+    if (r !== "ok" && g) {
+      const m = await fetch(`https://discord.com/api/v10/guilds/${g}/members/${me.discordId}`, { headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN!.trim().replace(/^Bot\s+/i, "")}` } }).catch(() => null);
+      inServer = m ? m.ok : null;
+    }
+    return json({ sent: r === "ok" ? 1 : 0, closed: r === "closed" ? 1 : 0, failed: r === "error" ? 1 : 0, detail: r === "ok" ? "" : lastDmError, inServer });
   }
 
   const users = await db.user.findMany({ where: { banned: false, discordId: { not: null } }, select: { discordId: true } });

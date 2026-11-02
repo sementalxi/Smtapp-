@@ -29,7 +29,13 @@ export function DiscordComposer({ es }: { es: boolean }) {
           ? es ? "❌ Conecta tu Discord en Perfil para recibir la prueba." : "❌ Connect your Discord in Profile to get the test."
           : d.error === "bot_missing" ? (es ? "❌ Falta DISCORD_BOT_TOKEN en Vercel." : "❌ DISCORD_BOT_TOKEN is missing in Vercel.") : es ? "❌ No se pudo enviar" : "❌ Couldn't send",
       );
-    setMsg(`✅ ${es ? "Enviados" : "Sent"}: ${d.sent}${d.closed ? ` · ${es ? "DMs cerrados" : "DMs closed"}: ${d.closed}` : ""}${d.failed ? ` · ${es ? "Fallaron" : "Failed"}: ${d.failed}` : ""}`);
+    const why =
+      d.inServer === false
+        ? es ? " — Tu cuenta de Discord NO está en tu servidor (o el bot no está en él)." : " — Your Discord account is NOT in your server (or the bot isn't in it)."
+        : /50007/.test(d.detail ?? "")
+          ? es ? " — Discord bloquea los DMs: activa “Mensajes directos” en la privacidad del servidor." : " — Discord blocks the DM: turn on “Direct Messages” in the server's privacy settings."
+          : "";
+    setMsg(`${d.sent ? "✅" : "⚠️"} ${es ? "Enviados" : "Sent"}: ${d.sent}${d.closed ? ` · ${es ? "DMs cerrados" : "DMs closed"}: ${d.closed}` : ""}${d.failed ? ` · ${es ? "Fallaron" : "Failed"}: ${d.failed}` : ""}${why}${d.detail ? ` (${d.detail})` : ""}`);
     load();
   }
 
