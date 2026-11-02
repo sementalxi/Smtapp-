@@ -94,7 +94,7 @@ TYPOGRAPHY
 - Team name: small, wide letter-spaced white capitals above the title. The TEAM CREST small and sharp at the top centre.
 - Date (if given): tiny letter-spaced at the bottom.
 
-SQUAD NAMES (if given) — DESIGNED, never plain text: the names in bold italic condensed sports capitals with a real brushed-silver / white-metal finish, a subtle bevel and a soft team-colour glow, a short hard shadow, each name with a tiny gold star or thin team-colour slash before it; arranged in 2–3 perfectly aligned columns on a sleek dark glass strip along the bottom with a thin gold line on top, a light sweep reflection across it and confetti passing in front. Uniform size, fully readable. Spell every name EXACTLY as written.
+SQUAD NAMES (if given) — like the BILLING BLOCK of a movie poster: the names in the SAME tall ultra-condensed upright sans-serif as the title (NOT italic, NOT wide, NOT bold-black), clean white with a very subtle silver sheen, all the same size, wide letter-spacing, tight line-height, centred in 2–3 short balanced rows at the bottom; names separated by small gold dots ( · ); a thin gold hairline above and below the block. Elegant, cinematic and premium — sitting on the photo itself (dark gradient at the bottom), no box, no stars, no glow. Spell every name EXACTLY as written.
 
 REALISM
 - A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
@@ -466,10 +466,11 @@ SCENE
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
+- ECHOES: the same TITLE word repeated THREE more times behind it, stacked downward (or receding into the depth), each one bigger/further back and FADING AWAY — about 35%, then 20%, then 8% opacity — outlined or ghosted white letters dissolving into the crowd bokeh and haze, cut off at the edges. Never competing with the main title.
 - Team name: small, wide letter-spaced white capitals above the title. The TEAM CREST small and sharp at the top centre.
 - Date (if given): tiny letter-spaced at the bottom.
 
-SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+SQUAD NAMES (if given) — DESIGNED, never plain text: the names in bold italic condensed sports capitals with a real brushed-silver / white-metal finish, a subtle bevel and a soft team-colour glow, a short hard shadow, each name with a tiny gold star or thin team-colour slash before it; arranged in 2–3 perfectly aligned columns on a sleek dark glass strip along the bottom with a thin gold line on top, a light sweep reflection across it and confetti passing in front. Uniform size, fully readable. Spell every name EXACTLY as written.
 
 REALISM
 - A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.

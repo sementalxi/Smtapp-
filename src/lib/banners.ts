@@ -433,7 +433,7 @@ export function buildProPrompt(opts: {
       const squad = (i.roster.length ? i.roster : i.players).filter(Boolean);
       if (squad.length)
         lines.push(
-          `- Squad list — exactly these ${squad.length} names (the commas only separate them, never draw commas or bars): ${q(squad.join(", "))} — set in a premium bold condensed sans-serif, uniform size, generous letter-spacing, ${squad.length > 6 ? "in 2–3 perfectly aligned columns" : "in one clean centred row"} near the bottom — styled as the art direction describes (designed, never plain), no "|" separators`,
+          `- Squad list — exactly these ${squad.length} names (the commas only separate them, never draw commas or bars): ${q(squad.join(", "))} — near the bottom, styled EXACTLY as the art direction's squad design describes (if it describes none: a premium condensed sans-serif, uniform size, ${squad.length > 6 ? "in 2–3 aligned columns" : "in one centred row"}); never "|" bars`,
         );
       add("Date", i.date);
       add("Prize badge (gold)", i.prize);
