@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { shrink } from "../ImageDrop";
 
 type Info = { ready: boolean; bot: { ok: boolean; name?: string; error?: string }; guild: boolean; linked: number; history: { at: string; preview: string; sent: number; closed: number; failed: number; total: number }[] };
 
@@ -13,13 +14,21 @@ export function DiscordComposer({ es }: { es: boolean }) {
     if (!files) return;
     setUpBusy(true);
     for (const file of Array.from(files).slice(0, 4 - imgs.length)) {
-      if (!/^image\/(png|jpe?g|webp|gif)$/.test(file.type)) continue;
+      if (!file.type.startsWith("image/")) continue;
+      const blob = await shrink(file); // smaller than the 4.5 MB upload limit; HEIC → JPEG
       const fd = new FormData();
-      fd.append("file", file, file.name);
+      fd.append("file", blob, file.name.replace(/\.(heic|heif)$/i, ".jpg"));
       fd.append("kind", "photo");
-      const d = await fetch("/api/upload", { method: "POST", body: fd }).then((r) => r.json()).catch(() => ({}));
+      const d = await fetch("/api/upload", { method: "POST", body: fd }).then((r) => r.json()).catch(() => ({ error: "network" }));
       if (d.url) setImgs((x) => [...x, d.url].slice(0, 4));
-      else setMsg(es ? "❌ Una imagen no se pudo subir" : "❌ An image couldn't be uploaded");
+      else
+        setMsg(
+          d.error === "unsafe_image"
+            ? es ? "❌ Esa imagen no está permitida" : "❌ That image isn't allowed"
+            : d.error === "file_too_large"
+              ? es ? "❌ La imagen es demasiado grande" : "❌ That image is too large"
+              : `${es ? "❌ Una imagen no se pudo subir" : "❌ An image couldn't be uploaded"}${d.error ? ` (${d.error})` : ""}`,
+        );
     }
     setUpBusy(false);
     if (fileRef.current) fileRef.current.value = "";
@@ -100,7 +109,7 @@ export function DiscordComposer({ es }: { es: boolean }) {
               </button>
             )}
           </div>
-          <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple className="hidden" onChange={(e) => addFiles(e.target.files)} />
+          <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => addFiles(e.target.files)} />
           <p className="mt-1 text-[11px] text-muted">{es ? "Varias imágenes se muestran como galería en Discord." : "Several images show as a gallery in Discord."}</p>
         </div>
         <div className="grid grid-cols-[minmax(0,1fr)_9rem] gap-2">

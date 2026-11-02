@@ -9,13 +9,14 @@ import { ImageSearch } from "./ImageSearch";
  * request bodies (~4.5 MB on Vercel), and the AI models don't need more pixels.
  * PNG/WebP keep transparency; JPEGs stay JPEG.
  */
-async function shrink(file: File): Promise<Blob> {
+export async function shrink(file: File): Promise<Blob> {
   const keepAlpha = file.type !== "image/jpeg";
   const max = keepAlpha ? 1600 : 2048;
   try {
     const bmp = await createImageBitmap(file);
     const scale = Math.min(1, max / Math.max(bmp.width, bmp.height));
-    if (scale === 1 && file.size < 3.5 * 1024 * 1024) return file;
+    // HEIC (iPhone) and other formats are always converted to JPEG/PNG.
+    if (scale === 1 && file.size < 3.5 * 1024 * 1024 && /^image\/(png|jpe?g|webp)$/.test(file.type)) return file;
     const c = document.createElement("canvas");
     c.width = Math.round(bmp.width * scale);
     c.height = Math.round(bmp.height * scale);
