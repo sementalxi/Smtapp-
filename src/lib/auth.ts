@@ -11,6 +11,11 @@ export const getCurrentUser = cache(async () => {
   if (!userId) return null;
   const user = await db.user.findUnique({ where: { id: userId } });
   if (!user || user.banned) return null;
+  // Emails in ADMIN_EMAILS become admin however they logged in (password, Discord or reset link).
+  if (user.role !== "ADMIN" && isAdminEmail(user.email)) {
+    await db.user.update({ where: { id: user.id }, data: { role: "ADMIN" } }).catch(() => {});
+    user.role = "ADMIN";
+  }
   return user;
 });
 
