@@ -12,6 +12,7 @@ export async function AccountShell({ user, children }: { user: CurrentUser; chil
   const links: AccountLink[] = [
     { href: "/dashboard", label: es ? "Inicio" : "Home", icon: "home" },
     { href: "/create", label: es ? "Crear arte" : "Create art", icon: "create" },
+    { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "teams" },
     { href: "/history", label: es ? "Historial" : "History", icon: "history" },
     { href: "/credits", label: es ? "Créditos" : "Credits", icon: "credits" },
     { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", badge: reward > 0 ? `+${reward}` : undefined },

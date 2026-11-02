@@ -10,6 +10,15 @@ export interface SavedItem {
   logoUrl: string | null;
   /** Added by the admin — available to everyone */
   official?: boolean;
+  /** Saved roster ("My teams") */
+  players?: { num: string; name: string; pos: string }[];
+}
+
+/** Update a cached saved item (e.g. after its roster changed). */
+export function updateSavedCache(kind: string, item: SavedItem) {
+  if (!cache[kind]) return;
+  cache[kind] = cache[kind]!.map((x) => (x.id === item.id ? { ...x, ...item } : x));
+  listeners.forEach((l) => l());
 }
 
 const cache: Record<string, SavedItem[] | undefined> = {};

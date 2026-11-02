@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const PATHS = {
   home: <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
   create: <path d="M12 5v14M5 12h14" />,
+  teams: <path d="M12 3 4.5 5.8v5.4c0 4.6 3.1 8.3 7.5 9.8 4.4-1.5 7.5-5.2 7.5-9.8V5.8z" />,
   history: (
     <>
       <circle cx="12" cy="12" r="9" />

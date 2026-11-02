@@ -9,7 +9,9 @@ import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
-import { SavedPicker, type SavedItem } from "./SavedPicker";
+import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
+import { parseLine } from "@/lib/roster";
+import { positionsFor } from "@/lib/formations";
 import { LineupBuilder, slotsToLines, type Slot } from "./LineupBuilder";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
@@ -287,7 +289,57 @@ export function CreateWizard({
     }
   }
 
+  // ── "My teams": fill players from the saved roster, and save new ones back ──
+  const roster = team && !team.official ? team.players ?? [] : [];
+  function fillFromTeam() {
+    if (!roster.length) return;
+    if (layout === "CHAMPIONS") return setSquadText(roster.map((p) => p.name).join("\n"));
+    if (inp.formation) {
+      const pos = positionsFor(inp.formation);
+      const used = new Set<number>();
+      const pick = (f: (p: (typeof roster)[number]) => boolean) => {
+        const i = roster.findIndex((p, j) => !used.has(j) && f(p));
+        if (i < 0) return null;
+        used.add(i);
+        return roster[i];
+      };
+      const out: (typeof roster[number] | null)[] = pos.map((code) => pick((p) => p.pos === code));
+      for (let k = 0; k < out.length; k++) if (!out[k]) out[k] = pick((p) => !p.pos) ?? pick(() => true);
+      setSlots(out.map((p) => ({ num: p?.num ?? "", name: p?.name ?? "" })));
+    } else setPlayersText(roster.slice(0, 11).map((p) => [p.num, p.name, p.pos].filter(Boolean).join(" ")).join("\n"));
+  }
+  useEffect(() => {
+    // Auto-fill when a saved team is picked and nothing is typed yet.
+    if (!roster.length) return;
+    if (layout === "CHAMPIONS" && !squadText.trim()) fillFromTeam();
+    if (layout === "LINEUP" && !playersText.trim() && !slots.some((x) => x.name.trim())) fillFromTeam();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [team?.id, inp.formation, layout]);
+  function saveRosterBack() {
+    if (!team || team.official) return;
+    const known = new Set(["GK", "RB", "CB", "LB", "RWB", "LWB", "CDM", "CM", "CAM", "RM", "LM", "RW", "LW", "CF", "ST"]);
+    const merge =
+      layout === "LINEUP"
+        ? inp.formation
+          ? positionsFor(inp.formation).map((pos, i) => ({ num: slots[i]?.num.trim() ?? "", name: slots[i]?.name.trim() ?? "", pos })).filter((p) => p.name)
+          : lines(playersText).map((l) => parseLine(l, known)).filter((p) => p.name)
+        : layout === "CHAMPIONS"
+          ? lines(squadText).map((n) => ({ num: "", name: n.slice(0, 30), pos: "" }))
+          : [];
+    if (!merge.length) return;
+    fetch(`/api/saved/${team.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ merge: merge.slice(0, 40) }) })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.item) {
+          updateSavedCache("team", d.item);
+          setTeam(d.item);
+        }
+      })
+      .catch(() => {});
+  }
+
   async function generate() {
+    saveRosterBack();
     setPhase("busy");
     setError("");
     const res = await fetch("/api/banners", {
@@ -545,6 +597,11 @@ export function CreateWizard({
                 </div>
               </div>
               <ImageDrop kind="logo" label={L.trophyUpload} value={inp.trophyUrl || null} onChange={(u) => set("trophyUrl", u ?? "")} />
+              {roster.length > 0 && (
+                <button type="button" onClick={fillFromTeam} className="flex w-full items-center justify-center gap-2 rounded-xl border border-teal/40 bg-teal/10 py-2.5 text-sm font-bold text-teal">
+                  👥 {locale === "es" ? `Usar jugadores de ${team?.name} (${roster.length})` : `Use ${team?.name} players (${roster.length})`}
+                </button>
+              )}
               <div>
                 <label className="label">{L.squad}</label>
                 <textarea className="input min-h-28" placeholder={L.squadPh} value={squadText} onChange={(e) => setSquadText(e.target.value)} />
@@ -601,6 +658,11 @@ export function CreateWizard({
                 </div>
                 {field({ label: L.date, k: "date", max: 30, ph: "Matchday 7" })}
               </div>
+              {roster.length > 0 && (
+                <button type="button" onClick={fillFromTeam} className="flex w-full items-center justify-center gap-2 rounded-xl border border-teal/40 bg-teal/10 py-2.5 text-sm font-bold text-teal">
+                  👥 {locale === "es" ? `Usar jugadores de ${team?.name} (${roster.length})` : `Use ${team?.name} players (${roster.length})`}
+                </button>
+              )}
               {inp.formation ? (
                 <div>
                   <label className="label">

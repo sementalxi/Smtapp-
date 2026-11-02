@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { apiUser } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { assertOwnUrl } from "@/lib/banners";
+import { parseRoster, MAX_ROSTER } from "@/lib/roster";
 
 const Kind = z.enum(["team", "championship"]);
 
@@ -13,16 +14,17 @@ export const GET = handle(async (req: NextRequest) => {
   const kind = Kind.parse(req.nextUrl.searchParams.get("kind"));
   const [official, mine] = await Promise.all([
     db.libraryItem.findMany({ where: { kind }, orderBy: [{ sort: "asc" }, { name: "asc" }], select: { id: true, name: true, logoUrl: true } }),
-    db.savedItem.findMany({ where: { userId: user.id, kind }, orderBy: { createdAt: "desc" }, select: { id: true, name: true, logoUrl: true } }),
+    db.savedItem.findMany({ where: { userId: user.id, kind }, orderBy: { createdAt: "desc" }, select: { id: true, name: true, logoUrl: true, players: true } }),
   ]);
   // Official (admin) logos first, then the user's own.
-  return json({ items: [...official.map((o) => ({ ...o, official: true })), ...mine] });
+  return json({ items: [...official.map((o) => ({ ...o, official: true })), ...mine.map((m) => ({ ...m, players: parseRoster(m.players) }))] });
 });
 
 const Body = z.object({
   kind: Kind,
   name: z.string().trim().min(1).max(40),
   logoUrl: z.string().max(500).nullish(),
+  players: z.array(z.object({ num: z.string().max(3), name: z.string().max(30), pos: z.string().max(4) })).max(MAX_ROSTER).optional(),
 });
 
 export const POST = handle(async (req: NextRequest) => {
@@ -32,8 +34,8 @@ export const POST = handle(async (req: NextRequest) => {
   const count = await db.savedItem.count({ where: { userId: user.id } });
   if (count >= 200) return json({ error: "Too many saved items" }, 400);
   const item = await db.savedItem.create({
-    data: { userId: user.id, kind: body.kind, name: body.name, logoUrl: body.logoUrl ?? null },
-    select: { id: true, name: true, logoUrl: true },
+    data: { userId: user.id, kind: body.kind, name: body.name, logoUrl: body.logoUrl ?? null, players: body.players ? JSON.stringify(body.players) : null },
+    select: { id: true, name: true, logoUrl: true, players: true },
   });
-  return json({ item });
+  return json({ item: { ...item, players: parseRoster(item.players) } });
 });

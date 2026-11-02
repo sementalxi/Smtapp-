@@ -179,6 +179,7 @@ model SavedItem {
   kind      String // "team" | "championship"
   name      String
   logoUrl   String?
+  players   String? // team roster as JSON: [{ num, name, pos }]
   createdAt DateTime @default(now())
 
   @@index([userId, kind])

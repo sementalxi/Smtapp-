@@ -28,7 +28,8 @@ export async function Header() {
     ? [
         { href: "/create", label: es ? "Crear" : "Create", icon: "create", primary: true },
         { href: "/dashboard", label: es ? "Inicio" : "Home", icon: "home" },
-        { href: "/create?team=1", label: es ? "Tarjetas del equipo" : "Team cards", icon: "team", badge: es ? "NUEVO" : "NEW" },
+        { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "shield", badge: es ? "NUEVO" : "NEW" },
+        { href: "/create?team=1", label: es ? "Tarjetas del equipo" : "Team cards", icon: "team" },
         { href: "/history", label: es ? "Historial" : "History", icon: "history" },
         { href: "/credits", label: es ? "Créditos" : "Credits", icon: "credits" },
         { href: "/pricing", label: es ? "Precios" : "Pricing", icon: "pricing" },
