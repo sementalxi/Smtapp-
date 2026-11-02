@@ -26,17 +26,24 @@ export async function GET(req: NextRequest) {
   const next = st.next;
   const mode = st.link ? "link" : "";
 
-  const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      client_id: process.env.DISCORD_CLIENT_ID!.trim(),
-      client_secret: process.env.DISCORD_CLIENT_SECRET!.trim(),
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: discordRedirectUri(req),
-    }),
-  });
+  const id = process.env.DISCORD_CLIENT_ID!.trim();
+  const secret = process.env.DISCORD_CLIENT_SECRET!.trim();
+  const exchange = (basic: boolean) =>
+    fetch("https://discord.com/api/v10/oauth2/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        ...(basic ? { Authorization: `Basic ${Buffer.from(`${id}:${secret}`).toString("base64")}` } : {}),
+      },
+      body: new URLSearchParams({
+        ...(basic ? {} : { client_id: id, client_secret: secret }),
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: discordRedirectUri(req),
+      }),
+    });
+  let tokenRes = await exchange(false);
+  if (tokenRes.status === 401) tokenRes = await exchange(true); // some apps only accept Basic auth
   const tok = (await tokenRes.json().catch(() => ({}))) as { access_token?: string; error?: string; error_description?: string };
   if (!tok.access_token) {
     console.error("[discord] token exchange failed", tokenRes.status, tok.error, tok.error_description, discordRedirectUri(req));
