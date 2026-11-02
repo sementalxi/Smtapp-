@@ -9,6 +9,7 @@ import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle }
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
 import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
+import { FORMATION_ROWS } from "./formations";
 import { textPoster } from "./twilio";
 import { getSettings } from "./settings";
 
@@ -432,7 +433,27 @@ export function buildProPrompt(opts: {
       add("Title (huge)", i.headline || "STARTING XI");
       add("Team name", i.team);
       add("Formation", i.formation);
-      if (i.players.length) lines.push(`- Players (number, name, position) — place every one on the pitch:\n${i.players.filter(Boolean).map((p) => `  • ${q(p)}`).join("\n")}`);
+      if (i.players.length) {
+        const rows = FORMATION_ROWS[i.formation];
+        const lineLabel = (n: number, total: number) => (n === 0 ? "goalkeeper (nearest / bottom)" : n === total - 1 ? "attack (furthest / top)" : n === 1 ? "defence" : "midfield");
+        if (rows) {
+          const ps = i.players.filter(Boolean);
+          const used = new Set<number>();
+          const pick = (pos: string) => {
+            const j = ps.findIndex((p, n) => !used.has(n) && p.trim().split(/\s+/).pop()?.toUpperCase() === pos);
+            if (j < 0) return null;
+            used.add(j);
+            return ps[j];
+          };
+          // Rows are stored right-to-left (RB first); on the graphic the right back is on the right.
+          const rowText = rows
+            .map((r, n) => `  ${lineLabel(n, rows.length)} — left to right: ${r.map((pos) => ({ pos, pl: pick(pos) })).reverse().map(({ pos, pl }) => (pl ? q(pl) : `(empty ${pos} spot — leave it out)`)).join("  |  ")}`)
+            .join("\n");
+          lines.push(`- Players placed row by row in the ${i.formation} formation (the word in each item ending in a position code is the position — show the number and the name; the position code may be shown small):\n${rowText}`);
+        } else {
+          lines.push(`- Players (number, name, position) — place every one on the pitch:\n${i.players.filter(Boolean).map((p) => `  • ${q(p)}`).join("\n")}`);
+        }
+      }
       add("Competition", i.competition);
       add("Date / matchday", i.date);
       break;

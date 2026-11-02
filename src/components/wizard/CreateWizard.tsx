@@ -9,6 +9,7 @@ import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } fr
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
+import { LineupBuilder, slotsToLines, type Slot } from "./LineupBuilder";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
 import { MotionCTA } from "../MotionStudio";
@@ -187,6 +188,8 @@ export function CreateWizard({
   const [away, setAway] = useState<SavedItem | null>(null);
   const [champ, setChamp] = useState<SavedItem | null>(null);
   const [playersText, setPlayersText] = useState("");
+  const [slots, setSlots] = useState<Slot[]>([]);
+  const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);
   const [squadText, setSquadText] = useState("");
   const [scorersText, setScorersText] = useState("");
   const [aiBusy, setAiBusy] = useState(false);
@@ -230,7 +233,7 @@ export function CreateWizard({
       eventName: champ?.name ?? inp.eventName,
       competition: champ?.name ?? inp.competition,
       champLogoUrl: champ?.logoUrl ?? "",
-      players: lines(playersText).slice(0, 18),
+      players: (layout === "LINEUP" ? lineupPlayers : lines(playersText)).slice(0, 18),
       roster: lines(squadText).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
     };
@@ -246,7 +249,7 @@ export function CreateWizard({
       case "RESULT":
         return !!home && !!away;
       case "LINEUP":
-        return !!team && lines(playersText).length > 0;
+        return !!team && lineupPlayers.length > 0;
       case "EVENT":
         return !!inp.headline.trim();
     }
@@ -581,13 +584,22 @@ export function CreateWizard({
                 </div>
                 {field({ label: L.date, k: "date", max: 30, ph: "Matchday 7" })}
               </div>
-              <div>
-                <label className="label">
-                  {L.players} <span className="text-lime">*</span>
-                </label>
-                <textarea className="input min-h-56 font-mono text-xs" placeholder={L.playersPh} value={playersText} onChange={(e) => setPlayersText(e.target.value)} />
-                <p className="mt-1 text-xs text-muted">{lines(playersText).length}/11</p>
-              </div>
+              {inp.formation ? (
+                <div>
+                  <label className="label">
+                    {locale === "es" ? "Alineación" : "Lineup"} <span className="text-lime">*</span>
+                  </label>
+                  <LineupBuilder formation={inp.formation} slots={slots} onChange={setSlots} es={locale === "es"} />
+                </div>
+              ) : (
+                <div>
+                  <label className="label">
+                    {L.players} <span className="text-lime">*</span>
+                  </label>
+                  <textarea className="input min-h-56 font-mono text-xs" placeholder={L.playersPh} value={playersText} onChange={(e) => setPlayersText(e.target.value)} />
+                  <p className="mt-1 text-xs text-muted">{lines(playersText).length}/11 · {locale === "es" ? "o elige una formación para usar la cancha" : "or pick a formation to use the pitch"}</p>
+                </div>
+              )}
             </>
           )}
 
