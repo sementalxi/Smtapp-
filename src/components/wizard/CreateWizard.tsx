@@ -19,6 +19,7 @@ import { GenerationProgress } from "../GenerationProgress";
 import { MotionCTA } from "../MotionStudio";
 import { forgetPending, pendingBanner, rememberPending, waitForBanner } from "@/lib/wait-banner";
 import { useRouter } from "next/navigation";
+import { useWakeLock } from "../useWakeLock";
 
 const FORMATIONS = ["4-3-3", "4-4-2", "4-2-3-1", "4-1-2-1-2", "3-5-2", "3-4-3", "5-3-2", "4-5-1"];
 
@@ -209,6 +210,7 @@ export function CreateWizard({
 
   const [credits, setCredits] = useState(initialCredits);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
+  useWakeLock(phase === "busy"); // screen stays on while the poster is being made
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
 

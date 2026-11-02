@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useWakeLock } from "../useWakeLock";
 import { useT } from "@/i18n/client";
 import { EMPTY_INPUTS } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
@@ -28,6 +29,7 @@ export function TeamSetForm({
   const [f, setF] = useState({ name: "", position: "", number: "", tagline: "", subtitle: "" });
   const [credits, setCredits] = useState(initialCredits);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
+  useWakeLock(phase === "busy"); // screen stays on while the poster is being made
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ id: string; url: string | null } | null>(null);
   const [made, setMade] = useState(0);
