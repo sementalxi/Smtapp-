@@ -22,7 +22,12 @@ async function login(force = false) {
     signal: AbortSignal.timeout(15000),
   });
   const m = (r.headers.get("set-cookie") ?? "").match(/smt_admin=([^;]+)/);
-  if (!r.ok || !m) throw new Error(r.status === 401 ? "bad_password" : `login_${r.status}`);
+  if (!r.ok || !m) {
+    // Show what the panel actually said (never the password) so setup problems are easy to spot.
+    const said = (await r.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 160);
+    const pw = (process.env.BOT_DASHBOARD_PASSWORD ?? "").trim();
+    throw new Error(`login ${r.status} — panel said: ${said || "(nothing)"} — KIXO sent a ${pw.length}-character password${r.ok && !m ? " (no session cookie came back)" : ""}`);
+  }
   session = { cookie: `smt_admin=${m[1]}`, exp: Date.now() + 11 * 60 * 60_000 };
   return session.cookie;
 }
@@ -59,7 +64,7 @@ async function proxy(req: NextRequest, { params }: { params: Promise<{ path: str
     if (res.status === 401) res = await send(await login(true));
   } catch (e) {
     const msg = e instanceof Error ? e.message : "offline";
-    return NextResponse.json({ error: msg === "bad_password" ? "Bot password is wrong (BOT_DASHBOARD_PASSWORD)." : `Bot is offline or unreachable (${msg}).` }, { status: 502 });
+    return NextResponse.json({ error: msg.startsWith("login 401") ? `Bot password doesn't match — ${msg}` : `Bot panel problem — ${msg}` }, { status: 502 });
   }
   const type = res.headers.get("content-type") ?? "";
   const headers = new Headers({ "content-type": type || "application/octet-stream", "cache-control": "no-store" });
