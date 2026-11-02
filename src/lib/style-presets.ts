@@ -212,7 +212,7 @@ FINISH
 
 LAYOUT
 - Top: the competition logo (if given) as a crisp glossy badge, then the title as a designed lock-up (see TYPOGRAPHY below).
-- Centre: the two team crests HUGE (each about 40% of the poster width), glossy 3D emblems facing each other, each blasted by its own floodlight beam with rim light and glow; a heavy metallic "VS" between them exploding with light flares and sparks.
+- Centre: the two team crests HUGE (each about 40% of the poster width), glossy 3D emblems facing each other, each blasted by its own floodlight beam with rim light and glow; a compact bold "VS" monogram between them.
 - Background: each team's crest repeated GIANT and faded (about 10–15% opacity) on its own half, behind the stadium haze, like it's projected in light.
 - Bottom: the match info lock-up (see TYPOGRAPHY below).
 
@@ -223,22 +223,24 @@ BACKGROUND & EFFECTS
 COLOURS: each team's colours glowing on its own half, joined by cold white floodlight light.
 FEEL: powerful, broadcast-quality — like an official club match-day graphic.
 
-TYPOGRAPHY (this is what makes it look pro — never plain tall condensed letters)
-- TITLE LOCK-UP: the two words get different treatments — the first word (e.g. "MATCH") in a heavy wide italic sports font in thick brushed metal with a coloured bevel, deep extrusion and a hard drop shadow; the second word (e.g. "DAY") smaller in a bold hand-painted brush script in the accent colour, overlapping the first word at an angle. Add motion streaks behind the letters and let sparks/smoke pass over them. One-word titles: heavy wide italic metal with a brush-script underline swash.
-- MATCH INFO at the bottom (NO bar, NO box, NO panel), designed to MATCH the logos and the background:
-  • The kick-off TIME (e.g. "8PM") is the star: huge, heavy italic 3D letters with deep extrusion and sharp bevels, made of the SAME materials as the crests (polished gold, chrome, enamel). The left half of the letters is lit and tinted in the home team's colour, the right half in the away team's colour, blending in the middle. The effects of each side wrap around its half (fire and embers / lightning / energy — whatever the background uses), with a bright glint on the edges, a coloured glow and a crisp reflection on the wet ground.
-  • The DATE (e.g. "TODAY") sits right above it as smaller but still 3D chrome letters with a thin coloured bevel and glow — never thin flat text.
-  • The venue (if given) below the time, smaller, in clean bold metallic letters.
-  • Sparks and smoke drift in front of the letters so they sit INSIDE the scene, not pasted on top.
-- The "VS" is a chunky 3D metal monogram, smaller than the crests, with a bright glint.
-- Never rewrite text that is inside a logo as separate lettering (e.g. don't write the competition's name again under its logo); write each text item only once.`,
+SPORTS DESIGN LOOK (most important — it must look designed by a pro sports graphic designer, NOT like a generic AI image)
+- Graphic, bold and clean like official club / EA FC / Nike football match graphics: strong diagonal shapes and stripes, solid colour blocks, halftone dot patterns, torn-paper and grunge print textures, film grain and a real photographic stadium in the background (slightly desaturated, high contrast).
+- Restraint: NO glowing fog everywhere, NO neon haze, NO excessive sparks or lightning, NO soft dreamy light, NO plastic chrome on everything. A few sharp light flares only. Deep blacks and crisp edges.
+- Crests stay crisp and faithful (their own colours), with a clean drop shadow and a subtle rim light — not melted into glow.
+- Typography: solid, heavy sports type with sharp edges — solid colour fills, a thick outline stroke, a short hard 3D extrusion and a hard offset shadow; texture overlay (grain/halftone) on the letters. Clean and readable, like a printed sports poster.
+
+TYPOGRAPHY
+- TITLE: the first word (e.g. "MATCH") in a heavy, wide, slanted sports font — solid white or team colour fill, thick dark outline, short hard extrusion, hard offset shadow, grainy texture; the second word (e.g. "DAY") in a bold brush-marker script in the accent colour, crossing it at an angle. No glossy chrome overload.
+- MATCH INFO at the bottom (no bar, no box): the kick-off TIME big in the same heavy slanted sports font (solid fill, thick outline, hard shadow, the left half in the home colour and the right half in the away colour); the DATE above it smaller in bold wide letter-spaced white caps; the venue below, smaller. Clean and readable.
+- The "VS" is a compact bold monogram with a solid fill and outline, smaller than the crests.
+- Never rewrite text that is inside a logo as separate lettering; write each text item only once.`,
 
   "matchday-derby": `DERBY MATCH DAY poster — a fierce rivalry, premium pro-clubs social-media style.
 
 LAYOUT
 - The poster is split diagonally down the middle by a jagged, glowing crack full of sparks.
 - Home side: engulfed in roaring fire and embers in the home team's colour; away side: crackling lightning and electric energy in the away team's colour.
-- Each team crest HUGE (about 40% of the poster width) and glowing on its own side, facing the other, wrapped in its side's fire or lightning; a heavy 3D metallic "VS" sits right on the crack with sparks flying off it.
+- Each team crest HUGE (about 40% of the poster width) and glowing on its own side, facing the other, wrapped in its side's fire or lightning; a compact bold "VS" monogram sits right on the crack.
 - Background: each team's crest repeated GIANT and faded (about 10–15% opacity) behind its own half, half-hidden in smoke.
 - Top: the title as a designed lock-up (see TYPOGRAPHY below), lit by the fire on one edge and the lightning on the other.
 - Bottom: the match info lock-up (see TYPOGRAPHY below).
@@ -250,15 +252,17 @@ BACKGROUND & EFFECTS
 COLOURS: home colour vs away colour, clashing at the crack.
 FEEL: intense, explosive, big-game energy — the poster for the biggest match of the season.
 
-TYPOGRAPHY (this is what makes it look pro — never plain tall condensed letters)
-- TITLE LOCK-UP: the two words get different treatments — the first word (e.g. "MATCH") in a heavy wide italic sports font in thick brushed metal with a coloured bevel, deep extrusion and a hard drop shadow; the second word (e.g. "DAY") smaller in a bold hand-painted brush script in the accent colour, overlapping the first word at an angle. Add motion streaks behind the letters and let sparks/smoke pass over them. One-word titles: heavy wide italic metal with a brush-script underline swash.
-- MATCH INFO at the bottom (NO bar, NO box, NO panel), designed to MATCH the logos and the background:
-  • The kick-off TIME (e.g. "8PM") is the star: huge, heavy italic 3D letters with deep extrusion and sharp bevels, made of the SAME materials as the crests (polished gold, chrome, enamel). The left half of the letters is lit and tinted in the home team's colour, the right half in the away team's colour, blending in the middle. The effects of each side wrap around its half (fire and embers / lightning / energy — whatever the background uses), with a bright glint on the edges, a coloured glow and a crisp reflection on the wet ground.
-  • The DATE (e.g. "TODAY") sits right above it as smaller but still 3D chrome letters with a thin coloured bevel and glow — never thin flat text.
-  • The venue (if given) below the time, smaller, in clean bold metallic letters.
-  • Sparks and smoke drift in front of the letters so they sit INSIDE the scene, not pasted on top.
-- The "VS" is a chunky 3D metal monogram, smaller than the crests, with a bright glint.
-- Never rewrite text that is inside a logo as separate lettering (e.g. don't write the competition's name again under its logo); write each text item only once.`,
+SPORTS DESIGN LOOK (most important — it must look designed by a pro sports graphic designer, NOT like a generic AI image)
+- Graphic, bold and clean like official club / EA FC / Nike football match graphics: strong diagonal shapes and stripes, solid colour blocks, halftone dot patterns, torn-paper and grunge print textures, film grain and a real photographic stadium in the background (slightly desaturated, high contrast).
+- Restraint: NO glowing fog everywhere, NO neon haze, NO excessive sparks or lightning, NO soft dreamy light, NO plastic chrome on everything. A few sharp light flares only. Deep blacks and crisp edges.
+- Crests stay crisp and faithful (their own colours), with a clean drop shadow and a subtle rim light — not melted into glow.
+- Typography: solid, heavy sports type with sharp edges — solid colour fills, a thick outline stroke, a short hard 3D extrusion and a hard offset shadow; texture overlay (grain/halftone) on the letters. Clean and readable, like a printed sports poster.
+
+TYPOGRAPHY
+- TITLE: the first word (e.g. "MATCH") in a heavy, wide, slanted sports font — solid white or team colour fill, thick dark outline, short hard extrusion, hard offset shadow, grainy texture; the second word (e.g. "DAY") in a bold brush-marker script in the accent colour, crossing it at an angle. No glossy chrome overload.
+- MATCH INFO at the bottom (no bar, no box): the kick-off TIME big in the same heavy slanted sports font (solid fill, thick outline, hard shadow, the left half in the home colour and the right half in the away colour); the DATE above it smaller in bold wide letter-spaced white caps; the venue below, smaller. Clean and readable.
+- The "VS" is a compact bold monogram with a solid fill and outline, smaller than the crests.
+- Never rewrite text that is inside a logo as separate lettering; write each text item only once.`,
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
@@ -280,7 +284,11 @@ FEEL: powerful, broadcast-quality — like an official club match-day graphic.
 
 TYPOGRAPHY (this is what makes it look pro — never plain tall condensed letters)
 - TITLE LOCK-UP: the two words get different treatments — the first word (e.g. "MATCH") in a heavy wide italic sports font in thick brushed metal with a coloured bevel, deep extrusion and a hard drop shadow; the second word (e.g. "DAY") smaller in a bold hand-painted brush script in the accent colour, overlapping the first word at an angle. Add motion streaks behind the letters and let sparks/smoke pass over them. One-word titles: heavy wide italic metal with a brush-script underline swash.
-- MATCH INFO at the bottom (NO bar, NO box, NO panel): the kick-off TIME is the star — big, bold, italic 3D metal numbers (e.g. "8PM") centred, with a bright edge glint and a soft glow, standing on the wet ground with a real reflection under it. The date (e.g. "TOMORROW") sits right above it in smaller wide letter-spaced white caps, and the venue (if given) below it, smaller still. A thin glowing line runs out to the left in the home colour and to the right in the away colour, fading out toward the edges. Clean, centred, premium — like the end card of a TV broadcast.
+- MATCH INFO at the bottom (NO bar, NO box, NO panel), designed to MATCH the logos and the background:
+  • The kick-off TIME (e.g. "8PM") is the star: huge, heavy italic 3D letters with deep extrusion and sharp bevels, made of the SAME materials as the crests (polished gold, chrome, enamel). The left half of the letters is lit and tinted in the home team's colour, the right half in the away team's colour, blending in the middle. The effects of each side wrap around its half (fire and embers / lightning / energy — whatever the background uses), with a bright glint on the edges, a coloured glow and a crisp reflection on the wet ground.
+  • The DATE (e.g. "TODAY") sits right above it as smaller but still 3D chrome letters with a thin coloured bevel and glow — never thin flat text.
+  • The venue (if given) below the time, smaller, in clean bold metallic letters.
+  • Sparks and smoke drift in front of the letters so they sit INSIDE the scene, not pasted on top.
 - The "VS" is a chunky 3D metal monogram, smaller than the crests, with a bright glint.
 - Never rewrite text that is inside a logo as separate lettering (e.g. don't write the competition's name again under its logo); write each text item only once.`,
   "matchday-derby": `DERBY MATCH DAY poster — a fierce rivalry, premium pro-clubs social-media style.
@@ -302,7 +310,11 @@ FEEL: intense, explosive, big-game energy — the poster for the biggest match o
 
 TYPOGRAPHY (this is what makes it look pro — never plain tall condensed letters)
 - TITLE LOCK-UP: the two words get different treatments — the first word (e.g. "MATCH") in a heavy wide italic sports font in thick brushed metal with a coloured bevel, deep extrusion and a hard drop shadow; the second word (e.g. "DAY") smaller in a bold hand-painted brush script in the accent colour, overlapping the first word at an angle. Add motion streaks behind the letters and let sparks/smoke pass over them. One-word titles: heavy wide italic metal with a brush-script underline swash.
-- MATCH INFO at the bottom (NO bar, NO box, NO panel): the kick-off TIME is the star — big, bold, italic 3D metal numbers (e.g. "8PM") centred, with a bright edge glint and a soft glow, standing on the wet ground with a real reflection under it. The date (e.g. "TOMORROW") sits right above it in smaller wide letter-spaced white caps, and the venue (if given) below it, smaller still. A thin glowing line runs out to the left in the home colour and to the right in the away colour, fading out toward the edges. Clean, centred, premium — like the end card of a TV broadcast.
+- MATCH INFO at the bottom (NO bar, NO box, NO panel), designed to MATCH the logos and the background:
+  • The kick-off TIME (e.g. "8PM") is the star: huge, heavy italic 3D letters with deep extrusion and sharp bevels, made of the SAME materials as the crests (polished gold, chrome, enamel). The left half of the letters is lit and tinted in the home team's colour, the right half in the away team's colour, blending in the middle. The effects of each side wrap around its half (fire and embers / lightning / energy — whatever the background uses), with a bright glint on the edges, a coloured glow and a crisp reflection on the wet ground.
+  • The DATE (e.g. "TODAY") sits right above it as smaller but still 3D chrome letters with a thin coloured bevel and glow — never thin flat text.
+  • The venue (if given) below the time, smaller, in clean bold metallic letters.
+  • Sparks and smoke drift in front of the letters so they sit INSIDE the scene, not pasted on top.
 - The "VS" is a chunky 3D metal monogram, smaller than the crests, with a bright glint.
 - Never rewrite text that is inside a logo as separate lettering (e.g. don't write the competition's name again under its logo); write each text item only once.`,
   "tournament-night": `TOURNAMENT NIGHT — big final event poster, premium esports / pro-clubs social-media style, built to stop the scroll.
