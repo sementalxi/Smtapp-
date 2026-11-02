@@ -7,7 +7,10 @@ import { getCurrentUser } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-const base = () => (process.env.BOT_PANEL_URL ?? "").trim().replace(/\/+$/, "");
+const base = () => {
+  const u = (process.env.BOT_PANEL_URL ?? "").trim().replace(/\/+$/, "");
+  return u && !/^https?:\/\//i.test(u) ? `https://${u}` : u; // accept the address with or without https://
+};
 let session: { cookie: string; exp: number } | null = null;
 
 async function login(force = false) {
