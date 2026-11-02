@@ -36,6 +36,20 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
     setCfg((c) => ({ ...c, packs: c.packs.map((p, n) => (n === i ? { ...p, ...patch } : p)) }));
     setMsg("");
   };
+  const addPlan = () => {
+    setCfg((c) => {
+      let n = c.plans.length + 1;
+      while (c.plans.some((p) => p.id === `plan${n}`)) n++;
+      return { ...c, plans: [...c.plans, { id: `plan${n}`, name: es ? "Nuevo plan" : "New plan", nameEs: "Nuevo plan", features: "", featuresEs: "", monthlyCredits: 200, priceUsd: 29.99, popular: false, active: false, quality: "high" as const }] };
+    });
+    setMsg("");
+  };
+  const [delArm, setDelArm] = useState<string | null>(null);
+  const removePlan = (i: number) => {
+    setCfg((c) => ({ ...c, plans: c.plans.filter((_, n) => n !== i) }));
+    setDelArm(null);
+    setMsg(es ? "Plan quitado — toca “Guardar precios” para confirmar." : "Plan removed — tap “Save prices” to confirm.");
+  };
   const setPlan = (i: number, patch: Partial<PricingConfig["plans"][number]>) => {
     setCfg((c) => ({ ...c, plans: c.plans.map((p, n) => (n === i ? { ...p, ...patch } : p)) }));
     setMsg("");
@@ -51,7 +65,13 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
       setCfg(data.pricing);
       setMsg(es ? "✅ Precios guardados — ya se ven en la página de precios" : "✅ Prices saved — live on the pricing page now");
       router.refresh();
-    } else setMsg(es ? "❌ Revisa los valores (precio mínimo $0.50)" : "❌ Check the values (minimum price $0.50)");
+    } else
+      setMsg(
+        data.error === "plan_has_subscribers"
+          ? es ? `❌ “${data.plan}” tiene ${data.count} suscriptor(es) activo(s) — no se puede borrar. Ocúltalo con el interruptor.` : `❌ “${data.plan}” has ${data.count} active subscriber(s) — it can't be deleted. Hide it with the switch instead.`
+          : data.error === "duplicate_plan" ? (es ? "❌ Dos planes tienen el mismo código" : "❌ Two plans have the same code")
+          : es ? "❌ Revisa los valores (nombre, precio mínimo $0.50, código solo minúsculas/números)" : "❌ Check the values (name, minimum price $0.50, code = lowercase letters/numbers)",
+      );
   }
   // inline confirm without a browser dialog
   const [arm, setArm] = useState(false);
@@ -65,7 +85,6 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
 
   const per = (price: number, credits: number) => (credits > 0 ? `$${(price / credits).toFixed(2)} ${es ? "por crédito" : "per credit"}` : "");
   const packName: Record<string, string> = es ? { small: "Paquete pequeño", medium: "Paquete mediano", large: "Paquete grande" } : { small: "Small pack", medium: "Medium pack", large: "Large pack" };
-  const planName: Record<string, string> = { starter: "Starter", pro: "Pro" };
 
   return (
     <div className="card space-y-5 p-5">
@@ -114,7 +133,7 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
           {cfg.plans.map((p, i) => (
             <div key={p.id} className={`rounded-xl border p-3 transition ${p.active ? "border-line bg-panel-2/60" : "border-dashed border-line/70 bg-panel/40 opacity-60"}`}>
               <div className="mb-2 flex items-center justify-between">
-                <b className="text-sm">Plan {planName[p.id]}</b>
+                <b className="min-w-0 truncate text-sm">Plan {p.name || p.id}</b>
                 <div className="flex items-center gap-3">
                   <label className="flex items-center gap-1.5 text-xs text-muted">
                     <input type="checkbox" checked={p.popular} onChange={(e) => setPlan(i, { popular: e.target.checked })} /> ⭐ Popular
@@ -133,6 +152,26 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
                 </label>
               </div>
               <div className="mt-1 text-[11px] text-muted">{per(p.priceUsd, p.monthlyCredits)}</div>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <label className="block">
+                  <span className="label">{es ? "Nombre (inglés)" : "Name (English)"}</span>
+                  <input className="input" maxLength={40} value={p.name} onChange={(e) => setPlan(i, { name: e.target.value })} />
+                </label>
+                <label className="block">
+                  <span className="label">{es ? "Nombre (español)" : "Name (Spanish)"}</span>
+                  <input className="input" maxLength={40} value={p.nameEs} onChange={(e) => setPlan(i, { nameEs: e.target.value })} />
+                </label>
+              </div>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <label className="block">
+                  <span className="label">{es ? "Detalles (inglés) — uno por línea" : "Details (English) — one per line"}</span>
+                  <textarea className="input min-h-24 text-sm" maxLength={800} placeholder={"All styles\nBest-quality AI\nPriority support"} value={p.features} onChange={(e) => setPlan(i, { features: e.target.value })} />
+                </label>
+                <label className="block">
+                  <span className="label">{es ? "Detalles (español) — uno por línea" : "Details (Spanish) — one per line"}</span>
+                  <textarea className="input min-h-24 text-sm" maxLength={800} placeholder={"Todos los estilos\nIA de máxima calidad\nSoporte prioritario"} value={p.featuresEs} onChange={(e) => setPlan(i, { featuresEs: e.target.value })} />
+                </label>
+              </div>
               <div className="mt-3">
                 <span className="label">{es ? "IA Pro de este plan" : "Pro AI for this plan"}</span>
                 <div className="grid grid-cols-3 gap-1.5">
@@ -148,9 +187,23 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
                   ))}
                 </div>
               </div>
+              <div className="mt-3 flex items-center justify-between gap-2">
+                <span className="text-[10px] text-muted">{es ? "Código" : "Code"}: {p.id}</span>
+                {delArm === p.id ? (
+                  <button type="button" className="rounded-lg bg-danger px-3 py-1.5 text-xs font-bold text-white" onClick={() => removePlan(i)}>{es ? "¿Seguro? Borrar" : "Sure? Delete"}</button>
+                ) : (
+                  <button type="button" className="rounded-lg border border-line px-3 py-1.5 text-xs font-bold text-muted hover:text-danger" onClick={() => setDelArm(p.id)}>🗑 {es ? "Borrar plan" : "Delete plan"}</button>
+                )}
+              </div>
             </div>
           ))}
         </div>
+        {cfg.plans.length < 12 && (
+          <button type="button" onClick={addPlan} className="mt-2 w-full rounded-xl border-2 border-dashed border-lime/40 bg-lime/5 py-3 text-sm font-bold text-lime hover:border-lime">
+            ＋ {es ? "Añadir plan" : "Add plan"}
+          </button>
+        )}
+        <p className="mt-2 text-[11px] text-muted">{es ? "Los planes nuevos empiezan ocultos — actívalos con el interruptor cuando estén listos." : "New plans start hidden — switch them on when they're ready."} </p>
         <p className="mt-2 text-[11px] text-muted">{es ? "Quien no tiene suscripción usa la calidad de Ajustes → “Calidad IA Pro”." : "People without a subscription use the quality in Settings → “Pro AI quality”."}</p>
       </div>
 

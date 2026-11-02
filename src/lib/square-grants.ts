@@ -1,13 +1,14 @@
 import { db } from "./db";
 import { grantOnce } from "./credits";
 import { rewardReferrer } from "./referral";
-import { findPlan } from "./pricing";
+import { findPlan, loadPricing } from "./pricing";
 import { logPayment } from "./discord-logs";
 
 const monthKey = () => new Date().toISOString().slice(0, 7);
 
 /** One month of plan credits — at most once per user per calendar month. */
 export async function grantPlanMonth(userId: string, planId: string, amountCents: number, ref: string) {
+  await loadPricing();
   const plan = findPlan(planId);
   if (!plan) return;
   const granted = await grantOnce({

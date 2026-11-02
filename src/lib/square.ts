@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { db } from "./db";
 import { appUrl } from "./stripe";
-import { PLANS, type Plan } from "./pricing";
+import { PLANS, loadPricing, type Plan } from "./pricing";
 
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 const VERSION = process.env.SQUARE_VERSION?.trim() || "2024-12-18";
@@ -95,7 +95,7 @@ export async function planVariationId(plan: Plan) {
   const saved = await getSetting(k);
   if (saved) return saved;
 
-  const name = `${site} ${plan.id[0].toUpperCase()}${plan.id.slice(1)} — ${plan.monthlyCredits} credits/month`;
+  const name = `${site} ${plan.name || plan.id[0].toUpperCase() + plan.id.slice(1)} — ${plan.monthlyCredits} credits/month`;
   const planRes = await sq<{ catalog_object: { id: string } }>("/catalog/object", {
     body: {
       idempotency_key: key(),
@@ -125,6 +125,7 @@ export async function planFromVariation(variationId: string | undefined) {
   if (!variationId) return undefined;
   const rows = await db.setting.findMany({ where: { key: { startsWith: "square_plan_" }, value: variationId } });
   const id = rows[0]?.key.split("_")[2];
+  await loadPricing();
   return PLANS.find((p) => p.id === id);
 }
 
@@ -165,7 +166,8 @@ export const SQUARE_EVENTS = ["payment.created", "payment.updated", "subscriptio
 /** Registers our webhook with Square and saves its signature key (Admin → Connect Square). */
 export async function connectSquareWebhook() {
   await locationId();
-  for (const p of PLANS) await planVariationId(p);
+  await loadPricing();
+  for (const p of PLANS.filter((x) => x.active !== false)) await planVariationId(p);
   const url = `${appUrl()}/api/square/webhook`;
   const res = await sq<{ subscription: { id: string; signature_key?: string } }>("/webhooks/subscriptions", {
     body: {

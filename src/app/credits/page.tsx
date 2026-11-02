@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
+import { planLabel } from "@/lib/pricing";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { TxTable } from "@/components/TxTable";
@@ -36,7 +37,7 @@ export default async function CreditsPage() {
         </div>
         {subscribed && (
           <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-teal/40 bg-teal/10 px-3 py-1 text-xs font-bold text-teal">
-            ✓ Plan {String(user.planId ?? "").toUpperCase()}
+            ✓ Plan {await planLabel(user.planId, es)}
             {user.currentPeriodEnd ? ` · ${es ? "renueva" : "renews"} ${user.currentPeriodEnd.toLocaleDateString(locale)}` : ""}
           </div>
         )}

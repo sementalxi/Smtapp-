@@ -1,4 +1,5 @@
 import { requireUser } from "@/lib/auth";
+import { planLabel } from "@/lib/pricing";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { PricingCards } from "@/components/PricingCards";
@@ -35,7 +36,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
         {user.subscriptionId && (
           <div className="text-sm">
             <div className="label">{t("current_plan")}</div>
-            <div className="font-bold uppercase">{user.planId ?? "—"}</div>
+            <div className="font-bold uppercase">{(await planLabel(user.planId, locale === "es")) || "—"}</div>
             <div className="text-muted">
               {t("status")}: {user.subscriptionStatus}
               {user.currentPeriodEnd && (

@@ -23,7 +23,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
       <section className={shownPlans.length ? "" : "hidden"}>
         <h2 className="font-display text-3xl">{t("plans_title")}</h2>
         <p className="mb-5 text-sm text-muted">{t("plans_sub")}</p>
-        <div className={`grid gap-4 ${shownPlans.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}>
+        <div className={`grid gap-4 ${shownPlans.length > 2 ? "sm:grid-cols-2 lg:grid-cols-3" : shownPlans.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}>
           {shownPlans.map((p) => {
             const current = activePlan === p.id;
             return (
@@ -35,7 +35,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                   <span className="chip absolute -top-3 right-5 border-lime bg-lime text-ink">{t("popular")}</span>
                 )}
                 <div className="text-sm font-bold uppercase tracking-wider text-muted">
-                  {t(p.id === "pro" ? "plan_pro" : "plan_starter")}
+                  {(locale === "es" ? p.nameEs || p.name : p.name) || p.id}
                 </div>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className="font-display text-5xl">{usd(p.priceUsd)}</span>
@@ -48,6 +48,19 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                 <p className="-mt-4 mb-6 text-xs font-bold text-teal">
                   {p.quality === "high" ? (locale === "es" ? "💎 IA Pro de máxima calidad" : "💎 Best-quality Pro AI") : p.quality === "low" ? (locale === "es" ? "⚡ IA Pro rápida" : "⚡ Fast Pro AI") : locale === "es" ? "✨ IA Pro estándar" : "✨ Standard Pro AI"}
                 </p>
+                {(() => {
+                  const feats = ((locale === "es" ? p.featuresEs || p.features : p.features) ?? "").split("\n").map((x) => x.trim()).filter(Boolean);
+                  return feats.length ? (
+                    <ul className="-mt-3 mb-6 space-y-1.5 text-sm">
+                      {feats.map((f) => (
+                        <li key={f} className="flex gap-2">
+                          <span className="text-lime">✓</span>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null;
+                })()}
                 {current && provider === "square" ? (
                   user?.subscriptionStatus === "canceling" ? (
                     <p className="text-center text-xs text-muted">{locale === "es" ? "Se cancela al final del mes pagado" : "Ends at the end of the paid month"}</p>
@@ -57,7 +70,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                 ) : current ? (
                   <BuyButton kind="portal" label={t("manage_billing")} loggedIn={!!user} />
                 ) : (
-                  <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} checkout={{ title: `Plan ${p.id[0].toUpperCase()}${p.id.slice(1)}`, price: usd(p.priceUsd), subtitle: `${p.monthlyCredits} ${t("credits")} / ${locale === "es" ? "mes" : "month"}` }} />
+                  <BuyButton kind="plan" id={p.id} label={t("subscribe")} loggedIn={!!user} primary={p.popular} disabled={off} checkout={{ title: `Plan ${(locale === "es" ? p.nameEs || p.name : p.name) || p.id}`, price: usd(p.priceUsd), subtitle: `${p.monthlyCredits} ${t("credits")} / ${locale === "es" ? "mes" : "month"}` }} />
                 )}
                 {current && <p className="mt-2 text-center text-xs text-lime">{t("current_plan")}</p>}
               </div>

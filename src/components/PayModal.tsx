@@ -35,9 +35,10 @@ function loadSquare(sandbox: boolean) {
 // Cached across popups so the second open is instant.
 type Cfg = { inline: boolean; appId?: string; locationId?: string; sandbox?: boolean; amount?: string; applePay?: string; paypal?: string };
 const cfgCache = new Map<string, Promise<Cfg>>();
+const cfgTime = new Map<string, number>(); // prices can change — never reuse a config older than 30 s
 const getCfg = (kind: string, id: string) => {
   const k = `${kind}:${id}`;
-  if (!cfgCache.has(k)) cfgCache.set(k, fetch(`/api/square/config?kind=${kind}&id=${encodeURIComponent(id)}`).then((r) => r.json()).catch(() => ({ inline: false })));
+  if (!cfgCache.has(k) || Date.now() - (cfgTime.get(k) ?? 0) > 30_000) cfgTime.set(k, Date.now()), cfgCache.set(k, fetch(`/api/square/config?kind=${kind}&id=${encodeURIComponent(id)}`, { cache: "no-store" }).then((r) => r.json()).catch(() => ({ inline: false })));
   return cfgCache.get(k)!;
 };
 let preloaded = false;
