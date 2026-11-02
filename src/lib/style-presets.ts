@@ -82,6 +82,110 @@ SPORTS DESIGN FINISH
 
 TEXT RULES
 - Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
+  "champions-victory": `[OWN LOOK] VICTORY NIGHT — the moment after the final whistle, captured by a top sports photographer. Clean, powerful, real. NO people, players or faces.
+
+SCENE
+- A real stadium at night shot from pitch level: the TROPHY standing alone on the centre circle, lit by ONE hard white spotlight from above, a ticker-tape storm in the team colours and gold falling through the beam with motion blur, the crowd and floodlights as huge creamy bokeh behind, wet grass glistening.
+- Lighting and grade: high-contrast black-and-white feel with ONLY the team colours and the gold trophy in colour.
+
+TYPOGRAPHY
+- TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
+- Team name: small, wide letter-spaced white capitals above the title. The TEAM CREST small and sharp at the top centre.
+- Date (if given): tiny letter-spaced at the bottom.
+
+SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+
+REALISM
+- A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
+
+TEXT RULES
+- Use ONLY the texts given; spell everything exactly; never invent words, names, sponsors, websites or handles. Write each item once.`,
+  "champions-blackgold": `[OWN LOOK] BLACK & GOLD — a luxury campaign poster, like a premium watch or fashion house shot the trophy. Elegant, expensive, powerful. NO people, players or faces.
+
+SCENE
+- A matte-black studio with a polished black floor. The TROPHY centred, shot like a high-end product photo: hard sculpting rim lights, a single soft key, perfect mirror reflections, a few slow-falling gold flakes, faint gold dust in the light.
+- Palette: only black and GOLD (team colours only as a faint accent in the rim light).
+
+TYPOGRAPHY
+- TITLE: tall, elegant high-contrast serif capitals in real embossed GOLD FOIL with fine texture and bevel, wide letter-spacing — classy and regal, centred above the trophy.
+- Team name in small gold foil capitals; the TEAM CREST embossed in gold foil at the top centre.
+- Squad names in thin elegant gold capitals in neat columns at the bottom.
+
+SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+
+REALISM
+- A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
+
+TEXT RULES
+- Use ONLY the texts given; spell everything exactly; never invent words, names, sponsors, websites or handles. Write each item once.`,
+  "champions-cover": `[OWN LOOK] MAGAZINE COVER — the championship issue of a top sports magazine. Bold, editorial, iconic. NO people, players or faces.
+
+SCENE
+- A dramatic studio photograph of the TROPHY, three-quarter angle, against a deep solid background in the team's main colour with a strong vignette; hard key light and bright rim light, crisp reflections, a little real smoke.
+
+TYPOGRAPHY
+- TITLE: massive heavy condensed sans-serif capitals filling the top third edge to edge (magazine masthead style), solid white, with the trophy's top overlapping the letters.
+- The team name as a bold coverline in white with a thin accent rule; the TEAM CREST like a cover badge in a corner; date (if given) small like an issue date.
+- Squad names as a clean coverline list on one side.
+
+SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+
+REALISM
+- A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
+
+TEXT RULES
+- Use ONLY the texts given; spell everything exactly; never invent words, names, sponsors, websites or handles. Write each item once.`,
+  "champions-kings": `[OWN LOOK] KINGS OF THE LEAGUE — dark royal power. Menacing, majestic, epic. NO people, players or faces.
+
+SCENE
+- The TROPHY on a massive black stone throne-pedestal in a dark gothic hall, heavy chains draped on the stone, a ring of fire like a crown burning behind it, thick black smoke, red embers floating, cold blue moonlight from high windows against warm firelight.
+
+TYPOGRAPHY
+- TITLE: brutal gothic blackletter capitals in blackened steel with gold edges, engraved and battle-worn, glowing faintly from the fire — like a heavy-metal album cover.
+- Team name in sharp gold capitals; the TEAM CREST forged in metal above the throne.
+- Squad names engraved into a dark stone plaque at the bottom, gold-filled letters.
+
+SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+
+REALISM
+- A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
+
+TEXT RULES
+- Use ONLY the texts given; spell everything exactly; never invent words, names, sponsors, websites or handles. Write each item once.`,
+  "champions-street": `[OWN LOOK] STREET CHAMPS — raw street-football victory. Gritty, loud, real. NO people, players or faces.
+
+SCENE
+- Night in the city: the TROPHY on cracked wet concrete in front of a huge graffiti wall (abstract shapes and drips in the team colours — no readable words), a chain-link fence, a street lamp, coloured smoke flares on the ground, puddles reflecting neon.
+
+TYPOGRAPHY
+- TITLE: a huge hand-sprayed graffiti / brush-paint word in the team colours with real drips, overspray and a thick outline — sprayed on the wall behind the trophy.
+- Team name stencilled in bold white spray-paint letters; the TEAM CREST pasted on the wall like a sticker/poster.
+- Squad names as clean bold stencil type on a strip of tape or a wheat-paste poster at the bottom.
+
+SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+
+REALISM
+- A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
+
+TEXT RULES
+- Use ONLY the texts given; spell everything exactly; never invent words, names, sponsors, websites or handles. Write each item once.`,
+  "champions-neon": `[OWN LOOK] NEON ARENA — esports grand-final victory. Futuristic, electric, premium. NO people, players or faces.
+
+SCENE
+- A giant esports arena stage: the TROPHY on a glossy black stage with a glowing ring under it, giant LED screens and light walls behind in the team colours, laser beams slicing through haze, sparks raining from above, reflections everywhere.
+
+TYPOGRAPHY
+- TITLE: wide futuristic capitals in polished chrome with sharp cut corners and a thin glowing inner line in the team colour, a light sweep across the metal.
+- Team name in clean wide letter-spaced capitals; the TEAM CREST glowing on the LED wall above the trophy.
+- Squad names in a sleek tech sans-serif on a thin glowing lower bar.
+
+SQUAD NAMES (if given) — premium and clean, never cheap: the names in a bold condensed sans-serif (like official club graphics), uniform size, generous letter-spacing, set in 2–3 perfectly aligned columns or one centred block — NO "|" separators, NO chunky boxed frame. Spell every name EXACTLY as written.
+
+REALISM
+- A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
+
+TEXT RULES
+- Use ONLY the texts given; spell everything exactly; never invent words, names, sponsors, websites or handles. Write each item once.`,
   "champions-pro": `CHAMPIONS PRO — a dark, bad-ass, cinematic title-celebration flyer that looks like the key art of a sports movie or a Nike / Adidas campaign poster — a REAL photograph, not an AI image. The team crest and a HUGE trophy are the heroes — NO people, players or faces.
 
 MOOD
