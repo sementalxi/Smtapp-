@@ -321,6 +321,20 @@ const CHAMP_SCENES = [
   "FROZEN STORM: an ice storm — jagged ice crystals erupting from the ground around the pedestal, frost smoke, blizzard snow in the beams, cold blue rim light against warm gold",
   "BEAST MODE: the team colours explode as raw energy — a shock-wave of coloured smoke and light bursting behind the trophy, sparks spraying sideways, debris, motion streaks, like a giant impact",
 ];
+/** Victory Night keeps its look but gets a different background every time. */
+const VICTORY_BGS = [
+  "the classic: smoke-filled dark stadium, one hard spotlight from above",
+  "a rainstorm: heavy rain lit by the floodlights, streaks in the beams, puddles mirroring the trophy",
+  "fireworks: gold and team-colour fireworks bursting high over the dark stadium roof, smoke drifting",
+  "ultras: red and team-colour flares burning in the dark stands, thick pyro smoke rolling over the pitch",
+  "snow night: heavy snowfall glowing in the spotlight, frost on the grass, cold breath of haze",
+  "the tunnel: the trophy at the mouth of the players' tunnel, blinding pitch light behind, concrete walls in shadow",
+  "cathedral of light: dozens of thin white searchlight beams fanning up into the night sky behind the trophy",
+  "storm sky: an open stadium under a dark storm sky with distant lightning flashing behind the stands",
+  "confetti cannon: a single explosive burst of gold ticker-tape frozen mid-air in the spotlight beam, the rest of the stadium black",
+  "empty stadium: rows of empty seats fading into darkness, a few floodlights on, dust floating in the beam — lonely and powerful",
+];
+const victoryBg = () => VICTORY_BGS[Math.floor(Math.random() * VICTORY_BGS.length)];
 const champScene = () => CHAMP_SCENES[Math.floor(Math.random() * CHAMP_SCENES.length)];
 const champTitleType = () => CHAMP_TITLE_TYPES[Math.floor(Math.random() * CHAMP_TITLE_TYPES.length)];
 
@@ -600,7 +614,7 @@ export function buildProPrompt(opts: {
       : "",
     layout === "CHAMPIONS"
       ? /\[OWN LOOK\]/.test(opts.instructions ?? "")
-        ? `This Champions style has its OWN LOOK defined by the art director's instructions above — follow its scene, palette and typography exactly (do not add other scene concepts). Make it a REAL cinematic photograph: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field, razor-sharp detail. SQUAD NAMES (if given, unless the style describes its own squad design): premium bold condensed sans-serif, uniform size, generous letter-spacing, in 2–3 perfectly aligned columns or one centred block — no \"|\" separators, no chunky boxed frame — every name spelled exactly.`
+        ? `This Champions style has its OWN LOOK defined by the art director's instructions above — follow its scene, palette and typography exactly (do not add other scene concepts).${/VICTORY NIGHT/.test(opts.instructions ?? "") ? ` BACKGROUND VARIATION for THIS poster (keep the dark cinematic spotlight look, the trophy, crest, title and names exactly as described — only the setting changes): ${victoryBg()}.` : ""} Make it a REAL cinematic photograph: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field, razor-sharp detail. SQUAD NAMES (if given, unless the style describes its own squad design): premium bold condensed sans-serif, uniform size, generous letter-spacing, in 2–3 perfectly aligned columns or one centred block — no \"|\" separators, no chunky boxed frame — every name spelled exactly.`
         : `PHOTOREAL CINEMATIC CHAMPIONS (always applies, whatever the style): it must look like a REAL photograph — the key art of a sports movie or a Nike / Adidas campaign, shot on a full-frame cinema camera with an anamorphic lens from a low angle — NOT a video-game render, NOT a cartoon or illustration, NOT a generic AI image. BAD-ASS and EPIC like the final frame of a championship movie trailer: dark, aggressive and explosive, deep crushed blacks, high contrast, hard rim lights outlining the trophy, real volumetric beams through thick smoke, sparks, embers and debris flying, heavy fine film grain and a cinematic grade in the team colours — rich and layered, never plain or empty, but always premium and controlled. SCENE CONCEPT for THIS poster (every poster gets a different one): ${champScene()}. Blend the scene into the stadium night and keep the team colours dominant. The TROPHY is a real photographed object: genuine polished metal with true mirror reflections of the floodlights, tiny real-world imperfections, correct proportions and a contact shadow. The team crest crisp and faithful (its own artwork and colours unchanged) as a physical metal-and-enamel emblem with real bevels and a rim light. TITLE TYPOGRAPHY for THIS poster (overrides any other title font/material described above — every poster uses a different one): ${fontPrompt(i.fontPrimary) || champTitleType()}. The team name (if given) in a clean bold font that matches it. Letters crisp, perfectly formed and fully readable. Background echoes (faded crests / repeated title words) stay very subtle inside the smoke. Razor-sharp 4K detail. SQUAD NAMES (if given, unless the style describes its own squad design): premium bold condensed sans-serif, uniform size, generous letter-spacing, in 2–3 perfectly aligned columns or one centred block — no \"|\" separators, no chunky boxed frame — every name spelled exactly.`
       : "",
     layout === "MATCHDAY" || layout === "RESULT"

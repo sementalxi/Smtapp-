@@ -99,7 +99,7 @@ TYPOGRAPHY
 - Team name: small, wide letter-spaced white capitals above the title. The TEAM CREST small and sharp at the top centre.
 - Date (if given): tiny letter-spaced at the bottom.
 
-SQUAD NAMES (if given) — like the BILLING BLOCK of a movie poster: the names in the SAME tall ultra-condensed upright sans-serif as the title (NOT italic, NOT wide, NOT bold-black), clean white with a very subtle silver sheen, all the same size, wide letter-spacing, tight line-height, centred in 2–3 short balanced rows at the bottom; names separated by small gold dots ( · ); a thin gold hairline above and below the block. Elegant, cinematic and premium — sitting on the photo itself (dark gradient at the bottom), no box, no stars, no glow. Spell every name EXACTLY as written.
+SQUAD NAMES (if given) — BIG and BAD-ASS, matching the title: the names in the SAME heavy ultra-condensed upright sans-serif as "CHAMPIONS" (bold weight, NOT thin, NOT italic), large — clearly readable from far away — with the same gritty white texture as the title, a slight 3D depth and a hard dark shadow, a cold rim light catching the top edges; set in 2–3 tight, punchy rows at the bottom, names separated by small team-colour slashes ( / ), a thick gold rule above the block and the spotlight haze glowing behind it. Feels like part of the poster's typography, not a caption. Spell every name EXACTLY as written.
 
 REALISM
 - A REAL photograph, not an AI image: physically correct light, true reflections on real metal, real smoke and paper, film grain, shallow depth of field. No plastic look, no melted text, no random symbols. The team crest stays faithful to its artwork.
@@ -470,7 +470,9 @@ SCENE
 - Behind: only a few huge soft floodlight flares and god-rays high up, a faint silhouette of the stands — NO busy crowd, NO glitter or sparkle bokeh everywhere.
 - Ticker-tape kept to a FEW pieces in gold and the team colour, drifting slowly through the light beam with motion blur — never a storm.
 - Grade: moody high-contrast, mostly black, white light and silver; only the team colour and the gold accents in colour. Clean negative space so the title and trophy dominate.
-- The TEAM CREST twice: small at the top centre, AND as a BIG premium 3D metal-and-enamel medallion standing on the grass right NEXT TO the trophy (to one side, slightly behind it, about two-thirds of the trophy height), faithful to the artwork, with real chrome reflections, a team-colour rim light and a soft shadow on the grass. Nowhere else.
+- The TROPHY BIG: about 55–60% of the poster height, rising in front of the lower part of the title.
+- The TEAM CREST: small at the top centre, AND as a BIG premium 3D metal-and-enamel medallion standing on the grass right NEXT TO the trophy (to one side, slightly behind it, about 85–90% of the trophy height), faithful to the artwork, with real chrome reflections, a team-colour rim light and a soft shadow on the grass.
+- BACKGROUND CREST ECHOES: the team crest also appears TWICE as GIANT faded ghosts in the background haze (about 12–18% opacity, slightly blurred, tinted in the team colour), placed diagonally — one in the TOP-LEFT and one in the BOTTOM-RIGHT, each cut off by the edges — like huge projections in the smoke, behind everything.
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
