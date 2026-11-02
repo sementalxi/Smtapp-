@@ -4,6 +4,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import { DEFAULT_TEMPLATES } from "../src/lib/templates";
 import { SETTING_DEFAULTS } from "../src/lib/settings";
 import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS } from "../src/lib/style-presets";
+import { DEFAULT_PRICING } from "../src/lib/pricing";
 
 const db = new PrismaClient();
 
@@ -66,6 +67,15 @@ async function main() {
     }
     await db.template.updateMany({ where: { slug: "lineup-gold" }, data: { proInstructions: PRESET_INSTRUCTIONS["lineup-gold"] } });
     await db.setting.create({ data: { key: "upgrade_lineup_gold_v1", value: new Date().toISOString() } });
+  }
+  // One-time: the owner wants only the monthly plans — switch every one-time credit pack off (can be re-enabled in Admin → Settings → prices).
+  if (!(await db.setting.findUnique({ where: { key: "packs_off_v1" } }))) {
+    const row = await db.setting.findUnique({ where: { key: "pricing" } });
+    const cfg = row?.value ? JSON.parse(row.value) : JSON.parse(JSON.stringify(DEFAULT_PRICING));
+    cfg.packs = (cfg.packs?.length ? cfg.packs : DEFAULT_PRICING.packs).map((x: Record<string, unknown>) => ({ ...x, active: false }));
+    if (!cfg.plans?.length) cfg.plans = DEFAULT_PRICING.plans;
+    await db.setting.upsert({ where: { key: "pricing" }, create: { key: "pricing", value: JSON.stringify(cfg) }, update: { value: JSON.stringify(cfg) } });
+    await db.setting.create({ data: { key: "packs_off_v1", value: new Date().toISOString() } });
   }
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
