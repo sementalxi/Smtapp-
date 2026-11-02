@@ -1,6 +1,7 @@
 "use client";
 
 import { TypeIcon } from "./TypeIcon";
+import { thumb } from "@/lib/thumb";
 import { FontPicker } from "./FontPicker";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -193,6 +194,24 @@ export function CreateWizard({
   }, [step]);
   const [layout, setLayout] = useState<LayoutKind>(initialLayout ?? "PLAYER");
   const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
+  // Warm the style previews in the background so step 2 shows them instantly.
+  useEffect(() => {
+    const urls = templates.filter((t) => t.thumbUrl).map((t) => thumb(t.thumbUrl!, 420));
+    const go = () => {
+      let i = 0;
+      const next = () => {
+        if (i >= urls.length) return;
+        const img = new Image();
+        img.decoding = "async";
+        img.onload = img.onerror = next;
+        img.src = urls[i++];
+      };
+      for (let k = 0; k < 4; k++) next(); // 4 at a time
+    };
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(go);
+    else setTimeout(go, 300);
+  }, [templates]);
   const [tplId, setTplId] = useState<string | null>(null);
   const tpl = styles.find((t) => t.id === tplId) ?? null;
 
@@ -531,7 +550,7 @@ export function CreateWizard({
                 onClick={() => setTplId(s.id)}
                 className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
-                <TemplateThumb template={s} />
+                <TemplateThumb template={s} eager={styles.indexOf(s) < 4} />
                 {s.badge === "recommended" && (
                   <span className="absolute top-1.5 left-1.5 rounded-md bg-lime px-1.5 py-0.5 text-[10px] font-black uppercase text-ink shadow">⭐ {locale === "es" ? "Recomendado" : "Recommended"}</span>
                 )}

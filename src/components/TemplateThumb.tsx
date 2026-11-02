@@ -6,11 +6,26 @@ import { DEFAULT_DESIGN } from "@/lib/templates";
 import { thumb } from "@/lib/thumb";
 
 /** Live preview of a template with sample text and the procedural background. */
-export function TemplateThumb({ template }: { template: ClientTemplate }) {
+export function TemplateThumb({ template, eager }: { template: ClientTemplate; eager?: boolean }) {
   if (template.thumbUrl)
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={thumb(template.thumbUrl, 420)} alt={template.name} loading="lazy" className="block aspect-[4/5] w-full object-cover" />
+      // Shimmer behind the picture while it loads, then it fades in.
+      <span className="block aspect-[4/5] w-full animate-pulse bg-gradient-to-br from-panel-2 via-line/60 to-panel-2 [animation-duration:1.4s]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={thumb(template.thumbUrl, 420)}
+          alt={template.name}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          fetchPriority={eager ? "high" : "auto"}
+          onLoad={(e) => {
+            e.currentTarget.style.opacity = "1";
+            e.currentTarget.parentElement?.classList.remove("animate-pulse");
+          }}
+          style={{ opacity: 0, transition: "opacity .25s" }}
+          className="block aspect-[4/5] w-full object-cover"
+        />
+      </span>
     );
   return (
     <BannerCanvas
