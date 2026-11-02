@@ -46,6 +46,8 @@ export default async function AdminHome() {
       [es ? "SQUARE_ACCESS_TOKEN (pagos — necesaria para vender créditos)" : "SQUARE_ACCESS_TOKEN (payments — needed to sell credits)", process.env.SQUARE_ACCESS_TOKEN, false],
       [es ? "DISCORD_CLIENT_ID (entrar con Discord — solo números)" : "DISCORD_CLIENT_ID (sign in with Discord — numbers only)", process.env.DISCORD_CLIENT_ID, true],
       [es ? "DISCORD_CLIENT_SECRET (entrar con Discord — 32 caracteres)" : "DISCORD_CLIENT_SECRET (sign in with Discord — 32 characters)", process.env.DISCORD_CLIENT_SECRET, true],
+      [es ? "DISCORD_BOT_TOKEN (tu bot — mensajes a usuarios)" : "DISCORD_BOT_TOKEN (your bot — messages to users)", process.env.DISCORD_BOT_TOKEN, true],
+      [es ? "DISCORD_GUILD_ID (ID de tu servidor — unirse solo)" : "DISCORD_GUILD_ID (your server ID — auto-join)", process.env.DISCORD_GUILD_ID, true],
       [es ? "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET (pagar con PayPal)" : "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET (pay with PayPal)", process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET, true],
       [es ? "RESEND_API_KEY (enviar emails de promoción)" : "RESEND_API_KEY (send promo emails)", process.env.RESEND_API_KEY, true],
       [es ? "SQUARE_APPLICATION_ID (pago en ventana dentro de la página)" : "SQUARE_APPLICATION_ID (pay in a popup on the page)", process.env.SQUARE_APPLICATION_ID, true],
@@ -58,6 +60,10 @@ export default async function AdminHome() {
       [es ? "STRIPE_SECRET_KEY (no se usa con Square)" : "STRIPE_SECRET_KEY (not needed with Square)", process.env.STRIPE_SECRET_KEY, true],
     ] as const
   ).map(([name, v, optional]) => {
+    if (name.startsWith("DISCORD_BOT_TOKEN") && v?.trim()) {
+      const n = v.trim().length; // never show any part of the token
+      return [name, es ? `puesto, ${n} caracteres${v.trim().split(".").length === 3 ? " ✓ (formato de token de bot)" : " — no parece un token de bot"}` : `set, ${n} characters${v.trim().split(".").length === 3 ? " ✓ (bot token format)" : " — doesn't look like a bot token"}`, v.trim().split(".").length === 3, optional] as const;
+    }
     if (name.startsWith("DISCORD_CLIENT_SECRET") && v?.trim()) {
       // Never show any part of the secret — only whether it looks right.
       const t2 = v.trim();

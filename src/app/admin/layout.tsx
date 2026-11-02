@@ -15,6 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     ["/admin/texts", locale === "es" ? "Textos del sitio" : "Site texts"],
     ["/admin/deals", locale === "es" ? "Ofertas" : "Deals"],
     ["/admin/email", locale === "es" ? "✉️ Email a usuarios" : "✉️ Email users"],
+    ["/admin/discord", locale === "es" ? "💬 Mensaje Discord" : "💬 Discord message"],
     ["/admin/transactions", t("admin_tx")],
     ["/admin/payments", t("admin_payments")],
     ["/admin/settings", t("admin_settings")],

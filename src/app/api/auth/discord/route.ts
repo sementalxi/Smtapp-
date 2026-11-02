@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { discordAuthReady, discordRedirectUri, makeState } from "@/lib/discord-auth";
+import { botReady, guildId } from "@/lib/discord-bot";
 
 /** Sends the visitor to Discord to approve "KIXO wants to see your username and email". */
 export async function GET(req: NextRequest) {
@@ -12,7 +13,7 @@ export async function GET(req: NextRequest) {
   url.searchParams.set("client_id", process.env.DISCORD_CLIENT_ID!.trim());
   url.searchParams.set("response_type", "code");
   url.searchParams.set("redirect_uri", discordRedirectUri(req));
-  url.searchParams.set("scope", "identify email");
+  url.searchParams.set("scope", botReady() && guildId() ? "identify email guilds.join" : "identify email");
   url.searchParams.set("state", makeState(next, link));
   url.searchParams.set("prompt", link ? "consent" : "none");
   return NextResponse.redirect(url);

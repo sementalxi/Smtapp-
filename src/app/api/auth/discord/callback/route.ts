@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { isAdminEmail } from "@/lib/auth";
 import { signSession, SESSION_COOKIE, sessionCookieOptions } from "@/lib/session";
 import { getCurrentUser } from "@/lib/auth";
+import { addToGuild } from "@/lib/discord-bot";
 import { getNumberSetting } from "@/lib/settings";
 import { changeCredits } from "@/lib/credits";
 import { REF_COOKIE } from "@/lib/referral";
@@ -58,6 +59,8 @@ export async function GET(req: NextRequest) {
   };
   if (!me.id) return fail(req, "discord_user");
   const discordName = (me.global_name || me.username || "").slice(0, 60) || null;
+  // Join your KIXO server automatically (so the bot can DM them). Never blocks sign-in.
+  await addToGuild(me.id, tok.access_token).catch(() => {});
 
   // Linking from the profile page (already logged in).
   if (mode === "link") {
