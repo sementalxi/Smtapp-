@@ -236,6 +236,7 @@ export function CreateWizard({
     return {
       ...inp,
       bgPose: inp.bgPose || "style",
+      ...(layout === "PLAYER" ? { colorMode: "surprise" as const } : {}),
       color1: inp.colorMode === "custom" ? inp.color1 || "#1d5bff" : inp.color1,
       color2: inp.colorMode === "custom" ? inp.color2 || "#ffd35a" : inp.color2,
       team: team?.name ?? inp.team,
@@ -819,6 +820,11 @@ export function CreateWizard({
             </select>
             <p className="mt-1 text-xs text-muted">{L.langHint}</p>
           </div>
+          {layout === "PLAYER" ? (
+            <p className="rounded-lg border border-line bg-panel-2 px-3 py-2.5 text-xs text-muted">
+              🎲 {locale === "es" ? "Colores únicos: cada tarjeta de jugador sale con una paleta nueva." : "Unique colors: every player card gets a fresh palette."}
+            </p>
+          ) : (
           <div>
             <span className="label">{locale === "es" ? "Colores" : "Colors"}</span>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -894,6 +900,7 @@ export function CreateWizard({
                 : "Every poster also gets its own background concept, layout, lighting and texture, so no two look the same."}
             </p>
           </div>
+          )}
           {nav({ canNext: true, onNext: () => setStep(5) })}
         </div>
       )}
