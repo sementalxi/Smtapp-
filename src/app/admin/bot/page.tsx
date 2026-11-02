@@ -15,7 +15,7 @@ export default async function AdminBot() {
         <p className="text-sm text-muted">{es ? "El panel de tu bot (tickets, reglas, verificación, comandos…) dentro de KIXO." : "Your bot's control panel (tickets, rules, verification, commands…) inside KIXO."}</p>
       </div>
       {ready ? (
-        <iframe src="/api/bot-panel/admin" title="Bot panel" className="h-[calc(100dvh-12rem)] min-h-[600px] w-full rounded-2xl border border-line bg-ink" />
+        <iframe src="/api/bot-panel/" title="Bot panel" className="h-[calc(100dvh-12rem)] min-h-[600px] w-full rounded-2xl border border-line bg-ink" />
       ) : (
         <div className="card space-y-3 p-5 text-sm">
           <p className="font-bold">⚠️ {es ? "El bot aún no está conectado" : "The bot isn't connected yet"}</p>

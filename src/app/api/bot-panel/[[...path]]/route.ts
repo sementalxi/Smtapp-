@@ -15,39 +15,47 @@ let session: { cookie: string; exp: number } | null = null;
 
 async function login(force = false) {
   if (!force && session && session.exp > Date.now() + 60_000) return session.cookie;
-  const r = await fetch(`${base()}/api/admin/login`, {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-forwarded-proto": "https" },
-    body: JSON.stringify({ password: (process.env.BOT_DASHBOARD_PASSWORD ?? "").trim() }),
-    signal: AbortSignal.timeout(15000),
-  });
-  const m = (r.headers.get("set-cookie") ?? "").match(/smt_admin=([^;]+)/);
-  if (!r.ok || !m) {
-    // Show what the panel actually said (never the password) so setup problems are easy to spot.
+  const password = (process.env.BOT_DASHBOARD_PASSWORD ?? "").trim();
+  let last = "";
+  // Control Center panel uses /api/login; the bot's built-in panel uses /api/admin/login.
+  for (const path of ["/api/login", "/api/admin/login"]) {
+    const r = await fetch(`${base()}${path}`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-forwarded-proto": "https" },
+      body: JSON.stringify({ password }),
+      signal: AbortSignal.timeout(15000),
+    });
+    const m = (r.headers.get("set-cookie") ?? "").match(/smt_admin=([^;]+)/);
+    if (r.ok && m) {
+      session = { cookie: `smt_admin=${m[1]}`, exp: Date.now() + 11 * 60 * 60_000 };
+      return session.cookie;
+    }
     const said = (await r.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 160);
-    const pw = (process.env.BOT_DASHBOARD_PASSWORD ?? "").trim();
-    throw new Error(`login ${r.status} — panel said: ${said || "(nothing)"} — KIXO sent a ${pw.length}-character password${r.ok && !m ? " (no session cookie came back)" : ""}`);
+    last = `login ${r.status} at ${path} — panel said: ${said || "(nothing)"} — KIXO sent a ${password.length}-character password`;
+    if (r.status === 429) break; // too many tries: stop
+    if (r.status !== 404 && !(r.status === 401 && /Unauthorized/.test(said))) break; // real answer from this panel
   }
-  session = { cookie: `smt_admin=${m[1]}`, exp: Date.now() + 11 * 60 * 60_000 };
-  return session.cookie;
+  throw new Error(last);
 }
 
 const P = "/api/bot-panel";
 /** Points the panel's own links at this proxy. */
 function rewrite(text: string) {
   return text
-    .replace(/(["'`])\/api\/admin\//g, `$1${P}/api/admin/`)
-    .replace(/(["'`])\/admin\/(app\.css|app\.js|assets\/)/g, `$1${P}/admin/$2`);
+    .replace(/(["'`(])\/api\//g, `$1${P}/api/`)
+    .replace(/((?:href|src|action)=["'])\/(?!\/|api\/bot-panel)/g, `$1${P}/`)
+    .replace(/(["'`])\/admin\/(app\.css|app\.js|assets\/)/g, `$1${P}/admin/$2`)
+    .replace(/url\((['"]?)\/(?!\/|api\/bot-panel)/g, `url($1${P}/`);
 }
 
-async function proxy(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+async function proxy(req: NextRequest, { params }: { params: Promise<{ path?: string[] }> }) {
   const me = await getCurrentUser().catch(() => null);
   if (!me || me.role !== "ADMIN") return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   if (!base() || !process.env.BOT_DASHBOARD_PASSWORD) return NextResponse.json({ error: "not_configured" }, { status: 503 });
   const { path } = await params;
-  const sub = path.map(encodeURIComponent).join("/");
+  const sub = (path ?? []).map(encodeURIComponent).join("/");
   // The panel's own login/logout are handled here (we're always logged in for KIXO admins).
-  if (sub === "api/admin/login" || sub === "api/admin/logout") return NextResponse.json({ ok: true });
+  if (["api/admin/login", "api/admin/logout", "api/login", "api/logout"].includes(sub)) return NextResponse.json({ ok: true });
   const target = `${base()}/${sub}${req.nextUrl.search}`;
   const body = ["GET", "HEAD"].includes(req.method) ? undefined : await req.text();
   const send = async (cookie: string) =>
@@ -64,13 +72,13 @@ async function proxy(req: NextRequest, { params }: { params: Promise<{ path: str
     if (res.status === 401) res = await send(await login(true));
   } catch (e) {
     const msg = e instanceof Error ? e.message : "offline";
-    return NextResponse.json({ error: msg.startsWith("login 401") ? `Bot password doesn't match — ${msg}` : `Bot panel problem — ${msg}` }, { status: 502 });
+    return NextResponse.json({ error: /login 401/.test(msg) ? `Bot password doesn't match — ${msg}` : `Bot panel problem — ${msg}` }, { status: 502 });
   }
   const type = res.headers.get("content-type") ?? "";
   const headers = new Headers({ "content-type": type || "application/octet-stream", "cache-control": "no-store" });
   if (/text\/html|javascript|text\/css/.test(type)) {
     let text = rewrite(await res.text());
-    if (type.includes("text/html")) text = text.replace("</head>", `<style>#logoutBtn{display:none!important}</style></head>`);
+    if (type.includes("text/html")) text = text.replace("</head>", `<style>#logoutBtn,#logout{display:none!important}</style></head>`);
     return new NextResponse(text, { status: res.status, headers });
   }
   return new NextResponse(res.body, { status: res.status, headers });
