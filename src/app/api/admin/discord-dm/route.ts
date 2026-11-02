@@ -9,9 +9,9 @@ export const maxDuration = 300;
 
 const Schema = z.object({
   mode: z.enum(["test", "all"]),
-  content: z.string().trim().min(1).max(2000),
+  content: z.string().trim().min(1).max(4000),
   title: z.string().trim().max(250).default(""),
-  imageUrl: z.string().trim().max(600).default(""),
+  imageUrls: z.array(z.string().trim().max(600)).max(4).default([]),
   linkUrl: z.string().trim().max(400).default(""),
   linkLabel: z.string().trim().max(80).default(""),
 });
@@ -29,7 +29,7 @@ export const POST = handle(async (req: NextRequest) => {
   const admin = await apiAdmin();
   const b = Schema.parse(await req.json());
   if (!botReady()) return json({ error: "bot_missing" }, 400);
-  const msg = { content: b.content, title: b.title || undefined, imageUrl: /^https:\/\//.test(b.imageUrl) ? b.imageUrl : undefined, linkUrl: b.linkUrl || undefined, linkLabel: b.linkLabel || undefined };
+  const msg = { content: b.content, title: b.title || undefined, imageUrls: b.imageUrls, linkUrl: b.linkUrl || undefined, linkLabel: b.linkLabel || undefined };
 
   if (b.mode === "test") {
     const me = await db.user.findUnique({ where: { id: admin.id }, select: { discordId: true } });
