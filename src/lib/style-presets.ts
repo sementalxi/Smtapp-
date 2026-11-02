@@ -89,7 +89,7 @@ SCENE
 - Behind: only a few huge soft floodlight flares and god-rays high up, a faint silhouette of the stands — NO busy crowd, NO glitter or sparkle bokeh everywhere.
 - Ticker-tape kept to a FEW pieces in gold and the team colour, drifting slowly through the light beam with motion blur — never a storm.
 - Grade: moody high-contrast, mostly black, white light and silver; only the team colour and the gold accents in colour. Clean negative space so the title and trophy dominate.
-- The TEAM CREST appears ONLY ONCE (small, top centre) — no second big crest or medallion anywhere else.
+- The TEAM CREST twice: small at the top centre, AND as a BIG premium 3D metal-and-enamel medallion standing on the grass right NEXT TO the trophy (to one side, slightly behind it, about two-thirds of the trophy height), faithful to the artwork, with real chrome reflections, a team-colour rim light and a soft shadow on the grass. Nowhere else.
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
@@ -464,8 +464,11 @@ export const PRESET_PREVIOUS: Record<string, string> = {
   "champions-victory": `[OWN LOOK] VICTORY NIGHT — the moment after the final whistle, captured by a top sports photographer. Clean, powerful, real. NO people, players or faces.
 
 SCENE
-- A real stadium at night shot from pitch level: the TROPHY standing alone on the centre circle, lit by ONE hard white spotlight from above, a ticker-tape storm in the team colours and gold falling through the beam with motion blur, the crowd and floodlights as huge creamy bokeh behind, wet grass glistening.
-- Lighting and grade: high-contrast black-and-white feel with ONLY the team colours and the gold trophy in colour.
+- A DARK, cinematic stadium at night shot from pitch level: almost black, swallowed in thick haze and smoke. The TROPHY stands alone on the centre spot, lit by ONE hard white spotlight from directly above — a visible cone of light cutting through the smoke, a bright pool of light on the wet grass, everything outside the beam falling into darkness.
+- Behind: only a few huge soft floodlight flares and god-rays high up, a faint silhouette of the stands — NO busy crowd, NO glitter or sparkle bokeh everywhere.
+- Ticker-tape kept to a FEW pieces in gold and the team colour, drifting slowly through the light beam with motion blur — never a storm.
+- Grade: moody high-contrast, mostly black, white light and silver; only the team colour and the gold accents in colour. Clean negative space so the title and trophy dominate.
+- The TEAM CREST appears ONLY ONCE (small, top centre) — no second big crest or medallion anywhere else.
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
