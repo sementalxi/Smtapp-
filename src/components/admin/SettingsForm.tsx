@@ -39,7 +39,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
       </div>
       <div>
-        <label className="label">{es ? "Calidad de imagen IA Pro" : "Pro AI image quality"}</label>
+        <label className="label">{es ? "Calidad IA Pro (usuarios sin suscripción)" : "Pro AI quality (users without a subscription)"}</label>
         <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>
           <option value="medium">{es ? "Media — ~1 minuto, más barata (recomendada)" : "Medium — about 1 minute, cheaper (recommended)"}</option>
           <option value="high">{es ? "Alta — máximo detalle, 2–4 minutos, ~3× más cara por imagen" : "High — sharpest detail, 2–4 minutes, costs ~3× more per image"}</option>

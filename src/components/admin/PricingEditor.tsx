@@ -133,9 +133,25 @@ export function PricingEditor({ initial }: { initial: PricingConfig }) {
                 </label>
               </div>
               <div className="mt-1 text-[11px] text-muted">{per(p.priceUsd, p.monthlyCredits)}</div>
+              <div className="mt-3">
+                <span className="label">{es ? "IA Pro de este plan" : "Pro AI for this plan"}</span>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {([
+                    ["low", es ? "⚡ Rápida" : "⚡ Fast", es ? "~20 s" : "~20 s"],
+                    ["medium", es ? "✨ Estándar" : "✨ Standard", es ? "buena" : "good"],
+                    ["high", es ? "💎 Máxima" : "💎 Best", es ? "más detalle" : "most detail"],
+                  ] as const).map(([q, l, sub]) => (
+                    <button key={q} type="button" onClick={() => setPlan(i, { quality: q })} className={`rounded-lg border px-2 py-2 text-left ${(p.quality ?? "high") === q ? "border-lime bg-lime/10" : "border-line bg-panel"}`}>
+                      <span className="block text-xs font-bold">{l}</span>
+                      <span className="block text-[10px] text-muted">{sub}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
+        <p className="mt-2 text-[11px] text-muted">{es ? "Quien no tiene suscripción usa la calidad de Ajustes → “Calidad IA Pro”." : "People without a subscription use the quality in Settings → “Pro AI quality”."}</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">

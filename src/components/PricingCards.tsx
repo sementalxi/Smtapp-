@@ -45,6 +45,9 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                   <b className="text-lime">{p.monthlyCredits}</b> {t("credits_per_month")}
                   <span className="text-muted"> · ${(p.priceUsd / p.monthlyCredits).toFixed(2)}/{t("credit")}</span>
                 </p>
+                <p className="-mt-4 mb-6 text-xs font-bold text-teal">
+                  {p.quality === "high" ? (locale === "es" ? "💎 IA Pro de máxima calidad" : "💎 Best-quality Pro AI") : p.quality === "low" ? (locale === "es" ? "⚡ IA Pro rápida" : "⚡ Fast Pro AI") : locale === "es" ? "✨ IA Pro estándar" : "✨ Standard Pro AI"}
+                </p>
                 {current && provider === "square" ? (
                   user?.subscriptionStatus === "canceling" ? (
                     <p className="text-center text-xs text-muted">{locale === "es" ? "Se cancela al final del mes pagado" : "Ends at the end of the paid month"}</p>

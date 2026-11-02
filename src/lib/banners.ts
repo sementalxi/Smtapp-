@@ -642,6 +642,22 @@ export function buildProPrompt(opts: {
     .join("\n\n");
 }
 
+/** Pro AI quality: subscribers get their plan's quality, everyone else the global setting. */
+async function qualityFor(userId: string) {
+  const fallback = (await getSettings()).pro_quality;
+  try {
+    const u = await db.user.findUnique({ where: { id: userId }, select: { planId: true, subscriptionStatus: true } });
+    if (u?.planId && ["active", "canceling", "pending", "trialing", "past_due"].includes(u.subscriptionStatus ?? "")) {
+      const { loadPricing } = await import("./pricing");
+      const plan = (await loadPricing()).plans.find((p) => p.id === u.planId);
+      if (plan?.quality) return plan.quality;
+    }
+  } catch {
+    /* fall back */
+  }
+  return fallback;
+}
+
 /** Charges credits, asks the model for the full poster, stores it. Refunds on failure. */
 export async function generateProForBanner(opts: {
   bannerId: string;
@@ -666,7 +682,7 @@ export async function generateProForBanner(opts: {
       const bytes = await loadBytes(r.url);
       images.push({ bytes, type: sniffImage(bytes) ?? "image/png" });
     }
-    const quality = (await getSettings()).pro_quality;
+    const quality = await qualityFor(opts.userId);
     let poster: Buffer;
     try {
       poster = await generatePoster(opts.prompt, images, quality);

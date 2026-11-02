@@ -12,9 +12,13 @@ export interface CreditPack {
   active?: boolean;
 }
 
+export type AiQuality = "low" | "medium" | "high";
+
 export interface Plan {
   id: "starter" | "pro";
   monthlyCredits: number;
+  /** Pro AI image quality for subscribers of this plan */
+  quality?: AiQuality;
   priceUsd: number;
   envKey: string;
   popular?: boolean;
@@ -28,14 +32,14 @@ export const CREDIT_PACKS: CreditPack[] = [
 ];
 
 export const PLANS: Plan[] = [
-  { id: "starter", monthlyCredits: 40, priceUsd: 9.99, envKey: "STRIPE_PRICE_PLAN_STARTER" },
-  { id: "pro", monthlyCredits: 120, priceUsd: 19.99, envKey: "STRIPE_PRICE_PLAN_PRO", popular: true },
+  { id: "starter", monthlyCredits: 40, priceUsd: 9.99, envKey: "STRIPE_PRICE_PLAN_STARTER", quality: "medium" },
+  { id: "pro", monthlyCredits: 120, priceUsd: 19.99, envKey: "STRIPE_PRICE_PLAN_PRO", popular: true, quality: "high" },
 ];
 
 /** Original prices (used for "reset" in admin). */
 export const DEFAULT_PRICING = {
   packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular, active: true })),
-  plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular, active: true })),
+  plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular, active: true, quality: (p.quality ?? "high") as AiQuality })),
 };
 export type PricingConfig = typeof DEFAULT_PRICING;
 
@@ -67,10 +71,11 @@ export async function loadPricing(): Promise<PricingConfig> {
     p.priceUsd = s?.priceUsd && s.priceUsd >= 0.5 ? Math.round(s.priceUsd * 100) / 100 : d.priceUsd;
     p.popular = s ? !!s.popular : d.popular;
     p.active = s ? s.active !== false : true;
+    p.quality = s?.quality && ["low", "medium", "high"].includes(s.quality) ? s.quality : d.quality;
   }
   return {
     packs: CREDIT_PACKS.map((p) => ({ id: p.id, credits: p.credits, priceUsd: p.priceUsd, popular: !!p.popular, active: p.active !== false })),
-    plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular, active: p.active !== false })),
+    plans: PLANS.map((p) => ({ id: p.id, monthlyCredits: p.monthlyCredits, priceUsd: p.priceUsd, popular: !!p.popular, active: p.active !== false, quality: (p.quality ?? "high") as AiQuality })),
   };
 }
 
