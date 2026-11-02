@@ -42,6 +42,12 @@ async function main() {
       data: { proInstructions: text },
     });
   }
+  // One-time: Gold XI becomes "Shatter XI" (team colours, no gold) — the owner's request.
+  if (!(await db.setting.findUnique({ where: { key: "upgrade_lineup_gold_v2" } }))) {
+    await db.template.updateMany({ where: { slug: "lineup-gold" }, data: { name: "Shatter XI", nameEs: "Once Estallido", proInstructions: PRESET_INSTRUCTIONS["lineup-gold"] } });
+    await db.setting.create({ data: { key: "upgrade_lineup_gold_v2", value: new Date().toISOString() } });
+    await db.setting.upsert({ where: { key: "upgrade_lineup_gold_v1" }, create: { key: "upgrade_lineup_gold_v1", value: "skipped" }, update: {} });
+  }
   // One-time: the owner asked for a new Gold XI design — keep a backup of any older instructions, then replace them.
   const goldFlag = await db.setting.findUnique({ where: { key: "upgrade_lineup_gold_v1" } });
   if (!goldFlag) {

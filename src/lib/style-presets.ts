@@ -2,25 +2,66 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
-  "lineup-gold": `GOLD XI — a luxury, cinematic starting-lineup poster in REAL GOLD and deep black. NO people, players or faces — the eleven are shown as markers.
+  "lineup-hologram": `HOLOGRAM XI — a futuristic tactical hologram over a dark stadium.
 
-COLOURS (fixed for this style, whatever the crest colours)
-- Rich, warm 24-karat GOLD (bright yellow-gold highlights, deep amber shadows — never pink, rose-gold or copper) on deep black, with white for small text. The team crest keeps its own true colours.
+SCENE
+- A dark night stadium with the lights low; above the pitch, a giant translucent HOLOGRAPHIC tactics board is projected in the team colours: glowing grid lines, scan lines, data rings, thin HUD brackets and arrows (no readable extra words). Light beams from projectors, volumetric haze, reflections on the wet pitch, film grain.
+- The team crest at the top as a crisp emblem with a holographic ring and scan line around it.
+- The eleven markers float on the holographic pitch in their rows as glowing glass badges (number big, name on a clean dark tag).
 
-BACKGROUND (cinematic, luxury, never plain)
-- A dark VIP stadium at night seen through a cinematic lens: golden floodlight beams cutting through light haze from above, black marble pitch with mirror reflections and fine gold veins, slow-falling gold dust and a few gold confetti pieces catching the light, soft golden bokeh of the stands. Film grain, strong vignette, high contrast.
-- Elegant art-deco gold lines framing the top corners — thin and premium.
-- The team crest echoed HUGE and faint (gold embossed) in the background behind the title.
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a sleek badge in the team colours with the shirt NUMBER big, the position small, and the NAME underneath on a clean dark tag. Every name perfectly legible and spelled exactly.
 
-LAYOUT (top to bottom)
-1. TOP: the TEAM CREST big and crisp as a premium emblem with a thick polished GOLD rim, deep bevel and a warm glow; the competition logo (if given) smaller in the top-right as a gold badge.
-2. TITLE: "STARTING XI" (or the given title) in heavy slanted sports letters made of brushed gold with a dark bevel, short hard extrusion and hard shadow — "XI" bigger. The FORMATION (e.g. "3-4-3") under it in a bold gold brush-marker script; date/matchday small and letter-spaced in white.
-3. PITCH: black marble pitch in cinematic perspective with crisp thin gold lines. The eleven placed in the formation (goalkeeper nearest), each as a polished gold shield badge with the shirt NUMBER big in black or white, the position small, and the player NAME underneath on a clean black tag with gold edge. Every name perfectly legible and spelled exactly.
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") in heavy slanted sports type — solid fill, thick outline, short hard extrusion, hard shadow, grain — "XI" bigger. The formation in a bold brush-marker script in the accent colour; date/matchday small and letter-spaced.
 
-FINISH: real materials (true polished gold, black marble, glass), cinematic lighting, crisp edges, no neon, no rose/pink tones, no excessive sparks.
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
+  "lineup-ultras": `ULTRAS XI — match-day atmosphere with smoke bombs and flares.
 
-TEXT RULES
-- Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
+SCENE
+- A night stadium end wrapped in thick SMOKE BOMBS and burning FLARES in the team colours — dense coloured smoke rolling across the frame, bright flare light, sparks, huge waving flags and banners in the team colours (no readable words, no visible faces). Gritty, raw, powerful; film grain, cinematic grade.
+- The team crest at the top, crisp, with smoke wrapping around it and flare light on its edges.
+- The pitch in perspective below, half-veiled in low smoke, the markers standing out clearly on top of it.
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a sleek badge in the team colours with the shirt NUMBER big, the position small, and the NAME underneath on a clean dark tag. Every name perfectly legible and spelled exactly.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") in heavy slanted sports type — solid fill, thick outline, short hard extrusion, hard shadow, grain — "XI" bigger. The formation in a bold brush-marker script in the accent colour; date/matchday small and letter-spaced.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
+  "lineup-tunnel": `TUNNEL XI — the view from the players' tunnel, seconds before kick-off.
+
+SCENE
+- Shot from inside a dark concrete stadium tunnel looking out: rough walls with team-colour strip lights along the ceiling, the tunnel opening ahead blazing with white floodlight, coloured smoke drifting in from the pitch, the stands glowing beyond. Strong backlight, light rays pouring into the tunnel, wet floor reflections, film grain, cinematic grade.
+- The team crest painted big on the tunnel wall / floating at the top of the opening, crisp and lit.
+- The pitch seen through the opening in perspective — the eleven markers placed on it in their rows, glowing softly in the floodlight.
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a sleek badge in the team colours with the shirt NUMBER big, the position small, and the NAME underneath on a clean dark tag. Every name perfectly legible and spelled exactly.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") in heavy slanted sports type — solid fill, thick outline, short hard extrusion, hard shadow, grain — "XI" bigger. The formation in a bold brush-marker script in the accent colour; date/matchday small and letter-spaced.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
+  "lineup-gold": `SHATTER XI — a badass cinematic starting-lineup poster where the scene EXPLODES through glass.
+
+SCENE
+- A night stadium seen through a giant sheet of glass/crystal that is SHATTERING toward the camera: huge sharp shards flying out in 3D with depth of field, each edge catching the floodlights in the team colours. Behind the glass: floodlight beams through haze, the pitch glowing. Dark, high contrast, film grain, cinematic grade in the team colours.
+- The team crest at the top, big and crisp, bursting through the centre of the shatter with shards around it.
+- The pitch below in dramatic perspective, with a few shards resting on it and reflections on the wet surface.
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a sleek badge in the team colours with the shirt NUMBER big, the position small, and the NAME underneath on a clean dark tag. Every name perfectly legible and spelled exactly.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") in heavy slanted sports type — solid fill, thick outline, short hard extrusion, hard shadow, grain — "XI" bigger. The formation in a bold brush-marker script in the accent colour; date/matchday small and letter-spaced.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
   "lineup-cinematic": `[FIXED LAYOUT] CINEMATIC XI — a badass, cinematic starting-lineup poster, the quality of a top club's official match-day graphic. NO people, players or faces — the eleven are shown as markers with their numbers and names.
 
 COLOURS
