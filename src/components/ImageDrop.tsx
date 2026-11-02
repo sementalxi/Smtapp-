@@ -10,7 +10,7 @@ import { ImageSearch } from "./ImageSearch";
  * PNG/WebP keep transparency; JPEGs stay JPEG.
  */
 export async function shrink(file: File): Promise<Blob> {
-  const keepAlpha = file.type !== "image/jpeg";
+  const keepAlpha = /^image\/(png|webp|gif)$/.test(file.type); // photos (JPEG, iPhone HEIC) become JPEG
   const max = keepAlpha ? 1600 : 2048;
   try {
     const bmp = await createImageBitmap(file);
