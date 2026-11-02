@@ -178,6 +178,13 @@ export function CreateWizard({
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
   const [step, setStep] = useState(initialLayout ? 2 : 1);
+  // Every step change starts at the top of the page (phones stayed scrolled down).
+  const [firstStep, setFirstStep] = useState(true);
+  useEffect(() => {
+    if (firstStep) return setFirstStep(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
   const [layout, setLayout] = useState<LayoutKind>(initialLayout ?? "PLAYER");
   const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
   const [tplId, setTplId] = useState<string | null>(null);
