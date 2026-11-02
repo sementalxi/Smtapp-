@@ -5,7 +5,7 @@ import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/lib/auth";
 import { TxTable } from "@/components/TxTable";
 import { BannerGrid } from "@/components/BannerGrid";
-import { CreditAdjust, UserFlags } from "@/components/admin/UserControls";
+import { CreditAdjust, ResetLink, UserFlags } from "@/components/admin/UserControls";
 
 export default async function AdminUserPage({ params }: { params: Promise<{ id: string }> }) {
   const me = await requireAdmin();
@@ -42,6 +42,7 @@ export default async function AdminUserPage({ params }: { params: Promise<{ id: 
           </p>
           <div className="mt-3">
             <UserFlags userId={user.id} role={user.role} banned={user.banned} self={user.id === me.id} />
+            <ResetLink userId={user.id} es={locale === "es"} />
           </div>
         </div>
         <div className="ml-auto text-right">

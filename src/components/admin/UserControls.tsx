@@ -101,3 +101,33 @@ export function UserFlags({ userId, role, banned, self }: { userId: string; role
     </div>
   );
 }
+
+/** Admin: make a one-time password reset link for this user. */
+export function ResetLink({ userId, es }: { userId: string; es: boolean }) {
+  const [url, setUrl] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [copied, setCopied] = useState(false);
+  async function make() {
+    setBusy(true);
+    const d = await fetch(`/api/admin/users/${userId}/reset-link`, { method: "POST" }).then((r) => r.json()).catch(() => ({}));
+    setBusy(false);
+    if (d.url) setUrl(d.url);
+  }
+  return (
+    <div className="card space-y-2 p-4 text-sm">
+      <div className="font-bold">🔑 {es ? "Restablecer contraseña" : "Reset password"}</div>
+      {!url ? (
+        <button type="button" className="btn-ghost w-full" disabled={busy} onClick={make}>{busy ? "…" : es ? "Crear enlace de restablecimiento" : "Create reset link"}</button>
+      ) : (
+        <>
+          <input className="input text-xs" readOnly value={url} onFocus={(e) => e.currentTarget.select()} />
+          <div className="flex gap-2">
+            <a href={url} className="btn-primary flex-1 text-center">{es ? "Abrir" : "Open"}</a>
+            <button type="button" className="btn-ghost flex-1" onClick={() => navigator.clipboard?.writeText(url).then(() => setCopied(true))}>{copied ? "✓" : es ? "Copiar" : "Copy"}</button>
+          </div>
+          <p className="text-[11px] text-muted">{es ? "Vale 30 minutos y un solo uso. Al abrirlo inicias sesión como ese usuario." : "Valid 30 minutes, one use. Opening it logs you in as that user."}</p>
+        </>
+      )}
+    </div>
+  );
+}
