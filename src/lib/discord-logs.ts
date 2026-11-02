@@ -122,3 +122,37 @@ export async function testLog(key: LogKey) {
   const c = LOG_CHANNELS.find((x) => x.key === key);
   return postToDiscord({ username: "KIXO Log", embeds: [{ title: `✅ ${c?.label ?? key} — test`, description: "Logs for this kind will show up here.", color: 0xff2e88, timestamp: new Date().toISOString() }] }, undefined, url);
 }
+
+/** 🎁 Gift plan given / removed / monthly credits added. Never throws. */
+export async function logGiftPlan(p: { userId: string; action: "given" | "removed" | "monthly"; planName?: string; credits?: number; until?: Date | null }) {
+  try {
+    const url = await hookFor("subscriptions");
+    if (!url) return;
+    const u = await db.user.findUnique({ where: { id: p.userId }, select: { name: true, email: true, credits: true } });
+    const title =
+      p.action === "given" ? `🎁 Gift plan given — ${p.planName ?? ""}` : p.action === "removed" ? "🎁 Gift plan removed" : `🎁 Gift plan monthly credits — ${p.planName ?? ""}`;
+    await postToDiscord(
+      {
+        username: "KIXO · Subscriptions",
+        embeds: [
+          {
+            title,
+            url: `${appUrl()}/admin/users/${p.userId}`,
+            color: p.action === "removed" ? 0x8a7d8c : 0xc86bb0,
+            fields: [
+              { name: "User", value: `${u?.name ?? "?"}\n${u?.email ?? ""}`.slice(0, 500), inline: true },
+              ...(p.credits ? [{ name: "Credits", value: `+${p.credits} (now ⚡ ${u?.credits ?? "?"})`, inline: true }] : []),
+              ...(p.until ? [{ name: "Until", value: p.until.toISOString().slice(0, 10), inline: true }] : []),
+              { name: "Paid", value: "Free (given by admin)", inline: true },
+            ],
+            timestamp: new Date().toISOString(),
+          },
+        ],
+      },
+      undefined,
+      url,
+    );
+  } catch (e) {
+    console.error("discord gift log failed", e);
+  }
+}
