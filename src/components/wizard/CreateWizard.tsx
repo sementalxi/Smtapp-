@@ -1,6 +1,7 @@
 "use client";
 
 import { TypeIcon } from "./TypeIcon";
+import { FontPicker } from "./FontPicker";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/client";
@@ -749,6 +750,10 @@ export function CreateWizard({
                   : "Let the AI add 1–2 hype words on the poster (e.g. NEW SIGNING, MVP)"}
               </span>
             </label>
+          </div>
+          <div className="space-y-3 rounded-xl border border-line bg-panel-2/50 p-3">
+            <FontPicker label={locale === "es" ? "Letra del título" : "Title font"} value={inp.fontPrimary} onChange={(v) => set("fontPrimary", v)} sample={layout === "CHAMPIONS" ? "CHAMPS" : "TITLE"} es={locale === "es"} />
+            <FontPicker label={locale === "es" ? "Letra de nombres" : "Names font"} value={inp.fontSecondary} onChange={(v) => set("fontSecondary", v)} sample="Name" es={locale === "es"} />
           </div>
           <div>
             <label className="label">{L.extra}</label>

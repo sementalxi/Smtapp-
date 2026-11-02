@@ -58,14 +58,21 @@ export interface FontStyle {
 }
 
 export const FONT_STYLES: FontStyle[] = [
-  { id: "condensed", label: "Condensed Sport", prompt: "tall ultra-condensed bold sports sans-serif, white with metallic gradient", preview: "anton", previewClass: "uppercase" },
-  { id: "futuristic", label: "Futuristic", prompt: "futuristic angular tech display font with sharp cuts and glow", preview: "bebas", previewClass: "uppercase tracking-[0.2em]" },
-  { id: "chrome", label: "Chrome 3D", prompt: "thick 3D extruded chrome lettering with reflections and bevels", preview: "anton", previewClass: "uppercase italic" },
-  { id: "gold", label: "Gold Metallic Luxury", prompt: "luxurious polished gold metallic serif lettering with sparkles", preview: "bebas", previewClass: "uppercase tracking-widest" },
-  { id: "gothic", label: "Gothic Blackletter", prompt: "ornate gothic blackletter (old english) lettering", preview: "gothic", previewClass: "" },
-  { id: "grunge", label: "Grunge", prompt: "distressed grunge stencil lettering with scratches and texture", preview: "anton", previewClass: "uppercase opacity-90" },
-  { id: "brush", label: "Brush Script", prompt: "energetic hand-painted brush script lettering", preview: "brush", previewClass: "" },
-  { id: "neon", label: "Neon", prompt: "glowing neon tube lettering with strong colour glow", preview: "bebas", previewClass: "uppercase tracking-[0.15em]" },
+  { id: "condensed", label: "Condensed Sport", prompt: "tall ultra-condensed heavy sports sans-serif capitals (Nike / Adidas campaign style), white with a gritty texture", preview: "anton", previewClass: "uppercase" },
+  { id: "chrome", label: "Chrome 3D", prompt: "thick 3D extruded polished chrome capitals with sharp bevels, real reflections and a team-colour edge glow", preview: "anton", previewClass: "uppercase italic" },
+  { id: "forged", label: "Forged Gold", prompt: "massive block capitals forged in dark scratched gold, chiselled bevels, molten glowing cracks, heavy hard shadow", preview: "anton", previewClass: "uppercase" },
+  { id: "speed", label: "Speed Italic", prompt: "aggressive wide italic sports capitals with razor-sharp edges and speed streaks tearing off the back", preview: "anton", previewClass: "uppercase italic tracking-tight" },
+  { id: "futuristic", label: "Futuristic", prompt: "angular futuristic capitals with cut corners in gunmetal and carbon fibre with thin glowing inlay lines", preview: "bebas", previewClass: "uppercase tracking-[0.2em]" },
+  { id: "electric", label: "Electric", prompt: "brushed-steel capitals with lightning crackling across the letters and sparks jumping between them", preview: "bebas", previewClass: "uppercase tracking-widest" },
+  { id: "flaming", label: "On Fire", prompt: "jagged burnt-gold capitals with real fire licking off the top edges and embers peeling away", preview: "anton", previewClass: "uppercase" },
+  { id: "stone", label: "Cracked Stone", prompt: "monumental cracked stone capitals with molten team-colour light bursting out of the cracks", preview: "anton", previewClass: "uppercase tracking-wide" },
+  { id: "gold", label: "Gold Luxury", prompt: "elegant tall high-contrast serif capitals in real embossed gold foil, wide letter-spacing, regal", preview: "bebas", previewClass: "uppercase tracking-widest" },
+  { id: "gothic", label: "Gothic Metal", prompt: "brutal gothic blackletter in blackened steel with gold edges, engraved and battle-worn, like a heavy-metal album", preview: "gothic", previewClass: "" },
+  { id: "stencil", label: "Military Stencil", prompt: "heavy military stencil capitals in war-torn paint over black metal, chipped and scorched", preview: "anton", previewClass: "uppercase tracking-[0.15em]" },
+  { id: "grunge", label: "Grunge Poster", prompt: "ultra-bold grunge capitals ripped and torn like a street poster, halftone and spray-paint texture", preview: "anton", previewClass: "uppercase opacity-90" },
+  { id: "brush", label: "Brush Script", prompt: "huge hand-painted brush script with explosive dry-brush strokes and paint splatter, slanted upward", preview: "brush", previewClass: "" },
+  { id: "graffiti", label: "Graffiti", prompt: "hand-sprayed graffiti lettering with real drips, overspray and a thick outline", preview: "brush", previewClass: "" },
+  { id: "neon", label: "Neon", prompt: "glowing neon tube lettering with a strong colour glow and reflections", preview: "bebas", previewClass: "uppercase tracking-[0.15em]" },
   { id: "clean", label: "Clean Modern", prompt: "clean modern geometric bold sans-serif", preview: "sans", previewClass: "font-extrabold uppercase" },
 ];
 
