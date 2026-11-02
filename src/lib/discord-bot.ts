@@ -4,7 +4,9 @@ const API = "https://discord.com/api/v10";
 
 export const botReady = () => !!process.env.DISCORD_BOT_TOKEN?.trim();
 export const guildId = () => process.env.DISCORD_GUILD_ID?.trim() || "";
-const auth = () => ({ Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN!.trim()}`, "Content-Type": "application/json" });
+// Accepts the token with or without a "Bot " prefix or quotes around it.
+const token = () => process.env.DISCORD_BOT_TOKEN!.trim().replace(/^["']|["']$/g, "").replace(/^Bot\s+/i, "").trim();
+const auth = () => ({ Authorization: `Bot ${token()}`, "Content-Type": "application/json" });
 
 async function call(path: string, init: RequestInit, tries = 3): Promise<Response> {
   for (let i = 0; ; i++) {
