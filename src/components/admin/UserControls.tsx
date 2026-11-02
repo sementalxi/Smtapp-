@@ -146,7 +146,7 @@ export function GivePlan({ userId, plans, current, until, paying, es }: { userId
     const d = await r.json().catch(() => ({}));
     setBusy(false);
     if (r.ok) {
-      setMsg(planId ? (es ? "✅ Plan activado y créditos del mes añadidos" : "✅ Plan on and this month's credits added") : es ? "✅ Plan quitado" : "✅ Plan removed");
+      setMsg(planId ? (es ? "✅ Plan activado y créditos del mes añadidos" : "✅ Plan on and this month's credits added") : es ? "✅ Plan quitado y créditos del regalo retirados" : "✅ Plan removed and gift credits taken back");
       router.refresh();
     } else setMsg(d.error === "paying" ? (es ? "❌ Este usuario ya paga una suscripción" : "❌ This user already pays for a subscription") : es ? "❌ No se pudo" : "❌ Couldn't do it");
   }
@@ -174,7 +174,7 @@ export function GivePlan({ userId, plans, current, until, paying, es }: { userId
             <button type="button" className="btn-primary flex-1" disabled={busy || !plan} onClick={() => send(plan)}>{busy ? "…" : current ? (es ? "Cambiar / extender" : "Change / extend") : es ? "Dar plan" : "Give plan"}</button>
             {current && <button type="button" className="btn-ghost" disabled={busy} onClick={() => send(null)}>{es ? "Quitar" : "Remove"}</button>}
           </div>
-          <p className="text-[11px] text-muted">{es ? "Recibe los créditos del plan cada mes y la calidad de IA del plan, hasta la fecha." : "They get the plan's credits every month and its AI quality, until the end date."}</p>
+          <p className="text-[11px] text-muted">{es ? "Recibe los créditos del plan cada mes y su calidad de IA, hasta la fecha. Al quitarlo se retiran los créditos del mes que le queden." : "They get the plan's credits every month and its AI quality, until the end date. Removing it takes back what's left of this month's gift credits."}</p>
         </>
       )}
       {msg && <p className="text-xs">{msg}</p>}

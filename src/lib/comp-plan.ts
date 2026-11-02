@@ -1,6 +1,6 @@
 // Plans the admin gives for free ("comp"): status "comp" until currentPeriodEnd, monthly credits added automatically.
 import { db } from "./db";
-import { grantOnce } from "./credits";
+import { changeCredits, grantOnce } from "./credits";
 import { loadPricing } from "./pricing";
 import { logGiftPlan } from "./discord-logs";
 
@@ -22,8 +22,19 @@ export async function topUpComp(u: { id: string; planId: string | null; subscrip
 /** Admin: give (or remove) a free plan for N months. */
 export async function setCompPlan(userId: string, planId: string | null, months: number) {
   if (!planId) {
+    // Take back this month's gift credits (only what's left — never below zero).
+    const ref = `comp_${userId}_${month()}`;
+    const tx = await db.creditTransaction.findUnique({ where: { externalRef: ref } });
+    let taken = 0;
+    if (tx && tx.amount > 0) {
+      const u = await db.user.findUnique({ where: { id: userId }, select: { credits: true } });
+      taken = Math.min(tx.amount, u?.credits ?? 0);
+      if (taken > 0) await changeCredits({ userId, amount: -taken, type: "ADMIN_ADJUST", note: "Gift plan removed — credits taken back" });
+      // Free the month's slot so giving the plan again adds credits again.
+      await db.creditTransaction.update({ where: { id: tx.id }, data: { externalRef: `${ref}_revoked_${Date.now()}` } });
+    }
     await db.user.update({ where: { id: userId }, data: { planId: null, subscriptionStatus: null, currentPeriodEnd: null } });
-    await logGiftPlan({ userId, action: "removed" });
+    await logGiftPlan({ userId, action: "removed", credits: taken ? -taken : undefined });
     return;
   }
   const end = new Date();

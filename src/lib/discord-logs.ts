@@ -141,7 +141,7 @@ export async function logGiftPlan(p: { userId: string; action: "given" | "remove
             color: p.action === "removed" ? 0x8a7d8c : 0xc86bb0,
             fields: [
               { name: "User", value: `${u?.name ?? "?"}\n${u?.email ?? ""}`.slice(0, 500), inline: true },
-              ...(p.credits ? [{ name: "Credits", value: `+${p.credits} (now ⚡ ${u?.credits ?? "?"})`, inline: true }] : []),
+              ...(p.credits ? [{ name: "Credits", value: `${p.credits > 0 ? "+" : "−"}${Math.abs(p.credits)} (now ⚡ ${u?.credits ?? "?"})`, inline: true }] : []),
               ...(p.until ? [{ name: "Until", value: p.until.toISOString().slice(0, 10), inline: true }] : []),
               { name: "Paid", value: "Free (given by admin)", inline: true },
             ],
