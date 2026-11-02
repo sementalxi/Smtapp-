@@ -51,7 +51,8 @@ async function serper(q: string, page = 1): Promise<ImageResult[]> {
       url: r.imageUrl as string,
       thumb: isHttp(r.thumbnailUrl) ? r.thumbnailUrl : (r.imageUrl as string),
       title: String(r.title ?? ""),
-      source: String(r.source ?? r.domain ?? ""),
+      source: String(r.domain ?? r.source ?? ""),
+      link: String(r.link ?? ""),
     }));
 }
 
@@ -107,8 +108,9 @@ async function wikipedia(q: string): Promise<ImageResult[]> {
 export async function searchImages(q: string, kind: "photo" | "logo", page = 1, source: "web" | "pinterest" = "web"): Promise<ImageResult[]> {
   const provider = imageSearchProvider();
   const base = kind === "logo" && provider !== "free" ? `${q} logo crest png` : q;
-  // Pinterest: Google results limited to pinterest.com (Pinterest has no public search API).
-  const query = source === "pinterest" && provider !== "free" ? `${q} site:pinterest.com` : base;
+  // Pinterest: Google results that come from pinterest.com (Pinterest has no public search API;
+  // free Serper plans don't allow "site:", so we add the word and filter by domain).
+  const query = source === "pinterest" && provider !== "free" ? `${q} pinterest` : base;
   let results: ImageResult[] = [];
   lastSearchError = "";
   // Google/Brave first; if that fails (bad key, no credits…) fall back to the free sources instead of failing.
@@ -122,6 +124,10 @@ export async function searchImages(q: string, kind: "photo" | "logo", page = 1, 
   if (!results.length && page === 1) {
     const [a, b] = await Promise.allSettled([sportsDb(q, kind), wikipedia(q)]);
     results = [...(a.status === "fulfilled" ? a.value : []), ...(b.status === "fulfilled" ? b.value : [])];
+  }
+  if (source === "pinterest") {
+    const pins = results.filter((r) => /pinterest\.|pinimg\.com/i.test(`${r.source} ${(r as ImageResult & { link?: string }).link ?? ""} ${r.url}`));
+    if (pins.length) results = pins;
   }
   const seen = new Set<string>();
   return results.filter((r) => !seen.has(r.url) && seen.add(r.url)).slice(0, 40);
