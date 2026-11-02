@@ -2,6 +2,25 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "lineup-gold": `GOLD XI — a luxury, cinematic starting-lineup poster in REAL GOLD and deep black. NO people, players or faces — the eleven are shown as markers.
+
+COLOURS (fixed for this style, whatever the crest colours)
+- Rich, warm 24-karat GOLD (bright yellow-gold highlights, deep amber shadows — never pink, rose-gold or copper) on deep black, with white for small text. The team crest keeps its own true colours.
+
+BACKGROUND (cinematic, luxury, never plain)
+- A dark VIP stadium at night seen through a cinematic lens: golden floodlight beams cutting through light haze from above, black marble pitch with mirror reflections and fine gold veins, slow-falling gold dust and a few gold confetti pieces catching the light, soft golden bokeh of the stands. Film grain, strong vignette, high contrast.
+- Elegant art-deco gold lines framing the top corners — thin and premium.
+- The team crest echoed HUGE and faint (gold embossed) in the background behind the title.
+
+LAYOUT (top to bottom)
+1. TOP: the TEAM CREST big and crisp as a premium emblem with a thick polished GOLD rim, deep bevel and a warm glow; the competition logo (if given) smaller in the top-right as a gold badge.
+2. TITLE: "STARTING XI" (or the given title) in heavy slanted sports letters made of brushed gold with a dark bevel, short hard extrusion and hard shadow — "XI" bigger. The FORMATION (e.g. "3-4-3") under it in a bold gold brush-marker script; date/matchday small and letter-spaced in white.
+3. PITCH: black marble pitch in cinematic perspective with crisp thin gold lines. The eleven placed in the formation (goalkeeper nearest), each as a polished gold shield badge with the shirt NUMBER big in black or white, the position small, and the player NAME underneath on a clean black tag with gold edge. Every name perfectly legible and spelled exactly.
+
+FINISH: real materials (true polished gold, black marble, glass), cinematic lighting, crisp edges, no neon, no rose/pink tones, no excessive sparks.
+
+TEXT RULES
+- Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
   "lineup-cinematic": `[FIXED LAYOUT] CINEMATIC XI — a badass, cinematic starting-lineup poster, the quality of a top club's official match-day graphic. NO people, players or faces — the eleven are shown as markers with their numbers and names.
 
 COLOURS

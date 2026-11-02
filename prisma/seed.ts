@@ -42,6 +42,16 @@ async function main() {
       data: { proInstructions: text },
     });
   }
+  // One-time: the owner asked for a new Gold XI design — keep a backup of any older instructions, then replace them.
+  const goldFlag = await db.setting.findUnique({ where: { key: "upgrade_lineup_gold_v1" } });
+  if (!goldFlag) {
+    const t = await db.template.findUnique({ where: { slug: "lineup-gold" }, select: { proInstructions: true } });
+    if (t?.proInstructions && t.proInstructions !== PRESET_INSTRUCTIONS["lineup-gold"]) {
+      await db.setting.upsert({ where: { key: "backup_instructions_lineup_gold" }, create: { key: "backup_instructions_lineup_gold", value: t.proInstructions }, update: { value: t.proInstructions } });
+    }
+    await db.template.updateMany({ where: { slug: "lineup-gold" }, data: { proInstructions: PRESET_INSTRUCTIONS["lineup-gold"] } });
+    await db.setting.create({ data: { key: "upgrade_lineup_gold_v1", value: new Date().toISOString() } });
+  }
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
   }
