@@ -210,7 +210,7 @@ LAYOUT (top to bottom)
 1. TOP CENTRE: the TEAM CREST as a premium physical metal-and-enamel emblem — crisp and faithful to the artwork, thick bevels, real reflections, a hard rim light in the team colour.
 2. CENTRE: the TITLE in huge 3D letters — the font and material change on every poster (follow the TITLE TYPOGRAPHY given below). Team name (if given) in clean bold letters under it.
 3. THE TROPHY — HUGE: a real polished trophy taking about 55–60% of the poster height, standing on a dark stone pedestal in the lower half and rising IN FRONT of the title (it may cover part of the letters), with true mirror reflections of the lights and a reflection on the wet floor; the competition logo engraved on its front if given.
-4. SQUAD (if given): player names in neat columns on a dark smoked-glass nameplate at the bottom — readable.
+4. SQUAD (if given): player names in a premium bold condensed sans-serif, uniform size, wide letter-spacing, in 2–3 perfectly aligned columns at the bottom — no separators, no box.
 5. PRIZE (if given) as a small gold 3D badge; date (if given) small and letter-spaced at the very bottom.
 
 TEXT RULES
@@ -460,7 +460,7 @@ export const PRESET_PREVIOUS: Record<string, string> = {
   "champions-pro": `CHAMPIONS PRO — a dark, bad-ass, cinematic title-celebration flyer that looks like the key art of a sports movie or a Nike / Adidas campaign poster — a REAL photograph, not an AI image. The team crest and a HUGE trophy are the heroes — NO people, players or faces.
 
 MOOD
-- Dark, gritty, powerful and moody: low-key lighting, mostly deep blacks, high contrast, hard light. Menacing and epic, never cheerful or cartoony. Less is more — a few strong elements, nothing cluttered.
+- BAD-ASS and EPIC: dark, aggressive, explosive, dripping with drama — like the final frame of a championship movie trailer. Rich, layered and full of action (fire, sparks, smoke, debris, light beams, energy) but always controlled and premium — never cheerful, cartoony or plain. Every poster gets its own SCENE CONCEPT (given below).
 
 COLOURS
 - Built from the TEAM CREST's colours: the main colour lives in the smoke, flares and rim lights; gold mainly on the trophy; everything else near-black. Without a crest: black and gold.
@@ -468,12 +468,12 @@ COLOURS
 PHOTOGRAPHY (most important)
 - Shot on a full-frame cinema camera with a 35mm anamorphic lens from a LOW ANGLE looking up at the trophy, so it feels massive and heroic.
 - Hard rim lights from behind outlining the trophy in white/team-colour light; one strong top light; deep shadows on the front. Real volumetric light beams cutting through thick smoke from coloured flares.
-- A rain-soaked dark stage / pitch with mirror reflections; a few backlit rain drops or embers drifting in the beams.
-- Confetti only a LITTLE: a few real paper pieces with motion blur, mostly out of focus — never a full sprinkle.
+- The ground is wet and reflective (or cracked / burning, depending on the scene concept), with sparks, embers and debris flying through the light beams.
+- Confetti / ticker-tape in the team colours and gold bursting with motion blur — a mix of sharp foreground pieces and out-of-focus ones.
 - Shallow depth of field, creamy bokeh of distant stadium floodlights, subtle anamorphic flares, heavy fine film grain, a crushed-black cinematic grade (teal shadows, team-colour highlights). Real materials only: metal, stone, smoke, wet concrete.
 
 BACKGROUND
-- A dark stadium at night swallowed in smoke — barely visible, only floodlight bokeh and light beams.
+- A packed stadium at night behind the scene (floodlights, crowd bokeh, flares in the stands), transformed by the SCENE CONCEPT given below — deep, layered, cinematic.
 - The TEAM CREST echoed TWICE, large and very faded inside the smoke (about 10–15% opacity, blurred, tinted in the team colour), DIAGONALLY: one TOP-LEFT and one BOTTOM-RIGHT, each cut off by the edges — like giant projections in the haze.
 - The TITLE word (e.g. "CHAMPIONS") repeated THREE times as giant faded outlined words stacked across the background (high, middle, low), about 10% opacity, running off both edges, behind everything.
 
