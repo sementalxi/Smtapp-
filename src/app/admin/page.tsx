@@ -54,7 +54,7 @@ export default async function AdminHome() {
       [es ? "TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN (SMS, opcional)" : "TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN (SMS, optional)", process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN, true],
       [es ? "TWILIO_VERIFY_SID (verificar teléfono al registrarse)" : "TWILIO_VERIFY_SID (phone check at sign-up)", process.env.TWILIO_VERIFY_SID, true],
       [es ? "TWILIO_FROM (número que envía los pósters por mensaje)" : "TWILIO_FROM (number that texts the posters)", process.env.TWILIO_FROM || process.env.TWILIO_MESSAGING_SID, true],
-      [es ? "BLOB_READ_WRITE_TOKEN (subir video de fondo)" : "BLOB_READ_WRITE_TOKEN (upload background video)", process.env.BLOB_READ_WRITE_TOKEN, true],
+      [es ? "Vercel Blob (imágenes y video — BLOB_STORE_ID o BLOB_READ_WRITE_TOKEN)" : "Vercel Blob (images & video — BLOB_STORE_ID or BLOB_READ_WRITE_TOKEN)", process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID, true],
       [es ? "SERPER_API_KEY (búsqueda en Google, opcional)" : "SERPER_API_KEY (Google photo search, optional)", process.env.SERPER_API_KEY, true],
       [es ? "REPLICATE_API_TOKEN (modo rápido antiguo, no se usa)" : "REPLICATE_API_TOKEN (old Quick mode, not used)", process.env.REPLICATE_API_TOKEN, true],
       [es ? "STRIPE_SECRET_KEY (no se usa con Square)" : "STRIPE_SECRET_KEY (not needed with Square)", process.env.STRIPE_SECRET_KEY, true],
@@ -103,6 +103,7 @@ export default async function AdminHome() {
     hasStripe && !hasWebhook && (es ? "El webhook de Stripe no está conectado — toca “Conectar Stripe” abajo o los créditos pagados no llegarán." : "Stripe webhook isn't connected yet — click “Connect Stripe” below, or paid credits won't be delivered."),
     process.env.STORAGE_DRIVER !== "s3" &&
       !process.env.BLOB_READ_WRITE_TOKEN &&
+      !process.env.BLOB_STORE_ID &&
       process.env.NODE_ENV === "production" &&
       (es ? "Las imágenes se guardan en la base de datos (bien para pruebas). Con muchos usuarios, conecta Vercel Blob." : "Images are being stored in the database (fine for testing). For lots of users, connect Vercel Blob storage."),
     failed > 0 && (es ? `${failed} generación(es) fallida(s) en 30 días — mira Banners para ver los errores.` : `${failed} failed generation(s) in the last 30 days — see Banners for errors.`),
