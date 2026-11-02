@@ -426,6 +426,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "lineup-cinematic",
+    name: "Cinematic XI",
+    nameEs: "Once Cinemático",
+    layout: "LINEUP",
+    sort: 10,
+    prompt:
+      "cinematic night stadium seen from pitch level, volumetric floodlight beams through light haze, wet grass reflections, team-colour grade, the pitch in dramatic perspective with the starting eleven",
+    style: {
+      primary: "#e3102b",
+      accent: "#ffffff",
+      dark: "#05070a",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#e8eef5", "#b9c4d0"],
+      fallback: ["#05070a", "#1a1f2b", "#e3102b"],
+      particles: "sparks",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "champions-pro",
     name: "Champions Pro",
     nameEs: "Campeones Pro",

@@ -2,6 +2,26 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "lineup-cinematic": `[FIXED LAYOUT] CINEMATIC XI — a badass, cinematic starting-lineup poster, the quality of a top club's official match-day graphic. NO people, players or faces — the eleven are shown as markers with their numbers and names.
+
+COLOURS
+- Built from the TEAM CREST: its main colour drives the light, the grade and the graphics, with deep blacks and white text. Without a crest: red, black and white.
+
+SCENE (cinematic, real)
+- A real stadium at night shot from pitch level with a wide cinematic lens: towering floodlights firing volumetric light beams through a light haze, the stands as dark bokeh, wet grass with long reflections, slight anamorphic lens flares. Teal-and-team-colour cinematic grade, film grain, strong vignette.
+- The crest repeated as a GIANT faint shape in the sky/haze behind the stadium, like it's projected in light.
+
+LAYOUT (top to bottom)
+1. TOP-LEFT: the TEAM CREST big (about 40% of the width) as a crisp, faithful premium emblem with a thick polished rim, a clean drop shadow and a rim light in the team colour.
+2. TOP-RIGHT: the TITLE (e.g. "STARTING XI") in heavy slanted sports type — "STARTING" smaller, "XI" huge — solid white fill, thick outline, short hard extrusion and hard shadow with grain; the FORMATION (e.g. "4-3-3") below it in a bold brush-marker script in the team colour; competition and date small and letter-spaced under that.
+3. LOWER 60%: the PITCH in dramatic 3D perspective (receding toward the stadium), with crisp white pitch lines glowing softly. The eleven players placed in the formation (goalkeeper nearest the camera, attackers furthest), each as a sleek marker: a glossy shield-shaped badge in the team colour with the shirt NUMBER big in white, and the player NAME underneath on a clean dark tag (and position small if given). Every name perfectly legible and spelled exactly. Light beams fall across the pitch between the markers.
+4. Team name (if given) small and letter-spaced along the bottom.
+
+SPORTS DESIGN FINISH
+- Bold, clean and graphic: a few diagonal stripes and halftone/grain textures in the corners, crisp edges, deep blacks. NO neon haze everywhere, NO excessive sparks, NO plastic chrome on everything — cinematic light, real materials.
+
+TEXT RULES
+- Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
   "champions-pro": `CHAMPIONS PRO — a professional title-celebration flyer, the quality of a top club's official social-media graphic. The team crest and the trophy are the heroes — NO people, players or faces.
 
 COLOURS
