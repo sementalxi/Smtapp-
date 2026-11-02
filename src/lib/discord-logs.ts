@@ -199,10 +199,10 @@ const TYPE_ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPI
 export async function postShowcase(o: { bannerId: string; userId: string; image: Buffer }) {
   try {
     const [u, b] = await Promise.all([
-      db.user.findUnique({ where: { id: o.userId }, select: { name: true, discordId: true, discordName: true, showcaseOptOut: true, banned: true } }),
+      db.user.findUnique({ where: { id: o.userId }, select: { name: true, discordId: true, discordName: true, showcaseOptOut: true, banned: true, role: true } }),
       db.banner.findUnique({ where: { id: o.bannerId }, select: { design: true, template: { select: { name: true, layout: true } } } }),
     ]);
-    if (!u || u.showcaseOptOut || u.banned) return;
+    if (!u || u.showcaseOptOut || u.banned || u.role === "ADMIN") return; // admins' test posters stay private
     const teamSet = !!(b?.design as { seriesRootId?: string } | null)?.seriesRootId;
     const layout = teamSet ? "TEAM" : b?.template.layout ?? "";
     // Each poster type goes to its own public channel (falls back to the single showcase channel).
