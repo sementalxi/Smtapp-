@@ -11,7 +11,7 @@ const COUNTRIES = [
   ["+506", "🇨🇷 +506"], ["+507", "🇵🇦 +507"], ["+591", "🇧🇴 +591"], ["+595", "🇵🇾 +595"], ["+598", "🇺🇾 +598"], ["+55", "🇧🇷 +55"], ["+44", "🇬🇧 +44"],
 ] as const;
 
-export function AuthForm({ mode, next, phoneRequired, discord, err }: { mode: "login" | "register"; next?: string; phoneRequired?: boolean; discord?: boolean; err?: string }) {
+export function AuthForm({ mode, next, phoneRequired, discord, err, discordBonus = 0 }: { mode: "login" | "register"; next?: string; phoneRequired?: boolean; discord?: boolean; err?: string; discordBonus?: number }) {
   const { t, locale } = useT();
   const es = locale === "es";
   const [cc, setCc] = useState("+1");
@@ -83,6 +83,14 @@ export function AuthForm({ mode, next, phoneRequired, discord, err }: { mode: "l
             </svg>
             {es ? "Continuar con Discord" : "Continue with Discord"}
           </a>
+          {mode === "register" && discordBonus > 0 && (
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-[#5865F2]/40 bg-[#5865F2]/10 px-3 py-2 text-sm font-bold">
+              <span className="text-lg">🎁</span>
+              <span>
+                {es ? <>Regístrate con Discord y recibe <span className="text-lime">+{discordBonus} créditos extra</span></> : <>Sign up with Discord and get <span className="text-lime">+{discordBonus} bonus credits</span></>}
+              </span>
+            </div>
+          )}
           {err?.startsWith("discord") && (
             <p className="text-center text-xs text-danger">
               {err === "discord_email"

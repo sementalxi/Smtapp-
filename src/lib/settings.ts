@@ -3,6 +3,7 @@ import { db } from "./db";
 
 export const SETTING_DEFAULTS = {
   signup_credits: "3",
+  discord_bonus: "10",
   referral_reward: "20",
   pro_cost: "4",
   pro_quality: "high",

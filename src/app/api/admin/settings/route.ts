@@ -7,6 +7,7 @@ import { assertOwnUrl } from "@/lib/banners";
 
 const Body = z.object({
   signup_credits: z.coerce.number().int().min(0).max(1000).optional(),
+  discord_bonus: z.coerce.number().int().min(0).max(1000).optional(),
   referral_reward: z.coerce.number().int().min(0).max(10000).optional(),
   pro_cost: z.coerce.number().int().min(0).max(100).optional(),
   pro_quality: z.enum(["low", "medium", "high"]).optional(),

@@ -3,8 +3,10 @@ import { AuthForm } from "@/components/AuthForm";
 import { getCurrentUser } from "@/lib/auth";
 import { phoneVerifyReady } from "@/lib/twilio";
 import { discordAuthReady } from "@/lib/discord-auth";
+import { getNumberSetting } from "@/lib/settings";
 
 export default async function RegisterPage() {
   if (await getCurrentUser()) redirect("/dashboard");
-  return <AuthForm mode="register" phoneRequired={phoneVerifyReady()} discord={discordAuthReady()} />;
+  const discordBonus = await getNumberSetting("discord_bonus").catch(() => 0);
+  return <AuthForm mode="register" phoneRequired={phoneVerifyReady()} discord={discordAuthReady()} discordBonus={discordBonus} />;
 }

@@ -105,6 +105,8 @@ export async function GET(req: NextRequest) {
     isNew = true;
     const bonus = await getNumberSetting("signup_credits");
     if (bonus > 0) await changeCredits({ userId: user.id, amount: bonus, type: "SIGNUP_BONUS", note: "Welcome bonus" });
+    const dBonus = await getNumberSetting("discord_bonus").catch(() => 0);
+    if (dBonus > 0) await changeCredits({ userId: user.id, amount: dBonus, type: "SIGNUP_BONUS", note: "Discord sign-up bonus" });
     await logSignup(user.id, "discord");
   }
 
