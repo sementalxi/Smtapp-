@@ -183,7 +183,11 @@ export function CreateWizard({
   // Every step change starts at the top of the page (phones stayed scrolled down).
   const [firstStep, setFirstStep] = useState(true);
   useEffect(() => {
-    if (firstStep) return setFirstStep(false);
+    if (firstStep) {
+      // Opening the page: start at the very top (the browser sometimes keeps the old scroll and hides the title under the header).
+      window.scrollTo(0, 0);
+      return setFirstStep(false);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);

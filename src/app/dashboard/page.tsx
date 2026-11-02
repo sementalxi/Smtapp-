@@ -8,6 +8,7 @@ import { getNumberSetting } from "@/lib/settings";
 import { ART_TYPES } from "@/lib/pro-options";
 import { visibleCategories } from "@/lib/categories";
 import { AccountShell } from "@/components/account/AccountShell";
+import { TypeIcon } from "@/components/wizard/TypeIcon";
 
 export const metadata = { title: "Home" };
 
@@ -81,7 +82,9 @@ export default async function DashboardPage() {
             href={`/create?type=${a.layout.toLowerCase()}`}
             className="card flex items-center gap-4 p-4 transition hover:border-lime/60"
           >
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">{a.icon}</span>
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-lime/30 bg-lime/10 text-lime">
+              <TypeIcon layout={a.layout} />
+            </span>
             <span className="min-w-0 flex-1">
               <span className="block font-bold">{es ? a.es.name : a.en.name}</span>
               <span className="line-clamp-2 block text-xs text-muted">{es ? a.es.desc : a.en.desc}</span>
@@ -93,7 +96,9 @@ export default async function DashboardPage() {
           </Link>
         ))}
         <Link href="/create?team=1" className="card flex items-center gap-4 p-4 transition hover:border-lime/60">
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">👥</span>
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-teal/40 bg-teal/10 text-teal">
+            <TypeIcon layout="TEAM" />
+          </span>
           <span className="min-w-0 flex-1">
             <span className="block font-bold">{es ? "Tarjetas del equipo" : "Team player cards"}</span>
             <span className="line-clamp-2 block text-xs text-muted">
@@ -125,7 +130,9 @@ export default async function DashboardPage() {
         </div>
       ) : (
         <Link href="/create?type=player" className="card flex items-center gap-4 p-4 transition hover:border-lime/60">
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-panel-2 text-3xl">👥</span>
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-teal/40 bg-teal/10 text-teal">
+            <TypeIcon layout="TEAM" />
+          </span>
           <span className="flex-1">
             <span className="block font-bold">{es ? "Empieza con la primera tarjeta" : "Start with the first card"}</span>
             <span className="block text-xs text-muted">{es ? "Después toca \"Siguiente jugador — mismo diseño\"." : "Then tap \"Next player — same design\"."}</span>
