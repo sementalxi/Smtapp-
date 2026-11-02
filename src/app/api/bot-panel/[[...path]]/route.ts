@@ -25,13 +25,17 @@ async function login(force = false) {
       body: JSON.stringify({ password }),
       signal: AbortSignal.timeout(15000),
     });
-    const m = (r.headers.get("set-cookie") ?? "").match(/smt_admin=([^;]+)/);
+    const h = r.headers as Headers & { getSetCookie?: () => string[] };
+    const all = [...(h.getSetCookie?.() ?? []), r.headers.get("set-cookie") ?? ""];
+    r.headers.forEach((v, k) => { if (k.toLowerCase() === "set-cookie") all.push(v); });
+    const m = all.join("; ").match(/smt_admin=([^;,\s]+)/);
     if (r.ok && m) {
       session = { cookie: `smt_admin=${m[1]}`, exp: Date.now() + 11 * 60 * 60_000 };
       return session.cookie;
     }
     const said = (await r.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 160);
-    last = `login ${r.status} at ${path} — panel said: ${said || "(nothing)"} — KIXO sent a ${password.length}-character password`;
+    last = `login ${r.status} at ${path} — panel said: ${said || "(nothing)"} — ${r.ok ? `no session cookie came back (headers: ${[...r.headers.keys()].join(", ")})` : `KIXO sent a ${password.length}-character password`}`;
+    if (r.ok) break;
     if (r.status === 429) break; // too many tries: stop
     if (r.status !== 404 && !(r.status === 401 && /Unauthorized/.test(said))) break; // real answer from this panel
   }
