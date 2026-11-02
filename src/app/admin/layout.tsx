@@ -25,6 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         { href: "/admin/banners", label: es ? "Pósters creados" : "Posters made", icon: "🧾" },
         { href: "/admin/email", label: es ? "Email" : "Email", icon: "✉️" },
         { href: "/admin/discord", label: "Discord", icon: "💬" },
+        { href: "/admin/bot", label: es ? "Bot de Discord" : "Discord bot", icon: "🤖" },
       ],
     },
     {
