@@ -87,7 +87,9 @@ export function AuthForm({ mode, next, phoneRequired, discord, err }: { mode: "l
             <p className="text-center text-xs text-danger">
               {err === "discord_email"
                 ? es ? "Tu cuenta de Discord necesita un email verificado." : "Your Discord account needs a verified email."
-                : es ? "No se pudo entrar con Discord. Inténtalo otra vez." : "Couldn't sign in with Discord. Please try again."}
+                : err === "discord_cancel"
+                  ? es ? "Cancelaste el acceso en Discord." : "Discord sign-in was cancelled."
+                  : `${es ? "No se pudo entrar con Discord. Inténtalo otra vez." : "Couldn't sign in with Discord. Please try again."} (${err})`}
             </p>
           )}
           <div className="flex items-center gap-3 text-[11px] uppercase tracking-widest text-muted">

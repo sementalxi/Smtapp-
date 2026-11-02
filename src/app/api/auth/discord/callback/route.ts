@@ -8,17 +8,23 @@ import { getCurrentUser } from "@/lib/auth";
 import { getNumberSetting } from "@/lib/settings";
 import { changeCredits } from "@/lib/credits";
 import { REF_COOKIE } from "@/lib/referral";
-import { discordAuthReady, discordRedirectUri, DISCORD_STATE_COOKIE } from "@/lib/discord-auth";
+import { discordAuthReady, discordRedirectUri, readState, DISCORD_STATE_COOKIE } from "@/lib/discord-auth";
 
 const fail = (req: NextRequest, reason: string) => NextResponse.redirect(new URL(`/login?err=${encodeURIComponent(reason)}`, req.url));
 
 /** Discord sends the visitor back here: log in, or create the account (with the sign-up bonus). */
 export async function GET(req: NextRequest) {
   if (!discordAuthReady()) return fail(req, "discord_off");
+  if (req.nextUrl.searchParams.get("error")) return fail(req, "discord_cancel");
   const code = req.nextUrl.searchParams.get("code");
   const state = req.nextUrl.searchParams.get("state");
-  const [savedState, next, mode] = (req.cookies.get(DISCORD_STATE_COOKIE)?.value ?? "").split("|");
-  if (!code || !state || state !== savedState) return fail(req, "discord_state");
+  const st = readState(state);
+  if (!code || !st) {
+    console.error("[discord] bad state", { hasCode: !!code, hasState: !!state, host: req.headers.get("host") });
+    return fail(req, "discord_state");
+  }
+  const next = st.next;
+  const mode = st.link ? "link" : "";
 
   const tokenRes = await fetch("https://discord.com/api/oauth2/token", {
     method: "POST",
@@ -28,11 +34,14 @@ export async function GET(req: NextRequest) {
       client_secret: process.env.DISCORD_CLIENT_SECRET!.trim(),
       grant_type: "authorization_code",
       code,
-      redirect_uri: discordRedirectUri(),
+      redirect_uri: discordRedirectUri(req),
     }),
   });
-  const tok = (await tokenRes.json().catch(() => ({}))) as { access_token?: string };
-  if (!tok.access_token) return fail(req, "discord_token");
+  const tok = (await tokenRes.json().catch(() => ({}))) as { access_token?: string; error?: string; error_description?: string };
+  if (!tok.access_token) {
+    console.error("[discord] token exchange failed", tokenRes.status, tok.error, tok.error_description, discordRedirectUri(req));
+    return fail(req, tok.error === "invalid_client" ? "discord_secret" : tok.error === "invalid_grant" ? "discord_redirect" : "discord_token");
+  }
   const me = (await fetch("https://discord.com/api/users/@me", { headers: { Authorization: `Bearer ${tok.access_token}` } }).then((r) => r.json()).catch(() => ({}))) as {
     id?: string;
     username?: string;
