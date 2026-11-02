@@ -58,10 +58,26 @@ export function LineupBuilder({ formation, slots, onChange, es }: { formation: s
             <span className="text-xs font-bold uppercase tracking-widest text-lime">{positions[cur]}</span>
             <span className="text-[11px] text-muted">{filled}/11</span>
           </div>
-          <div className="flex gap-2">
-            <input className="input w-20 text-center" inputMode="numeric" maxLength={3} placeholder="#" value={slots[cur]?.num ?? ""} onChange={(e) => upd(cur, { num: e.target.value.replace(/[^0-9]/g, "") })} />
+          <div className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-2">
             <input
-              className="input min-w-0 flex-1"
+              className="input text-center"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              name={`kixo-num-${cur}`}
+              maxLength={3}
+              placeholder="#"
+              value={slots[cur]?.num ?? ""}
+              onChange={(e) => upd(cur, { num: e.target.value.replace(/[^0-9]/g, "") })}
+            />
+            <input
+              className="input"
+              type="text"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              name={`kixo-player-${cur}`}
               maxLength={24}
               placeholder={es ? "Nombre del jugador" : "Player name"}
               value={slots[cur]?.name ?? ""}
