@@ -6,7 +6,7 @@ export const PRESET_INSTRUCTIONS: Record<string, string> = {
 
 SCENE
 - A dark night stadium with the lights low; above the pitch, a giant translucent HOLOGRAPHIC tactics board is projected in the team colours: glowing grid lines, scan lines, data rings, thin HUD brackets and arrows (no readable extra words). Light beams from projectors, volumetric haze, reflections on the wet pitch, film grain.
-- The team crest at the top as a crisp emblem with a holographic ring and scan line around it.
+- The TEAM CREST is NOT at the top centre and NOT a hologram: it's a SOLID, physical premium 3D emblem (thick polished metal rim, real enamel colours, deep bevel, sharp reflections) standing on a glowing round PROJECTOR BASE in the TOP-LEFT corner — the projector beams light upward and across, creating the hologram board. The title sits in the top-right, balanced against the crest.
 - The eleven markers float on the holographic pitch in their rows as glowing glass badges (number big, name on a clean dark tag).
 
 PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
@@ -347,6 +347,21 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
+  "lineup-hologram": `HOLOGRAM XI — a futuristic tactical hologram over a dark stadium.
+
+SCENE
+- A dark night stadium with the lights low; above the pitch, a giant translucent HOLOGRAPHIC tactics board is projected in the team colours: glowing grid lines, scan lines, data rings, thin HUD brackets and arrows (no readable extra words). Light beams from projectors, volumetric haze, reflections on the wet pitch, film grain.
+- The team crest at the top as a crisp emblem with a holographic ring and scan line around it.
+- The eleven markers float on the holographic pitch in their rows as glowing glass badges (number big, name on a clean dark tag).
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a sleek badge in the team colours with the shirt NUMBER big, the position small, and the NAME underneath on a clean dark tag. Every name perfectly legible and spelled exactly.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") in heavy slanted sports type — solid fill, thick outline, short hard extrusion, hard shadow, grain — "XI" bigger. The formation in a bold brush-marker script in the accent colour; date/matchday small and letter-spaced.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
   "matchday-floodlights": `MATCH DAY poster — night game under blazing stadium floodlights, premium pro-clubs social-media style.
 
 LAYOUT
