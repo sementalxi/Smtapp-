@@ -93,7 +93,7 @@ CINEMATIC LOOK
 BACKGROUND
 - A dark stadium at night just after the final whistle.
 - The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour), placed DIAGONALLY: one in the TOP-LEFT corner (behind the main crest's left side) and one in the BOTTOM-RIGHT corner (behind the stadium and pyro at the bottom), each partly cut off by the edges — like giant projections in the smoke. Never two echoes side by side at the top.
-- The TITLE (e.g. "CHAMPIONS") repeated as a giant faint word across the very back.
+- The TITLE word (e.g. "CHAMPIONS") repeated THREE times as giant faded words stacked across the background (one high, one in the middle, one low), each about 10–15% opacity in outlined / tinted letters in the team colour, slightly blurred and blended into the haze, running off the left and right edges — behind the crest, the main title and the trophy, never competing with them.
 
 LAYOUT (top to bottom)
 1. TOP CENTRE: the TEAM CREST as a premium 3D emblem that POPS — crisp and faithful, thick polished rim, deep bevels, real enamel colours, sharp reflections, a bright rim light and glow in the team colour, confetti passing in front of it.
@@ -356,7 +356,7 @@ CINEMATIC LOOK
 
 BACKGROUND
 - A dark stadium at night just after the final whistle.
-- The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour): one in the TOP-LEFT corner and one in the TOP-RIGHT corner, partly cut off by the edges — like giant projections in the smoke.
+- The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour), placed DIAGONALLY: one in the TOP-LEFT corner (behind the main crest's left side) and one in the BOTTOM-RIGHT corner (behind the stadium and pyro at the bottom), each partly cut off by the edges — like giant projections in the smoke. Never two echoes side by side at the top.
 - The TITLE (e.g. "CHAMPIONS") repeated as a giant faint word across the very back.
 
 LAYOUT (top to bottom)
