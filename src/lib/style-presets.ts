@@ -99,8 +99,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -121,8 +129,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -143,8 +159,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -165,8 +189,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -187,8 +219,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -208,8 +248,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -230,8 +278,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -252,8 +308,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -274,8 +338,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -296,8 +368,16 @@ LAYOUT (portrait, top to bottom — like a pro club graphic)
 4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
 5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
 
-REALISM
-- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+CINEMATIC & BAD-ASS (most important)
+- It must look like the key art of a championship movie, shot on a full-frame cinema camera with an anamorphic lens and finished by a top club's design studio — NOT a flat template, NOT cartoony, NOT "AI-looking".
+- Dramatic hero lighting: hard rim lights outlining the crest, trophy and title; real volumetric light beams cutting through thick haze and smoke; deep crushed blacks with rich detail; strong contrast; sparks, embers, dust or confetti flying through the light with motion blur; subtle anamorphic flares; fine film grain; a moody cinematic colour grade in the team colours.
+- Depth and scale: layered foreground / midground / background, shallow depth of field, the crest and title feeling massive and powerful.
+- Real materials only: polished metal with true mirror reflections, enamel, gold foil, stone, silk, smoke, paper — physically correct light and shadows, razor-sharp 4K detail. The crest is never redrawn wrong.
+
+TEXT QUALITY (every word must look professionally typeset)
+- All lettering razor-sharp, perfectly formed and evenly spaced — no warped, melted, doubled or misspelled letters.
+- The TITLE as a real 3D object in its material (chrome / gold / brush paint) with clean bevels, true reflections and a hard shadow that grounds it in the scene.
+- The team name and the label crisp and letter-spaced; the player names in a bold condensed sports font, pure white (or as described), uniform height, perfectly aligned, with a subtle dark shadow so they read clearly over any background.
 
 TEXT RULES
 - Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
@@ -689,6 +769,225 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
+  "champ-red-arena": `[OWN LOOK] [SQUAD LABEL] RED ARENA — a red-and-black championship graphic in a blazing night stadium.
+
+SCENE
+- A dark stadium at night with blinding white floodlights on both sides, red light and haze filling the air, red flares and red light streaks, glossy wet reflections.
+- A big polished SILVER trophy standing directly BEHIND the crest (the crest overlaps its lower body), catching the floodlights with mirror reflections.
+
+LETTERING
+- TITLE: huge heavy italic 3D CHROME capitals with sharp bevels, a red inner edge glow and a hard shadow.
+- Team name on a dark-red metallic ribbon with thin silver edges.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-royal-gold": `[OWN LOOK] [SQUAD LABEL] ROYAL GOLD — black and gold royalty.
+
+SCENE
+- Deep black background with swirling gold dust, sparkles and soft gold light flares, subtle gold smoke and bokeh.
+- A real polished GOLD CROWN floating just above the crest, and a gold LAUREL WREATH curving around both sides of the crest — real cast metal with reflections.
+
+LETTERING
+- TITLE: massive 3D polished GOLD capitals with deep bevels, warm highlights and a dark shadow.
+- Team name in wide gold capitals between two thin gold lines.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-ultras-brush": `[OWN LOOK] [SQUAD LABEL] ULTRAS BRUSH — raw black-and-white ultras energy with red paint.
+
+SCENE
+- A gritty black-and-white grunge background: textured concrete, scratches and paper grain, with violent RED brush strokes slashing diagonally across it.
+- A large silver trophy cup at the very top, the crest in front of its bowl. At the bottom, the silhouettes of ultras fans with raised arms and flags in the smoke (silhouettes only, no faces).
+
+LETTERING
+- TITLE: a huge hand-painted white BRUSH SCRIPT word ("Champions" style) with dry-brush edges and a red brush swipe under it, slanted upward.
+- Team name in small white letter-spaced capitals under the title.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-stadium-gold": `[OWN LOOK] [SQUAD LABEL] STADIUM GOLD — the trophy night on the pitch.
+
+SCENE
+- A real packed stadium at night shot from pitch level: floodlights glowing, gold confetti falling through the light, the crowd in bokeh, lush wet grass at the bottom.
+- A TALL polished silver trophy standing on the RIGHT side on the grass, the crest at the top-left/centre.
+
+LETTERING
+- TITLE: big 3D GOLD capitals with bevels and a hard shadow, slightly left of centre.
+- Team name in white capitals on a RED ribbon banner under the title.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-silk-flag": `[OWN LOOK] [SQUAD LABEL] SILK FLAG — the club flag in motion.
+
+SCENE
+- The whole background is a huge waving SILK FLAG / fabric in the team colours (e.g. red and black stripes), with deep realistic folds, soft sheen and dramatic side light, darker towards the edges.
+- A small polished silver STAR above the crest.
+
+LETTERING
+- TITLE: big 3D brushed-GOLD capitals with bevels and a soft shadow on the fabric.
+- Team name in small white letter-spaced capitals with a thin gold line.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-net-ball": `[OWN LOOK] [SQUAD LABEL] NET & BALL — moody black-and-white football poetry.
+
+SCENE
+- A black-and-white night scene behind the goal: the goal NET stretched across the frame, stadium lights glowing through it, a worn leather football resting in the lower half (the crest small and embossed on it), wisps of RED smoke the only colour.
+
+LETTERING
+- TITLE: a huge white BRUSH SCRIPT word with dry-brush texture and a red paint swipe, slanted upward across the middle.
+- Team name in small white capitals; the squad label in red.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-neon-frame": `[OWN LOOK] [SQUAD LABEL] NEON FRAME — sleek, dark and electric.
+
+SCENE
+- A dark room with glossy black floor; a large geometric (hexagonal / angular) RED NEON frame glowing behind the crest, reflections on the floor, red haze.
+- A big trophy silhouette in dark metal standing behind the crest, edged with red rim light.
+
+LETTERING
+- TITLE: heavy 3D CHROME capitals with a red reflection and sharp bevels.
+- Team name on a slim glowing red neon bar.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-marble-script": `[OWN LOOK] [SQUAD LABEL] MARBLE SCRIPT — clean, light and elegant (the only light-background style).
+
+SCENE
+- A bright WHITE cracked marble / plaster wall with fine grey veins and texture, bold RED paint strokes and splatters at the edges, soft natural light.
+- A real polished GOLD CROWN above the crest.
+
+LETTERING
+- TITLE: an elegant flowing GOLD SCRIPT (signature style) in real polished gold with depth and a soft shadow, with a gold swash underline.
+- Team name in dark letter-spaced capitals between thin dark lines; the squad text in dark charcoal (not white).
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-lion-crest": `[OWN LOOK] [SQUAD LABEL] LION CREST — heraldic power.
+
+SCENE
+- A dark cracked black stone background with subtle gold light and dust.
+- The crest set inside a large ornate GOLD heraldic SHIELD frame with a gold crown on top, held by TWO golden LION statues standing on each side (cast gold metal sculptures, roaring) — this style explicitly asks for these two lions. A gold laurel at the base.
+
+LETTERING
+- TITLE: massive 3D GOLD capitals with bevels, overlapping the base of the shield.
+- Team name in white capitals on a red ribbon under the title.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
+  "champ-red-smoke": `[OWN LOOK] [SQUAD LABEL] RED SMOKE — fire-red smoke and silver.
+
+SCENE
+- Thick swirling RED smoke and clouds forming a frame around the whole poster, darker in the centre, glowing embers.
+- A large polished SILVER trophy in the centre under the crest, with silver LAUREL branches curving on both sides.
+
+LETTERING
+- TITLE: heavy 3D CHROME capitals with sharp bevels and a red glow behind.
+- Team name in white capitals on a slim dark-red ribbon.
+
+LAYOUT (portrait, top to bottom — like a pro club graphic)
+1. The TEAM CREST large at the top centre — crisp, faithful to its artwork, as a premium 3D metal-and-enamel emblem with real reflections and a rim light.
+2. The TITLE (e.g. "CHAMPIONS") huge across the middle, in the lettering described below.
+3. The TEAM NAME (if given) in wide letter-spaced capitals on a slim ribbon / bar under the title (style below).
+4. SQUAD (if given): a small letter-spaced label above it (given in the texts), then the player names in bold condensed white capitals, uniform size, in 2 centred rows separated by thin vertical bars ( | ) — clean, sharp and readable.
+5. Keep the bottom centre calm and dark (a small brand mark is added there afterwards — do not draw any logo there).
+
+REALISM
+- Make it BETTER than a typical poster: a REAL cinematic photograph composited by a top design studio — physically correct light, true reflections on real metal, real smoke, fabric, stone and paper, film grain, shallow depth of field, razor-sharp 4K detail. Never plastic, cartoony or "AI-looking". The crest is never redrawn wrong.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, sponsors, websites or handles. Write each item once. NO people, players or faces (silhouettes only where described).`,
   "champions-freestyle": `[FREESTYLE] AI DIRECTOR — you are the world's best sports graphic designer and art director. Design the most impressive championship poster you can for this team, completely your own way.
 
 - YOU choose the concept, the scene, the lighting, the colour treatment, the layout and the typography — whatever looks the most powerful and premium for THIS team's crest and colours. Surprise me; don't fall back on a generic template.
