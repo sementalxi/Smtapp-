@@ -22,7 +22,14 @@ export async function shrink(file: File): Promise<Blob> {
     c.height = Math.round(bmp.height * scale);
     c.getContext("2d")!.drawImage(bmp, 0, 0, c.width, c.height);
     const type = keepAlpha ? "image/png" : "image/jpeg";
-    const out = await new Promise<Blob | null>((r) => c.toBlob(r, type, 0.9));
+    const enc = (t: string, q: number) => new Promise<Blob | null>((r) => c.toBlob(r, t, q));
+    let out = await enc(type, 0.9);
+    // Must stay under the ~4.5 MB upload limit: big PNG screenshots → WebP (keeps transparency), then lower quality.
+    const LIMIT = 3.5 * 1024 * 1024;
+    for (const [t, q] of [["image/webp", 0.9], ["image/webp", 0.8], ["image/jpeg", 0.8], ["image/jpeg", 0.65]] as const) {
+      if (out && out.size <= LIMIT) break;
+      out = (await enc(t, q)) ?? out;
+    }
     return out ?? file;
   } catch {
     return file;
