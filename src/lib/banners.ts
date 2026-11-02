@@ -10,7 +10,6 @@ import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt,
 import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
 import { FORMATION_ROWS } from "./formations";
-import { textPoster } from "./twilio";
 import { getSettings } from "./settings";
 
 const str = (max: number) => z.string().trim().max(max).default("");
@@ -719,7 +718,6 @@ export async function generateProForBanner(opts: {
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: true, regenerate: opts.regenerate, image: out });
     { const { postShowcase } = await import("./discord-logs"); await postShowcase({ bannerId: opts.bannerId, userId: opts.userId, image: out }); }
-    await textPoster({ userId: opts.userId, imageUrl: url, bannerId: opts.bannerId });
     return updated;
   } catch (err) {
     console.error("pro generation failed", err);
