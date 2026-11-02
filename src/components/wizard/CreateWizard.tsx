@@ -365,6 +365,7 @@ export function CreateWizard({
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setPhase("done");
+      router.refresh(); // header credits update right away
     } else {
       const msg =
         data.error === "err_credits"

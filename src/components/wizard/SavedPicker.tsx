@@ -16,19 +16,35 @@ export interface SavedItem {
 
 /** Update a cached saved item (e.g. after its roster changed). */
 export function updateSavedCache(kind: string, item: SavedItem) {
-  if (!cache[kind]) return;
-  cache[kind] = cache[kind]!.map((x) => (x.id === item.id ? { ...x, ...item } : x));
-  listeners.forEach((l) => l());
+  if (cache[kind]) {
+    cache[kind] = cache[kind]!.map((x) => (x.id === item.id ? { ...x, ...item } : x));
+    listeners.forEach((l) => l());
+  }
+  channel?.postMessage({ kind });
 }
 
 const cache: Record<string, SavedItem[] | undefined> = {};
 const listeners = new Set<() => void>();
 
 async function load(kind: string) {
-  const res = await fetch(`/api/saved?kind=${kind}`);
-  const data = await res.json().catch(() => ({ items: [] }));
-  cache[kind] = data.items ?? [];
+  const res = await fetch(`/api/saved?kind=${kind}`, { cache: "no-store" });
+  const data = await res.json().catch(() => null);
+  if (!data?.items) return;
+  cache[kind] = data.items;
   listeners.forEach((l) => l());
+}
+
+// Other tabs/pages: reload when something was saved anywhere.
+const channel = typeof window !== "undefined" && "BroadcastChannel" in window ? new BroadcastChannel("kixo-saved") : null;
+channel?.addEventListener("message", (e) => {
+  const kind = (e as MessageEvent).data?.kind;
+  if (typeof kind === "string" && cache[kind]) load(kind);
+});
+
+/** Call after saving / editing / deleting: refreshes every picker on this page and in other tabs. */
+export function savedChanged(kind: string) {
+  load(kind);
+  channel?.postMessage({ kind });
 }
 
 /** Pick a saved team / championship, or register a new one (name + logo) inline. */
@@ -58,9 +74,12 @@ export function SavedPicker({
   useEffect(() => {
     const l = () => setItems(cache[kind]);
     listeners.add(l);
-    if (!cache[kind]) load(kind);
+    load(kind); // always fresh (cached list shows instantly meanwhile)
+    const onFocus = () => document.visibilityState === "visible" && load(kind);
+    document.addEventListener("visibilitychange", onFocus);
     return () => {
       listeners.delete(l);
+      document.removeEventListener("visibilitychange", onFocus);
     };
   }, [kind]);
 
@@ -75,8 +94,9 @@ export function SavedPicker({
     const data = await res.json().catch(() => ({}));
     setBusy(false);
     if (data.item) {
-      cache[kind] = [data.item, ...(cache[kind] ?? [])];
+      cache[kind] = [...(cache[kind] ?? []).filter((x) => x.official), data.item, ...(cache[kind] ?? []).filter((x) => !x.official)];
       listeners.forEach((l) => l());
+      channel?.postMessage({ kind });
       onChange(data.item);
       setAdding(false);
       setOpen(false);

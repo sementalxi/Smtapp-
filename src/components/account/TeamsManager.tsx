@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { savedChanged } from "../wizard/SavedPicker";
 import { ImageDrop } from "../ImageDrop";
 import type { RosterPlayer } from "@/lib/roster";
 
@@ -11,7 +13,24 @@ const blank = (): RosterPlayer => ({ num: "", name: "", pos: "" });
 
 /** "My teams": list + editor (name, crest, roster). */
 export function TeamsManager({ initial, es }: { initial: Team[]; es: boolean }) {
+  const router = useRouter();
   const [teams, setTeams] = useState(initial);
+  useEffect(() => setTeams(initial), [initial]);
+  // Pick up teams saved from the create page / other tabs without a reload.
+  useEffect(() => {
+    const reload = async () => {
+      const d = await fetch("/api/saved?kind=team", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
+      if (d?.items) setTeams(d.items.filter((x: { official?: boolean }) => !x.official));
+    };
+    const ch = "BroadcastChannel" in window ? new BroadcastChannel("kixo-saved") : null;
+    ch?.addEventListener("message", (e) => e.data?.kind === "team" && reload());
+    const vis = () => document.visibilityState === "visible" && reload();
+    document.addEventListener("visibilitychange", vis);
+    return () => {
+      ch?.close();
+      document.removeEventListener("visibilitychange", vis);
+    };
+  }, []);
   const [edit, setEdit] = useState<(Team & { isNew?: boolean }) | null>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -40,6 +59,8 @@ export function TeamsManager({ initial, es }: { initial: Team[]; es: boolean }) 
     if (!d.item) return setErr(es ? "No se pudo guardar" : "Couldn't save");
     setTeams((ts) => (edit.isNew ? [d.item, ...ts] : ts.map((t) => (t.id === d.item.id ? d.item : t))));
     setEdit(null);
+    savedChanged("team");
+    router.refresh();
   }
   async function remove() {
     if (!edit || edit.isNew) return;
@@ -48,6 +69,8 @@ export function TeamsManager({ initial, es }: { initial: Team[]; es: boolean }) 
     setBusy(false);
     setTeams((ts) => ts.filter((t) => t.id !== edit.id));
     setEdit(null);
+    savedChanged("team");
+    router.refresh();
   }
 
   return (
