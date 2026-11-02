@@ -1,5 +1,6 @@
 "use client";
 
+import { TypeIcon } from "./TypeIcon";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/client";
@@ -396,41 +397,57 @@ export function CreateWizard({
       {Stepper}
 
       {step === 1 && (
-        <div className="card p-5">
-          <div className="space-y-3">
-            {(categories ? categories.map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean) : ART_TYPES).map((a) => (
-              <button
-                key={a.layout}
-                type="button"
-                onClick={() => { setLayout(a.layout); setStep(2); }}
-                className={`flex w-full items-center gap-4 rounded-xl border p-4 text-left transition ${
-                  a.layout === layout ? "border-lime bg-lime/5" : "border-line bg-panel-2 hover:border-muted"
-                }`}
-              >
-                <span className="text-3xl">{a.icon}</span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-bold">{locale === "es" ? a.es.name : a.en.name}</span>
-                  <span className="block text-xs text-muted">{locale === "es" ? a.es.desc : a.en.desc}</span>
-                  <span className="mt-1 block text-xs text-lime">{cost} {locale === "es" ? "créditos" : "credits"}</span>
-                </span>
-                <span className="text-muted">›</span>
-              </button>
-            ))}
+        <div>
+          <div className="mb-4 text-center">
+            <div className="text-[11px] font-bold uppercase tracking-[0.25em] text-lime">{locale === "es" ? "Paso 1" : "Step 1"}</div>
+            <h2 className="font-display mt-1 text-3xl sm:text-4xl">{locale === "es" ? "¿Qué vas a crear?" : "What are you making?"}</h2>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {(categories ? categories.map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean) : ART_TYPES).map((a) => {
+              const sel = a.layout === layout;
+              return (
+                <button
+                  key={a.layout}
+                  type="button"
+                  onClick={() => { setLayout(a.layout); setStep(2); }}
+                  className={`group relative flex min-h-[9.5rem] flex-col overflow-hidden rounded-2xl border p-3.5 text-left transition active:scale-[0.98] sm:p-4 ${
+                    sel
+                      ? "border-lime/70 bg-gradient-to-br from-lime/15 via-panel-2 to-panel shadow-[0_10px_30px_-14px_rgba(255,46,136,0.7)]"
+                      : "border-line bg-gradient-to-br from-panel-2 to-panel hover:border-lime/40"
+                  }`}
+                >
+                  <span aria-hidden className="pointer-events-none absolute -top-10 -right-10 h-28 w-28 rounded-full bg-lime/10 blur-2xl transition group-hover:bg-lime/20" />
+                  <span className="relative flex items-start justify-between gap-2">
+                    <span className={`grid h-11 w-11 place-items-center rounded-xl border ${sel ? "border-lime/60 bg-lime text-ink" : "border-lime/30 bg-lime/10 text-lime"}`}>
+                      <TypeIcon layout={a.layout} />
+                    </span>
+                    <span className="rounded-full border border-line bg-ink/60 px-2 py-0.5 text-[10px] font-bold text-muted">⚡ {cost}</span>
+                  </span>
+                  <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
+                  <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-muted sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
+                </button>
+              );
+            })}
             <Link
               href="/create?team=1"
-              className="flex w-full items-center gap-4 rounded-xl border border-line bg-panel-2 p-4 text-left transition hover:border-muted"
+              className="group relative col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-teal/40 bg-gradient-to-r from-teal/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-teal/70 active:scale-[0.99] sm:p-4"
             >
-              <span className="text-3xl">👥</span>
-              <span className="min-w-0 flex-1">
-                <span className="block font-bold">{locale === "es" ? "Tarjetas del equipo" : "Team player cards"}</span>
-                <span className="block text-xs text-muted">
-                  {locale === "es"
-                    ? "Tarjetas para toda la plantilla con el mismo diseño — solo cambias foto, nombre y número."
-                    : "Cards for the whole squad with the same design — just change the photo, name and number."}
-                </span>
-                <span className="mt-1 block text-xs text-lime">{cost} {locale === "es" ? "créditos por tarjeta" : "credits per card"}</span>
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-teal/40 bg-teal/10 text-teal">
+                <TypeIcon layout="TEAM" />
               </span>
-              <span className="text-muted">›</span>
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-2">
+                  <span className="text-[15px] font-extrabold sm:text-base">{locale === "es" ? "Tarjetas del equipo" : "Team player cards"}</span>
+                  <span className="rounded-full bg-teal px-1.5 py-0.5 text-[9px] font-extrabold text-ink">{locale === "es" ? "NUEVO" : "NEW"}</span>
+                </span>
+                <span className="mt-0.5 line-clamp-2 block text-[11px] leading-snug text-muted sm:text-xs">
+                  {locale === "es" ? "Toda la plantilla con el mismo diseño — solo cambia foto, nombre y número." : "The whole squad, same design — just swap photo, name and number."}
+                </span>
+              </span>
+              <span className="shrink-0 text-right">
+                <span className="block text-[10px] font-bold text-muted">⚡ {cost}</span>
+                <span className="block text-[9px] text-muted">{locale === "es" ? "c/u" : "each"}</span>
+              </span>
             </Link>
           </div>
         </div>
