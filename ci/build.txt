@@ -9,85 +9,91 @@ https://nextjs.org/telemetry
      · serverActions
 
    Creating an optimized production build ...
- ✓ Compiled successfully in 15.6s
+ ✓ Compiled successfully in 16.4s
    Linting and checking validity of types ...
    Collecting page data ...
-   Generating static pages (0/62) ...
-   Generating static pages (15/62) 
-   Generating static pages (30/62) 
-   Generating static pages (46/62) 
- ✓ Generating static pages (62/62)
+   Generating static pages (0/67) ...
+   Generating static pages (16/67) 
+   Generating static pages (33/67) 
+   Generating static pages (50/67) 
+ ✓ Generating static pages (67/67)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                                        Size  First Load JS  Revalidate  Expire
 ┌ ƒ /                                                           2.88 kB         120 kB
-├ ƒ /_not-found                                                   257 B         103 kB
-├ ○ /.well-known/apple-developer-merchantid-domain-association    257 B         103 kB          1d      1y
+├ ƒ /_not-found                                                   269 B         103 kB
+├ ○ /.well-known/apple-developer-merchantid-domain-association    269 B         103 kB          1d      1y
 ├ ƒ /admin                                                      1.17 kB         107 kB
 ├ ƒ /admin/banners                                                190 B         120 kB
 ├ ƒ /admin/deals                                                3.37 kB         115 kB
+├ ƒ /admin/email                                                3.46 kB         116 kB
 ├ ƒ /admin/leagues                                              1.97 kB         114 kB
 ├ ƒ /admin/payments                                               172 B         106 kB
-├ ƒ /admin/settings                                             41.3 kB         153 kB
+├ ƒ /admin/settings                                               42 kB         154 kB
 ├ ƒ /admin/studio                                               4.02 kB         123 kB
-├ ƒ /admin/templates                                            9.01 kB         121 kB
+├ ƒ /admin/templates                                            9.03 kB         121 kB
 ├ ƒ /admin/texts                                                8.48 kB         111 kB
 ├ ƒ /admin/transactions                                           165 B         106 kB
 ├ ƒ /admin/users                                                7.88 kB         114 kB
 ├ ƒ /admin/users/[id]                                           1.27 kB         121 kB
-├ ƒ /api/account                                                  257 B         103 kB
-├ ƒ /api/account/password                                         257 B         103 kB
-├ ƒ /api/admin/deals                                              257 B         103 kB
-├ ƒ /api/admin/deals/[id]                                         257 B         103 kB
-├ ƒ /api/admin/discord-test                                       257 B         103 kB
-├ ƒ /api/admin/hero                                               257 B         103 kB
-├ ƒ /api/admin/hero-video                                         257 B         103 kB
-├ ƒ /api/admin/library                                            257 B         103 kB
-├ ƒ /api/admin/library/[id]                                       257 B         103 kB
-├ ƒ /api/admin/pricing                                            257 B         103 kB
-├ ƒ /api/admin/settings                                           257 B         103 kB
-├ ƒ /api/admin/square-connect                                     257 B         103 kB
-├ ƒ /api/admin/stripe-webhook                                     257 B         103 kB
-├ ƒ /api/admin/studio                                             257 B         103 kB
-├ ƒ /api/admin/templates                                          257 B         103 kB
-├ ƒ /api/admin/templates/[id]                                     257 B         103 kB
-├ ƒ /api/admin/templates/[id]/thumb                               257 B         103 kB
-├ ƒ /api/admin/templates/arrange                                  257 B         103 kB
-├ ƒ /api/admin/texts                                              257 B         103 kB
-├ ƒ /api/admin/users/[id]                                         257 B         103 kB
-├ ƒ /api/admin/users/[id]/credits                                 257 B         103 kB
-├ ƒ /api/admin/users/gift                                         257 B         103 kB
-├ ƒ /api/ai-text                                                  257 B         103 kB
-├ ƒ /api/auth/login                                               257 B         103 kB
-├ ƒ /api/auth/logout                                              257 B         103 kB
-├ ƒ /api/auth/phone                                               257 B         103 kB
-├ ƒ /api/auth/register                                            257 B         103 kB
-├ ƒ /api/banners                                                  257 B         103 kB
-├ ƒ /api/banners/[id]                                             257 B         103 kB
-├ ƒ /api/banners/[id]/background                                  257 B         103 kB
-├ ƒ /api/banners/[id]/edit                                        257 B         103 kB
-├ ƒ /api/banners/[id]/final                                       257 B         103 kB
-├ ƒ /api/files/[...key]                                           257 B         103 kB
-├ ƒ /api/health                                                   257 B         103 kB
-├ ƒ /api/image-search                                             257 B         103 kB
-├ ƒ /api/locale                                                   257 B         103 kB
-├ ƒ /api/saved                                                    257 B         103 kB
-├ ƒ /api/saved/[id]                                               257 B         103 kB
-├ ƒ /api/square/cancel                                            257 B         103 kB
-├ ƒ /api/square/config                                            257 B         103 kB
-├ ƒ /api/square/pay                                               257 B         103 kB
-├ ƒ /api/square/webhook                                           257 B         103 kB
-├ ƒ /api/stripe/checkout                                          257 B         103 kB
-├ ƒ /api/stripe/portal                                            257 B         103 kB
-├ ƒ /api/stripe/webhook                                           257 B         103 kB
-├ ƒ /api/thumb                                                    257 B         103 kB
-├ ƒ /api/upload                                                   257 B         103 kB
-├ ƒ /api/upload/from-url                                          257 B         103 kB
+├ ƒ /api/account                                                  269 B         103 kB
+├ ƒ /api/account/password                                         269 B         103 kB
+├ ƒ /api/admin/deals                                              269 B         103 kB
+├ ƒ /api/admin/deals/[id]                                         269 B         103 kB
+├ ƒ /api/admin/discord-test                                       269 B         103 kB
+├ ƒ /api/admin/email                                              269 B         103 kB
+├ ƒ /api/admin/hero                                               269 B         103 kB
+├ ƒ /api/admin/hero-video                                         269 B         103 kB
+├ ƒ /api/admin/library                                            269 B         103 kB
+├ ƒ /api/admin/library/[id]                                       269 B         103 kB
+├ ƒ /api/admin/migrate-files                                      269 B         103 kB
+├ ƒ /api/admin/pricing                                            269 B         103 kB
+├ ƒ /api/admin/settings                                           269 B         103 kB
+├ ƒ /api/admin/square-connect                                     269 B         103 kB
+├ ƒ /api/admin/stripe-webhook                                     269 B         103 kB
+├ ƒ /api/admin/studio                                             269 B         103 kB
+├ ƒ /api/admin/templates                                          269 B         103 kB
+├ ƒ /api/admin/templates/[id]                                     269 B         103 kB
+├ ƒ /api/admin/templates/[id]/thumb                               269 B         103 kB
+├ ƒ /api/admin/templates/arrange                                  269 B         103 kB
+├ ƒ /api/admin/texts                                              269 B         103 kB
+├ ƒ /api/admin/users/[id]                                         269 B         103 kB
+├ ƒ /api/admin/users/[id]/credits                                 269 B         103 kB
+├ ƒ /api/admin/users/gift                                         269 B         103 kB
+├ ƒ /api/ai-text                                                  269 B         103 kB
+├ ƒ /api/auth/login                                               269 B         103 kB
+├ ƒ /api/auth/logout                                              269 B         103 kB
+├ ƒ /api/auth/phone                                               269 B         103 kB
+├ ƒ /api/auth/register                                            269 B         103 kB
+├ ƒ /api/banners                                                  269 B         103 kB
+├ ƒ /api/banners/[id]                                             269 B         103 kB
+├ ƒ /api/banners/[id]/background                                  269 B         103 kB
+├ ƒ /api/banners/[id]/edit                                        269 B         103 kB
+├ ƒ /api/banners/[id]/final                                       269 B         103 kB
+├ ƒ /api/files/[...key]                                           269 B         103 kB
+├ ƒ /api/health                                                   269 B         103 kB
+├ ƒ /api/image-search                                             269 B         103 kB
+├ ƒ /api/locale                                                   269 B         103 kB
+├ ƒ /api/paypal/capture                                           269 B         103 kB
+├ ƒ /api/paypal/order                                             269 B         103 kB
+├ ƒ /api/saved                                                    269 B         103 kB
+├ ƒ /api/saved/[id]                                               269 B         103 kB
+├ ƒ /api/square/cancel                                            269 B         103 kB
+├ ƒ /api/square/config                                            269 B         103 kB
+├ ƒ /api/square/pay                                               269 B         103 kB
+├ ƒ /api/square/webhook                                           269 B         103 kB
+├ ƒ /api/stripe/checkout                                          269 B         103 kB
+├ ƒ /api/stripe/portal                                            269 B         103 kB
+├ ƒ /api/stripe/webhook                                           269 B         103 kB
+├ ƒ /api/thumb                                                    269 B         103 kB
+├ ƒ /api/unsubscribe                                              269 B         103 kB
+├ ƒ /api/upload                                                   269 B         103 kB
+├ ƒ /api/upload/from-url                                          269 B         103 kB
 ├ ○ /apple-icon.png                                                 0 B            0 B
-├ ƒ /banner/[id]                                                 9.9 kB         139 kB
-├ ƒ /billing                                                      405 B         117 kB
-├ ƒ /create                                                     16.5 kB         146 kB
+├ ƒ /banner/[id]                                                6.25 kB         140 kB
+├ ƒ /billing                                                      405 B         118 kB
+├ ƒ /create                                                     14.6 kB         148 kB
 ├ ƒ /credits                                                    1.27 kB         107 kB
 ├ ƒ /dashboard                                                  1.23 kB         121 kB
 ├ ƒ /history                                                    1.23 kB         121 kB

@@ -84,7 +84,7 @@ export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[];
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={thumb(d.imageUrl, 900)} alt="" loading="lazy" decoding="async" className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
                   ) : (
-                    <div className="grid aspect-[16/9] w-full place-items-center bg-[radial-gradient(circle_at_50%_40%,rgba(183,255,69,0.25),transparent_70%)]">
+                    <div className="grid aspect-[16/9] w-full place-items-center bg-[radial-gradient(circle_at_50%_40%,rgba(255,46,136,0.25),transparent_70%)]">
                       <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-lime text-3xl text-ink shadow-[0_0_40px_-6px] shadow-lime">
                         %
                         <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-gold shadow-[0_0_10px] shadow-gold" />

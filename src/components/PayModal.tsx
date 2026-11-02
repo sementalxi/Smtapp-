@@ -13,8 +13,10 @@ type SqPayments = {
   googlePay: (req: unknown) => Promise<SqCard>;
   cashAppPay: (req: unknown, opts: unknown) => Promise<SqCashApp>;
 };
+type PayPalNS = { Buttons: (o: Record<string, unknown>) => { render: (el: HTMLElement) => Promise<void>; isEligible: () => boolean; close?: () => Promise<void> } };
 declare global {
   interface Window {
+    paypal?: PayPalNS;
     Square?: { payments: (appId: string, locationId: string) => SqPayments };
   }
 }
@@ -31,7 +33,7 @@ function loadSquare(sandbox: boolean) {
 }
 
 // Cached across popups so the second open is instant.
-type Cfg = { inline: boolean; appId?: string; locationId?: string; sandbox?: boolean; amount?: string; applePay?: string };
+type Cfg = { inline: boolean; appId?: string; locationId?: string; sandbox?: boolean; amount?: string; applePay?: string; paypal?: string };
 const cfgCache = new Map<string, Promise<Cfg>>();
 const getCfg = (kind: string, id: string) => {
   const k = `${kind}:${id}`;
@@ -46,6 +48,17 @@ export function preloadSquarePay(kind: string, id: string) {
       preloaded = true;
       loadSquare(!!c.sandbox).catch(() => {});
     }
+  });
+}
+
+function loadPayPal(clientId: string) {
+  return new Promise<void>((resolve, reject) => {
+    if (window.paypal) return resolve();
+    const s = document.createElement("script");
+    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(clientId)}&currency=USD&intent=capture&components=buttons&disable-funding=card,credit,paylater`;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("PayPal didn't load"));
+    document.head.appendChild(s);
   });
 }
 
@@ -76,6 +89,8 @@ export function PayModal({
   const card = useRef<SqCard | null>(null);
   const gpBox = useRef<HTMLDivElement>(null);
   const capBox = useRef<HTMLDivElement>(null);
+  const ppBox = useRef<HTMLDivElement>(null);
+  const [paypalOn, setPaypalOn] = useState(false);
   const apple = useRef<SqCard | null>(null);
   const google = useRef<SqCard | null>(null);
   const cash = useRef<SqCashApp | null>(null);
@@ -85,7 +100,7 @@ export function PayModal({
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
-  const [done, setDone] = useState<null | { credits: number; pending?: boolean }>(null);
+  const [done, setDone] = useState<null | { credits: number; pending?: boolean; renews?: boolean }>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -104,7 +119,7 @@ export function PayModal({
         await loadSquare(!!cfg.sandbox);
         if (!alive || !window.Square || !box.current) return;
         const payments = window.Square.payments(cfg.appId, cfg.locationId);
-        const useWallets = kind !== "plan" && Number(cfg.amount) > 0;
+        const useWallets = Number(cfg.amount) > 0;
         const req = useWallets ? payments.paymentRequest({ countryCode: "US", currencyCode: "USD", total: { amount: String(cfg.amount), label: title.slice(0, 60) || "KIXO" } }) : null;
         const no = Promise.reject(new Error("off"));
         no.catch(() => {});
@@ -113,12 +128,12 @@ export function PayModal({
         const [c, ap, gp, ca] = await Promise.allSettled([
           payments.card({
             style: {
-              input: { color: "#f1f8f3", fontSize: "16px" },
-              "input::placeholder": { color: "#7f8f86" },
-              ".input-container": { borderColor: "#26332b", borderRadius: "12px" },
-              ".input-container.is-focus": { borderColor: "#b7ff45" },
-              ".message-text": { color: "#9aaba1" },
-              ".message-icon": { color: "#9aaba1" },
+              input: { color: "#f6f1f6", fontSize: "16px" },
+              "input::placeholder": { color: "#8a7d8d" },
+              ".input-container": { borderColor: "#2e2232", borderRadius: "12px" },
+              ".input-container.is-focus": { borderColor: "#ff2e88" },
+              ".message-text": { color: "#a99aac" },
+              ".message-icon": { color: "#a99aac" },
             },
           }),
           req ? payments.applePay(req) : no,
@@ -157,11 +172,43 @@ export function PayModal({
           ca.value.addEventListener("ontokenization", (e) => {
             const { tokenResult, error } = e.detail;
             if (error || tokenResult?.status !== "OK" || !tokenResult.token) setErr(error?.message || (es ? "Cash App no completó el pago" : "Cash App didn't complete the payment"));
-            else charge(tokenResult.token);
+            else charge(tokenResult.token, false, true);
           });
         }
         setWallets({ apple: ap.status === "fulfilled", google: gOk.status === "fulfilled", cash: caOk.status === "fulfilled" });
         setReady(true);
+        // PayPal (one-time purchases) — loads after the rest so it never slows the popup down.
+        if (cfg.paypal && kind !== "plan" && ppBox.current) {
+          loadPayPal(cfg.paypal)
+            .then(async () => {
+              if (!alive || !window.paypal || !ppBox.current) return;
+              const btn = window.paypal.Buttons({
+                style: { layout: "horizontal", color: "gold", shape: "rect", height: 48, tagline: false, label: "paypal" },
+                createOrder: async () => {
+                  const r = await fetch("/api/paypal/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id }) });
+                  const d = await r.json();
+                  if (!d.id) throw new Error(d.detail || d.error || "order failed");
+                  return d.id;
+                },
+                onApprove: async (data: { orderID: string }) => {
+                  setBusy(true);
+                  const r = await fetch("/api/paypal/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID }) });
+                  const d = await r.json().catch(() => ({}));
+                  setBusy(false);
+                  if (r.ok && d.ok) {
+                    setDone({ credits: d.credits });
+                    setTimeout(() => window.location.assign("/credits"), 2200);
+                  } else setErr((es ? "PayPal no completó el pago" : "PayPal didn't complete the payment") + (d.detail ? ` — ${d.detail}` : ""));
+                },
+                onError: (e: unknown) => setErr(`PayPal: ${e instanceof Error ? e.message : String(e)}`),
+              });
+              if (btn.isEligible()) {
+                await btn.render(ppBox.current);
+                if (alive) setPaypalOn(true);
+              }
+            })
+            .catch(() => {});
+        }
       } catch (e) {
         if (alive) setErr(e instanceof Error ? e.message : "error");
       }
@@ -204,18 +251,18 @@ export function PayModal({
         setBusy(false);
         return;
       }
-      await charge(t.token, true);
+      await charge(t.token, true, method !== card.current);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "error");
     }
     setBusy(false);
   }
 
-  async function charge(token: string, already = false) {
+  async function charge(token: string, already = false, wallet = false) {
     if (!already) setBusy(true);
     setErr("");
     try {
-      const r = await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token }) });
+      const r = await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token, wallet }) });
       const d = await r.json().catch(() => ({}));
       try {
         sessionStorage.removeItem("kixo_pay");
@@ -223,7 +270,7 @@ export function PayModal({
         /* ignore */
       }
       if (r.ok && d.ok) {
-        setDone({ credits: d.credits, pending: d.pending });
+        setDone({ credits: d.credits, pending: d.pending, renews: d.renews });
         setTimeout(() => window.location.assign("/credits"), d.pending ? 4500 : 2200);
       } else {
         setErr(
@@ -247,12 +294,17 @@ export function PayModal({
         <div className="pointer-events-none absolute -top-20 left-1/2 h-40 w-72 -translate-x-1/2 rounded-full bg-lime/15 blur-3xl" />
         {done ? (
           <div className="relative py-8 text-center">
-            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-lime text-3xl text-ink shadow-[0_0_40px_rgba(183,255,69,0.6)]">✓</div>
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-lime text-3xl text-ink shadow-[0_0_40px_rgba(255,46,136,0.6)]">✓</div>
             <div className="font-display mt-4 text-3xl">{es ? "¡Pago completado!" : "Payment complete!"}</div>
             <p className="mt-1 text-sm text-muted">
               {done.pending
                 ? es ? `Tu plan está activo. Tus ${done.credits} créditos llegan en unos segundos…` : `Your plan is active. Your ${done.credits} credits arrive in a few seconds…`
                 : es ? `+${done.credits} créditos agregados a tu cuenta` : `+${done.credits} credits added to your account`}
+              {done.renews === false && (
+                <span className="mt-2 block text-xs text-teal">
+                  {es ? "Este mes está pagado. Para que se renueve solo cada mes, suscríbete con una tarjeta." : "This month is paid. To renew automatically every month, subscribe with a card."}
+                </span>
+              )}
             </p>
           </div>
         ) : (
@@ -271,7 +323,7 @@ export function PayModal({
             <div className="relative">
             {!ready && !err && (
               <div className="absolute inset-0 z-10 space-y-2" aria-hidden>
-                {kind !== "plan" && (
+                {(
                   <>
                     <div className="h-12 animate-pulse rounded-xl bg-white/10" />
                     <div className="h-12 animate-pulse rounded-xl bg-white/10" />
@@ -282,8 +334,8 @@ export function PayModal({
                 <div className="h-[96px] animate-pulse rounded-2xl bg-white/5" />
               </div>
             )}
-            <div className={`space-y-4 transition-opacity duration-300 ${ready ? "opacity-100" : "pointer-events-none opacity-0"} ${!ready && kind !== "plan" ? "min-h-[270px]" : ""}`}>
-            {kind !== "plan" && (
+            <div className={`space-y-4 transition-opacity duration-300 ${ready ? "opacity-100" : "pointer-events-none opacity-0"} ${!ready ? "min-h-[270px]" : ""}`}>
+            {(
               <div className="space-y-2">
                 {wallets.apple && (
                   <button type="button" disabled={busy} onClick={() => pay(apple.current)} className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl bg-white text-[17px] font-semibold text-black disabled:opacity-50">
@@ -293,7 +345,8 @@ export function PayModal({
                 )}
                 <div ref={gpBox} className={wallets.google ? "h-12 overflow-hidden rounded-xl" : "hidden"} />
                 <div ref={capBox} className={wallets.cash ? "" : "hidden"} />
-                {(wallets.apple || wallets.google || wallets.cash) && (
+                <div ref={ppBox} className={paypalOn ? "overflow-hidden rounded-xl [&_iframe]:!rounded-xl" : "h-0 overflow-hidden"} />
+                {(wallets.apple || wallets.google || wallets.cash || paypalOn) && (
                   <div className="flex items-center gap-3 py-1 text-[11px] uppercase tracking-widest text-muted">
                     <span className="h-px flex-1 bg-line" />
                     {es ? "o con tarjeta" : "or pay with card"}
@@ -302,7 +355,7 @@ export function PayModal({
                 )}
               </div>
             )}
-            <div className="min-h-[96px] rounded-2xl border border-line bg-ink/40 p-2">
+            <div className="rounded-2xl border border-line bg-ink/40 px-2 pt-2">
               <div ref={box} />
             </div>
             </div>

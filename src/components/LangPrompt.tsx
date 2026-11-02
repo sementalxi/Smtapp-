@@ -24,7 +24,7 @@ export function LangPrompt({ suggested }: { suggested: "en" | "es" }) {
       <div className="kixo-fade-up relative w-full max-w-sm overflow-hidden rounded-3xl border border-lime/30 bg-gradient-to-b from-panel-2 to-panel p-6 text-center shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
         <div className="pointer-events-none absolute -top-16 left-1/2 h-40 w-64 -translate-x-1/2 rounded-full bg-lime/20 blur-3xl" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/kixo-hero-logo.webp" alt="KIXO" className="kixo-logo-float relative mx-auto h-28 w-auto drop-shadow-[0_0_20px_rgba(70,213,174,0.4)]" />
+        <img src="/kixo-hero-logo.webp" alt="KIXO" className="kixo-logo-float relative mx-auto h-28 w-auto drop-shadow-[0_0_20px_rgba(47,216,232,0.4)]" />
         <h2 className="font-display relative mt-3 text-3xl tracking-wide">
           Choose your language
           <span className="block text-xl text-lime">Elige tu idioma</span>

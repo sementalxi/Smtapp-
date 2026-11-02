@@ -9,6 +9,7 @@ import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle }
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
 import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
+import { FORMATION_ROWS } from "./formations";
 import { textPoster } from "./twilio";
 import { getSettings } from "./settings";
 
@@ -21,7 +22,7 @@ export const InputsSchema = z.object({
   number: str(4),
   tagline: str(30),
   subtitle: str(40),
-  footer: str(48),
+  footer: str(120),
   headline: str(30),
   eventName: str(48),
   roster: z.array(z.string().trim().max(30)).max(30).default([]),
@@ -264,7 +265,9 @@ export function collectProRefs(opts: {
       label:
         layout === "CHAMPIONS"
           ? "the competition/championship logo. Put it ONLY on the trophy — engraved or embossed on the front of the cup, reproduced faithfully. Do not show it anywhere else and never as a big logo on the poster."
-          : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
+          : layout === "EVENT"
+            ? "the league / event logo (the organiser of this tournament). Keep its exact shape, letters, symbols and colours — do not redesign it — and make it a HERO element: a large glossy premium 3D emblem with a polished rim, depth, reflections and a coloured glow, placed prominently near the top centre (if there is a trophy, it can sit just above it or be engraved on it as well), lit by the scene's lights with particles around it — never a flat sticker in a corner. Build the poster's colour palette from this logo's colours (unless the user picked colours). If the logo has a solid background square, ignore the square and use only the emblem."
+            : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
     });
   }
   if (i.trophyUrl) {
@@ -284,6 +287,36 @@ export function collectProRefs(opts: {
     });
   }
   return refs;
+}
+
+/**
+ * Event flyers: a strong layout chosen per poster (so they don't all look the same), an athlete hero,
+ * and the quality bar of a top tournament design studio.
+ */
+function eventDirection(seed: number, fixedLayout: boolean, hasPhoto: boolean, hasLogo: boolean) {
+  // No invented people: only the uploaded photo's person may appear.
+  const person = hasPhoto ? " The person from the uploaded photo appears once, cut out and rim-lit, to one side of the centrepiece." : " NO people, players, athletes, faces or silhouettes anywhere on the poster.";
+  const logo = hasLogo ? "the provided league/team logo as a big glossy 3D emblem" : "a large glossy 3D trophy";
+  const layouts = [
+    `EMBLEM HERO: ${logo} big in the upper half, floating, with a polished metal rim, deep reflections and a glowing energy ring behind it; light beams fanning out behind; the headline as a massive 3D word across the middle, slightly overlapping the bottom of the emblem; the prize huge and glossy below; the date on a sleek ribbon at the bottom.${person}`,
+    `SHATTER BURST: ${logo} in the centre breaking through a wall of shattering glass/crystal, shards flying toward the camera, an energy shockwave ring around it; the headline angled across the lower third with shards passing in front of the letters; the prize below; the date on an angled light bar.${person}`,
+    `PEDESTAL: ${logo} standing on a tall dark glossy pedestal in the centre, hit by vertical spotlights and smoke rolling around the base; the headline arcing over the bottom of the pedestal; the prize engraved as a heavy gold 3D plate on the pedestal front; the date at the very bottom.${person}`,
+    `MONUMENT: ${logo} turned into a HUGE sculpture filling the upper half, like colossal metal art standing in the stadium, smoke and sparks at its base; the headline as a massive 3D word across the middle overlapping the sculpture's base; the prize glowing below; the date on a ribbon.${person}`,
+  ];
+  const typeLooks = [
+    "headline in thick brushed-chrome 3D letters with a coloured bevel and a hard drop shadow",
+    "headline in heavy italic sports letters with a gold edge, inner gradient and motion streaks",
+    "headline in condensed letters made of glowing neon tubes inside a dark metal casing",
+    "headline in cracked stone / concrete 3D letters with fire or energy glowing through the cracks",
+  ];
+  const n = Math.abs(seed);
+  if (fixedLayout)
+    return `QUALITY BAR: like a flyer from a top esports / tournament design studio — follow the art director's FIXED LAYOUT exactly. Real lighting and materials, deep layering, rich textures, a cinematic colour grade, and NO big empty areas. Every text item is written completely — never cut, cropped or abbreviated.${hasPhoto ? "" : " NO people, players, faces or silhouettes."}`;
+  return [
+    `EVENT FLYER — LAYOUT FOR THIS POSTER (follow it unless the art director's instructions above define a different layout): ${layouts[n % layouts.length]}`,
+    `TYPOGRAPHY LOOK: ${typeLooks[(n >> 2) % typeLooks.length]}; the event title in a contrasting cleaner style, the accent line in a hand-written brush script, the prize as a premium 3D element. All texts form ONE designed lock-up that interacts with the centrepiece (overlapping, angled, mixed sizes) — never a plain stack of centred lines.`,
+    `QUALITY BAR: like a flyer from a top esports / tournament design studio. Real photographic lighting and materials, deep layering (environment → giant faded echo of the headline or logo → centrepiece → lettering → foreground sparks, smoke and debris crossing over the letters), a cinematic colour grade, and NO big empty dark areas. The date/time sits on a sleek integrated ribbon or light bar that belongs to the scene (not a flat app-style box). Every text item is written completely — never cut, cropped or abbreviated.`,
+  ].join("\n");
 }
 
 /** Turns the template + the user's text into a detailed design brief for the image model. */
@@ -400,7 +433,27 @@ export function buildProPrompt(opts: {
       add("Title (huge)", i.headline || "STARTING XI");
       add("Team name", i.team);
       add("Formation", i.formation);
-      if (i.players.length) lines.push(`- Players (number, name, position) — place every one on the pitch:\n${i.players.filter(Boolean).map((p) => `  • ${q(p)}`).join("\n")}`);
+      if (i.players.length) {
+        const rows = FORMATION_ROWS[i.formation];
+        const lineLabel = (n: number, total: number) => (n === 0 ? "goalkeeper (nearest / bottom)" : n === total - 1 ? "attack (furthest / top)" : n === 1 ? "defence" : "midfield");
+        if (rows) {
+          const ps = i.players.filter(Boolean);
+          const used = new Set<number>();
+          const pick = (pos: string) => {
+            const j = ps.findIndex((p, n) => !used.has(n) && p.trim().split(/\s+/).pop()?.toUpperCase() === pos);
+            if (j < 0) return null;
+            used.add(j);
+            return ps[j];
+          };
+          // Rows are stored right-to-left (RB first); on the graphic the right back is on the right.
+          const rowText = rows
+            .map((r, n) => `  ${lineLabel(n, rows.length)} — left to right: ${r.map((pos) => ({ pos, pl: pick(pos) })).reverse().map(({ pos, pl }) => (pl ? q(pl) : `(empty ${pos} spot — leave it out)`)).join("  |  ")}`)
+            .join("\n");
+          lines.push(`- Players placed row by row in the ${i.formation} formation (the word in each item ending in a position code is the position — show the number and the name; the position code may be shown small):\n${rowText}`);
+        } else {
+          lines.push(`- Players (number, name, position) — place every one on the pitch:\n${i.players.filter(Boolean).map((p) => `  • ${q(p)}`).join("\n")}`);
+        }
+      }
       add("Competition", i.competition);
       add("Date / matchday", i.date);
       break;
@@ -419,11 +472,11 @@ export function buildProPrompt(opts: {
       add("Competition", i.competition);
       break;
     case "EVENT":
-      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times as designed glowing lettering with thin dividers (no boxes or pills)" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
       add("Headline (huge, glossy 3D)", i.headline);
       add("Event title (bold, under the headline)", i.name);
       add("Script accent line", i.subtitle);
-      add("Date & times (designed lettering, no box)", [i.date, i.details].filter(Boolean).join("  ·  "));
+      add("Date & times (designed lock-up on a ribbon / light bar)", [i.date, i.details].filter(Boolean).join("  ·  "));
       add("Prize", i.prize);
       break;
     default:
@@ -511,6 +564,13 @@ export function buildProPrompt(opts: {
     ...refText,
     logoRule,
     adminLed ? "" : champsEnergy,
+    layout === "LINEUP"
+      ? `PHOTOREAL CINEMATIC LINEUP (always applies, whatever the style): it must look like a REAL photograph composited by a top club's design team — like a still from a cinematic stadium film shot on a full-frame cinema camera with an anamorphic lens — NOT a video-game render, NOT cartoon, NOT a generic AI image. Physically correct lighting: real stadium floodlights with volumetric beams through real haze, true shadows, natural falloff, wet grass/pitch with real reflections, shallow depth of field with creamy bokeh, subtle anamorphic flares, fine film grain, a restrained teal-and-team-colour grade, deep but detailed blacks. Real materials only: brushed and polished metal, glass, enamel, concrete, grass. Neon and glow kept subtle and believable (real light sources, not cartoon outlines). The team crest crisp and faithful as a premium physical emblem with real reflections and a soft contact shadow. The pitch photographic with depth and crisp real pitch lines. Players as refined, sleek markers: slim glossy glass-and-metal badges in the team colour with the shirt number big, the name underneath on a clean thin dark tag — smaller and more elegant than chunky game icons, every name perfectly legible and spelled exactly, all eleven in their rows. Title in heavy slanted sports type with real metal/print texture and a hard shadow (not cartoon outlines); formation in a bold brush-marker script; competition and date small and letter-spaced. NO people, players or faces — only the markers.`
+      : "",
+    layout === "MATCHDAY" || layout === "RESULT"
+      ? `SPORTS DESIGN LOOK (always applies): it must look made by a pro sports graphic designer, not a generic AI image — bold, graphic and clean like official club / EA FC / Nike match graphics: diagonal shapes and stripes, solid colour blocks, halftone and grunge print textures, film grain, a real photographic stadium (slightly desaturated, high contrast). Restraint: no glowing fog everywhere, no neon haze, no excessive sparks or lightning, no plastic chrome on everything; deep blacks and crisp edges. Crests crisp and faithful with a clean drop shadow. TYPOGRAPHY: heavy slanted sports type with solid fills, a thick outline, a short hard 3D extrusion and a hard offset shadow with a grain texture; the title's second word in a bold brush-marker script crossing the first. Match info at the bottom with no bar or box: the time big in the same sports type (left half home colour, right half away colour), the date above in bold wide letter-spaced white caps, the venue below. Never rewrite text that appears inside a logo; write each text item only once.`
+      : "",
+    layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",

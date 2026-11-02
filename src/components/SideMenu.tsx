@@ -71,7 +71,7 @@ export function SideMenu({
         <aside
           role="dialog"
           aria-label="Menu"
-          className={`absolute inset-y-0 left-0 flex w-[86%] max-w-[360px] flex-col border-r border-line bg-[#0b100d] shadow-[30px_0_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute inset-y-0 left-0 flex w-[86%] max-w-[360px] flex-col border-r border-line bg-[#0f0a11] shadow-[30px_0_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${open ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-lime/10 blur-3xl" />
           <div className="relative flex items-center justify-between border-b border-line px-5 py-4">
@@ -79,7 +79,7 @@ export function SideMenu({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/kixo-hero-logo.webp" alt="" className="h-9 w-auto" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/kixo-wordmark.png" alt={site} className="h-7 w-auto" />
+              <img src="/kixo-wordmark.png" alt={site} className="[filter:hue-rotate(246deg)] h-7 w-auto" />
             </Link>
             <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg border border-line text-muted hover:text-white">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" aria-hidden>

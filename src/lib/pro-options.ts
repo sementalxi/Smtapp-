@@ -70,6 +70,7 @@ export const FONT_STYLES: FontStyle[] = [
 ];
 
 export const TROPHY_STYLES = [
+  { id: "surprise", label: "🎲 Surprise me", prompt: "" },
   { id: "globe", label: "Gold globe cup", prompt: "a tall polished gold trophy with a globe on top held by spiralling figures, on a dark base" },
   { id: "bigears", label: "Silver big-ears cup", prompt: "a large polished silver cup with two big curved handles on a round base" },
   { id: "shield", label: "Gold league shield", prompt: "a gold and black league trophy shield with laurel engraving" },
@@ -81,7 +82,37 @@ export const TROPHY_STYLES = [
 export const LANGUAGES = ["English", "Español", "Português", "Français", "Italiano"];
 
 export const fontPrompt = (id: string) => FONT_STYLES.find((f) => f.id === id)?.prompt ?? "";
-export const trophyPrompt = (id: string) => TROPHY_STYLES.find((t) => t.id === id)?.prompt ?? "";
+/** "Surprise me": a different, original trophy design every time. */
+function surpriseTrophy() {
+  const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
+  const shape = pick([
+    "a tall slender cup with long sweeping handles",
+    "a wide, heavy bowl-shaped cup with short angular handles",
+    "an hourglass-shaped trophy with twisting ribbons of metal around it",
+    "a towering spire-shaped trophy with sharp angular facets",
+    "a classic two-handled cup with an ornate lid",
+    "a futuristic trophy made of floating metal rings around a glowing core",
+    "a laurel-wrapped column trophy topped with a crown",
+    "a sculpted trophy shaped like a giant flame",
+    "a geometric diamond-cut trophy",
+    "a shield-and-sword trophy standing upright",
+  ]);
+  const top = pick(["a football on top", "a star on top", "a globe on top", "a crown on top", "a lightning bolt on top", "a laurel wreath on top", "nothing on top — a clean rim"]);
+  const material = pick([
+    "polished 24k gold",
+    "mirror-polished silver",
+    "black chrome with gold edges",
+    "brushed platinum",
+    "clear crystal with gold details",
+    "dark gunmetal with glowing accents in the team colour",
+    "warm gold and white marble",
+    "chrome with enamel inlays in the team colours",
+  ]);
+  const base = pick(["a black marble base", "a stepped gold base", "a tall faceted crystal base", "a dark wooden base with a gold plate", "a glowing illuminated base"]);
+  return `an ORIGINAL, unique trophy design: ${shape}, ${top}, made of ${material}, on ${base} — premium, detailed, photographic`;
+}
+
+export const trophyPrompt = (id: string) => (id === "surprise" ? surpriseTrophy() : TROPHY_STYLES.find((t) => t.id === id)?.prompt ?? "");
 
 /** Second (AI-made) figure behind the player on player cards. */
 export const BG_POSES = [

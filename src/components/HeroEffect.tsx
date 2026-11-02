@@ -38,7 +38,7 @@ export function HeroEffect({ effect }: { effect: string }) {
           <div
             key={n}
             className="fx-smoke"
-            style={{ left: `${-20 + n * 22}%`, bottom: `${-30 + (n % 3) * 15}%`, animationDelay: `-${n * 3.3}s`, animationDuration: `${16 + (n % 3) * 4}s`, background: n % 2 ? "rgba(70,213,174,0.18)" : "rgba(220,235,225,0.12)" }}
+            style={{ left: `${-20 + n * 22}%`, bottom: `${-30 + (n % 3) * 15}%`, animationDelay: `-${n * 3.3}s`, animationDuration: `${16 + (n % 3) * 4}s`, background: n % 2 ? "rgba(47,216,232,0.18)" : "rgba(220,235,225,0.12)" }}
           />
         ))}
       {e === "fire" && (
@@ -57,7 +57,7 @@ export function HeroEffect({ effect }: { effect: string }) {
           <svg className="fx-bolt absolute top-0 right-[18%] h-[70%] w-auto" viewBox="0 0 60 200" fill="none" stroke="#e8fff4" strokeWidth="2.5">
             <path d="M34 0 22 70 38 74 18 140 30 142 12 200" />
           </svg>
-          <svg className="fx-bolt absolute top-0 left-[12%] h-[55%] w-auto" viewBox="0 0 60 200" fill="none" stroke="#b7ff45" strokeWidth="2" style={{ animationDelay: "-2.6s", animationDuration: "6.7s" }}>
+          <svg className="fx-bolt absolute top-0 left-[12%] h-[55%] w-auto" viewBox="0 0 60 200" fill="none" stroke="#ff2e88" strokeWidth="2" style={{ animationDelay: "-2.6s", animationDuration: "6.7s" }}>
             <path d="M28 0 38 60 22 66 40 130 26 134 36 200" />
           </svg>
         </>
@@ -71,14 +71,14 @@ export function HeroEffect({ effect }: { effect: string }) {
       )}
       {e === "speed" &&
         seq(16, 41).map((y, n) => (
-          <span key={n} className="fx-streak" style={{ top: `${y}%`, width: `${18 + (n % 4) * 10}%`, animationDuration: `${0.9 + (n % 5) * 0.35}s`, animationDelay: `-${(n * 0.37) % 2}s`, background: n % 3 ? "linear-gradient(90deg,transparent,rgba(183,255,69,0.8),transparent)" : "linear-gradient(90deg,transparent,rgba(70,213,174,0.8),transparent)" }} />
+          <span key={n} className="fx-streak" style={{ top: `${y}%`, width: `${18 + (n % 4) * 10}%`, animationDuration: `${0.9 + (n % 5) * 0.35}s`, animationDelay: `-${(n * 0.37) % 2}s`, background: n % 3 ? "linear-gradient(90deg,transparent,rgba(255,46,136,0.8),transparent)" : "linear-gradient(90deg,transparent,rgba(47,216,232,0.8),transparent)" }} />
         ))}
       {e === "grid" && (
         <>
           <div className="absolute inset-x-0 bottom-0 h-[55%] [perspective:400px]">
             <div className="fx-grid absolute inset-x-[-50%] bottom-0 h-[200%] origin-bottom [transform:rotateX(65deg)]" />
           </div>
-          <div className="absolute inset-x-0 top-[44%] h-px bg-lime/60 shadow-[0_0_30px_6px_rgba(183,255,69,0.35)]" />
+          <div className="absolute inset-x-0 top-[44%] h-px bg-lime/60 shadow-[0_0_30px_6px_rgba(255,46,136,0.35)]" />
         </>
       )}
       {e === "stars" &&
@@ -87,8 +87,8 @@ export function HeroEffect({ effect }: { effect: string }) {
         ))}
       {e === "aurora" && (
         <>
-          <div className="fx-aurora absolute -inset-x-1/4 top-[-20%] h-[80%]" style={{ background: "linear-gradient(100deg, transparent 10%, rgba(183,255,69,0.22) 30%, rgba(70,213,174,0.28) 50%, transparent 75%)" }} />
-          <div className="fx-aurora absolute -inset-x-1/4 top-[0%] h-[70%]" style={{ animationDelay: "-6s", animationDuration: "15s", background: "linear-gradient(80deg, transparent 15%, rgba(70,213,174,0.2) 40%, rgba(120,90,255,0.14) 60%, transparent 80%)" }} />
+          <div className="fx-aurora absolute -inset-x-1/4 top-[-20%] h-[80%]" style={{ background: "linear-gradient(100deg, transparent 10%, rgba(255,46,136,0.22) 30%, rgba(47,216,232,0.28) 50%, transparent 75%)" }} />
+          <div className="fx-aurora absolute -inset-x-1/4 top-[0%] h-[70%]" style={{ animationDelay: "-6s", animationDuration: "15s", background: "linear-gradient(80deg, transparent 15%, rgba(47,216,232,0.2) 40%, rgba(120,90,255,0.14) 60%, transparent 80%)" }} />
         </>
       )}
       {e === "confetti" &&
@@ -96,7 +96,7 @@ export function HeroEffect({ effect }: { effect: string }) {
           <span
             key={n}
             className="fx-confetti"
-            style={{ left: `${x}%`, width: 6 + (n % 3) * 2, height: 10 + (n % 2) * 4, background: ["#b7ff45", "#46d5ae", "#f1f8f3", "#ffd23f", "#ff5c8a"][n % 5], animationDuration: `${5 + (n % 5)}s`, animationDelay: `-${(n * 0.7) % 9}s` }}
+            style={{ left: `${x}%`, width: 6 + (n % 3) * 2, height: 10 + (n % 2) * 4, background: ["#ff2e88", "#2fd8e8", "#f6f1f6", "#ffd23f", "#ff5c8a"][n % 5], animationDuration: `${5 + (n % 5)}s`, animationDelay: `-${(n * 0.7) % 9}s` }}
           />
         ))}
     </div>

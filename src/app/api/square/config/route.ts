@@ -4,6 +4,7 @@ import { apiUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { findPack, findPlan, loadPricing } from "@/lib/pricing";
 import { locationId, sq, squareAppId, squareConfigured } from "@/lib/square";
+import { paypalReady, paypalSandbox } from "@/lib/paypal";
 
 /** Registers this site for Apple Pay with Square once per domain (needs the .well-known file we serve). */
 async function ensureApplePayDomain(host: string): Promise<string> {
@@ -41,5 +42,6 @@ export const GET = handle(async (req: NextRequest) => {
     ensureApplePayDomain(req.headers.get("x-forwarded-host") ?? req.nextUrl.host),
     db.setting.findUnique({ where: { key: "square_location_id" } }).then((r) => r?.value || locationId()),
   ]);
-  return json({ inline: true, ...(user.role === "ADMIN" ? { applePay } : {}), appId, locationId: loc, sandbox: process.env.SQUARE_ENV?.trim() === "sandbox", amount: amount.toFixed(2) });
+  const paypal = paypalReady() && kind !== "plan" ? process.env.PAYPAL_CLIENT_ID!.trim() : undefined;
+  return json({ inline: true, paypal, paypalSandbox: paypalSandbox(), ...(user.role === "ADMIN" ? { applePay } : {}), appId, locationId: loc, sandbox: process.env.SQUARE_ENV?.trim() === "sandbox", amount: amount.toFixed(2) });
 });

@@ -2,9 +2,9 @@ mobile / hidden reveal elements: 0
 mobile /login hidden reveal elements: 0
 mobile /register hidden reveal elements: 0
 mobile /pricing hidden reveal elements: 0
-mobile errors: []
+mobile errors: ["Failed to load resource: the server responded with a status of 404 ()"]
 desktop / hidden reveal elements: 0
 desktop /login hidden reveal elements: 0
 desktop /register hidden reveal elements: 0
 desktop /pricing hidden reveal elements: 0
-desktop errors: []
+desktop errors: ["Failed to load resource: the server responded with a status of 404 ()"]

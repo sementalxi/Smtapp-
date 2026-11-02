@@ -9,10 +9,11 @@ import { rewardReferrer } from "@/lib/referral";
 import { findPack, findPlan, loadPricing } from "@/lib/pricing";
 import { locationId, planVariationId, sq, SquareError } from "@/lib/square";
 import { rateLimit } from "@/lib/ratelimit";
+import { grantPlanMonth } from "@/lib/square-grants";
 
 export const maxDuration = 60;
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
-const Body = z.object({ kind: z.enum(["pack", "plan", "deal"]), id: z.string().min(1).max(60), sourceId: z.string().min(5).max(500), verificationToken: z.string().max(2000).optional() });
+const Body = z.object({ kind: z.enum(["pack", "plan", "deal"]), id: z.string().min(1).max(60), sourceId: z.string().min(5).max(500), verificationToken: z.string().max(2000).optional(), wallet: z.boolean().optional() });
 
 /** Charges a card entered in the on-page popup (Square Web Payments). */
 export const POST = handle(async (req: NextRequest) => {
@@ -74,6 +75,53 @@ export const POST = handle(async (req: NextRequest) => {
       customerId = customer.id;
       await db.user.update({ where: { id: user.id }, data: { stripeCustomerId: `sq_${customerId}` } });
     }
+    // Apple Pay / Google Pay / Cash App: charge this month now, then try to save the card for renewals.
+    if (b.wallet) {
+      const cents = Math.round(plan.priceUsd * 100);
+      const { payment } = await sq<{ payment: { id: string; status: string } }>("/payments", {
+        body: {
+          idempotency_key: crypto.randomUUID(),
+          source_id: b.sourceId,
+          amount_money: { amount: cents, currency: "USD" },
+          location_id: loc,
+          customer_id: customerId,
+          buyer_email_address: user.email,
+          reference_id: user.id.slice(0, 40),
+          note: `${site} plan ${plan.id} (month 1) — ${user.email}`.slice(0, 500),
+          autocomplete: true,
+        },
+      });
+      if (payment.status !== "COMPLETED" && payment.status !== "APPROVED") return json({ error: "declined", detail: payment.status }, 402);
+      await db.user.update({ where: { id: user.id }, data: { planId: plan.id } });
+      await grantPlanMonth(user.id, plan.id, cents, `sq_${payment.id}`);
+      // Renewals: Square can save the card behind an Apple Pay / Google Pay payment; Cash App can't be saved.
+      try {
+        const saved = await sq<{ card: { id: string } }>("/cards", {
+          body: { idempotency_key: crypto.randomUUID(), source_id: payment.id, card: { customer_id: customerId, reference_id: user.id } },
+        });
+        const next = new Date();
+        next.setMonth(next.getMonth() + 1);
+        const { subscription } = await sq<{ subscription: { id: string } }>("/subscriptions", {
+          body: {
+            idempotency_key: crypto.randomUUID(),
+            location_id: loc,
+            plan_variation_id: await planVariationId(plan),
+            customer_id: customerId,
+            card_id: saved.card.id,
+            start_date: next.toISOString().slice(0, 10),
+          },
+        });
+        await db.user.update({ where: { id: user.id }, data: { subscriptionId: subscription.id, subscriptionStatus: "active", currentPeriodEnd: next } });
+        return json({ ok: true, credits: plan.monthlyCredits, plan: plan.id, renews: true });
+      } catch (e) {
+        console.warn("wallet plan: couldn't save card for renewals", e instanceof Error ? e.message : e);
+        const end = new Date();
+        end.setMonth(end.getMonth() + 1);
+        await db.user.update({ where: { id: user.id }, data: { subscriptionStatus: "one_month", currentPeriodEnd: end } });
+        return json({ ok: true, credits: plan.monthlyCredits, plan: plan.id, renews: false });
+      }
+    }
+
     const { card } = await sq<{ card: { id: string } }>("/cards", {
       body: { idempotency_key: crypto.randomUUID(), source_id: b.sourceId, ...(b.verificationToken ? { verification_token: b.verificationToken } : {}), card: { customer_id: customerId, reference_id: user.id } },
     });
