@@ -89,7 +89,9 @@ SCENE
 - Behind: only a few huge soft floodlight flares and god-rays high up, a faint silhouette of the stands — NO busy crowd, NO glitter or sparkle bokeh everywhere.
 - Ticker-tape kept to a FEW pieces in gold and the team colour, drifting slowly through the light beam with motion blur — never a storm.
 - Grade: moody high-contrast, mostly black, white light and silver; only the team colour and the gold accents in colour. Clean negative space so the title and trophy dominate.
-- The TEAM CREST twice: small at the top centre, AND as a BIG premium 3D metal-and-enamel medallion standing on the grass right NEXT TO the trophy (to one side, slightly behind it, about two-thirds of the trophy height), faithful to the artwork, with real chrome reflections, a team-colour rim light and a soft shadow on the grass. Nowhere else.
+- The TROPHY BIG: about 55–60% of the poster height, rising in front of the lower part of the title.
+- The TEAM CREST: small at the top centre, AND as a BIG premium 3D metal-and-enamel medallion standing on the grass right NEXT TO the trophy (to one side, slightly behind it, about 85–90% of the trophy height), faithful to the artwork, with real chrome reflections, a team-colour rim light and a soft shadow on the grass.
+- BACKGROUND CREST ECHOES: the team crest also appears TWICE as GIANT faded ghosts in the background haze (about 12–18% opacity, slightly blurred, tinted in the team colour), placed diagonally — one in the TOP-LEFT and one in the BOTTOM-RIGHT, each cut off by the edges — like huge projections in the smoke, behind everything.
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
@@ -468,7 +470,7 @@ SCENE
 - Behind: only a few huge soft floodlight flares and god-rays high up, a faint silhouette of the stands — NO busy crowd, NO glitter or sparkle bokeh everywhere.
 - Ticker-tape kept to a FEW pieces in gold and the team colour, drifting slowly through the light beam with motion blur — never a storm.
 - Grade: moody high-contrast, mostly black, white light and silver; only the team colour and the gold accents in colour. Clean negative space so the title and trophy dominate.
-- The TEAM CREST appears ONLY ONCE (small, top centre) — no second big crest or medallion anywhere else.
+- The TEAM CREST twice: small at the top centre, AND as a BIG premium 3D metal-and-enamel medallion standing on the grass right NEXT TO the trophy (to one side, slightly behind it, about two-thirds of the trophy height), faithful to the artwork, with real chrome reflections, a team-colour rim light and a soft shadow on the grass. Nowhere else.
 
 TYPOGRAPHY
 - TITLE (e.g. "CHAMPIONS"): huge clean ultra-condensed white sans-serif capitals (Nike / Adidas campaign style), tight tracking, flat white with a subtle grain — set BEHIND the trophy across the upper half, the trophy overlapping it.
