@@ -1,0 +1,22 @@
+{
+  "name": "kixo-gfx-studio-discord-bot",
+  "version": "8.44.0",
+  "private": true,
+  "description": "Independent KIXO GFX Studio Discord bot with bilingual design-order tickets and admin controls",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "check": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.5.0",
+    "openai": "^5.16.0",
+    "sharp": "^0.34.5"
+  }
+}

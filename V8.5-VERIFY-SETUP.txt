@@ -1,0 +1,36 @@
+SEMENTAL BOT V8.5.1 - VERIFIED / UNVERIFIED AUTO ACCESS
+
+WHAT WAS ADDED
+- New members automatically receive the configured Join / Unverified role.
+- Verify button adds Verified and removes Unverified.
+- /verify-admin now has a "Channel Access" manager.
+- Choose up to 25 PUBLIC categories at once that Verified members should see.
+- Choose PRE-VERIFY channels such as verification, welcome, and rules.
+- Auto Sync updates new channels created inside managed public categories.
+- /verify-sync manually reapplies the configured permissions.
+- Posting a Verify panel automatically adds that channel to PRE-VERIFY access.
+- The manager never changes @everyone and does not touch unselected private/staff areas.
+
+SETUP
+1. Deploy this version and restart the bot.
+2. In Discord run /verify-admin.
+3. Set the Join / Unverified role.
+4. Set the Verified role.
+5. Make sure Auto Join is ON.
+6. Press Channel Access.
+7. In PUBLIC category, select up to 25 categories at once that Verified members should see. You can reopen the menu for more; selecting an already-saved category toggles it off.
+8. Add #verification, #welcome, #rules, etc. as PRE-VERIFY channels.
+9. Press Sync Now.
+
+BOT PERMISSIONS NEEDED
+- Manage Roles
+- Manage Channels / permission access as required by Discord
+- Bot role must be above Verified and Unverified roles.
+
+IMPORTANT - DISCORD ONBOARDING
+This fixes permission access. Discord Community Onboarding separately controls which allowed channels are shown in a member's personalized sidebar. If a member can see a channel after pressing "Show All Channels", that channel is already permitted and must also be placed in Server Settings > Onboarding > Default Channels (or assigned by an Onboarding question) to show automatically. A normal bot cannot force an existing user's personal "Show All Channels" preference.
+
+V8.5.2 DIAGNOSTICS
+- /verify-sync now reports how many targets were checked, changed, already correct, or failed.
+- Failed syncs now show the first five channel/category errors.
+- The bot detects when its Manage Permissions permission is denied in a selected category/channel.

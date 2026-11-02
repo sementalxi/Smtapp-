@@ -1,0 +1,52 @@
+{
+  "brand": {
+    "serverName": "KIXO | GFX STUDIO",
+    "tagline": "DESIGN • CREATE • STAND OUT",
+    "primaryColor": "#FF2D8B",
+    "secondaryColor": "#101015",
+    "logoUrl": "",
+    "bannerUrl": ""
+  },
+  "panel": {
+    "title": "KIXO | GFX STUDIO — RULES",
+    "englishDescription": "Studio and design order guidelines.",
+    "spanishDescription": "Reglas de pedidos y la comunidad.",
+    "privateNoticeSpanish": "Selecciona tu idioma para leer las reglas."
+  },
+  "englishRules": [
+    {
+      "title": "Respect",
+      "text": "Treat staff, designers, and clients respectfully."
+    },
+    {
+      "title": "Orders",
+      "text": "Use New Design Order with exact text, dimensions, colors, references and deadline."
+    },
+    {
+      "title": "Revisions",
+      "text": "Use Revision Request for edits. Agree to pricing and revisions before production."
+    },
+    {
+      "title": "Privacy",
+      "text": "Keep order and payment information private."
+    }
+  ],
+  "spanishRules": [
+    {
+      "title": "Respeto",
+      "text": "Trata con respeto a clientes, diseñadores y staff."
+    },
+    {
+      "title": "Pedidos",
+      "text": "Abre Nuevo Pedido con texto exacto, tamaño, colores, ejemplos y fecha límite."
+    },
+    {
+      "title": "Cambios",
+      "text": "Usa Solicitud de Cambios para ajustes. Acuerda precio y cambios antes de producir."
+    },
+    {
+      "title": "Privacidad",
+      "text": "Mantén los datos de pedidos y pagos en privado."
+    }
+  ]
+}

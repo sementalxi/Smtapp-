@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KIXO Ticket Control Center</title>
+  <link rel="stylesheet" href="/admin/app.css" />
+</head>
+<body>
+  <div id="login" class="login-screen">
+    <div class="login-card">
+      <div class="brand-mark">KIXO</div>
+      <div class="eyebrow">KIXO OFFICIAL</div>
+      <h1>Ticket Control Center</h1>
+      <p>Manage your Discord ticket system from one secure dashboard.</p>
+      <form id="loginForm">
+        <label>Admin password</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter dashboard password" required />
+        <button class="primary wide" type="submit">Enter Control Center</button>
+      </form>
+      <div id="loginError" class="form-error"></div>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark small">KIXO</div>
+        <div><strong>KIXO</strong><span>GFX TICKET CENTER</span></div>
+      </div>
+      <nav id="nav">
+        <button data-page="dashboard" class="active">⌂ <span>Dashboard</span></button>
+        <button data-page="tickets">🎫 <span>Tickets</span></button>
+        <button data-page="departments">▦ <span>Departments</span></button>
+        <button data-page="branding">✦ <span>Panel Branding</span></button>
+        <button data-page="commands">⌨ <span>Custom Commands</span></button>
+        <button data-page="settings">⚙ <span>Settings</span></button>
+        <button data-page="permissions">🔐 <span>Permissions</span></button>
+      </nav>
+      <div class="side-footer">
+        <div class="online"><i></i> Bot Online</div>
+        <button id="logoutBtn" class="ghost">Logout</button>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">COMPETE WITH RESPECT • PLAY TO WIN</div>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+        <div class="server-pill"><span id="serverName">Discord Server</span><b id="botTag">Bot</b></div>
+      </header>
+
+      <section id="page-dashboard" class="page active-page">
+        <div class="hero">
+          <div><div class="eyebrow">KIXO OFFICIAL</div><h1>Design Orders & Ticket Administration</h1><p>Everything you used to configure in Discord is now available here.</p></div>
+          <div class="hero-badge">V8.0</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>Departments</span><strong id="statDepartments">0</strong></div>
+          <div class="stat"><span>Open Tickets</span><strong id="statOpen">0</strong></div>
+          <div class="stat"><span>Closed Tickets</span><strong id="statClosed">0</strong></div>
+          <div class="stat"><span>Custom Commands</span><strong id="statCommands">0</strong></div>
+        </div>
+        <div class="grid two">
+          <div class="card"><div class="card-title"><h3>Quick Actions</h3></div><div class="action-grid"><button class="primary" data-go="departments">Add Department</button><button data-go="branding">Edit Ticket Panel</button><button data-go="commands">Create Command</button><button data-go="settings">Publish Ticket Panel</button></div></div>
+          <div class="card"><div class="card-title"><h3>Panel Preview</h3></div><div id="miniPreview" class="discord-preview"></div></div>
+        </div>
+      </section>
+
+      <section id="page-tickets" class="page">
+        <div class="page-head"><div><h1>Tickets</h1><p>View active and archived tickets and send your saved staff responses.</p></div><button id="refreshTickets">Refresh</button></div>
+        <div class="card"><div class="toolbar"><input id="ticketSearch" placeholder="Search ticket number, member or department"/></div><div id="ticketsTable" class="table-wrap"></div></div>
+      </section>
+
+      <section id="page-departments" class="page">
+        <div class="page-head"><div><h1>Ticket Departments</h1><p>Each button can route tickets to a different Discord category and staff role.</p></div><button id="addDepartment" class="primary">+ Add Department</button></div>
+        <div id="departmentList" class="cards-list"></div>
+      </section>
+
+      <section id="page-branding" class="page">
+        <div class="page-head"><div><h1>Panel Branding</h1><p>Edit exactly what members see before they open a ticket.</p></div><button id="saveBranding" class="primary">Save Changes</button></div>
+        <div class="grid two branding-grid">
+          <div class="card form-card">
+            <label>Panel title<input id="panelTitle" maxlength="256" /></label>
+            <label>Bio / description<textarea id="panelText" rows="6" maxlength="4000"></textarea></label>
+            <div class="row2"><label>Footer<input id="panelFooter" maxlength="200" /></label><label>Embed color<input id="panelColor" type="color" /></label></div>
+            <div class="upload-grid"><label class="upload-box">Logo<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif"/><span>Upload square logo</span></label><label class="upload-box">Banner<input id="bannerUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif"/><span>Upload wide banner</span></label></div>
+            <div class="row-actions"><button id="clearLogo" class="danger-outline">Clear Logo</button><button id="clearBanner" class="danger-outline">Clear Banner</button></div>
+          </div>
+          <div class="card"><div class="card-title"><h3>Live Preview</h3><span>Discord style</span></div><div id="panelPreview" class="discord-preview large"></div></div>
+        </div>
+      </section>
+
+      <section id="page-commands" class="page">
+        <div class="page-head"><div><h1>Custom Ticket Commands</h1><p>Create staff responses. The bot automatically tags the member who opened the ticket.</p></div><button id="addCommand" class="primary">+ New Command</button></div>
+        <div class="card prefix-card"><label>Command prefix<input id="commandPrefix" maxlength="3" /></label><button id="savePrefix">Save Prefix</button><div class="variables">Variables: <code>{user}</code> <code>{username}</code> <code>{staff}</code> <code>{ticket}</code> <code>{number}</code> <code>{type}</code> <code>{channel}</code> <code>{server}</code> <code>{args}</code></div></div>
+        <div id="commandList" class="cards-list"></div>
+      </section>
+
+      <section id="page-settings" class="page">
+        <div class="page-head"><div><h1>Ticket Settings</h1><p>Control ticket behavior and publish the public ticket panel.</p></div><button id="saveSettings" class="primary">Save Settings</button></div>
+        <div class="grid two">
+          <div class="card form-card">
+            <label class="toggle-row"><span>Ticket System</span><input id="ticketEnabled" type="checkbox"/></label>
+            <label>Ticket-created confirmation<textarea id="createdReply" rows="5" maxlength="1900"></textarea><small>Supports {type}, {channel}, {user}, {username}, {number}, {server}</small></label>
+            <label>Transcript / activity log channel<select id="transcriptChannel"></select></label>
+            <label>Closed-ticket archive category<select id="archiveCategory"></select></label>
+          </div>
+          <div class="card form-card"><h3>Publish Ticket Panel</h3><p class="muted">Choose the Discord channel where members should see your ticket buttons.</p><label>Publish channel<select id="publishChannel"></select></label><button id="publishPanel" class="primary wide">Publish Ticket Panel</button><div id="publishResult" class="notice"></div></div>
+        </div>
+      </section>
+
+      <section id="page-permissions" class="page">
+        <div class="page-head"><div><h1>Permissions Check</h1><p>See exactly what the bot can and cannot do.</p></div><button id="checkPermissions">Run Check</button></div>
+        <div id="permissionResults" class="grid two"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden"><div class="modal-box"><div class="modal-head"><h3 id="modalTitle">Edit</h3><button id="modalClose">×</button></div><form id="modalForm"><div id="modalBody"></div><div class="modal-actions"><button type="button" id="modalCancel">Cancel</button><button type="submit" class="primary">Save</button></div></form></div></div>
+  <div id="toast" class="toast"></div>
+  <script src="/admin/app.js"></script>
+</body>
+</html>
