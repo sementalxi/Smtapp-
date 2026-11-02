@@ -82,29 +82,36 @@ SPORTS DESIGN FINISH
 
 TEXT RULES
 - Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
-  "champions-pro": `CHAMPIONS PRO — a cinematic, professional title-celebration flyer, the quality of a top club's official social-media graphic. The team crest and a HUGE trophy are the heroes — NO people, players or faces.
+  "champions-pro": `CHAMPIONS PRO — a dark, bad-ass, cinematic title-celebration flyer that looks like the key art of a sports movie or a Nike / Adidas campaign poster — a REAL photograph, not an AI image. The team crest and a HUGE trophy are the heroes — NO people, players or faces.
+
+MOOD
+- Dark, gritty, powerful and moody: low-key lighting, mostly deep blacks, high contrast, hard light. Menacing and epic, never cheerful or cartoony. Less is more — a few strong elements, nothing cluttered.
 
 COLOURS
-- Built from the TEAM CREST's colours (main colour dominant in lights, smoke and graphics) plus gold for the celebration details, with deep black shadows. Without a crest: black and gold.
+- Built from the TEAM CREST's colours: the main colour lives in the smoke, flares and rim lights; gold only on the trophy and the title; everything else near-black. Without a crest: black and gold.
 
-CINEMATIC LOOK
-- It must look like a real photograph from the trophy celebration, shot on a full-frame cinema camera with an anamorphic lens — not a video-game render or a generic AI image: real floodlights with volumetric beams through haze and smoke, gold ticker-tape and confetti falling with motion blur, gold pyro fountains shooting up, shallow depth of field with creamy bokeh, subtle anamorphic flares, film grain, deep detailed blacks and a cinematic colour grade in the team colours.
+PHOTOGRAPHY (most important)
+- Shot on a full-frame cinema camera with a 35mm anamorphic lens from a LOW ANGLE looking up at the trophy, so it feels massive and heroic.
+- Hard rim lights from behind outlining the trophy in white/team-colour light; one strong top light; deep shadows on the front. Real volumetric light beams cutting through thick smoke from coloured flares.
+- A rain-soaked dark stage / pitch with mirror reflections; a few backlit rain drops or embers drifting in the beams.
+- Confetti only a LITTLE: a few real paper pieces with motion blur, mostly out of focus — never a full sprinkle.
+- Shallow depth of field, creamy bokeh of distant stadium floodlights, subtle anamorphic flares, heavy fine film grain, a crushed-black cinematic grade (teal shadows, team-colour highlights). Real materials only: metal, stone, smoke, wet concrete.
 
 BACKGROUND
-- A dark stadium at night just after the final whistle.
-- The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour), placed DIAGONALLY: one in the TOP-LEFT corner (behind the main crest's left side) and one in the BOTTOM-RIGHT corner (behind the stadium and pyro at the bottom), each partly cut off by the edges — like giant projections in the smoke. Never two echoes side by side at the top.
-- The TITLE word (e.g. "CHAMPIONS") repeated THREE times as giant faded words stacked across the background (one high, one in the middle, one low), each about 10–15% opacity in outlined / tinted letters in the team colour, slightly blurred and blended into the haze, running off the left and right edges — behind the crest, the main title and the trophy, never competing with them.
+- A dark stadium at night swallowed in smoke — barely visible, only floodlight bokeh and light beams.
+- The TEAM CREST echoed TWICE, large and very faded inside the smoke (about 10–15% opacity, blurred, tinted in the team colour), DIAGONALLY: one TOP-LEFT and one BOTTOM-RIGHT, each cut off by the edges — like giant projections in the haze.
+- The TITLE word (e.g. "CHAMPIONS") repeated THREE times as giant faded outlined words stacked across the background (high, middle, low), about 10% opacity, running off both edges, behind everything.
 
 LAYOUT (top to bottom)
-1. TOP CENTRE: the TEAM CREST as a premium 3D emblem that POPS — crisp and faithful, thick polished rim, deep bevels, real enamel colours, sharp reflections, a bright rim light and glow in the team colour, confetti passing in front of it.
-2. CENTRE: the TITLE in huge heavy 3D letters (brushed gold with a dark bevel and a hard shadow), with the team name (if given) in clean bold white letters under it.
-3. THE TROPHY — HUGE: a giant polished trophy taking about 55–60% of the poster height, standing in the lower half and rising up IN FRONT of the title (it may cover part of the letters — that's intended), catching the floodlights with real reflections, confetti landing on it; the competition logo engraved on its front if given.
-4. SQUAD (if given): the player names in neat columns on a dark glass nameplate at the bottom, in front of the trophy's base — readable.
-5. PRIZE (if given) as a gold 3D badge; date (if given) small and letter-spaced at the very bottom.
+1. TOP CENTRE: the TEAM CREST as a premium physical metal-and-enamel emblem — crisp and faithful to the artwork, thick bevels, real reflections, a hard rim light in the team colour.
+2. CENTRE: the TITLE in huge heavy 3D letters of dark brushed gold / gunmetal with sharp bevels, scratches and a hard shadow — like cast metal, not shiny plastic. Team name (if given) in clean bold white letters under it.
+3. THE TROPHY — HUGE: a real polished trophy taking about 55–60% of the poster height, standing on a dark stone pedestal in the lower half and rising IN FRONT of the title (it may cover part of the letters), with true mirror reflections of the lights and a reflection on the wet floor; the competition logo engraved on its front if given.
+4. SQUAD (if given): player names in neat columns on a dark smoked-glass nameplate at the bottom — readable.
+5. PRIZE (if given) as a small gold 3D badge; date (if given) small and letter-spaced at the very bottom.
 
 TEXT RULES
 - Use ONLY the texts given. Spell every word and every player name EXACTLY as written — never fix, translate, shorten or invent words; no sponsor names, platform logos, websites or social handles.
-- Every item is written completely (the title may be partly hidden behind the trophy by design, and the giant faint background word may run off the edges).`,
+- Every item is written completely (the title may be partly hidden behind the trophy by design, and the faded background words may run off the edges).`,
   "grunge-cup": `[FIXED LAYOUT] GRUNGE CUP — premium esports / pro-clubs tournament flyer in a layered editorial grunge style. A trophy is the hero — NO people, players or faces.
 
 COLOURS
@@ -357,7 +364,7 @@ CINEMATIC LOOK
 BACKGROUND
 - A dark stadium at night just after the final whistle.
 - The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour), placed DIAGONALLY: one in the TOP-LEFT corner (behind the main crest's left side) and one in the BOTTOM-RIGHT corner (behind the stadium and pyro at the bottom), each partly cut off by the edges — like giant projections in the smoke. Never two echoes side by side at the top.
-- The TITLE (e.g. "CHAMPIONS") repeated as a giant faint word across the very back.
+- The TITLE word (e.g. "CHAMPIONS") repeated THREE times as giant faded words stacked across the background (one high, one in the middle, one low), each about 10–15% opacity in outlined / tinted letters in the team colour, slightly blurred and blended into the haze, running off the left and right edges — behind the crest, the main title and the trophy, never competing with them.
 
 LAYOUT (top to bottom)
 1. TOP CENTRE: the TEAM CREST as a premium 3D emblem that POPS — crisp and faithful, thick polished rim, deep bevels, real enamel colours, sharp reflections, a bright rim light and glow in the team colour, confetti passing in front of it.
