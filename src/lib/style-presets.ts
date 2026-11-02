@@ -5,9 +5,9 @@ export const PRESET_INSTRUCTIONS: Record<string, string> = {
   "lineup-hologram": `HOLOGRAM XI — a futuristic tactical hologram over a dark stadium.
 
 SCENE
-- A dark night stadium with the lights low; above the pitch, a giant translucent HOLOGRAPHIC tactics board is projected in the team colours: glowing grid lines, scan lines, data rings, thin HUD brackets and arrows (no readable extra words). Light beams from projectors, volumetric haze, reflections on the wet pitch, film grain.
+- A REAL night stadium photographed with a cinema camera, house lights low: the projector's light creates a translucent HOLOGRAPHIC tactics overlay that lies ON the real grass pitch in the team colours — fine glowing grid lines, a soft scan line, thin data rings around the centre circle (no readable extra words). It must look like real light in real haze: volumetric projector beams, light spilling onto the wet grass with true reflections, shallow depth of field, film grain. Believable and elegant, NOT a video-game screen; avoid heavy cartoon neon and thick outlines.
 - The TEAM CREST is NOT at the top centre and NOT a hologram: it's a SOLID, physical premium 3D emblem (thick polished metal rim, real enamel colours, deep bevel, sharp reflections) standing on a glowing round PROJECTOR BASE in the TOP-LEFT corner — the projector beams light upward and across, creating the hologram board. The title sits in the top-right, balanced against the crest.
-- The eleven markers float on the holographic pitch in their rows as glowing glass badges (number big, name on a clean dark tag).
+- The eleven markers stand on the real pitch in their rows as slim, elegant glass-and-metal badges lit by the hologram (number big, name on a clean thin dark tag).
 
 PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
 - Each player as a sleek badge in the team colours with the shirt NUMBER big, the position small, and the NAME underneath on a clean dark tag. Every name perfectly legible and spelled exactly.
@@ -351,7 +351,7 @@ export const PRESET_PREVIOUS: Record<string, string> = {
 
 SCENE
 - A dark night stadium with the lights low; above the pitch, a giant translucent HOLOGRAPHIC tactics board is projected in the team colours: glowing grid lines, scan lines, data rings, thin HUD brackets and arrows (no readable extra words). Light beams from projectors, volumetric haze, reflections on the wet pitch, film grain.
-- The team crest at the top as a crisp emblem with a holographic ring and scan line around it.
+- The TEAM CREST is NOT at the top centre and NOT a hologram: it's a SOLID, physical premium 3D emblem (thick polished metal rim, real enamel colours, deep bevel, sharp reflections) standing on a glowing round PROJECTOR BASE in the TOP-LEFT corner — the projector beams light upward and across, creating the hologram board. The title sits in the top-right, balanced against the crest.
 - The eleven markers float on the holographic pitch in their rows as glowing glass badges (number big, name on a clean dark tag).
 
 PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
