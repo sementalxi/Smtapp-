@@ -520,9 +520,9 @@ export function CreateWizard({
                       key={t.id}
                       type="button"
                       onClick={() => set("trophy", t.id)}
-                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${inp.trophy === t.id && !inp.trophyUrl ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${t.id === "surprise" ? "col-span-full border-dashed font-bold " : ""}${inp.trophy === t.id && !inp.trophyUrl ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                     >
-                      🏆 {t.label}
+                      {t.id === "surprise" ? (locale === "es" ? "🎲 Sorpréndeme (trofeo diferente cada vez)" : "🎲 Surprise me (a different cup every time)") : `🏆 ${t.label}`}
                     </button>
                   ))}
                 </div>
