@@ -82,6 +82,12 @@ SPORTS DESIGN FINISH
 
 TEXT RULES
 - Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
+  "champions-freestyle": `[FREESTYLE] AI DIRECTOR — you are the world's best sports graphic designer and art director. Design the most impressive championship poster you can for this team, completely your own way.
+
+- YOU choose the concept, the scene, the lighting, the colour treatment, the layout and the typography — whatever looks the most powerful and premium for THIS team's crest and colours. Surprise me; don't fall back on a generic template.
+- The quality bar: it must look like the official title-winning graphic of a top professional club, finished by a pro design studio — cinematic, photorealistic, bold, clean and expensive. Never cheesy, cluttered, cartoony or "AI-looking".
+- Must include: the team crest (faithful to its artwork, never redrawn wrong), a trophy, the title (e.g. "CHAMPIONS"), the team name if given, and the squad names if given — the names DESIGNED as part of the typography (matching the title's style, readable, never a plain caption or a cheap box), every name spelled exactly.
+- NO people, players or faces. Use ONLY the texts given; never invent words, sponsors, websites or handles.`,
   "champions-victory": `[OWN LOOK] VICTORY NIGHT — the moment after the final whistle, captured by a top sports photographer. Clean, powerful, real. NO people, players or faces.
 
 SCENE

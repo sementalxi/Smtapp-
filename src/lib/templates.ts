@@ -514,6 +514,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "champions-freestyle",
+    name: "AI Director",
+    nameEs: "Director IA",
+    layout: "CHAMPIONS",
+    sort: 0,
+    prompt:
+      "the AI designs the best possible championship poster on its own — its own concept, scene and typography",
+    style: {
+      primary: "#ff2e88",
+      accent: "#2fd8e8",
+      dark: "#070507",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#ffd6e8", "#ff2e88"],
+      fallback: ["#070507", "#2a0c1c", "#ff2e88"],
+      particles: "sparks",
+      ghost: false,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "champions-victory",
     name: "Victory Night",
     nameEs: "Noche de Gloria",
