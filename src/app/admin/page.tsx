@@ -44,7 +44,8 @@ export default async function AdminHome() {
       [es ? "OPENAI_API_KEY (IA Pro — necesaria)" : "OPENAI_API_KEY (Pro AI — required)", process.env.OPENAI_API_KEY, false],
       ["DATABASE_URL", process.env.DATABASE_URL, false],
       [es ? "SQUARE_ACCESS_TOKEN (pagos — necesaria para vender créditos)" : "SQUARE_ACCESS_TOKEN (payments — needed to sell credits)", process.env.SQUARE_ACCESS_TOKEN, false],
-      [es ? "DISCORD_CLIENT_ID + DISCORD_CLIENT_SECRET (entrar con Discord)" : "DISCORD_CLIENT_ID + DISCORD_CLIENT_SECRET (sign in with Discord)", process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET, true],
+      [es ? "DISCORD_CLIENT_ID (entrar con Discord — solo números)" : "DISCORD_CLIENT_ID (sign in with Discord — numbers only)", process.env.DISCORD_CLIENT_ID, true],
+      [es ? "DISCORD_CLIENT_SECRET (entrar con Discord — 32 caracteres)" : "DISCORD_CLIENT_SECRET (sign in with Discord — 32 characters)", process.env.DISCORD_CLIENT_SECRET, true],
       [es ? "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET (pagar con PayPal)" : "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET (pay with PayPal)", process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET, true],
       [es ? "RESEND_API_KEY (enviar emails de promoción)" : "RESEND_API_KEY (send promo emails)", process.env.RESEND_API_KEY, true],
       [es ? "SQUARE_APPLICATION_ID (pago en ventana dentro de la página)" : "SQUARE_APPLICATION_ID (pay in a popup on the page)", process.env.SQUARE_APPLICATION_ID, true],
@@ -56,7 +57,25 @@ export default async function AdminHome() {
       [es ? "REPLICATE_API_TOKEN (modo rápido antiguo, no se usa)" : "REPLICATE_API_TOKEN (old Quick mode, not used)", process.env.REPLICATE_API_TOKEN, true],
       [es ? "STRIPE_SECRET_KEY (no se usa con Square)" : "STRIPE_SECRET_KEY (not needed with Square)", process.env.STRIPE_SECRET_KEY, true],
     ] as const
-  ).map(([name, v, optional]) => [name, ...describe(v), optional] as const);
+  ).map(([name, v, optional]) => {
+    if (name.startsWith("DISCORD_CLIENT_SECRET") && v?.trim()) {
+      // Never show any part of the secret — only whether it looks right.
+      const t2 = v.trim();
+      const msg =
+        t2.includes(".") || t2.length > 40
+          ? es ? `${t2.length} caracteres — esto parece el TOKEN DEL BOT, no el Client Secret` : `${t2.length} characters — this looks like the BOT TOKEN, not the Client Secret`
+          : /^[0-9a-f]{64}$/i.test(t2)
+            ? es ? "parece la PUBLIC KEY, no el Client Secret" : "looks like the PUBLIC KEY, not the Client Secret"
+            : t2.length !== 32
+              ? es ? `${t2.length} caracteres — el Client Secret tiene 32` : `${t2.length} characters — a Client Secret has 32`
+              : es ? "32 caracteres ✓ (formato correcto)" : "32 characters ✓ (right format)";
+      return [name, msg + (t2 !== v ? (es ? " (tiene espacios extra)" : " (has extra spaces)") : ""), t2.length === 32 && !t2.includes("."), optional] as const;
+    }
+    if (name.startsWith("DISCORD_CLIENT_ID") && v?.trim() && !/^\d{15,22}$/.test(v.trim())) {
+      return [name, es ? `no es un Client ID válido (debe ser solo números) — empieza con "${v.trim().slice(0, 6)}"` : `not a valid Client ID (should be numbers only) — starts with "${v.trim().slice(0, 6)}"`, false, optional] as const;
+    }
+    return [name, ...describe(v), optional] as const;
+  });
 
   const stats = [
     [t("stat_users"), users],
