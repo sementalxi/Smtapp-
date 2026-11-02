@@ -92,7 +92,7 @@ CINEMATIC LOOK
 
 BACKGROUND
 - A dark stadium at night just after the final whistle.
-- The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour): one in the TOP-LEFT corner and one in the TOP-RIGHT corner, partly cut off by the edges — like giant projections in the smoke.
+- The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour), placed DIAGONALLY: one in the TOP-LEFT corner (behind the main crest's left side) and one in the BOTTOM-RIGHT corner (behind the stadium and pyro at the bottom), each partly cut off by the edges — like giant projections in the smoke. Never two echoes side by side at the top.
 - The TITLE (e.g. "CHAMPIONS") repeated as a giant faint word across the very back.
 
 LAYOUT (top to bottom)
@@ -346,30 +346,29 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
-  "champions-pro": `CHAMPIONS PRO — a professional title-celebration flyer, the quality of a top club's official social-media graphic. The team crest and the trophy are the heroes — NO people, players or faces.
+  "champions-pro": `CHAMPIONS PRO — a cinematic, professional title-celebration flyer, the quality of a top club's official social-media graphic. The team crest and a HUGE trophy are the heroes — NO people, players or faces.
 
 COLOURS
-- Built from the TEAM CREST's colours (main colour dominant in lights, smoke and graphics) plus gold for the trophy and celebration details, with deep black shadows. Without a crest: black and gold.
+- Built from the TEAM CREST's colours (main colour dominant in lights, smoke and graphics) plus gold for the celebration details, with deep black shadows. Without a crest: black and gold.
 
-BACKGROUND (dense, never plain)
-- A dark stadium at night after the final whistle: golden ticker-tape and confetti falling through the floodlights, gold pyro sparks shooting up from the bottom, smoke rolling across, lens flares.
-- Layered editorial textures over it: torn paper edges, scratches, halftone, fine grain — tinted in the team colour.
-- The TITLE (e.g. "CAMPEONES") repeated as a GIANT faded word across the whole width behind everything, running off both edges, with a printed/scratched texture.
+CINEMATIC LOOK
+- It must look like a real photograph from the trophy celebration, shot on a full-frame cinema camera with an anamorphic lens — not a video-game render or a generic AI image: real floodlights with volumetric beams through haze and smoke, gold ticker-tape and confetti falling with motion blur, gold pyro fountains shooting up, shallow depth of field with creamy bokeh, subtle anamorphic flares, film grain, deep detailed blacks and a cinematic colour grade in the team colours.
+
+BACKGROUND
+- A dark stadium at night just after the final whistle.
+- The TEAM CREST echoed TWICE in the background, large, faded and blended into the haze and light (about 15–20% opacity, slightly blurred, tinted in the team colour): one in the TOP-LEFT corner and one in the TOP-RIGHT corner, partly cut off by the edges — like giant projections in the smoke.
+- The TITLE (e.g. "CHAMPIONS") repeated as a giant faint word across the very back.
 
 LAYOUT (top to bottom)
-1. TOP: the competition line small and letter-spaced in gold (only if given).
-2. UPPER HALF: the TEAM CREST as the main hero — big (about half the poster width), a premium 3D emblem with a thick polished rim, bevels, enamel colours, sharp reflections and a glowing aura in the team colour, slightly tilted, with confetti and sparks passing in front of it.
-3. CENTRE: the TITLE in huge heavy 3D letters (brushed gold with a dark bevel and a strong drop shadow, slight angle), overlapping the bottom of the crest.
-4. TROPHY: a big polished trophy standing just below/beside the title, catching the floodlights (the competition logo engraved on its front if given), confetti landing on it.
-5. Team name (if given) in clean bold white letters under the title.
-6. SQUAD (if given): the player names in two or three neat columns on a dark glass nameplate with a thin gold border at the bottom — clean, readable, evenly spaced.
-7. PRIZE (if given) as a gold 3D badge; date (if given) small and letter-spaced at the very bottom.
-
-FINISH: real photographic lighting and materials (true gold, chrome, enamel, glass, smoke), deep layering, cinematic colour grade, crisp lettering, no empty areas.
+1. TOP CENTRE: the TEAM CREST as a premium 3D emblem that POPS — crisp and faithful, thick polished rim, deep bevels, real enamel colours, sharp reflections, a bright rim light and glow in the team colour, confetti passing in front of it.
+2. CENTRE: the TITLE in huge heavy 3D letters (brushed gold with a dark bevel and a hard shadow), with the team name (if given) in clean bold white letters under it.
+3. THE TROPHY — HUGE: a giant polished trophy taking about 55–60% of the poster height, standing in the lower half and rising up IN FRONT of the title (it may cover part of the letters — that's intended), catching the floodlights with real reflections, confetti landing on it; the competition logo engraved on its front if given.
+4. SQUAD (if given): the player names in neat columns on a dark glass nameplate at the bottom, in front of the trophy's base — readable.
+5. PRIZE (if given) as a gold 3D badge; date (if given) small and letter-spaced at the very bottom.
 
 TEXT RULES
 - Use ONLY the texts given. Spell every word and every player name EXACTLY as written — never fix, translate, shorten or invent words; no sponsor names, platform logos, websites or social handles.
-- Every item is written completely — never cut or abbreviated (except the giant faded background word, which runs off both edges by design).`,
+- Every item is written completely (the title may be partly hidden behind the trophy by design, and the giant faint background word may run off the edges).`,
   "lineup-hologram": `HOLOGRAM XI — a futuristic tactical hologram over a dark stadium.
 
 SCENE
