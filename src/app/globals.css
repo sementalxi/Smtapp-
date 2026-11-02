@@ -269,3 +269,12 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 .deal-hot-shine { pointer-events: none; position: absolute; inset: 0; z-index: 4; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.18) 50%, transparent 65%); background-size: 250% 100%; animation: deal-shine 3.2s ease-in-out infinite; }
 @keyframes deal-shine { 0%, 50% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
 @media (prefers-reduced-motion: reduce) { .deal-hot, .deal-hot-badge, .deal-hot-shine { animation: none; } }
+
+/* iPhone Safari zooms into any text box under 16px — keep all inputs at 16px on phones (pinch-zoom still works). */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
