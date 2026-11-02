@@ -11,9 +11,10 @@ export const GET = handle(async (req: NextRequest) => {
   const q = (req.nextUrl.searchParams.get("q") ?? "").trim().slice(0, 100);
   if (q.length < 2) throw new HttpError(400, "query_too_short");
   const kind = req.nextUrl.searchParams.get("kind") === "logo" ? "logo" : "photo";
+  const source = req.nextUrl.searchParams.get("src") === "pinterest" ? "pinterest" : "web";
   const page = Math.min(10, Math.max(1, Number(req.nextUrl.searchParams.get("page")) || 1));
   try {
-    const results = await searchImages(q, kind, page);
+    const results = await searchImages(q, kind, page, source);
     // Admins see why Google search failed (e.g. a bad key); everyone else just gets the fallback results.
     return json({ provider: imageSearchProvider(), results, ...(user.role === "ADMIN" && lastSearchError ? { providerError: lastSearchError } : {}) });
   } catch (e) {

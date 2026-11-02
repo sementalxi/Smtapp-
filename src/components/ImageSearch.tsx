@@ -33,6 +33,7 @@ export function ImageSearch({
   const [more, setMore] = useState(false);
   const [moreBusy, setMoreBusy] = useState(false);
   const [lastQ, setLastQ] = useState("");
+  const [src, setSrc] = useState<"web" | "pinterest">("web");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -48,11 +49,11 @@ export function ImageSearch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function search(term = q) {
+  async function search(term = q, source = src) {
     if (term.trim().length < 2) return;
     setBusy(true);
     setErr("");
-    const res = await fetch(`/api/image-search?kind=${kind}&q=${encodeURIComponent(term.trim())}`);
+    const res = await fetch(`/api/image-search?kind=${kind}&src=${source}&q=${encodeURIComponent(term.trim())}`);
     const data = await res.json().catch(() => ({}));
     setBusy(false);
     if (res.ok) {
@@ -72,7 +73,7 @@ export function ImageSearch({
   async function loadMore() {
     setMoreBusy(true);
     const next = page + 1;
-    const res = await fetch(`/api/image-search?kind=${kind}&page=${next}&q=${encodeURIComponent(lastQ)}`);
+    const res = await fetch(`/api/image-search?kind=${kind}&src=${src}&page=${next}&q=${encodeURIComponent(lastQ)}`);
     const data = await res.json().catch(() => ({}));
     setMoreBusy(false);
     const fresh: Result[] = data.results ?? [];
@@ -137,6 +138,24 @@ export function ImageSearch({
           <button type="button" className="btn-ghost shrink-0 px-3" onClick={onClose} aria-label="Close">
             ✕
           </button>
+        </div>
+        <div className="flex gap-2 border-b border-line px-3 py-2">
+          {([
+            ["web", "🔎 Google"],
+            ["pinterest", "📌 Pinterest"],
+          ] as const).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => {
+                setSrc(id);
+                if (q.trim().length >= 2) search(q, id);
+              }}
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold ${src === id ? (id === "pinterest" ? "border-[#E60023] bg-[#E60023] text-white" : "border-lime bg-lime text-ink") : "border-line text-muted"}`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         <div className="min-h-[240px] flex-1 overflow-y-auto p-3">

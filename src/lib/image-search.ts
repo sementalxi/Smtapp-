@@ -104,9 +104,11 @@ async function wikipedia(q: string): Promise<ImageResult[]> {
   return out;
 }
 
-export async function searchImages(q: string, kind: "photo" | "logo", page = 1): Promise<ImageResult[]> {
+export async function searchImages(q: string, kind: "photo" | "logo", page = 1, source: "web" | "pinterest" = "web"): Promise<ImageResult[]> {
   const provider = imageSearchProvider();
-  const query = kind === "logo" && provider !== "free" ? `${q} logo crest png` : q;
+  const base = kind === "logo" && provider !== "free" ? `${q} logo crest png` : q;
+  // Pinterest: Google results limited to pinterest.com (Pinterest has no public search API).
+  const query = source === "pinterest" && provider !== "free" ? `${q} site:pinterest.com` : base;
   let results: ImageResult[] = [];
   lastSearchError = "";
   // Google/Brave first; if that fails (bad key, no credits…) fall back to the free sources instead of failing.
