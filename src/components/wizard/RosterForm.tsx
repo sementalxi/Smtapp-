@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useWakeLock } from "../useWakeLock";
 import { EMPTY_INPUTS } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
+import { SavedPicker, type SavedItem } from "./SavedPicker";
 import { waitForBanner } from "@/lib/wait-banner";
 
 type P = { photo: string | null; name: string; real: string };
@@ -15,8 +16,17 @@ const blank = (): P => ({ photo: null, name: "", real: "" });
 /** Roster banners: add several players, get one wide banner per player — all in the same design. */
 export function RosterForm({ templateId, credits: initialCredits, cost, es }: { templateId: string; credits: number; cost: number; es: boolean }) {
   const router = useRouter();
-  const [team, setTeam] = useState("");
-  const [crest, setCrest] = useState<string | null>(null);
+  const [teamItem, setTeamItem] = useState<SavedItem | null>(null);
+  const team = teamItem?.name ?? "";
+  const crest = teamItem?.logoUrl ?? null;
+  function pickTeam(t: SavedItem | null) {
+    setTeamItem(t);
+    // Saved players fill the rows (only the photos are left to add).
+    const roster = t?.players ?? [];
+    if (roster.length && players.every((p) => !p.photo && !p.name.trim())) {
+      setPlayers(roster.slice(0, 10).map((r) => ({ photo: null, name: r.name, real: "" })));
+    }
+  }
   const [players, setPlayers] = useState<P[]>([blank(), blank()]);
   const [results, setResults] = useState<R[]>([]);
   const [running, setRunning] = useState(false);
@@ -84,12 +94,13 @@ export function RosterForm({ templateId, credits: initialCredits, cost, es }: { 
 
       {!started && (
         <>
-          <div className="card grid gap-3 p-4 sm:grid-cols-2">
-            <div>
-              <label className="label">{es ? "Nombre del equipo" : "Team name"}</label>
-              <input className="input" maxLength={40} value={team} onChange={(e) => setTeam(e.target.value)} />
-            </div>
-            <ImageDrop kind="logo" label={es ? "Escudo del equipo (colores del banner)" : "Team crest (sets the colours)"} value={crest} onChange={setCrest} />
+          <div className="card space-y-2 p-4">
+            <SavedPicker kind="team" label={es ? "Equipo" : "Team"} value={teamItem} onChange={pickTeam} />
+            <p className="text-[11px] text-muted">
+              {teamItem?.logoUrl
+                ? es ? "✓ Los colores del banner salen del escudo del equipo." : "✓ The banner colours come from the team crest."
+                : es ? "Elige o registra tu equipo (con escudo para usar sus colores). Si tiene jugadores guardados, se llenan solos." : "Pick or register your team (add its crest to use its colours). Saved players fill in automatically."}
+            </p>
           </div>
 
           <div className="space-y-3">
