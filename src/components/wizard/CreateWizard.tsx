@@ -237,7 +237,7 @@ export function CreateWizard({
       competition: champ?.name ?? inp.competition,
       champLogoUrl: champ?.logoUrl ?? "",
       players: (layout === "LINEUP" ? lineupPlayers : lines(playersText)).slice(0, 18),
-      roster: lines(squadText).slice(0, 30),
+      roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
     };
   }
@@ -605,6 +605,9 @@ export function CreateWizard({
               )}
               <div>
                 <label className="label">{L.squad}</label>
+                {roster.length > 0 && lines(squadText).length > 0 && (
+                  <p className="mb-1.5 text-xs font-bold text-teal">✓ {lines(squadText).length} {locale === "es" ? `jugadores de ${team?.name} — saldrán en el póster` : `players from ${team?.name} — they'll be on the poster`}</p>
+                )}
                 <textarea className="input min-h-28" placeholder={L.squadPh} value={squadText} onChange={(e) => setSquadText(e.target.value)} />
               </div>
               {field({ label: L.prize, k: "prize", max: 24, ph: "$200 PRIZE" })}
