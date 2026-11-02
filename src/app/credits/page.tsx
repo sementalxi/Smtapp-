@@ -22,7 +22,7 @@ export default async function CreditsPage() {
   ]);
   const refunds = await db.creditTransaction.aggregate({ where: { userId: user.id, type: "REFUND" }, _sum: { amount: true } });
   const usedNet = Math.max(0, -(used._sum.amount ?? 0) - (refunds._sum.amount ?? 0));
-  const subscribed = !!user.subscriptionId && user.subscriptionStatus !== "canceled";
+  const subscribed = (!!user.subscriptionId || user.subscriptionStatus === "comp") && user.subscriptionStatus !== "canceled";
 
   return (
     <AccountShell user={user}>

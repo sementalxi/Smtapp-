@@ -646,8 +646,9 @@ export function buildProPrompt(opts: {
 async function qualityFor(userId: string) {
   const fallback = (await getSettings()).pro_quality;
   try {
-    const u = await db.user.findUnique({ where: { id: userId }, select: { planId: true, subscriptionStatus: true } });
-    if (u?.planId && ["active", "canceling", "pending", "trialing", "past_due"].includes(u.subscriptionStatus ?? "")) {
+    const u = await db.user.findUnique({ where: { id: userId }, select: { planId: true, subscriptionStatus: true, currentPeriodEnd: true } });
+    const comp = u?.subscriptionStatus === "comp" && !!u.currentPeriodEnd && u.currentPeriodEnd.getTime() > Date.now();
+    if (u?.planId && (comp || ["active", "canceling", "pending", "trialing", "past_due"].includes(u.subscriptionStatus ?? ""))) {
       const { loadPricing } = await import("./pricing");
       const plan = (await loadPricing()).plans.find((p) => p.id === u.planId);
       if (plan?.quality) return plan.quality;

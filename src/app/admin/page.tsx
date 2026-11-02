@@ -19,7 +19,7 @@ export default async function AdminHome() {
     db.user.count(),
     db.banner.count(),
     db.payment.aggregate({ where: { createdAt: { gte: since } }, _sum: { amountCents: true } }),
-    db.user.count({ where: { subscriptionStatus: { in: ["active", "trialing", "canceling"] } } }),
+    db.user.count({ where: { subscriptionStatus: { in: ["active", "trialing", "canceling", "comp"] } } }),
     db.creditTransaction.count({ where: { type: "GENERATION", createdAt: { gte: since } } }),
     db.user.aggregate({ _sum: { credits: true } }),
     db.creditTransaction.findMany({

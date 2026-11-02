@@ -35,7 +35,7 @@ export default async function DashboardPage() {
     }),
   ]);
   const first = user.name.split(" ")[0];
-  const subscribed = !!user.subscriptionId && user.subscriptionStatus !== "canceled";
+  const subscribed = (!!user.subscriptionId || user.subscriptionStatus === "comp") && user.subscriptionStatus !== "canceled";
 
   return (
     <AccountShell user={user}>

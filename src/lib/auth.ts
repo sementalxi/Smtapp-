@@ -16,6 +16,19 @@ export const getCurrentUser = cache(async () => {
     await db.user.update({ where: { id: user.id }, data: { role: "ADMIN" } }).catch(() => {});
     user.role = "ADMIN";
   }
+  // Free (gift) plans: add this month's credits on the first visit of the month; expire when the end date passes.
+  if (user.subscriptionStatus === "comp") {
+    const { topUpComp, isCompActive } = await import("./comp-plan");
+    if (isCompActive(user)) {
+      if (await topUpComp(user).catch(() => false)) {
+        const fresh = await db.user.findUnique({ where: { id: user.id }, select: { credits: true } });
+        if (fresh) user.credits = fresh.credits;
+      }
+    } else {
+      await db.user.update({ where: { id: user.id }, data: { subscriptionStatus: "canceled" } }).catch(() => {});
+      user.subscriptionStatus = "canceled";
+    }
+  }
   return user;
 });
 

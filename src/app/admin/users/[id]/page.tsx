@@ -5,7 +5,8 @@ import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/lib/auth";
 import { TxTable } from "@/components/TxTable";
 import { BannerGrid } from "@/components/BannerGrid";
-import { CreditAdjust, ResetLink, UserFlags } from "@/components/admin/UserControls";
+import { CreditAdjust, GivePlan, ResetLink, UserFlags } from "@/components/admin/UserControls";
+import { loadPricing } from "@/lib/pricing";
 
 export default async function AdminUserPage({ params }: { params: Promise<{ id: string }> }) {
   const me = await requireAdmin();
@@ -43,6 +44,14 @@ export default async function AdminUserPage({ params }: { params: Promise<{ id: 
           <div className="mt-3">
             <UserFlags userId={user.id} role={user.role} banned={user.banned} self={user.id === me.id} />
             <ResetLink userId={user.id} es={locale === "es"} />
+            <GivePlan
+              userId={user.id}
+              es={locale === "es"}
+              plans={(await loadPricing()).plans.map((p) => ({ id: p.id, name: p.name, monthlyCredits: p.monthlyCredits }))}
+              current={user.subscriptionStatus === "comp" ? user.planId : null}
+              until={user.subscriptionStatus === "comp" && user.currentPeriodEnd ? user.currentPeriodEnd.toISOString() : null}
+              paying={!!user.subscriptionId && ["active", "canceling", "pending", "past_due"].includes(user.subscriptionStatus ?? "")}
+            />
           </div>
         </div>
         <div className="ml-auto text-right">

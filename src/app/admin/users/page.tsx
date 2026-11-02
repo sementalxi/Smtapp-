@@ -145,7 +145,7 @@ export default async function AdminUsers({
         <div className="grid gap-3 md:grid-cols-2">
           {users.map((u) => {
             const last = u.banners[0]?.createdAt;
-            const subbed = !!u.subscriptionId && u.subscriptionStatus !== "canceled";
+            const subbed = (!!u.subscriptionId || u.subscriptionStatus === "comp") && u.subscriptionStatus !== "canceled";
             return (
               <div key={u.id} className={`card p-4 ${u.banned ? "opacity-60" : ""}`}>
                 <div className="flex items-start gap-3">

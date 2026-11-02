@@ -131,3 +131,53 @@ export function ResetLink({ userId, es }: { userId: string; es: boolean }) {
     </div>
   );
 }
+
+/** Admin: give a free plan (monthly credits + the plan's AI quality) for N months. */
+export function GivePlan({ userId, plans, current, until, paying, es }: { userId: string; plans: { id: string; name: string; monthlyCredits: number }[]; current: string | null; until: string | null; paying: boolean; es: boolean }) {
+  const router = useRouter();
+  const [plan, setPlan] = useState(current ?? plans[0]?.id ?? "");
+  const [months, setMonths] = useState(1);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState("");
+  async function send(planId: string | null) {
+    setBusy(true);
+    setMsg("");
+    const r = await fetch(`/api/admin/users/${userId}/plan`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ planId, months }) });
+    const d = await r.json().catch(() => ({}));
+    setBusy(false);
+    if (r.ok) {
+      setMsg(planId ? (es ? "✅ Plan activado y créditos del mes añadidos" : "✅ Plan on and this month's credits added") : es ? "✅ Plan quitado" : "✅ Plan removed");
+      router.refresh();
+    } else setMsg(d.error === "paying" ? (es ? "❌ Este usuario ya paga una suscripción" : "❌ This user already pays for a subscription") : es ? "❌ No se pudo" : "❌ Couldn't do it");
+  }
+  return (
+    <div className="card space-y-2 p-4 text-sm">
+      <div className="font-bold">⭐ {es ? "Dar un plan gratis" : "Give a free plan"}</div>
+      {paying ? (
+        <p className="text-xs text-muted">{es ? "Tiene una suscripción pagada activa." : "Has an active paid subscription."}</p>
+      ) : (
+        <>
+          {current && until && <p className="text-xs text-teal">{es ? "Plan regalado hasta" : "Gift plan until"} {new Date(until).toLocaleDateString()}</p>}
+          <div className="grid grid-cols-[minmax(0,1fr)_6.5rem] gap-2">
+            <select className="input" value={plan} onChange={(e) => setPlan(e.target.value)}>
+              {plans.map((p) => (
+                <option key={p.id} value={p.id}>{p.name} · {p.monthlyCredits} {es ? "créditos/mes" : "credits/mo"}</option>
+              ))}
+            </select>
+            <select className="input" value={months} onChange={(e) => setMonths(Number(e.target.value))}>
+              {[1, 2, 3, 6, 12].map((m) => (
+                <option key={m} value={m}>{m} {es ? (m === 1 ? "mes" : "meses") : m === 1 ? "month" : "months"}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex gap-2">
+            <button type="button" className="btn-primary flex-1" disabled={busy || !plan} onClick={() => send(plan)}>{busy ? "…" : current ? (es ? "Cambiar / extender" : "Change / extend") : es ? "Dar plan" : "Give plan"}</button>
+            {current && <button type="button" className="btn-ghost" disabled={busy} onClick={() => send(null)}>{es ? "Quitar" : "Remove"}</button>}
+          </div>
+          <p className="text-[11px] text-muted">{es ? "Recibe los créditos del plan cada mes y la calidad de IA del plan, hasta la fecha." : "They get the plan's credits every month and its AI quality, until the end date."}</p>
+        </>
+      )}
+      {msg && <p className="text-xs">{msg}</p>}
+    </div>
+  );
+}
