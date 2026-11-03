@@ -10,7 +10,7 @@ const DISCORD = (
 );
 
 /** Launch page shown to everyone (except admins) while "coming soon" mode is on. */
-export function ComingSoon({ user }: { user: { name: string; discord: boolean; discordName: string | null } | null }) {
+export function ComingSoon({ user, bonus = 0 }: { user: { name: string; discord: boolean; discordName: string | null } | null; bonus?: number }) {
   const { locale } = useT();
   const es = locale === "es";
   return (
@@ -47,6 +47,15 @@ export function ComingSoon({ user }: { user: { name: string; discord: boolean; d
             <a href="/api/auth/discord" className="kixo-shine mt-6 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#5865F2] px-6 py-4 text-base font-extrabold text-white shadow-[0_14px_40px_-12px_rgba(88,101,242,0.9)] transition hover:brightness-110">
               {DISCORD} {es ? "Crear cuenta con Discord" : "Sign up with Discord"}
             </a>
+            {bonus > 0 && (
+              <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-lime/40 bg-lime/10 px-4 py-2.5 text-sm font-bold">
+                <span className="text-lg">🎁</span>
+                <span>
+                  {es ? "Regístrate y recibe " : "Sign up and get "}
+                  <span className="lime-text font-extrabold">+{bonus} {es ? "créditos extra" : "bonus credits"}</span>
+                </span>
+              </div>
+            )}
             <p className="mt-4 text-xs text-muted">
               {es ? "¿Ya tienes cuenta? " : "Already have an account? "}
               <Link href="/login" className="font-bold text-lime hover:text-white">{es ? "Inicia sesión" : "Log in"}</Link>

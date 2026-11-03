@@ -25,9 +25,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const chosen = !!(await cookies()).get("kixo_lang_asked")?.value;
   let notice = "";
   let soon = false;
+  let dBonus = 0;
   try {
     const st = await getSettings();
     notice = st.maintenance_message;
+    dBonus = Number(st.discord_bonus) || 0;
     if (st.coming_soon === "1") {
       // Coming-soon mode: everyone except admins sees the launch page; sign-up/login pages stay open.
       const path = (await headers()).get("x-kixo-path") ?? "/";
@@ -46,7 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
             <div className="kixo-grain" aria-hidden />
             <RefCapture />
-            <ComingSoon user={me ? { name: me.name, discord: !!me.discordId, discordName: me.discordName } : null} />
+            <ComingSoon bonus={dBonus} user={me ? { name: me.name, discord: !!me.discordId, discordName: me.discordName } : null} />
           </I18nProvider>
         </body>
       </html>
