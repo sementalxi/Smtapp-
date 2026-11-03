@@ -20,30 +20,41 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
-  "player-ultras-gold": `ULTRAS GOLD — a navy-and-gold pro-clubs player card on an ultras night, like a top club's signing graphic. Photoreal and premium.
+  "player-ultras-gold": `ULTRAS GOLD — a navy-and-gold pro-clubs player card on an ultras night, like the official signing graphic of a top European club. Photoreal, premium, razor-sharp — every element clean and intentional.
 
 COLOURS
-- Deep navy and rich gold (or the two colours from the COLOURS line below in the same roles) over near-black.
+- Deep navy and rich metallic GOLD (or the two colours from the COLOURS line below in the same roles) over near-black. Gold is the light: every highlight, rim light, spark and edge glows gold.
 
-BACKGROUND
-- A packed ultras stand at night: crowd silhouettes with raised arms, burning GOLD flares and golden smoke, big waving flags, glowing embers and gold dust floating in the air.
-- The team crest (if a crest reference image is provided) GIANT in the upper right background as a dark brushed-metal emblem, faint and moody; otherwise a giant dark metal ring shape with no letters.
-- A wet, glossy floor at the bottom reflecting the gold light.
+BACKGROUND (deep, layered, never muddy)
+- A packed ultras stand at night, slightly out of focus (real shallow depth of field): crowd silhouettes with raised arms, a few big GOLD flares burning with real bright cores and golden smoke drifting up, 2–3 large navy flags waving.
+- Soft volumetric gold light beams from the top, fine gold dust and embers floating in the air (some in front of the figures, slightly blurred, for depth).
+- A WET, glossy black floor at the bottom with crisp mirror reflections of the player, the number and the flares.
+- Keep the background darker and calmer behind the text so every word reads perfectly.
+
+THE CREST
+- ONLY if a crest reference image is provided: place it in the UPPER RIGHT, FULLY INSIDE the poster (never cut off by the edges — leave a clear margin on the top and right), about 38% of the poster width, as a premium 3D emblem in brushed dark metal with gold edges, real reflections and a soft gold glow, faithful to its artwork. Otherwise: no crest at all — just a soft gold light burst there.
+- Never copy a badge from the player's shirt.
 
 THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
-1. BEHIND (upper left): a big bust of the player with arms crossed and a cold, confident look, gold rim light.
-2. IN FRONT (centre-right): full body, standing tall with arms crossed on the wet floor, sharp, gold rim light, reflection under the feet.
+1. BEHIND (upper left, ~55% of the height): a big waist-up portrait with arms crossed and a cold, confident look straight at the camera, slightly darker and blended softly into the background, gold rim light on the shoulders and hair.
+2. IN FRONT (centre-right): FULL BODY from head to feet, standing tall with arms crossed on the wet floor, the sharpest element of the poster — crisp detail, natural skin, strong gold rim light separating them from the background, a real reflection under the feet. Feet fully visible, never cut off.
+- Calm, confident faces — no screaming.
 
-TYPOGRAPHY & LAYOUT
-- Left, middle: the POSITION in a small gold tag box with black capitals.
-- Under it the TEAM NAME (if given) in sharp gothic / blackletter-edged polished CHROME 3D capitals with gold edges and sparkles.
-- Under that the player NAME huge in tall condensed white capitals with a cracked texture.
-- The subtitle (if given) in gold brush script; the footer (if given) in a small dark plaque with a gold frame at the very bottom left.
-- Right: the jersey NUMBER giant as a thin glowing GOLD outline.
+TYPOGRAPHY & LAYOUT (left side, stacked, aligned on one left margin)
+1. The POSITION in a small solid GOLD tag box with bold black capitals and a thin dark bevel.
+2. The tagline (if given) in an elegant gold brush script right above the name, spelled exactly.
+3. The TEAM NAME (if given) in sharp gothic / blackletter-edged polished CHROME 3D capitals with gold edges and small sparkles.
+4. The player NAME HUGE in tall ultra-condensed white capitals with a subtle cracked-stone texture, a hard drop shadow and a faint gold edge light.
+5. The subtitle (if given) in a big gold brush script slashing across the bottom of the name with a swoosh underline.
+6. The footer (if given) in a small dark plaque with a thin gold frame at the bottom left.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing GOLD neon outline in a tall condensed style, partly behind the full-body figure, with its reflection on the wet floor.
+- Leave the top-left corner calm (the brand mark goes there).
+
+QUALITY
+- Photoreal and cinematic like a real photo shoot composited by a pro designer: true lighting, real metal and fabric, deep blacks with detail, fine grain, razor-sharp lettering — never blurry, muddy, melted or misspelled.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Calm, confident faces — no screaming. Never copy a badge or logo from the player's shirt; a crest appears only if a crest reference image is provided.
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
 - Ignore the placement hints in the text list below — follow this layout.`,
   "player-teal-inferno": `TEAL INFERNO — a teal-and-orange fire player card, aggressive and cinematic, like an esports org's signing reveal. Photoreal and premium.
 
@@ -988,6 +999,31 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
+  "player-ultras-gold": `ULTRAS GOLD — a navy-and-gold pro-clubs player card on an ultras night, like a top club's signing graphic. Photoreal and premium.
+
+COLOURS
+- Deep navy and rich gold (or the two colours from the COLOURS line below in the same roles) over near-black.
+
+BACKGROUND
+- A packed ultras stand at night: crowd silhouettes with raised arms, burning GOLD flares and golden smoke, big waving flags, glowing embers and gold dust floating in the air.
+- The team crest (if a crest reference image is provided) GIANT in the upper right background as a dark brushed-metal emblem, faint and moody; otherwise a giant dark metal ring shape with no letters.
+- A wet, glossy floor at the bottom reflecting the gold light.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
+1. BEHIND (upper left): a big bust of the player with arms crossed and a cold, confident look, gold rim light.
+2. IN FRONT (centre-right): full body, standing tall with arms crossed on the wet floor, sharp, gold rim light, reflection under the feet.
+
+TYPOGRAPHY & LAYOUT
+- Left, middle: the POSITION in a small gold tag box with black capitals.
+- Under it the TEAM NAME (if given) in sharp gothic / blackletter-edged polished CHROME 3D capitals with gold edges and sparkles.
+- Under that the player NAME huge in tall condensed white capitals with a cracked texture.
+- The subtitle (if given) in gold brush script; the footer (if given) in a small dark plaque with a gold frame at the very bottom left.
+- Right: the jersey NUMBER giant as a thin glowing GOLD outline.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- Calm, confident faces — no screaming. Never copy a badge or logo from the player's shirt; a crest appears only if a crest reference image is provided.
+- Ignore the placement hints in the text list below — follow this layout.`,
   "player-liquid-copper": `LIQUID COPPER — a cinematic pro-clubs / esports player card in a teal-and-copper colour grade, like key art from a top club design studio. Epic, glossy, premium.
 
 COLOURS
