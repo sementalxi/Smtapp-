@@ -22,6 +22,7 @@ export function SupportChat() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [unread, setUnread] = useState(0);
+  const [topic, setTopic] = useState<"" | "support" | "custom">("");
   const seen = useRef<number>(0);
   const box = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -67,7 +68,7 @@ export function SupportChat() {
     const tmp: Msg = { id: `tmp-${Date.now()}`, from: "me", name: "", text: t, images: imageUrl ? [imageUrl] : [], at: new Date().toISOString() };
     setMsgs((m) => [...m, tmp]);
     setText("");
-    const r = await fetch("/api/support", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: t, imageUrl }) });
+    const r = await fetch("/api/support", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: t, imageUrl, topic: topic || "support" }) });
     const d = await r.json().catch(() => ({}));
     setBusy(false);
     if (!r.ok) {
@@ -96,6 +97,7 @@ export function SupportChat() {
     await fetch("/api/support/close", { method: "POST" }).catch(() => {});
     setHasTicket(false);
     setClosed(true);
+    setTopic("");
   }
 
   const time = (s: string) => new Date(s).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -138,6 +140,33 @@ export function SupportChat() {
               <div className="rounded-2xl border border-line bg-panel-2 p-3 text-sm text-white/85">
                 👋 {es ? "¡Hola! Escríbenos tu pregunta o problema y un miembro del equipo te responde aquí mismo." : "Hi! Tell us your question or problem and a team member will reply right here."}
               </div>
+              {enabled && !hasTicket && !topic && (
+                <div className="grid gap-2">
+                  {([
+                    ["support", "🛟", es ? "Soporte" : "Support", es ? "Ayuda con tu cuenta, créditos, pagos o un póster." : "Help with your account, credits, payments or a poster."],
+                    ["custom", "🎨", es ? "Banner personalizado" : "Custom banner", es ? "Pide un diseño hecho a mano por nuestro equipo." : "Order a design made by hand by our team."],
+                  ] as const).map(([k, icon, title, desc]) => (
+                    <button key={k} type="button" onClick={() => setTopic(k)} className="flex items-center gap-3 rounded-2xl border border-line bg-panel-2 p-3 text-left transition hover:border-lime/60 active:scale-[0.99]">
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-lime/15 text-2xl">{icon}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-extrabold">{title}</span>
+                        <span className="block text-xs text-muted">{desc}</span>
+                      </span>
+                      <span className="text-lime">›</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {enabled && !hasTicket && topic && (
+                <div className="flex items-center justify-between gap-2 rounded-xl border border-lime/40 bg-lime/10 px-3 py-2 text-sm">
+                  <span>
+                    {topic === "custom"
+                      ? es ? "🎨 Banner personalizado — cuéntanos qué quieres (tipo, nombres, colores) y adjunta fotos/logos con 📎." : "🎨 Custom banner — tell us what you want (type, names, colors) and attach photos/logos with 📎."
+                      : es ? "🛟 Soporte — escribe tu pregunta o problema." : "🛟 Support — type your question or problem."}
+                  </span>
+                  {msgs.length === 0 && <button type="button" onClick={() => setTopic("")} className="shrink-0 text-xs font-bold text-muted hover:text-white">{es ? "Cambiar" : "Change"}</button>}
+                </div>
+              )}
               {!enabled && <p className="text-center text-sm text-muted">{es ? "El soporte no está disponible ahora." : "Support isn't available right now."}</p>}
               {msgs.map((m) =>
                 m.from === "system" ? (
@@ -174,17 +203,17 @@ export function SupportChat() {
               className="flex items-end gap-2 border-t border-line p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
             >
               <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) attach(f); e.target.value = ""; }} />
-              <button type="button" aria-label="Attach picture" disabled={busy || !enabled} onClick={() => fileRef.current?.click()} className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line text-lg text-muted hover:text-white">📎</button>
+              <button type="button" aria-label="Attach picture" disabled={busy || !enabled || (!hasTicket && !topic)} onClick={() => fileRef.current?.click()} className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line text-lg text-muted hover:text-white">📎</button>
               <textarea
                 rows={1}
                 value={text}
-                disabled={!enabled}
+                disabled={!enabled || (!hasTicket && !topic)}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-                placeholder={es ? "Escribe tu mensaje…" : "Type your message…"}
+                placeholder={!hasTicket && !topic ? (es ? "Elige una opción arriba…" : "Pick an option above…") : es ? "Escribe tu mensaje…" : "Type your message…"}
                 className="input max-h-32 min-h-11 flex-1 resize-none py-2.5 text-base"
               />
-              <button type="submit" disabled={busy || !text.trim() || !enabled} className="btn-primary h-11 shrink-0 px-4 text-sm">{busy ? "…" : es ? "Enviar" : "Send"}</button>
+              <button type="submit" disabled={busy || !text.trim() || !enabled || (!hasTicket && !topic)} className="btn-primary h-11 shrink-0 px-4 text-sm">{busy ? "…" : es ? "Enviar" : "Send"}</button>
             </form>
           </div>
         </div>

@@ -40,14 +40,14 @@ async function supportCategory(g: string): Promise<string> {
   return ((await cat.json()) as { id: string }).id;
 }
 
-export async function openTicket(userId: string) {
+export async function openTicket(userId: string, topic: "support" | "custom" = "support") {
   const existing = await db.supportTicket.findFirst({ where: { userId, status: "open" }, orderBy: { createdAt: "desc" } });
   if (existing) return existing;
   const g = guildId();
   const u = await db.user.findUnique({ where: { id: userId }, select: { name: true, email: true, credits: true, discordId: true, planId: true } });
   if (!u) throw new Error("no_user");
   const parent = await supportCategory(g);
-  const ch = await botCall(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name: `ticket-${slug(u.name)}`, type: 0, parent_id: parent, topic: `KIXO website support · ${u.email}` }) });
+  const ch = await botCall(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name: `${topic === "custom" ? "order" : "ticket"}-${slug(u.name)}`, type: 0, parent_id: parent, topic: `KIXO website ${topic === "custom" ? "custom banner order" : "support"} · ${u.email}` }) });
   if (!ch.ok) throw new Error(ch.status === 403 ? "no_permission" : `http_${ch.status}`);
   const channelId = ((await ch.json()) as { id: string }).id;
   const wh = await botCall(`/channels/${channelId}/webhooks`, { method: "POST", body: JSON.stringify({ name: "KIXO Support" }) });
@@ -57,11 +57,11 @@ export async function openTicket(userId: string) {
   await botCall(`/channels/${channelId}/messages`, {
     method: "POST",
     body: JSON.stringify({
-      content: role ? `<@&${role}> new website ticket` : undefined,
+      content: role ? `<@&${role}> new website ${topic === "custom" ? "custom banner order 🎨" : "support ticket 🛟"}` : undefined,
       allowed_mentions: { roles: role ? [role] : [] },
       embeds: [
         {
-          title: `🎫 Support ticket — ${u.name}`,
+          title: topic === "custom" ? `🎨 Custom banner order — ${u.name}` : `🛟 Support ticket — ${u.name}`,
           description: "Reply in this channel — the user sees your messages live on kixo.pro.\nTap **🔒 End chat** (or type **!close**) to end it.",
           color: 0xff2e88,
           fields: [

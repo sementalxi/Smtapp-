@@ -27,7 +27,7 @@ export const GET = handle(async () => {
   return json({ enabled: true, ticket: { id: t.id }, messages: r?.messages ?? [] });
 });
 
-const Body = z.object({ text: z.string().trim().max(1900).default(""), imageUrl: z.string().max(500).optional() });
+const Body = z.object({ text: z.string().trim().max(1900).default(""), imageUrl: z.string().max(500).optional(), topic: z.enum(["support", "custom"]).default("support") });
 
 /** Send a message (opens a ticket on the first message). */
 export const POST = handle(async (req: NextRequest) => {
@@ -41,7 +41,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (img && !/^https:\/\//.test(img)) throw new HttpError(400, "bad_image");
   let t;
   try {
-    t = await openTicket(user.id);
+    t = await openTicket(user.id, b.topic);
   } catch (e) {
     return json({ error: e instanceof Error ? e.message : "error" }, 502);
   }
@@ -49,7 +49,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (r === "gone") {
     // Staff deleted the channel — start a fresh ticket.
     await db.supportTicket.update({ where: { id: t.id }, data: { status: "closed" } });
-    t = await openTicket(user.id);
+    t = await openTicket(user.id, b.topic);
     r = await sendFromUser(t, user, b.text, img);
   }
   return r === "ok" ? json({ ok: true }) : json({ error: "send_failed" }, 502);
