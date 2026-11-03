@@ -62,7 +62,7 @@ export async function openTicket(userId: string) {
       embeds: [
         {
           title: `🎫 Support ticket — ${u.name}`,
-          description: "Reply in this channel — the user sees your messages live on kixo.pro.\nType **!close** to close the ticket.",
+          description: "Reply in this channel — the user sees your messages live on kixo.pro.\nTap **🔒 End chat** (or type **!close**) to end it.",
           color: 0xff2e88,
           fields: [
             { name: "Email", value: u.email.slice(0, 200), inline: true },
@@ -74,6 +74,7 @@ export async function openTicket(userId: string) {
           timestamp: new Date().toISOString(),
         },
       ],
+      components: [{ type: 1, components: [{ type: 2, style: 4, custom_id: `kxsupport:close:${channelId}`, label: "End chat", emoji: { name: "🔒" } }] }],
     }),
   });
   return db.supportTicket.create({ data: { userId, channelId, webhookUrl: `https://discord.com/api/webhooks/${w.id}/${w.token}` } });
@@ -105,7 +106,7 @@ export async function readTicket(ticket: { channelId: string; webhookUrl: string
   const raw = (await r.json()) as {
     id: string; content: string; timestamp: string; webhook_id?: string;
     author: { id: string; username: string; global_name?: string | null; avatar?: string | null; bot?: boolean };
-    attachments?: { url: string; content_type?: string }[]; embeds?: { image?: { url: string }; title?: string }[];
+    attachments?: { url: string; content_type?: string }[]; embeds?: { image?: { url: string }; title?: string; description?: string }[];
   }[];
   let closed = false;
   const out: ChatMsg[] = [];
@@ -115,7 +116,11 @@ export async function readTicket(ticket: { channelId: string; webhookUrl: string
       out.push({ id: m.id, from: "me", name: "", text: m.content, images, at: m.timestamp });
       continue;
     }
-    if (m.author.bot) continue; // the intro card and other bots
+    if (m.author.bot) {
+      // "🔒 Chat ended by …" from the End chat button (or the website) closes the ticket.
+      if ((m.embeds ?? []).some((e) => /^🔒/.test(e.description ?? ""))) { closed = true; out.push({ id: m.id, from: "system", name: "", text: "closed", images: [], at: m.timestamp }); }
+      continue; // the intro card and other bot messages
+    }
     if (/^!close\b/i.test(m.content.trim())) { closed = true; out.push({ id: m.id, from: "system", name: "", text: "closed", images: [], at: m.timestamp }); continue; }
     out.push({
       id: m.id,

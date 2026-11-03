@@ -35,6 +35,9 @@ export function SupportChat() {
     if (Array.isArray(d.messages)) setMsgs(d.messages);
   }, []);
 
+  // On page load: is there an open ticket? (shows the 💬 bubble in the corner)
+  useEffect(() => { load(); }, [load]);
+
   useEffect(() => {
     const h = () => { setOpen(true); setClosed(false); load(); };
     window.addEventListener("kixo:support", h);
@@ -99,9 +102,17 @@ export function SupportChat() {
 
   return (
     <>
-      {!open && unread > 0 && (
-        <button type="button" onClick={() => setOpen(true)} className="fixed bottom-5 right-4 z-[60] flex items-center gap-2 rounded-full bg-lime px-4 py-3 text-sm font-extrabold text-ink shadow-[0_10px_30px_-8px] shadow-lime/70">
-          💬 {es ? "Soporte respondió" : "Support replied"} <span className="grid h-5 min-w-5 place-items-center rounded-full bg-ink px-1 text-[11px] text-lime">{unread}</span>
+      {!open && (hasTicket || unread > 0) && (
+        <button
+          type="button"
+          aria-label={es ? "Abrir chat de soporte" : "Open support chat"}
+          onClick={() => { setOpen(true); load(); }}
+          className="kixo-float fixed bottom-5 right-4 z-[60] grid h-14 w-14 place-items-center rounded-full bg-[#5865F2] text-2xl shadow-[0_10px_30px_-6px_rgba(88,101,242,0.9)] ring-2 ring-white/20 transition hover:scale-110"
+        >
+          💬
+          {unread > 0 && (
+            <span className="absolute -right-1 -top-1 grid h-6 min-w-6 place-items-center rounded-full bg-lime px-1 text-xs font-black text-ink ring-2 ring-ink">{unread}</span>
+          )}
         </button>
       )}
       {open && (
