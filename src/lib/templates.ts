@@ -230,7 +230,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
       fallback: ["#0b0507", "#4a0710", "#e3102b"],
       particles: "sparks",
       ghost: true,
-      giantText: true,
+      giantText: false,
       streaks: true,
     },
   },

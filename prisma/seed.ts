@@ -52,6 +52,16 @@ async function main() {
       data: { proInstructions: text },
     });
   }
+  // One-time (owner's request): Neon Gothic — no giant white repeat of the name behind the gothic name.
+  if (!(await db.setting.findUnique({ where: { key: "neon_gothic_no_white_echo" } }))) {
+    const t = await db.template.findUnique({ where: { slug: "neon-gothic" } });
+    if (t) {
+      const rule =
+        "NO WHITE ECHO TEXT: never repeat the player's name (or any word) as giant white, pale or outlined letters behind or under the main name. The name appears ONCE only, in the gothic lettering. No big white text blocks anywhere — the background stays imagery, light and effects only.";
+      await db.template.update({ where: { id: t.id }, data: { proInstructions: `${(t.proInstructions ?? "").trim()}\n\n${rule}`.trim(), prompt: t.prompt.replace(/giant (white )?(background )?(letters|lettering)[^,]*,?/gi, "") } });
+    }
+    await db.setting.create({ data: { key: "neon_gothic_no_white_echo", value: new Date().toISOString() } });
+  }
   // One-time: Gold XI becomes "Shatter XI" (team colours, no gold) — the owner's request.
   if (!(await db.setting.findUnique({ where: { key: "upgrade_lineup_gold_v2" } }))) {
     await db.template.updateMany({ where: { slug: "lineup-gold" }, data: { name: "Shatter XI", nameEs: "Once Estallido", proInstructions: PRESET_INSTRUCTIONS["lineup-gold"] } });
