@@ -39,8 +39,32 @@ type Row = CreditTransaction & { user?: { id: string; email: string } | null; ad
 
 export function TxTable({ rows, locale, showUser }: { rows: Row[]; locale: string; showUser?: boolean }) {
   const es = locale === "es";
+  const note = (r: Row) => (es ? (r.note && NOTE_ES[r.note]) || (r.note?.startsWith("Credit pack") ? r.note.replace("Credit pack", "Paquete de créditos") : r.note?.startsWith("Monthly credits") ? r.note.replace("Monthly credits", "Créditos mensuales") : r.note) : r.note);
   return (
-    <table className="table">
+    <>
+    {/* Phones: one clean row per movement */}
+    <ul className="divide-y divide-line md:hidden">
+      {rows.map((r) => (
+        <li key={r.id} className="flex items-center gap-3 px-4 py-3">
+          <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-black ${r.amount > 0 ? "bg-lime/15 text-lime" : "bg-danger/10 text-danger"}`}>
+            {r.amount > 0 ? "+" : ""}
+            {r.amount}
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className={`block text-xs font-bold ${TYPE_STYLE[r.type] ?? ""}`}>{(TYPE_LABEL[r.type] ?? [r.type, r.type])[es ? 1 : 0]}</span>
+            {showUser && r.user && (
+              <Link href={`/admin/users/${r.user.id}`} className="block truncate text-sm hover:text-lime">{r.user.email}</Link>
+            )}
+            <span className="block truncate text-[11px] text-muted">
+              {r.createdAt.toLocaleString(locale, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}
+              {note(r) ? ` · ${note(r)}` : ""}
+            </span>
+          </span>
+          <span className="shrink-0 text-right text-xs text-muted">⚡{r.balance}</span>
+        </li>
+      ))}
+    </ul>
+    <table className="table hidden md:table">
       <thead>
         <tr>
           <th>{es ? "Fecha" : "Date"}</th>
@@ -78,5 +102,6 @@ export function TxTable({ rows, locale, showUser }: { rows: Row[]; locale: strin
         ))}
       </tbody>
     </table>
+    </>
   );
 }

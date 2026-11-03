@@ -119,28 +119,42 @@ export default async function AdminHome() {
   ] as const;
   const missing = setup.filter(([, , ok, optional]) => !ok && !optional).length;
 
-  return (
-    <div className="space-y-6">
-      <h1 className="font-display text-4xl">{t("admin_overview")}</h1>
-      <LaunchControls es={es} />
+  const okCount = setup.filter(([, , ok]) => ok).length;
+  const short = (n: string) => n.split(" (")[0];
+  const why = (n: string) => (n.includes(" (") ? n.slice(n.indexOf(" (") + 2, -1) : "");
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <h1 className="font-display text-4xl">{t("admin_overview")}</h1>
+        <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
+          {hasSquare && <span className={`rounded-full border px-2.5 py-1 ${squareConnected ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300" : "border-amber-400/40 bg-amber-400/10 text-amber-200"}`}>💳 Square {squareConnected ? "✓" : "!"}</span>}
+          <span className={`rounded-full border px-2.5 py-1 ${missing ? "border-amber-400/40 bg-amber-400/10 text-amber-200" : "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"}`}>⚙️ {missing ? `${missing} ${es ? "falta(n)" : "missing"}` : es ? "Todo bien" : "All good"}</span>
+        </div>
+      </div>
+
+      {/* Numbers */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {stats.map(([label, value]) => (
-          <div key={label} className="rounded-2xl border border-line bg-gradient-to-br from-panel-2 to-panel p-4">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-muted">{label}</div>
-            <div className="font-display mt-1 text-3xl tabular-nums sm:text-4xl">{value}</div>
+          <div key={label} className="rounded-2xl border border-line bg-gradient-to-br from-panel-2 to-panel p-3 sm:p-4">
+            <div className="line-clamp-1 text-[9px] font-bold uppercase tracking-widest text-muted sm:text-[10px]">{label}</div>
+            <div className="font-display mt-1 text-2xl tabular-nums sm:text-4xl">{value}</div>
           </div>
         ))}
       </div>
 
       {warnings.length > 0 && (
-        <ul className="card space-y-1 border-amber-400/40 p-4 text-sm text-amber-200">
+        <ul className="space-y-1.5">
           {warnings.map((w) => (
-            <li key={w}>⚠ {w}</li>
+            <li key={w} className="flex gap-2 rounded-xl border border-amber-400/30 bg-amber-400/5 px-3 py-2 text-xs text-amber-100">
+              <span>⚠️</span>
+              <span>{w}</span>
+            </li>
           ))}
         </ul>
       )}
 
+      {/* Quick actions */}
       <div>
         <div className="mb-2 text-[11px] font-bold uppercase tracking-widest text-muted">{es ? "Acciones rápidas" : "Quick actions"}</div>
         <div className="grid grid-cols-4 gap-2">
@@ -153,40 +167,80 @@ export default async function AdminHome() {
         </div>
       </div>
 
-      {hasStripe && !hasWebhook && <ConnectStripeButton es={es} />}
-      {hasSquare && <ConnectSquareButton es={es} connected={squareConnected} />}
+      {/* Launch, Discord role, support — folded so the page stays clean */}
+      <details className="group card overflow-hidden">
+        <summary className="flex cursor-pointer list-none items-center gap-3 p-4">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-lime/15 text-xl">🚀</span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-bold">{es ? "Lanzamiento, rol de Discord y soporte" : "Launch, Discord role & support"}</span>
+            <span className="block text-xs text-muted">{es ? "Modo Muy pronto · rol al conectar · chat de soporte" : "Coming soon mode · link role · support chat"}</span>
+          </span>
+          <span className="text-muted transition group-open:rotate-180">▾</span>
+        </summary>
+        <div className="border-t border-line p-2 sm:p-3">
+          <LaunchControls es={es} />
+        </div>
+      </details>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
-        <div className="card overflow-x-auto">
-          <div className="flex items-center justify-between p-4">
+      {hasStripe && !hasWebhook && <ConnectStripeButton es={es} />}
+      {hasSquare && !squareConnected && <ConnectSquareButton es={es} connected={squareConnected} />}
+
+      <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
+        <div className="card overflow-hidden">
+          <div className="flex items-center justify-between p-4 pb-2">
             <h2 className="font-bold">{t("admin_tx")}</h2>
-            <Link href="/admin/transactions" className="text-xs text-lime">{t("all")} →</Link>
+            <Link href="/admin/transactions" className="text-xs font-bold text-lime">{t("all")} →</Link>
           </div>
-          <TxTable rows={recentTx} locale={locale} showUser />
+          <div className="md:overflow-x-auto">
+            <TxTable rows={recentTx} locale={locale} showUser />
+          </div>
         </div>
         <div className="card p-4">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="font-bold">{t("admin_users")}</h2>
-            <Link href="/admin/users" className="text-xs text-lime">{t("all")} →</Link>
+            <h2 className="font-bold">{es ? "Usuarios nuevos" : "New users"}</h2>
+            <Link href="/admin/users" className="text-xs font-bold text-lime">{t("all")} →</Link>
           </div>
-          <ul className="space-y-2 text-sm">
+          <ul className="divide-y divide-line text-sm">
             {newUsers.map((u) => (
-              <li key={u.id} className="flex justify-between gap-2">
-                <Link href={`/admin/users/${u.id}`} className="truncate hover:text-lime">{u.email}</Link>
-                <span className="text-muted">⚡{u.credits}</span>
+              <li key={u.id}>
+                <Link href={`/admin/users/${u.id}`} className="flex items-center justify-between gap-2 py-2 hover:text-lime">
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-panel-2 text-xs font-bold">{u.email[0].toUpperCase()}</span>
+                    <span className="truncate">{u.email}</span>
+                  </span>
+                  <span className="shrink-0 text-xs text-muted">⚡{u.credits}</span>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
       </div>
-      <details className="card p-4 text-sm">
-        <summary className="cursor-pointer font-bold">
-          ⚙️ {es ? "Revisión de configuración" : "Setup check"} {missing ? <span className="text-danger">· {missing} {es ? "falta(n)" : "missing"}</span> : <span className="text-teal">· {es ? "todo bien" : "all good"}</span>}
+
+      {hasSquare && squareConnected && <ConnectSquareButton es={es} connected={squareConnected} />}
+
+      {/* Setup check — clear ✓ / ✗ list */}
+      <details className="group card overflow-hidden">
+        <summary className="flex cursor-pointer list-none items-center gap-3 p-4">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-panel-2 text-xl">⚙️</span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-bold">{es ? "Revisión de configuración" : "Setup check"}</span>
+            <span className={`block text-xs ${missing ? "text-amber-200" : "text-emerald-300"}`}>
+              {missing ? `${missing} ${es ? "necesaria(s) falta(n)" : "required missing"}` : es ? `Todo bien · ${okCount} conectadas` : `All good · ${okCount} connected`}
+            </span>
+          </span>
+          <span className="text-muted transition group-open:rotate-180">▾</span>
         </summary>
-        <ul className="mt-3 space-y-1 break-words font-mono text-xs">
+        <ul className="divide-y divide-line border-t border-line">
           {setup.map(([name, status, ok, optional]) => (
-            <li key={name} className={ok ? "text-lime" : optional ? "text-muted" : "text-danger"}>
-              {ok ? "✓" : optional ? "–" : "✗"} {name}: {status}
+            <li key={name} className="flex items-start gap-3 px-4 py-2.5">
+              <span className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full text-xs font-black ${ok ? "bg-emerald-400/15 text-emerald-300" : optional ? "bg-panel-2 text-muted" : "bg-danger/15 text-danger"}`}>{ok ? "✓" : optional ? "–" : "✗"}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate font-mono text-xs font-bold text-white/90">{short(name)}</span>
+                <span className="block text-[11px] text-muted">{why(name)}</span>
+              </span>
+              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${ok ? "bg-emerald-400/10 text-emerald-300" : optional ? "bg-panel-2 text-muted" : "bg-danger/10 text-danger"}`} title={status}>
+                {ok ? (es ? "Conectada" : "Connected") : optional ? (es ? "Opcional" : "Optional") : es ? "Falta" : "Missing"}
+              </span>
             </li>
           ))}
         </ul>
