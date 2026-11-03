@@ -86,7 +86,7 @@ export function ProBannerView({
         </div>
         {url && !busy && (
           <div className="mt-3">
-            <AiVideo bannerId={id} title={title} />
+            <AiVideo bannerId={id} title={title} image={url} />
             <div className="mt-2">
               <DownloadSizes src={url} baseName={title} />
             </div>

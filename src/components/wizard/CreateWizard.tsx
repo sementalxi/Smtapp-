@@ -1076,7 +1076,7 @@ export function CreateWizard({
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
-                {result.url && <AiVideo bannerId={result.id} title={`kixo-${layout.toLowerCase()}`} />}
+                {result.url && <AiVideo bannerId={result.id} title={`kixo-${layout.toLowerCase()}`} image={result.url} />}
                 {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {layout === "PLAYER" && (
                   <Link href={`/create?match=${result.id}`} className="btn-primary w-full">

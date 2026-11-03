@@ -146,7 +146,7 @@ export function TeamSetForm({
 
           {phase === "done" && result ? (
             <>
-              {result.url && <AiVideo bannerId={result.id} title={`kixo-${f.name || "player"}`} />}
+              {result.url && <AiVideo bannerId={result.id} title={`kixo-${f.name || "player"}`} image={result.url} />}
               {result.url && <DownloadSizes src={result.url} baseName={`kixo-${f.name || "player"}`} />}
               <button type="button" className="btn-primary w-full py-3" onClick={nextPlayer}>
                 👥 {es ? "Siguiente jugador — mismo diseño" : "Next player — same design"}

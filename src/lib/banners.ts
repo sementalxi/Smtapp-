@@ -704,7 +704,16 @@ export async function generateProForBanner(opts: {
       // Still blocked after the text retries: one of the extra images (style reference, logo, trophy)
       // may be what the filter dislikes — try once more with only the first image (the photo).
       if (!/moderation_blocked|safety system/i.test(m)) throw e;
-      if (images.length <= 1) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m}`);
+      if (images.length <= 1) {
+        const fb = await import("./ai-fallback");
+        if (!fb.fallbackReady() || !images.length) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m}`);
+        try {
+          poster = await fb.seedreamPoster(opts.prompt, opts.refs.filter((x) => !x.overlay).map((x) => x.url), fb.fallbackSize(opts.format, /\[WIDE\]/.test(opts.prompt)));
+          await import("./activity").then((mm) => mm.logActivity("site", "fallback", "🛟 OpenAI refused the photo — made with the backup generator (Seedream) instead")).catch(() => {});
+        } catch (e3) {
+          throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter and the backup generator. ${m} | ${e3 instanceof Error ? e3.message : e3}`);
+        }
+      } else {
       const onlyFirst = opts.prompt
         .split("\n\n")
         .filter((sec) => !/^Reference image (?!1 )\d+ is /.test(sec.trim()))
@@ -713,8 +722,18 @@ export async function generateProForBanner(opts: {
         poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined));
       } catch (e2) {
         const m2 = e2 instanceof Error ? e2.message : String(e2);
-        if (/moderation_blocked|safety system/i.test(m2)) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m2}`);
-        throw e2;
+        if (/moderation_blocked|safety system/i.test(m2)) {
+          // OpenAI refused (often a false alarm, e.g. a shirtless player) — try the backup generator.
+          const fb = await import("./ai-fallback");
+          if (!fb.fallbackReady()) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m2}`);
+          try {
+            poster = await fb.seedreamPoster(opts.prompt, opts.refs.filter((x) => !x.overlay).map((x) => x.url), fb.fallbackSize(opts.format, /\[WIDE\]/.test(opts.prompt)));
+            await import("./activity").then((m) => m.logActivity("site", "fallback", "🛟 OpenAI refused the photo — made with the backup generator (Seedream) instead")).catch(() => {});
+          } catch (e3) {
+            throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter and the backup generator. ${m2} | ${e3 instanceof Error ? e3.message : e3}`);
+          }
+        } else throw e2;
+      }
       }
     }
     const overlays = opts.refs.filter((x) => x.overlay);

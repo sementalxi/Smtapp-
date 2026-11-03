@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import { sfx } from "@/lib/sfx";
+import { GenerationProgress } from "./GenerationProgress";
 
 type Job = { id: string; status: string; videoUrl: string | null; seconds?: number; error: string | null };
 const MOTIONS: [string, string, string, string][] = [
@@ -16,7 +17,7 @@ const MOTIONS: [string, string, string, string][] = [
 ];
 
 /** Real AI video (Kling) from a finished poster — paid with credits. */
-export function AiVideo({ bannerId, title }: { bannerId: string; title: string }) {
+export function AiVideo({ bannerId, title, image }: { bannerId: string; title: string; image?: string | null }) {
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
@@ -132,12 +133,16 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
       )}
 
       {making && (
-        <div className="flex items-center gap-3 rounded-2xl border border-fuchsia-400/40 bg-panel-2/60 p-3">
-          <span className="h-8 w-8 animate-spin rounded-full border-2 border-fuchsia-300 border-t-transparent" />
-          <span className="text-sm">
-            <b>{es ? "Creando tu video con IA…" : "Making your AI video…"}</b>
-            <span className="block text-xs text-muted">{es ? "1–3 minutos. Puedes salir; te espera aquí y en Historial." : "1–3 minutes. You can leave — it'll be waiting here."}</span>
-          </span>
+        <div className="overflow-hidden rounded-2xl border border-fuchsia-400/40 bg-panel-2/60">
+          {/* Same animated "making it" screen as posters */}
+          <GenerationProgress photo={image} expectedSeconds={150} />
+          <div className="flex items-center gap-2 px-3 py-2.5 text-sm">
+            <span className="text-lg">✨</span>
+            <span>
+              <b>{es ? "Creando tu video con IA…" : "Making your AI video…"}</b>
+              <span className="block text-xs text-muted">{es ? "1–3 minutos. Puedes salir; te espera aquí." : "1–3 minutes. You can leave — it'll be waiting here."}</span>
+            </span>
+          </div>
         </div>
       )}
 
