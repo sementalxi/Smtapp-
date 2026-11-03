@@ -54,6 +54,22 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
     return j({ styles: list.map((t) => ({ id: t.id, name: t.name, nameEs: t.nameEs, thumb: t.thumbUrl ? ((u) => (u.startsWith("/") ? site() + u : u))(thumb(t.thumbUrl, 480)) : null, badge: t.badge })) });
   }
 
+  // Teams & competitions they can pick: their saved ones (My teams) + your league library.
+  if (action === "teams") {
+    const u = await userFor(url.searchParams.get("discordId"));
+    if (!u) return j({ error: "not_linked" }, 404);
+    const abs = (x: string | null) => (x ? (x.startsWith("/") ? site() + x : x) : null);
+    const [mine, lib] = await Promise.all([
+      db.savedItem.findMany({ where: { userId: u.id }, orderBy: { createdAt: "desc" }, take: 50 }),
+      db.libraryItem.findMany({ where: { kind: { in: ["team", "championship"] } }, orderBy: [{ sort: "asc" }, { name: "asc" }], take: 100 }),
+    ]);
+    const pack = (kind: string) => [
+      ...mine.filter((m) => m.kind === kind).map((m) => ({ id: `s:${m.id}`, name: m.name, logoUrl: abs(m.logoUrl), source: "mine", players: (() => { try { return m.players ? JSON.parse(m.players) : []; } catch { return []; } })() })),
+      ...lib.filter((m) => m.kind === kind).map((m) => ({ id: `l:${m.id}`, name: m.name, logoUrl: abs(m.logoUrl), source: "league", players: [] })),
+    ];
+    return j({ teams: pack("team"), competitions: pack("championship") });
+  }
+
   // Make a poster.
   if (action === "generate" && req.method === "POST") {
     const b = (await req.json().catch(() => ({}))) as { discordId?: string; templateId?: string; inputs?: Record<string, unknown>; photoUrl?: string; logoUrl?: string; season?: boolean };
@@ -62,6 +78,9 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
     // Discord attachment → stored on KIXO (the AI only takes our own files).
     const rehost = async (src?: string) => {
       if (!src) return null;
+      // Already on KIXO (saved team / league logo) — use as is.
+      if (src.startsWith(site() + "/")) return src.slice(site().length);
+      if (src.startsWith("/") || /\.blob\.vercel-storage\.com\//.test(src)) return src;
       const s = new URL(src);
       if (s.protocol !== "https:" || !/(^|\.)discordapp\.(com|net)$/.test(s.hostname)) throw new Error("bad_image_host");
       const img = await fetch(s, { signal: AbortSignal.timeout(15000) });
@@ -82,10 +101,15 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
     } catch (e) {
       return j({ error: e instanceof Error ? e.message : "upload_failed" }, 400);
     }
+    const inputs = { ...(b.inputs ?? {}) } as Record<string, unknown>;
+    for (const k of ["homeLogoUrl", "awayLogoUrl", "champLogoUrl"]) {
+      const v = inputs[k];
+      if (typeof v === "string" && v.startsWith(site() + "/")) inputs[k] = v.slice(site().length);
+    }
     const r = await asUser(u.id, "/api/banners", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ templateId: b.templateId, inputs: b.inputs ?? {}, photoUrl, logoUrl, mode: "PRO", ...(b.season ? { season: true } : {}) }),
+      body: JSON.stringify({ templateId: b.templateId, inputs, photoUrl, logoUrl, mode: "PRO", ...(b.season ? { season: true } : {}) }),
     });
     const d = await r.json().catch(() => ({}));
     return j(d, r.status);
