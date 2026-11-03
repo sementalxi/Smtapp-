@@ -27,6 +27,34 @@ export function SupportChat() {
   const seen = useRef<number>(0);
   const lastStaff = useRef<number>(-1);
   const [toast, setToast] = useState<{ name: string; text: string } | null>(null);
+  // Phone notifications: "" = unknown, "ask" = show the button, "on", "ios" = must add to Home Screen first, "no" = not possible/denied
+  const [push, setPush] = useState<"" | "ask" | "on" | "ios" | "no">("");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const standalone = window.matchMedia?.("(display-mode: standalone)").matches || (navigator as unknown as { standalone?: boolean }).standalone;
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || typeof Notification === "undefined") return setPush(ios && !standalone ? "ios" : "no");
+    if (Notification.permission === "denied") return setPush("no");
+    navigator.serviceWorker.register("/sw.js").then(async (reg) => {
+      const sub = await reg.pushManager.getSubscription();
+      setPush(sub && Notification.permission === "granted" ? "on" : "ask");
+    }).catch(() => setPush("no"));
+  }, []);
+  async function enablePush() {
+    try {
+      if ((await Notification.requestPermission()) !== "granted") return setPush("no");
+      const reg = await navigator.serviceWorker.register("/sw.js");
+      await navigator.serviceWorker.ready;
+      const { key } = await fetch("/api/push").then((r) => r.json());
+      const raw = atob(key.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (key.length % 4)) % 4));
+      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: Uint8Array.from(raw, (c) => c.charCodeAt(0)) });
+      const r = await fetch("/api/push", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(sub.toJSON()) });
+      setPush(r.ok ? "on" : "ask");
+      if (r.ok) sfx("success");
+    } catch {
+      setPush("no");
+    }
+  }
   const box = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -234,6 +262,22 @@ export function SupportChat() {
                     </div>
                   </div>
                 ),
+              )}
+              {hasTicket && push === "ask" && (
+                <button type="button" onClick={enablePush} className="flex w-full items-center gap-3 rounded-2xl border border-amber-300/50 bg-amber-300/10 p-3 text-left">
+                  <span className="text-2xl">🔔</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-extrabold">{es ? "Avísame cuando respondan" : "Notify me when they reply"}</span>
+                    <span className="block text-xs text-muted">{es ? "Te llega una notificación con sonido aunque el teléfono esté bloqueado o la página cerrada." : "Get a notification with sound even if your phone is locked or the site is closed."}</span>
+                  </span>
+                  <span className="rounded-full bg-amber-300 px-3 py-1 text-xs font-extrabold text-ink">{es ? "Activar" : "Turn on"}</span>
+                </button>
+              )}
+              {hasTicket && push === "on" && <p className="text-center text-[11px] text-muted">🔔 {es ? "Notificaciones activadas en este dispositivo" : "Notifications are on for this device"}</p>}
+              {hasTicket && push === "ios" && (
+                <div className="rounded-2xl border border-line bg-panel-2 p-3 text-xs text-white/80">
+                  🔔 {es ? "Para recibir notificaciones en iPhone: toca " : "To get notifications on iPhone: tap "}<b>{es ? "Compartir ⬆️" : "Share ⬆️"}</b>{es ? " → " : " → "}<b>{es ? "Agregar a inicio" : "Add to Home Screen"}</b>{es ? ", abre KIXO desde ahí y activa las notificaciones aquí." : ", open KIXO from there and turn notifications on here."}
+                </div>
               )}
               {closed && !hasTicket && (
                 <p className="text-center text-xs text-muted">{es ? "Este ticket está cerrado. Escribe de nuevo para abrir uno nuevo." : "This ticket is closed. Write again to open a new one."}</p>

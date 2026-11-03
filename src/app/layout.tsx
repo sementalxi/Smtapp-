@@ -30,6 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const image = img ? (img.startsWith("http") ? img : `${base}${img.startsWith("/") ? "" : "/"}${img}`) : undefined;
   return {
     metadataBase: new URL(base),
+    icons: { apple: "/apple-touch-icon.png" },
+    appleWebApp: { capable: true, title: site, statusBarStyle: "black-translucent" },
     title: { default: title, template: `%s · ${site}` },
     description,
     openGraph: { title, description, siteName: site, url: base, type: "website", ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}) },

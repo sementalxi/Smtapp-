@@ -239,8 +239,21 @@ model SupportTicket {
   channelId  String
   webhookUrl String
   status     String   @default("open") // open | closed
+  lastStaffId String?  // newest staff reply the user has seen or been notified about
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   @@index([userId, status])
+}
+
+// Browser push subscriptions (support replies reach the phone even when the site is closed).
+model PushSub {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }

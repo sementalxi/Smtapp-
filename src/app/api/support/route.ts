@@ -24,6 +24,9 @@ export const GET = handle(async () => {
     await db.supportTicket.update({ where: { id: t.id }, data: { status: "closed" } });
     return json({ enabled: true, ticket: null, messages: r?.messages ?? [], closed: true });
   }
+  // They're looking at the chat right now — the phone notification job skips these replies.
+  const lastStaff = [...(r?.messages ?? [])].reverse().find((m) => m.from === "staff");
+  if (lastStaff && lastStaff.id !== t.lastStaffId) await db.supportTicket.update({ where: { id: t.id }, data: { lastStaffId: lastStaff.id } }).catch(() => {});
   return json({ enabled: true, ticket: { id: t.id }, messages: r?.messages ?? [] });
 });
 
