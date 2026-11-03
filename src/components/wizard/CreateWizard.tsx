@@ -354,7 +354,7 @@ export function CreateWizard({
       case "RESULT":
         return !!home && !!away;
       case "LINEUP":
-        return !!team && lineupPlayers.length > 0;
+        return lineupPlayers.length > 0;
       case "EVENT":
         return !!inp.headline.trim();
       case "STANDINGS":
@@ -826,7 +826,7 @@ export function CreateWizard({
 
           {layout === "LINEUP" && (
             <>
-              <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} required />
+              <SavedPicker kind="team" label={`${L.team} (${locale === "es" ? "opcional" : "optional"})`} value={team} onChange={setTeam} />
               <SavedPicker kind="championship" label={L.champ} value={champ} onChange={setChamp} />
               <div className="grid grid-cols-2 gap-3">
                 <div>
