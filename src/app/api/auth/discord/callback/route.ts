@@ -74,7 +74,9 @@ export async function GET(req: NextRequest) {
     if (!current) return fail(req, "discord_state");
     const owner = await db.user.findFirst({ where: { discordId: me.id }, select: { id: true } });
     if (owner && owner.id !== current.id) return back("taken");
+    const firstLink = !current.discordId;
     await db.user.update({ where: { id: current.id }, data: { discordId: me.id, discordName } });
+    if (firstLink) await import("@/lib/welcome-dm").then((m) => m.sendWelcomeDm(current.id)).catch(() => {});
     return back("linked");
   }
   const email = me.email?.trim().toLowerCase();
@@ -108,6 +110,7 @@ export async function GET(req: NextRequest) {
     const dBonus = await getNumberSetting("discord_bonus").catch(() => 0);
     if (dBonus > 0) await changeCredits({ userId: user.id, amount: dBonus, type: "SIGNUP_BONUS", note: "Discord sign-up bonus" });
     await logSignup(user.id, "discord");
+    await import("@/lib/welcome-dm").then((m) => m.sendWelcomeDm(user!.id)).catch(() => {});
   }
 
   const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : isNew ? "/create" : "/dashboard";

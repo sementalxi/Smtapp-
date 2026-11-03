@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { DiscordComposer } from "@/components/admin/DiscordComposer";
 import { DiscordLogs } from "@/components/admin/DiscordLogs";
+import { WelcomeDmEditor } from "@/components/admin/WelcomeDmEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,7 @@ export default async function AdminDiscord() {
             : "Your bot sends a direct message to every user who signed up with or connected Discord."}
         </p>
       </div>
+      <WelcomeDmEditor es={es} />
       <DiscordLogs es={es} />
       <h2 className="font-display pt-2 text-3xl">{es ? "Mensaje a usuarios" : "Message users"}</h2>
       <DiscordComposer es={es} />
