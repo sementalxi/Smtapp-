@@ -137,7 +137,7 @@ export async function readTicket(ticket: { channelId: string; webhookUrl: string
 
 export async function closeTicket(ticket: { id: string; channelId: string }, by: string) {
   await db.supportTicket.update({ where: { id: ticket.id }, data: { status: "closed" } });
-  await botCall(`/channels/${ticket.channelId}/messages`, { method: "POST", body: JSON.stringify({ embeds: [{ description: `🔒 Ticket closed by ${by}.`, color: 0x8a7d8c }] }) }).catch(() => null);
+  await botCall(`/channels/${ticket.channelId}/messages`, { method: "POST", body: JSON.stringify({ embeds: [{ description: `🔒 Ticket closed by ${by}. This channel is deleted automatically in 24 hours.`, color: 0x8a7d8c }] }) }).catch(() => null);
   const name = await botCall(`/channels/${ticket.channelId}`, { method: "GET" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   if (name?.name && !String(name.name).startsWith("closed-")) await botCall(`/channels/${ticket.channelId}`, { method: "PATCH", body: JSON.stringify({ name: `closed-${String(name.name).replace(/^ticket-/, "")}`.slice(0, 90) }) }).catch(() => null);
 }
