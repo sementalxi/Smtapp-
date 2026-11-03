@@ -292,6 +292,52 @@ TYPOGRAPHY
 
 COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
 RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
+  "lineup-broadcast": `BROADCAST XI — the official starting-lineup graphic of a top league TV broadcast. Clean, sleek, premium.
+
+SCENE
+- A dark studio-stadium: deep navy-black space with soft floodlight glow in the distance, subtle haze, thin horizontal light strips and floating glass panels with frosted edges.
+- A crisp 3D football PITCH tilted toward the camera (seen at about 35°), real grass texture with perfect white lines, softly lit from above, floating with a soft shadow and a glowing edge in the team colour.
+- The team crest (if provided) on a glass panel at the top left, crisp and faithful, with real reflections.
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a clean glass-and-metal broadcast card in the team colour, with the shirt NUMBER big, the position small, and the NAME underneath on a clean tag. Every name perfectly legible and spelled exactly, all eleven placed exactly in the rows given.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") top right in bold modern broadcast capitals, white, clean with a subtle gradient; "XI" in the team colour.
+- The formation in a slim pill tag; competition and date small, letter-spaced, aligned to a thin line.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep navy-black and white. Minimal, no clutter, no fire or lightning.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Never copy a logo that wasn't provided. Real lighting and materials, photographic quality.`,
+  "lineup-golden-night": `GOLDEN NIGHT XI — a luxurious night-stadium lineup bathed in gold light.
+
+SCENE
+- A real stadium at night seen from high above at a steep angle, the pitch filling most of the poster in dramatic perspective, wet grass with glossy reflections.
+- Golden floodlight beams cutting through haze from the top corners, warm gold dust and a few pieces of gold confetti drifting, deep shadows at the edges.
+- The team crest (if provided) large at the top centre as a premium metal emblem with a gold rim light, faithful to its artwork.
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a round polished medallion with a thin gold rim and enamel in the team colour, casting a soft shadow on the grass, with the shirt NUMBER big, the position small, and the NAME underneath on a clean tag. Every name perfectly legible and spelled exactly, all eleven placed exactly in the rows given.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") in heavy condensed capitals in brushed GOLD with sharp bevels and a hard shadow; formation in an elegant gold script; competition and date small and letter-spaced in white.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), warmed with gold light and deep blacks.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Never copy a logo that wasn't provided. Real lighting and materials, photographic quality.`,
+  "lineup-street": `STREET XI — a raw street-football lineup, like an underground tournament poster.
+
+SCENE
+- A gritty concrete court at night with a football pitch SPRAY-PAINTED on it in white and the team colour (rough paint lines, overspray, drips), seen from above at an angle.
+- Chain-link fence, graffiti-covered walls and a few sodium street lights around the edges, light rain sheen on the concrete, scattered stencil marks.
+- The team crest (if provided) sprayed / pasted on the wall at the top like a big street poster, crisp and faithful.
+
+PLAYER MARKERS (all eleven, in their rows — goalkeeper nearest/bottom, attack furthest/top)
+- Each player as a bold sticker-style badge in the team colour with a thick white border and a slight paper texture, with the shirt NUMBER big, the position small, and the NAME underneath on a clean tag. Every name perfectly legible and spelled exactly, all eleven placed exactly in the rows given.
+
+TYPOGRAPHY
+- Title (e.g. "STARTING XI") huge in rough hand-sprayed graffiti capitals with drips and a thick outline; formation in a stencil font; competition and date small on a strip of torn tape.
+
+COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with concrete greys, white paint and night shadows.
+RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Never copy a logo that wasn't provided. Real lighting and materials, photographic quality.`,
   "lineup-tunnel": `TUNNEL XI — the view from the players' tunnel, seconds before kick-off.
 
 SCENE
