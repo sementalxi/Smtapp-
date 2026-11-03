@@ -48,20 +48,22 @@ export default async function Home() {
       <RevealOnScroll />
       <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} templates={templates} heroBg={heroBg} />
 
-      {/* How it works — compact numbered steps */}
+      {/* How it works — numbered timeline */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
         <p data-reveal className="text-xs font-bold uppercase tracking-[0.35em] text-lime">01 — 04</p>
         <h2 data-reveal className="font-display mt-2 text-4xl sm:text-5xl"><span className="gold-text kixo-chapter">{t("how_title")}</span></h2>
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <ol className="relative mt-10 grid gap-6 lg:grid-cols-4 lg:gap-5">
+          <span aria-hidden className="absolute left-[21px] top-2 bottom-2 w-px bg-gradient-to-b from-lime via-teal to-lime/0 lg:left-0 lg:right-0 lg:top-[21px] lg:bottom-auto lg:h-px lg:w-auto lg:bg-gradient-to-r" />
           {(["1", "2", "3", "4"] as const).map((n) => (
-            <div key={n} data-reveal data-reveal-delay={(Number(n) - 1) * 110} className="group relative overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-panel p-4 transition hover:-translate-y-1 hover:border-lime/50 sm:p-5">
-              <div className="font-display pointer-events-none absolute -top-3 -right-1 text-7xl text-white/[0.04] sm:text-8xl">0{n}</div>
-              <span className="grid h-9 w-9 place-items-center rounded-full border border-lime/50 bg-lime/10 text-sm font-extrabold text-lime transition group-hover:scale-110 group-hover:bg-lime group-hover:text-ink">{n}</span>
-              <div className="mt-3 text-sm font-extrabold uppercase tracking-wide sm:text-base">{t(`how_${n}_t`)}</div>
-              <p className="mt-1 text-xs leading-relaxed text-muted sm:text-sm">{t(`how_${n}_d`)}</p>
-            </div>
+            <li key={n} data-reveal data-reveal-delay={(Number(n) - 1) * 110} className="group relative flex gap-4 lg:flex-col lg:gap-4">
+              <span className="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border-2 border-lime bg-ink text-base font-extrabold text-lime shadow-[0_0_24px_-4px] shadow-lime/70 transition group-hover:scale-110 group-hover:bg-lime group-hover:text-ink">{n}</span>
+              <div className="min-w-0 pt-1 lg:pt-0">
+                <div className="text-base font-extrabold uppercase tracking-wide">{t(`how_${n}_t`)}</div>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{t(`how_${n}_d`)}</p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       {/* Styles gallery — only styles with a real sample image */}
@@ -124,39 +126,34 @@ export default async function Home() {
 
       {partners.length > 0 && (
         <section className="border-t border-line bg-panel/40">
-          <div className="mx-auto max-w-6xl px-4 py-14 text-center">
-            <h2 className="text-xs font-bold uppercase tracking-[0.35em] text-lime">{t("home_partners_title")}</h2>
-            {partners.length >= 4 ? (
-              <div className="relative mt-8 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
-                <div className="kixo-marquee flex w-max items-center gap-12">
-                  {[...partners, ...partners].map((p, k) => (
-                    <div key={`${p.id}-${k}`} className="group flex w-28 shrink-0 flex-col items-center gap-2 sm:w-32">
-                      {p.logoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="h-16 w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 sm:h-20" />
-                      ) : (
-                        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-panel-2 text-2xl font-extrabold sm:h-20 sm:w-20">{p.name[0]}</div>
-                      )}
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-muted group-hover:text-white">{p.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-            <div data-reveal className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
-              {partners.map((p) => (
-                <div key={p.id} className="group flex w-28 flex-col items-center gap-2 sm:w-32">
-                  {p.logoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="h-16 w-full object-contain opacity-80 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 sm:h-20" />
-                  ) : (
-                    <div className="grid h-16 w-16 place-items-center rounded-2xl bg-panel-2 text-2xl font-extrabold sm:h-20 sm:w-20">{p.name[0]}</div>
-                  )}
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted group-hover:text-white">{p.name}</span>
-                </div>
-              ))}
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
+            <div className="flex items-center gap-4">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-lime/60" />
+              <h2 className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-lime sm:text-xs">{t("home_partners_title")}</h2>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-lime/60" />
             </div>
-            )}
+            {(() => {
+              const tile = (p: (typeof partners)[number], k: string | number) => (
+                <div key={k} className="group flex w-[104px] shrink-0 flex-col items-center gap-2 sm:w-32">
+                  <div className="grid aspect-square w-full place-items-center overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-ink p-3 transition group-hover:-translate-y-1 group-hover:border-lime/60 group-hover:shadow-[0_16px_40px_-20px] group-hover:shadow-lime/60">
+                    {p.logoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="max-h-full max-w-full rounded-lg object-contain opacity-85 transition group-hover:scale-105 group-hover:opacity-100" />
+                    ) : (
+                      <span className="font-display text-3xl text-lime">{p.name[0]}</span>
+                    )}
+                  </div>
+                  <span className="truncate text-[11px] font-bold uppercase tracking-wider text-muted group-hover:text-white">{p.name}</span>
+                </div>
+              );
+              return partners.length >= 5 ? (
+                <div className="relative mt-8 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+                  <div className="kixo-marquee flex w-max gap-4 sm:gap-6">{[...partners, ...partners].map((p, k) => tile(p, `${p.id}-${k}`))}</div>
+                </div>
+              ) : (
+                <div data-reveal className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-6">{partners.map((p) => tile(p, p.id))}</div>
+              );
+            })()}
           </div>
         </section>
       )}

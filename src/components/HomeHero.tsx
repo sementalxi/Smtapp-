@@ -43,13 +43,13 @@ export function HomeHero({
   // Three real sample posters for the hero (labelled styles first).
   const withThumb = templates.filter((x) => x.thumbUrl);
   const posters = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].slice(0, 3).map((x) => thumb(x.thumbUrl!, 480));
-  const feats: [keyof typeof ICONS, string][] = [
-    ["card", "hero_feat_1"],
-    ["trophy", "hero_feat_2"],
-    ["pitch", "hero_feat_3"],
-    ["image", "hero_feat_4"],
-    ["users", "hero_feat_5"],
-    ["crown", "hero_feat_6"],
+  const feats: [keyof typeof ICONS, string, string][] = [
+    ["card", "hero_feat_1", "PLAYER"],
+    ["trophy", "hero_feat_2", "CHAMPIONS"],
+    ["pitch", "hero_feat_3", "LINEUP"],
+    ["image", "hero_feat_4", "MATCHDAY"],
+    ["users", "hero_feat_5", "RESULT"],
+    ["crown", "hero_feat_6", ""],
   ];
 
   return (
@@ -111,30 +111,42 @@ export function HomeHero({
 
     </section>
 
-    {/* Feature tiles — their own clean section under the hero */}
+    {/* Feature tiles — picture cards, each showing a real sample of that kind */}
     <section className="relative border-b border-line bg-ink">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-          <div className="flex items-center gap-4">
-            <h2 className="font-display lime-text shrink-0 text-2xl tracking-wide sm:text-3xl">{tt("hero_feat_title")}</h2>
-            <span className="h-px flex-1 bg-gradient-to-r from-teal/70 to-transparent" />
-          </div>
-          <div className="mt-6 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
-            {feats.map(([icon, key]) => (
+        <div className="flex items-center gap-4">
+          <h2 className="font-display lime-text shrink-0 text-3xl tracking-wide sm:text-4xl">{tt("hero_feat_title")}</h2>
+          <span className="h-px flex-1 bg-gradient-to-r from-teal/70 to-transparent" />
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+          {feats.map(([icon, key, layout], n) => {
+            const pool = withThumb.filter((x) => !layout || x.layout === layout);
+            const pic = (pool[n % Math.max(1, pool.length)] ?? withThumb[n % Math.max(1, withThumb.length)])?.thumbUrl;
+            const teal = n % 2 === 1;
+            return (
               <Link
                 key={key}
-                href={user ? "/create" : "/register"}
+                href={user ? (layout ? `/create?type=${layout}` : "/create") : "/register"}
                 data-reveal
-                data-reveal-delay={feats.findIndex((f) => f[1] === key) * 70}
-                className="group flex items-center gap-3 rounded-xl border border-line bg-panel-2/60 p-2.5 transition hover:border-lime/50 hover:bg-panel-2"
+                data-reveal-delay={n * 70}
+                className="group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl border border-line bg-panel-2 p-3 transition duration-300 hover:-translate-y-1 hover:border-lime/60 hover:shadow-[0_24px_60px_-24px] hover:shadow-lime/50 sm:aspect-[4/3] sm:p-4"
               >
-                <span className={`kixo-icon-pulse grid h-11 w-11 shrink-0 place-items-center rounded-lg border transition group-hover:scale-110 ${feats.findIndex((f) => f[1] === key) % 2 ? "border-teal/60 text-teal" : "border-lime/60 text-lime"}`}>
+                {pic && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={thumb(pic, 480)} alt="" loading="lazy" decoding="async" className="kixo-grade absolute inset-0 -z-10 h-full w-full object-cover opacity-70 transition duration-700 group-hover:scale-110 group-hover:opacity-90" />
+                )}
+                <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/70 to-ink/10" />
+                <span className={`mb-2 grid h-10 w-10 place-items-center rounded-xl border bg-ink/60 backdrop-blur transition group-hover:scale-110 ${teal ? "border-teal/70 text-teal" : "border-lime/70 text-lime"}`}>
                   {ICONS[icon]}
                 </span>
-                <span className="flex-1 text-xs font-bold uppercase leading-snug tracking-wide sm:text-[13px]">{tt(key)}</span>
-                <span className="text-teal transition group-hover:translate-x-0.5">›</span>
+                <span className="flex items-end justify-between gap-2">
+                  <span className="text-sm font-extrabold uppercase leading-tight tracking-wide [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">{tt(key)}</span>
+                  <span className={`text-lg transition group-hover:translate-x-1 ${teal ? "text-teal" : "text-lime"}`}>›</span>
+                </span>
               </Link>
-            ))}
-          </div>
+            );
+          })}
+        </div>
       </div>
     </section>
     </>
