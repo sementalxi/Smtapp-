@@ -20,7 +20,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
-  const [info, setInfo] = useState<{ on: boolean; five: number; ten: number; audioCost: number; credits: number } | null>(null);
+  const [info, setInfo] = useState<{ on: boolean; five: number; ten: number; audioCost: number; credits: number }>({ on: true, five: 10, ten: 18, audioCost: 5, credits: 9999 });
   const [open, setOpen] = useState(false);
   const [seconds, setSeconds] = useState<5 | 10>(5);
   const [audio, setAudio] = useState(false); // silent by default (cheaper; add music later in TikTok/Reels)
@@ -31,9 +31,9 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
-    const d = await fetch(`/api/video?bannerId=${bannerId}`).then((r) => r.json()).catch(() => null);
-    if (!d) return;
-    setInfo({ on: d.on, five: d.five, ten: d.ten, audioCost: d.audioCost ?? 5, credits: d.credits });
+    const d = await fetch(`/api/video?bannerId=${bannerId}`, { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (!d || typeof d.on !== "boolean") return; // keep showing with default prices
+    setInfo({ on: d.on, five: d.five ?? 10, ten: d.ten ?? 18, audioCost: d.audioCost ?? 5, credits: typeof d.credits === "number" ? d.credits : 9999 });
     const last = (d.jobs as Job[])?.[0];
     if (last && (last.status === "running" || last.status === "queued" || last.status === "done")) setJob(last);
   }, [bannerId]);
@@ -52,7 +52,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
     return () => clearInterval(t);
   }, [job, es, router]);
 
-  if (!info?.on) return null;
+  if (!info.on) return null;
   const cost = (seconds === 10 ? info.ten : info.five) + (audio ? info.audioCost : 0);
 
   async function make() {
@@ -66,7 +66,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
       return setErr((d.error === "not_enough_credits" ? (es ? `Necesitas ${cost} créditos.` : `You need ${cost} credits.`) : es ? "No se pudo empezar el video (créditos devueltos)." : "Couldn't start the video (credits refunded).") + (d.detail ? ` — ${d.detail}` : ""));
     }
     sfx("send");
-    setInfo((i) => (i ? { ...i, credits: i.credits - cost } : i));
+    setInfo((i) => ({ ...i, credits: i.credits - cost }));
     setJob({ id: d.id, status: "running", videoUrl: null, error: null });
     router.refresh();
   }
