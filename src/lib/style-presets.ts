@@ -20,6 +20,36 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
+  "player-royal-lion": `ROYAL LION — a luxury black, white and gold player card made like a high-end PHOTOSHOP COMPOSITE by a top sports / celebrity retoucher. Clean, powerful, expensive — editorial magazine quality.
+
+COLOURS
+- Black, white and warm metallic GOLD (if the COLOURS line below gives team colours, use them only as small accents; the base stays black / white / gold).
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone):
+1. BIG PORTRAIT (left, filling the upper two-thirds): a head-and-shoulders close-up looking straight into the camera with a calm, powerful, confident expression (mouth closed). PRO BEAUTY RETOUCH like a magazine cover: flawless but REAL skin (pores kept, frequency-separation smooth, no plastic look), sculpted dodge-and-burn contouring, bright catchlights in sharp detailed eyes, defined brows and lashes, groomed hair with fine strands, soft glamour key light from the front-top and a gold rim light on the edges. Razor-sharp, high micro-contrast, rich natural colour.
+2. FULL BODY (centre-right, smaller): the same person standing in a confident fashion pose (one hand in pocket or on hip), head to feet, sharp and clean, with a gold rim light and a crisp reflection on the floor.
+- The outfit stays as in the photo (if the photo is casual, give it a premium, sharp look — never change the person).
+
+BACKGROUND (clean Photoshop composite, not cluttered)
+- Dark charcoal / black studio backdrop with soft grey smoke at the bottom and sides.
+- Upper right: a big ROARING LION head in black-and-white with glowing gold eyes, wearing a jewelled GOLD CROWN, photoreal fur, blended into the backdrop with a soft fade.
+- Polished silver-chrome SHIELD shapes and angular dark-metal frames behind the figures, a broken concrete block on the right edge.
+- Crackling GOLD lightning around the portrait and the full-body figure, a few glowing embers.
+- Floor: glossy cracked black-and-white MARBLE with thin gold lines and real reflections.
+
+TYPOGRAPHY & LAYOUT
+- The team crest ONLY if a crest reference image is provided: centred on the lower part of the big portrait, as a crisp glossy 3D badge with a soft shadow. Otherwise no crest. Never copy a badge from the player's shirt.
+- The player NAME huge under it in tall ultra-condensed bold WHITE capitals, clean and sharp with a soft shadow (no effects on the letters).
+- Under the name: the jersey NUMBER (or rating) in a small black tag with a thin GOLD frame and gold text.
+- The position (if given) small in gold letter-spaced capitals next to the tag; tagline/subtitle (if given) small and clean; footer (if given) tiny at the bottom.
+- Leave the bottom-left corner calm (brand mark goes there).
+
+PHOTOSHOP FINISH
+- Looks hand-composited by a pro: clean cut-outs with natural hair edges, matched lighting and colour grade between all elements, subtle global contrast curve, light film grain, gentle vignette. Effects are restrained and premium — never messy, cartoon or "AI-looking".
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave it out.
+- Ignore the placement hints in the text list below — follow this layout.`,
   "player-ultras-gold": `ULTRAS GOLD — a navy-and-gold pro-clubs player card on an ultras night, like the official signing graphic of a top European club. Photoreal, premium, razor-sharp — every element clean and intentional.
 
 COLOURS
