@@ -173,6 +173,7 @@ export function CreateWizard({
   season = null,
   seasonStart = false,
   typePics = {},
+  expectedSeconds = 100,
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -186,6 +187,8 @@ export function CreateWizard({
   seasonStart?: boolean;
   /** Pictures the admin chose for the type boxes (Admin → Styles). */
   typePics?: Record<string, string>;
+  /** How long the chosen poster generator usually takes (for the progress bar). */
+  expectedSeconds?: number;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -1161,7 +1164,7 @@ export function CreateWizard({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="block h-auto w-full" />
             ) : phase === "busy" ? (
-              <GenerationProgress photo={photo} expectedSeconds={100} />
+              <GenerationProgress photo={photo} expectedSeconds={expectedSeconds} />
             ) : (
               <div className="relative grid aspect-[4/5] place-items-center overflow-hidden p-8">
                 {photo && (

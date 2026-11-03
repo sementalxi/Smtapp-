@@ -39,9 +39,10 @@ export function GenerationProgress({ photo, done, expectedSeconds = 90 }: { phot
     return () => clearInterval(t);
   }, []);
 
-  const pct = done ? 100 : Math.min(96, 96 * (1 - Math.exp(-secs / (expectedSeconds / 2.2))));
+  // Moves steadily to 90% over the expected time, then keeps creeping toward 99% (never looks frozen).
+  const pct = done ? 100 : secs < expectedSeconds ? (90 * secs) / expectedSeconds : Math.min(99, 90 + 9 * (1 - Math.exp(-(secs - expectedSeconds) / 45)));
   const steps = STEPS[lang];
-  const stepIdx = done ? steps.length : Math.min(steps.length - 1, Math.floor((pct / 96) * steps.length));
+  const stepIdx = done ? steps.length : Math.min(steps.length - 1, Math.floor((pct / 99) * steps.length));
   const tip = TIPS[lang][Math.floor(secs / 7) % TIPS[lang].length];
   const mm = `${Math.floor(secs / 60)}:${String(Math.floor(secs % 60)).padStart(2, "0")}`;
   const left = Math.max(0, Math.round(expectedSeconds - secs));

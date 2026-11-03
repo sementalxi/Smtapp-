@@ -3,7 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
 import { proConfigured } from "@/lib/ai";
-import { getNumberSetting } from "@/lib/settings";
+import { getNumberSetting, getSettings } from "@/lib/settings";
 import { CreateWizard } from "@/components/wizard/CreateWizard";
 import { TeamSetForm } from "@/components/wizard/TeamSetForm";
 import { db } from "@/lib/db";
@@ -115,6 +115,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         season={season}
         seasonStart={seasonOn && !!season}
         typePics={await getTypePics()}
+        expectedSeconds={({ mix3: 190, mix: 150, "flux-mix": 130, flux: 60, "nano-pro": 80, openai: 100 } as Record<string, number>)[(await getSettings()).poster_model] ?? 120}
       />
     </div>
   );
