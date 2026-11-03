@@ -16,57 +16,50 @@ const auth = () => ({ Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Cont
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
 
 // Styles = camera + scene feel. The player's FLEX is picked at random every time (see FLEXES).
+// Styles = camera + scene feel (calm, smooth, premium). The player's flex is random every time (see FLEXES).
 export const MOTIONS: Record<string, { en: string; es: string; prompt: string }> = {
-  ultra: { en: "Ultra", es: "Ultra", prompt: "a sports hype-trailer shot: the camera starts slightly wide and pushes in fast with strong 3D parallax; the title and number catch a bright metallic shine; dramatic light hits the player at the end" },
-  epic: { en: "Epic camera", es: "Cámara épica", prompt: "a fast dramatic camera dolly-in toward the player with strong parallax" },
-  celebrate: { en: "Celebration", es: "Celebración", prompt: "a big-match celebration moment with the camera shaking slightly from the energy" },
-  walk: { en: "Walk-out", es: "Entrada épica", prompt: "a stadium walk-out: the player steps forward toward the camera while it tracks backward" },
-  orbit: { en: "360 orbit", es: "Giro 360", prompt: "the camera swings in a smooth fast arc around the player" },
-  fire: { en: "Fire & smoke", es: "Fuego y humo", prompt: "pyrotechnic flames burst behind the player and sparks blast past the camera" },
+  ultra: { en: "Ultra", es: "Ultra", prompt: "a smooth, slow cinematic camera push-in with gentle 3D parallax; soft light slowly sweeps across the title and number" },
+  epic: { en: "Epic camera", es: "Cámara épica", prompt: "a slow, steady cinematic dolly-in toward the player" },
+  celebrate: { en: "Celebration", es: "Celebración", prompt: "a calm, proud post-match moment with gentle confetti" },
+  walk: { en: "Walk-out", es: "Entrada épica", prompt: "the player takes a few calm, confident steps toward the camera while it slowly moves back" },
+  orbit: { en: "360 orbit", es: "Giro 360", prompt: "the camera glides slowly in a gentle arc around the player" },
+  fire: { en: "Fire & smoke", es: "Fuego y humo", prompt: "soft flames and drifting embers glow behind the player, light smoke slowly swirls" },
 };
 
-// Soccer / esports player flexes — a random one (or two in a row) every video, so no two look the same.
+// Calm, confident soccer / esports flexes — a random one (Ultra: two) every video.
 const FLEXES = [
-  "flexes both biceps with a confident smirk",
-  "crosses his arms, nods slowly and stares into the lens",
-  "does the famous jump-and-turn goal celebration, landing with arms wide",
-  "puts a finger to his lips in a 'shush' celebration",
-  "kisses the badge on his chest, then points at the camera",
-  "points both index fingers to the sky",
-  "beats his chest twice and shouts with passion",
-  "makes a 'calm down' gesture with both hands, cool and confident",
-  "gives a military salute to the camera",
-  "spreads his arms like an airplane in celebration",
-  "taps his temple with one finger — big-brain play",
-  "makes heart hands toward the crowd",
-  "clenches both fists and roars toward the sky",
-  "adjusts his gaming headset, then gives a cocky grin and a nod",
-  "cracks his knuckles and rolls his shoulders, ready for the match",
-  "juggles a soccer ball on his foot, then catches it and smiles",
-  "rubs his hands together and smirks like he already won",
-  "points to his own name on the poster with both thumbs",
-  "does a slow cool head turn toward the camera and raises his chin",
-  "flexes one arm and taps his bicep twice",
+  "slowly crosses his arms and gives a calm, confident nod",
+  "flexes one arm with a relaxed smirk",
+  "turns his head toward the camera and gives a slight confident smile",
+  "calmly adjusts his jersey and looks into the lens",
+  "kisses the badge on his chest and points at the camera",
+  "puts a finger to his lips in a calm 'shush'",
+  "points one finger to the sky and looks up",
+  "makes a calm 'relax' gesture with both hands",
+  "gives a cool, slow salute",
+  "adjusts his gaming headset and gives a small nod",
+  "taps his temple with one finger and smiles",
+  "rests his hands on his hips and raises his chin proudly",
+  "holds a soccer ball under his arm and smiles",
+  "makes heart hands toward the camera",
+  "gives a thumbs up with a relaxed grin",
+  "slowly rolls his shoulders and stands tall",
 ];
 
-// Random scene extras (2–3 picked each time).
+// Gentle scene extras (2–3 picked each time).
 const EXTRAS = [
-  "stadium floodlights sweep and flash across the background",
-  "camera flashes from the crowd pop in the dark background",
-  "neon esports stage lights pulse in the team colours",
-  "LED stadium boards flicker behind the player",
-  "thick smoke rolls and swirls through the background",
-  "glowing embers and sparks drift through the air",
-  "confetti rains down in the team colours",
-  "pyrotechnic fire jets shoot up behind the player",
-  "lightning cracks across the sky and lights up the scene",
-  "clouds rush across the sky in fast time-lapse",
-  "lens flares and light streaks shoot across the frame",
-  "the big number and logo glow and pulse with light",
-  "a pulsing energy aura ripples around the player",
-  "rain falls in dramatic floodlight backlight",
-  "fog rolls along the ground with light beams cutting through it",
-  "the poster's own background elements come alive — flags wave, flames flicker, objects move",
+  "stadium lights slowly sweep across the background",
+  "soft camera flashes twinkle in the dark background",
+  "neon stage lights softly pulse in the team colours",
+  "light smoke drifts slowly through the background",
+  "glowing embers and dust float gently in the air",
+  "a few pieces of confetti float down slowly",
+  "clouds drift across the sky",
+  "soft lens flares glide across the frame",
+  "the big number and logo softly glow",
+  "a subtle energy glow breathes around the player",
+  "light fog rolls slowly along the ground",
+  "the poster's background elements move gently — flags wave, flames flicker softly",
 ];
 const pick = <T,>(a: T[], n: number) => [...a].sort(() => Math.random() - 0.5).slice(0, n);
 
@@ -82,13 +75,14 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
   const cost = (o.seconds === 10 ? p.ten : p.five) + (o.audio ? p.audio : 0);
   const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.ultra.prompt;
   const flexes = pick(FLEXES, o.motion === "ultra" ? 2 : 1);
+  const flexes = pick(FLEXES, o.motion === "ultra" ? 2 : 1);
   const prompt = [
-    "Turn this soccer / esports player poster into a dynamic, high-energy hype video with LOTS of visible motion — nothing stays still.",
+    "Bring this soccer / esports player poster to life as a calm, smooth, premium cinematic video — gentle, controlled motion, never chaotic.",
     `Camera & scene: ${motion}.`,
-    `The player comes alive and ${flexes.join(", then ")}.`,
-    `Background in constant motion: ${pick(EXTRAS, o.motion === "ultra" ? 3 : 2).join("; ")}.`,
+    `The player ${flexes.join(", then ")}.`,
+    `Background moves gently: ${pick(EXTRAS, o.motion === "ultra" ? 3 : 2).join("; ")}.`,
     o.extra ? `Also: ${o.extra}.` : "",
-    "Style: premium sports hype trailer, dramatic lighting, energetic pacing, real physics, 3D depth.",
+    "Style: elegant sports promo, smooth slow movements, steady camera, soft lighting changes, natural real physics.",
     "Keep the player's face and identity the same and keep the poster's names, numbers and logos readable.",
   ].filter(Boolean).join(" ");
   const image = o.imageUrl.startsWith("/") ? site() + o.imageUrl : o.imageUrl;
@@ -99,7 +93,7 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
     const r = await fetch(`https://queue.fal.run/${VIDEO_MODELS[model].id}`, {
       method: "POST",
       headers: auth(),
-      body: JSON.stringify({ start_image_url: image, prompt: prompt.slice(0, 2400), duration: String(o.seconds), generate_audio: o.audio, cfg_scale: 0.7, negative_prompt: "static image, frozen, still frame, slow motion, blur, distort, low quality, warped text, misspelled letters, extra fingers, face change, morphing" }),
+      body: JSON.stringify({ start_image_url: image, prompt: prompt.slice(0, 2400), duration: String(o.seconds), generate_audio: o.audio, cfg_scale: 0.6, negative_prompt: "frozen still image, camera shake, fast chaotic motion, aggressive shouting, jerky movement, blur, distort, low quality, warped text, misspelled letters, extra fingers, face change, morphing" }),
       signal: AbortSignal.timeout(30000),
     });
     const d = (await r.json().catch(() => ({}))) as { status_url?: string; response_url?: string; detail?: unknown };
