@@ -3,6 +3,13 @@
 // checker, so genuinely explicit content is still refused. Needs FAL_KEY (same key as AI video).
 export const fallbackReady = () => !!process.env.FAL_KEY?.trim();
 
+/** Keeps the whole brief when it fits; if too long, keeps the start (art director's instructions) AND the end (final rules), cutting the middle. */
+function fit(prompt: string, max: number) {
+  if (prompt.length <= max) return prompt;
+  const tail = Math.min(4000, Math.floor(max * 0.3));
+  return `${prompt.slice(0, max - tail - 20)}\n\n[…]\n\n${prompt.slice(-tail)}`;
+}
+
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
 
 // Keeps Nano Banana obedient about text and logos (it likes to add its own words otherwise).
@@ -24,7 +31,7 @@ export async function nanoBananaPoster(prompt: string, imageUrls: string[], form
   const r = await fetch("https://fal.run/fal-ai/nano-banana-pro/edit", {
     method: "POST",
     headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: prompt.slice(0, 8000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }),
+    body: JSON.stringify({ prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }),
     signal: AbortSignal.timeout(130_000),
   });
   const d = (await r.json().catch(() => ({}))) as { images?: { url?: string }[]; detail?: unknown };
@@ -54,7 +61,7 @@ export async function seedreamPoster(prompt: string, imageUrls: string[], size: 
   const r = await fetch("https://fal.run/fal-ai/bytedance/seedream/v4/edit", {
     method: "POST",
     headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: prompt.slice(0, 4000), image_urls: urls, image_size: size, num_images: 1, enable_safety_checker: true }),
+    body: JSON.stringify({ prompt: fit(prompt, 4000), image_urls: urls, image_size: size, num_images: 1, enable_safety_checker: true }),
     signal: AbortSignal.timeout(170_000),
   });
   const d = (await r.json().catch(() => ({}))) as { images?: { url?: string }[]; detail?: unknown; has_nsfw_concepts?: boolean[] };
