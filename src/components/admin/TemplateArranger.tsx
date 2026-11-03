@@ -6,7 +6,7 @@ import { useT } from "@/i18n/client";
 import { ART_TYPES } from "@/lib/pro-options";
 import type { LayoutKind } from "@/lib/templates";
 
-export type ArrangeItem = { id: string; name: string; nameEs: string; layout: LayoutKind; active: boolean; thumbUrl: string | null; uses: number; badge: string | null };
+export type ArrangeItem = { id: string; name: string; nameEs: string; layout: LayoutKind; active: boolean; thumbUrl: string | null; uses: number; badge: string | null; audience: string };
 
 function Switch({ on, onChange, es }: { on: boolean; onChange: (v: boolean) => void; es: boolean }) {
   return (
@@ -75,7 +75,7 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
 
   async function save() {
     setBusy(true);
-    const templates = order.flatMap((l) => inCat(l).map((t, n) => ({ id: t.id, layout: t.layout, active: t.active, badge: t.badge, sort: order.indexOf(l) * 1000 + n })));
+    const templates = order.flatMap((l) => inCat(l).map((t, n) => ({ id: t.id, layout: t.layout, active: t.active, badge: t.badge, audience: t.audience, sort: order.indexOf(l) * 1000 + n })));
     const res = await fetch("/api/admin/templates/arrange", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ categories: { order, hidden }, templates }) });
     setBusy(false);
     if (res.ok) {
@@ -139,6 +139,13 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
                         <div className="flex gap-1">
                           {([["", es ? "Sin etiqueta" : "No label"], ["recommended", es ? "⭐ Recomendado" : "⭐ Recommended"], ["fire", "🔥 Fire"]] as const).map(([v, lbl]) => (
                             <button key={v} type="button" onClick={() => patch(t.id, { badge: v || null })} className={`rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.badge ?? "") === v ? (v === "fire" ? "border-orange-400 bg-orange-500/20 text-orange-300" : "border-lime bg-lime/15 text-lime") : "border-line text-muted"}`}>
+                              {lbl}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="flex gap-1">
+                          {([["all", es ? "👥 Todos" : "👥 Everyone"], ["users", es ? "🙋 Usuarios" : "🙋 Regular users"], ["orgs", es ? "🏢 Organizaciones" : "🏢 Organizations"]] as const).map(([v, lbl]) => (
+                            <button key={v} type="button" onClick={() => patch(t.id, { audience: v })} className={`rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.audience || "all") === v ? "border-sky-400 bg-sky-500/15 text-sky-300" : "border-line text-muted"}`}>
                               {lbl}
                             </button>
                           ))}

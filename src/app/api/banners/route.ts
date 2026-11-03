@@ -58,6 +58,10 @@ export const POST = handle(async (req: NextRequest) => {
 
   const template = source ? source.template : await db.template.findFirst({ where: { id: body.templateId, active: true } });
   if (!template) throw new HttpError(404, "template_not_found");
+  if (!source) {
+    const { canUseTemplate } = await import("@/lib/queries");
+    if (!canUseTemplate(template, user)) throw new HttpError(403, "template_not_available");
+  }
   if (template.layout === "PLAYER" && !body.photoUrl) throw new HttpError(400, "photo_required");
 
   let inputs: BannerInputs = { ...EMPTY_INPUTS, ...body.inputs };

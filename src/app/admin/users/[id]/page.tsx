@@ -42,7 +42,7 @@ export default async function AdminUserPage({ params }: { params: Promise<{ id: 
             {user.stripeCustomerId && <> · Stripe {user.stripeCustomerId}</>}
           </p>
           <div className="mt-3">
-            <UserFlags userId={user.id} role={user.role} banned={user.banned} self={user.id === me.id} />
+            <UserFlags userId={user.id} role={user.role} banned={user.banned} self={user.id === me.id} isOrg={user.isOrg} es={locale === "es"} />
             <ResetLink userId={user.id} es={locale === "es"} />
             <GivePlan
               userId={user.id}

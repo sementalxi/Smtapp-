@@ -57,6 +57,7 @@ model User {
   discordName        String? // Discord username shown on the profile
   emailOptOut        Boolean             @default(false) // unsubscribed from promo emails
   showcaseOptOut     Boolean             @default(false) // don't post my posters in the public Discord showcase
+  isOrg              Boolean             @default(false) // organization account (admin sets) — sees "orgs" styles
   phone              String? // verified phone (E.164) — one account per number, checked in code
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
@@ -110,6 +111,8 @@ model Template {
   randomize  Boolean  @default(true)
   // "recommended" | "fire" | null — label shown on the style in the Create page
   badge      String?
+  // Who can see/use this style: "all" | "users" (regular accounts only) | "orgs" (organizations only)
+  audience   String   @default("all")
   active     Boolean  @default(true)
   sort       Int      @default(0)
   createdAt  DateTime @default(now())

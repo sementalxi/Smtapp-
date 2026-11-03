@@ -7,6 +7,7 @@ import { handle, json } from "@/lib/api";
 const Body = z.object({
   role: z.enum(["USER", "ADMIN"]).optional(),
   banned: z.boolean().optional(),
+  isOrg: z.boolean().optional(),
   name: z.string().trim().min(1).max(60).optional(),
 });
 

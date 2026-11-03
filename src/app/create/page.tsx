@@ -18,7 +18,7 @@ const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "RESUL
 export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string }> }) {
   const user = await requireUser();
   const { t } = await getT();
-  const templates = await activeTemplates();
+  const templates = await activeTemplates(user);
   const { type, match, team: teamMode } = await searchParams;
 
   // Team set: next card with the same design as one of the user's player cards.

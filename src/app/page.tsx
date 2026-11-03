@@ -25,7 +25,7 @@ export default async function Home() {
     // All home-page data in parallel.
     const [st, tpls, dealRows, partnerRows] = await Promise.all([
       getSettings(),
-      activeTemplates(),
+      activeTemplates(null),
       db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 }),
       db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } }),
     ]);

@@ -62,7 +62,7 @@ export function CreditAdjust({ userId }: { userId: string }) {
   );
 }
 
-export function UserFlags({ userId, role, banned, self }: { userId: string; role: string; banned: boolean; self: boolean }) {
+export function UserFlags({ userId, role, banned, self, isOrg = false, es = false }: { userId: string; role: string; banned: boolean; self: boolean; isOrg?: boolean; es?: boolean }) {
   const { t } = useT();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -96,6 +96,13 @@ export function UserFlags({ userId, role, banned, self }: { userId: string; role
         className={`${banned ? "btn-ghost" : "btn-danger"} px-3 py-1.5 text-xs`}
       >
         {banned ? t("unban") : t("ban")}
+      </button>
+      <button
+        disabled={busy}
+        onClick={() => patch({ isOrg: !isOrg })}
+        className={`rounded-xl border px-3 py-1.5 text-xs font-bold ${isOrg ? "border-sky-400 bg-sky-500/15 text-sky-300" : "border-line text-muted"}`}
+      >
+        {isOrg ? (es ? "🏢 Organización ✓" : "🏢 Organization ✓") : es ? "🏢 Marcar como organización" : "🏢 Make organization"}
       </button>
       {err && <span className="text-xs text-danger">{err}</span>}
     </div>
