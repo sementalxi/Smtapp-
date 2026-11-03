@@ -10,6 +10,7 @@ import { cookies, headers } from "next/headers";
 import { ComingSoon } from "@/components/ComingSoon";
 import { SupportChat } from "@/components/SupportChat";
 import { SoundEvents } from "@/components/SoundEvents";
+import { KeepAwake } from "@/components/KeepAwake";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
@@ -65,6 +66,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
             <div className="kixo-grain" aria-hidden />
             <RefCapture />
+            <KeepAwake />
             <ComingSoon bonus={dBonus} user={me ? { name: me.name, discord: !!me.discordId, discordName: me.discordName } : null} />
           </I18nProvider>
         </body>
@@ -82,6 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {!chosen && <LangPrompt suggested={locale} />}
           <Header />
           <SoundEvents />
+          <KeepAwake />
           <main>{children}</main>
           {(await getCurrentUser().catch(() => null)) && <SupportChat />}
           <footer className="mt-24 border-t border-line py-8 text-center text-xs text-muted">
