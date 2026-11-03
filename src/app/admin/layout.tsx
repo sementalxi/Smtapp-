@@ -7,7 +7,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { t, locale } = await getT();
   const es = locale === "es";
   const groups: AdminGroup[] = [
-    { title: es ? "Inicio" : "Home", links: [{ href: "/admin", label: t("admin_overview"), icon: "📊" }] },
+    { title: es ? "Inicio" : "Home", links: [{ href: "/admin", label: t("admin_overview"), icon: "📊" }, { href: "/admin/logs", label: es ? "Registro en vivo" : "Live log", icon: "🟢" }] },
     {
       title: es ? "Crear y contenido" : "Create & content",
       links: [

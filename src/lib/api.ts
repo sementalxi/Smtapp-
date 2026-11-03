@@ -18,6 +18,8 @@ export function handle<A extends unknown[]>(fn: (...args: A) => Promise<Response
         );
       }
       console.error(err);
+      const req = args[0] as { method?: string; nextUrl?: { pathname?: string } } | undefined;
+      await import("./activity").then((m) => m.logActivity("site", "server_error", `${req?.method ?? ""} ${req?.nextUrl?.pathname ?? ""} — ${err instanceof Error ? err.message : String(err)}`, "error")).catch(() => {});
       return NextResponse.json({ error: "server_error" }, { status: 500 });
     }
   };

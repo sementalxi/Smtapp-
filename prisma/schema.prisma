@@ -281,3 +281,15 @@ model VideoJob {
   @@index([userId, createdAt])
   @@index([status])
 }
+
+// Live activity log for Admin → Live log (website + Discord bot). Old rows are pruned after 7 days.
+model ActivityLog {
+  id        String   @id @default(cuid())
+  source    String   // site | bot
+  level     String   @default("info") // info | warn | error
+  kind      String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

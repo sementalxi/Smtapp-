@@ -79,6 +79,7 @@ export async function openTicket(userId: string, topic: "support" | "custom" = "
       components: [{ type: 1, components: [{ type: 2, style: 4, custom_id: `kxsupport:close:${channelId}`, label: "End chat", emoji: { name: "🔒" } }] }],
     }),
   });
+  await import("./activity").then((m) => m.logActivity("site", "support", `💬 ${topic === "custom" ? "Custom banner order" : "Support ticket"} opened by ${u.email}`)).catch(() => {});
   return db.supportTicket.create({ data: { userId, channelId, webhookUrl: `https://discord.com/api/webhooks/${w.id}/${w.token}` } });
 }
 

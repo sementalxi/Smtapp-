@@ -76,6 +76,7 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
     });
     const d = (await r.json().catch(() => ({}))) as { status_url?: string; response_url?: string; detail?: unknown };
     if (!r.ok || !d.status_url) throw new Error(`fal ${r.status}: ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
+    await import("./activity").then((m) => m.logActivity("site", "video", `✨ AI video started (${o.seconds}s, ${o.motion}${o.audio ? ", sound" : ""}) · ${cost} credits`)).catch(() => {});
     return db.videoJob.update({ where: { id: job.id }, data: { status: "running", statusUrl: d.status_url, responseUrl: d.response_url } });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "start_failed";
@@ -86,6 +87,7 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
 
 async function fail(id: string, error: string) {
   const j = await db.videoJob.update({ where: { id }, data: { status: "failed", error: error.slice(0, 500) } });
+  await import("./activity").then((m) => m.logActivity("site", "video_failed", `❌ AI video failed (refunded ${j.cost}) — ${error.slice(0, 300)}`, "error")).catch(() => {});
   if (j.cost > 0) await changeCredits({ userId: j.userId, amount: j.cost, type: "REFUND", note: "Automatic refund — AI video failed" }).catch(() => {});
   return j;
 }
@@ -110,6 +112,7 @@ export async function advanceVideo(id: string) {
     const v = await fetch(url, { signal: AbortSignal.timeout(60000) });
     if (v.ok) url = await saveFile("videos", Buffer.from(await v.arrayBuffer()), "video/mp4");
   } catch {}
+  await import("./activity").then((m) => m.logActivity("site", "video_done", `🎬 AI video ready (${j.seconds}s)`)).catch(() => {});
   return db.videoJob.update({ where: { id: j.id }, data: { status: "done", videoUrl: url } });
 }
 

@@ -37,6 +37,17 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
   const action = (await params).path.join("/");
   const url = req.nextUrl;
 
+  // Log lines sent by the Discord bot (batched).
+  if (action === "log" && req.method === "POST") {
+    const b = (await req.json().catch(() => ({}))) as { lines?: { level?: string; kind?: string; message?: string }[] };
+    const { logActivity } = await import("@/lib/activity");
+    for (const l of (b.lines ?? []).slice(0, 50)) {
+      const level = l.level === "error" || l.level === "warn" ? l.level : "info";
+      await logActivity("bot", String(l.kind ?? "log"), String(l.message ?? ""), level);
+    }
+    return j({ ok: true });
+  }
+
   // Who is this Discord user on KIXO?
   if (action === "user") {
     const u = await userFor(url.searchParams.get("discordId"));

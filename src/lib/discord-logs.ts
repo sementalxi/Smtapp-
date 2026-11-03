@@ -43,6 +43,7 @@ const money = (cents: number, cur = "usd") => `${cur === "usd" ? "$" : ""}${(cen
 
 /** 🆕 New account. Never throws. */
 export async function logSignup(userId: string, via: "email" | "discord") {
+  await import("./activity").then(async (m) => { const u = await db.user.findUnique({ where: { id: userId }, select: { email: true } }); return m.logActivity("site", "signup", `🆕 New account (${via}): ${u?.email ?? userId}`); }).catch(() => {});
   try {
     const url = await hookFor("signups");
     if (!url) return;
@@ -81,6 +82,7 @@ export async function logSignup(userId: string, via: "email" | "discord") {
 
 /** 💳 Purchase or ⭐ subscription payment. Never throws. */
 export async function logPayment(p: { userId: string; kind: "pack" | "deal" | "subscription"; productId: string; amountCents: number; credits: number; source: string; currency?: string; renewal?: boolean }) {
+  await import("./activity").then(async (m) => { const u = await db.user.findUnique({ where: { id: p.userId }, select: { email: true } }); return m.logActivity("site", "payment", `💳 ${p.renewal ? "Renewal" : "Purchase"} $${(p.amountCents / 100).toFixed(2)} · ${p.kind} ${p.productId} · +${p.credits} credits · ${u?.email ?? ""} (${p.source})`); }).catch(() => {});
   try {
     const sub = p.kind === "subscription";
     const url = await hookFor(sub ? "subscriptions" : "purchases");

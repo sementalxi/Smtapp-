@@ -55,6 +55,10 @@ export async function logGeneration(opts: {
   image?: Buffer;
   error?: string;
 }) {
+  await import("./activity").then(async (m) => {
+    const [u, b] = await Promise.all([db.user.findUnique({ where: { id: opts.userId }, select: { email: true } }), db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, template: { select: { name: true } } } })]);
+    return m.logActivity("site", opts.ok ? "poster" : "poster_failed", opts.ok ? `🖼️ Poster made: ${b?.title ?? ""} · ${b?.template.name ?? ""} · ${u?.email ?? ""}` : `❌ Poster failed: ${b?.title ?? ""} · ${u?.email ?? ""} — ${(opts.error ?? "").slice(0, 300)}`, opts.ok ? "info" : "error");
+  }).catch(() => {});
   try {
     const [user, banner] = await Promise.all([
       db.user.findUnique({ where: { id: opts.userId }, select: { name: true, email: true, credits: true } }),
