@@ -16,12 +16,31 @@ const auth = () => ({ Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Cont
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
 
 export const MOTIONS: Record<string, { en: string; es: string; prompt: string }> = {
-  epic: { en: "Epic camera", es: "Cámara épica", prompt: "slow cinematic camera push-in toward the player, subtle parallax depth, stadium lights flicker, dust and sparks drift through the air" },
-  celebrate: { en: "Celebration", es: "Celebración", prompt: "the player comes alive and celebrates with confident energy, arms up, fists clenched, crowd lights flashing, confetti falling" },
-  walk: { en: "Walk-out", es: "Entrada épica", prompt: "the player walks confidently toward the camera like a stadium walk-out, smoke rolls across the floor, spotlights sweep" },
-  orbit: { en: "360 orbit", es: "Giro 360", prompt: "the camera slowly orbits around the player in a smooth arc, dramatic rim lighting, particles swirl" },
-  fire: { en: "Fire & smoke", es: "Fuego y humo", prompt: "flames and embers rise around the player, thick smoke swirls, the player looks up intensely into the camera" },
+  epic: { en: "Epic camera", es: "Cámara épica", prompt: "a fast, dramatic cinematic camera dolly-in toward the player with strong parallax; the player turns his head toward the camera, nods with confidence and strikes a power pose" },
+  celebrate: { en: "Celebration", es: "Celebración", prompt: "the player bursts into a big celebration — jumps, pumps both fists, shouts with joy, points at the camera — while the camera shakes slightly with the energy" },
+  walk: { en: "Walk-out", es: "Entrada épica", prompt: "the player walks powerfully toward the camera like a stadium walk-out, shoulders moving, the camera tracking backward in front of him" },
+  orbit: { en: "360 orbit", es: "Giro 360", prompt: "the camera swings in a smooth fast arc around the player while he turns his body and looks straight into the lens" },
+  fire: { en: "Fire & smoke", es: "Fuego y humo", prompt: "huge flames erupt behind the player, embers and sparks blast past the camera, the player clenches his fists and stares intensely into the lens" },
 };
+
+// Random extra action so no two videos look the same (2 are picked each time).
+const EXTRAS = [
+  "the whole background is alive: clouds rush across the sky in fast time-lapse",
+  "lightning bolts crack across the sky and light up the scene",
+  "stadium floodlights sweep and flash across the background",
+  "thick smoke rolls and swirls through the background",
+  "glowing embers and sparks drift and spin through the air",
+  "leaves, confetti or particles from the scene swirl in a strong gust of wind",
+  "lens flares and light streaks shoot across the frame",
+  "the background elements of the poster move on their own — flags wave, flames flicker, objects sway",
+  "a pulsing energy aura glows and ripples around the player",
+  "the big number and logo glow and pulse with light, with a shimmering metallic shine sweeping across them",
+  "fireworks burst in the sky behind the player",
+  "rain streaks fall and splash with dramatic backlight",
+  "a crowd of camera flashes pops in the dark background",
+  "fog rolls along the ground and light beams cut through it",
+];
+const pick = <T,>(a: T[], n: number) => [...a].sort(() => Math.random() - 0.5).slice(0, n);
 
 export async function videoPrices() {
   const s = await getSettings();
@@ -35,9 +54,12 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
   const cost = o.seconds === 10 ? p.ten : p.five;
   const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.epic.prompt;
   const prompt = [
-    `Bring this sports poster to life as a premium cinematic social media clip: ${motion}.`,
-    o.extra ? `Extra direction: ${o.extra}.` : "",
-    "Keep all the poster's text, names, numbers and logos sharp, readable and unchanged; keep the player's face and identity exactly the same; smooth realistic motion, high detail, no morphing.",
+    `Turn this sports poster into a dynamic, high-energy cinematic video with LOTS of visible motion — nothing stays still.`,
+    `Main action: ${motion}.`,
+    `Background in constant motion: ${pick(EXTRAS, 2).join("; ")}.`,
+    o.extra ? `Also: ${o.extra}.` : "",
+    "Style: premium sports hype trailer, dramatic lighting changes, energetic pacing, real physics, 3D depth.",
+    "Keep the player's face and identity the same and keep the poster's names, numbers and logos readable.",
   ].filter(Boolean).join(" ");
   const image = o.imageUrl.startsWith("/") ? site() + o.imageUrl : o.imageUrl;
   if (cost > 0) await changeCredits({ userId: o.userId, amount: -cost, type: "GENERATION", note: `AI video (${o.seconds}s)` });
@@ -46,7 +68,7 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
     const r = await fetch(`https://queue.fal.run/${VIDEO_MODELS[p.model].id}`, {
       method: "POST",
       headers: auth(),
-      body: JSON.stringify({ start_image_url: image, prompt: prompt.slice(0, 2400), duration: String(o.seconds), generate_audio: o.audio, negative_prompt: "blur, distort, low quality, warped text, misspelled letters, extra fingers, face change, morphing" }),
+      body: JSON.stringify({ start_image_url: image, prompt: prompt.slice(0, 2400), duration: String(o.seconds), generate_audio: o.audio, cfg_scale: 0.7, negative_prompt: "static image, frozen, still frame, slow motion, blur, distort, low quality, warped text, misspelled letters, extra fingers, face change, morphing" }),
       signal: AbortSignal.timeout(30000),
     });
     const d = (await r.json().catch(() => ({}))) as { status_url?: string; response_url?: string; detail?: unknown };
