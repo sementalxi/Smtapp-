@@ -29,7 +29,7 @@ export default async function Home() {
       db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 }),
       db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } }),
     ]);
-    heroImgs = [st.hero_1, st.hero_2, st.hero_3].filter(Boolean);
+    heroImgs = [st.hero_1, st.hero_2, st.hero_3];
     heroBg = { mode: st.hero_bg_mode, video: st.hero_video, opacity: Number(st.hero_video_opacity) || 70, effect: st.hero_effect };
     templates = tpls;
     bonus = Number(st.signup_credits) || 0;

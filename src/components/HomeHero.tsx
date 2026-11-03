@@ -30,6 +30,7 @@ export function HomeHero({
   user,
   bonus,
   heroBg,
+  heroImgs = [],
   templates = [],
 }: {
   t: T;
@@ -42,7 +43,9 @@ export function HomeHero({
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
   // Three real sample posters for the hero (labelled styles first).
   const withThumb = templates.filter((x) => x.thumbUrl);
-  const posters = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].slice(0, 3).map((x) => thumb(x.thumbUrl!, 480));
+  const auto = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].map((x) => thumb(x.thumbUrl!, 480));
+  // Admin's picks (Home page — left / center / right) win; empty spots use style samples.
+  const posters = [0, 1, 2].map((n) => heroImgs[n] || auto[n]).filter(Boolean) as string[];
   const feats: [keyof typeof ICONS, string, string][] = [
     ["card", "hero_feat_1", "PLAYER"],
     ["trophy", "hero_feat_2", "CHAMPIONS"],
