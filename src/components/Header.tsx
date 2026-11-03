@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { LangSwitch } from "./LangSwitch";
 import { NavLinks } from "./NavLinks";
+import { LiveCredits } from "./LiveCredits";
 import { SideMenu, type MenuItem } from "./SideMenu";
 import { getNumberSetting } from "@/lib/settings";
 
@@ -73,8 +74,7 @@ export async function Header() {
           {user ? (
             <>
               <Link href="/billing" className="chip whitespace-nowrap border-lime/40 bg-lime/10 py-1 text-lime" title={t("balance")}>
-                ⚡ {user.credits}
-                <span className="hidden sm:inline"> {user.credits === 1 ? t("credit") : t("credits")}</span>
+                <LiveCredits initial={user.credits} es={es} word={t("credits")} wordOne={t("credit")} />
               </Link>
               <form action="/api/auth/logout" method="post">
                 <button className="btn-ghost whitespace-nowrap px-2.5 py-1.5 text-xs sm:px-3" aria-label={t("nav_logout")}>
