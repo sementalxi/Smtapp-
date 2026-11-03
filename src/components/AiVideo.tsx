@@ -7,6 +7,7 @@ import { sfx } from "@/lib/sfx";
 
 type Job = { id: string; status: string; videoUrl: string | null; seconds?: number; error: string | null };
 const MOTIONS: [string, string, string, string][] = [
+  ["ultra", "⭐", "Ultra — recommended", "Ultra — recomendado"],
   ["epic", "🎥", "Epic camera", "Cámara épica"],
   ["celebrate", "🙌", "Celebration", "Celebración"],
   ["walk", "🚶", "Walk-out", "Entrada épica"],
@@ -23,7 +24,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   const [open, setOpen] = useState(false);
   const [seconds, setSeconds] = useState<5 | 10>(5);
   const [audio, setAudio] = useState(false); // silent by default (cheaper; add music later in TikTok/Reels)
-  const [motion, setMotion] = useState("epic");
+  const [motion, setMotion] = useState("ultra");
   const [extra, setExtra] = useState("");
   const [job, setJob] = useState<Job | null>(null);
   const [err, setErr] = useState("");
@@ -106,7 +107,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
             <div className="mb-1 text-[11px] font-bold uppercase tracking-wider text-muted">{es ? "Movimiento" : "Motion"}</div>
             <div className="flex flex-wrap gap-1.5">
               {MOTIONS.map(([k, icon, en, esL]) => (
-                <button key={k} type="button" onClick={() => setMotion(k)} className={`rounded-full border px-3 py-1.5 text-xs font-bold ${motion === k ? "border-fuchsia-300 bg-fuchsia-500/20 text-white" : "border-line text-muted"}`}>
+                <button key={k} type="button" onClick={() => setMotion(k)} className={`rounded-full border px-3 py-1.5 text-xs font-bold ${k === "ultra" ? "w-full py-2 text-sm " : ""}${motion === k ? (k === "ultra" ? "border-amber-300 bg-gradient-to-r from-amber-400/30 to-fuchsia-500/30 text-white shadow-[0_0_20px_-6px] shadow-amber-300" : "border-fuchsia-300 bg-fuchsia-500/20 text-white") : k === "ultra" ? "border-amber-300/50 text-amber-200" : "border-line text-muted"}`}>
                   {icon} {es ? esL : en}
                 </button>
               ))}

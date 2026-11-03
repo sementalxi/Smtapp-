@@ -16,6 +16,8 @@ const auth = () => ({ Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Cont
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
 
 export const MOTIONS: Record<string, { en: string; es: string; prompt: string }> = {
+  // ⭐ The best one: Pro model + a full hype-trailer sequence + 3 random extras.
+  ultra: { en: "Ultra", es: "Ultra", prompt: "a full sports hype-trailer shot: the camera starts slightly wide and pushes in fast with strong 3D parallax and a subtle whip; the player comes alive — turns to the lens, a confident smirk, a powerful signature gesture (fist, point, arms crossed or a chest tap) — then a dramatic hero pose as the light hits him; every element of the poster animates with depth: the background moves, light changes, the title and number catch a bright metallic shine" },
   epic: { en: "Epic camera", es: "Cámara épica", prompt: "a fast, dramatic cinematic camera dolly-in toward the player with strong parallax; the player turns his head toward the camera, nods with confidence and strikes a power pose" },
   celebrate: { en: "Celebration", es: "Celebración", prompt: "the player bursts into a big celebration — jumps, pumps both fists, shouts with joy, points at the camera — while the camera shakes slightly with the energy" },
   walk: { en: "Walk-out", es: "Entrada épica", prompt: "the player walks powerfully toward the camera like a stadium walk-out, shoulders moving, the camera tracking backward in front of him" },
@@ -52,20 +54,21 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
   const p = await videoPrices();
   if (!p.on) throw Object.assign(new Error("video_off"), { status: 503 });
   const cost = o.seconds === 10 ? p.ten : p.five;
-  const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.epic.prompt;
+  const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.ultra.prompt;
   const prompt = [
     `Turn this sports poster into a dynamic, high-energy cinematic video with LOTS of visible motion — nothing stays still.`,
     `Main action: ${motion}.`,
-    `Background in constant motion: ${pick(EXTRAS, 2).join("; ")}.`,
+    `Background in constant motion: ${pick(EXTRAS, o.motion === "ultra" ? 3 : 2).join("; ")}.`,
     o.extra ? `Also: ${o.extra}.` : "",
     "Style: premium sports hype trailer, dramatic lighting changes, energetic pacing, real physics, 3D depth.",
     "Keep the player's face and identity the same and keep the poster's names, numbers and logos readable.",
   ].filter(Boolean).join(" ");
   const image = o.imageUrl.startsWith("/") ? site() + o.imageUrl : o.imageUrl;
   if (cost > 0) await changeCredits({ userId: o.userId, amount: -cost, type: "GENERATION", note: `AI video (${o.seconds}s)` });
-  const job = await db.videoJob.create({ data: { userId: o.userId, bannerId: o.bannerId, model: p.model, prompt, seconds: o.seconds, audio: o.audio, cost } });
+  const model: ModelKey = o.motion === "ultra" ? "kling-pro" : p.model;
+  const job = await db.videoJob.create({ data: { userId: o.userId, bannerId: o.bannerId, model, prompt, seconds: o.seconds, audio: o.audio, cost } });
   try {
-    const r = await fetch(`https://queue.fal.run/${VIDEO_MODELS[p.model].id}`, {
+    const r = await fetch(`https://queue.fal.run/${VIDEO_MODELS[model].id}`, {
       method: "POST",
       headers: auth(),
       body: JSON.stringify({ start_image_url: image, prompt: prompt.slice(0, 2400), duration: String(o.seconds), generate_audio: o.audio, cfg_scale: 0.7, negative_prompt: "static image, frozen, still frame, slow motion, blur, distort, low quality, warped text, misspelled letters, extra fingers, face change, morphing" }),
