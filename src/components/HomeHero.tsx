@@ -74,7 +74,7 @@ export function HomeHero({
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
       <HeroEffect effect={heroBg?.effect ?? "stadium"} />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1.05fr_1fr] lg:py-24">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1fr_1.15fr] lg:py-20">
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
@@ -104,7 +104,7 @@ export function HomeHero({
         </div>
 
         {/* Right: a fan of real posters made with KIXO (falls back to the crest) */}
-        <div className="relative mx-auto w-full max-w-[460px]">
+        <div className="relative mx-auto w-full max-w-[460px] lg:max-w-[640px] xl:max-w-[700px]">
           {posters.length >= 3 ? <PosterFan posters={posters} /> : <div className="hidden lg:block"><Crest /></div>}
         </div>
       </div>
@@ -158,7 +158,7 @@ function PosterFan({ posters }: { posters: string[] }) {
   const [l, c, r] = posters;
   const card = "absolute top-1/2 aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-panel shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]";
   return (
-    <div className="kixo-logo-in relative mx-auto aspect-[5/4] w-full max-w-[440px]">
+    <div className="kixo-logo-in relative mx-auto aspect-[5/4] w-full max-w-[440px] lg:max-w-none">
       <div className="kixo-logo-aura pointer-events-none absolute inset-[12%] rounded-full bg-lime/25 blur-3xl" />
       <div className={`${card} left-[2%] w-[44%] -translate-y-1/2 -rotate-[11deg] opacity-90`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}

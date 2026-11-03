@@ -2,15 +2,19 @@
 
 import { useEffect, useState } from "react";
 
-/** First visit: asks which language to use (shown only until a language is chosen). */
+/** Asks which language to use every time someone opens the website (once per visit). */
 export function LangPrompt({ suggested }: { suggested: "en" | "es" }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
+    try {
+      if (sessionStorage.getItem("kixo_lang_session")) return;
+    } catch {}
     const t = setTimeout(() => setShow(true), 350);
     return () => clearTimeout(t);
   }, []);
   if (!show) return null;
   const go = (l: "en" | "es") => {
+    try { sessionStorage.setItem("kixo_lang_session", l); } catch {}
     const next = window.location.pathname + window.location.search;
     window.location.href = `/api/locale?l=${l}&next=${encodeURIComponent(next)}`;
   };
@@ -24,7 +28,7 @@ export function LangPrompt({ suggested }: { suggested: "en" | "es" }) {
       <div className="kixo-fade-up relative w-full max-w-sm overflow-hidden rounded-3xl border border-lime/30 bg-gradient-to-b from-panel-2 to-panel p-6 text-center shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
         <div className="pointer-events-none absolute -top-16 left-1/2 h-40 w-64 -translate-x-1/2 rounded-full bg-lime/20 blur-3xl" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/kixo-hero-logo.webp" alt="KIXO" className="kixo-logo-float relative mx-auto h-28 w-auto drop-shadow-[0_0_20px_rgba(47,216,232,0.4)]" />
+        <img src="/kixo-logo-real.png" alt="KIXO" className="kixo-logo-float relative mx-auto h-auto w-56 drop-shadow-[0_0_24px_rgba(255,46,136,0.45)]" />
         <h2 className="font-display relative mt-3 text-3xl tracking-wide">
           Choose your language
           <span className="block text-xl text-lime">Elige tu idioma</span>

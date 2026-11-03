@@ -83,7 +83,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="kixo-grain" aria-hidden />
           <div className="kixo-vignette" aria-hidden />
           <RefCapture />
-          {!chosen && <LangPrompt suggested={locale} />}
+          <LangPrompt suggested={locale} />
           <Header />
           <SoundEvents />
           <KeepAwake />

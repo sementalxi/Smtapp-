@@ -68,7 +68,64 @@ export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[];
         <p className="mx-auto mt-2 max-w-md text-muted">{tt("deals_sub")}</p>
       </div>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Computer, one deal: a big featured card — picture on the left, everything to buy on the right. */}
+      {deals.length === 1 && (() => {
+        const d = deals[0];
+        const tags = d.tags.split(",").map((x) => x.trim()).filter(Boolean);
+        const items = d.included.split("\n").map((x) => x.trim()).filter(Boolean);
+        return (
+          <div data-reveal className="deal-hot group relative mx-auto mt-12 hidden max-w-5xl rounded-3xl p-[2px] lg:block">
+            <span className="deal-hot-badge">🔥 {es ? "OFERTA" : "HOT DEAL"}</span>
+            <div className="relative grid grid-cols-[1.15fr_1fr] overflow-hidden rounded-[22px] bg-gradient-to-br from-panel-2 to-panel">
+              <span className="deal-hot-shine" aria-hidden />
+              <div className="relative min-h-[360px] overflow-hidden">
+                {d.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={thumb(d.imageUrl, 1400)} alt="" className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                ) : (
+                  <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_50%_40%,rgba(255,46,136,0.3),transparent_70%)] text-7xl">%</div>
+                )}
+                <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-r from-transparent to-panel-2/90" />
+                {tags.length > 0 && (
+                  <div className="absolute top-4 left-4 flex flex-wrap gap-1.5">
+                    {tags.map((tg, k) => (
+                      <span key={tg} className={`rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-wider shadow ${k === 0 ? "bg-lime text-ink" : "bg-teal text-ink"}`}>{tg}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="relative flex flex-col justify-center gap-4 p-8">
+                <div>
+                  <h3 className="font-display text-4xl leading-none">{d.title}</h3>
+                  {d.subtitle && <p className="mt-2 text-muted">{d.subtitle}</p>}
+                </div>
+                {d.price && <div className="font-display text-6xl leading-none text-gold-light">{d.price}</div>}
+                {items.length > 0 && (
+                  <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+                    {items.map((it) => (
+                      <li key={it} className="flex gap-2"><span className="text-lime">✓</span>{it}</li>
+                    ))}
+                  </ul>
+                )}
+                {d.endsAt && (
+                  <div className="rounded-xl border border-gold/40 bg-gold/5 p-3 text-center">
+                    <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-muted">{tt("deals_limited")}</div>
+                    <Countdown endsAt={d.endsAt} es={es} />
+                  </div>
+                )}
+                {d.buyable ? (
+                  <BuyButton kind="deal" id={d.id} label={d.ctaLabel || tt("deals_cta")} loggedIn={loggedIn} primary checkout={{ title: d.title, price: d.price, subtitle: d.subtitle }} />
+                ) : (
+                  <Link href={d.ctaHref || "/pricing"} className="btn-primary kixo-shine w-full py-3.5 text-base">{d.ctaLabel || tt("deals_cta")}</Link>
+                )}
+                <div className="text-center text-xs text-muted">🔒 {tt("deals_secure")}</div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      <div className={`mt-10 grid gap-5 sm:grid-cols-2 ${deals.length === 1 ? "mx-auto max-w-md sm:grid-cols-1 lg:hidden" : deals.length === 2 ? "mx-auto max-w-4xl" : "lg:grid-cols-3"}`}>
         {deals.map((d, n) => {
           const isOpen = open === d.id;
           const tags = d.tags.split(",").map((x) => x.trim()).filter(Boolean);
