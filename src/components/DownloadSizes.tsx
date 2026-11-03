@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useT } from "@/i18n/client";
 
 type Size = { id: string; w: number; h: number; en: string; es: string; sub: string };
@@ -67,7 +67,51 @@ export function DownloadSizes({
   primary?: string;
 }) {
   const { locale } = useT();
+  const es = locale === "es";
   const [busy, setBusy] = useState("");
+  const [canShare, setCanShare] = useState(false);
+  const [msg, setMsg] = useState("");
+  const ready = useRef<File | null>(null);
+
+  // Phones that can share files (iPhone, Android) get "Save to Photos". The image is prepared ahead of time
+  // so the share sheet opens instantly when tapped.
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const test = new File([new Blob(["x"], { type: "image/png" })], "t.png", { type: "image/png" });
+        if (!navigator.canShare?.({ files: [test] })) return;
+        setCanShare(true);
+        const url = typeof src === "string" ? src : await src();
+        if (!url || !alive) return;
+        const blob = await reframe(url, 1080, 1350);
+        if (blob && alive) ready.current = new File([blob], `${baseName.replace(/[^\w-]+/g, "_") || "kixo"}.png`, { type: "image/png" });
+      } catch {}
+    })();
+    return () => { alive = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typeof src === "string" ? src : "fn"]);
+
+  async function saveToPhotos() {
+    setMsg("");
+    try {
+      let f = ready.current;
+      if (!f) {
+        setBusy("photos");
+        const url = typeof src === "string" ? src : await src();
+        const blob = url ? await reframe(url, 1080, 1350) : null;
+        if (!blob) return;
+        f = new File([blob], `${baseName.replace(/[^\w-]+/g, "_") || "kixo"}.png`, { type: "image/png" });
+        ready.current = f;
+      }
+      await navigator.share({ files: [f] });
+      setMsg(es ? "Toca “Guardar imagen” para mandarla a tus Fotos 📸" : "Tap “Save Image” to put it in your Photos 📸");
+    } catch (e) {
+      if ((e as Error)?.name !== "AbortError") setMsg(es ? "No se pudo abrir — usa ⬇ Post y luego “Guardar en Fotos”." : "Couldn't open — use ⬇ Post, then “Save to Photos”.");
+    } finally {
+      setBusy("");
+    }
+  }
 
   async function go(size: Size) {
     setBusy(size.id);
@@ -88,6 +132,12 @@ export function DownloadSizes({
 
   return (
     <div>
+      {canShare && (
+        <button type="button" disabled={!!busy} onClick={saveToPhotos} className="btn-primary mb-2 w-full py-3 text-base">
+          {busy === "photos" ? "…" : es ? "📸 Guardar en Fotos" : "📸 Save to Photos"}
+        </button>
+      )}
+      {msg && <p className="mb-2 text-center text-xs text-lime">{msg}</p>}
       <div className="grid grid-cols-3 gap-2">
         {SIZES.map((s) => (
           <button
@@ -95,7 +145,7 @@ export function DownloadSizes({
             type="button"
             disabled={!!busy}
             onClick={() => go(s)}
-            className={`${s.id === primary ? "btn-primary" : "btn-ghost"} flex-col gap-0 px-2 py-2.5`}
+            className={`${s.id === primary && !canShare ? "btn-primary" : "btn-ghost"} flex-col gap-0 px-2 py-2.5`}
           >
             <span>{busy === s.id ? "…" : `⬇ ${locale === "es" ? s.es : s.en}`}</span>
             <span className="text-[10px] font-semibold opacity-70">
