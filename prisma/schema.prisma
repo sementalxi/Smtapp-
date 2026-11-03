@@ -35,6 +35,7 @@ enum Layout {
   MATCHDAY
   LINEUP
   RESULT
+  STANDINGS
 }
 
 model User {

@@ -40,6 +40,12 @@ export const ART_TYPES: ArtType[] = [
     es: { name: "Resultado", desc: "Marcador final con ambos escudos y los goleadores." },
   },
   {
+    layout: "STANDINGS",
+    icon: "📊",
+    en: { name: "Standings", desc: "League table: positions, teams, points and stats." },
+    es: { name: "Tabla de posiciones", desc: "Tabla de la liga: posiciones, equipos, puntos y estadísticas." },
+  },
+  {
     layout: "EVENT",
     icon: "🎟️",
     en: { name: "Tournament / event", desc: "Announce a tournament: prize, entry, date and times." },

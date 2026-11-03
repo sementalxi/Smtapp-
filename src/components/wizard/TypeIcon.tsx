@@ -34,6 +34,12 @@ const P: Record<string, React.ReactNode> = {
       <path d="M6 10.5h2.5v3H6zM15.5 10.5H18v3h-2.5z" />
     </>
   ),
+  STANDINGS: (
+    <>
+      <rect x="3.5" y="4" width="17" height="16" rx="2" />
+      <path d="M3.5 9h17M3.5 13.5h17M8 4v16" />
+    </>
+  ),
   EVENT: (
     <>
       <path d="M3.5 7.5a1.5 1.5 0 0 1 1.5-1.5h14a1.5 1.5 0 0 1 1.5 1.5v2a2.5 2.5 0 0 0 0 5v2a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5v-2a2.5 2.5 0 0 0 0-5z" />

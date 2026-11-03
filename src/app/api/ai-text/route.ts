@@ -14,11 +14,12 @@ const EDITABLE: Record<string, Record<string, number>> = {
   MATCHDAY: { headline: 30, footer: 48 },
   LINEUP: { headline: 30, footer: 48 },
   RESULT: { headline: 30, footer: 48 },
+  STANDINGS: { headline: 30, footer: 48 },
   EVENT: { headline: 30, name: 40, subtitle: 40, details: 48, prize: 24, footer: 48 },
 };
 
 const Body = z.object({
-  layout: z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT"]),
+  layout: z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT", "STANDINGS"]),
   language: z.string().max(20).default("English"),
   inputs: z.record(z.string(), z.string().max(2000)),
 });

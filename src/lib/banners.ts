@@ -39,6 +39,8 @@ export const InputsSchema = z.object({
   formation: str(12),
   players: z.array(z.string().trim().max(40)).max(18).default([]),
   scorers: z.array(z.string().trim().max(40)).max(12).default([]),
+  standings: z.array(z.string().trim().max(90)).max(20).default([]),
+  tableLogos: z.array(z.string().trim().max(500)).max(20).default([]),
   trophy: str(60),
   bgPose: str(40),
   bgScene: str(40),
@@ -244,7 +246,12 @@ export function collectProRefs(opts: {
       url,
       label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
     });
-  if (layout === "MATCHDAY" || layout === "RESULT") {
+  if (layout === "STANDINGS") {
+    i.standings.forEach((row, n) => {
+      const url = i.tableLogos?.[n];
+      if (url && n < 10) refs.push({ url, label: `the crest of the team in table row ${n + 1} (${row.split(/\s+[—-]\s+|\s+P\s/)[0]}). Show it SMALL next to that team's name in the table, faithful to its shape and colours.` });
+    });
+  } else if (layout === "MATCHDAY" || layout === "RESULT") {
     if (i.homeLogoUrl) crest(i.homeLogoUrl, "the home team", "left");
     if (i.awayLogoUrl) crest(i.awayLogoUrl, "the away team", "right");
   } else if (opts.logoUrl) {
@@ -507,6 +514,21 @@ export function buildProPrompt(opts: {
       add("Competition", i.competition);
       add("Date / matchday", i.date);
       break;
+    case "STANDINGS": {
+      const rows = i.standings.filter(Boolean);
+      composition = [
+        `A premium league STANDINGS table graphic — like an official league / TV broadcast table posted by a top competition's media team.`,
+        `A huge "${i.headline || "STANDINGS"}" title at the top${i.competition ? ", the league / competition name and its logo" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted, the bottom rows subtly marked. Every row the same height, every number lined up in its column, all text perfectly legible.`,
+        frame,
+        finish,
+      ].join(" ");
+      add("Title (huge)", i.headline || "STANDINGS");
+      add("League / competition", i.competition);
+      add("Matchday / week", i.date);
+      if (rows.length)
+        lines.push(`- Table rows, in this exact order (top to bottom) — keep every team name and number exactly; the labels P W D L GD PTS are the column headers (translate these short headers into the poster text language if it is not English, e.g. PJ G E P DG PTS in Spanish), show each number in its column:\n${rows.map((r) => `  ${q(r)}`).join("\n")}`);
+      break;
+    }
     case "RESULT":
       composition = [
         `A full-time result graphic.`,
@@ -584,7 +606,7 @@ export function buildProPrompt(opts: {
 
   // A style with admin design instructions: those describe the whole design; the built-in layout recipe is skipped.
   const adminLed = !!opts.instructions?.trim();
-  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", RESULT: "full-time result", EVENT: "tournament / event" }[layout] ?? "sports";
+  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table" }[layout] ?? "sports";
   const directorBlock =
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`

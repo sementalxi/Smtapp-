@@ -1,6 +1,6 @@
 // Shared (client + server) definitions for banner templates and inputs.
 
-export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT";
+export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS";
 
 export type FontKey = "anton" | "bebas" | "gothic" | "brush" | "sans";
 export type Particles = "sparks" | "embers" | "snow" | "none";
@@ -47,6 +47,8 @@ export interface BannerInputs {
   formation: string; // "4-3-3"
   players: string[]; // lineup: "10 Name ST"
   scorers: string[]; // result
+  standings: string[]; // standings table rows
+  tableLogos: string[]; // standings: crest URL per row ("" = none)
   trophy: string; // champions trophy style
   colorMode: string; // "surprise" | "template" | "custom"
   color1: string;
@@ -91,6 +93,8 @@ export const EMPTY_INPUTS: BannerInputs = {
   formation: "",
   players: [],
   scorers: [],
+  standings: [],
+  tableLogos: [],
   trophy: "",
   colorMode: "",
   color1: "",
@@ -143,6 +147,7 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   MATCHDAY: ["homeTeam", "awayTeam", "competition", "date", "time", "venue", "footer"],
   LINEUP: ["team", "formation", "players", "competition", "date", "footer"],
   RESULT: ["homeTeam", "awayTeam", "homeScore", "awayScore", "scorers", "competition", "footer"],
+  STANDINGS: ["headline", "competition", "standings", "date", "footer"],
 };
 
 export const CANVAS_W = 1080;
@@ -994,6 +999,10 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     ["lineup-gold", "Shatter XI", "Once Estallido", "LINEUP", 12, "night stadium seen through a giant sheet of glass shattering toward the camera, shards catching the floodlights, dramatic perspective pitch", "#e3102b", "#ffffff", "#050505", "bebas", "sparks"],
     ["result-fulltime", "Full Time", "Final del Partido", "RESULT", 13, "stadium scoreboard atmosphere at night, confetti and smoke, big screen glow, dramatic spotlight beams", "#7a2cff", "#c8a2ff", "#0a0216", "anton", "sparks"],
     ["result-victory", "Victory", "Victoria", "RESULT", 14, "victory celebration, golden light burst, fireworks over the stadium, sparks and lens flares", "#e09a1f", "#ffd36b", "#1a0f02", "anton", "embers"],
+    ["standings-broadcast", "TV Broadcast", "Transmisión TV", "STANDINGS", 1, "premium TV-broadcast league table graphic: a sleek glass-and-metal table panel floating in a dark night stadium, volumetric floodlight beams, subtle grid lines, team-colour light strips, like an official league broadcast package", "#1f6bff", "#8fd3ff", "#020816", "anton", "sparks"],
+    ["standings-gold", "Title Race", "Carrera por el Título", "STANDINGS", 2, "title-race league table: dark luxury stage with a golden trophy glowing softly behind the table, gold light rays, gold dust and sparks, the top spot highlighted in gold", "#d4a64a", "#ffe08a", "#070605", "anton", "embers"],
+    ["standings-neon", "Neon Table", "Tabla Neón", "STANDINGS", 3, "esports league table: dark arena with neon stage lights, holographic HUD panels, scan lines, glowing rows in the league colours, futuristic gaming broadcast look", "#ff2bd6", "#16e0ff", "#07020f", "bebas", "sparks"],
+    ["standings-grunge", "Street Table", "Tabla Callejera", "STANDINGS", 4, "gritty street-poster league table: torn paper, halftone and spray-paint textures, bold diagonal colour blocks, real photographic stadium behind, aggressive sports-design look", "#e3102b", "#ffffff", "#0a0505", "anton", "embers"],
   ].map(([slug, name, nameEs, layout, sort, prompt, primary, accent, dark, nameFont, particles]) => ({
     slug: slug as string,
     name: name as string,

@@ -242,6 +242,22 @@ export function CreateWizard({
   const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);
   const [squadText, setSquadText] = useState("");
   const [scorersText, setScorersText] = useState("");
+  // Standings table rows
+  type TRow = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
+  const blankRow = (): TRow => ({ team: "", p: "", w: "", d: "", l: "", gd: "", pts: "" });
+  const [table, setTable] = useState<TRow[]>(() => Array.from({ length: 6 }, blankRow));
+  const [myTeams, setMyTeams] = useState<{ name: string; logoUrl: string | null }[]>([]);
+  useEffect(() => {
+    if (layout !== "STANDINGS" || myTeams.length) return;
+    fetch("/api/saved?kind=team", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => Array.isArray(d?.items) && setMyTeams(d.items))
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout]);
+  const tableRows = table.filter((t) => t.team.trim());
+  const rowText = (t: TRow, n: number) =>
+    [`${n + 1}. ${t.team.trim()}`, ...([["P", t.p], ["W", t.w], ["D", t.d], ["L", t.l], ["GD", t.gd], ["PTS", t.pts]] as const).filter(([, v]) => v.trim()).map(([k, v]) => `${k} ${v.trim()}`)].join(" · ");
   const [aiBusy, setAiBusy] = useState(false);
   const [aiMsg, setAiMsg] = useState("");
   const [undoText, setUndoText] = useState<BannerInputs | null>(null);
@@ -288,6 +304,8 @@ export function CreateWizard({
       players: (layout === "LINEUP" ? lineupPlayers : lines(playersText)).slice(0, 18),
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
+      standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
+      tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 20).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl ?? "") : [],
     };
   }
 
@@ -304,6 +322,8 @@ export function CreateWizard({
         return !!team && lineupPlayers.length > 0;
       case "EVENT":
         return !!inp.headline.trim();
+      case "STANDINGS":
+        return tableRows.length >= 2;
     }
   }
 
@@ -800,6 +820,82 @@ export function CreateWizard({
                   <p className="mt-1 text-xs text-muted">{lines(playersText).length}/11 · {locale === "es" ? "o elige una formación para usar la cancha" : "or pick a formation to use the pitch"}</p>
                 </div>
               )}
+            </>
+          )}
+
+          {layout === "STANDINGS" && (
+            <>
+              <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "TABLA DE POSICIONES" : "STANDINGS" })}
+                {field({ label: locale === "es" ? "Jornada / semana" : "Matchday / week", k: "date", max: 30, ph: locale === "es" ? "Jornada 7" : "Matchday 7" })}
+              </div>
+              <div>
+                <label className="label">
+                  {locale === "es" ? "Tabla" : "Table"} <span className="text-lime">*</span>
+                </label>
+                <datalist id="kx-my-teams">
+                  {myTeams.map((m) => (
+                    <option key={m.name} value={m.name} />
+                  ))}
+                </datalist>
+                <div className="overflow-x-auto rounded-xl border border-line">
+                  <table className="w-full min-w-[520px] text-sm">
+                    <thead>
+                      <tr className="bg-panel-2 text-[11px] font-bold uppercase text-muted">
+                        <th className="w-8 px-1 py-2">#</th>
+                        <th className="px-1 py-2 text-left">{locale === "es" ? "Equipo" : "Team"}</th>
+                        {(locale === "es" ? ["PJ", "G", "E", "P", "DG", "PTS"] : ["P", "W", "D", "L", "GD", "PTS"]).map((h) => (
+                          <th key={h} className="w-12 px-1 py-2">{h}</th>
+                        ))}
+                        <th className="w-8" />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {table.map((row, n) => {
+                        const setCell = (k: keyof TRow, val: string) => setTable((t) => t.map((x, j) => (j === n ? { ...x, [k]: val } : x)));
+                        const logo = myTeams.find((m) => m.name.toLowerCase() === row.team.trim().toLowerCase())?.logoUrl;
+                        return (
+                          <tr key={n} className={`border-t border-line ${n === 0 ? "bg-lime/5" : ""}`}>
+                            <td className="px-1 text-center font-extrabold text-muted">{n + 1}</td>
+                            <td className="px-1 py-1">
+                              <div className="flex items-center gap-1.5">
+                                {logo && (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img src={logo} alt="" className="h-6 w-6 shrink-0 object-contain" />
+                                )}
+                                <input className="input !py-1.5" list="kx-my-teams" maxLength={30} value={row.team} placeholder={locale === "es" ? "Nombre del equipo" : "Team name"} onChange={(e) => setCell("team", e.target.value)} />
+                              </div>
+                            </td>
+                            {(["p", "w", "d", "l", "gd", "pts"] as const).map((k) => (
+                              <td key={k} className="px-0.5 py-1">
+                                <input className={`input !px-1 !py-1.5 text-center ${k === "pts" ? "font-extrabold" : ""}`} inputMode={k === "gd" ? "text" : "numeric"} maxLength={4} value={row[k]} onChange={(e) => setCell(k, e.target.value.replace(k === "gd" ? /[^0-9+\-]/g : /[^0-9]/g, ""))} />
+                              </td>
+                            ))}
+                            <td className="px-1 text-center">
+                              {table.length > 2 && (
+                                <button type="button" aria-label="remove" className="text-muted hover:text-white" onClick={() => setTable((t) => t.filter((_, j) => j !== n))}>✕</button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {table.length < 20 && (
+                    <button type="button" className="rounded-lg border border-line px-3 py-1.5 text-xs font-bold hover:border-lime" onClick={() => setTable((t) => [...t, blankRow()])}>
+                      + {locale === "es" ? "Agregar equipo" : "Add team"}
+                    </button>
+                  )}
+                  <span className="text-xs text-muted">
+                    {locale === "es"
+                      ? "En orden del 1º al último. Solo el equipo es obligatorio — deja vacías las columnas que no quieras. Tus equipos guardados salen con su escudo."
+                      : "In order, 1st to last. Only the team is required — leave any column empty to hide it. Your saved teams show with their crest."}
+                  </span>
+                </div>
+              </div>
             </>
           )}
 

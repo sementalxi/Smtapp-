@@ -14,7 +14,7 @@ import { activeSeason } from "@/lib/seasons";
 
 export const metadata = { title: "Create" };
 
-const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "RESULT", "EVENT"];
+const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "RESULT", "STANDINGS", "EVENT"];
 
 export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string }> }) {
   const user = await requireUser();

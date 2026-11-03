@@ -35,6 +35,7 @@ export const SAMPLE_INPUTS = {
 Object.assign(SAMPLE_INPUTS, {
   MATCHDAY: { ...EMPTY_INPUTS, headline: "Match Day", name: "Blitz FC vs Renegade XI", subtitle: "Liga Pro", date: "Fri · Nov 6", details: "9 PM", footer: "Season 2026" },
   LINEUP: { ...EMPTY_INPUTS, headline: "Starting XI", name: "Blitz FC", subtitle: "4-3-3", date: "Matchday 7", footer: "Liga Pro" },
+  STANDINGS: { ...EMPTY_INPUTS, headline: "Standings", name: "Liga Pro", subtitle: "Matchday 7", footer: "Season 2026" },
   RESULT: { ...EMPTY_INPUTS, headline: "3 - 1", name: "Full Time", subtitle: "Blitz FC vs Renegade XI", footer: "Liga Pro" },
 });
 
