@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useT } from "@/i18n/client";
 import { ImageDrop } from "../ImageDrop";
+import { AdminSection } from "./AdminSection";
 
 export function SettingsForm({ initial }: { initial: Record<string, string> }) {
   const { t, locale } = useT();
@@ -25,7 +26,87 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
   }
 
   return (
-    <form onSubmit={save} className="card max-w-xl space-y-4 p-6">
+    <form onSubmit={save} className="max-w-xl space-y-3">
+      <AdminSection icon="⚡" title={es ? "Créditos e IA" : "Credits & AI"} sub={es ? "Créditos al registrarse, precio del póster, calidad IA, video IA" : "Sign-up credits, poster price, AI quality, AI video"} open>
+      <div>
+        <label className="label">{t("signup_credits")}</label>
+        <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />
+      </div>
+      <div>
+        <label className="label">{es ? "Créditos extra al registrarse con Discord" : "Extra credits for signing up with Discord"}</label>
+        <input type="number" min={0} className="input" value={v.discord_bonus} onChange={(e) => setV({ ...v, discord_bonus: e.target.value })} />
+      </div>
+      <div>
+        <label className="label">{es ? "Créditos por invitar (cuando el invitado paga)" : "Invite reward credits (when the invited friend pays)"}</label>
+        <input type="number" min={0} className="input" value={v.referral_reward} onChange={(e) => setV({ ...v, referral_reward: e.target.value })} />
+      </div>
+      <div>
+        <label className="label">{t("pro_cost_label")}</label>
+        <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
+      </div>
+      <div>
+        <label className="label">{es ? "Calidad IA Pro (usuarios sin suscripción)" : "Pro AI quality (users without a subscription)"}</label>
+        <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>
+          <option value="medium">{es ? "Media — ~1 minuto, más barata (recomendada)" : "Medium — about 1 minute, cheaper (recommended)"}</option>
+          <option value="high">{es ? "Alta — máximo detalle, 2–4 minutos, ~3× más cara por imagen" : "High — sharpest detail, 2–4 minutes, costs ~3× more per image"}</option>
+          <option value="low">{es ? "Baja — la más rápida, para pruebas" : "Low — fastest, for testing"}</option>
+        </select>
+        <p className="mt-1 text-xs text-muted">{es ? "Alta a veces llega al límite de 5 minutos del servidor; las imágenes fallidas se reembolsan solas." : "High can occasionally hit the 5-minute server limit; failed images are refunded automatically."}</p>
+      </div>
+      <div>
+        <label className="label">{t("max_upload_mb")}</label>
+        <input type="number" min={1} max={50} className="input" value={v.max_upload_mb} onChange={(e) => setV({ ...v, max_upload_mb: e.target.value })} />
+      </div>
+      <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
+        <label className="label">✨ {es ? "Video con IA (Kling 3.0)" : "AI video (Kling 3.0)"}</label>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Encendido" : "On"}</span>
+            <select className="input" value={v.video_on ?? "1"} onChange={(e) => setV({ ...v, video_on: e.target.value })}>
+              <option value="1">{es ? "Sí" : "Yes"}</option>
+              <option value="0">{es ? "No (ocultar)" : "No (hide)"}</option>
+            </select>
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Calidad" : "Quality"}</span>
+            <select className="input" value={v.video_model ?? "kling-std"} onChange={(e) => setV({ ...v, video_model: e.target.value })}>
+              <option value="kling-std">{es ? "Kling 3.0 (recomendado, ~$0.08–0.13/seg)" : "Kling 3.0 (recommended, ~$0.08–0.13/sec)"}</option>
+              <option value="kling-pro">{es ? "Kling 3.0 Pro (mejor, más caro)" : "Kling 3.0 Pro (better, pricier)"}</option>
+            </select>
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 5 seg" : "Credits · 5-second video"}</span>
+            <input type="number" min={0} className="input" value={v.video_cost_5 ?? "10"} onChange={(e) => setV({ ...v, video_cost_5: e.target.value })} />
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 10 seg" : "Credits · 10-second video"}</span>
+            <input type="number" min={0} className="input" value={v.video_cost_10 ?? "18"} onChange={(e) => setV({ ...v, video_cost_10: e.target.value })} />
+          </div>
+        </div>
+        <p className="mt-2 text-xs text-muted">{es ? "Necesita FAL_KEY en Vercel (fal.ai → API Keys). Los videos fallidos se reembolsan solos." : "Needs FAL_KEY on Vercel (fal.ai → API Keys). Failed videos are refunded automatically."}</p>
+      </div>
+      </AdminSection>
+      <AdminSection icon="🏠" title={es ? "Página principal y vista previa" : "Home page & link preview"} sub={es ? "Imágenes, título del sitio, descripción, imagen al compartir" : "Home images, site title, description, share picture"}>
+      <div className="rounded-xl border border-line bg-panel-2 p-4">
+        <label className="label">{es ? "Imágenes de la página principal" : "Home page images"}</label>
+        <div className="grid grid-cols-3 gap-2">
+          {(["hero_1", "hero_2", "hero_3"] as const).map((k, n) => (
+            <ImageDrop
+              key={k}
+              noSearch
+              kind="photo"
+              label={es ? ["Izquierda", "Centro", "Derecha"][n] : ["Left", "Center", "Right"][n]}
+              value={v[k] || null}
+              onChange={(url) => setV({ ...v, [k]: url ?? "" })}
+            />
+          ))}
+        </div>
+        <p className="mt-1 text-xs text-muted">
+          {es
+            ? "Las 3 imágenes grandes de la página principal. Vacías = se muestran los primeros estilos. También puedes enviar cualquier póster aquí desde su página. Luego toca Guardar."
+            : "The 3 big pictures on the home page. Empty = the first styles are shown. You can also send any poster here from its page. Then tap Save."}
+        </p>
+      </div>
       <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
         <label className="label">🔗 {es ? "Vista previa del enlace (Google, Discord, WhatsApp, iMessage…)" : "Link preview (Google, Discord, WhatsApp, iMessage…)"}</label>
         <div className="space-y-3">
@@ -57,86 +138,11 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           </p>
         </div>
       </div>
-      <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
-        <label className="label">✨ {es ? "Video con IA (Kling 3.0)" : "AI video (Kling 3.0)"}</label>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Encendido" : "On"}</span>
-            <select className="input" value={v.video_on ?? "1"} onChange={(e) => setV({ ...v, video_on: e.target.value })}>
-              <option value="1">{es ? "Sí" : "Yes"}</option>
-              <option value="0">{es ? "No (ocultar)" : "No (hide)"}</option>
-            </select>
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Calidad" : "Quality"}</span>
-            <select className="input" value={v.video_model ?? "kling-std"} onChange={(e) => setV({ ...v, video_model: e.target.value })}>
-              <option value="kling-std">{es ? "Kling 3.0 (recomendado, ~$0.08–0.13/seg)" : "Kling 3.0 (recommended, ~$0.08–0.13/sec)"}</option>
-              <option value="kling-pro">{es ? "Kling 3.0 Pro (mejor, más caro)" : "Kling 3.0 Pro (better, pricier)"}</option>
-            </select>
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 5 seg" : "Credits · 5-second video"}</span>
-            <input type="number" min={0} className="input" value={v.video_cost_5 ?? "10"} onChange={(e) => setV({ ...v, video_cost_5: e.target.value })} />
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 10 seg" : "Credits · 10-second video"}</span>
-            <input type="number" min={0} className="input" value={v.video_cost_10 ?? "18"} onChange={(e) => setV({ ...v, video_cost_10: e.target.value })} />
-          </div>
-        </div>
-        <p className="mt-2 text-xs text-muted">{es ? "Necesita FAL_KEY en Vercel (fal.ai → API Keys). Los videos fallidos se reembolsan solos." : "Needs FAL_KEY on Vercel (fal.ai → API Keys). Failed videos are refunded automatically."}</p>
-      </div>
-      <div>
-        <label className="label">{t("signup_credits")}</label>
-        <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />
-      </div>
-      <div>
-        <label className="label">{es ? "Créditos extra al registrarse con Discord" : "Extra credits for signing up with Discord"}</label>
-        <input type="number" min={0} className="input" value={v.discord_bonus} onChange={(e) => setV({ ...v, discord_bonus: e.target.value })} />
-      </div>
-      <div>
-        <label className="label">{es ? "Créditos por invitar (cuando el invitado paga)" : "Invite reward credits (when the invited friend pays)"}</label>
-        <input type="number" min={0} className="input" value={v.referral_reward} onChange={(e) => setV({ ...v, referral_reward: e.target.value })} />
-      </div>
-      <div>
-        <label className="label">{t("pro_cost_label")}</label>
-        <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
-      </div>
-      <div>
-        <label className="label">{es ? "Calidad IA Pro (usuarios sin suscripción)" : "Pro AI quality (users without a subscription)"}</label>
-        <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>
-          <option value="medium">{es ? "Media — ~1 minuto, más barata (recomendada)" : "Medium — about 1 minute, cheaper (recommended)"}</option>
-          <option value="high">{es ? "Alta — máximo detalle, 2–4 minutos, ~3× más cara por imagen" : "High — sharpest detail, 2–4 minutes, costs ~3× more per image"}</option>
-          <option value="low">{es ? "Baja — la más rápida, para pruebas" : "Low — fastest, for testing"}</option>
-        </select>
-        <p className="mt-1 text-xs text-muted">{es ? "Alta a veces llega al límite de 5 minutos del servidor; las imágenes fallidas se reembolsan solas." : "High can occasionally hit the 5-minute server limit; failed images are refunded automatically."}</p>
-      </div>
-      <div>
-        <label className="label">{t("max_upload_mb")}</label>
-        <input type="number" min={1} max={50} className="input" value={v.max_upload_mb} onChange={(e) => setV({ ...v, max_upload_mb: e.target.value })} />
-      </div>
+      </AdminSection>
+      <AdminSection icon="🔔" title={es ? "Aviso y registro de Discord" : "Notice bar & Discord log"} sub={es ? "Mensaje arriba en todas las páginas, webhook de pósters" : "Message at the top of every page, poster log webhook"}>
       <div>
         <label className="label">{t("maintenance_message")}</label>
         <input className="input" maxLength={300} value={v.maintenance_message} onChange={(e) => setV({ ...v, maintenance_message: e.target.value })} />
-      </div>
-      <div className="rounded-xl border border-line bg-panel-2 p-4">
-        <label className="label">{es ? "Imágenes de la página principal" : "Home page images"}</label>
-        <div className="grid grid-cols-3 gap-2">
-          {(["hero_1", "hero_2", "hero_3"] as const).map((k, n) => (
-            <ImageDrop
-              key={k}
-              noSearch
-              kind="photo"
-              label={es ? ["Izquierda", "Centro", "Derecha"][n] : ["Left", "Center", "Right"][n]}
-              value={v[k] || null}
-              onChange={(url) => setV({ ...v, [k]: url ?? "" })}
-            />
-          ))}
-        </div>
-        <p className="mt-1 text-xs text-muted">
-          {es
-            ? "Las 3 imágenes grandes de la página principal. Vacías = se muestran los primeros estilos. También puedes enviar cualquier póster aquí desde su página. Luego toca Guardar."
-            : "The 3 big pictures on the home page. Empty = the first styles are shown. You can also send any poster here from its page. Then tap Save."}
-        </p>
       </div>
       <div className="rounded-xl border border-line bg-panel-2 p-4">
         <label className="label">{es ? "Registro en Discord (webhook)" : "Discord log (webhook)"}</label>
@@ -171,7 +177,8 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           {test && <span className="text-xs">{test}</span>}
         </div>
       </div>
-      <div className="flex items-center gap-3">
+      </AdminSection>
+      <div className="sticky bottom-3 z-10 flex items-center gap-3 rounded-2xl border border-line bg-panel/95 p-3 shadow-2xl backdrop-blur">
         <button disabled={busy} className="btn-primary">{t("save")}</button>
         {msg && <span className="text-sm text-lime">{msg}</span>}
       </div>

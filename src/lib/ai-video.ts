@@ -53,8 +53,9 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
     if (!r.ok || !d.status_url) throw new Error(`fal ${r.status}: ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
     return db.videoJob.update({ where: { id: job.id }, data: { status: "running", statusUrl: d.status_url, responseUrl: d.response_url } });
   } catch (e) {
-    await fail(job.id, e instanceof Error ? e.message : "start_failed");
-    throw Object.assign(new Error("video_failed"), { status: 502 });
+    const msg = e instanceof Error ? e.message : "start_failed";
+    await fail(job.id, msg);
+    throw Object.assign(new Error("video_failed"), { status: 502, detail: msg });
   }
 }
 

@@ -32,6 +32,9 @@ export const POST = handle(async (req: NextRequest) => {
   } catch (e) {
     const code = (e as { status?: number }).status;
     if (e instanceof HttpError) throw e;
-    return json({ error: e instanceof Error ? e.message : "video_failed" }, code ?? 500);
+    const detail = (e as { detail?: string }).detail;
+    // Plain-language reason for the admin (fal balance, key, image…).
+    const hint = !detail ? undefined : /balance|exhausted|locked|payment|billing/i.test(detail) ? "fal.ai: no balance — add credits / a card in fal.ai → Billing" : /401|403|unauthor|invalid key/i.test(detail) ? "fal.ai: FAL_KEY rejected — check the key in Vercel and redeploy" : detail;
+    return json({ error: e instanceof Error ? e.message : "video_failed", ...(user.role === "ADMIN" && hint ? { detail: hint } : {}) }, code ?? 500);
   }
 });

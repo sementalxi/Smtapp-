@@ -62,7 +62,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
     setBusy(false);
     if (!r.ok || !d.id) {
       sfx("error");
-      return setErr(d.error === "not_enough_credits" ? (es ? `Necesitas ${cost} créditos.` : `You need ${cost} credits.`) : es ? "No se pudo empezar el video." : "Couldn't start the video.");
+      return setErr((d.error === "not_enough_credits" ? (es ? `Necesitas ${cost} créditos.` : `You need ${cost} credits.`) : es ? "No se pudo empezar el video (créditos devueltos)." : "Couldn't start the video (credits refunded).") + (d.detail ? ` — ${d.detail}` : ""));
     }
     sfx("send");
     setInfo((i) => (i ? { ...i, credits: i.credits - cost } : i));
