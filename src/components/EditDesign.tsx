@@ -43,6 +43,7 @@ export function EditDesign({
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [barDone, setBarDone] = useState(false);
 
   const PARTS: { id: Part; icon: string; en: string; es: string }[] = [
     { id: "text", icon: "🔤", en: "Text", es: "Texto" },
@@ -85,6 +86,8 @@ export function EditDesign({
     if (res.ok && data.id) {
       const w = await waitForBanner(data.id);
       if (w.ok) {
+        setBarDone(true);
+        await new Promise((r) => setTimeout(r, 1300));
         router.push(`/banner/${data.id}`);
         return;
       }
@@ -112,7 +115,7 @@ export function EditDesign({
     return (
       <section className="card overflow-hidden">
         <div className="mx-auto max-w-sm">
-          <GenerationProgress photo={imageUrl} expectedSeconds={100} />
+          <GenerationProgress photo={imageUrl} expectedSeconds={100} done={barDone} />
         </div>
       </section>
     );

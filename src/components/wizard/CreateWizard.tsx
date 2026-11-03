@@ -251,6 +251,7 @@ export function CreateWizard({
   const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);
   const [squadText, setSquadText] = useState("");
   const [scorersText, setScorersText] = useState("");
+  const [barDone, setBarDone] = useState(false);
   // Standings table rows
   type TRow = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
   const blankRow = (): TRow => ({ team: "", p: "", w: "", d: "", l: "", gd: "", pts: "" });
@@ -469,6 +470,10 @@ export function CreateWizard({
       data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
     }
     if (data.id && data.finalUrl) {
+      // Show the bar at 100% for a moment before the poster appears.
+      setBarDone(true);
+      await new Promise((r) => setTimeout(r, 1300));
+      setBarDone(false);
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setPhase("done");
@@ -1164,7 +1169,7 @@ export function CreateWizard({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="block h-auto w-full" />
             ) : phase === "busy" ? (
-              <GenerationProgress photo={photo} expectedSeconds={expectedSeconds} />
+              <GenerationProgress photo={photo} expectedSeconds={expectedSeconds} done={barDone} />
             ) : (
               <div className="relative grid aspect-[4/5] place-items-center overflow-hidden p-8">
                 {photo && (
