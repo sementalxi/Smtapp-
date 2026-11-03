@@ -26,6 +26,37 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
 
   return (
     <form onSubmit={save} className="card max-w-xl space-y-4 p-6">
+      <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
+        <label className="label">🔗 {es ? "Vista previa del enlace (Google, Discord, WhatsApp, iMessage…)" : "Link preview (Google, Discord, WhatsApp, iMessage…)"}</label>
+        <div className="space-y-3">
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Título del sitio" : "Website title"}</span>
+            <input className="input" maxLength={80} placeholder="KIXO — AI sports banners" value={v.site_title ?? ""} onChange={(e) => setV({ ...v, site_title: e.target.value })} />
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Descripción" : "Description"}</span>
+            <textarea className="input min-h-[70px]" maxLength={300} placeholder="Create pro sports and eSports banners with AI in seconds." value={v.site_description ?? ""} onChange={(e) => setV({ ...v, site_description: e.target.value })} />
+          </div>
+          <div className="max-w-[260px]">
+            <ImageDrop noSearch kind="photo" label={es ? "Imagen / banner (1200×630 ideal)" : "Picture / banner (1200×630 is ideal)"} value={v.share_image || null} onChange={(url) => setV({ ...v, share_image: url ?? "" })} />
+          </div>
+          {/* Live preview — roughly how Discord shows it */}
+          <div className="overflow-hidden rounded-lg border-l-4 border-[#ff2e88] bg-[#2b2d31] p-3 text-left">
+            <div className="text-[11px] text-white/60">kixo.pro</div>
+            <div className="mt-0.5 text-sm font-bold text-[#00a8fc]">{v.site_title?.trim() || "KIXO — AI sports banners"}</div>
+            <div className="mt-1 text-xs text-white/80">{v.site_description?.trim() || "Create pro sports and eSports banners with AI in seconds."}</div>
+            {v.share_image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={v.share_image} alt="" className="mt-2 max-h-48 w-full rounded object-cover" />
+            )}
+          </div>
+          <p className="text-xs text-muted">
+            {es
+              ? "Toca Guardar abajo. Discord y WhatsApp guardan la vista previa vieja un rato — al compartir de nuevo puede tardar en cambiar (o agrega ?v=2 al final del link)."
+              : "Tap Save below. Discord and WhatsApp keep the old preview for a while — it can take time to update (or add ?v=2 to the end of the link when sharing)."}
+          </p>
+        </div>
+      </div>
       <div>
         <label className="label">{t("signup_credits")}</label>
         <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />

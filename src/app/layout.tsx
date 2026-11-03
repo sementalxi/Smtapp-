@@ -14,10 +14,25 @@ import { getTextOverrides } from "@/i18n/overrides";
 
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
-export const metadata: Metadata = {
-  title: { default: `${site} — AI sports banners`, template: `%s · ${site}` },
-  description: "Create pro sports and eSports banners with AI in seconds.",
-};
+/** Title, description and share picture (Admin → Settings → Link preview). Shown in Google, Discord, iMessage, WhatsApp… */
+export async function generateMetadata(): Promise<Metadata> {
+  let st: Record<string, string> = {};
+  try {
+    st = await getSettings();
+  } catch {}
+  const base = (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
+  const title = st.site_title?.trim() || `${site} — AI sports banners`;
+  const description = st.site_description?.trim() || "Create pro sports and eSports banners with AI in seconds.";
+  const img = st.share_image?.trim();
+  const image = img ? (img.startsWith("http") ? img : `${base}${img.startsWith("/") ? "" : "/"}${img}`) : undefined;
+  return {
+    metadataBase: new URL(base),
+    title: { default: title, template: `%s · ${site}` },
+    description,
+    openGraph: { title, description, siteName: site, url: base, type: "website", ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}) },
+    twitter: { card: image ? "summary_large_image" : "summary", title, description, ...(image ? { images: [image] } : {}) },
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();

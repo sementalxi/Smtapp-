@@ -21,6 +21,9 @@ const Body = z.object({
   hero_effect: z.enum(["stadium", "smoke", "fire", "lightning", "rain", "speed", "grid", "stars", "aurora", "confetti", "none"]).optional(),
   hero_bg_mode: z.enum(["image", "video", "none"]).optional(),
   coming_soon: z.enum(["0", "1"]).optional(),
+  site_title: z.string().trim().max(80).optional(),
+  site_description: z.string().trim().max(300).optional(),
+  share_image: z.string().trim().max(500).optional(),
   discord_link_role: z.string().trim().regex(/^(\d{15,22})?$/).optional(),
   discord_webhook: z
     .string()
@@ -33,7 +36,7 @@ const Body = z.object({
 export const PUT = handle(async (req: NextRequest) => {
   await apiAdmin();
   const body = Body.parse(await req.json());
-  for (const k of ["hero_1", "hero_2", "hero_3"] as const) if (body[k]) assertOwnUrl(body[k]);
+  for (const k of ["hero_1", "hero_2", "hero_3", "share_image"] as const) if (body[k]) assertOwnUrl(body[k]);
   for (const [key, value] of Object.entries(body)) {
     if (value === undefined) continue;
     await db.setting.upsert({ where: { key }, create: { key, value: String(value) }, update: { value: String(value) } });
