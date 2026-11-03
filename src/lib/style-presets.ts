@@ -554,6 +554,93 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-panorama": `[WIDE] PANORAMA XI — a WIDE landscape lineup banner (16:9) for X / YouTube / Discord headers.
+
+COLOURS: from the TEAM CREST's own colours as one accent, over a real night photo and black.
+
+LAYOUT (wide, left to right)
+- Full-bleed background: a REAL panoramic photograph of a stadium at night from high in the stands — floodlights on, bright pitch, crowd out of focus — natural colours with a cool night grade.
+- Left third: the team crest (if provided) and the title (e.g. "STARTING XI") in bold condensed white capitals, formation, competition and date small under it.
+- Right half: a dark smooth gradient panel with the eleven in 2–3 clean aligned columns grouped by line (GK / DEF / MID / FWD labels small if positions are given): NUMBER in the accent colour, NAME in white capitals.
+- Keep important text away from the far edges (safe margins for cropping).
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-pitch": `[WIDE] PITCH SPLIT XI — a WIDE landscape lineup banner (16:9): pitch on one side, list on the other.
+
+COLOURS: from the TEAM CREST's own colours (main colour as the flat panel), real green grass, white.
+
+LAYOUT (wide, left to right)
+- Left 55%: a REAL top-down photograph of football grass with mowing stripes and crisp white lines, the pitch shown sideways (goal on the left, attack toward the right), the eleven as FLAT solid circles in the team colour with the NUMBER inside and the NAME on a small dark label, in the formation rows.
+- Right 45%: a solid flat panel in the team colour with a subtle paper grain: the team crest (if provided), the title (e.g. "STARTING XI") in heavy condensed white capitals, the formation in a pill tag, and a compact list of the eleven (number + name), competition and date small at the bottom.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-tunnel": `[WIDE] TUNNEL XI — a WIDE landscape lineup banner (16:9) from the players' tunnel.
+
+COLOURS: from the TEAM CREST's colours as accent strip lights, real concrete and floodlight white.
+
+LAYOUT (wide)
+- A REAL photograph from inside a concrete stadium tunnel looking out: the opening in the centre blazing with floodlight and a glimpse of the pitch and stands, rough walls on both sides with team-colour strip lights, natural haze, real wet floor reflections.
+- The title (e.g. "STARTING XI") centred above the opening in bold condensed white capitals; the team crest (if provided) small above it.
+- The eleven split in two clean columns on the dark tunnel walls — goalkeeper, defence (and holding midfield) on the left wall, the rest on the right wall — NUMBER in the accent colour, NAME in white capitals, like printed wall signage.
+- Formation, competition and date small along the bottom.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-print": `[WIDE] PRINT XI (WIDE) — a WIDE landscape lineup banner (16:9) in a screen-printed poster style.
+
+COLOURS: off-white paper, black, and ONE strong team colour from the crest as flat ink.
+
+LAYOUT (wide)
+- A real black-and-white crowd / stadium photograph printed in coarse HALFTONE dots inside a big diagonal shape on the left.
+- Bold diagonal flat colour blocks in the team colour slicing across; real paper grain and slight ink misregistration, a torn edge on the right.
+- The title (e.g. "STARTING XI") huge in heavy black condensed capitals on the left half.
+- Right half: the eleven as a typeset list in THREE columns (defence / midfield / attack, goalkeeper on top of the first): NUMBER in the team colour, NAME in black condensed capitals.
+- The team crest (if provided) small in a corner; formation, competition and date small in a typewriter-like font.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
   "lineup-broadcast": `BROADCAST XI — the official starting-lineup graphic of a top league TV broadcast. Clean, sleek, premium.
 
 SCENE
