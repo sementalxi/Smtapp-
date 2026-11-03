@@ -129,8 +129,8 @@ export function PayModal({
         const [c, ap, gp, ca] = await Promise.allSettled([
           payments.card({
             style: {
-              input: { color: "#f6f1f6", fontSize: "16px", backgroundColor: "#160f19" },
-              "input::placeholder": { color: "#8a7d8d" },
+              input: { color: "#14101a", fontSize: "16px", backgroundColor: "#ffffff" },
+              "input::placeholder": { color: "#8f8796" },
               ".input-container": { borderColor: "#3a2c3f", borderRadius: "12px", borderWidth: "1px" },
               ".input-container.is-focus": { borderColor: "#ff2e88" },
               ".message-text": { color: "#a99aac" },
