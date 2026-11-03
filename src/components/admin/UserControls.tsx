@@ -188,3 +188,46 @@ export function GivePlan({ userId, plans, current, until, paying, es }: { userId
     </div>
   );
 }
+
+/** Admin: permanently delete this account (type the email to confirm). */
+export function DeleteUser({ userId, email, es }: { userId: string; email: string; es: boolean }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [typed, setTyped] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  async function del() {
+    setBusy(true);
+    setErr("");
+    const r = await fetch(`/api/admin/users/${userId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: typed }) });
+    setBusy(false);
+    if (r.ok) {
+      router.push("/admin/users");
+      router.refresh();
+    } else setErr((await r.json().catch(() => ({}))).error === "confirm_email" ? (es ? "El correo no coincide." : "The email doesn't match.") : es ? "No se pudo borrar." : "Couldn't delete.");
+  }
+  if (!open)
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="rounded-xl border border-danger/50 px-3 py-1.5 text-xs font-bold text-danger hover:bg-danger/10">
+        🗑️ {es ? "Borrar cuenta" : "Delete account"}
+      </button>
+    );
+  return (
+    <div className="w-full space-y-2 rounded-xl border border-danger/50 bg-danger/5 p-3 text-sm">
+      <p className="font-bold text-danger">{es ? "¿Borrar esta cuenta para siempre?" : "Delete this account forever?"}</p>
+      <p className="text-xs text-muted">
+        {es
+          ? "Se borran sus pósters, videos, créditos, historial, equipos guardados y tickets. Si tiene suscripción pagada se cancela. No se puede deshacer."
+          : "Their posters, videos, credits, history, saved teams and tickets are deleted. A paid subscription is cancelled. This can't be undone."}
+      </p>
+      <input className="input text-sm" placeholder={es ? `Escribe ${email} para confirmar` : `Type ${email} to confirm`} value={typed} onChange={(e) => setTyped(e.target.value)} autoCapitalize="none" autoCorrect="off" />
+      <div className="flex gap-2">
+        <button type="button" disabled={busy || typed.trim().toLowerCase() !== email.toLowerCase()} onClick={del} className="btn-danger flex-1 py-2 text-sm">
+          {busy ? "…" : es ? "Borrar para siempre" : "Delete forever"}
+        </button>
+        <button type="button" onClick={() => { setOpen(false); setTyped(""); }} className="btn-ghost px-4 py-2 text-sm">{es ? "Cancelar" : "Cancel"}</button>
+      </div>
+      {err && <p className="text-xs text-danger">{err}</p>}
+    </div>
+  );
+}
