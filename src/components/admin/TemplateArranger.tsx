@@ -120,6 +120,25 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
                 </button>
                 <Switch on={catOn} es={es} onChange={(v) => { setHidden(v ? hidden.filter((x) => x !== l) : [...hidden, l]); touch(); }} />
               </div>
+              {list.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1 px-2.5 pb-2.5">
+                  <span className="mr-1 text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "Toda la categoría:" : "Whole category:"}</span>
+                  {([["all", es ? "👥 Todos" : "👥 Everyone"], ["users", es ? "🙋 Usuarios" : "🙋 Users"], ["orgs", "🏢 Orgs"]] as const).map(([v, lbl]) => {
+                    const allSame = list.every((x) => (x.audience || "all") === v);
+                    return (
+                      <button
+                        key={v}
+                        type="button"
+                        onClick={() => { setItems((arr) => arr.map((x) => (x.layout === l ? { ...x, audience: v } : x))); touch(); }}
+                        className={`whitespace-nowrap rounded-md border px-2 py-1 text-[11px] font-bold ${allSame ? "border-sky-400 bg-sky-500/15 text-sky-300" : "border-line text-muted"}`}
+                      >
+                        {lbl}
+                      </button>
+                    );
+                  })}
+                  {!["all", "users", "orgs"].some((v) => list.every((x) => (x.audience || "all") === v)) && <span className="text-[10px] text-muted">{es ? "(mixto)" : "(mixed)"}</span>}
+                </div>
+              )}
 
               {isOpen && (
                 <div className="space-y-1.5 border-t border-line bg-ink/40 p-2">
