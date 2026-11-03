@@ -31,5 +31,10 @@ export async function GET(req: NextRequest) {
       tag: `support-${t.id}`,
     });
   }
-  return json({ ok: true, tickets: tickets.length, pushed });
+  // Also: fill in Discord pictures/handles for linked accounts that don't have them yet (a few per minute).
+  const { syncDiscordProfile } = await import("@/lib/discord-bot");
+  const todo = await db.user.findMany({ where: { discordId: { not: null }, discordUser: null }, select: { id: true, discordId: true }, take: 25 });
+  let synced = 0;
+  for (const u of todo) if (await syncDiscordProfile(u.id, u.discordId!).catch(() => false)) synced++;
+  return json({ ok: true, tickets: tickets.length, pushed, synced });
 }

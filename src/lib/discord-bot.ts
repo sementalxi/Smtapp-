@@ -19,6 +19,24 @@ async function call(path: string, init: RequestInit, tries = 3): Promise<Respons
   }
 }
 
+/** Refreshes a user's Discord name, @handle and picture from Discord (bot token, no login needed). */
+export async function syncDiscordProfile(userId: string, discordId: string): Promise<boolean> {
+  if (!botReady()) return false;
+  const r = await call(`/users/${discordId}`, { method: "GET" }).catch(() => null);
+  if (!r?.ok) return false;
+  const d = (await r.json()) as { id: string; username?: string; global_name?: string | null; avatar?: string | null };
+  const { db } = await import("./db");
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      discordName: (d.global_name || d.username || "").slice(0, 60) || null,
+      discordUser: (d.username || "").slice(0, 40) || null,
+      discordAvatar: d.avatar ? `https://cdn.discordapp.com/avatars/${d.id}/${d.avatar}.${d.avatar.startsWith("a_") ? "gif" : "png"}?size=256` : null,
+    },
+  });
+  return true;
+}
+
 /** Raw bot API call (for other modules). */
 export const botCall = (path: string, init: RequestInit) => call(path, init);
 

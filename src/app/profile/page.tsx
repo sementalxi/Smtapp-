@@ -12,6 +12,13 @@ export const metadata = { title: "Profile" };
 export default async function ProfilePage({ searchParams }: { searchParams: Promise<{ discord?: string }> }) {
   const sp = await searchParams;
   const user = await requireUser();
+  if (user.discordId && !user.discordUser) {
+    const { syncDiscordProfile } = await import("@/lib/discord-bot");
+    if (await syncDiscordProfile(user.id, user.discordId).catch(() => false)) {
+      const fresh = await db.user.findUnique({ where: { id: user.id }, select: { discordName: true, discordUser: true, discordAvatar: true } });
+      if (fresh) Object.assign(user, fresh);
+    }
+  }
   const { locale } = await getT();
   const es = locale === "es";
   const [arts, spent] = await Promise.all([
