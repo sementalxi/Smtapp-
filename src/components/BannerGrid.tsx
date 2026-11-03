@@ -36,10 +36,12 @@ export function BannerGrid({
             {b.mode === "PRO" && (
               <span className="chip absolute top-2 left-2 z-10 border-lime bg-ink/70 text-[10px] text-lime">✨ PRO</span>
             )}
-            {ready && !admin ? (
+            {ready ? (
               <Link href={`/banner/${b.id}`} className="block transition hover:opacity-90">{preview}</Link>
-            ) : ready ? (
-              preview
+            ) : admin ? (
+              <Link href={`/banner/${b.id}`} className="grid aspect-[4/5] place-items-center bg-panel-2 text-sm text-muted hover:text-white">
+                {b.status === "FAILED" ? labels.failed : labels.processing}
+              </Link>
             ) : (
               <div className="grid aspect-[4/5] place-items-center bg-panel-2 text-sm text-muted">
                 {b.status === "FAILED" ? labels.failed : labels.processing}

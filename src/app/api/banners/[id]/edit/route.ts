@@ -39,7 +39,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   const { id } = await params;
   const body = Body.parse(await req.json());
   if (!proConfigured()) throw new HttpError(400, "pro_not_configured");
-  const src = await db.banner.findFirst({ where: { id, userId: user.id, mode: "PRO", status: "READY" }, include: { template: true } });
+  const isAdmin = user.role === "ADMIN";
+  const src = await db.banner.findFirst({ where: { id, ...(isAdmin ? {} : { userId: user.id }), mode: "PRO", status: "READY" }, include: { template: true } });
   if (!src?.finalUrl) throw new HttpError(404, "not_found");
   assertOwnUrl(body.photoUrl);
   assertOwnUrl(body.logoUrl);
@@ -89,7 +90,9 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   const allText = [...Object.values(body.text ?? {}), body.note ?? ""].join(" ");
   if (BLOCKED.test(allText)) throw new HttpError(400, "err_blocked");
 
-  const cost = await getNumberSetting("pro_cost");
+  // Admin editing someone else's poster: free, and the new version goes to that user's account.
+  const forOther = src.userId !== user.id;
+  const cost = forOther ? 0 : await getNumberSetting("pro_cost");
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
   const fmt = (src.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
@@ -107,7 +110,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
 
   const copy = await db.banner.create({
     data: {
-      userId: user.id,
+      userId: src.userId,
       templateId: src.templateId,
       title: titleFor(inputs),
       inputs: toJson(inputs),
@@ -120,7 +123,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
 
   after(async () => {
     try {
-      await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs: [...refs, ...placed], format: fmt });
+      await generateProForBanner({ bannerId: copy.id, userId: src.userId, cost, prompt, refs: [...refs, ...placed], format: fmt });
     } catch (e) {
       if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
       const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);

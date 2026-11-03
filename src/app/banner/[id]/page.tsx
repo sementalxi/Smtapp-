@@ -17,13 +17,22 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
   const { t } = await getT();
   const { id } = await params;
   const banner = await db.banner.findUnique({ where: { id }, include: { template: true } });
-  if (!banner || banner.userId !== user.id) notFound();
+  const isAdmin = user.role === "ADMIN";
+  if (!banner || (banner.userId !== user.id && !isAdmin)) notFound();
+  const owner = banner.userId !== user.id ? await db.user.findUnique({ where: { id: banner.userId }, select: { email: true } }) : null;
 
   if (banner.status !== "READY") {
     return (
       <div className="mx-auto max-w-xl px-4 py-20 text-center">
         <h1 className="font-display text-4xl">{banner.status === "FAILED" ? t("failed") : t("processing")}</h1>
         {banner.status === "FAILED" && <p className="mt-3 text-sm text-muted">{t("err_generic")}</p>}
+        {isAdmin && banner.error && <p className="mt-3 break-words text-xs text-danger">{banner.error}</p>}
+        {isAdmin && banner.prompt && (
+          <details className="mt-4 rounded-xl border border-dashed border-line p-3 text-left text-xs">
+            <summary className="cursor-pointer font-bold text-muted">Admin · see what the AI was asked</summary>
+            <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-[11px] text-muted">{banner.prompt}</pre>
+          </details>
+        )}
         {banner.status !== "FAILED" && <AutoRefresh seconds={4} times={150} />}
         <Link href="/create" className="btn-primary mt-8">{t("new_banner")}</Link>
       </div>
@@ -36,6 +45,11 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
         <Link href="/dashboard" className="text-sm text-muted hover:text-white">← {t("back")}</Link>
         <h1 className="font-display text-4xl">{banner.title}</h1>
       </div>
+      {owner && (
+        <p className="-mt-3 mb-5 rounded-xl border border-lime/30 bg-lime/5 px-4 py-2 text-xs">
+          🛡️ Admin view · {owner.email} — {t("back") === "Atrás" ? "tus ediciones son gratis y se guardan en su cuenta." : "your edits are free and saved to their account."}
+        </p>
+      )}
       {banner.mode === "PRO" ? (
         <ProBannerView
           id={banner.id}
