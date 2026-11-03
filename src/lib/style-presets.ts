@@ -20,35 +20,102 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
-  "player-double-threat": `DOUBLE THREAT — a cinematic pro-clubs / esports player card where the player appears twice, like the signing graphics of a top club. Bold, glossy, photoreal.
+  "player-ultras-gold": `ULTRAS GOLD — a navy-and-gold pro-clubs player card on an ultras night, like a top club's signing graphic. Photoreal and premium.
 
 COLOURS
-- Two colours from the COLOURS line below (one main, one glowing accent — e.g. navy + gold, teal + orange) over deep blacks.
+- Deep navy and rich gold (or the two colours from the COLOURS line below in the same roles) over near-black.
 
-BACKGROUND (dense, cinematic — pick ONE mood each poster)
-- A) a packed ultras end at night: crowd silhouettes with raised arms, burning flares and coloured smoke, big waving flags in the main colour; or
-- B) deep space / cosmic: a starry nebula, a glowing planet edge, electric lightning crackling in the accent colour.
-- Glowing embers, sparks and dust in the air; a WET, glossy reflective floor at the bottom catching the lights.
+BACKGROUND
+- A packed ultras stand at night: crowd silhouettes with raised arms, burning GOLD flares and golden smoke, big waving flags, glowing embers and gold dust floating in the air.
+- The team crest (if a crest reference image is provided) GIANT in the upper right background as a dark brushed-metal emblem, faint and moody; otherwise a giant dark metal ring shape with no letters.
+- A wet, glossy floor at the bottom reflecting the gold light.
 
 THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
-1. BEHIND (upper left/centre): a big moody bust of the player, slightly desaturated, calm and confident — arms crossed, finger to the lips "shush", or a cold side look — blended into the background.
-2. IN FRONT (centre-right): a FULL-BODY shot of the player standing on the wet floor in a confident pose (arms crossed, hands on hips or a relaxed stance), sharp, fully lit with a strong rim light in the accent colour and a reflection under the feet.
-- Calm, confident faces — no screaming.
+1. BEHIND (upper left): a big bust of the player with arms crossed and a cold, confident look, gold rim light.
+2. IN FRONT (centre-right): full body, standing tall with arms crossed on the wet floor, sharp, gold rim light, reflection under the feet.
 
-GRAPHIC ELEMENTS
-- UPPER RIGHT: the team crest ONLY if a crest reference image is provided — big, inside a thick polished-chrome ring with glow and sparks; otherwise a large abstract chrome ring/emblem shape with no letters. Never copy a badge from the player's shirt.
-- LEFT, middle: the POSITION in a small bevelled metal tag box with a gold/accent edge.
-- Under it the TEAM NAME (if given) in heavy 3D metal capitals (chrome, gothic-edged or bevelled, accent-colour outline and glow).
-- Then the player NAME huge in tall condensed bold white capitals with a gritty texture, stacked under the team name; the subtitle (if given) in a gold brush script slashing across the bottom of the name.
-- RIGHT, lower: the jersey NUMBER giant as a thin glowing outlined number (neon-edge) partly behind the full-body figure.
-- The tagline (if given) small and letter-spaced above the team name; the footer (if given) tiny and letter-spaced along the very bottom.
-- Ignore the placement hints in the text list below — follow this layout.
-
-QUALITY
-- Photoreal: real skin, hair and fabric, true lighting and reflections, razor-sharp lettering with real metal materials.
+TYPOGRAPHY & LAYOUT
+- Left, middle: the POSITION in a small gold tag box with black capitals.
+- Under it the TEAM NAME (if given) in sharp gothic / blackletter-edged polished CHROME 3D capitals with gold edges and sparkles.
+- Under that the player NAME huge in tall condensed white capitals with a cracked texture.
+- The subtitle (if given) in gold brush script; the footer (if given) in a small dark plaque with a gold frame at the very bottom left.
+- Right: the jersey NUMBER giant as a thin glowing GOLD outline.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave it out.`,
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- Calm, confident faces — no screaming. Never copy a badge or logo from the player's shirt; a crest appears only if a crest reference image is provided.
+- Ignore the placement hints in the text list below — follow this layout.`,
+  "player-teal-inferno": `TEAL INFERNO — a teal-and-orange fire player card, aggressive and cinematic, like an esports org's signing reveal. Photoreal and premium.
+
+COLOURS
+- Teal / cyan and burning orange-red (or the two colours from the COLOURS line below in the same roles) over deep black.
+
+BACKGROUND
+- An ultras crowd silhouetted against raging orange fire and smoke, big teal flags waving, teal and orange smoke clouds, flying embers.
+- The team crest (if a crest reference image is provided) big in the upper right inside a chrome SHIELD frame with teal glow; otherwise an empty chrome shield shape with no letters.
+- A wet reflective floor at the bottom with orange reflections.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
+1. BEHIND (top centre): a big bust of the player with a finger to the lips ("shush") and a cold stare.
+2. IN FRONT (right of centre): full body, arms crossed, standing on the wet floor, teal rim light, reflection under the feet.
+
+TYPOGRAPHY & LAYOUT
+- Left, middle: the POSITION in a small copper-metal tag with white bevelled capitals.
+- Across the lower half: the player NAME HUGE in thick 3D teal-tinted polished chrome capitals with copper-orange edges, bevels and hard shadow.
+- Right: the jersey NUMBER giant as a thin glowing TEAL neon outline.
+- The team name (if given) small and letter-spaced above the name; subtitle (if given) in orange brush script; footer (if given) tiny at the bottom.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- Calm, confident faces — no screaming. Never copy a badge or logo from the player's shirt; a crest appears only if a crest reference image is provided.
+- Ignore the placement hints in the text list below — follow this layout.`,
+  "player-cosmic-gold": `COSMIC GOLD — a deep-space player card with gold lightning, epic and premium, like a league's star-player graphic. Photoreal.
+
+COLOURS
+- Deep navy / royal blue and electric gold (or the two colours from the COLOURS line below in the same roles) over starry black.
+
+BACKGROUND
+- Deep space: a star field and nebula, the glowing curved edge of a planet on the lower right, crackling GOLD lightning and electric arcs across the frame, gold sparks, a dark rocky glossy ground at the bottom.
+- The team crest (if a crest reference image is provided) big in the upper right inside a thick polished-chrome ring with gold glow; otherwise an empty chrome ring.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
+1. BEHIND (upper left): a big bust of the player with a finger to the lips ("shush") and a confident smirk, gold rim light.
+2. IN FRONT (centre-right): full body, confident stance, sharp, gold rim light.
+
+TYPOGRAPHY & LAYOUT
+- Left, middle: the POSITION in a small dark tag with a gold bevelled frame.
+- Under it the tagline (if given) in small widely letter-spaced white capitals.
+- Then the TEAM NAME (if given) in heavy 3D blue-metal capitals with gold edges and sparkle.
+- Then the player NAME huge in tall condensed white capitals, with a big gold "X" or the first letter treatment only if it is part of the given text.
+- The subtitle (if given) in gold brush script with an underline swoosh.
+- Right: the jersey NUMBER giant as a thin glowing GOLD outline in slanted italic.
+- Bottom: a small dark ornament plaque with gold stars, and the footer (if given) tiny and widely letter-spaced along the very bottom.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- Calm, confident faces — no screaming. Never copy a badge or logo from the player's shirt; a crest appears only if a crest reference image is provided.
+- Ignore the placement hints in the text list below — follow this layout.`,
+  "player-gothic-abyss": `GOTHIC ABYSS — a dark teal liquid-cosmos player card with gothic lettering and copper sparks. Moody, mysterious, premium. Photoreal.
+
+COLOURS
+- Dark teal / petrol and glowing copper-orange (or the two colours from the COLOURS line below in the same roles) over deep black.
+
+BACKGROUND
+- A swirling dark liquid cosmos: glossy teal fluid waves and ripples, copper sparks and glitter streams, cosmic dust and light rays from above.
+- The team crest (if a crest reference image is provided): once GIANT and ghosted behind the player, and once in the upper right inside a polished chrome ring with copper glow; otherwise only an empty chrome ring.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
+1. BEHIND (upper left): a big moody close-up bust of the player looking to the side, wearing a hood if the photo allows (otherwise as in the photo), desaturated teal grade.
+2. IN FRONT (centre): full body, standing still and confident, sharp, teal and copper rim lights, on a glossy liquid floor.
+
+TYPOGRAPHY & LAYOUT
+- Lower left: the player NAME (or the tagline if no name) stacked in two lines of heavy GOTHIC BLACKLETTER capitals in dark teal metal with copper-orange edges, texture and glow.
+- The POSITION small in a slim copper tag above the title; the jersey NUMBER as a thin copper outline on the right; subtitle (if given) in copper script; footer (if given) tiny at the bottom.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- Calm, confident faces — no screaming. Never copy a badge or logo from the player's shirt; a crest appears only if a crest reference image is provided.
+- Ignore the placement hints in the text list below — follow this layout.`,
   "player-liquid-copper": `LIQUID COPPER — a cinematic pro-clubs / esports player card in a teal-and-copper colour grade, like key art from a top club design studio. Epic, glossy, premium.
 
 COLOURS
