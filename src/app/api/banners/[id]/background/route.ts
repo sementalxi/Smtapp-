@@ -62,19 +62,31 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       });
       const cost = await getNumberSetting("pro_cost");
       if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
-      await db.banner.update({ where: { id }, data: { inputs: toJson(inputs), title: titleFor(inputs), error: null } });
-      // Runs in the background; the page polls until finalUrl changes or an error is saved.
+      // A new design is saved as a NEW poster — the old one stays untouched in the history.
+      const copy = await db.banner.create({
+        data: {
+          userId: banner.userId,
+          templateId: banner.templateId,
+          title: titleFor(inputs),
+          inputs: toJson(inputs),
+          design: toJson(banner.design ?? {}),
+          photoUrl: banner.photoUrl,
+          logoUrl: banner.logoUrl,
+          mode: "PRO",
+        },
+      });
+      // Runs in the background; the page polls the new poster until it's ready or an error is saved.
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt, refs, regenerate: true, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format });
+          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
           const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
-          await db.banner.update({ where: { id }, data: { error: msg } }).catch(() => {});
+          await db.banner.update({ where: { id: copy.id }, data: { status: "FAILED", error: msg } }).catch(() => {});
         }
       });
-      return json({ pending: true, previousUrl: banner.finalUrl });
+      return json({ pending: true, id: copy.id });
     } catch (e) {
       if (e instanceof HttpError && e.status === 402) return json({ error: "err_credits" }, 402);
       if (e instanceof HttpError && e.message === "err_blocked") return json({ error: "err_blocked" }, 400);

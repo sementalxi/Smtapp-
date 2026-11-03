@@ -49,7 +49,15 @@ export function ProBannerView({
       body: JSON.stringify({ inputs }),
     });
     let data = await res.json().catch(() => ({}));
-    if (res.ok && data.pending) {
+    if (res.ok && data.pending && data.id) {
+      // The new design is a separate poster (the old one stays in the history) — open it when ready.
+      const w = await waitForBanner(data.id);
+      if (w.ok) {
+        router.push(`/banner/${data.id}`);
+        return;
+      }
+      data = { error: w.error, detail: w.detail };
+    } else if (res.ok && data.pending) {
       const w = await waitForBanner(id, { previousUrl: data.previousUrl ?? url });
       data = w.ok ? { finalUrl: w.url } : { error: w.error, detail: w.detail };
     }

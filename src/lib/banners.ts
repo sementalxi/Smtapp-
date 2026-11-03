@@ -869,7 +869,7 @@ export async function generateProForBanner(opts: {
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: false, regenerate: opts.regenerate, error: msg });
     await db.banner.update({
       where: { id: opts.bannerId },
-      data: opts.regenerate ? { error: msg } : { status: "FAILED", error: msg },
+      data: { status: "FAILED", error: msg },
     });
     if (/moderation|safety|content_policy/i.test(msg)) throw Object.assign(new HttpError(400, "err_blocked"), { detail: msg });
     throw new HttpError(502, "generation_failed");
