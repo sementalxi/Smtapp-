@@ -22,7 +22,7 @@ const Body = z.object({
   hero_bg_mode: z.enum(["image", "video", "none"]).optional(),
   coming_soon: z.enum(["0", "1"]).optional(),
   site_title: z.string().trim().max(80).optional(),
-  image_model: z.enum(["nano-pro", "openai"]).optional(),
+  poster_model: z.enum(["nano-pro", "openai"]).optional(),
   video_on: z.enum(["0", "1"]).optional(),
   video_model: z.enum(["kling-std", "kling-pro"]).optional(),
   video_cost_5: z.coerce.number().int().min(0).max(500).optional(),

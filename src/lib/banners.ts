@@ -666,7 +666,7 @@ export function buildProPrompt(opts: {
     adminLed
       ? `FINAL REMINDER: the layout, composition, figures, style and effects must follow the ART DIRECTOR'S DESIGN INSTRUCTIONS at the top of this brief.`
       : "",
-    `Only write the text items listed above${i.aiCopy === "on" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. No real company or league logos except the provided crests and badges.`,
+    `Only write the text items listed above${i.aiCopy === "on" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. Words that appear INSIDE a logo or crest (club names, "ESPORTS", "EST. 2023", mottos) stay only inside that logo — never copy them out as a title, name, tagline or any separate text. Never invent club info, years, slogans or "edition" lines. No real company or league logos except the provided crests and badges.`,
   ]
     .filter(Boolean)
     .join("\n\n");
@@ -698,6 +698,8 @@ export async function generateProForBanner(opts: {
   refs: ProRef[];
   regenerate?: boolean;
   format?: "post" | "story" | "banner";
+  /** Edits of a finished poster: Nano Banana Pro keeps the image identical best. */
+  edit?: boolean;
 }) {
   const fmtSizes = opts.format === "story" ? ["1152x2048", "1024x1536"] : opts.format === "banner" ? ["2048x1152", "1536x1024"] : undefined;
   if (opts.cost > 0) {
@@ -724,7 +726,7 @@ export async function generateProForBanner(opts: {
     const refUrls = opts.refs.filter((x) => !x.overlay).map((x) => x.url);
     // Main generator chosen by the admin: Nano Banana Pro (default, best) or OpenAI. If Nano Banana fails, OpenAI takes over.
     let made = false;
-    if ((await getSettings()).image_model !== "openai" && images.length) {
+    if ((opts.edit || (await getSettings()).poster_model === "nano-pro") && images.length) {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         try {

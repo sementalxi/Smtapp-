@@ -24,7 +24,7 @@ export const SETTING_DEFAULTS = {
   share_image: "",
   support_role: "",
   support_on: "1",
-  image_model: "nano-pro",
+  poster_model: "openai",
   video_on: "1",
   video_model: "kling-std",
   video_cost_5: "10",

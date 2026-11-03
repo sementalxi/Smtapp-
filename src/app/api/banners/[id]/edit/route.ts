@@ -123,7 +123,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
 
   after(async () => {
     try {
-      await generateProForBanner({ bannerId: copy.id, userId: src.userId, cost, prompt, refs: [...refs, ...placed], format: fmt });
+      await generateProForBanner({ bannerId: copy.id, userId: src.userId, cost, prompt, refs: [...refs, ...placed], format: fmt, edit: true });
     } catch (e) {
       if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
       const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);

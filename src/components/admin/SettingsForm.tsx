@@ -59,14 +59,14 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       </div>
       <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
         <label className="label">🎨 {es ? "Generador de pósters" : "Poster generator"}</label>
-        <select className="input" value={v.image_model ?? "nano-pro"} onChange={(e) => setV({ ...v, image_model: e.target.value })}>
-          <option value="nano-pro">{es ? "Nano Banana Pro de Google (el de Photoshop · recomendado, el mejor)" : "Google Nano Banana Pro (the one in Photoshop · recommended, best)"}</option>
-          <option value="openai">OpenAI GPT Image</option>
+        <select className="input" value={v.poster_model ?? "openai"} onChange={(e) => setV({ ...v, poster_model: e.target.value })}>
+          <option value="openai">{es ? "OpenAI GPT Image (recomendado — sigue tu texto exacto)" : "OpenAI GPT Image (recommended — follows your exact text)"}</option>
+          <option value="nano-pro">{es ? "Nano Banana Pro de Google (puede agregar palabras propias)" : "Google Nano Banana Pro (may add its own words)"}</option>
         </select>
         <p className="mt-2 text-xs text-muted">
           {es
-            ? "Nano Banana Pro usa tu saldo de fal.ai (FAL_KEY), unos $0.15–0.30 por póster. Si falla, OpenAI lo hace automáticamente."
-            : "Nano Banana Pro uses your fal.ai balance (FAL_KEY), about $0.15–0.30 per poster. If it fails, OpenAI makes it automatically."}
+            ? "Pósters nuevos: el que elijas aquí. Las ediciones (“Editar este diseño”) siempre usan Nano Banana Pro porque mantiene la misma imagen. Nano Banana usa tu saldo de fal.ai."
+            : "New posters: the one you pick here. Edits (“Edit this design”) always use Nano Banana Pro because it keeps the same image. Nano Banana uses your fal.ai balance."}
         </p>
       </div>
       <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
