@@ -39,7 +39,9 @@ export default async function Home() {
     /* DB not ready */
   }
 
-  const gallery = templates.filter((x) => x.thumbUrl).slice(0, 8);
+  const gallery = templates.filter((x) => x.thumbUrl).slice(0, 16);
+  const rowA = gallery.filter((_, n) => n % 2 === 0);
+  const rowB = gallery.filter((_, n) => n % 2 === 1);
 
   return (
     <div>
@@ -72,24 +74,27 @@ export default async function Home() {
                 {t("hero_cta")} ›
               </Link>
             </div>
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-              {gallery.map((tpl, gi) => (
-                <Link
-                  key={tpl.id}
-                  data-reveal
-                  data-reveal-delay={(gi % 4) * 90}
-                  href={user ? `/create?t=${tpl.slug}` : "/register"}
-                  className="group relative overflow-hidden rounded-2xl border border-line transition hover:-translate-y-1 hover:border-lime hover:shadow-[0_20px_50px_-20px] hover:shadow-lime/40"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={thumb(tpl.thumbUrl, 480)} alt={tpl.name} loading="lazy" decoding="async" className="kixo-grade block aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-110" />
-                  <span className="kixo-card-scan" aria-hidden />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-3 pt-10 pb-3">
-                    <div className="text-sm font-extrabold uppercase tracking-wide">{locale === "es" ? tpl.nameEs : tpl.name}</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+          </div>
+          <div className="-mt-6 space-y-3 pb-14 sm:space-y-4 sm:pb-20">
+            {[rowA, rowB].filter((r) => r.length).map((row, ri) => (
+              <div key={ri} className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_6%,black_94%,transparent)]">
+                <div className={`flex w-max gap-3 sm:gap-4 ${ri ? "kixo-marquee-rev" : "kixo-marquee"}`} style={{ animationDuration: `${Math.max(30, row.length * 7)}s` }}>
+                  {[...row, ...row].map((tpl, gi) => (
+                    <Link
+                      key={`${tpl.id}-${gi}`}
+                      href={user ? `/create?t=${tpl.slug}` : "/register"}
+                      className="group relative w-36 shrink-0 overflow-hidden rounded-2xl border border-line transition hover:border-lime sm:w-48"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={thumb(tpl.thumbUrl, 480)} alt={tpl.name} loading="lazy" decoding="async" className="kixo-grade block aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-110" />
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent px-2.5 pt-8 pb-2">
+                        <div className="truncate text-xs font-extrabold uppercase tracking-wide">{locale === "es" ? tpl.nameEs : tpl.name}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       )}

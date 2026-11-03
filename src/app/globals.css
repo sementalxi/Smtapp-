@@ -110,13 +110,16 @@ input[type="range"] {
 .kixo-shine::after { content: ""; position: absolute; inset: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent); animation: kixo-btn-shine 3.2s ease-in-out infinite; pointer-events: none; }
 .kixo-marquee { animation: kixo-marquee 28s linear infinite; }
 .kixo-marquee:hover { animation-play-state: paused; }
+@keyframes kixo-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.kixo-marquee-rev { animation: kixo-marquee-rev 34s linear infinite; }
+.kixo-marquee-rev:hover { animation-play-state: paused; }
 
 /* Scroll reveal (only active once the script runs, so content never stays hidden) */
 html.kixo-reveal [data-reveal] { opacity: 0; transform: translateY(28px) scale(0.985); filter: blur(10px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.9s ease; }
 html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .kixo-float, .kixo-fade-up, .kixo-glow, .kixo-icon-pulse, .kixo-bg-pan, .kixo-spark, .kixo-marquee, .kixo-shine::after { animation: none !important; }
+  .kixo-float, .kixo-fade-up, .kixo-glow, .kixo-icon-pulse, .kixo-bg-pan, .kixo-spark, .kixo-marquee, .kixo-marquee-rev, .kixo-shine::after { animation: none !important; }
   .kixo-spark { display: none; }
   html.kixo-reveal [data-reveal] { opacity: 1; transform: none; filter: none; transition: none; }
 }

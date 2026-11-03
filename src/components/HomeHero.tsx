@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeroEffect } from "./HeroEffect";
 import type { ClientTemplate } from "@/lib/samples";
+import { thumb } from "@/lib/thumb";
 
 type T = (key: never, vars?: Record<string, string | number>) => string;
 
@@ -29,6 +30,7 @@ export function HomeHero({
   user,
   bonus,
   heroBg,
+  templates = [],
 }: {
   t: T;
   user: boolean;
@@ -38,6 +40,9 @@ export function HomeHero({
   templates?: ClientTemplate[];
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
+  // Three real sample posters for the hero (labelled styles first).
+  const withThumb = templates.filter((x) => x.thumbUrl);
+  const posters = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].slice(0, 3).map((x) => thumb(x.thumbUrl!, 480));
   const feats: [keyof typeof ICONS, string][] = [
     ["card", "hero_feat_1"],
     ["trophy", "hero_feat_2"],
@@ -72,12 +77,8 @@ export function HomeHero({
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1.05fr_1fr] lg:py-24">
         {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
-          {/* Phone: crest on the right, beside the title */}
-          <div className="pointer-events-none absolute -right-4 top-10 -z-10 w-[40%] max-w-[240px] lg:hidden">
-            <Crest />
-          </div>
           <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
-          <h1 className="font-display max-w-[70%] text-[3.05rem] leading-[0.9] sm:max-w-[64%] sm:text-7xl lg:max-w-none lg:text-[5.2rem]">
+          <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">
             {(() => {
               const words = tt("hero_title").split(" ");
               const a = Math.ceil(words.length * 0.4);
@@ -102,9 +103,9 @@ export function HomeHero({
           {bonus > 0 && <p className="mt-3 text-sm text-muted">{tt("free_note", { n: bonus })}</p>}
         </div>
 
-        {/* Right (desktop): animated KIXO crest */}
-        <div className="relative mx-auto hidden w-full max-w-[460px] lg:block">
-          <Crest />
+        {/* Right: a fan of real posters made with KIXO (falls back to the crest) */}
+        <div className="relative mx-auto w-full max-w-[460px]">
+          {posters.length >= 3 ? <PosterFan posters={posters} /> : <div className="hidden lg:block"><Crest /></div>}
         </div>
       </div>
 
@@ -137,6 +138,33 @@ export function HomeHero({
       </div>
     </section>
     </>
+  );
+}
+
+/** Three posters fanned out, floating and glowing. */
+function PosterFan({ posters }: { posters: string[] }) {
+  const [l, c, r] = posters;
+  const card = "absolute top-1/2 aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-panel shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]";
+  return (
+    <div className="kixo-logo-in relative mx-auto aspect-[5/4] w-full max-w-[440px]">
+      <div className="kixo-logo-aura pointer-events-none absolute inset-[12%] rounded-full bg-lime/25 blur-3xl" />
+      <div className={`${card} left-[2%] w-[44%] -translate-y-1/2 -rotate-[11deg] opacity-90`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={l} alt="" className="kixo-grade h-full w-full object-cover" />
+      </div>
+      <div className={`${card} right-[2%] w-[44%] -translate-y-1/2 rotate-[11deg] opacity-90`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={r} alt="" className="kixo-grade h-full w-full object-cover" />
+      </div>
+      <div className="absolute left-1/2 top-1/2 w-[54%] -translate-x-1/2 -translate-y-1/2">
+        <div className="kixo-logo-float relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-lime/60 shadow-[0_0_60px_-10px] shadow-lime/60">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={c} alt="KIXO poster" fetchPriority="high" className="kixo-grade h-full w-full object-cover" />
+          <span className="kixo-logo-shine pointer-events-none absolute inset-0" aria-hidden />
+          <span className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-lime backdrop-blur">⚡ AI</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
