@@ -12,7 +12,8 @@ const NB_SYSTEM = [
   "TEXT: render ONLY the exact text items the brief lists, spelled letter for letter as written, each one once. Never add your own words, slogans, titles, taglines, 'edition' lines, hashtags, dates, names or numbers, and never translate, shorten or reword the user's text. If the brief gives no text for something, leave it out.",
   "LOGOS: reproduce every provided crest/logo faithfully — same letters, shapes and symbols; never rename or respell them.",
   "PEOPLE: keep the provided person's face and identity exactly recognisable.",
-  "Follow the brief's layout and style instructions precisely.",
+  "Follow the brief's layout and style instructions precisely — especially the ART DIRECTOR'S DESIGN INSTRUCTIONS: every point, exactly as written.",
+  "PHOTOREAL: it must look like a real high-end sports photo shoot composited by a pro designer — real skin pores, real hair, real fabric, true lighting and shadows, real camera optics and fine grain. Never CGI, plastic, waxy, airbrushed, cartoon or over-smoothed AI look.",
 ].join(" ");
 
 /** Google Nano Banana Pro (Gemini 3 Pro Image — the partner model inside Photoshop's Generative Fill), on fal.ai. */

@@ -658,13 +658,14 @@ export function buildProPrompt(opts: {
     `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
+    `PHOTOREALISM (top priority): it must look like a REAL photograph from a high-end sports photo shoot, composited by a pro designer — real skin with pores and natural texture, real hair strands, real fabric weave and stitching on the kit, true-to-life proportions and hands, real camera optics (natural depth of field, subtle lens flare, fine film grain). NEVER a CGI render, plastic or waxy skin, airbrushed faces, cartoon, painting or the typical over-smoothed "AI image" look.`,
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     `Keep ${exactLogos ? "one of the bottom corners" : "at least one corner of the poster"} calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
     i.aiCopy === "on"
       ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
       : "",
     adminLed
-      ? `FINAL REMINDER: the layout, composition, figures, style and effects must follow the ART DIRECTOR'S DESIGN INSTRUCTIONS at the top of this brief.`
+      ? `FINAL CHECK — ART DIRECTOR'S DESIGN INSTRUCTIONS (top of this brief): go through them point by point and make sure EVERY instruction is done exactly as written — layout, element positions, figures, poses, background, typography, sizes, colours and effects. Do not skip, simplify or replace any of them with your own ideas.`
       : "",
     `Only write the text items listed above${i.aiCopy === "on" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. Words that appear INSIDE a logo or crest (club names, "ESPORTS", "EST. 2023", mottos) stay only inside that logo — never copy them out as a title, name, tagline or any separate text. Never invent club info, years, slogans or "edition" lines. No real company or league logos except the provided crests and badges.`,
   ]
@@ -744,7 +745,11 @@ export async function generateProForBanner(opts: {
             .split("\n\n")
             .filter((sec) => /^(TITLE FONT|NAMES FONT|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
             .join("\n\n");
+          const director = opts.prompt.split("\n\n").find((sec) => sec.startsWith("DESIGN INSTRUCTIONS FROM THE ART DIRECTOR")) ?? "";
           const textPrompt = [
+            director
+              ? `ART DIRECTOR'S INSTRUCTIONS for this poster (the artwork already follows them — now place and style EVERY text item exactly as they describe: positions, fonts, sizes, materials, effects, colours):\n${director.replace(/^DESIGN INSTRUCTIONS FROM THE ART DIRECTOR[^:]*:\n?/, "")}`
+              : "",
             `Reference image 1 is a finished poster artwork that has NO TEXT yet. Keep EVERYTHING in it exactly as it is — the same people and faces, poses, background, crests, trophy, colours, lighting, effects, composition and framing. Do not redraw, move or restyle anything.`,
             `Your only job: ADD the text items listed below onto it, designed as premium, bad-ass sports typography that matches the artwork (real materials, depth, glow and shadows that fit its lighting), placed in the clean empty spaces — title big and bold, the name prominent, the number huge, small lines small and letter-spaced. Text must never cover faces.`,
             keep,
