@@ -19,6 +19,9 @@ async function call(path: string, init: RequestInit, tries = 3): Promise<Respons
   }
 }
 
+/** Raw bot API call (for other modules). */
+export const botCall = (path: string, init: RequestInit) => call(path, init);
+
 /** The bot's own name (to check the token works). */
 export async function botInfo(): Promise<{ ok: boolean; name?: string; error?: string }> {
   if (!botReady()) return { ok: false, error: "missing" };

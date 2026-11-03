@@ -231,3 +231,16 @@ model Deal {
   sort      Int       @default(0)
   createdAt DateTime  @default(now())
 }
+
+// Live support chat: each ticket is a private Discord channel; staff reply there, the user chats on the website.
+model SupportTicket {
+  id         String   @id @default(cuid())
+  userId     String
+  channelId  String
+  webhookUrl String
+  status     String   @default("open") // open | closed
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, status])
+}

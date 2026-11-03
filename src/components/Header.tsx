@@ -35,6 +35,7 @@ export async function Header() {
         { href: "/pricing", label: es ? "Precios" : "Pricing", icon: "pricing" },
         { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", ...(reward > 0 ? { badge: `+${reward}`, badgeStyle: "teal" as const } : {}) },
         { href: "/profile", label: es ? "Perfil" : "Profile", icon: "profile" },
+        { href: "#support", label: es ? "Soporte" : "Support", icon: "support", badge: es ? "En vivo" : "Live" },
         ...(user.role === "ADMIN" ? [{ href: "/admin", label: "Admin", icon: "admin" as const, badge: es ? "Abrir" : "Open", badgeStyle: "button" as const }] : []),
       ]
     : [

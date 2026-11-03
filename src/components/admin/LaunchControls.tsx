@@ -2,18 +2,20 @@
 
 import { useEffect, useState } from "react";
 
-type D = { comingSoon: boolean; role: string; roles: { id: string; name: string }[]; bot: boolean; linked: number };
+type D = { comingSoon: boolean; role: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string };
 
 /** Admin: "Coming soon" switch + Discord role given to everyone who links their account. */
 export function LaunchControls({ es }: { es: boolean }) {
   const [d, setD] = useState<D | null>(null);
   const [soon, setSoon] = useState(false);
   const [role, setRole] = useState("");
+  const [sOn, setSOn] = useState(true);
+  const [sRole, setSRole] = useState("");
   const [busy, setBusy] = useState("");
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); }).catch(() => {});
+    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setSOn(x.supportOn); setSRole(x.supportRole); }).catch(() => {});
   }, []);
 
   async function save(nextSoon = soon, nextRole = role) {
@@ -22,6 +24,12 @@ export function LaunchControls({ es }: { es: boolean }) {
     const r = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "save", comingSoon: nextSoon, role: nextRole }) });
     setBusy("");
     setMsg(r.ok ? (es ? "✅ Guardado" : "✅ Saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
+  }
+  async function saveSupport(on = sOn, r = sRole) {
+    setBusy("support");
+    const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "support", on, role: r }) });
+    setBusy("");
+    setMsg(res.ok ? (es ? "✅ Soporte guardado" : "✅ Support saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
   }
   async function giveAll() {
     setBusy("all");
@@ -84,6 +92,31 @@ export function LaunchControls({ es }: { es: boolean }) {
           </>
         )}
       </div>
+      {d.bot && (
+        <div className="space-y-2 border-t border-line pt-4">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="font-bold">💬 {es ? "Chat de soporte en vivo" : "Live support chat"}</h3>
+            <button type="button" disabled={!!busy} onClick={() => { const v = !sOn; setSOn(v); saveSupport(v); }} className={`shrink-0 rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase ${sOn ? "border-lime bg-lime/15 text-lime" : "border-line text-muted"}`}>
+              {sOn ? (es ? "Encendido" : "On") : es ? "Apagado" : "Off"}
+            </button>
+          </div>
+          <p className="text-xs text-muted">
+            {es
+              ? "“Soporte” en el menú abre un chat. Cada conversación crea un canal privado en la categoría 🎫 KIXO SUPPORT de tu servidor: responde ahí y el usuario lo ve en vivo. Escribe !close para cerrar."
+              : "“Support” in the menu opens a chat. Each conversation creates a private channel in your server's 🎫 KIXO SUPPORT category: reply there and the user sees it live. Type !close to close."}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <select className="input min-w-0 flex-1 py-2 text-sm" value={sRole} onChange={(e) => setSRole(e.target.value)}>
+              <option value="">{es ? "— Rol del staff (quién ve los tickets) —" : "— Staff role (who sees tickets) —"}</option>
+              {d.roles.map((r) => (
+                <option key={r.id} value={r.id}>@{r.name}</option>
+              ))}
+            </select>
+            <button type="button" disabled={!!busy} onClick={() => saveSupport()} className="btn-primary px-4 py-2 text-sm">{busy === "support" ? "…" : es ? "Guardar" : "Save"}</button>
+          </div>
+          <p className="text-[11px] text-muted">{es ? "Pon el rol antes del primer ticket (la categoría se crea con ese rol). El bot necesita Gestionar canales y Gestionar webhooks." : "Set the role before the first ticket (the category is created with it). The bot needs Manage Channels and Manage Webhooks."}</p>
+        </div>
+      )}
       {msg && <p className="text-sm">{msg}</p>}
     </div>
   );

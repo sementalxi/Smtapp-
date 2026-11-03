@@ -17,6 +17,7 @@ const P = {
   invite: <><rect x="3" y="8" width="18" height="13" rx="2" /><path d="M12 8v13M3 12h18M12 8c-1.5-3-5-4-5-1.5S10 8 12 8zm0 0c1.5-3 5-4 5-1.5S14 8 12 8z" /></>,
   profile: <><circle cx="12" cy="8" r="4" /><path d="M4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5" /></>,
   admin: <path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6zM9 12l2 2 4-4" />,
+  support: <><path d="M4 12a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-2v-6h4M4 12v4a2 2 0 0 0 2 2h2v-6H4" /><path d="M16 18c0 2-2 3-4 3" /></>,
   deals: <><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8" /><path d="M2 7h20v5H2zM12 21V7" /></>,
 };
 type IconName = keyof typeof P;
@@ -90,6 +91,20 @@ export function SideMenu({
           <nav className="relative flex-1 space-y-1 overflow-y-auto px-3 py-4">
             {items.map((it, i) => {
               const on = active(it.href);
+              if (it.href === "#support")
+                return (
+                  <button
+                    key="support"
+                    type="button"
+                    onClick={() => { setOpen(false); window.dispatchEvent(new Event("kixo:support")); }}
+                    style={{ transitionDelay: open ? `${60 + i * 35}ms` : "0ms" }}
+                    className={`flex w-full items-center gap-4 rounded-2xl px-4 py-3.5 text-left text-[17px] font-semibold text-white/90 transition-all duration-300 hover:bg-panel-2 ${open ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"}`}
+                  >
+                    <Icon name={it.icon} />
+                    <span className="flex-1">{it.label}</span>
+                    <span className="flex items-center gap-1 rounded-full bg-[#5865F2] px-2.5 py-1 text-xs font-bold text-white"><span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />{it.badge ?? "Live"}</span>
+                  </button>
+                );
               return (
                 <Link
                   key={it.href + it.label}

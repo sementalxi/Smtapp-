@@ -22,6 +22,8 @@ export const SETTING_DEFAULTS = {
   site_title: "",
   site_description: "",
   share_image: "",
+  support_role: "",
+  support_on: "1",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;
