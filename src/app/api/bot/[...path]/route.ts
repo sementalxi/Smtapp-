@@ -1,0 +1,107 @@
+import { NextRequest, NextResponse } from "next/server";
+import crypto from "node:crypto";
+import { db } from "@/lib/db";
+import { SESSION_COOKIE, signSession } from "@/lib/session";
+import { getNumberSetting } from "@/lib/settings";
+import { activeTemplates } from "@/lib/queries";
+import { thumb } from "@/lib/thumb";
+
+// Private API for your Discord bot (KIXO Studio in Discord). The bot sends the shared secret KIXO_BOT_SECRET.
+// It acts as the KIXO account linked to that Discord user — same credits, styles and history as the website.
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
+const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
+const j = (d: unknown, status = 200) => NextResponse.json(d, { status });
+
+function authorized(req: NextRequest) {
+  const s = process.env.KIXO_BOT_SECRET?.trim();
+  const got = req.headers.get("x-kixo-bot") ?? "";
+  if (!s || got.length !== s.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(got), Buffer.from(s));
+}
+
+async function userFor(discordId: string | null) {
+  if (!discordId || !/^\d{15,22}$/.test(discordId)) return null;
+  return db.user.findFirst({ where: { discordId, banned: false } });
+}
+
+/** Calls one of the website's own API routes as that user (same rules, charging and history as the site). */
+async function asUser(userId: string, path: string, init: RequestInit = {}) {
+  const cookie = `${SESSION_COOKIE}=${await signSession(userId)}`;
+  return fetch(`${site()}${path}`, { ...init, headers: { ...(init.headers ?? {}), cookie }, signal: AbortSignal.timeout(55000) });
+}
+
+async function handler(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  if (!authorized(req)) return j({ error: "unauthorized" }, 401);
+  const action = (await params).path.join("/");
+  const url = req.nextUrl;
+
+  // Who is this Discord user on KIXO?
+  if (action === "user") {
+    const u = await userFor(url.searchParams.get("discordId"));
+    const cost = await getNumberSetting("pro_cost");
+    if (!u) return j({ linked: false, cost, signup: `${site()}/register` });
+    return j({ linked: true, name: u.name, credits: u.credits, cost });
+  }
+
+  // Styles this user may use for a type.
+  if (action === "styles") {
+    const u = await userFor(url.searchParams.get("discordId"));
+    if (!u) return j({ error: "not_linked" }, 404);
+    const type = (url.searchParams.get("type") ?? "").toUpperCase();
+    const list = (await activeTemplates(u)).filter((t) => t.layout === type).slice(0, 25);
+    return j({ styles: list.map((t) => ({ id: t.id, name: t.name, nameEs: t.nameEs, thumb: t.thumbUrl ? ((u) => (u.startsWith("/") ? site() + u : u))(thumb(t.thumbUrl, 480)) : null, badge: t.badge })) });
+  }
+
+  // Make a poster.
+  if (action === "generate" && req.method === "POST") {
+    const b = (await req.json().catch(() => ({}))) as { discordId?: string; templateId?: string; inputs?: Record<string, unknown>; photoUrl?: string; logoUrl?: string; season?: boolean };
+    const u = await userFor(b.discordId ?? null);
+    if (!u) return j({ error: "not_linked" }, 404);
+    // Discord attachment → stored on KIXO (the AI only takes our own files).
+    const rehost = async (src?: string) => {
+      if (!src) return null;
+      const s = new URL(src);
+      if (s.protocol !== "https:" || !/(^|\.)discordapp\.(com|net)$/.test(s.hostname)) throw new Error("bad_image_host");
+      const img = await fetch(s, { signal: AbortSignal.timeout(15000) });
+      if (!img.ok) throw new Error("image_download_failed");
+      const type = img.headers.get("content-type") ?? "image/jpeg";
+      const fd = new FormData();
+      fd.append("file", new Blob([await img.arrayBuffer()], { type }), `discord.${type.includes("png") ? "png" : type.includes("webp") ? "webp" : "jpg"}`);
+      fd.append("kind", "photo");
+      const up = await asUser(u.id, "/api/upload", { method: "POST", body: fd });
+      const d = await up.json().catch(() => ({}));
+      if (!d.url) throw new Error(d.error ?? "upload_failed");
+      return d.url as string;
+    };
+    let photoUrl: string | null = null;
+    let logoUrl: string | null = null;
+    try {
+      [photoUrl, logoUrl] = await Promise.all([rehost(b.photoUrl), rehost(b.logoUrl)]);
+    } catch (e) {
+      return j({ error: e instanceof Error ? e.message : "upload_failed" }, 400);
+    }
+    const r = await asUser(u.id, "/api/banners", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ templateId: b.templateId, inputs: b.inputs ?? {}, photoUrl, logoUrl, mode: "PRO", ...(b.season ? { season: true } : {}) }),
+    });
+    const d = await r.json().catch(() => ({}));
+    return j(d, r.status);
+  }
+
+  // Is it ready?
+  if (action.startsWith("banner/")) {
+    const u = await userFor(url.searchParams.get("discordId"));
+    if (!u) return j({ error: "not_linked" }, 404);
+    const r = await asUser(u.id, `/api/banners/${encodeURIComponent(action.slice(7))}`);
+    const d = await r.json().catch(() => ({}));
+    if (d.finalUrl && String(d.finalUrl).startsWith("/")) d.finalUrl = site() + d.finalUrl;
+    return j({ ...d, page: `${site()}/banner/${action.slice(7)}` }, r.status);
+  }
+
+  return j({ error: "not_found" }, 404);
+}
+
+export { handler as GET, handler as POST };
