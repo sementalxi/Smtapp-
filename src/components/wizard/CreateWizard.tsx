@@ -16,6 +16,7 @@ import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
 import { parseLine } from "@/lib/roster";
 import { positionsFor } from "@/lib/formations";
 import { LineupBuilder, slotsToLines, type Slot } from "./LineupBuilder";
+import { AiVideo } from "../AiVideo";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
 import { forgetPending, pendingBanner, rememberPending, waitForBanner } from "@/lib/wait-banner";
@@ -1062,6 +1063,7 @@ export function CreateWizard({
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
+                {result.url && <AiVideo bannerId={result.id} title={`kixo-${layout.toLowerCase()}`} />}
                 {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {layout === "PLAYER" && (
                   <Link href={`/create?match=${result.id}`} className="btn-primary w-full">
