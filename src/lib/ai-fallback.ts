@@ -22,6 +22,44 @@ const NB_SYSTEM = [
   "Follow the brief's layout and style instructions precisely.",
 ].join(" ");
 
+const falHeaders = () => ({ Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" });
+const absUrls = (imageUrls: string[], max: number) => imageUrls.map((u) => (u.startsWith("/") ? site() + u : u)).filter((u) => /^https:\/\//.test(u)).slice(0, max);
+
+async function falImage(endpoint: string, body: Record<string, unknown>, label: string, timeout = 130_000): Promise<{ buf: Buffer; url: string; status: number }> {
+  const r = await fetch(`https://fal.run/${endpoint}`, { method: "POST", headers: falHeaders(), body: JSON.stringify(body), signal: AbortSignal.timeout(timeout) });
+  const d = (await r.json().catch(() => ({}))) as { images?: { url?: string }[]; detail?: unknown; has_nsfw_concepts?: boolean[] };
+  const url = d.images?.[0]?.url;
+  if (!r.ok || !url) throw Object.assign(new Error(`${label} failed: ${r.status} ${JSON.stringify(d.detail ?? d).slice(0, 200)}`), { status: r.status });
+  if (d.has_nsfw_concepts?.[0]) throw new Error(`${label} refused the image`);
+  const img = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+  if (!img.ok) throw new Error(`${label} download failed: ${img.status}`);
+  return { buf: Buffer.from(await img.arrayBuffer()), url, status: r.status };
+}
+
+/** FLUX.2 Pro (Black Forest Labs) — very photoreal, multi-reference. */
+export async function fluxPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
+  const urls = absUrls(imageUrls, 9);
+  if (!urls.length) throw new Error("FLUX.2: no reference image");
+  return falImage("fal-ai/flux-2-pro/edit", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_urls: urls, image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 120_000);
+}
+
+/** FLUX.2 Pro realism pass: keeps the image identical, only makes it look like a real photo shoot. */
+export async function fluxRealism(imageUrl: string, format?: string, wide?: boolean) {
+  const prompt = [
+    "Retouch this exact image. Keep EVERYTHING identical — the same composition, layout, people, faces, poses, clothing, background, crests, objects, colours and framing; do not add, remove or move anything and do not add any text.",
+    "Only upgrade the REALISM so it looks like a real professional sports photo shoot composited by a top designer: real skin with pores and natural tone (no airbrushed, waxy or plastic skin), real hair strands, real fabric folds and stitching, true photographic lighting and shadows, natural lens depth of field, fine film grain, believable restrained effects. Remove any CGI, cartoon or over-smoothed AI look.",
+  ].join(" ");
+  return falImage("fal-ai/flux-2-pro/edit", { prompt, image_urls: [imageUrl], image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 realism", 100_000);
+}
+
+/** Nano Banana Pro returning both the image and its fal URL (for chaining steps). */
+export async function nanoBananaArt(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
+  const urls = absUrls(imageUrls, 14);
+  if (!urls.length) throw new Error("nano banana: no reference image");
+  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : wide ? "3:2" : "4:5";
+  return falImage("fal-ai/nano-banana-pro/edit", { prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
+}
+
 /** Google Nano Banana Pro (Gemini 3 Pro Image — the partner model inside Photoshop's Generative Fill), on fal.ai. */
 export async function nanoBananaPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean): Promise<Buffer> {
   const urls = imageUrls.map((u) => (u.startsWith("/") ? site() + u : u)).filter((u) => /^https:\/\//.test(u)).slice(0, 14);
@@ -55,6 +93,13 @@ export async function backupPoster(prompt: string, imageUrls: string[], format?:
 }
 
 export async function seedreamPoster(prompt: string, imageUrls: string[], size: { width: number; height: number }): Promise<Buffer> {
+  // Seedream 5.0 Pro first; if that endpoint isn't available, Seedream 4.
+  try {
+    return (await falImage("bytedance/seedream/v5/pro/edit", { prompt: fit(prompt, 4000), image_urls: absUrls(imageUrls, 10), image_size: size, num_images: 1, enable_safety_checker: true }, "Seedream 5", 170_000)).buf;
+  } catch (e) {
+    const st = (e as { status?: number }).status;
+    if (st !== 404 && st !== 405 && st !== 422) throw e;
+  }
   const urls = imageUrls.map((u) => (u.startsWith("/") ? site() + u : u)).filter((u) => /^https:\/\//.test(u)).slice(0, 10);
   if (!urls.length) throw new Error("fallback: no reference image");
   const r = await fetch("https://fal.run/fal-ai/bytedance/seedream/v4/edit", {

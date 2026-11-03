@@ -729,17 +729,28 @@ export async function generateProForBanner(opts: {
     const posterModel = (await getSettings()).poster_model;
     // MIX: Nano Banana Pro paints the artwork (people, background, crests, effects) with NO text,
     // then OpenAI adds the exact text on top — Nano's look + OpenAI's exact spelling.
-    if (!opts.edit && posterModel === "mix" && images.length) {
+    const mixModes = ["mix", "mix3", "flux-mix"];
+    if (!opts.edit && mixModes.includes(posterModel) && images.length) {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         const t0 = Date.now();
         try {
-          const art = await fb.nanoBananaPoster(
+          const artStep = posterModel === "flux-mix" ? fb.fluxPoster : fb.nanoBananaArt;
+          let artRes = await artStep(
             `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.`,
             refUrls,
             opts.format,
             isWide,
           );
+          // ALL 3: FLUX.2 makes Nano Banana's art look like a real photo shoot (keeps it identical).
+          if (posterModel === "mix3") {
+            try {
+              artRes = await fb.fluxRealism(artRes.url, opts.format, isWide);
+            } catch (e) {
+              await import("./activity").then((mm) => mm.logActivity("site", "mix3", `⚠️ FLUX.2 realism step skipped: ${(e instanceof Error ? e.message : String(e)).slice(0, 160)}`, "warn")).catch(() => {});
+            }
+          }
+          const art = artRes.buf;
           const keep = opts.prompt
             .split("\n\n")
             .filter((sec) => /^(TITLE FONT|NAMES FONT|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
@@ -752,9 +763,21 @@ export async function generateProForBanner(opts: {
           ].filter(Boolean).join("\n\n");
           poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], quality, fmtSizes ?? (isWide ? ["1536x1024"] : undefined), 280_000 - (Date.now() - t0));
           made = true;
-          usedModel = "Mix: Nano Banana Pro art + OpenAI text";
+          usedModel = posterModel === "mix3" ? "All 3: Nano Banana art + FLUX.2 realism + OpenAI text" : posterModel === "flux-mix" ? "Mix: FLUX.2 Pro art + OpenAI text" : "Mix: Nano Banana Pro art + OpenAI text";
         } catch (e) {
           await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Mix generator failed — using OpenAI alone: ${(e instanceof Error ? e.message : String(e)).slice(0, 200)}`, "warn")).catch(() => {});
+        }
+      }
+    }
+    if (!made && !opts.edit && posterModel === "flux" && images.length) {
+      const fb = await import("./ai-fallback");
+      if (fb.fallbackReady()) {
+        try {
+          poster = (await fb.fluxPoster(opts.prompt, refUrls, opts.format, isWide)).buf;
+          made = true;
+          usedModel = "FLUX.2 Pro";
+        } catch (e) {
+          await import("./activity").then((mm) => mm.logActivity("site", "flux", `⚠️ FLUX.2 Pro failed — using OpenAI instead: ${(e instanceof Error ? e.message : String(e)).slice(0, 200)}`, "warn")).catch(() => {});
         }
       }
     }
