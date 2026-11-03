@@ -39,7 +39,8 @@ async function falImage(endpoint: string, body: Record<string, unknown>, label: 
 /** FLUX.2 Pro (Black Forest Labs) — very photoreal, multi-reference. */
 export async function fluxPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
   const urls = absUrls(imageUrls, 9);
-  if (!urls.length) throw new Error("FLUX.2: no reference image");
+  // No photo/crest (e.g. a lineup): plain text-to-image.
+  if (!urls.length) return falImage("fal-ai/flux-2-pro", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 120_000);
   return falImage("fal-ai/flux-2-pro/edit", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_urls: urls, image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 120_000);
 }
 
@@ -56,8 +57,9 @@ export async function fluxRealism(imageUrl: string, format?: string, wide?: bool
 /** Nano Banana Pro returning both the image and its fal URL (for chaining steps). */
 export async function nanoBananaArt(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
   const urls = absUrls(imageUrls, 14);
-  if (!urls.length) throw new Error("nano banana: no reference image");
   const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : wide ? "3:2" : "4:5";
+  // No photo/crest (e.g. a lineup): plain text-to-image.
+  if (!urls.length) return falImage("fal-ai/nano-banana-pro", { prompt: fit(prompt, 30000), aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
   return falImage("fal-ai/nano-banana-pro/edit", { prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
 }
 

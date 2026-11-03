@@ -732,7 +732,7 @@ export async function generateProForBanner(opts: {
     // MIX: Nano Banana Pro paints the artwork (people, background, crests, effects) with NO text,
     // then OpenAI adds the exact text on top — Nano's look + OpenAI's exact spelling.
     const mixModes = ["mix", "mix3", "flux-mix"];
-    if (!opts.edit && mixModes.includes(posterModel) && images.length) {
+    if (!opts.edit && mixModes.includes(posterModel)) {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         const t0 = Date.now();
@@ -776,7 +776,7 @@ export async function generateProForBanner(opts: {
         }
       }
     }
-    if (!made && !opts.edit && posterModel === "flux" && images.length) {
+    if (!made && !opts.edit && posterModel === "flux") {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         try {
