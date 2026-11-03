@@ -18,7 +18,6 @@ export async function Header() {
           { href: "/dashboard", label: t("nav_dashboard"), icon: "home" as const },
         ]
       : []),
-    { href: "/pricing", label: t("nav_pricing"), icon: "pricing" as const },
     ...(user?.role === "ADMIN" ? [{ href: "/admin", label: t("nav_admin"), icon: "admin" as const, admin: true }] : []),
   ];
 
