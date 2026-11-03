@@ -73,7 +73,7 @@ export function ProBannerView({
         <div className="card relative overflow-hidden">
           {url ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={url} alt={title} className={`block aspect-[4/5] w-full object-cover ${busy ? "opacity-40" : ""}`} />
+            <img src={url} alt={title} className={`block h-auto w-full ${busy ? "opacity-40" : ""}`} />
           ) : (
             <div className="aspect-[4/5] bg-panel-2" />
           )}
