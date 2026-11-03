@@ -22,7 +22,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   const [info, setInfo] = useState<{ on: boolean; five: number; ten: number; credits: number } | null>(null);
   const [open, setOpen] = useState(false);
   const [seconds, setSeconds] = useState<5 | 10>(5);
-  const [audio, setAudio] = useState(true);
+  const [audio, setAudio] = useState(false); // silent by default (cheaper; add music later in TikTok/Reels)
   const [motion, setMotion] = useState("epic");
   const [extra, setExtra] = useState("");
   const [job, setJob] = useState<Job | null>(null);
@@ -121,7 +121,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
             ))}
           </div>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={audio} onChange={(e) => setAudio(e.target.checked)} /> 🔊 {es ? "Con sonido (estadio, música)" : "With sound (stadium, music)"}
+            <input type="checkbox" checked={audio} onChange={(e) => setAudio(e.target.checked)} /> 🔊 {es ? "Agregar sonido (estadio, música) — opcional" : "Add sound (stadium, music) — optional"}
           </label>
           <button type="button" disabled={busy || info.credits < cost} onClick={make} className="btn-primary w-full py-3">
             {busy ? "…" : info.credits < cost ? (es ? `Necesitas ⚡${cost}` : `Need ⚡${cost}`) : es ? `✨ Crear video · ⚡${cost}` : `✨ Make video · ⚡${cost}`}

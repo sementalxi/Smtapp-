@@ -17,7 +17,7 @@ export const GET = handle(async (req: NextRequest) => {
   return json({ on: p.on, five: p.five, ten: p.ten, credits: user.credits, jobs: jobs.map((j) => ({ id: j.id, status: j.status, videoUrl: j.videoUrl, seconds: j.seconds, error: j.status === "failed" ? (j.error?.startsWith("blocked") ? "blocked" : "failed") : null })) });
 });
 
-const Body = z.object({ bannerId: z.string().min(1).max(40), seconds: z.union([z.literal(5), z.literal(10)]), audio: z.boolean().default(true), motion: z.string().max(20).default("epic"), extra: z.string().trim().max(300).optional() });
+const Body = z.object({ bannerId: z.string().min(1).max(40), seconds: z.union([z.literal(5), z.literal(10)]), audio: z.boolean().default(false), motion: z.string().max(20).default("epic"), extra: z.string().trim().max(300).optional() });
 
 /** Make an AI video from one of my finished posters. */
 export const POST = handle(async (req: NextRequest) => {
