@@ -78,8 +78,6 @@ export function SideMenu({
           <div className="relative flex items-center justify-between border-b border-line px-5 py-4">
             <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/kixo-hero-logo.webp" alt="" className="h-9 w-auto" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/kixo-wordmark.png" alt={site} className="[filter:hue-rotate(246deg)] h-7 w-auto" />
             </Link>
             <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg border border-line text-muted hover:text-white">
