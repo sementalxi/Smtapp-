@@ -14,7 +14,7 @@ export const GET = handle(async (req: NextRequest) => {
   const bannerId = req.nextUrl.searchParams.get("bannerId") ?? "";
   const p = await videoPrices();
   const jobs = bannerId ? await db.videoJob.findMany({ where: { userId: user.id, bannerId }, orderBy: { createdAt: "desc" }, take: 6 }) : [];
-  return json({ on: p.on, five: p.five, ten: p.ten, credits: user.credits, jobs: jobs.map((j) => ({ id: j.id, status: j.status, videoUrl: j.videoUrl, seconds: j.seconds, error: j.status === "failed" ? (j.error?.startsWith("blocked") ? "blocked" : "failed") : null })) });
+  return json({ on: p.on, five: p.five, ten: p.ten, audioCost: p.audio, credits: user.credits, jobs: jobs.map((j) => ({ id: j.id, status: j.status, videoUrl: j.videoUrl, seconds: j.seconds, error: j.status === "failed" ? (j.error?.startsWith("blocked") ? "blocked" : "failed") : null })) });
 });
 
 const Body = z.object({ bannerId: z.string().min(1).max(40), seconds: z.union([z.literal(5), z.literal(10)]), audio: z.boolean().default(false), motion: z.string().max(20).default("ultra"), extra: z.string().trim().max(300).optional() });

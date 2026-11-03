@@ -82,6 +82,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
             <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 10 seg" : "Credits · 10-second video"}</span>
             <input type="number" min={0} className="input" value={v.video_cost_10 ?? "18"} onChange={(e) => setV({ ...v, video_cost_10: e.target.value })} />
           </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos extra · con sonido" : "Extra credits · with sound"}</span>
+            <input type="number" min={0} className="input" value={v.video_cost_audio ?? "5"} onChange={(e) => setV({ ...v, video_cost_audio: e.target.value })} />
+          </div>
         </div>
         <p className="mt-2 text-xs text-muted">{es ? "Necesita FAL_KEY en Vercel (fal.ai → API Keys). Los videos fallidos se reembolsan solos." : "Needs FAL_KEY on Vercel (fal.ai → API Keys). Failed videos are refunded automatically."}</p>
       </div>

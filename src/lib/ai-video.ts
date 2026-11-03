@@ -46,14 +46,14 @@ const pick = <T,>(a: T[], n: number) => [...a].sort(() => Math.random() - 0.5).s
 
 export async function videoPrices() {
   const s = await getSettings();
-  return { on: s.video_on !== "0" && videoReady(), five: Number(s.video_cost_5) || 10, ten: Number(s.video_cost_10) || 18, model: (s.video_model as ModelKey) in VIDEO_MODELS ? (s.video_model as ModelKey) : "kling-std" };
+  return { on: s.video_on !== "0" && videoReady(), five: Number(s.video_cost_5) || 10, ten: Number(s.video_cost_10) || 18, audio: s.video_cost_audio === undefined || s.video_cost_audio === "" ? 5 : Number(s.video_cost_audio) || 0, model: (s.video_model as ModelKey) in VIDEO_MODELS ? (s.video_model as ModelKey) : "kling-std" };
 }
 
 /** Charges credits and sends the job to fal. Throws HttpError-like errors with a code. */
 export async function startVideo(o: { userId: string; bannerId: string; imageUrl: string; seconds: 5 | 10; audio: boolean; motion: string; extra?: string }) {
   const p = await videoPrices();
   if (!p.on) throw Object.assign(new Error("video_off"), { status: 503 });
-  const cost = o.seconds === 10 ? p.ten : p.five;
+  const cost = (o.seconds === 10 ? p.ten : p.five) + (o.audio ? p.audio : 0);
   const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.ultra.prompt;
   const prompt = [
     `Turn this sports poster into a dynamic, high-energy cinematic video with LOTS of visible motion — nothing stays still.`,

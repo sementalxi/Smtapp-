@@ -20,7 +20,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
-  const [info, setInfo] = useState<{ on: boolean; five: number; ten: number; credits: number } | null>(null);
+  const [info, setInfo] = useState<{ on: boolean; five: number; ten: number; audioCost: number; credits: number } | null>(null);
   const [open, setOpen] = useState(false);
   const [seconds, setSeconds] = useState<5 | 10>(5);
   const [audio, setAudio] = useState(false); // silent by default (cheaper; add music later in TikTok/Reels)
@@ -33,7 +33,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   const load = useCallback(async () => {
     const d = await fetch(`/api/video?bannerId=${bannerId}`).then((r) => r.json()).catch(() => null);
     if (!d) return;
-    setInfo({ on: d.on, five: d.five, ten: d.ten, credits: d.credits });
+    setInfo({ on: d.on, five: d.five, ten: d.ten, audioCost: d.audioCost ?? 5, credits: d.credits });
     const last = (d.jobs as Job[])?.[0];
     if (last && (last.status === "running" || last.status === "queued" || last.status === "done")) setJob(last);
   }, [bannerId]);
@@ -53,7 +53,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
   }, [job, es, router]);
 
   if (!info?.on) return null;
-  const cost = seconds === 10 ? info.ten : info.five;
+  const cost = (seconds === 10 ? info.ten : info.five) + (audio ? info.audioCost : 0);
 
   async function make() {
     setBusy(true);
@@ -122,7 +122,7 @@ export function AiVideo({ bannerId, title }: { bannerId: string; title: string }
             ))}
           </div>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={audio} onChange={(e) => setAudio(e.target.checked)} /> 🔊 {es ? "Agregar sonido (estadio, música) — opcional" : "Add sound (stadium, music) — optional"}
+            <input type="checkbox" checked={audio} onChange={(e) => setAudio(e.target.checked)} /> 🔊 {es ? "Agregar sonido (estadio, música)" : "Add sound (stadium, music)"} {info.audioCost > 0 && <b className="text-fuchsia-300">+⚡{info.audioCost}</b>}
           </label>
           <button type="button" disabled={busy || info.credits < cost} onClick={make} className="btn-primary w-full py-3">
             {busy ? "…" : info.credits < cost ? (es ? `Necesitas ⚡${cost}` : `Need ⚡${cost}`) : es ? `✨ Crear video · ⚡${cost}` : `✨ Make video · ⚡${cost}`}

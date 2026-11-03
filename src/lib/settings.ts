@@ -28,6 +28,7 @@ export const SETTING_DEFAULTS = {
   video_model: "kling-std",
   video_cost_5: "10",
   video_cost_10: "18",
+  video_cost_audio: "5",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;
