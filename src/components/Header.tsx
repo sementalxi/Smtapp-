@@ -31,8 +31,6 @@ export async function Header() {
         { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "shield", badge: es ? "NUEVO" : "NEW" },
         { href: "/create?team=1", label: es ? "Tarjetas del equipo" : "Team cards", icon: "team" },
         { href: "/history", label: es ? "Historial" : "History", icon: "history" },
-        { href: "/credits", label: es ? "Créditos" : "Credits", icon: "credits" },
-        { href: "/pricing", label: es ? "Precios" : "Pricing", icon: "pricing" },
         { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", ...(reward > 0 ? { badge: `+${reward}`, badgeStyle: "teal" as const } : {}) },
         { href: "/profile", label: es ? "Perfil" : "Profile", icon: "profile" },
         { href: "#support", label: es ? "Soporte" : "Support", icon: "support", badge: es ? "En vivo" : "Live" },
@@ -42,7 +40,6 @@ export async function Header() {
         { href: "/register", label: es ? "Crear" : "Create", icon: "create", primary: true },
         { href: "/", label: es ? "Inicio" : "Home", icon: "home" },
         { href: "/#styles", label: es ? "Explorar estilos" : "Explore styles", icon: "explore" },
-        { href: "/pricing", label: es ? "Precios" : "Pricing", icon: "pricing" },
         { href: "/register", label: es ? "Créditos gratis" : "Free credits", icon: "deals", badge: es ? "GRATIS" : "FREE" },
         { href: "/login", label: es ? "Entrar" : "Log in", icon: "profile" },
       ];
