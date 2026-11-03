@@ -256,6 +256,32 @@ export function CreateWizard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layout]);
   const tableRows = table.filter((t) => t.team.trim());
+  // Each league keeps its own saved table: picking the league loads it, generating (or "Save") updates it.
+  const [tableMsg, setTableMsg] = useState("");
+  useEffect(() => {
+    if (layout !== "STANDINGS" || !champ?.id) return;
+    setTableMsg("");
+    fetch(`/api/standings?league=${encodeURIComponent(champ.id)}`, { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => {
+        const t = d?.table;
+        if (t?.rows?.length) {
+          setTable([...t.rows, ...Array.from({ length: Math.max(0, 2 - t.rows.length) }, blankRow)]);
+          setInp((x) => ({ ...x, headline: x.headline || t.headline || "", date: t.date || x.date }));
+          setTableMsg(locale === "es" ? `✓ Tabla guardada de ${champ.name} cargada — solo actualízala.` : `✓ Saved ${champ.name} table loaded — just update it.`);
+        } else setTable(Array.from({ length: 6 }, blankRow));
+      })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [champ?.id, layout]);
+  function saveTable(quiet = false) {
+    if (layout !== "STANDINGS" || !champ?.id || !tableRows.length) return;
+    fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: champ.id, rows: tableRows, headline: inp.headline, date: inp.date }) })
+      .then((r) => {
+        if (r.ok && !quiet) setTableMsg(locale === "es" ? `💾 Tabla guardada en ${champ.name}.` : `💾 Table saved to ${champ.name}.`);
+      })
+      .catch(() => {});
+  }
   const rowText = (t: TRow, n: number) =>
     [`${n + 1}. ${t.team.trim()}`, ...([["P", t.p], ["W", t.w], ["D", t.d], ["L", t.l], ["GD", t.gd], ["PTS", t.pts]] as const).filter(([, v]) => v.trim()).map(([k, v]) => `${k} ${v.trim()}`)].join(" · ");
   const [aiBusy, setAiBusy] = useState(false);
@@ -409,6 +435,7 @@ export function CreateWizard({
 
   async function generate() {
     saveRosterBack();
+    saveTable(true);
     setPhase("busy");
     setError("");
     const res = await fetch("/api/banners", {
@@ -834,6 +861,10 @@ export function CreateWizard({
                 <label className="label">
                   {locale === "es" ? "Tabla" : "Table"} <span className="text-lime">*</span>
                 </label>
+                {tableMsg && <p className="mb-2 text-xs font-bold text-teal">{tableMsg}</p>}
+                {!champ?.id && (
+                  <p className="mb-2 text-xs text-muted">{locale === "es" ? "Elige la liga arriba y tu tabla se guarda en ella — la próxima vez solo la actualizas." : "Pick the league above and your table is saved to it — next time you just update it."}</p>
+                )}
                 <datalist id="kx-my-teams">
                   {myTeams.map((m) => (
                     <option key={m.name} value={m.name} />
@@ -884,6 +915,11 @@ export function CreateWizard({
                   </table>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {champ?.id && tableRows.length > 0 && (
+                    <button type="button" className="rounded-lg border border-lime/50 bg-lime/10 px-3 py-1.5 text-xs font-bold text-lime" onClick={() => saveTable()}>
+                      💾 {locale === "es" ? `Guardar tabla en ${champ.name}` : `Save table to ${champ.name}`}
+                    </button>
+                  )}
                   {table.length < 20 && (
                     <button type="button" className="rounded-lg border border-line px-3 py-1.5 text-xs font-bold hover:border-lime" onClick={() => setTable((t) => [...t, blankRow()])}>
                       + {locale === "es" ? "Agregar equipo" : "Add team"}
