@@ -11,6 +11,7 @@ import { seriesInfo } from "@/lib/banners";
 import type { LayoutKind } from "@/lib/templates";
 import { visibleCategories } from "@/lib/categories";
 import { activeSeason } from "@/lib/seasons";
+import { getTypePics } from "@/lib/type-pics";
 
 export const metadata = { title: "Create" };
 
@@ -113,6 +114,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         categories={cats}
         season={season}
         seasonStart={seasonOn && !!season}
+        typePics={await getTypePics()}
       />
     </div>
   );

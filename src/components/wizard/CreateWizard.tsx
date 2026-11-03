@@ -172,6 +172,7 @@ export function CreateWizard({
   categories,
   season = null,
   seasonStart = false,
+  typePics = {},
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -183,6 +184,8 @@ export function CreateWizard({
   /** Holiday/season the admin turned on (null = off). */
   season?: { key: string; emoji: string; en: string; es: string } | null;
   seasonStart?: boolean;
+  /** Pictures the admin chose for the type boxes (Admin → Styles). */
+  typePics?: Record<string, string>;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -206,8 +209,11 @@ export function CreateWizard({
   const typePic = useMemo(() => {
     const m: Record<string, string> = {};
     for (const t of templates) if (t.thumbUrl && !m[t.layout]) m[t.layout] = thumb(t.thumbUrl, 420);
+    for (const [k, v] of Object.entries(typePics)) if (v) m[k] = thumb(v, 420);
+    m.ROSTER = m.ROSTER || m.PLAYER;
+    m.TEAMSET = m.TEAMSET || m.PLAYER;
     return m;
-  }, [templates]);
+  }, [templates, typePics]);
   const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
   // Warm the style previews in the background so step 2 shows them instantly.
   useEffect(() => {
@@ -561,7 +567,12 @@ export function CreateWizard({
               onClick={() => setSeasonMode((v) => !v)}
               className={`group relative mb-3 flex w-full items-center gap-3.5 overflow-hidden rounded-2xl border p-3.5 text-left transition active:scale-[0.99] sm:p-4 ${seasonMode ? "border-amber-300 bg-gradient-to-r from-amber-400/25 via-rose-500/15 to-panel shadow-[0_10px_40px_-14px_rgba(251,191,36,0.8)]" : "border-amber-300/40 bg-gradient-to-r from-amber-400/10 via-panel-2 to-panel hover:border-amber-300/80"}`}
             >
-              <span aria-hidden className="pointer-events-none absolute -right-6 -top-8 text-[7rem] leading-none opacity-15 transition group-hover:scale-110">{season.emoji}</span>
+              {typePic.SEASON ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={typePic.SEASON} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 h-full w-1/2 object-cover opacity-40 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110" />
+              ) : (
+                <span aria-hidden className="pointer-events-none absolute -right-6 -top-8 text-[7rem] leading-none opacity-15 transition group-hover:scale-110">{season.emoji}</span>
+              )}
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-amber-300/60 bg-ink/50 text-2xl">{season.emoji}</span>
               <span className="relative min-w-0 flex-1">
                 <span className="flex flex-wrap items-center gap-2">
@@ -616,10 +627,10 @@ export function CreateWizard({
               href="/create/roster"
               className="group relative isolate col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-lime/40 bg-gradient-to-r from-lime/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-lime/70 active:scale-[0.99] sm:p-4"
             >
-              {typePic.PLAYER && (
+              {typePic.ROSTER && (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={typePic.PLAYER} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-35 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110 group-hover:opacity-50" />
+                  <img src={typePic.ROSTER} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-35 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110 group-hover:opacity-50" />
                 </>
               )}
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-lime/40 bg-lime/10 text-lime">
@@ -643,10 +654,10 @@ export function CreateWizard({
               href="/create?team=1"
               className="group relative isolate col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-teal/40 bg-gradient-to-r from-teal/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-teal/70 active:scale-[0.99] sm:p-4"
             >
-              {typePic.PLAYER && (
+              {typePic.TEAMSET && (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={typePic.PLAYER} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-35 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110 group-hover:opacity-50" />
+                  <img src={typePic.TEAMSET} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-35 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110 group-hover:opacity-50" />
                 </>
               )}
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-teal/40 bg-teal/10 text-teal">

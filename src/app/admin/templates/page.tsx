@@ -7,6 +7,8 @@ import { TemplateArranger } from "@/components/admin/TemplateArranger";
 import { getCategoryConfig } from "@/lib/categories";
 import { SeasonPicker } from "@/components/admin/SeasonPicker";
 import { SEASONS, getSeasonState } from "@/lib/seasons";
+import { TypePics } from "@/components/admin/TypePics";
+import { getTypePics } from "@/lib/type-pics";
 
 export default async function AdminTemplates() {
   await requireAdmin();
@@ -21,6 +23,7 @@ export default async function AdminTemplates() {
   return (
     <div className="space-y-6">
       <h1 className="font-display text-4xl">{t("admin_templates")}</h1>
+      <TypePics initial={await getTypePics()} es={locale === "es"} />
       <SeasonPicker seasons={SEASONS.map(({ key, emoji, en, es }) => ({ key, emoji, en, es }))} initial={season} es={locale === "es"} />
       <TemplateArranger
         categories={categories}
