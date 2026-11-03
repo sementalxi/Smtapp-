@@ -41,7 +41,11 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
   if (action === "user") {
     const u = await userFor(url.searchParams.get("discordId"));
     const cost = await getNumberSetting("pro_cost");
-    if (!u) return j({ linked: false, cost, signup: `${site()}/register` });
+    if (!u) {
+      // Not on KIXO yet: nothing is created and no credits are given until they sign up on the website.
+      const bonus = (await getNumberSetting("signup_credits").catch(() => 0)) + (await getNumberSetting("discord_bonus").catch(() => 0));
+      return j({ linked: false, cost, bonus, signup: `${site()}/api/auth/discord` });
+    }
     return j({ linked: true, name: u.name, credits: u.credits, cost });
   }
 
