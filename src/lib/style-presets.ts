@@ -20,6 +20,35 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
+  "player-liquid-copper": `LIQUID COPPER — a cinematic pro-clubs / esports player card in a teal-and-copper colour grade, like key art from a top club design studio. Epic, glossy, premium.
+
+COLOURS
+- Teal / cyan and burnt copper-bronze over deep dark teal blacks (if the COLOURS line below gives team colours, use them in place of teal and copper with the same balance: one cool, one warm metallic).
+
+BACKGROUND (dense, layered)
+- A dramatic stormy sky with swirling clouds, strong light rays and lens beams bursting from behind the player in teal and copper.
+- Behind the players: a grand classical STONE ARCH / monumental stadium gateway with ornate carved details, stadium stands and roof structures on both sides, slightly hazy.
+- Big glossy LIQUID COPPER splashes and ribbons swirling around the figures, shattered glass shards flying, glowing orange sparks and embers, drifting smoke at the bottom.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, kit):
+1. BACKGROUND (upper right): a big waist-up portrait of the player in a calm, confident pose (e.g. finger to the lips "shush", or arms crossed), softly blended into the sky.
+2. FOREGROUND (centre): a hero chest-up shot of the player in an emotional celebration — looking up and shouting, or pulling the jersey badge forward — sharp, fully lit, with a teal rim light and warm copper key light.
+
+TITLE
+- Across the middle, overlapping the hero's waist: the NAME (or the tagline/position if no name) as a big ESPORTS-LOGO BADGE — heavy angular 3D capitals in cracked white chrome with a thick copper-metal outline and bevel, sitting on a curved copper banner/ribbon, sparks and liquid splashes wrapping around it.
+
+BOTTOM SECTION
+- Lower left: the jersey NUMBER big in bold white sans-serif with the subtitle (if given) in a thin copper brush script under it.
+- Centre: the POSITION in a small outlined rectangular tag.
+- Lower right: the team crest (if given) small and clean, or a giant thin copper outline of the number.
+- Bottom: the footer line (if given) small and letter-spaced between two thin horizontal lines.
+- Ignore the placement hints in the text list below — follow this layout.
+
+QUALITY
+- Photoreal and cinematic: real skin and fabric, true lighting, glossy real liquid metal, razor-sharp crisp lettering.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names or handles. Write each item once. If an item is not given, leave its spot out.`,
   "player-overdrive": `OVERDRIVE — a BAD-ASS pro esports player card, like the key art of a top esports org announcing its star player. Aggressive, futuristic, expensive. Every poster is a surprise: change the details each time, keep the attitude.
 
 COLOURS
