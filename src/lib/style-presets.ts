@@ -20,6 +20,32 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
+  "player-overdrive": `OVERDRIVE — a BAD-ASS pro esports player card, like the key art of a top esports org announcing its star player. Aggressive, futuristic, expensive. Every poster is a surprise: change the details each time, keep the attitude.
+
+COLOURS
+- Two-tone neon split from the COLOURS line below (main colour on one side, second colour on the other), over near-black. Deep crushed blacks, high contrast, hard coloured rim lights.
+
+BACKGROUND (dense, layered, cinematic)
+- A dark esports arena / stage at night with volumetric beams through smoke.
+- Behind the player: a huge SHATTERED DIGITAL PORTAL — a screen or wall of light cracking open, glass-like pixel shards and glitch blocks exploding toward the camera, RGB chromatic-aberration splits on the edges, scan lines and data noise.
+- Crackling electric energy and sparks wrapping around the player, glowing embers, fine dust, light streaks.
+- The team crest (if given) huge and faded in the background like a hologram, slightly glitched.
+- Sleek HUD frame elements (thin angled brackets, corner ticks, a hex grid) — graphic shapes only, NO numbers, stats or words in them.
+
+THE PLAYER — the SAME person from the photo (same face, hair, tattoos, features):
+- Hero shot, chest-up to three-quarter body, stepping OUT of the portal toward the camera with an intense, confident stare (arms crossed, fists clenched or adjusting a gaming headset — pick one).
+- Photoreal pro photo shoot: natural skin and fabric, sharp eyes, two-colour neon rim light, subtle glitch slices only on the very edges of the figure — the face stays clean and perfect.
+- Optional second figure: a giant, faint close-up of the same player's eyes / face blended into the background.
+
+TYPOGRAPHY & LAYOUT
+- The gamertag / NAME huge across the lower part in heavy slanted chrome capitals with a glitch RGB split, sharp bevels and a hard shadow — partly overlapping the player's body.
+- The jersey NUMBER giant and glowing on one side, half behind the player.
+- The POSITION in a small bold angular tag (like an esports role badge) near the name.
+- The team name (if given) small and letter-spaced near the top; the tagline/subtitle (if given) in a sharp brush-marker script crossing the name.
+- Ignore the placement hints in the text list below — follow this layout.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, stats, ratings, sponsors, handles, dates or "edition" lines. Write each item once.`,
   "player-shatter": `SHATTERED SIGNING — a premium esports / pro-clubs player signing card in a bold monochrome editorial style, like the work of a top club graphics studio. Cinematic, sharp and expensive.
 
 COLOURS (changes every poster)

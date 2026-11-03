@@ -235,6 +235,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "player-overdrive",
+    name: "Overdrive",
+    nameEs: "Overdrive",
+    layout: "PLAYER",
+    sort: 0,
+    prompt:
+      "bad-ass esports player card: the player bursting out of a shattered neon-glitch digital portal in a dark arena, RGB chromatic splits, lightning energy, HUD frames, giant chrome-glitch gamertag",
+    style: {
+      primary: "#ff1f5a",
+      accent: "#16e0ff",
+      dark: "#05030a",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#e9f7ff", "#9feaff"],
+      fallback: ["#05030a", "#2a0614", "#ff1f5a"],
+      particles: "sparks",
+      ghost: true,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "player-shatter",
     name: "Shattered Signing",
     nameEs: "Fichaje Estallido",
