@@ -709,6 +709,9 @@ export async function generateProForBanner(opts: {
       note: opts.regenerate ? "Pro AI — new version" : "Pro AI poster",
     });
   }
+  // Saved right away (also when it fails) so admins can read exactly what the AI was asked.
+  await db.banner.update({ where: { id: opts.bannerId }, data: { prompt: opts.prompt.slice(0, 40000) } }).catch(() => {});
+  let usedModel = "OpenAI GPT Image";
   try {
     const images: { bytes: Buffer; type: string }[] = [];
     for (const r of opts.refs.filter((x) => !x.overlay)) {
@@ -727,6 +730,7 @@ export async function generateProForBanner(opts: {
         try {
           poster = await fb.nanoBananaPoster(opts.prompt, refUrls, opts.format, isWide);
           made = true;
+          usedModel = "Nano Banana Pro";
         } catch (e) {
           await import("./activity").then((mm) => mm.logActivity("site", "nano_banana", `⚠️ Nano Banana Pro failed — using OpenAI instead: ${(e instanceof Error ? e.message : String(e)).slice(0, 200)}`, "warn")).catch(() => {});
         }
@@ -747,6 +751,7 @@ export async function generateProForBanner(opts: {
         try {
           const b = await fb.backupPoster(opts.prompt, refUrls, opts.format, isWide);
           poster = b.buf;
+          usedModel = `${b.model} (backup)`;
           await import("./activity").then((mm) => mm.logActivity("site", "fallback", `🛟 OpenAI refused the photo — made with the backup generator (${b.model}) instead`)).catch(() => {});
         } catch (e3) {
           throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter and the backup generator. ${m} | ${e3 instanceof Error ? e3.message : e3}`);
@@ -767,6 +772,8 @@ export async function generateProForBanner(opts: {
           try {
             const b = await fb.backupPoster(opts.prompt, refUrls, opts.format, isWide);
             poster = b.buf;
+            usedModel = `${b.model} (backup)`;
+          usedModel = `${b.model} (backup)`;
             await import("./activity").then((m) => m.logActivity("site", "fallback", `🛟 OpenAI refused the photo — made with the backup generator (${b.model}) instead`)).catch(() => {});
           } catch (e3) {
             throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter and the backup generator. ${m2} | ${e3 instanceof Error ? e3.message : e3}`);
@@ -785,7 +792,7 @@ export async function generateProForBanner(opts: {
     const out = await stampLogo(poster, avoid);
     const url = await saveFile("banners", out, "image/png");
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
-    const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url, prompt: opts.prompt.slice(0, 40000) } });
+    const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url, prompt: `[Made with: ${usedModel}]\n\n${opts.prompt}`.slice(0, 40000) } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: true, regenerate: opts.regenerate, image: out });
     { const { postShowcase } = await import("./discord-logs"); await postShowcase({ bannerId: opts.bannerId, userId: opts.userId, image: out }); }

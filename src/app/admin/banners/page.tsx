@@ -67,6 +67,10 @@ export default async function AdminBanners({ searchParams }: { searchParams: Pro
                       <span className="text-lime">⚡{v.cost}</span>
                     </div>
                     <Link href={`/admin/users/${v.userId}`} className="block truncate text-muted hover:text-lime">{email}</Link>
+                    <details className="text-[10px]">
+                      <summary className="cursor-pointer font-bold text-fuchsia-300">{es ? "Ver lo que se le pidió a la IA" : "See what the AI was asked"}</summary>
+                      <pre className="mt-1 max-h-60 overflow-auto whitespace-pre-wrap rounded-lg bg-ink p-2 text-muted">{`[${v.model}]\n\n${v.prompt}`}</pre>
+                    </details>
                     <div className="flex items-center justify-between gap-2 text-[10px] text-muted">
                       <span>{v.createdAt.toLocaleString(locale, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
                       {v.bannerId && <Link href={`/banner/${v.bannerId}`} className="font-bold text-lime">{es ? "Póster" : "Poster"} →</Link>}
