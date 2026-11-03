@@ -57,6 +57,18 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <label className="label">{t("max_upload_mb")}</label>
         <input type="number" min={1} max={50} className="input" value={v.max_upload_mb} onChange={(e) => setV({ ...v, max_upload_mb: e.target.value })} />
       </div>
+      <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
+        <label className="label">🎨 {es ? "Generador de pósters" : "Poster generator"}</label>
+        <select className="input" value={v.image_model ?? "nano-pro"} onChange={(e) => setV({ ...v, image_model: e.target.value })}>
+          <option value="nano-pro">{es ? "Nano Banana Pro de Google (el de Photoshop · recomendado, el mejor)" : "Google Nano Banana Pro (the one in Photoshop · recommended, best)"}</option>
+          <option value="openai">OpenAI GPT Image</option>
+        </select>
+        <p className="mt-2 text-xs text-muted">
+          {es
+            ? "Nano Banana Pro usa tu saldo de fal.ai (FAL_KEY), unos $0.15–0.30 por póster. Si falla, OpenAI lo hace automáticamente."
+            : "Nano Banana Pro uses your fal.ai balance (FAL_KEY), about $0.15–0.30 per poster. If it fails, OpenAI makes it automatically."}
+        </p>
+      </div>
       <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
         <label className="label">✨ {es ? "Video con IA (Kling 3.0)" : "AI video (Kling 3.0)"}</label>
         <div className="grid gap-3 sm:grid-cols-2">

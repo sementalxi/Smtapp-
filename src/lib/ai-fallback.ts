@@ -5,6 +5,38 @@ export const fallbackReady = () => !!process.env.FAL_KEY?.trim();
 
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
 
+/** Google Nano Banana Pro (Gemini 3 Pro Image — the partner model inside Photoshop's Generative Fill), on fal.ai. */
+export async function nanoBananaPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean): Promise<Buffer> {
+  const urls = imageUrls.map((u) => (u.startsWith("/") ? site() + u : u)).filter((u) => /^https:\/\//.test(u)).slice(0, 14);
+  if (!urls.length) throw new Error("nano banana: no reference image");
+  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : wide ? "3:2" : "4:5";
+  const r = await fetch("https://fal.run/fal-ai/nano-banana-pro/edit", {
+    method: "POST",
+    headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt: prompt.slice(0, 8000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1 }),
+    signal: AbortSignal.timeout(130_000),
+  });
+  const d = (await r.json().catch(() => ({}))) as { images?: { url?: string }[]; detail?: unknown };
+  const url = d.images?.[0]?.url;
+  if (!r.ok || !url) throw new Error(`Nano Banana Pro failed: ${r.status} ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
+  const img = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+  if (!img.ok) throw new Error(`Nano Banana download failed: ${img.status}`);
+  return Buffer.from(await img.arrayBuffer());
+}
+
+/** Backup chain when OpenAI refuses a photo: Nano Banana Pro first, then Seedream. */
+export async function backupPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean): Promise<{ buf: Buffer; model: string }> {
+  try {
+    return { buf: await nanoBananaPoster(prompt, imageUrls, format, wide), model: "Nano Banana Pro" };
+  } catch (e) {
+    try {
+      return { buf: await seedreamPoster(prompt, imageUrls, fallbackSize(format, wide)), model: "Seedream" };
+    } catch (e2) {
+      throw new Error(`${e instanceof Error ? e.message : e} | ${e2 instanceof Error ? e2.message : e2}`);
+    }
+  }
+}
+
 export async function seedreamPoster(prompt: string, imageUrls: string[], size: { width: number; height: number }): Promise<Buffer> {
   const urls = imageUrls.map((u) => (u.startsWith("/") ? site() + u : u)).filter((u) => /^https:\/\//.test(u)).slice(0, 10);
   if (!urls.length) throw new Error("fallback: no reference image");
