@@ -138,25 +138,11 @@ export function DownloadSizes({
         </button>
       )}
       {msg && <p className="mb-2 text-center text-xs text-lime">{msg}</p>}
-      <div className="grid grid-cols-3 gap-2">
-        {SIZES.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            disabled={!!busy}
-            onClick={() => go(s)}
-            className={`${s.id === primary && !canShare ? "btn-primary" : "btn-ghost"} flex-col gap-0 px-2 py-2.5`}
-          >
-            <span>{busy === s.id ? "…" : `⬇ ${locale === "es" ? s.es : s.en}`}</span>
-            <span className="text-[10px] font-semibold opacity-70">
-              {s.sub} · {s.w}×{s.h}
-            </span>
-          </button>
-        ))}
-      </div>
-      <p className="mt-1.5 text-center text-[11px] text-muted">
-        {locale === "es" ? "Todos los tamaños gratis" : "All sizes are free"}
-      </p>
+      {!canShare && (
+        <button type="button" disabled={!!busy} onClick={() => go(SIZES[0])} className="btn-primary w-full py-3 text-base">
+          {busy ? "…" : es ? "⬇ Descargar" : "⬇ Download"}
+        </button>
+      )}
     </div>
   );
 }

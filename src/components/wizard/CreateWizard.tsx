@@ -18,7 +18,6 @@ import { positionsFor } from "@/lib/formations";
 import { LineupBuilder, slotsToLines, type Slot } from "./LineupBuilder";
 import { DownloadSizes } from "../DownloadSizes";
 import { GenerationProgress } from "../GenerationProgress";
-import { MotionCTA } from "../MotionStudio";
 import { forgetPending, pendingBanner, rememberPending, waitForBanner } from "@/lib/wait-banner";
 import { useRouter } from "next/navigation";
 import { useWakeLock } from "../useWakeLock";
@@ -1063,7 +1062,6 @@ export function CreateWizard({
             </dl>
             {phase === "done" && result && (
               <div className="mt-4 space-y-2">
-                {result.url && <MotionCTA src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {result.url && <DownloadSizes src={result.url} baseName={`kixo-${layout.toLowerCase()}`} />}
                 {layout === "PLAYER" && (
                   <Link href={`/create?match=${result.id}`} className="btn-primary w-full">
