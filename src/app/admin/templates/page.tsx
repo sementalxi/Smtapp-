@@ -5,11 +5,14 @@ import { TemplateEditor } from "@/components/admin/TemplateEditor";
 import { DEFAULT_TEMPLATES, TemplateStyle } from "@/lib/templates";
 import { TemplateArranger } from "@/components/admin/TemplateArranger";
 import { getCategoryConfig } from "@/lib/categories";
+import { SeasonPicker } from "@/components/admin/SeasonPicker";
+import { SEASONS, getSeasonState } from "@/lib/seasons";
 
 export default async function AdminTemplates() {
   await requireAdmin();
   const { t, locale } = await getT();
   const categories = await getCategoryConfig();
+  const season = await getSeasonState();
   const rows = await db.template.findMany({
     orderBy: [{ sort: "asc" }, { createdAt: "asc" }],
     include: { _count: { select: { banners: true } } },
@@ -18,6 +21,7 @@ export default async function AdminTemplates() {
   return (
     <div className="space-y-6">
       <h1 className="font-display text-4xl">{t("admin_templates")}</h1>
+      <SeasonPicker seasons={SEASONS.map(({ key, emoji, en, es }) => ({ key, emoji, en, es }))} initial={season} es={locale === "es"} />
       <TemplateArranger
         categories={categories}
         initial={rows.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, active: r.active, thumbUrl: r.thumbUrl, uses: r._count.banners, badge: r.badge, audience: r.audience }))}

@@ -52,6 +52,12 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         randomize: banner.template.randomize,
         variation: seriesUrl ? info.variation : undefined,
         series: !!seriesUrl,
+        season: await (async () => {
+          const s = (banner.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
+          if (!s) return "";
+          const { seasonByKey, seasonPrompt } = await import("@/lib/seasons");
+          return seasonPrompt(seasonByKey(s.key, s.custom));
+        })(),
       });
       const cost = await getNumberSetting("pro_cost");
       if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);

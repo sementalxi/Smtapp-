@@ -169,6 +169,8 @@ export function CreateWizard({
   proEnabled,
   initialLayout,
   categories,
+  season = null,
+  seasonStart = false,
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -177,6 +179,9 @@ export function CreateWizard({
   initialLayout?: LayoutKind;
   /** Visible categories in the admin's order. */
   categories?: LayoutKind[];
+  /** Holiday/season the admin turned on (null = off). */
+  season?: { key: string; emoji: string; en: string; es: string } | null;
+  seasonStart?: boolean;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -193,6 +198,13 @@ export function CreateWizard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
   const [layout, setLayout] = useState<LayoutKind>(initialLayout ?? "PLAYER");
+  const [seasonMode, setSeasonMode] = useState(!!season && seasonStart);
+  // A sample poster per type, shown behind the type cards.
+  const typePic = useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const t of templates) if (t.thumbUrl && !m[t.layout]) m[t.layout] = thumb(t.thumbUrl, 420);
+    return m;
+  }, [templates]);
   const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
   // Warm the style previews in the background so step 2 shows them instantly.
   useEffect(() => {
@@ -385,6 +397,7 @@ export function CreateWizard({
         photoUrl: photo,
         logoUrl: team?.logoUrl ?? null,
         mode: "PRO",
+        ...(seasonMode && season ? { season: true } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -489,6 +502,28 @@ export function CreateWizard({
             <div className="text-[11px] font-bold uppercase tracking-[0.25em] text-lime">{locale === "es" ? "Paso 1" : "Step 1"}</div>
             <h2 className="font-display mt-1 text-3xl sm:text-4xl">{locale === "es" ? "¿Qué vas a crear?" : "What are you making?"}</h2>
           </div>
+          {season && (
+            <button
+              type="button"
+              onClick={() => setSeasonMode((v) => !v)}
+              className={`group relative mb-3 flex w-full items-center gap-3.5 overflow-hidden rounded-2xl border p-3.5 text-left transition active:scale-[0.99] sm:p-4 ${seasonMode ? "border-amber-300 bg-gradient-to-r from-amber-400/25 via-rose-500/15 to-panel shadow-[0_10px_40px_-14px_rgba(251,191,36,0.8)]" : "border-amber-300/40 bg-gradient-to-r from-amber-400/10 via-panel-2 to-panel hover:border-amber-300/80"}`}
+            >
+              <span aria-hidden className="pointer-events-none absolute -right-6 -top-8 text-[7rem] leading-none opacity-15 transition group-hover:scale-110">{season.emoji}</span>
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-amber-300/60 bg-ink/50 text-2xl">{season.emoji}</span>
+              <span className="relative min-w-0 flex-1">
+                <span className="flex flex-wrap items-center gap-2">
+                  <span className="text-[15px] font-extrabold sm:text-base">{locale === "es" ? `Flyers de ${season.es}` : `${season.en} flyers`}</span>
+                  <span className="rounded-full bg-amber-300 px-1.5 py-0.5 text-[9px] font-extrabold text-ink">{locale === "es" ? "TEMPORADA" : "SEASON"}</span>
+                </span>
+                <span className="mt-0.5 block text-[11px] leading-snug text-muted sm:text-xs">
+                  {seasonMode
+                    ? locale === "es" ? "✅ Activado — elige abajo qué quieres crear y saldrá con el tema." : "✅ On — pick what to make below and it comes out with the theme."
+                    : locale === "es" ? "Toca para activar el tema de temporada en tu póster." : "Tap to put the holiday theme on your poster."}
+                </span>
+              </span>
+              <span className={`relative grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 text-sm font-black ${seasonMode ? "border-amber-300 bg-amber-300 text-ink" : "border-amber-300/50 text-transparent"}`}>✓</span>
+            </button>
+          )}
           <div className="grid grid-cols-2 gap-3">
             {(categories ? categories.map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean) : ART_TYPES).map((a) => {
               const sel = a.layout === layout;
@@ -503,22 +538,36 @@ export function CreateWizard({
                       : "border-line bg-gradient-to-br from-panel-2 to-panel hover:border-lime/40"
                   }`}
                 >
-                  <span aria-hidden className="pointer-events-none absolute -top-10 -right-10 h-28 w-28 rounded-full bg-lime/10 blur-2xl transition group-hover:bg-lime/20" />
+                  {typePic[a.layout] ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={typePic[a.layout]} alt="" loading="lazy" decoding="async" className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110 ${sel ? "opacity-60" : "opacity-40 group-hover:opacity-55"}`} />
+                      <span aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/20" />
+                    </>
+                  ) : (
+                    <span aria-hidden className="pointer-events-none absolute -top-10 -right-10 h-28 w-28 rounded-full bg-lime/10 blur-2xl transition group-hover:bg-lime/20" />
+                  )}
                   <span className="relative flex items-start justify-between gap-2">
-                    <span className={`grid h-11 w-11 place-items-center rounded-xl border ${sel ? "border-lime/60 bg-lime text-ink" : "border-lime/30 bg-lime/10 text-lime"}`}>
+                    <span className={`grid h-11 w-11 place-items-center rounded-xl border backdrop-blur ${sel ? "border-lime/60 bg-lime text-ink" : "border-lime/40 bg-ink/60 text-lime"}`}>
                       <TypeIcon layout={a.layout} />
                     </span>
-                    <span className="rounded-full border border-line bg-ink/60 px-2 py-0.5 text-[10px] font-bold text-muted">⚡ {cost}</span>
+                    <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {cost}</span>
                   </span>
-                  <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
-                  <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-muted sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
+                  <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
+                  <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
                 </button>
               );
             })}
             <Link
               href="/create/roster"
-              className="group relative col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-lime/40 bg-gradient-to-r from-lime/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-lime/70 active:scale-[0.99] sm:p-4"
+              className="group relative isolate col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-lime/40 bg-gradient-to-r from-lime/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-lime/70 active:scale-[0.99] sm:p-4"
             >
+              {typePic.PLAYER && (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={typePic.PLAYER} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-35 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110 group-hover:opacity-50" />
+                </>
+              )}
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-lime/40 bg-lime/10 text-lime">
                 <TypeIcon layout="RESULT" />
               </span>
@@ -538,8 +587,14 @@ export function CreateWizard({
             </Link>
             <Link
               href="/create?team=1"
-              className="group relative col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-teal/40 bg-gradient-to-r from-teal/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-teal/70 active:scale-[0.99] sm:p-4"
+              className="group relative isolate col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-teal/40 bg-gradient-to-r from-teal/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-teal/70 active:scale-[0.99] sm:p-4"
             >
+              {typePic.PLAYER && (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={typePic.PLAYER} alt="" loading="lazy" decoding="async" className="pointer-events-none absolute inset-y-0 right-0 -z-10 h-full w-1/2 object-cover opacity-35 transition duration-700 [mask-image:linear-gradient(90deg,transparent,black)] group-hover:scale-110 group-hover:opacity-50" />
+                </>
+              )}
               <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-teal/40 bg-teal/10 text-teal">
                 <TypeIcon layout="TEAM" />
               </span>

@@ -10,6 +10,7 @@ import { db } from "@/lib/db";
 import { seriesInfo } from "@/lib/banners";
 import type { LayoutKind } from "@/lib/templates";
 import { visibleCategories } from "@/lib/categories";
+import { activeSeason } from "@/lib/seasons";
 
 export const metadata = { title: "Create" };
 
@@ -97,6 +98,9 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
   const initial = TYPES.find((x) => x === type?.toUpperCase());
 
   const cats = await visibleCategories();
+  const ss = await activeSeason();
+  const season = ss ? { key: ss.key, emoji: ss.emoji, en: ss.en, es: ss.es } : null;
+  const seasonOn = (await searchParams as { season?: string }).season === "1";
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="font-display mb-6 text-center text-4xl">{t("create_title")}</h1>
@@ -107,6 +111,8 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         proEnabled={proConfigured()}
         initialLayout={initial}
         categories={cats}
+        season={season}
+        seasonStart={seasonOn && !!season}
       />
     </div>
   );

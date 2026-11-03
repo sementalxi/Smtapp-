@@ -35,6 +35,8 @@ const Body = z.object({
   mode: z.enum(["QUICK", "PRO"]).default("QUICK"),
   /** Team set: make this card with the same design as one of the user's finished player cards. */
   matchBannerId: z.string().max(40).optional(),
+  /** Make it a season/holiday flyer (the season the admin has turned on). */
+  season: z.boolean().optional(),
 });
 
 // Per-player fields a team-set card may change; everything else comes from the first card.
@@ -98,6 +100,9 @@ export const POST = handle(async (req: NextRequest) => {
     seriesRefUrl: series?.refUrl,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
+  const { activeSeason, seasonPrompt, seasonByKey } = await import("@/lib/seasons");
+  const sourceSeason = (source?.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
+  const seasonDef = sourceSeason ? seasonByKey(sourceSeason.key, sourceSeason.custom) : body.season ? await activeSeason() : null;
   const variation = series?.variation ?? createVariation(template.randomize ? inputs.colorMode : inputs.colorMode === "custom" ? "custom" : "template");
   if (pro) {
     try {
@@ -111,6 +116,7 @@ export const POST = handle(async (req: NextRequest) => {
       randomize: template.randomize,
       variation,
       series: !!series,
+      season: seasonPrompt(seasonDef),
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
@@ -124,7 +130,7 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}) }),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}) }),
       photoUrl: body.photoUrl ?? null,
       logoUrl,
       mode: body.mode,
