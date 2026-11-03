@@ -700,6 +700,8 @@ export async function generateProForBanner(opts: {
   format?: "post" | "story" | "banner";
   /** Edits of a finished poster: Nano Banana Pro keeps the image identical best. */
   edit?: boolean;
+  /** The style's "Design instructions for the AI" — given in full to every step of the mixes. */
+  instructions?: string | null;
 }) {
   const fmtSizes = opts.format === "story" ? ["1152x2048", "1024x1536"] : opts.format === "banner" ? ["2048x1152", "1536x1024"] : undefined;
   if (opts.cost > 0) {
@@ -735,6 +737,8 @@ export async function generateProForBanner(opts: {
       if (fb.fallbackReady()) {
         const t0 = Date.now();
         try {
+          // The admin's "Design instructions for the AI" — every step of the mix reads them.
+          const director = (opts.instructions ?? "").trim().slice(0, 20000);
           const artStep = posterModel === "flux-mix" ? fb.fluxPoster : fb.nanoBananaArt;
           let artRes = await artStep(
             `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.`,
@@ -745,7 +749,7 @@ export async function generateProForBanner(opts: {
           // ALL 3: FLUX.2 makes Nano Banana's art look like a real photo shoot (keeps it identical).
           if (posterModel === "mix3") {
             try {
-              artRes = await fb.fluxRealism(artRes.url, opts.format, isWide);
+              artRes = await fb.fluxRealism(artRes.url, opts.format, isWide, director);
             } catch (e) {
               await import("./activity").then((mm) => mm.logActivity("site", "mix3", `⚠️ FLUX.2 realism step skipped: ${(e instanceof Error ? e.message : String(e)).slice(0, 160)}`, "warn")).catch(() => {});
             }
@@ -756,6 +760,9 @@ export async function generateProForBanner(opts: {
             .filter((sec) => /^(TITLE FONT|NAMES FONT|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
             .join("\n\n");
           const textPrompt = [
+            director
+              ? `ART DIRECTOR'S DESIGN INSTRUCTIONS for this poster (read ALL of them — the artwork already follows them; now place and style EVERY text item exactly as they describe: positions, fonts, sizes, materials, effects and colours):\n${director}`
+              : "",
             `Reference image 1 is a finished poster artwork that has NO TEXT yet. Keep EVERYTHING in it exactly as it is — the same people and faces, poses, background, crests, trophy, colours, lighting, effects, composition and framing. Do not redraw, move or restyle anything.`,
             `Your only job: ADD the text items listed below onto it, designed as premium, bad-ass sports typography that matches the artwork (real materials, depth, glow and shadows that fit its lighting), placed in the clean empty spaces — title big and bold, the name prominent, the number huge, small lines small and letter-spaced. Text must never cover faces.`,
             keep,

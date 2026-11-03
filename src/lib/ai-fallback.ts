@@ -44,8 +44,9 @@ export async function fluxPoster(prompt: string, imageUrls: string[], format?: s
 }
 
 /** FLUX.2 Pro realism pass: keeps the image identical, only makes it look like a real photo shoot. */
-export async function fluxRealism(imageUrl: string, format?: string, wide?: boolean) {
+export async function fluxRealism(imageUrl: string, format?: string, wide?: boolean, instructions = "") {
   const prompt = [
+    instructions ? `This poster was designed from these ART DIRECTOR'S DESIGN INSTRUCTIONS — read all of them and keep every point exactly as it already is in the image (layout, positions, poses, background, style); where the image differs from them, gently correct it toward them:\n${fit(instructions, 12000)}\n\n` : "",
     "Retouch this exact image. Keep EVERYTHING identical — the same composition, layout, people, faces, poses, clothing, background, crests, objects, colours and framing; do not add, remove or move anything and do not add any text.",
     "Only upgrade the REALISM so it looks like a real professional sports photo shoot composited by a top designer: real skin with pores and natural tone (no airbrushed, waxy or plastic skin), real hair strands, real fabric folds and stitching, true photographic lighting and shadows, natural lens depth of field, fine film grain, believable restrained effects. Remove any CGI, cartoon or over-smoothed AI look.",
   ].join(" ");
