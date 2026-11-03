@@ -45,6 +45,20 @@ function tone(c: AudioContext, freq: number, start: number, dur: number, vol = 0
   o.stop(c.currentTime + start + dur + 0.02);
 }
 
+/** Call on the first tap/click so later sounds (like a new support message) are allowed to play. */
+export function unlockAudio() {
+  const c = ac();
+  if (!c) return;
+  // A silent blip "unlocks" audio on iPhone/Safari.
+  try {
+    const b = c.createBuffer(1, 1, 22050);
+    const s = c.createBufferSource();
+    s.buffer = b;
+    s.connect(c.destination);
+    s.start(0);
+  } catch {}
+}
+
 export function sfx(kind: Sfx) {
   if (!soundOn()) return;
   const c = ac();

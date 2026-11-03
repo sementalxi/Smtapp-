@@ -26,6 +26,7 @@ export function SupportChat() {
   const [topic, setTopic] = useState<"" | "support" | "custom">("");
   const seen = useRef<number>(0);
   const lastStaff = useRef<number>(-1);
+  const [toast, setToast] = useState<{ name: string; text: string } | null>(null);
   const box = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +39,12 @@ export function SupportChat() {
     if (Array.isArray(d.messages)) {
       // Ding when a new reply from the team arrives (not on the first load).
       const staff = (d.messages as Msg[]).filter((m) => m.from === "staff").length;
-      if (lastStaff.current >= 0 && staff > lastStaff.current) sfx("message");
+      if (lastStaff.current >= 0 && staff > lastStaff.current) {
+        sfx("message");
+        try { navigator.vibrate?.([120, 60, 120]); } catch {}
+        const last = [...(d.messages as Msg[])].reverse().find((m) => m.from === "staff");
+        if (last) setToast({ name: last.name, text: last.text || (last.images.length ? "📷" : "") });
+      }
       lastStaff.current = staff;
       setMsgs(d.messages);
     }
@@ -57,7 +63,7 @@ export function SupportChat() {
   // Live: poll every 4s while open (every 30s in the background when a ticket is open, for the unread badge).
   useEffect(() => {
     if (!open && !hasTicket) return;
-    const t = setInterval(load, open ? 4000 : 30000);
+    const t = setInterval(load, open ? 4000 : 8000);
     return () => clearInterval(t);
   }, [open, hasTicket, load]);
 
@@ -109,6 +115,19 @@ export function SupportChat() {
     setTopic("");
   }
 
+  // Hide the pop-up after a while / when the chat opens.
+  useEffect(() => {
+    if (!toast) return;
+    if (open) return setToast(null);
+    const t = setTimeout(() => setToast(null), 9000);
+    return () => clearTimeout(t);
+  }, [toast, open]);
+  // Browser tab shows "(1) 💬 New message" while there are unread replies.
+  useEffect(() => {
+    const base = document.title.replace(/^\(\d+\) 💬 /, "");
+    document.title = unread > 0 ? `(${unread}) 💬 ${base}` : base;
+  }, [unread]);
+
   const time = (s: string) => new Date(s).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
   return (
@@ -124,6 +143,21 @@ export function SupportChat() {
           {unread > 0 && (
             <span className="absolute -right-1 -top-1 grid h-6 min-w-6 place-items-center rounded-full bg-lime px-1 text-xs font-black text-ink ring-2 ring-ink">{unread}</span>
           )}
+        </button>
+      )}
+      {toast && !open && (
+        <button
+          type="button"
+          onClick={() => { setToast(null); setOpen(true); load(); }}
+          className="kixo-fade-up fixed bottom-24 right-4 z-[61] flex w-[min(92vw,340px)] items-start gap-3 rounded-2xl border border-[#5865F2]/60 bg-panel/95 p-3 text-left shadow-[0_18px_50px_-12px_rgba(0,0,0,0.9)] backdrop-blur"
+        >
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#5865F2] text-lg">💬</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-xs font-extrabold uppercase tracking-wide text-teal">{es ? "Nuevo mensaje de soporte" : "New message from support"}</span>
+            <span className="block truncate text-sm font-bold">{toast.name}</span>
+            <span className="line-clamp-2 block text-xs text-white/75">{toast.text}</span>
+          </span>
+          <span className="text-xs font-bold text-lime">{es ? "Abrir" : "Open"}</span>
         </button>
       )}
       {open && (
