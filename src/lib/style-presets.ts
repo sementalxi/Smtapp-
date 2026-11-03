@@ -744,10 +744,13 @@ LAYOUT (portrait)
 - Top: the team crest (if provided) small and crisp; the title huge in elegant tall condensed capitals in brushed metal (team accent colour) across the lower third, partly behind the trophy's base.
 - Team name in wide letter-spaced white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -762,10 +765,13 @@ LAYOUT (portrait)
 - The trophy on a simple podium on the pitch in the centre, lit by the floodlights.
 - The team crest (if provided) at the top; the title huge in heavy condensed white capitals with a solid team-colour shadow; team name under it; squad on a dark gradient at the bottom in 2–3 aligned columns.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -780,10 +786,13 @@ LAYOUT (portrait)
 - Top: the title as a HUGE masthead across the width, partly behind the trophy's top like a real cover. Competition and date as a small issue line.
 - A slim dark sidebar with the squad as cover lines (bold white names), the team name as the main cover line, the team crest (if provided) like a cover badge in a corner.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -797,10 +806,13 @@ LAYOUT (portrait)
 - A REAL photograph of a folded newspaper on a table (soft daylight, paper texture, fold line).
 - The page: a masthead bar in the team colour (use the competition name if given, no real newspaper names), a GIANT headline with the title, a big halftone black-and-white trophy photo, the team name as the sub-headline, and the squad printed in a narrow column. The team crest (if provided) printed small in the photo's corner.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -815,10 +827,13 @@ LAYOUT (portrait)
 - ON THE BANNER: the team crest (if provided) embroidered at the top, the title in big embroidered capitals, the team name, and the squad names stitched in neat columns. Real fabric texture, perfectly readable.
 - The stands and floodlights softly out of focus behind.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -832,10 +847,13 @@ LAYOUT (portrait)
 - A REAL macro photograph of a heavy GOLD championship ring on black velvet, the team crest (if provided) engraved / enamelled on its face, sharp highlights, shallow depth of field.
 - The title huge in clean tall gold capitals above the ring; the team name in letter-spaced white under it; the squad in fine white type in neat columns at the bottom; competition and date tiny. Lots of black space, luxury minimal.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -849,10 +867,13 @@ LAYOUT (portrait)
 - A real black-and-white trophy photograph printed in coarse HALFTONE dots in a big diagonal shape; bold diagonal flat colour blocks in the team colour; off-white paper grain, slight ink misregistration, a torn edge at the bottom.
 - The title HUGE in heavy black condensed capitals across the middle; team name under it; squad typeset in two clean columns; the team crest (if provided) small in a corner; competition and date in a typewriter-like font.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -867,10 +888,13 @@ LAYOUT (wide)
 - Left third: the team crest (if provided), the title huge in heavy condensed white capitals, the team name under it.
 - Right side: the squad on a dark gradient panel in 2–3 aligned columns. Keep text away from the far edges.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -884,10 +908,13 @@ LAYOUT (wide)
 - A REAL studio photograph: the trophy on a black glossy plinth on the right, one hard spotlight, pure black backdrop.
 - Left side: the team crest (if provided), the title in elegant tall brushed-metal capitals, the team name letter-spaced, the squad in neat white columns below. Minimal and premium, text away from the edges.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -902,10 +929,13 @@ LAYOUT (wide)
 - The trophy in the centre-right, sharp, lit by the flares.
 - Left: the team crest (if provided), the title huge in heavy condensed white capitals with a solid team-colour shadow, the team name, and the squad on a dark strip along the bottom in clean columns.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -919,10 +949,13 @@ LAYOUT (wide)
 - Left 45%: a solid flat panel in the team colour with subtle paper grain: the team crest (if provided) large and crisp, the title in heavy condensed white capitals, the team name, competition and date.
 - Right 55%: a REAL photograph of the trophy on a dark stage with dramatic light, the squad overlaid at the bottom in 3 clean white columns on a dark gradient.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -936,10 +969,13 @@ LAYOUT (wide)
 - A halftone black-and-white trophy photo inside a big diagonal shape on the left; bold flat colour blocks in the team colour; paper grain, ink misregistration, a torn edge.
 - The title huge in heavy black condensed capitals; the team name under it; the squad typeset in three columns on the right; crest (if provided) small in a corner.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1658,6 +1694,216 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
+  "champ-trophy-studio": `[OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — the trophy shot like a luxury product photo.
+
+LAYOUT (portrait)
+- A REAL studio photograph: the trophy centred on a black glossy plinth against a pure black backdrop, ONE hard spotlight from above-left, crisp highlights and deep shadows, a soft reflection on the plinth.
+- Top: the team crest (if provided) small and crisp; the title huge in elegant tall condensed capitals in brushed metal (team accent colour) across the lower third, partly behind the trophy's base.
+- Team name in wide letter-spaced white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-pitch-celebration": `[OWN LOOK] [SQUAD LABEL] PITCH NIGHT — the moment after the final whistle.
+
+LAYOUT (portrait)
+- A REAL night stadium photo from pitch level: floodlights on, packed stands out of focus, real confetti in the team colours falling and lying on the wet grass.
+- The trophy on a simple podium on the pitch in the centre, lit by the floodlights.
+- The team crest (if provided) at the top; the title huge in heavy condensed white capitals with a solid team-colour shadow; team name under it; squad on a dark gradient at the bottom in 2–3 aligned columns.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-magazine": `[OWN LOOK] [SQUAD LABEL] CHAMPIONS COVER — the title win as a premium sports magazine cover.
+
+LAYOUT (portrait)
+- Cover photo: a REAL photograph of the trophy on a dark stage with dramatic studio light, full-bleed.
+- Top: the title as a HUGE masthead across the width, partly behind the trophy's top like a real cover. Competition and date as a small issue line.
+- A slim dark sidebar with the squad as cover lines (bold white names), the team name as the main cover line, the team crest (if provided) like a cover badge in a corner.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-newspaper": `[OWN LOOK] [SQUAD LABEL] FRONT PAGE — the champions on the front page of a printed sports newspaper.
+
+LAYOUT (portrait)
+- A REAL photograph of a folded newspaper on a table (soft daylight, paper texture, fold line).
+- The page: a masthead bar in the team colour (use the competition name if given, no real newspaper names), a GIANT headline with the title, a big halftone black-and-white trophy photo, the team name as the sub-headline, and the squad printed in a narrow column. The team crest (if provided) printed small in the photo's corner.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-banner-hang": `[OWN LOOK] [SQUAD LABEL] CLUB BANNER — a giant champions silk banner hanging in the stadium.
+
+LAYOUT (portrait)
+- A REAL photograph inside an empty stadium at dusk: a huge silk banner hanging from the roof in the team colours, with natural folds, sheen and stitching, gold fringe at the bottom.
+- ON THE BANNER: the team crest (if provided) embroidered at the top, the title in big embroidered capitals, the team name, and the squad names stitched in neat columns. Real fabric texture, perfectly readable.
+- The stands and floodlights softly out of focus behind.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-ring": `[OWN LOOK] [SQUAD LABEL] CHAMPIONS RING — the championship ring, close up.
+
+LAYOUT (portrait)
+- A REAL macro photograph of a heavy GOLD championship ring on black velvet, the team crest (if provided) engraved / enamelled on its face, sharp highlights, shallow depth of field.
+- The title huge in clean tall gold capitals above the ring; the team name in letter-spaced white under it; the squad in fine white type in neat columns at the bottom; competition and date tiny. Lots of black space, luxury minimal.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-print": `[OWN LOOK] [SQUAD LABEL] CHAMPIONS PRINT — a screen-printed victory poster.
+
+LAYOUT (portrait)
+- A real black-and-white trophy photograph printed in coarse HALFTONE dots in a big diagonal shape; bold diagonal flat colour blocks in the team colour; off-white paper grain, slight ink misregistration, a torn edge at the bottom.
+- The title HUGE in heavy black condensed capitals across the middle; team name under it; squad typeset in two clean columns; the team crest (if provided) small in a corner; competition and date in a typewriter-like font.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-wide-podium": `[WIDE] [OWN LOOK] [SQUAD LABEL] PODIUM — a WIDE landscape champions banner (16:9).
+
+LAYOUT (wide)
+- A REAL night stadium photo, the trophy on a podium on the pitch slightly right of centre, real confetti falling, floodlights and stands out of focus.
+- Left third: the team crest (if provided), the title huge in heavy condensed white capitals, the team name under it.
+- Right side: the squad on a dark gradient panel in 2–3 aligned columns. Keep text away from the far edges.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-wide-studio": `[WIDE] [OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — a WIDE landscape champions banner (16:9), luxury product-shot style.
+
+LAYOUT (wide)
+- A REAL studio photograph: the trophy on a black glossy plinth on the right, one hard spotlight, pure black backdrop.
+- Left side: the team crest (if provided), the title in elegant tall brushed-metal capitals, the team name letter-spaced, the squad in neat white columns below. Minimal and premium, text away from the edges.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-wide-crowd": `[WIDE] [OWN LOOK] [SQUAD LABEL] FANS PARTY — a WIDE landscape champions banner (16:9).
+
+LAYOUT (wide)
+- A REAL photograph of a packed stand of fans celebrating at night: raised arms, real flares and smoke in the team colours, big flags, slightly out of focus.
+- The trophy in the centre-right, sharp, lit by the flares.
+- Left: the team crest (if provided), the title huge in heavy condensed white capitals with a solid team-colour shadow, the team name, and the squad on a dark strip along the bottom in clean columns.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-wide-split": `[WIDE] [OWN LOOK] [SQUAD LABEL] SPLIT CREST — a WIDE landscape champions banner (16:9).
+
+LAYOUT (wide)
+- Left 45%: a solid flat panel in the team colour with subtle paper grain: the team crest (if provided) large and crisp, the title in heavy condensed white capitals, the team name, competition and date.
+- Right 55%: a REAL photograph of the trophy on a dark stage with dramatic light, the squad overlaid at the bottom in 3 clean white columns on a dark gradient.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
+  "champ-wide-print": `[WIDE] [OWN LOOK] [SQUAD LABEL] CHAMPIONS PRINT — a WIDE landscape champions banner (16:9), screen-printed style.
+
+LAYOUT (wide)
+- A halftone black-and-white trophy photo inside a big diagonal shape on the left; bold flat colour blocks in the team colour; paper grain, ink misregistration, a torn edge.
+- The title huge in heavy black condensed capitals; the team name under it; the squad typeset in three columns on the right; crest (if provided) small in a corner.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
+- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
+- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+
+TEXT
+- The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
+- NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
   "player-royal-lion": `ROYAL LION — a luxury black, white and gold player card made like a high-end PHOTOSHOP COMPOSITE by a top sports / celebrity retoucher. Clean, powerful, expensive — editorial magazine quality.
 
 COLOURS
