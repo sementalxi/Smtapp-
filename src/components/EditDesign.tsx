@@ -50,7 +50,6 @@ export function EditDesign({
     { id: "background", icon: "🌆", en: "Background", es: "Fondo" },
     { id: "photo", icon: "🧍", en: "Photo", es: "Foto" },
     { id: "logo", icon: "🛡️", en: "Logo", es: "Logo" },
-    { id: "other", icon: "✍️", en: "Something else", es: "Otra cosa" },
   ];
   const toggle = (p: Part) => setParts((x) => (x.includes(p) ? x.filter((y) => y !== p) : [...x, p]));
   const has = (p: Part) => parts.includes(p);
@@ -64,7 +63,7 @@ export function EditDesign({
     (has("background") && !!scene) ||
     (has("photo") && !!photo) ||
     (has("logo") && !!logo) ||
-    (has("other") && note.trim().length > 2);
+    note.trim().length > 2;
 
   async function apply() {
     setBusy(true);
@@ -79,7 +78,7 @@ export function EditDesign({
         ...(has("background") && scene ? { scene } : {}),
         ...(has("photo") && photo ? { photoUrl: photo } : {}),
         ...(has("logo") && logo ? { logoUrl: logo } : {}),
-        ...(has("other") && note.trim() ? { note: note.trim() } : {}),
+        ...(note.trim() ? { note: note.trim() } : {}),
       }),
     });
     const data = await res.json().catch(() => ({}));
@@ -130,7 +129,7 @@ export function EditDesign({
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
         {PARTS.map((p) => (
           <button
             key={p.id}
@@ -199,20 +198,20 @@ export function EditDesign({
         </div>
       )}
 
-      {has("other") && (
+      {(
         <div className="space-y-2 rounded-xl border border-line p-4">
-          <div className="text-xs font-bold uppercase tracking-wider text-muted">✍️ {es ? "¿Qué quieres cambiar?" : "What should change?"}</div>
+          <div className="text-xs font-bold uppercase tracking-wider text-muted">✍️ {es ? "Describe el cambio (la imagen se queda igual)" : "Describe the change (the image stays the same)"}</div>
           <textarea
             className="input min-h-20"
             maxLength={1000}
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder={es ? "ej. Haz el título más grande y rojo, quita el humo de la izquierda" : "e.g. Make the title bigger and red, remove the smoke on the left"}
+            placeholder={es ? "ej. Cambia los colores a azul y blanco, haz el título más grande, quita el humo de la izquierda" : "e.g. Change the colors to blue and white, make the title bigger, remove the smoke on the left"}
           />
         </div>
       )}
 
-      {parts.length > 0 && (
+      {(parts.length > 0 || note.trim().length > 0) && (
         <div>
           {credits >= cost ? (
             <button type="button" className="btn-primary w-full py-3" disabled={!ready} onClick={apply}>

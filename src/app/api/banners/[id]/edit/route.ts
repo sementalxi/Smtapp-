@@ -92,10 +92,12 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   const cost = await getNumberSetting("pro_cost");
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
+  const fmt = (src.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
+  const frameName = fmt === "story" ? "tall 9:16" : fmt === "banner" ? "wide 16:9" : "4:5";
   const prompt = [
     `EDIT this existing poster (reference image 1). Keep it IDENTICAL — same layout, composition, figures, typography, style, lighting, colours and effects, every element in the same place and size — and change ONLY the following:`,
     changes.map((c, n) => `${n + 1}. ${c}`).join("\n") || "1. Keep everything as it is (only the crest is updated afterwards).",
-    `Change nothing else. Keep the same 4:5 framing and the same quality. All other text must stay exactly as it is, letter for letter.`,
+    `Change nothing else — this is a precise retouch of the same image, NOT a new design. Keep the same ${frameName} framing, the same crop and the same quality. All other text must stay exactly as it is, letter for letter.`,
     placed.length ? `Keep the team crest area(s) exactly where they are — the official crest is placed there again afterwards.` : "",
     `Do not reproduce the small "KIXO" watermark in the corner — leave that corner clean (it is added again afterwards).`,
     ...refs.map((r, n) => `Reference image ${n + 1} is ${r.label}.`),
@@ -118,7 +120,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
 
   after(async () => {
     try {
-      await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs: [...refs, ...placed] });
+      await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs: [...refs, ...placed], format: fmt });
     } catch (e) {
       if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
       const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);

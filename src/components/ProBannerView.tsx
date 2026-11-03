@@ -125,8 +125,19 @@ export function ProBannerView({
 
       <div className="space-y-6">
         {url && !busy && <EditDesign id={id} layout={layout} inputs={initial} cost={cost} credits={credits} imageUrl={url} />}
-        <section className="card space-y-4 p-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-muted">{locale === "es" ? "O haz una versión nueva (diseño diferente)" : "Or make a new version (different design)"}</h2>
+        <details className="card group p-5 [&_summary::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer items-center justify-between gap-3">
+            <span>
+              <span className="block text-sm font-bold uppercase tracking-wider text-muted">🎲 {locale === "es" ? "Diseño totalmente nuevo" : "Totally new design"}</span>
+              <span className="mt-0.5 block text-xs text-muted">
+                {locale === "es"
+                  ? "Crea un póster diferente desde cero. Para cambiar solo colores, texto o algo puntual usa “Editar este diseño” arriba."
+                  : "Makes a different poster from scratch. To change only colors, text or one detail, use “Edit this design” above."}
+              </span>
+            </span>
+            <span className="text-muted transition group-open:rotate-180">▾</span>
+          </summary>
+          <div className="mt-4 space-y-4">
           <TextFields layout={layout} value={inputs} onChange={setInputs} />
           <div>
             <label className="label">{t("f_extraPrompt")}</label>
@@ -141,14 +152,15 @@ export function ProBannerView({
           <p className="text-xs text-muted">{t("pro_regen_hint")}</p>
           {credits >= cost ? (
             <button onClick={regenerate} disabled={busy} className="btn-ghost w-full">
-              {busy ? t("processing") : `✨ ${t("pro_regen")} · ${t("costs", { n: cost })}`}
+              {busy ? t("processing") : `🎲 ${locale === "es" ? "Hacer un diseño nuevo" : "Make a new design"} · ${t("costs", { n: cost })}`}
             </button>
           ) : (
             <Link href="/pricing" className="btn-ghost w-full">
               {t("get_credits")}
             </Link>
           )}
-        </section>
+          </div>
+        </details>
       </div>
     </div>
   );
