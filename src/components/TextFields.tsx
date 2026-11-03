@@ -54,7 +54,7 @@ export function TextFields({
               className="input"
               value={value[key] as string}
               maxLength={MAX[key] ?? 40}
-              onChange={(e) => set(key, e.target.value as never)}
+              onChange={(e) => set(key, (key === "position" ? e.target.value.toUpperCase() : e.target.value) as never)}
             />
           </div>
         );

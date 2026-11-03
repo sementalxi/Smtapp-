@@ -494,7 +494,7 @@ export function CreateWizard({
       <label className="label">
         {label} {req && <span className="text-lime">*</span>}
       </label>
-      <input className="input" maxLength={max} placeholder={ph} value={inp[k] as string} onChange={(e) => set(k, e.target.value as never)} />
+      <input className={`input ${k === "position" ? "uppercase" : ""}`} maxLength={max} placeholder={ph} value={inp[k] as string} onChange={(e) => set(k, (k === "position" ? e.target.value.toUpperCase() : e.target.value) as never)} autoCapitalize={k === "position" ? "characters" : undefined} />
     </div>
   );
 
