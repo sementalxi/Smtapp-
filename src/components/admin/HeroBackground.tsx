@@ -35,7 +35,14 @@ export function HeroBackground({ initial, blobReady }: { initial: { mode: string
       setMode("video");
       setMsg(es ? "✅ Video subido — toca Guardar" : "✅ Video uploaded — tap Save");
     } catch (e) {
-      setMsg(`❌ ${e instanceof Error ? e.message : "upload failed"}`);
+      const m = e instanceof Error ? e.message : "upload failed";
+      setMsg(
+        /client token|no_blob|need_rw_token/i.test(m)
+          ? es
+            ? "❌ Para subir videos falta BLOB_READ_WRITE_TOKEN en Vercel (Storage → tu Blob → .env.local → copia el token → Settings → Environment Variables → Redeploy). Mientras tanto puedes pegar un link de video abajo. El efecto se guarda igual con Guardar."
+            : "❌ Video uploads need BLOB_READ_WRITE_TOKEN on Vercel (Storage → your Blob store → .env.local → copy the token → Settings → Environment Variables → Redeploy). Meanwhile you can paste a video link below. Effects still save with Save."
+          : `❌ ${m}`,
+      );
     }
     setPct(null);
   }
