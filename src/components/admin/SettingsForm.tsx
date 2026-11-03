@@ -59,8 +59,9 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       </div>
       <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
         <label className="label">🎨 {es ? "Generador de pósters" : "Poster generator"}</label>
-        <select className="input" value={v.poster_model ?? "openai"} onChange={(e) => setV({ ...v, poster_model: e.target.value })}>
-          <option value="openai">{es ? "OpenAI GPT Image (recomendado — sigue tu texto exacto)" : "OpenAI GPT Image (recommended — follows your exact text)"}</option>
+        <select className="input" value={v.poster_model ?? "mix"} onChange={(e) => setV({ ...v, poster_model: e.target.value })}>
+          <option value="mix">{es ? "⭐ Mix: Nano Banana hace el arte + OpenAI el texto (recomendado, lo mejor)" : "⭐ Mix: Nano Banana makes the art + OpenAI adds the text (recommended, best)"}</option>
+          <option value="openai">{es ? "Solo OpenAI GPT Image (sigue tu texto exacto)" : "OpenAI GPT Image only (follows your exact text)"}</option>
           <option value="nano-pro">{es ? "Nano Banana Pro de Google (puede agregar palabras propias)" : "Google Nano Banana Pro (may add its own words)"}</option>
         </select>
         <p className="mt-2 text-xs text-muted">

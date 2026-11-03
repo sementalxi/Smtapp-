@@ -726,7 +726,39 @@ export async function generateProForBanner(opts: {
     const refUrls = opts.refs.filter((x) => !x.overlay).map((x) => x.url);
     // Main generator chosen by the admin: Nano Banana Pro (default, best) or OpenAI. If Nano Banana fails, OpenAI takes over.
     let made = false;
-    if ((opts.edit || (await getSettings()).poster_model === "nano-pro") && images.length) {
+    const posterModel = (await getSettings()).poster_model;
+    // MIX: Nano Banana Pro paints the artwork (people, background, crests, effects) with NO text,
+    // then OpenAI adds the exact text on top — Nano's look + OpenAI's exact spelling.
+    if (!opts.edit && posterModel === "mix" && images.length) {
+      const fb = await import("./ai-fallback");
+      if (fb.fallbackReady()) {
+        const t0 = Date.now();
+        try {
+          const art = await fb.nanoBananaPoster(
+            `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.`,
+            refUrls,
+            opts.format,
+            isWide,
+          );
+          const keep = opts.prompt
+            .split("\n\n")
+            .filter((sec) => /^(TITLE FONT|NAMES FONT|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
+            .join("\n\n");
+          const textPrompt = [
+            `Reference image 1 is a finished poster artwork that has NO TEXT yet. Keep EVERYTHING in it exactly as it is — the same people and faces, poses, background, crests, trophy, colours, lighting, effects, composition and framing. Do not redraw, move or restyle anything.`,
+            `Your only job: ADD the text items listed below onto it, designed as premium, bad-ass sports typography that matches the artwork (real materials, depth, glow and shadows that fit its lighting), placed in the clean empty spaces — title big and bold, the name prominent, the number huge, small lines small and letter-spaced. Text must never cover faces.`,
+            keep,
+            `Spell every item exactly, letter for letter, each once. Add no other words.`,
+          ].filter(Boolean).join("\n\n");
+          poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], quality, fmtSizes ?? (isWide ? ["1536x1024"] : undefined), 280_000 - (Date.now() - t0));
+          made = true;
+          usedModel = "Mix: Nano Banana Pro art + OpenAI text";
+        } catch (e) {
+          await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Mix generator failed — using OpenAI alone: ${(e instanceof Error ? e.message : String(e)).slice(0, 200)}`, "warn")).catch(() => {});
+        }
+      }
+    }
+    if (!made && (opts.edit || posterModel === "nano-pro") && images.length) {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         try {
