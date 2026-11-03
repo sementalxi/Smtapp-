@@ -62,6 +62,12 @@ async function main() {
     }
     await db.setting.create({ data: { key: "neon_gothic_no_white_echo", value: new Date().toISOString() } });
   }
+  // One-time (owner's request): hide all the old lineup styles — only the new Photoshop-style ones stay.
+  if (!(await db.setting.findUnique({ where: { key: "lineups_v2" } }))) {
+    await db.template.updateMany({ where: { layout: "LINEUP", NOT: { slug: { startsWith: "xi-" } } }, data: { active: false } });
+    await db.template.updateMany({ where: { slug: { startsWith: "xi-" } }, data: { active: true } });
+    await db.setting.create({ data: { key: "lineups_v2", value: new Date().toISOString() } });
+  }
   // The combined "Double Threat" style was replaced by 4 separate styles — hide it.
   await db.template.updateMany({ where: { slug: "player-double-threat" }, data: { active: false } });
   // One-time: Gold XI becomes "Shatter XI" (team colours, no gold) — the owner's request.
