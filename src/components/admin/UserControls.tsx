@@ -189,17 +189,16 @@ export function GivePlan({ userId, plans, current, until, paying, es }: { userId
   );
 }
 
-/** Admin: permanently delete this account (type the email to confirm). */
+/** Admin: permanently delete this account (tap, then confirm). */
 export function DeleteUser({ userId, email, es }: { userId: string; email: string; es: boolean }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [typed, setTyped] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   async function del() {
     setBusy(true);
     setErr("");
-    const r = await fetch(`/api/admin/users/${userId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: typed }) });
+    const r = await fetch(`/api/admin/users/${userId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
     setBusy(false);
     if (r.ok) {
       router.push("/admin/users");
@@ -220,12 +219,11 @@ export function DeleteUser({ userId, email, es }: { userId: string; email: strin
           ? "Se borran sus pósters, videos, créditos, historial, equipos guardados y tickets. Si tiene suscripción pagada se cancela. No se puede deshacer."
           : "Their posters, videos, credits, history, saved teams and tickets are deleted. A paid subscription is cancelled. This can't be undone."}
       </p>
-      <input className="input text-sm" placeholder={es ? `Escribe ${email} para confirmar` : `Type ${email} to confirm`} value={typed} onChange={(e) => setTyped(e.target.value)} autoCapitalize="none" autoCorrect="off" />
       <div className="flex gap-2">
-        <button type="button" disabled={busy || typed.trim().toLowerCase() !== email.toLowerCase()} onClick={del} className="btn-danger flex-1 py-2 text-sm">
+        <button type="button" disabled={busy} onClick={del} className="btn-danger flex-1 py-2 text-sm">
           {busy ? "…" : es ? "Borrar para siempre" : "Delete forever"}
         </button>
-        <button type="button" onClick={() => { setOpen(false); setTyped(""); }} className="btn-ghost px-4 py-2 text-sm">{es ? "Cancelar" : "Cancel"}</button>
+        <button type="button" onClick={() => setOpen(false)} className="btn-ghost px-4 py-2 text-sm">{es ? "Cancelar" : "Cancel"}</button>
       </div>
       {err && <p className="text-xs text-danger">{err}</p>}
     </div>
