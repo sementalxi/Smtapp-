@@ -11,7 +11,9 @@ export function SoundEvents() {
       if (!el?.closest) return;
       const tagged = el.closest("[data-sfx]") as HTMLElement | null;
       if (tagged) return sfx((tagged.dataset.sfx as Sfx) || "tap");
-      if (el.closest("[data-sfx-area] button, [data-sfx-area] a, [data-sfx-area] label")) sfx("tap");
+      // Every button and link on the site gives a soft click (not text boxes).
+      if (el.closest("[data-sfx-off]")) return;
+      if (el.closest("button, a, [role=button], [role=switch], summary, label")) sfx("tap");
     };
     const unlock = () => unlockAudio();
     document.addEventListener("click", onClick, true);

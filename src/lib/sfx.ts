@@ -64,11 +64,12 @@ export function sfx(kind: Sfx) {
   const c = ac();
   if (!c) return;
   switch (kind) {
-    case "tap": // tiny click
-      tone(c, 1400, 0, 0.05, 0.035, "triangle", 900);
+    case "tap": // crisp click (audible on phones and laptops)
+      tone(c, 1800, 0, 0.045, 0.09, "triangle", 1100);
+      tone(c, 900, 0.01, 0.05, 0.05, "sine", 600);
       break;
     case "select": // soft pop
-      tone(c, 520, 0, 0.09, 0.06, "sine", 880);
+      tone(c, 520, 0, 0.1, 0.1, "sine", 900);
       break;
     case "send": // whoosh up
       tone(c, 420, 0, 0.16, 0.06, "sine", 1100);
