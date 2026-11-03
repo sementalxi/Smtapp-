@@ -79,6 +79,29 @@ export async function addToGuild(discordId: string, userAccessToken: string) {
   const g = guildId();
   if (!botReady() || !g) return;
   await call(`/guilds/${g}/members/${discordId}`, { method: "PUT", body: JSON.stringify({ access_token: userAccessToken }) }).catch(() => null);
+  await giveLinkRole(discordId).catch(() => {});
+}
+
+/** Gives the "linked their KIXO account" role (Admin → Settings → Discord role). Needs Manage Roles, bot role above it. */
+export async function giveLinkRole(discordId: string): Promise<{ ok: boolean; error?: string }> {
+  const g = guildId();
+  if (!botReady() || !g) return { ok: false, error: "missing" };
+  const { getSettings } = await import("./settings");
+  const role = (await getSettings()).discord_link_role?.trim();
+  if (!role) return { ok: false, error: "no_role" };
+  const r = await call(`/guilds/${g}/members/${discordId}/roles/${role}`, { method: "PUT" }).catch(() => null);
+  if (r?.ok) return { ok: true };
+  return { ok: false, error: r?.status === 403 ? "no_permission" : r?.status === 404 ? "not_in_server" : `http_${r?.status ?? "net"}` };
+}
+
+/** Roles in your server (for the admin picker). */
+export async function listRoles(): Promise<{ id: string; name: string }[]> {
+  const g = guildId();
+  if (!botReady() || !g) return [];
+  const r = await call(`/guilds/${g}/roles`, { method: "GET" }).catch(() => null);
+  if (!r?.ok) return [];
+  const all = (await r.json()) as { id: string; name: string; managed: boolean; position: number }[];
+  return all.filter((x) => x.id !== g && !x.managed).sort((a, b) => b.position - a.position).map((x) => ({ id: x.id, name: x.name }));
 }
 
 /** Creates a private "KIXO LOGS" category with one channel + webhook per log kind. Needs Manage Channels + Manage Webhooks. */

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/lib/auth";
 import { TxTable } from "@/components/TxTable";
+import { LaunchControls } from "@/components/admin/LaunchControls";
 import { aiConfigured } from "@/lib/banners";
 import { webhookSecret } from "@/lib/stripe";
 import { ConnectStripeButton } from "@/components/admin/ConnectStripeButton";
@@ -121,6 +122,7 @@ export default async function AdminHome() {
   return (
     <div className="space-y-6">
       <h1 className="font-display text-4xl">{t("admin_overview")}</h1>
+      <LaunchControls es={es} />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {stats.map(([label, value]) => (

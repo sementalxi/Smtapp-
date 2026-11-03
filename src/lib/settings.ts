@@ -17,6 +17,8 @@ export const SETTING_DEFAULTS = {
   hero_video_opacity: "70",
   hero_bg_mode: "image",
   hero_effect: "stadium",
+  coming_soon: "0",
+  discord_link_role: "",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

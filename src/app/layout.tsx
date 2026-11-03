@@ -6,7 +6,9 @@ import { I18nProvider } from "@/i18n/client";
 import { Header } from "@/components/Header";
 import { RefCapture } from "@/components/RefCapture";
 import { LangPrompt } from "@/components/LangPrompt";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { ComingSoon } from "@/components/ComingSoon";
+import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
 
@@ -22,10 +24,33 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Ask once per browser (separate from the language cookie, so people who already had one still see it once).
   const chosen = !!(await cookies()).get("kixo_lang_asked")?.value;
   let notice = "";
+  let soon = false;
   try {
-    notice = (await getSettings()).maintenance_message;
+    const st = await getSettings();
+    notice = st.maintenance_message;
+    if (st.coming_soon === "1") {
+      // Coming-soon mode: everyone except admins sees the launch page; sign-up/login pages stay open.
+      const path = (await headers()).get("x-kixo-path") ?? "/";
+      const open = ["/login", "/register", "/forgot", "/reset", "/admin"].some((p) => path === p || path.startsWith(p + "/"));
+      const me = await getCurrentUser().catch(() => null);
+      soon = !open && me?.role !== "ADMIN";
+    }
   } catch {
     /* DB not ready yet */
+  }
+  if (soon) {
+    const me = await getCurrentUser().catch(() => null);
+    return (
+      <html lang={locale} className={fontVariables}>
+        <body className="antialiased">
+          <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
+            <div className="kixo-grain" aria-hidden />
+            <RefCapture />
+            <ComingSoon user={me ? { name: me.name, discord: !!me.discordId, discordName: me.discordName } : null} />
+          </I18nProvider>
+        </body>
+      </html>
+    );
   }
   return (
     <html lang={locale} className={fontVariables}>

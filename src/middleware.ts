@@ -11,7 +11,12 @@ export async function middleware(req: NextRequest) {
   if (main && !main.endsWith(".vercel.app") && host.endsWith(".vercel.app") && process.env.VERCEL_ENV === "production" && req.method === "GET") {
     return NextResponse.redirect(new URL(pathname + req.nextUrl.search, `https://${main}`), 308);
   }
-  if (!PROTECTED.some((p) => pathname === p || pathname.startsWith(p + "/"))) return NextResponse.next();
+  const pass = () => {
+    const h = new Headers(req.headers);
+    h.set("x-kixo-path", pathname);
+    return NextResponse.next({ request: { headers: h } });
+  };
+  if (!PROTECTED.some((p) => pathname === p || pathname.startsWith(p + "/"))) return pass();
 
   const userId = await verifySession(req.cookies.get(SESSION_COOKIE)?.value);
   if (!userId) {
@@ -21,7 +26,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
   // Role checks happen on the server (requireAdmin) because they need the database.
-  return NextResponse.next();
+  return pass();
 }
 
 export const config = {

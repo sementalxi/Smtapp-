@@ -20,6 +20,8 @@ const Body = z.object({
   hero_video_opacity: z.coerce.number().int().min(10).max(100).optional(),
   hero_effect: z.enum(["stadium", "smoke", "fire", "lightning", "rain", "speed", "grid", "stars", "aurora", "confetti", "none"]).optional(),
   hero_bg_mode: z.enum(["image", "video", "none"]).optional(),
+  coming_soon: z.enum(["0", "1"]).optional(),
+  discord_link_role: z.string().trim().regex(/^(\d{15,22})?$/).optional(),
   discord_webhook: z
     .string()
     .trim()
