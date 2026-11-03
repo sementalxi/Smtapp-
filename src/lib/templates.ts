@@ -242,7 +242,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     sort: 0,
     thumbUrl: "/samples/player-royal-lion.webp",
     prompt:
-      "high-end Photoshop composite: giant beauty-retouched editorial close-up portrait, full-body figure on a cracked glossy marble floor, a roaring black-and-white lion wearing a gold crown, gold lightning, chrome shields, smoke, black white and gold",
+      "high-end Photoshop composite: giant beauty-retouched editorial close-up portrait, full-body figure on a cracked glossy marble floor, the team crest big and faded in the upper right, gold lightning, chrome shields, smoke, black white and gold",
     style: {
       primary: "#d4a64a",
       accent: "#ffffff",
