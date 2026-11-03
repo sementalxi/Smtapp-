@@ -151,6 +151,30 @@ SPORTS DESIGN FINISH
 
 TEXT RULES
 - Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
+  "champ-thunder-throne": `[OWN LOOK] [SQUAD LABEL] THUNDER THRONE — the champions take the throne in a lightning storm.
+
+COLOURS
+- Built from the team colours (COLOURS line below) over deep stormy blacks, with GOLD for the title and the trophy highlights.
+
+SCENE
+- A packed night stadium under a violent storm: huge lightning bolts in the team colour striking down behind the trophy, electric arcs crackling across the sky, heavy clouds lit from inside, rain mist glowing in the floodlights.
+- In the centre a massive dark STONE PODIUM like a throne, cracked open where the lightning hit, glowing team-colour light pouring out of the cracks, debris and dust floating up.
+- The polished trophy standing on top of the podium, mirror reflections of the lightning, sparks bouncing off it.
+- Gold and team-colour confetti, embers and sparks flying toward the camera through the light with motion blur.
+
+LAYOUT (portrait, top to bottom)
+1. The TEAM CREST (if given) at the top centre as a premium 3D metal-and-enamel emblem, crisp and faithful, lit by the lightning, with a soft electric glow.
+2. The TROPHY on the stone podium in the middle, big and heroic.
+3. The TITLE (e.g. "CHAMPIONS") huge across the lower third in heavy forged-GOLD 3D capitals with chiselled bevels, molten glowing cracks and a hard shadow, partly in front of the podium.
+4. The TEAM NAME (if given) in wide letter-spaced silver capitals right under the title.
+5. SQUAD (if given): the small label above it, then the player names in bold condensed white capitals, uniform size, in 2–3 perfectly aligned centred rows at the bottom.
+6. Keep the bottom centre corner area calm (a small brand mark is added afterwards — draw no logo there).
+
+CINEMATIC & BAD-ASS
+- The key art of a championship movie: full-frame cinema camera, anamorphic lens, low heroic angle, deep crushed blacks, hard rim lights, volumetric beams through haze, fine film grain, razor-sharp detail. Real materials only: stone, polished metal, gold, smoke, rain.
+
+TEXT RULES
+- Use ONLY the texts given; spell every name exactly; never invent words, years, sponsors or "edition" lines. Write each item once. NO people, players or faces.`,
   "champ-red-arena": `[OWN LOOK] [SQUAD LABEL] RED ARENA — a red-and-black championship graphic in a blazing night stadium.
 
 SCENE

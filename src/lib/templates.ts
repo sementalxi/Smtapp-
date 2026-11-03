@@ -587,6 +587,28 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   },
   {
+    slug: "champ-thunder-throne",
+    name: "Thunder Throne",
+    nameEs: "Trono del Trueno",
+    layout: "CHAMPIONS",
+    sort: 0,
+    prompt:
+      "trophy on a cracked stone throne-podium struck by lightning in a night stadium, team-colour storm, forged gold title, confetti and embers",
+    style: {
+      primary: "#1f6bff",
+      accent: "#ffd36b",
+      dark: "#03050c",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#fff8e1", "#ffe08a", "#d4a64a"],
+      fallback: ["#03050c", "#0b1a3d", "#1f6bff"],
+      particles: "embers",
+      ghost: false,
+      giantText: true,
+      streaks: true,
+    },
+  },
+  {
     slug: "champ-red-arena",
     name: "Red Arena",
     nameEs: "Arena Roja",
