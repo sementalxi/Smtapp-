@@ -380,6 +380,8 @@ export function buildProPrompt(opts: {
   series?: boolean;
   /** Holiday/season theme text (from lib/seasons) — added on top of the style. */
   season?: string;
+  /** Output format chosen by the user: post 4:5 (default), story 9:16, banner 16:9. */
+  format?: "post" | "story" | "banner";
 }) {
   const { inputs: raw, style, layout } = opts;
   // When a team has a logo, the poster shows only the logo — never the team's name as text.
@@ -588,7 +590,11 @@ export function buildProPrompt(opts: {
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
       : "";
   return [
-    /\[WIDE\]/.test(opts.instructions ?? "") ? `Design a finished, high-end WIDE landscape sports banner (3:2).` : `Design a finished, high-end vertical sports social-media poster (4:5).`,
+    opts.format === "story"
+      ? `Design a finished, high-end TALL vertical sports poster for Instagram / TikTok STORIES (9:16). Use the whole tall canvas — extend the background and scene to fill it top to bottom (no empty bands, no borders); recompose the layout for the tall frame and keep all text and the player inside the middle 80% (away from the very top and bottom where the phone's buttons sit).`
+      : opts.format === "banner" || /\[WIDE\]/.test(opts.instructions ?? "")
+        ? `Design a finished, high-end WIDE landscape sports banner (16:9). Use the whole wide canvas — extend the background and scene edge to edge (no empty sides, no borders); recompose the layout for the wide frame: player on one side, title and details on the other.`
+        : `Design a finished, high-end vertical sports social-media poster (4:5).`,
     directorBlock,
     opts.season ?? "",
     adminLed
@@ -669,7 +675,9 @@ export async function generateProForBanner(opts: {
   prompt: string;
   refs: ProRef[];
   regenerate?: boolean;
+  format?: "post" | "story" | "banner";
 }) {
+  const fmtSizes = opts.format === "story" ? ["1152x2048", "1024x1536"] : opts.format === "banner" ? ["2048x1152", "1536x1024"] : undefined;
   if (opts.cost > 0) {
     await changeCredits({
       userId: opts.userId,
@@ -689,7 +697,7 @@ export async function generateProForBanner(opts: {
     let poster: Buffer;
     try {
       // Wide styles ([WIDE] in the art director's instructions) are made in landscape.
-      const wide = /\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined;
+      const wide = fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined);
       poster = await generatePoster(opts.prompt, images, quality, wide);
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
@@ -702,7 +710,7 @@ export async function generateProForBanner(opts: {
         .filter((sec) => !/^Reference image (?!1 )\d+ is /.test(sec.trim()))
         .join("\n\n");
       try {
-        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, /\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined);
+        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined));
       } catch (e2) {
         const m2 = e2 instanceof Error ? e2.message : String(e2);
         if (/moderation_blocked|safety system/i.test(m2)) throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter. ${m2}`);

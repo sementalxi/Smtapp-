@@ -25,6 +25,16 @@ function loadImg(src: string) {
  * Re-frames the poster for other formats in the browser (free): the poster is
  * centred and the extra space is filled with a blurred, darkened copy of it.
  */
+/** The poster exactly as made (any shape: post, story or banner) as a PNG blob. */
+async function original(src: string): Promise<Blob | null> {
+  const img = await loadImg(src);
+  const c = document.createElement("canvas");
+  c.width = img.naturalWidth;
+  c.height = img.naturalHeight;
+  c.getContext("2d")!.drawImage(img, 0, 0);
+  return new Promise((r) => c.toBlob(r, "image/png"));
+}
+
 async function reframe(src: string, w: number, h: number): Promise<Blob | null> {
   const img = await loadImg(src);
   const c = document.createElement("canvas");
@@ -84,7 +94,7 @@ export function DownloadSizes({
         setCanShare(true);
         const url = typeof src === "string" ? src : await src();
         if (!url || !alive) return;
-        const blob = await reframe(url, 1080, 1350);
+        const blob = await original(url);
         if (blob && alive) ready.current = new File([blob], `${baseName.replace(/[^\w-]+/g, "_") || "kixo"}.png`, { type: "image/png" });
       } catch {}
     })();
@@ -99,7 +109,7 @@ export function DownloadSizes({
       if (!f) {
         setBusy("photos");
         const url = typeof src === "string" ? src : await src();
-        const blob = url ? await reframe(url, 1080, 1350) : null;
+        const blob = url ? await original(url) : null;
         if (!blob) return;
         f = new File([blob], `${baseName.replace(/[^\w-]+/g, "_") || "kixo"}.png`, { type: "image/png" });
         ready.current = f;
@@ -118,7 +128,7 @@ export function DownloadSizes({
     try {
       const url = typeof src === "string" ? src : await src();
       if (!url) return;
-      const blob = await reframe(url, size.w, size.h);
+      const blob = size.id === "post" ? await original(url) : await reframe(url, size.w, size.h);
       if (!blob) return;
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);

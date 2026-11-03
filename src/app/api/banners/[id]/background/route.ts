@@ -52,6 +52,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         randomize: banner.template.randomize,
         variation: seriesUrl ? info.variation : undefined,
         series: !!seriesUrl,
+        format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format,
         season: await (async () => {
           const s = (banner.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
           if (!s) return "";
@@ -65,7 +66,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       // Runs in the background; the page polls until finalUrl changes or an error is saved.
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt, refs, regenerate: true });
+          await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt, refs, regenerate: true, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

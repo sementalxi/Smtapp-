@@ -200,6 +200,8 @@ export function CreateWizard({
   }, [step]);
   const [layout, setLayout] = useState<LayoutKind>(initialLayout ?? "PLAYER");
   const [seasonMode, setSeasonMode] = useState(!!season && seasonStart);
+  const [format, setFormat] = useState<"post" | "story" | "banner">("post");
+  const es5 = locale === "es";
   // A sample poster per type, shown behind the type cards.
   const typePic = useMemo(() => {
     const m: Record<string, string> = {};
@@ -399,6 +401,7 @@ export function CreateWizard({
         logoUrl: team?.logoUrl ?? null,
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
+        ...(format !== "post" ? { format } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -1013,7 +1016,7 @@ export function CreateWizard({
           <div className="card overflow-hidden">
             {phase === "done" && result?.url ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={result.url} alt="" className="block aspect-[4/5] w-full object-cover" />
+              <img src={result.url} alt="" className="block h-auto w-full" />
             ) : phase === "busy" ? (
               <GenerationProgress photo={photo} expectedSeconds={100} />
             ) : (
@@ -1037,8 +1040,18 @@ export function CreateWizard({
                       {cost} {locale === "es" ? "créditos" : "credits"}
                     </span>
                   </div>
+                  {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
+                  <div className="mt-5 grid grid-cols-3 gap-2">
+                    {([["post", "4:5", es5 ? "Post" : "Post", "aspect-[4/5] w-5"], ["story", "9:16", es5 ? "Historia" : "Story", "aspect-[9/16] w-4"], ["banner", "16:9", "Banner", "aspect-[16/9] w-8"]] as const).map(([k, r, l, box]) => (
+                      <button key={k} type="button" data-sfx="select" onClick={() => setFormat(k)} className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-2.5 text-xs font-bold transition ${format === k ? "border-lime bg-lime/15 text-white" : "border-line bg-ink/40 text-muted"}`}>
+                        <span className={`${box} rounded-sm border-2 ${format === k ? "border-lime" : "border-muted/60"}`} />
+                        <span>{l}</span>
+                        <span className="text-[10px] font-semibold opacity-70">{r}</span>
+                      </button>
+                    ))}
+                  </div>
                   {phase === "error" && <p className="mt-4 text-sm text-danger">{error}</p>}
-                  <button type="button" className="btn-primary mt-6 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
+                  <button type="button" className="btn-primary mt-5 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
                     {phase === "error" ? "↻" : "✨"} {L.generate}
                   </button>
                   <p className="mt-2 text-[11px] text-muted">{locale === "es" ? "Tarda 1–2 minutos" : "Takes 1–2 minutes"}</p>

@@ -37,6 +37,8 @@ const Body = z.object({
   matchBannerId: z.string().max(40).optional(),
   /** Make it a season/holiday flyer (the season the admin has turned on). */
   season: z.boolean().optional(),
+  /** Output size: post 4:5 (default), story 9:16, banner 16:9 — the AI makes it in that size. */
+  format: z.enum(["post", "story", "banner"]).optional(),
 });
 
 // Per-player fields a team-set card may change; everything else comes from the first card.
@@ -100,6 +102,8 @@ export const POST = handle(async (req: NextRequest) => {
     seriesRefUrl: series?.refUrl,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
+  const sourceFmt = (source?.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
+  const fmt = sourceFmt ?? body.format ?? "post";
   const { activeSeason, seasonPrompt, seasonByKey } = await import("@/lib/seasons");
   const sourceSeason = (source?.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
   const seasonDef = sourceSeason ? seasonByKey(sourceSeason.key, sourceSeason.custom) : body.season ? await activeSeason() : null;
@@ -117,6 +121,7 @@ export const POST = handle(async (req: NextRequest) => {
       variation,
       series: !!series,
       season: seasonPrompt(seasonDef),
+      format: fmt,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
@@ -130,7 +135,7 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}) }),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}) }),
       photoUrl: body.photoUrl ?? null,
       logoUrl,
       mode: body.mode,
@@ -143,7 +148,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (pro) {
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
