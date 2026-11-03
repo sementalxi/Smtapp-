@@ -6,6 +6,6 @@ import { getCurrentUser } from "@/lib/auth";
 export async function DELETE() {
   const user = await getCurrentUser().catch(() => null);
   if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  await db.user.update({ where: { id: user.id }, data: { discordId: null, discordName: null } });
+  await db.user.update({ where: { id: user.id }, data: { discordId: null, discordName: null, discordUser: null, discordAvatar: null } });
   return NextResponse.json({ ok: true });
 }

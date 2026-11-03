@@ -5,6 +5,7 @@ import { AccountHeader, AccountShell, StatTile } from "@/components/account/Acco
 import { ProfileForms } from "@/components/account/ProfileForms";
 import { DiscordLink } from "@/components/account/DiscordLink";
 import { discordAuthReady } from "@/lib/discord-auth";
+import { SoundToggle } from "@/components/SoundToggle";
 
 export const metadata = { title: "Profile" };
 
@@ -25,7 +26,8 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         <StatTile label={es ? "Artes" : "Arts"} value={arts} />
         <StatTile label={es ? "Gastado" : "Spent"} value={`$${((spent._sum.amountCents ?? 0) / 100).toFixed(2)}`} />
       </div>
-      {discordAuthReady() && <DiscordLink linked={!!user.discordId} name={user.discordName ?? null} es={es} status={sp.discord} />}
+      {discordAuthReady() && <DiscordLink linked={!!user.discordId} name={user.discordName ?? null} avatar={user.discordAvatar} handle={user.discordUser} es={es} status={sp.discord} />}
+      <SoundToggle es={es} />
       <ProfileForms name={user.name} email={user.email} isAdmin={user.role === "ADMIN"} showcase={!user.showcaseOptOut} />
     </AccountShell>
   );

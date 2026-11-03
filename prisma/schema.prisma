@@ -55,6 +55,8 @@ model User {
   referredById       String? // who invited this user
   discordId          String? // linked Discord account (checked unique in code)
   discordName        String? // Discord username shown on the profile
+  discordUser        String? // Discord @handle
+  discordAvatar      String? // Discord profile picture URL
   emailOptOut        Boolean             @default(false) // unsubscribed from promo emails
   showcaseOptOut     Boolean             @default(false) // don't post my posters in the public Discord showcase
   isOrg              Boolean             @default(false) // organization account (admin sets) — sees "orgs" styles

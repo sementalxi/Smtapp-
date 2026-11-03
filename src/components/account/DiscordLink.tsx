@@ -10,7 +10,7 @@ const Logo = () => (
 );
 
 /** Profile card: connect / disconnect Discord. */
-export function DiscordLink({ linked, name, es, status }: { linked: boolean; name: string | null; es: boolean; status?: string }) {
+export function DiscordLink({ linked, name, es, status, avatar, handle }: { linked: boolean; name: string | null; es: boolean; status?: string; avatar?: string | null; handle?: string | null }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -33,14 +33,22 @@ export function DiscordLink({ linked, name, es, status }: { linked: boolean; nam
       <div className="border-b border-line px-5 py-3 font-bold">{es ? "Cuentas conectadas" : "Connected accounts"}</div>
       <div className="space-y-3 p-5">
         <div className="flex items-center gap-3">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#5865F2] text-white shadow-[0_8px_24px_-10px_rgba(88,101,242,0.9)]">
-            <Logo />
-          </span>
+          {linked && avatar ? (
+            <span className="relative h-11 w-11 shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={avatar} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-[#5865F2]" />
+              <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-[#5865F2] text-white ring-2 ring-panel [&_svg]:h-3 [&_svg]:w-3"><Logo /></span>
+            </span>
+          ) : (
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#5865F2] text-white shadow-[0_8px_24px_-10px_rgba(88,101,242,0.9)]">
+              <Logo />
+            </span>
+          )}
           <div className="min-w-0 flex-1">
             <div className="font-bold">Discord</div>
             <div className="truncate text-xs text-muted">
               {linked ? (
-                <span className="text-teal">● {name ? (es ? `Conectado como ${name}` : `Connected as ${name}`) : es ? "Conectado" : "Connected"}</span>
+                <span className="text-teal">● {name ? (es ? `Conectado como ${name}` : `Connected as ${name}`) : es ? "Conectado" : "Connected"}{handle ? <span className="text-muted"> · @{handle}</span> : null}</span>
               ) : es ? "Entra con un toque usando Discord" : "Log in with one tap using Discord"}
             </div>
           </div>

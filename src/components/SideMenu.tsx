@@ -1,6 +1,5 @@
 "use client";
 
-import { soundOn, setSoundOn } from "@/lib/sfx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -38,7 +37,7 @@ export function SideMenu({
 }: {
   items: MenuItem[];
   site: string;
-  footer: { loggedIn: boolean; title: string; text: string; cta: string; ctaHref: string; credits?: number; name?: string; email?: string };
+  footer: { loggedIn: boolean; title: string; text: string; cta: string; ctaHref: string; credits?: number; name?: string; email?: string; avatar?: string | null };
 }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -134,10 +133,14 @@ export function SideMenu({
           </nav>
 
           <div className="relative border-t border-line p-5">
-            <SoundToggle />
             {footer.loggedIn ? (
               <Link href="/profile" onClick={() => setOpen(false)} className="mb-3 flex items-center gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime font-extrabold text-ink">{(footer.name || "K")[0].toUpperCase()}</span>
+                {footer.avatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={footer.avatar} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-lime/60" />
+                ) : (
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime font-extrabold text-ink">{(footer.name || "K")[0].toUpperCase()}</span>
+                )}
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-bold">{footer.name}</span>
                   <span className="block truncate text-xs text-muted">{footer.email}</span>
@@ -161,18 +164,3 @@ export function SideMenu({
   );
 }
 
-/** 🔊 Sounds on/off (saved in this browser). */
-function SoundToggle() {
-  const [on, setOn] = useState(true);
-  useEffect(() => setOn(soundOn()), []);
-  return (
-    <button
-      type="button"
-      onClick={() => { const v = !on; setOn(v); setSoundOn(v); }}
-      className="mb-3 flex w-full items-center justify-between rounded-xl border border-line px-3 py-2 text-sm font-semibold text-white/80 hover:border-lime/50"
-    >
-      <span>{on ? "🔊" : "🔇"} Sounds · Sonidos</span>
-      <span className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold ${on ? "bg-lime text-ink" : "bg-line text-muted"}`}>{on ? "ON" : "OFF"}</span>
-    </button>
-  );
-}

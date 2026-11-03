@@ -55,11 +55,14 @@ export async function GET(req: NextRequest) {
     id?: string;
     username?: string;
     global_name?: string | null;
+    avatar?: string | null;
     email?: string | null;
     verified?: boolean;
   };
   if (!me.id) return fail(req, "discord_user");
   const discordName = (me.global_name || me.username || "").slice(0, 60) || null;
+  const discordUser = (me.username || "").slice(0, 40) || null;
+  const discordAvatar = me.avatar ? `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.${me.avatar.startsWith("a_") ? "gif" : "png"}?size=256` : null;
   // Join your KIXO server automatically (so the bot can DM them). Never blocks sign-in.
   await addToGuild(me.id, tok.access_token).catch(() => {});
 
@@ -75,7 +78,7 @@ export async function GET(req: NextRequest) {
     const owner = await db.user.findFirst({ where: { discordId: me.id }, select: { id: true } });
     if (owner && owner.id !== current.id) return back("taken");
     const firstLink = !current.discordId;
-    await db.user.update({ where: { id: current.id }, data: { discordId: me.id, discordName } });
+    await db.user.update({ where: { id: current.id }, data: { discordId: me.id, discordName, discordUser, discordAvatar } });
     if (firstLink) await import("@/lib/welcome-dm").then((m) => m.sendWelcomeDm(current.id)).catch(() => {});
     return back("linked");
   }
@@ -87,7 +90,7 @@ export async function GET(req: NextRequest) {
   let isNew = false;
   if (user) {
     if (user.banned) return fail(req, "err_banned");
-    if (!user.discordId || user.discordName !== discordName) await db.user.update({ where: { id: user.id }, data: { discordId: user.discordId || me.id, discordName } });
+    await db.user.update({ where: { id: user.id }, data: { discordId: user.discordId || me.id, discordName, discordUser, discordAvatar } });
   } else {
     const refCode = req.cookies.get(REF_COOKIE)?.value?.trim().toUpperCase();
     const referrer = refCode && /^[A-Z0-9]{4,12}$/.test(refCode) ? await db.user.findFirst({ where: { refCode }, select: { id: true } }) : null;
@@ -101,6 +104,8 @@ export async function GET(req: NextRequest) {
         locale: req.cookies.get("bf_lang")?.value === "en" ? "en" : "es",
         discordId: me.id,
         discordName,
+        discordUser,
+        discordAvatar,
         referredById: referrer?.id ?? null,
       },
     });

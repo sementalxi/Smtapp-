@@ -44,7 +44,7 @@ export async function openTicket(userId: string, topic: "support" | "custom" = "
   const existing = await db.supportTicket.findFirst({ where: { userId, status: "open" }, orderBy: { createdAt: "desc" } });
   if (existing) return existing;
   const g = guildId();
-  const u = await db.user.findUnique({ where: { id: userId }, select: { name: true, email: true, credits: true, discordId: true, planId: true } });
+  const u = await db.user.findUnique({ where: { id: userId }, select: { name: true, email: true, credits: true, discordId: true, planId: true, discordName: true, discordUser: true, discordAvatar: true } });
   if (!u) throw new Error("no_user");
   const parent = await supportCategory(g);
   const ch = await botCall(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name: `${topic === "custom" ? "order" : "ticket"}-${slug(u.name)}`, type: 0, parent_id: parent, topic: `KIXO website ${topic === "custom" ? "custom banner order" : "support"} · ${u.email}` }) });
@@ -64,11 +64,13 @@ export async function openTicket(userId: string, topic: "support" | "custom" = "
           title: topic === "custom" ? `🎨 Custom banner order — ${u.name}` : `🛟 Support ticket — ${u.name}`,
           description: "Reply in this channel — the user sees your messages live on kixo.pro.\nTap **🔒 End chat** (or type **!close**) to end it.",
           color: 0xff2e88,
+          ...(u.discordAvatar ? { thumbnail: { url: u.discordAvatar } } : {}),
+          ...(u.discordId ? { author: { name: `${u.discordName || u.name}${u.discordUser ? ` (@${u.discordUser})` : ""}`, ...(u.discordAvatar ? { icon_url: u.discordAvatar } : {}) } } : {}),
           fields: [
             { name: "Email", value: u.email.slice(0, 200), inline: true },
             { name: "Credits", value: `⚡ ${u.credits}`, inline: true },
             { name: "Plan", value: u.planId || "—", inline: true },
-            ...(u.discordId ? [{ name: "Discord", value: `<@${u.discordId}>`, inline: true }] : []),
+            ...(u.discordId ? [{ name: "Discord", value: `<@${u.discordId}>${u.discordUser ? ` · @${u.discordUser}` : ""}`, inline: true }] : [{ name: "Discord", value: "not linked", inline: true }]),
             { name: "Admin", value: `${appUrl()}/admin/users/${userId}` },
           ],
           timestamp: new Date().toISOString(),
@@ -81,12 +83,13 @@ export async function openTicket(userId: string, topic: "support" | "custom" = "
 }
 
 /** Posts the user's message into the ticket channel (shown with their name). */
-export async function sendFromUser(ticket: { webhookUrl: string }, user: { name: string }, text: string, imageUrl?: string) {
+export async function sendFromUser(ticket: { webhookUrl: string }, user: { name: string; discordName?: string | null; discordAvatar?: string | null }, text: string, imageUrl?: string) {
   const res = await fetch(`${ticket.webhookUrl}?wait=true`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username: `${user.name.replace(/discord|clyde/gi, "").slice(0, 70) || "User"} (website)`,
+      username: `${(user.discordName || user.name).replace(/discord|clyde/gi, "").slice(0, 70) || "User"} (website)`,
+      ...(user.discordAvatar ? { avatar_url: user.discordAvatar } : {}),
       content: text.slice(0, 1900) || undefined,
       embeds: imageUrl ? [{ image: { url: imageUrl }, color: 0xff2e88 }] : undefined,
       allowed_mentions: { parse: [] },
