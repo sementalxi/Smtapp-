@@ -8,6 +8,7 @@ import { EMPTY_INPUTS } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, type SavedItem } from "./SavedPicker";
 import { waitForBanner } from "@/lib/wait-banner";
+import { GenerationProgress } from "../GenerationProgress";
 
 type P = { photo: string | null; name: string; real: string };
 type R = { status: "wait" | "busy" | "done" | "error"; id?: string; url?: string | null; error?: string };
@@ -153,9 +154,26 @@ export function RosterForm({ templateId, credits: initialCredits, cost, es }: { 
                     <img src={r.url} alt={p.name} className="w-full" />
                   </Link>
                 ) : (
-                  <div className={`grid aspect-[3/2] place-items-center text-sm ${r.status === "busy" ? "animate-pulse bg-panel-2 text-lime" : "bg-panel text-muted"}`}>
-                    {r.status === "busy" ? (es ? `Creando ${p.name}… (1–2 min)` : `Making ${p.name}… (1–2 min)`) : r.status === "error" ? `❌ ${p.name}: ${r.error}` : `${p.name} — ${es ? "en espera" : "waiting"}`}
-                  </div>
+                  r.status === "busy" ? (
+                    // Same animated "making your poster" screen as the main Create page.
+                    <GenerationProgress photo={p.photo} expectedSeconds={100} />
+                  ) : (
+                    <div className="relative grid aspect-[3/2] place-items-center overflow-hidden bg-panel text-sm">
+                      {p.photo && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.photo} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-25 blur-xl" />
+                      )}
+                      <div className="relative flex flex-col items-center gap-2 text-center">
+                        {p.photo && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={p.photo} alt="" className="h-16 w-16 rounded-full object-cover ring-2 ring-lime/50" />
+                        )}
+                        <span className={`rounded-full px-3 py-1 text-xs font-bold ${r.status === "error" ? "bg-danger/15 text-danger" : "bg-ink/70 text-muted"}`}>
+                          {r.status === "error" ? `❌ ${r.error}` : es ? "⏳ En espera — sigue después" : "⏳ Waiting — up next"}
+                        </span>
+                      </div>
+                    </div>
+                  )
                 )}
                 <div className="flex items-center justify-between px-3 py-2 text-xs">
                   <b>{p.name}</b>
