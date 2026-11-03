@@ -292,7 +292,7 @@ TYPOGRAPHY
 
 COLOURS: built from the TEAM CREST's own colours (the crest stays crisp and faithful), with deep blacks and white text. NO gold unless gold is one of the crest's main colours.
 RULES: NO people, players or faces anywhere — only the markers. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles. Cinematic, real lighting and materials; no neon haze everywhere, no plastic chrome on everything.`,
-  "xi-club-list": `CLUB LIST XI — the official matchday lineup a top club posts an hour before kick-off.
+  "xi-club-list": `[FIXED LAYOUT] CLUB LIST XI — the official matchday lineup a top club posts an hour before kick-off.
 
 COLOURS: from the TEAM CREST's own colours (main colour as a flat panel), plus black and white.
 
@@ -314,7 +314,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-tactics-board": `TACTICS BOARD XI — a clean, modern tactical lineup like a pro analytics graphic.
+  "xi-tactics-board": `[FIXED LAYOUT] TACTICS BOARD XI — a clean, modern tactical lineup like a pro analytics graphic.
 
 COLOURS: from the TEAM CREST's own colours for the markers, real green grass, white lines.
 
@@ -335,7 +335,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-print": `PRINT XI — a bold printed sports poster, like a screen-printed matchday flyer.
+  "xi-print": `[FIXED LAYOUT] PRINT XI — a bold printed sports poster, like a screen-printed matchday flyer.
 
 COLOURS: off-white paper, black, and ONE strong team colour from the crest (or the accent colour) as flat ink.
 
@@ -358,7 +358,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-night-lights": `NIGHT LIGHTS XI — a cinematic but clean lineup over a real night-stadium photo.
+  "xi-night-lights": `[FIXED LAYOUT] NIGHT LIGHTS XI — a cinematic but clean lineup over a real night-stadium photo.
 
 COLOURS: from the TEAM CREST's own colours as one accent, over a real night photo and black.
 
@@ -381,7 +381,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-magazine": `MAGAZINE COVER XI — the lineup designed as the cover of a premium sports magazine.
+  "xi-magazine": `[FIXED LAYOUT] MAGAZINE COVER XI — the lineup designed as the cover of a premium sports magazine.
 
 COLOURS: black, white and ONE accent from the TEAM CREST's colours.
 
@@ -403,7 +403,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-ticket": `MATCH TICKET XI — the starting eleven printed on a real matchday ticket.
+  "xi-ticket": `[FIXED LAYOUT] MATCH TICKET XI — the starting eleven printed on a real matchday ticket.
 
 COLOURS: from the TEAM CREST's colours for the ticket's printed band, plus paper white, black and a GOLD foil accent.
 
@@ -425,7 +425,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-scoreboard": `SCOREBOARD XI — the lineup shown on a real stadium LED video board.
+  "xi-scoreboard": `[FIXED LAYOUT] SCOREBOARD XI — the lineup shown on a real stadium LED video board.
 
 COLOURS: the board shows the TEAM CREST's colours on black; the photo has a real night grade.
 
@@ -446,7 +446,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-chalkboard": `DRESSING ROOM XI — the coach's tactics chalkboard in the dressing room before the match.
+  "xi-chalkboard": `[FIXED LAYOUT] DRESSING ROOM XI — the coach's tactics chalkboard in the dressing room before the match.
 
 COLOURS: dark green / black chalkboard, white chalk, with ONE accent chalk colour from the TEAM CREST.
 
@@ -469,7 +469,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-jersey-wall": `JERSEY WALL XI — the starting eleven as real shirts hanging in the dressing room, the classic pre-match club photo.
+  "xi-jersey-wall": `[FIXED LAYOUT] JERSEY WALL XI — the starting eleven as real shirts hanging in the dressing room, the classic pre-match club photo.
 
 COLOURS: the shirts in the TEAM CREST's colours (main colour shirt, accent-colour names/numbers), warm dressing-room tones.
 
@@ -491,7 +491,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-newspaper": `NEWSPAPER XI — the lineup on the front page of a printed sports newspaper.
+  "xi-newspaper": `[FIXED LAYOUT] NEWSPAPER XI — the lineup on the front page of a printed sports newspaper.
 
 COLOURS: newsprint off-white, black ink, and ONE spot colour from the TEAM CREST.
 
@@ -512,7 +512,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-billboard": `BILLBOARD XI — the starting eleven on a giant city billboard at night.
+  "xi-billboard": `[FIXED LAYOUT] BILLBOARD XI — the starting eleven on a giant city billboard at night.
 
 COLOURS: the billboard design uses the TEAM CREST's colours; the street has a real night city grade.
 
@@ -533,7 +533,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-mural": `MURAL XI — the lineup hand-painted as a giant street mural in the neighbourhood.
+  "xi-mural": `[FIXED LAYOUT] MURAL XI — the lineup hand-painted as a giant street mural in the neighbourhood.
 
 COLOURS: the mural painted in the TEAM CREST's colours plus white, on grey concrete.
 
@@ -554,7 +554,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-wide-panorama": `[WIDE] PANORAMA XI — a WIDE landscape lineup banner (16:9) for X / YouTube / Discord headers.
+  "xi-wide-panorama": `[FIXED LAYOUT] [WIDE] PANORAMA XI — a WIDE landscape lineup banner (16:9) for X / YouTube / Discord headers.
 
 COLOURS: from the TEAM CREST's own colours as one accent, over a real night photo and black.
 
@@ -576,7 +576,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-wide-pitch": `[WIDE] PITCH SPLIT XI — a WIDE landscape lineup banner (16:9): pitch on one side, list on the other.
+  "xi-wide-pitch": `[FIXED LAYOUT] [WIDE] PITCH SPLIT XI — a WIDE landscape lineup banner (16:9): pitch on one side, list on the other.
 
 COLOURS: from the TEAM CREST's own colours (main colour as the flat panel), real green grass, white.
 
@@ -596,7 +596,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-wide-tunnel": `[WIDE] TUNNEL XI — a WIDE landscape lineup banner (16:9) from the players' tunnel.
+  "xi-wide-tunnel": `[FIXED LAYOUT] [WIDE] TUNNEL XI — a WIDE landscape lineup banner (16:9) from the players' tunnel.
 
 COLOURS: from the TEAM CREST's colours as accent strip lights, real concrete and floodlight white.
 
@@ -618,7 +618,7 @@ RULES
 - The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
 - NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
 - Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
-  "xi-wide-print": `[WIDE] PRINT XI (WIDE) — a WIDE landscape lineup banner (16:9) in a screen-printed poster style.
+  "xi-wide-print": `[FIXED LAYOUT] [WIDE] PRINT XI (WIDE) — a WIDE landscape lineup banner (16:9) in a screen-printed poster style.
 
 COLOURS: off-white paper, black, and ONE strong team colour from the crest as flat ink.
 
@@ -737,7 +737,7 @@ SPORTS DESIGN FINISH
 
 TEXT RULES
 - Use ONLY the texts given. Spell every player name EXACTLY as written; show all eleven; never invent names, numbers or words; no sponsors, platform logos, websites or handles.`,
-  "champ-trophy-studio": `[OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — the trophy shot like a luxury product photo.
+  "champ-trophy-studio": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — the trophy shot like a luxury product photo.
 
 LAYOUT (portrait)
 - A REAL studio photograph: the trophy centred on a black glossy plinth against a pure black backdrop, ONE hard spotlight from above-left, crisp highlights and deep shadows, a soft reflection on the plinth.
@@ -758,7 +758,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-pitch-celebration": `[OWN LOOK] [SQUAD LABEL] PITCH NIGHT — the moment after the final whistle.
+  "champ-pitch-celebration": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] PITCH NIGHT — the moment after the final whistle.
 
 LAYOUT (portrait)
 - A REAL night stadium photo from pitch level: floodlights on, packed stands out of focus, real confetti in the team colours falling and lying on the wet grass.
@@ -779,7 +779,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-magazine": `[OWN LOOK] [SQUAD LABEL] CHAMPIONS COVER — the title win as a premium sports magazine cover.
+  "champ-magazine": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] CHAMPIONS COVER — the title win as a premium sports magazine cover.
 
 LAYOUT (portrait)
 - Cover photo: a REAL photograph of the trophy on a dark stage with dramatic studio light, full-bleed.
@@ -800,7 +800,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-newspaper": `[OWN LOOK] [SQUAD LABEL] FRONT PAGE — the champions on the front page of a printed sports newspaper.
+  "champ-newspaper": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] FRONT PAGE — the champions on the front page of a printed sports newspaper.
 
 LAYOUT (portrait)
 - A REAL photograph of a folded newspaper on a table (soft daylight, paper texture, fold line).
@@ -820,7 +820,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-banner-hang": `[OWN LOOK] [SQUAD LABEL] CLUB BANNER — a giant champions silk banner hanging in the stadium.
+  "champ-banner-hang": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] CLUB BANNER — a giant champions silk banner hanging in the stadium.
 
 LAYOUT (portrait)
 - A REAL photograph inside an empty stadium at dusk: a huge silk banner hanging from the roof in the team colours, with natural folds, sheen and stitching, gold fringe at the bottom.
@@ -841,7 +841,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-ring": `[OWN LOOK] [SQUAD LABEL] CHAMPIONS RING — the championship ring, close up.
+  "champ-ring": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] CHAMPIONS RING — the championship ring, close up.
 
 LAYOUT (portrait)
 - A REAL macro photograph of a heavy GOLD championship ring on black velvet, the team crest (if provided) engraved / enamelled on its face, sharp highlights, shallow depth of field.
@@ -861,7 +861,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-print": `[OWN LOOK] [SQUAD LABEL] CHAMPIONS PRINT — a screen-printed victory poster.
+  "champ-print": `[FIXED LAYOUT] [OWN LOOK] [SQUAD LABEL] CHAMPIONS PRINT — a screen-printed victory poster.
 
 LAYOUT (portrait)
 - A real black-and-white trophy photograph printed in coarse HALFTONE dots in a big diagonal shape; bold diagonal flat colour blocks in the team colour; off-white paper grain, slight ink misregistration, a torn edge at the bottom.
@@ -881,7 +881,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-wide-podium": `[WIDE] [OWN LOOK] [SQUAD LABEL] PODIUM — a WIDE landscape champions banner (16:9).
+  "champ-wide-podium": `[FIXED LAYOUT] [WIDE] [OWN LOOK] [SQUAD LABEL] PODIUM — a WIDE landscape champions banner (16:9).
 
 LAYOUT (wide)
 - A REAL night stadium photo, the trophy on a podium on the pitch slightly right of centre, real confetti falling, floodlights and stands out of focus.
@@ -902,7 +902,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-wide-studio": `[WIDE] [OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — a WIDE landscape champions banner (16:9), luxury product-shot style.
+  "champ-wide-studio": `[FIXED LAYOUT] [WIDE] [OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — a WIDE landscape champions banner (16:9), luxury product-shot style.
 
 LAYOUT (wide)
 - A REAL studio photograph: the trophy on a black glossy plinth on the right, one hard spotlight, pure black backdrop.
@@ -922,7 +922,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-wide-crowd": `[WIDE] [OWN LOOK] [SQUAD LABEL] FANS PARTY — a WIDE landscape champions banner (16:9).
+  "champ-wide-crowd": `[FIXED LAYOUT] [WIDE] [OWN LOOK] [SQUAD LABEL] FANS PARTY — a WIDE landscape champions banner (16:9).
 
 LAYOUT (wide)
 - A REAL photograph of a packed stand of fans celebrating at night: raised arms, real flares and smoke in the team colours, big flags, slightly out of focus.
@@ -943,7 +943,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-wide-split": `[WIDE] [OWN LOOK] [SQUAD LABEL] SPLIT CREST — a WIDE landscape champions banner (16:9).
+  "champ-wide-split": `[FIXED LAYOUT] [WIDE] [OWN LOOK] [SQUAD LABEL] SPLIT CREST — a WIDE landscape champions banner (16:9).
 
 LAYOUT (wide)
 - Left 45%: a solid flat panel in the team colour with subtle paper grain: the team crest (if provided) large and crisp, the title in heavy condensed white capitals, the team name, competition and date.
@@ -963,7 +963,7 @@ TEXT
 RULES
 - The team crest only if a crest reference image is provided — crisp and faithful, never redrawn. The competition logo (if provided) only where described. Never copy a logo that wasn't provided.
 - NO people, players or faces. Use ONLY the texts given; never invent names, years, sponsors, scores or "edition" lines. Write each item once.`,
-  "champ-wide-print": `[WIDE] [OWN LOOK] [SQUAD LABEL] CHAMPIONS PRINT — a WIDE landscape champions banner (16:9), screen-printed style.
+  "champ-wide-print": `[FIXED LAYOUT] [WIDE] [OWN LOOK] [SQUAD LABEL] CHAMPIONS PRINT — a WIDE landscape champions banner (16:9), screen-printed style.
 
 LAYOUT (wide)
 - A halftone black-and-white trophy photo inside a big diagonal shape on the left; bold flat colour blocks in the team colour; paper grain, ink misregistration, a torn edge.
@@ -1694,6 +1694,355 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
+  "xi-wide-print": `[WIDE] PRINT XI (WIDE) — a WIDE landscape lineup banner (16:9) in a screen-printed poster style.
+
+COLOURS: off-white paper, black, and ONE strong team colour from the crest as flat ink.
+
+LAYOUT (wide)
+- A real black-and-white crowd / stadium photograph printed in coarse HALFTONE dots inside a big diagonal shape on the left.
+- Bold diagonal flat colour blocks in the team colour slicing across; real paper grain and slight ink misregistration, a torn edge on the right.
+- The title (e.g. "STARTING XI") huge in heavy black condensed capitals on the left half.
+- Right half: the eleven as a typeset list in THREE columns (defence / midfield / attack, goalkeeper on top of the first): NUMBER in the team colour, NAME in black condensed capitals.
+- The team crest (if provided) small in a corner; formation, competition and date small in a typewriter-like font.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-tunnel": `[WIDE] TUNNEL XI — a WIDE landscape lineup banner (16:9) from the players' tunnel.
+
+COLOURS: from the TEAM CREST's colours as accent strip lights, real concrete and floodlight white.
+
+LAYOUT (wide)
+- A REAL photograph from inside a concrete stadium tunnel looking out: the opening in the centre blazing with floodlight and a glimpse of the pitch and stands, rough walls on both sides with team-colour strip lights, natural haze, real wet floor reflections.
+- The title (e.g. "STARTING XI") centred above the opening in bold condensed white capitals; the team crest (if provided) small above it.
+- The eleven split in two clean columns on the dark tunnel walls — goalkeeper, defence (and holding midfield) on the left wall, the rest on the right wall — NUMBER in the accent colour, NAME in white capitals, like printed wall signage.
+- Formation, competition and date small along the bottom.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-pitch": `[WIDE] PITCH SPLIT XI — a WIDE landscape lineup banner (16:9): pitch on one side, list on the other.
+
+COLOURS: from the TEAM CREST's own colours (main colour as the flat panel), real green grass, white.
+
+LAYOUT (wide, left to right)
+- Left 55%: a REAL top-down photograph of football grass with mowing stripes and crisp white lines, the pitch shown sideways (goal on the left, attack toward the right), the eleven as FLAT solid circles in the team colour with the NUMBER inside and the NAME on a small dark label, in the formation rows.
+- Right 45%: a solid flat panel in the team colour with a subtle paper grain: the team crest (if provided), the title (e.g. "STARTING XI") in heavy condensed white capitals, the formation in a pill tag, and a compact list of the eleven (number + name), competition and date small at the bottom.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-wide-panorama": `[WIDE] PANORAMA XI — a WIDE landscape lineup banner (16:9) for X / YouTube / Discord headers.
+
+COLOURS: from the TEAM CREST's own colours as one accent, over a real night photo and black.
+
+LAYOUT (wide, left to right)
+- Full-bleed background: a REAL panoramic photograph of a stadium at night from high in the stands — floodlights on, bright pitch, crowd out of focus — natural colours with a cool night grade.
+- Left third: the team crest (if provided) and the title (e.g. "STARTING XI") in bold condensed white capitals, formation, competition and date small under it.
+- Right half: a dark smooth gradient panel with the eleven in 2–3 clean aligned columns grouped by line (GK / DEF / MID / FWD labels small if positions are given): NUMBER in the accent colour, NAME in white capitals.
+- Keep important text away from the far edges (safe margins for cropping).
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-mural": `MURAL XI — the lineup hand-painted as a giant street mural in the neighbourhood.
+
+COLOURS: the mural painted in the TEAM CREST's colours plus white, on grey concrete.
+
+LAYOUT (portrait)
+- A REAL daylight photograph of a big concrete wall next to a small neighbourhood football pitch (a bit of the pitch and a fence at the bottom), natural sun and shadows.
+- ON THE WALL, painted by hand: a big pitch shape, the eleven as stencil-sprayed circles with the NUMBER inside and the NAME painted under each in bold stencil capitals, in the formation rows; the title (e.g. "STARTING XI") huge in hand-painted letters with real paint drips and overspray; the team crest (if provided) painted faithfully at the top.
+- Real wall texture showing through the paint, a few old tags and cracks, paint cans and a ladder at the base.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-billboard": `BILLBOARD XI — the starting eleven on a giant city billboard at night.
+
+COLOURS: the billboard design uses the TEAM CREST's colours; the street has a real night city grade.
+
+LAYOUT (portrait)
+- A REAL night street photograph: a huge backlit billboard on a building high above a wet city street, slightly in perspective, real car light trails and reflections on the road below, street lamps, a little rain mist.
+- ON THE BILLBOARD: a clean bold lineup design — the team crest (if provided), the title (e.g. "STARTING XI") in heavy condensed capitals, and the eleven in a clear list or grid (NUMBER in the accent colour, NAME in white capitals), formation and date small. Lit evenly like a real lightbox, perfectly readable.
+- Real camera feel: natural night noise, soft glow from the billboard on the wall, no extra effects.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-newspaper": `NEWSPAPER XI — the lineup on the front page of a printed sports newspaper.
+
+COLOURS: newsprint off-white, black ink, and ONE spot colour from the TEAM CREST.
+
+LAYOUT (portrait)
+- A REAL photograph of a folded sports newspaper lying on a table (slight angle, soft daylight, real paper texture, fold line, a little ink grain).
+- The front page: a bold masthead bar in the spot colour at the top (no real newspaper names — use the competition name if given, otherwise just the date line), a GIANT headline with the title (e.g. "STARTING XI"), a big halftone black-and-white stadium photo, and a printed column with the eleven: NUMBER bold, NAME in condensed capitals, position small.
+- The team crest (if provided) printed small in the corner of the photo; formation and date as a small sub-headline.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-jersey-wall": `JERSEY WALL XI — the starting eleven as real shirts hanging in the dressing room, the classic pre-match club photo.
+
+COLOURS: the shirts in the TEAM CREST's colours (main colour shirt, accent-colour names/numbers), warm dressing-room tones.
+
+LAYOUT (portrait)
+- A REAL photograph of a dressing room: eleven team SHIRTS hanging on wooden pegs / hangers, seen from the BACK, arranged in neat rows (goalkeeper's shirt in a different colour), each with the player's NAME above the big NUMBER printed on the back in proper kit lettering, spelled exactly.
+- Warm spotlights from above, soft shadows between the shirts, wooden lockers and benches, slight depth of field.
+- Top: the title (e.g. "STARTING XI") in bold condensed white capitals on a solid dark strip; the team crest (if provided) small next to it; formation, competition and date small and letter-spaced at the bottom.
+- The shirts are plain team shirts — no sponsor or brand logos.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-chalkboard": `DRESSING ROOM XI — the coach's tactics chalkboard in the dressing room before the match.
+
+COLOURS: dark green / black chalkboard, white chalk, with ONE accent chalk colour from the TEAM CREST.
+
+LAYOUT (portrait)
+- A REAL photograph of a dressing-room tactics chalkboard in a wooden frame, filling most of the poster, slightly angled, with real chalk dust, smudges and old erased marks.
+- Behind / around it, softly out of focus: wooden benches, lockers and team shirts hanging on pegs, warm dressing-room light.
+- ON THE BOARD, drawn in chalk: the pitch outline, the eleven as chalk circles with the NUMBER inside and the NAME written under each in neat bold chalk capitals, placed in the formation rows (goalkeeper at the bottom). Arrows and small tactic marks in the accent chalk colour.
+- The title (e.g. "STARTING XI") written big in chalk at the top of the board; the formation, competition and date in smaller chalk handwriting. The team crest (if provided) as a small sticker / printed card taped to the board's corner.
+- Every name perfectly legible and spelled exactly, even in chalk.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-scoreboard": `SCOREBOARD XI — the lineup shown on a real stadium LED video board.
+
+COLOURS: the board shows the TEAM CREST's colours on black; the photo has a real night grade.
+
+LAYOUT (portrait)
+- A REAL photograph taken from the stands at night: a huge LED video board above the stands fills most of the frame, slightly in perspective, with visible LED pixel texture and glow; floodlights and a few out-of-focus crowd silhouettes / raised phones at the bottom.
+- ON THE BOARD: a clean broadcast lineup screen — the team crest (if provided) top left, the title (e.g. "STARTING XI") in bold white capitals, and the eleven in a clean list or grid (NUMBER in the team colour, NAME in white capitals), formation and date small. All text is part of the board's display (pixel glow) but perfectly readable.
+- Real camera feel: slight lens flare from the floodlights, natural noise, no extra effects.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-ticket": `MATCH TICKET XI — the starting eleven printed on a real matchday ticket.
+
+COLOURS: from the TEAM CREST's colours for the ticket's printed band, plus paper white, black and a GOLD foil accent.
+
+LAYOUT (portrait)
+- A REAL photograph: a premium paper ticket lying slightly angled on a dark textured table / concrete, soft top light, a real shadow under it, shallow depth of field.
+- The ticket: a perforated tear-off STUB on one side, a printed colour band with the title (e.g. "STARTING XI") in bold condensed capitals, the team crest (if provided) as a gold FOIL stamp, fine security-pattern lines.
+- On the ticket's main area, the eleven printed as a neat list like ticket details: NUMBER in a small box, NAME in bold condensed capitals, position small; in two columns if needed.
+- Formation, competition and date printed like seat / gate / date fields. Real paper texture, slight print grain.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-magazine": `MAGAZINE COVER XI — the lineup designed as the cover of a premium sports magazine.
+
+COLOURS: black, white and ONE accent from the TEAM CREST's colours.
+
+LAYOUT (portrait)
+- Cover image: a REAL photograph of the stadium (empty pitch from the tunnel or the stands at golden hour / under lights), full-bleed, natural colours with a magazine-quality grade.
+- Top: the title (e.g. "STARTING XI") as a HUGE magazine masthead in a bold serif or condensed typeface across the full width, partly behind the stadium roofline like a real cover.
+- Left or right: a clean editorial sidebar — a semi-transparent dark strip with the eleven as cover lines: NUMBER in the accent colour, NAME in bold white capitals, position small.
+- The team crest (if provided) small like a cover badge in a corner; competition and date as a small "issue line" under the masthead; the formation as a small cover sticker (flat circle).
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-night-lights": `NIGHT LIGHTS XI — a cinematic but clean lineup over a real night-stadium photo.
+
+COLOURS: from the TEAM CREST's own colours as one accent, over a real night photo and black.
+
+LAYOUT (portrait)
+- Background: a REAL photograph taken from the upper stands of a stadium at night — floodlights on, the bright pitch below, crowd out of focus — natural colours with a cool night grade and real lens flare from the lights.
+- A dark smooth gradient panel covering the lower two-thirds of the poster for the text.
+- The title (e.g. "STARTING XI") in bold condensed white capitals with a thin accent-colour bar beside it; the team crest (if provided) above it, crisp.
+- The eleven grouped by line in clean rows (GK / DEF / MID / FWD as small letter-spaced labels if positions are given): NUMBER in the accent colour, NAME in clean white capitals, evenly spaced and aligned.
+- Formation, competition and date small and letter-spaced at the bottom.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-print": `PRINT XI — a bold printed sports poster, like a screen-printed matchday flyer.
+
+COLOURS: off-white paper, black, and ONE strong team colour from the crest (or the accent colour) as flat ink.
+
+LAYOUT (portrait)
+- A real black-and-white stadium / crowd photograph printed in coarse HALFTONE dots, cropped inside a big diagonal shape across the top half.
+- Two or three bold diagonal flat colour blocks in the team colour slicing across the poster; real paper grain, slight ink misregistration, a torn-paper edge at the bottom.
+- The title (e.g. "STARTING XI") HUGE in heavy black condensed capitals across the middle, slightly overprinted on the colour block.
+- The eleven as a clean typeset list in two columns (goalkeeper and defence on the left, midfield and attack on the right): NUMBER in the team colour, NAME in black condensed capitals.
+- The team crest (if provided) small in a top corner; formation, competition and date small in a typewriter-like font at the bottom.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-tactics-board": `TACTICS BOARD XI — a clean, modern tactical lineup like a pro analytics graphic.
+
+COLOURS: from the TEAM CREST's own colours for the markers, real green grass, white lines.
+
+LAYOUT (portrait)
+- The pitch: a REAL top-down photograph of football grass with natural mowing stripes and crisp painted white lines, seen straight from above, filling most of the poster.
+- Each player as a FLAT solid circle in the team colour with a thin white ring and the NUMBER in white inside, the NAME in clean bold white capitals on a small dark rounded label under it, placed in the formation rows (goalkeeper at the bottom, attack at the top), evenly spaced and symmetrical.
+- A solid dark band at the top with the team crest (if provided) on the left and the title (e.g. "STARTING XI") in bold condensed white capitals, the formation next to it in the accent colour, the competition and date small on the right.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
+  "xi-club-list": `CLUB LIST XI — the official matchday lineup a top club posts an hour before kick-off.
+
+COLOURS: from the TEAM CREST's own colours (main colour as a flat panel), plus black and white.
+
+LAYOUT (portrait)
+- Background: a real photograph of a stadium (pitch-level, floodlights on), desaturated and darkened, filling the right side and fading into a solid flat colour panel on the left.
+- Top left: the team crest (if provided) and next to it the title (e.g. "STARTING XI") in heavy condensed white capitals; the competition and date small and letter-spaced under it.
+- Left panel: a clean VERTICAL LIST of the eleven, one per row, in the order given (goalkeeper first): the NUMBER in bold in the accent colour in a fixed-width column, then the NAME in bold condensed white capitals, the position small and light on the right. Thin divider lines between rows. Perfect alignment.
+- Bottom: the formation in a small solid tag; the footer (if given) tiny and letter-spaced.
+
+PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
+- Built like a real club designer does it in Photoshop: a REAL photograph as the base (stadium / grass / stands), composited with clean flat graphic shapes and real typography. Simple, confident, minimal — lots of clean space, no clutter.
+- NO glowing 3D badges, no holograms, no neon haze, no lightning, no sparks or confetti, no chrome on everything, no fantasy effects. Lighting and textures are photographic and believable; graphics are flat or with a subtle shadow only.
+- Typography is the star: professional sports fonts, perfect alignment on a grid, consistent sizes, generous letter-spacing on small text.
+
+THE ELEVEN (use the rows given in the text list: goalkeeper first, then defence, midfield, attack)
+- Every player shown with the shirt NUMBER and the NAME (position small if given), spelled exactly, all eleven, none missing or repeated.
+
+RULES
+- The team crest only if a crest reference image is provided — crisp, flat and faithful, never redrawn. Never copy a logo that wasn't provided.
+- NO people, players or faces anywhere. Use ONLY the texts given; never invent names, numbers or words; no sponsors, platform logos, websites or handles.
+- Ignore the "markers on a pitch" placement hints if this style describes a list — follow this style's layout.`,
   "champ-trophy-studio": `[OWN LOOK] [SQUAD LABEL] TROPHY STUDIO — the trophy shot like a luxury product photo.
 
 LAYOUT (portrait)
@@ -1701,10 +2050,13 @@ LAYOUT (portrait)
 - Top: the team crest (if provided) small and crisp; the title huge in elegant tall condensed capitals in brushed metal (team accent colour) across the lower third, partly behind the trophy's base.
 - Team name in wide letter-spaced white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1719,10 +2071,13 @@ LAYOUT (portrait)
 - The trophy on a simple podium on the pitch in the centre, lit by the floodlights.
 - The team crest (if provided) at the top; the title huge in heavy condensed white capitals with a solid team-colour shadow; team name under it; squad on a dark gradient at the bottom in 2–3 aligned columns.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1737,10 +2092,13 @@ LAYOUT (portrait)
 - Top: the title as a HUGE masthead across the width, partly behind the trophy's top like a real cover. Competition and date as a small issue line.
 - A slim dark sidebar with the squad as cover lines (bold white names), the team name as the main cover line, the team crest (if provided) like a cover badge in a corner.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1754,10 +2112,13 @@ LAYOUT (portrait)
 - A REAL photograph of a folded newspaper on a table (soft daylight, paper texture, fold line).
 - The page: a masthead bar in the team colour (use the competition name if given, no real newspaper names), a GIANT headline with the title, a big halftone black-and-white trophy photo, the team name as the sub-headline, and the squad printed in a narrow column. The team crest (if provided) printed small in the photo's corner.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1772,10 +2133,13 @@ LAYOUT (portrait)
 - ON THE BANNER: the team crest (if provided) embroidered at the top, the title in big embroidered capitals, the team name, and the squad names stitched in neat columns. Real fabric texture, perfectly readable.
 - The stands and floodlights softly out of focus behind.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1789,10 +2153,13 @@ LAYOUT (portrait)
 - A REAL macro photograph of a heavy GOLD championship ring on black velvet, the team crest (if provided) engraved / enamelled on its face, sharp highlights, shallow depth of field.
 - The title huge in clean tall gold capitals above the ring; the team name in letter-spaced white under it; the squad in fine white type in neat columns at the bottom; competition and date tiny. Lots of black space, luxury minimal.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1806,10 +2173,13 @@ LAYOUT (portrait)
 - A real black-and-white trophy photograph printed in coarse HALFTONE dots in a big diagonal shape; bold diagonal flat colour blocks in the team colour; off-white paper grain, slight ink misregistration, a torn edge at the bottom.
 - The title HUGE in heavy black condensed capitals across the middle; team name under it; squad typeset in two clean columns; the team crest (if provided) small in a corner; competition and date in a typewriter-like font.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1824,10 +2194,13 @@ LAYOUT (wide)
 - Left third: the team crest (if provided), the title huge in heavy condensed white capitals, the team name under it.
 - Right side: the squad on a dark gradient panel in 2–3 aligned columns. Keep text away from the far edges.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1841,10 +2214,13 @@ LAYOUT (wide)
 - A REAL studio photograph: the trophy on a black glossy plinth on the right, one hard spotlight, pure black backdrop.
 - Left side: the team crest (if provided), the title in elegant tall brushed-metal capitals, the team name letter-spaced, the squad in neat white columns below. Minimal and premium, text away from the edges.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1859,10 +2235,13 @@ LAYOUT (wide)
 - The trophy in the centre-right, sharp, lit by the flares.
 - Left: the team crest (if provided), the title huge in heavy condensed white capitals with a solid team-colour shadow, the team name, and the squad on a dark strip along the bottom in clean columns.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1876,10 +2255,13 @@ LAYOUT (wide)
 - Left 45%: a solid flat panel in the team colour with subtle paper grain: the team crest (if provided) large and crisp, the title in heavy condensed white capitals, the team name, competition and date.
 - Right 55%: a REAL photograph of the trophy on a dark stage with dramatic light, the squad overlaid at the bottom in 3 clean white columns on a dark gradient.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
@@ -1893,10 +2275,13 @@ LAYOUT (wide)
 - A halftone black-and-white trophy photo inside a big diagonal shape on the left; bold flat colour blocks in the team colour; paper grain, ink misregistration, a torn edge.
 - The title huge in heavy black condensed capitals; the team name under it; the squad typeset in three columns on the right; crest (if provided) small in a corner.
 
-PHOTOSHOP LOOK (most important — it must NOT look AI-generated)
-- Built like a real club designer does it in Photoshop: a REAL photograph as the base, composited with clean graphic shapes and professional typography. Confident and premium, not cluttered.
-- Effects (confetti, smoke, light) are real and restrained. NO holograms, no neon haze, no lightning, no fantasy creatures, no chrome on everything, no melted or random shapes.
-- The trophy is a real photographed object: true metal reflections, correct proportions, a real contact shadow.
+BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
+- Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
+- Lighting: deep crushed blacks, hard high-contrast rim lights in the team colours, real volumetric beams through thick smoke, a low heroic camera angle on the trophy, sharp specular highlights, fine film grain and a moody cinematic colour grade.
+- Layering for depth: background photo → huge faded title letters or crest echo → the trophy (sharpest element) → bold lettering → foreground real smoke, sparks or confetti crossing in front, slightly motion-blurred.
+- TITLE treatment: heavy slanted / condensed capitals as a real 3D material (brushed metal, gold or the team colour) with sharp bevels, a hard drop shadow and gritty texture — huge and dominant.
+- Effects stay physically real: NO holograms, no neon haze, no cartoon lightning, no fantasy creatures, no melted or random shapes, no plastic CGI look.
+- The trophy is a real photographed object: true mirror reflections of the lights, correct proportions, a real contact shadow.
 
 TEXT
 - The title (e.g. "CHAMPIONS") is the hero text. The team name (if given) clean and bold. SQUAD (if given): the small label above it, then every player name in bold condensed capitals, uniform size, perfectly aligned in clean columns or rows, spelled exactly.
