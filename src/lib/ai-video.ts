@@ -75,7 +75,6 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
   const cost = (o.seconds === 10 ? p.ten : p.five) + (o.audio ? p.audio : 0);
   const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.ultra.prompt;
   const flexes = pick(FLEXES, o.motion === "ultra" ? 2 : 1);
-  const flexes = pick(FLEXES, o.motion === "ultra" ? 2 : 1);
   const prompt = [
     "Bring this soccer / esports player poster to life as a calm, smooth, premium cinematic video — gentle, controlled motion, never chaotic.",
     `Camera & scene: ${motion}.`,
