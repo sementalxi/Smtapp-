@@ -135,17 +135,20 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
                         {t.thumbUrl ? <img src={t.thumbUrl} alt="" className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-lg">{a.icon}</div>}
                       </div>
                       <div className="min-w-0 flex-1 space-y-1">
-                        <div className="truncate text-sm font-bold">{es ? t.nameEs || t.name : t.name}</div>
-                        <div className="flex gap-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 truncate text-sm font-bold">{es ? t.nameEs || t.name : t.name}</div>
+                          <Switch on={t.active} es={es} onChange={(v) => patch(t.id, { active: v })} />
+                        </div>
+                        <div className="flex flex-wrap gap-1">
                           {([["", es ? "Sin etiqueta" : "No label"], ["recommended", es ? "⭐ Recomendado" : "⭐ Recommended"], ["fire", "🔥 Fire"]] as const).map(([v, lbl]) => (
-                            <button key={v} type="button" onClick={() => patch(t.id, { badge: v || null })} className={`rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.badge ?? "") === v ? (v === "fire" ? "border-orange-400 bg-orange-500/20 text-orange-300" : "border-lime bg-lime/15 text-lime") : "border-line text-muted"}`}>
+                            <button key={v} type="button" onClick={() => patch(t.id, { badge: v || null })} className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.badge ?? "") === v ? (v === "fire" ? "border-orange-400 bg-orange-500/20 text-orange-300" : "border-lime bg-lime/15 text-lime") : "border-line text-muted"}`}>
                               {lbl}
                             </button>
                           ))}
                         </div>
-                        <div className="flex gap-1">
-                          {([["all", es ? "👥 Todos" : "👥 Everyone"], ["users", es ? "🙋 Usuarios" : "🙋 Regular users"], ["orgs", es ? "🏢 Organizaciones" : "🏢 Organizations"]] as const).map(([v, lbl]) => (
-                            <button key={v} type="button" onClick={() => patch(t.id, { audience: v })} className={`rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.audience || "all") === v ? "border-sky-400 bg-sky-500/15 text-sky-300" : "border-line text-muted"}`}>
+                        <div className="flex flex-wrap gap-1">
+                          {([["all", es ? "👥 Todos" : "👥 Everyone"], ["users", es ? "🙋 Usuarios" : "🙋 Users"], ["orgs", es ? "🏢 Orgs" : "🏢 Orgs"]] as const).map(([v, lbl]) => (
+                            <button key={v} type="button" onClick={() => patch(t.id, { audience: v })} className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.audience || "all") === v ? "border-sky-400 bg-sky-500/15 text-sky-300" : "border-line text-muted"}`}>
                               {lbl}
                             </button>
                           ))}
@@ -158,7 +161,6 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
                           ))}
                         </select>
                       </div>
-                      <Switch on={t.active} es={es} onChange={(v) => patch(t.id, { active: v })} />
                     </div>
                   ))}
                 </div>
