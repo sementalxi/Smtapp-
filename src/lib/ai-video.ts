@@ -15,32 +15,58 @@ type ModelKey = keyof typeof VIDEO_MODELS;
 const auth = () => ({ Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" });
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
 
+// Styles = camera + scene feel. The player's FLEX is picked at random every time (see FLEXES).
 export const MOTIONS: Record<string, { en: string; es: string; prompt: string }> = {
-  // ⭐ The best one: Pro model + a full hype-trailer sequence + 3 random extras.
-  ultra: { en: "Ultra", es: "Ultra", prompt: "a full sports hype-trailer shot: the camera starts slightly wide and pushes in fast with strong 3D parallax and a subtle whip; the player comes alive — turns to the lens, a confident smirk, a powerful signature gesture (fist, point, arms crossed or a chest tap) — then a dramatic hero pose as the light hits him; every element of the poster animates with depth: the background moves, light changes, the title and number catch a bright metallic shine" },
-  epic: { en: "Epic camera", es: "Cámara épica", prompt: "a fast, dramatic cinematic camera dolly-in toward the player with strong parallax; the player turns his head toward the camera, nods with confidence and strikes a power pose" },
-  celebrate: { en: "Celebration", es: "Celebración", prompt: "the player bursts into a big celebration — jumps, pumps both fists, shouts with joy, points at the camera — while the camera shakes slightly with the energy" },
-  walk: { en: "Walk-out", es: "Entrada épica", prompt: "the player walks powerfully toward the camera like a stadium walk-out, shoulders moving, the camera tracking backward in front of him" },
-  orbit: { en: "360 orbit", es: "Giro 360", prompt: "the camera swings in a smooth fast arc around the player while he turns his body and looks straight into the lens" },
-  fire: { en: "Fire & smoke", es: "Fuego y humo", prompt: "huge flames erupt behind the player, embers and sparks blast past the camera, the player clenches his fists and stares intensely into the lens" },
+  ultra: { en: "Ultra", es: "Ultra", prompt: "a sports hype-trailer shot: the camera starts slightly wide and pushes in fast with strong 3D parallax; the title and number catch a bright metallic shine; dramatic light hits the player at the end" },
+  epic: { en: "Epic camera", es: "Cámara épica", prompt: "a fast dramatic camera dolly-in toward the player with strong parallax" },
+  celebrate: { en: "Celebration", es: "Celebración", prompt: "a big-match celebration moment with the camera shaking slightly from the energy" },
+  walk: { en: "Walk-out", es: "Entrada épica", prompt: "a stadium walk-out: the player steps forward toward the camera while it tracks backward" },
+  orbit: { en: "360 orbit", es: "Giro 360", prompt: "the camera swings in a smooth fast arc around the player" },
+  fire: { en: "Fire & smoke", es: "Fuego y humo", prompt: "pyrotechnic flames burst behind the player and sparks blast past the camera" },
 };
 
-// Random extra action so no two videos look the same (2 are picked each time).
+// Soccer / esports player flexes — a random one (or two in a row) every video, so no two look the same.
+const FLEXES = [
+  "flexes both biceps with a confident smirk",
+  "crosses his arms, nods slowly and stares into the lens",
+  "does the famous jump-and-turn goal celebration, landing with arms wide",
+  "puts a finger to his lips in a 'shush' celebration",
+  "kisses the badge on his chest, then points at the camera",
+  "points both index fingers to the sky",
+  "beats his chest twice and shouts with passion",
+  "makes a 'calm down' gesture with both hands, cool and confident",
+  "gives a military salute to the camera",
+  "spreads his arms like an airplane in celebration",
+  "taps his temple with one finger — big-brain play",
+  "makes heart hands toward the crowd",
+  "clenches both fists and roars toward the sky",
+  "adjusts his gaming headset, then gives a cocky grin and a nod",
+  "cracks his knuckles and rolls his shoulders, ready for the match",
+  "juggles a soccer ball on his foot, then catches it and smiles",
+  "rubs his hands together and smirks like he already won",
+  "points to his own name on the poster with both thumbs",
+  "does a slow cool head turn toward the camera and raises his chin",
+  "flexes one arm and taps his bicep twice",
+];
+
+// Random scene extras (2–3 picked each time).
 const EXTRAS = [
-  "the whole background is alive: clouds rush across the sky in fast time-lapse",
-  "lightning bolts crack across the sky and light up the scene",
   "stadium floodlights sweep and flash across the background",
+  "camera flashes from the crowd pop in the dark background",
+  "neon esports stage lights pulse in the team colours",
+  "LED stadium boards flicker behind the player",
   "thick smoke rolls and swirls through the background",
-  "glowing embers and sparks drift and spin through the air",
-  "leaves, confetti or particles from the scene swirl in a strong gust of wind",
+  "glowing embers and sparks drift through the air",
+  "confetti rains down in the team colours",
+  "pyrotechnic fire jets shoot up behind the player",
+  "lightning cracks across the sky and lights up the scene",
+  "clouds rush across the sky in fast time-lapse",
   "lens flares and light streaks shoot across the frame",
-  "the background elements of the poster move on their own — flags wave, flames flicker, objects sway",
-  "a pulsing energy aura glows and ripples around the player",
-  "the big number and logo glow and pulse with light, with a shimmering metallic shine sweeping across them",
-  "fireworks burst in the sky behind the player",
-  "rain streaks fall and splash with dramatic backlight",
-  "a crowd of camera flashes pops in the dark background",
-  "fog rolls along the ground and light beams cut through it",
+  "the big number and logo glow and pulse with light",
+  "a pulsing energy aura ripples around the player",
+  "rain falls in dramatic floodlight backlight",
+  "fog rolls along the ground with light beams cutting through it",
+  "the poster's own background elements come alive — flags wave, flames flicker, objects move",
 ];
 const pick = <T,>(a: T[], n: number) => [...a].sort(() => Math.random() - 0.5).slice(0, n);
 
@@ -55,12 +81,14 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
   if (!p.on) throw Object.assign(new Error("video_off"), { status: 503 });
   const cost = (o.seconds === 10 ? p.ten : p.five) + (o.audio ? p.audio : 0);
   const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.ultra.prompt;
+  const flexes = pick(FLEXES, o.motion === "ultra" ? 2 : 1);
   const prompt = [
-    `Turn this sports poster into a dynamic, high-energy cinematic video with LOTS of visible motion — nothing stays still.`,
-    `Main action: ${motion}.`,
+    "Turn this soccer / esports player poster into a dynamic, high-energy hype video with LOTS of visible motion — nothing stays still.",
+    `Camera & scene: ${motion}.`,
+    `The player comes alive and ${flexes.join(", then ")}.`,
     `Background in constant motion: ${pick(EXTRAS, o.motion === "ultra" ? 3 : 2).join("; ")}.`,
     o.extra ? `Also: ${o.extra}.` : "",
-    "Style: premium sports hype trailer, dramatic lighting changes, energetic pacing, real physics, 3D depth.",
+    "Style: premium sports hype trailer, dramatic lighting, energetic pacing, real physics, 3D depth.",
     "Keep the player's face and identity the same and keep the poster's names, numbers and logos readable.",
   ].filter(Boolean).join(" ");
   const image = o.imageUrl.startsWith("/") ? site() + o.imageUrl : o.imageUrl;
