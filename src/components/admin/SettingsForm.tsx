@@ -57,6 +57,34 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           </p>
         </div>
       </div>
+      <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
+        <label className="label">✨ {es ? "Video con IA (Kling 3.0)" : "AI video (Kling 3.0)"}</label>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Encendido" : "On"}</span>
+            <select className="input" value={v.video_on ?? "1"} onChange={(e) => setV({ ...v, video_on: e.target.value })}>
+              <option value="1">{es ? "Sí" : "Yes"}</option>
+              <option value="0">{es ? "No (ocultar)" : "No (hide)"}</option>
+            </select>
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Calidad" : "Quality"}</span>
+            <select className="input" value={v.video_model ?? "kling-std"} onChange={(e) => setV({ ...v, video_model: e.target.value })}>
+              <option value="kling-std">{es ? "Kling 3.0 (recomendado, ~$0.08–0.13/seg)" : "Kling 3.0 (recommended, ~$0.08–0.13/sec)"}</option>
+              <option value="kling-pro">{es ? "Kling 3.0 Pro (mejor, más caro)" : "Kling 3.0 Pro (better, pricier)"}</option>
+            </select>
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 5 seg" : "Credits · 5-second video"}</span>
+            <input type="number" min={0} className="input" value={v.video_cost_5 ?? "10"} onChange={(e) => setV({ ...v, video_cost_5: e.target.value })} />
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos · video de 10 seg" : "Credits · 10-second video"}</span>
+            <input type="number" min={0} className="input" value={v.video_cost_10 ?? "18"} onChange={(e) => setV({ ...v, video_cost_10: e.target.value })} />
+          </div>
+        </div>
+        <p className="mt-2 text-xs text-muted">{es ? "Necesita FAL_KEY en Vercel (fal.ai → API Keys). Los videos fallidos se reembolsan solos." : "Needs FAL_KEY on Vercel (fal.ai → API Keys). Failed videos are refunded automatically."}</p>
+      </div>
       <div>
         <label className="label">{t("signup_credits")}</label>
         <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />

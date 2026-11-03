@@ -259,3 +259,25 @@ model PushSub {
 
   @@index([userId])
 }
+
+// AI videos (image → video with Kling via fal.ai). Charged in credits; refunded if it fails.
+model VideoJob {
+  id          String   @id @default(cuid())
+  userId      String
+  bannerId    String?
+  model       String
+  prompt      String
+  seconds     Int
+  audio       Boolean  @default(true)
+  cost        Int
+  status      String   @default("queued") // queued | running | done | failed
+  statusUrl   String?
+  responseUrl String?
+  videoUrl    String?
+  error       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([status])
+}

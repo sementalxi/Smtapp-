@@ -53,6 +53,7 @@ export default async function AdminHome() {
       [es ? "RESEND_API_KEY (enviar emails de promoción)" : "RESEND_API_KEY (send promo emails)", process.env.RESEND_API_KEY, true],
       [es ? "SQUARE_APPLICATION_ID (pago en ventana dentro de la página)" : "SQUARE_APPLICATION_ID (pay in a popup on the page)", process.env.SQUARE_APPLICATION_ID, true],
       [es ? "Vercel Blob (imágenes y video — BLOB_STORE_ID o BLOB_READ_WRITE_TOKEN)" : "Vercel Blob (images & video — BLOB_STORE_ID or BLOB_READ_WRITE_TOKEN)", process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID, true],
+      [es ? "FAL_KEY (videos con IA — Kling)" : "FAL_KEY (AI videos — Kling)", process.env.FAL_KEY, true],
       [es ? "SERPER_API_KEY (búsqueda en Google, opcional)" : "SERPER_API_KEY (Google photo search, optional)", process.env.SERPER_API_KEY, true],
       [es ? "REPLICATE_API_TOKEN (modo rápido antiguo, no se usa)" : "REPLICATE_API_TOKEN (old Quick mode, not used)", process.env.REPLICATE_API_TOKEN, true],
       [es ? "STRIPE_SECRET_KEY (no se usa con Square)" : "STRIPE_SECRET_KEY (not needed with Square)", process.env.STRIPE_SECRET_KEY, true],

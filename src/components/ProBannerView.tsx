@@ -9,6 +9,7 @@ import type { BannerInputs, LayoutKind } from "@/lib/templates";
 import { TextFields } from "./TextFields";
 import { DownloadSizes } from "./DownloadSizes";
 import { MotionCTA } from "./MotionStudio";
+import { AiVideo } from "./AiVideo";
 import { waitForBanner } from "@/lib/wait-banner";
 import { EditDesign } from "./EditDesign";
 
@@ -86,6 +87,7 @@ export function ProBannerView({
         </div>
         {url && !busy && (
           <div className="mt-3">
+            <AiVideo bannerId={id} title={title} />
             <MotionCTA src={url} baseName={title} />
             <div className="mt-2">
               <DownloadSizes src={url} baseName={title} />

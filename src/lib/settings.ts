@@ -24,6 +24,10 @@ export const SETTING_DEFAULTS = {
   share_image: "",
   support_role: "",
   support_on: "1",
+  video_on: "1",
+  video_model: "kling-std",
+  video_cost_5: "10",
+  video_cost_10: "18",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

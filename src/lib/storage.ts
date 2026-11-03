@@ -11,6 +11,7 @@ const EXT: Record<string, string> = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/webp": "webp",
+  "video/mp4": "mp4",
 };
 
 let s3: S3Client | null = null;
