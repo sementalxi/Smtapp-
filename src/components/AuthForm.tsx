@@ -60,6 +60,12 @@ export function AuthForm({ mode, next, phoneRequired, discord, err, discordBonus
     });
     if (res.ok) {
       const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : mode === "register" ? "/create" : "/dashboard";
+      if (mode === "register") {
+        // Account created 🎉
+        const { sfx } = await import("@/lib/sfx");
+        sfx("success");
+        await new Promise((r) => setTimeout(r, 450));
+      }
       window.location.href = dest;
       return;
     }

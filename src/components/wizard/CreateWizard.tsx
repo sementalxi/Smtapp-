@@ -2,6 +2,7 @@
 
 import { TypeIcon } from "./TypeIcon";
 import { thumb } from "@/lib/thumb";
+import { sfx } from "@/lib/sfx";
 import { FontPicker } from "./FontPicker";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -412,6 +413,7 @@ export function CreateWizard({
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setPhase("done");
+      sfx("done");
       router.refresh(); // header credits update right away
     } else {
       const msg =
@@ -428,6 +430,7 @@ export function CreateWizard({
             : (locale === "es" ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : "");
       setError(msg);
       setPhase("error");
+      sfx("error");
     }
   }
 
@@ -493,7 +496,7 @@ export function CreateWizard({
   );
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-2xl" data-sfx-area>
       {Stepper}
 
       {step === 1 && (
@@ -531,6 +534,7 @@ export function CreateWizard({
                 <button
                   key={a.layout}
                   type="button"
+                  data-sfx="select"
                   onClick={() => { setLayout(a.layout); setStep(2); }}
                   className={`group relative flex min-h-[9.5rem] flex-col overflow-hidden rounded-2xl border p-3.5 text-left transition active:scale-[0.98] sm:p-4 ${
                     sel

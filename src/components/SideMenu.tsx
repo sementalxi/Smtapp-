@@ -1,5 +1,6 @@
 "use client";
 
+import { soundOn, setSoundOn } from "@/lib/sfx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -133,6 +134,7 @@ export function SideMenu({
           </nav>
 
           <div className="relative border-t border-line p-5">
+            <SoundToggle />
             {footer.loggedIn ? (
               <Link href="/profile" onClick={() => setOpen(false)} className="mb-3 flex items-center gap-3">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime font-extrabold text-ink">{(footer.name || "K")[0].toUpperCase()}</span>
@@ -156,5 +158,21 @@ export function SideMenu({
       </div>,
       document.body)}
     </>
+  );
+}
+
+/** 🔊 Sounds on/off (saved in this browser). */
+function SoundToggle() {
+  const [on, setOn] = useState(true);
+  useEffect(() => setOn(soundOn()), []);
+  return (
+    <button
+      type="button"
+      onClick={() => { const v = !on; setOn(v); setSoundOn(v); }}
+      className="mb-3 flex w-full items-center justify-between rounded-xl border border-line px-3 py-2 text-sm font-semibold text-white/80 hover:border-lime/50"
+    >
+      <span>{on ? "🔊" : "🔇"} Sounds · Sonidos</span>
+      <span className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold ${on ? "bg-lime text-ink" : "bg-line text-muted"}`}>{on ? "ON" : "OFF"}</span>
+    </button>
   );
 }

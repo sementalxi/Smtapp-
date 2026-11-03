@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useT } from "@/i18n/client";
 import { shrink } from "./ImageDrop";
+import { sfx } from "@/lib/sfx";
 
 type Msg = { id: string; from: "me" | "staff" | "system"; name: string; avatar?: string; text: string; images: string[]; at: string };
 
@@ -24,6 +25,7 @@ export function SupportChat() {
   const [unread, setUnread] = useState(0);
   const [topic, setTopic] = useState<"" | "support" | "custom">("");
   const seen = useRef<number>(0);
+  const lastStaff = useRef<number>(-1);
   const box = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -33,7 +35,13 @@ export function SupportChat() {
     setEnabled(d.enabled !== false);
     setHasTicket(!!d.ticket);
     if (d.closed) setClosed(true);
-    if (Array.isArray(d.messages)) setMsgs(d.messages);
+    if (Array.isArray(d.messages)) {
+      // Ding when a new reply from the team arrives (not on the first load).
+      const staff = (d.messages as Msg[]).filter((m) => m.from === "staff").length;
+      if (lastStaff.current >= 0 && staff > lastStaff.current) sfx("message");
+      lastStaff.current = staff;
+      setMsgs(d.messages);
+    }
   }, []);
 
   // On page load: is there an open ticket? (shows the 💬 bubble in the corner)
@@ -67,6 +75,7 @@ export function SupportChat() {
     setClosed(false);
     const tmp: Msg = { id: `tmp-${Date.now()}`, from: "me", name: "", text: t, images: imageUrl ? [imageUrl] : [], at: new Date().toISOString() };
     setMsgs((m) => [...m, tmp]);
+    sfx("send");
     setText("");
     const r = await fetch("/api/support", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: t, imageUrl, topic: topic || "support" }) });
     const d = await r.json().catch(() => ({}));

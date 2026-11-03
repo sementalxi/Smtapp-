@@ -9,6 +9,7 @@ import { LangPrompt } from "@/components/LangPrompt";
 import { cookies, headers } from "next/headers";
 import { ComingSoon } from "@/components/ComingSoon";
 import { SupportChat } from "@/components/SupportChat";
+import { SoundEvents } from "@/components/SoundEvents";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
@@ -80,6 +81,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <RefCapture />
           {!chosen && <LangPrompt suggested={locale} />}
           <Header />
+          <SoundEvents />
           <main>{children}</main>
           {(await getCurrentUser().catch(() => null)) && <SupportChat />}
           <footer className="mt-24 border-t border-line py-8 text-center text-xs text-muted">
