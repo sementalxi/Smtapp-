@@ -108,6 +108,7 @@ export async function startVideo(o: { userId: string; bannerId: string; imageUrl
 
 async function fail(id: string, error: string) {
   const j = await db.videoJob.update({ where: { id }, data: { status: "failed", error: error.slice(0, 500) } });
+  await import("./discord").then((m) => m.logVideo({ jobId: j.id, ok: false, error })).catch(() => {});
   await import("./activity").then((m) => m.logActivity("site", "video_failed", `❌ AI video failed (refunded ${j.cost}) — ${error.slice(0, 300)}`, "error")).catch(() => {});
   if (j.cost > 0) await changeCredits({ userId: j.userId, amount: j.cost, type: "REFUND", note: "Automatic refund — AI video failed" }).catch(() => {});
   return j;
@@ -129,12 +130,18 @@ export async function advanceVideo(id: string) {
   }
   // Keep our own copy (fal links expire).
   let url = out.video.url;
+  let bytes: Buffer | undefined;
   try {
     const v = await fetch(url, { signal: AbortSignal.timeout(60000) });
-    if (v.ok) url = await saveFile("videos", Buffer.from(await v.arrayBuffer()), "video/mp4");
+    if (v.ok) {
+      bytes = Buffer.from(await v.arrayBuffer());
+      url = await saveFile("videos", bytes, "video/mp4");
+    }
   } catch {}
   await import("./activity").then((m) => m.logActivity("site", "video_done", `🎬 AI video ready (${j.seconds}s)`)).catch(() => {});
-  return db.videoJob.update({ where: { id: j.id }, data: { status: "done", videoUrl: url } });
+  const done = await db.videoJob.update({ where: { id: j.id }, data: { status: "done", videoUrl: url } });
+  await import("./discord").then((m) => m.logVideo({ jobId: j.id, ok: true, bytes, url })).catch(() => {});
+  return done;
 }
 
 /** Finishes any running jobs (called by the cron so videos complete even if the user left). */

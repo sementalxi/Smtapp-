@@ -61,6 +61,8 @@ export interface FontStyle {
   /** Closest font we have, for the live preview */
   preview: FontKey;
   previewClass: string;
+  /** Google Font used only for the picker preview (loaded on demand). */
+  css?: string;
 }
 
 export const FONT_STYLES: FontStyle[] = [
@@ -80,6 +82,30 @@ export const FONT_STYLES: FontStyle[] = [
   { id: "graffiti", label: "Graffiti", prompt: "hand-sprayed graffiti lettering with real drips, overspray and a thick outline", preview: "brush", previewClass: "" },
   { id: "neon", label: "Neon", prompt: "glowing neon tube lettering with a strong colour glow and reflections", preview: "bebas", previewClass: "uppercase tracking-[0.15em]" },
   { id: "clean", label: "Clean Modern", prompt: "clean modern geometric bold sans-serif", preview: "sans", previewClass: "font-extrabold uppercase" },
+  // ── Cursive / script ──
+  { id: "signature", label: "Signature", prompt: "a flowing elegant signature script, like a pro athlete's autograph signed in thick glossy marker, long confident swashes and a swoosh underline", preview: "brush", previewClass: "", css: "Mr Dafoe" },
+  { id: "retro_script", label: "Retro Script", prompt: "a bold connected retro baseball-jersey script with a tail swash underline, thick outline and hard drop shadow, like a vintage team wordmark", preview: "brush", previewClass: "", css: "Yellowtail" },
+  { id: "kaushan", label: "Street Script", prompt: "an energetic hand-lettered brush script with sharp dry-brush ends and dynamic slant, street-style and aggressive", preview: "brush", previewClass: "", css: "Kaushan Script" },
+  { id: "luxury_script", label: "Luxury Script", prompt: "a luxurious calligraphic copperplate script in real gold foil with fine hairlines, elegant flourishes and a soft glow", preview: "brush", previewClass: "", css: "Great Vibes" },
+  { id: "chicano", label: "Chicano Script", prompt: "a classic chicano / lowrider tattoo script with sharp ornate curls, deep black shading and a thin metallic outline", preview: "gothic", previewClass: "", css: "Pirata One" },
+  { id: "marker", label: "Marker", prompt: "a thick raw hand-drawn permanent-marker lettering, bold and imperfect like a coach's tactics board", preview: "brush", previewClass: "uppercase", css: "Permanent Marker" },
+  { id: "scratch", label: "Scratched", prompt: "a jagged hand-scratched lettering carved fast with a blade, rough edges and sharp strokes, raw and gritty", preview: "brush", previewClass: "", css: "Rock Salt" },
+  { id: "tag", label: "Graffiti Tag", prompt: "a wild graffiti handstyle tag sprayed fast with drips, flared ends and an overspray glow, street-art energy", preview: "brush", previewClass: "", css: "Sedgwick Ave Display" },
+  // ── Bad-ass display ──
+  { id: "blackletter", label: "Old English", prompt: "a sharp classic Old English blackletter with crisp diamond serifs, in deep black with a chrome outline, like a premium streetwear logo", preview: "gothic", previewClass: "", css: "UnifrakturMaguntia" },
+  { id: "metal_band", label: "Metal Band", prompt: "a spiky heavy-metal band logo lettering with dagger-like points and symmetrical thorns, forged in dark chrome", preview: "gothic", previewClass: "", css: "Metal Mania" },
+  { id: "horror", label: "Horror Drip", prompt: "a horror-movie title lettering dripping thick liquid down from every letter, wet and glossy, menacing", preview: "anton", previewClass: "uppercase", css: "Creepster" },
+  { id: "glitch", label: "Glitch", prompt: "a digital glitch lettering with RGB-split chromatic offsets, sliced scan-line displacement and pixel noise, esports-broadcast style", preview: "anton", previewClass: "uppercase", css: "Rubik Glitch" },
+  { id: "speedline", label: "Racing", prompt: "an ultra-fast racing lettering with horizontal speed lines cut through the letters, motorsport-livery style, leaning forward", preview: "anton", previewClass: "uppercase italic", css: "Faster One" },
+  { id: "army", label: "Black Ops", prompt: "a tactical black-ops lettering with chamfered corners and stencil cuts, battle-worn metal plate texture, call-of-duty style", preview: "anton", previewClass: "uppercase", css: "Black Ops One" },
+  { id: "esports", label: "Esports", prompt: "a sharp angular esports team-logo lettering with aggressive cuts, wedges and a double outline, glossy and gaming-premium", preview: "bebas", previewClass: "uppercase", css: "Russo One" },
+  { id: "space", label: "Sci-Fi", prompt: "a wide futuristic sci-fi lettering with rounded squares and thin glowing seams, like a space-movie title", preview: "bebas", previewClass: "uppercase tracking-widest", css: "Orbitron" },
+  { id: "retro80s", label: "Retro 80s", prompt: "an 80s synthwave chrome lettering with a sunset gradient fill, horizontal chrome bands, sharp reflections and a neon pink glow", preview: "bebas", previewClass: "uppercase", css: "Monoton" },
+  { id: "comic", label: "Comic Impact", prompt: "a punchy comic-book impact lettering with a thick black outline, halftone dots and a bold burst behind, slanted and loud", preview: "anton", previewClass: "uppercase", css: "Bangers" },
+  { id: "block3d", label: "3D Block", prompt: "chunky 3D block lettering with deep layered extrusion stripes in the team colours, bold arcade sports style", preview: "anton", previewClass: "uppercase", css: "Bungee Shade" },
+  { id: "roman", label: "Roman Empire", prompt: "a monumental Roman-empire inscription capitals carved in marble with gold inlay, imperial and legendary", preview: "bebas", previewClass: "uppercase tracking-widest", css: "Cinzel Decorative" },
+  { id: "paint_drip", label: "Wet Paint", prompt: "a bold lettering freshly painted with thick wet paint running and dripping, glossy and fresh", preview: "anton", previewClass: "uppercase", css: "Rubik Wet Paint" },
+  { id: "pixel", label: "Pixel Arcade", prompt: "a retro 8-bit pixel-arcade lettering with glowing pixels and scan lines, like a classic video-game title screen", preview: "bebas", previewClass: "uppercase text-sm", css: "Press Start 2P" },
 ];
 
 export const TROPHY_STYLES = [

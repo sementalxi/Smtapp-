@@ -15,6 +15,7 @@ export const LOG_CHANNELS = [
   { key: "RESULT", channel: "results", label: "⚽ Results", labelEs: "⚽ Resultados" },
   { key: "STANDINGS", channel: "standings", label: "📊 Standings", labelEs: "📊 Tablas de posiciones" },
   { key: "EVENT", channel: "tournaments", label: "🎟️ Tournaments / events", labelEs: "🎟️ Torneos / eventos" },
+  { key: "videos", channel: "ai-videos", label: "🎬 AI videos", labelEs: "🎬 Videos con IA" },
   { key: "TEAM", channel: "roster-banners", label: "👥 Roster banners", labelEs: "👥 Banners de plantilla" },
 ] as const;
 export type LogKey = (typeof LOG_CHANNELS)[number]["key"];

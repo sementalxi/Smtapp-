@@ -46,6 +46,47 @@ const LAYOUT_NAMES: Record<string, string> = {
   EVENT: "Tournament / event",
 };
 
+/** 🎬 Logs a finished (or failed) AI video to Discord, with the video attached when it fits. Never throws. */
+export async function logVideo(opts: { jobId: string; ok: boolean; bytes?: Buffer; url?: string; error?: string }) {
+  try {
+    const j = await db.videoJob.findUnique({ where: { id: opts.jobId } });
+    if (!j) return;
+    const [user, banner] = await Promise.all([
+      db.user.findUnique({ where: { id: j.userId }, select: { name: true, email: true, credits: true } }),
+      j.bannerId ? db.banner.findUnique({ where: { id: j.bannerId }, select: { title: true } }) : null,
+    ]);
+    const { hookFor } = await import("./discord-logs");
+    const hook = await hookFor("videos");
+    if (!hook) return;
+    const link = opts.url ? (opts.url.startsWith("/") ? appUrl() + opts.url : opts.url) : "";
+    const attach = opts.ok && opts.bytes && opts.bytes.length < 9.5 * 1024 * 1024;
+    await postToDiscord(
+      {
+        username: "KIXO · AI videos",
+        content: opts.ok && !attach && link ? link : undefined,
+        embeds: [
+          {
+            title: opts.ok ? `🎬 ${banner?.title || "AI video"}` : `❌ AI video failed: ${banner?.title || ""}`,
+            url: `${appUrl()}/admin/banners`,
+            color: opts.ok ? 0xc026d3 : 0xff4d5e,
+            fields: [
+              { name: "User", value: `${user?.name ?? "?"}\n${user?.email ?? ""}`.slice(0, 1000), inline: true },
+              { name: "Video", value: `${j.seconds}s · ${j.model}${j.audio ? " · 🔊 sound" : " · 🔇"}`, inline: true },
+              { name: "Credits", value: opts.ok ? `−${j.cost} (left: ${user?.credits ?? "?"})` : `refunded ${j.cost}`, inline: true },
+              ...(opts.error ? [{ name: "Error", value: opts.error.slice(0, 1000) }] : []),
+            ],
+            timestamp: new Date().toISOString(),
+          },
+        ],
+      },
+      attach ? { bytes: opts.bytes!, name: `kixo-video-${j.id}.mp4`, type: "video/mp4" } : undefined,
+      hook,
+    );
+  } catch (e) {
+    console.error("discord video log failed", e);
+  }
+}
+
 /** Logs a finished (or failed) poster to Discord. Never throws — logging must not break generation. */
 export async function logGeneration(opts: {
   bannerId: string;
