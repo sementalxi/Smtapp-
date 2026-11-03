@@ -20,6 +20,35 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
+  "player-double-threat": `DOUBLE THREAT — a cinematic pro-clubs / esports player card where the player appears twice, like the signing graphics of a top club. Bold, glossy, photoreal.
+
+COLOURS
+- Two colours from the COLOURS line below (one main, one glowing accent — e.g. navy + gold, teal + orange) over deep blacks.
+
+BACKGROUND (dense, cinematic — pick ONE mood each poster)
+- A) a packed ultras end at night: crowd silhouettes with raised arms, burning flares and coloured smoke, big waving flags in the main colour; or
+- B) deep space / cosmic: a starry nebula, a glowing planet edge, electric lightning crackling in the accent colour.
+- Glowing embers, sparks and dust in the air; a WET, glossy reflective floor at the bottom catching the lights.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, outfit):
+1. BEHIND (upper left/centre): a big moody bust of the player, slightly desaturated, calm and confident — arms crossed, finger to the lips "shush", or a cold side look — blended into the background.
+2. IN FRONT (centre-right): a FULL-BODY shot of the player standing on the wet floor in a confident pose (arms crossed, hands on hips or a relaxed stance), sharp, fully lit with a strong rim light in the accent colour and a reflection under the feet.
+- Calm, confident faces — no screaming.
+
+GRAPHIC ELEMENTS
+- UPPER RIGHT: the team crest ONLY if a crest reference image is provided — big, inside a thick polished-chrome ring with glow and sparks; otherwise a large abstract chrome ring/emblem shape with no letters. Never copy a badge from the player's shirt.
+- LEFT, middle: the POSITION in a small bevelled metal tag box with a gold/accent edge.
+- Under it the TEAM NAME (if given) in heavy 3D metal capitals (chrome, gothic-edged or bevelled, accent-colour outline and glow).
+- Then the player NAME huge in tall condensed bold white capitals with a gritty texture, stacked under the team name; the subtitle (if given) in a gold brush script slashing across the bottom of the name.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outlined number (neon-edge) partly behind the full-body figure.
+- The tagline (if given) small and letter-spaced above the team name; the footer (if given) tiny and letter-spaced along the very bottom.
+- Ignore the placement hints in the text list below — follow this layout.
+
+QUALITY
+- Photoreal: real skin, hair and fabric, true lighting and reflections, razor-sharp lettering with real metal materials.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave it out.`,
   "player-liquid-copper": `LIQUID COPPER — a cinematic pro-clubs / esports player card in a teal-and-copper colour grade, like key art from a top club design studio. Epic, glossy, premium.
 
 COLOURS
