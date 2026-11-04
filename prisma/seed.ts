@@ -101,14 +101,14 @@ async function main() {
     await db.setting.create({ data: { key: "packs_off_v1", value: new Date().toISOString() } });
   }
   // One-time (owner's request): no small team-name line on any poster — the team name is typed to save the team, the crest shows it.
-  if (!(await db.setting.findUnique({ where: { key: "no_small_team_name_v2" } }))) {
+  if (!(await db.setting.findUnique({ where: { key: "no_small_team_name_v3" } }))) {
     const all = await db.template.findMany({ select: { id: true, proInstructions: true } });
     for (const t of all) {
       if (!t.proInstructions) continue;
       const fixed = stripSmallTeamName(t.proInstructions);
       if (fixed !== t.proInstructions) await db.template.update({ where: { id: t.id }, data: { proInstructions: fixed } });
     }
-    await db.setting.create({ data: { key: "no_small_team_name_v2", value: new Date().toISOString() } });
+    await db.setting.create({ data: { key: "no_small_team_name_v3", value: new Date().toISOString() } });
   }
   // One-time (owner's request): the original 10 esports player cards stay as they were (restored from any backup
   // made by the earlier esports_cards_v3 step), and the 10 new designs live as their own styles (created above).

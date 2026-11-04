@@ -275,7 +275,7 @@ COLOURS: deep violet, magenta and white (or the team colour in place of purple).
 
 BACKGROUND
 - A purple-lit stadium at night: floodlights at the sides, purple smoke, big glowing purple NEON RINGS and angular glossy purple shapes, a huge faded version of the crest (if provided) behind.
-- A big polished metal TROPHY at the upper right if the tagline or subtitle mentions champions / winners; otherwise glowing light.
+- UPPER RIGHT: the team crest (if provided) echoed LARGE and FADED — a ghosted, semi-transparent version blended into the purple light and smoke (about 25% opacity), partly cut off by the edge. NEVER a trophy, cup, award or medal anywhere on this poster. If no crest is given: glowing light and neon rings only.
 
 THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
 1. BEHIND (centre-left): a huge chest-up bust, intense look, purple rim light, slightly gritty.
@@ -4749,6 +4749,7 @@ const SMALL_TEAM_NAME_FIXES: [string, string][] = [
   ["- The TEAM NAME (if given) in GIANT bold condensed capitals filling the width of the poster behind the player, in a pale tint of the main colour with a soft texture, partly hidden behind the figures and cut off at the edges.", "- The player's NAME (gamertag) in GIANT bold condensed capitals filling the width of the poster behind the player, in a pale tint of the main colour with a soft texture, partly hidden behind the figures and cut off at the edges (a graphic echo of the name)."],
   ["(tagline, subtitle, footer repeated small — never the team name)", "(tagline, subtitle, footer repeated small; nothing else)"],
   ["Write each item once (the giant background team name is the only team-name text).", "Write each item once (the player's name may also appear as the giant background echo)."],
+  ["- A big polished metal TROPHY at the upper right if the tagline or subtitle mentions champions / winners; otherwise glowing light.", "- UPPER RIGHT: the team crest (if provided) echoed LARGE and FADED — a ghosted, semi-transparent version blended into the purple light and smoke (about 25% opacity), partly cut off by the edge. NEVER a trophy, cup, award or medal anywhere on this poster. If no crest is given: glowing light and neon rings only."],
 ];
 
 /** Removes the "team name small / tiny / letter-spaced" lines from a style's design instructions (big design uses stay). */
