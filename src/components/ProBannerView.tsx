@@ -66,7 +66,7 @@ export function ProBannerView({
       setUrl(data.finalUrl);
       router.refresh();
     } else {
-      const known: DictKey[] = ["err_credits", "err_blocked"];
+      const known: DictKey[] = ["err_credits", "err_blocked", "err_ai_down"];
       setError(
         (data.error === "err_photo_blocked"
           ? "⚠ " + (locale === "es" ? "El filtro de seguridad rechazó la foto de este póster (créditos devueltos)." : "The AI's safety filter rejected this poster's photo (credits refunded).")

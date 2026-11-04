@@ -506,7 +506,9 @@ export function CreateWizard({
             ? (locale === "es"
                 ? "El filtro de seguridad de la IA bloqueó este póster (no se cobraron créditos). Prueba con otra foto o cambia palabras fuertes en el texto."
                 : "The AI's safety filter blocked this poster (no credits were charged). Try a different photo or change strong words in the text.") + (data.detail ? ` — ${data.detail}` : "")
-            : (locale === "es" ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : "");
+            : data.error === "err_ai_down"
+              ? (locale === "es" ? "La IA no está disponible por el momento — inténtalo de nuevo en unos minutos. Tus créditos fueron devueltos." : "The AI is temporarily unavailable — please try again in a few minutes. Your credits were refunded.") + (data.detail ? ` — ${data.detail}` : "")
+              : (locale === "es" ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : "");
       setError(msg);
       setPhase("error");
       sfx("error");

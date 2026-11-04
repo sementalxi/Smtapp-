@@ -91,6 +91,8 @@ export function EditDesign({
           ? es ? "No tienes créditos suficientes." : "You don't have enough credits."
           : w.error === "err_blocked" || w.error === "err_photo_blocked"
             ? es ? "El filtro de seguridad de la IA bloqueó este cambio (créditos devueltos)." : "The AI's safety filter blocked this change (credits refunded)."
+            : w.error === "err_ai_down"
+              ? (es ? "La IA no está disponible por el momento — inténtalo de nuevo en unos minutos. Tus créditos fueron devueltos." : "The AI is temporarily unavailable — please try again in a few minutes. Your credits were refunded.") + (w.detail ? ` — ${w.detail}` : "")
             : (es ? "No se pudo editar (créditos devueltos)." : "Couldn't edit it (credits refunded).") + (w.detail ? ` — ${w.detail}` : ""),
       );
     } else {

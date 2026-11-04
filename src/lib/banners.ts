@@ -960,6 +960,14 @@ export async function generateProForBanner(opts: {
     }
     const msg = String(err instanceof Error ? err.message : err).slice(0, 500);
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: false, regenerate: opts.regenerate, error: msg });
+    // Provider out of credits / locked? Tell the admins (DM + live log), once an hour.
+    try {
+      const { providerOutage, alertAdminsOutage } = await import("./ai-alerts");
+      const kind = providerOutage(msg);
+      if (kind) await alertAdminsOutage(kind, msg);
+    } catch {
+      /* never block the refund path */
+    }
     await db.banner.update({
       where: { id: opts.bannerId },
       data: { status: "FAILED", error: msg },

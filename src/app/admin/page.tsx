@@ -1,3 +1,4 @@
+import { OUTAGE_TEXT, providerOutage, type Outage } from "@/lib/ai-alerts";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
@@ -16,6 +17,14 @@ export default async function AdminHome() {
   const es = locale === "es";
   const since = new Date(Date.now() - 30 * 24 * 3600 * 1000);
 
+  // AI provider out of credits / locked in the last 2 hours? (every poster fails until it's topped up)
+  const recentFails = await db.banner.findMany({ where: { status: "FAILED", updatedAt: { gte: new Date(Date.now() - 2 * 60 * 60_000) } }, orderBy: { updatedAt: "desc" }, take: 20, select: { error: true } });
+  const outageKinds: Outage[] = [];
+  for (const f of recentFails) {
+    const k = providerOutage(f.error ?? "");
+    if (k && !outageKinds.includes(k)) outageKinds.push(k);
+  }
+  const outages: string[] = outageKinds.map((k) => `🚨 ${OUTAGE_TEXT[k]}`);
   const [users, banners, revenue, subs, gens, credits, recentTx, newUsers, failed] = await Promise.all([
     db.user.count(),
     db.banner.count(),
@@ -106,6 +115,7 @@ export default async function AdminHome() {
       process.env.NODE_ENV === "production" &&
       (es ? "Las imágenes se guardan en la base de datos (bien para pruebas). Con muchos usuarios, conecta Vercel Blob." : "Images are being stored in the database (fine for testing). For lots of users, connect Vercel Blob storage."),
     failed > 0 && (es ? `${failed} generación(es) fallida(s) en 30 días — mira Banners para ver los errores.` : `${failed} failed generation(s) in the last 30 days — see Banners for errors.`),
+    ...outages,
   ].filter(Boolean) as string[];
 
   const actions = [

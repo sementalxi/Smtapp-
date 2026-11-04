@@ -93,6 +93,8 @@ export function TeamSetForm({
             ? (es ? "El filtro de seguridad de la IA rechazó esta FOTO (créditos devueltos). Usa otra foto." : "The AI's safety filter rejected this PHOTO (credits refunded). Use a different photo.") + (data.detail ? ` — ${data.detail}` : "")
           : data.error === "err_blocked"
             ? (es ? "El filtro de seguridad de la IA bloqueó esta tarjeta (créditos devueltos). Prueba con otra foto." : "The AI's safety filter blocked this card (credits refunded). Try a different photo.") + (data.detail ? ` — ${data.detail}` : "")
+          : data.error === "err_ai_down"
+            ? (es ? "La IA no está disponible por el momento — inténtalo de nuevo en unos minutos. Tus créditos fueron devueltos." : "The AI is temporarily unavailable — please try again in a few minutes. Your credits were refunded.") + (data.detail ? ` — ${data.detail}` : "")
           : (es ? "Algo salió mal." : "Something went wrong.") + (data.detail ? ` — ${data.detail}` : ""),
       );
       setPhase("error");
