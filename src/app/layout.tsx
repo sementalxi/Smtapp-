@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { fontVariables } from "./fonts";
 import { getLocale } from "@/i18n/server";
@@ -11,6 +11,7 @@ import { ComingSoon } from "@/components/ComingSoon";
 import { SupportChat } from "@/components/SupportChat";
 import { SoundEvents } from "@/components/SoundEvents";
 import { KeepAwake } from "@/components/KeepAwake";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
@@ -18,6 +19,8 @@ import { getTextOverrides } from "@/i18n/overrides";
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
 /** Title, description and share picture (Admin → Settings → Link preview). Shown in Google, Discord, iMessage, WhatsApp… */
+export const viewport: Viewport = { themeColor: "#0d090f", width: "device-width", initialScale: 1, viewportFit: "cover" };
+
 export async function generateMetadata(): Promise<Metadata> {
   let st: Record<string, string> = {};
   try {
@@ -89,9 +92,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <KeepAwake />
           <main>{children}</main>
           {(await getCurrentUser().catch(() => null)) && <SupportChat />}
-          <footer className="mt-24 border-t border-line py-8 text-center text-xs text-muted">
-            © {new Date().getFullYear()} {site}
-          </footer>
+          <SiteFooter site={site} />
         </I18nProvider>
       </body>
     </html>

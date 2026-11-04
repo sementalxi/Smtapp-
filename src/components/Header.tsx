@@ -5,7 +5,7 @@ import { LangSwitch } from "./LangSwitch";
 import { NavLinks } from "./NavLinks";
 import { LiveCredits } from "./LiveCredits";
 import { SideMenu, type MenuItem } from "./SideMenu";
-import { getNumberSetting } from "@/lib/settings";
+import { getNumberSetting, getSettings } from "@/lib/settings";
 
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
@@ -24,6 +24,8 @@ export async function Header() {
 
   const es = locale === "es";
   const reward = await getNumberSetting("referral_reward").catch(() => 0);
+  const discordServer = await getSettings().then((s) => s.discord_server).catch(() => "");
+  const discordItem: MenuItem[] = discordServer ? [{ href: discordServer, label: es ? "Únete al Discord" : "Join the Discord", icon: "discord", badge: es ? "Comunidad" : "Community", badgeStyle: "teal" as const }] : [];
   const menu: MenuItem[] = user
     ? [
         { href: "/create", label: es ? "Crear" : "Create", icon: "create", primary: true },
@@ -34,6 +36,7 @@ export async function Header() {
         { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", ...(reward > 0 ? { badge: `+${reward}`, badgeStyle: "teal" as const } : {}) },
         { href: "/profile", label: es ? "Perfil" : "Profile", icon: "profile" },
         { href: "#support", label: es ? "Soporte" : "Support", icon: "support", badge: es ? "En vivo" : "Live" },
+        ...discordItem,
         ...(user.role === "ADMIN" ? [{ href: "/admin", label: "Admin", icon: "admin" as const, badge: es ? "Abrir" : "Open", badgeStyle: "button" as const }] : []),
       ]
     : [
@@ -41,6 +44,7 @@ export async function Header() {
         { href: "/", label: es ? "Inicio" : "Home", icon: "home" },
         { href: "/#styles", label: es ? "Explorar estilos" : "Explore styles", icon: "explore" },
         { href: "/register", label: es ? "Créditos gratis" : "Free credits", icon: "deals", badge: es ? "GRATIS" : "FREE" },
+        ...discordItem,
         { href: "/login", label: es ? "Entrar" : "Log in", icon: "profile" },
       ];
 

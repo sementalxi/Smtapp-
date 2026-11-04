@@ -33,6 +33,9 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />
       </div>
       <div>
+        <label className="label">🔗 {es ? "Enlace de invitación a tu servidor de Discord" : "Your Discord server invite link"}</label>
+        <input className="input" placeholder="https://discord.gg/xxxxx" value={v.discord_server ?? ""} onChange={(e) => setV({ ...v, discord_server: e.target.value })} />
+        <p className="mb-4 mt-1 text-xs text-muted">{es ? "Aparece en el pie de página y en el menú para que la gente se una a tu comunidad." : "Shown in the footer and the menu so people can join your community."}</p>
         <label className="label">{es ? "Créditos extra al registrarse con Discord" : "Extra credits for signing up with Discord"}</label>
         <input type="number" min={0} className="input" value={v.discord_bonus} onChange={(e) => setV({ ...v, discord_bonus: e.target.value })} />
       </div>

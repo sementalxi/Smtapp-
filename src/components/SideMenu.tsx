@@ -19,6 +19,7 @@ const P = {
   admin: <path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6zM9 12l2 2 4-4" />,
   support: <><path d="M4 12a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-2v-6h4M4 12v4a2 2 0 0 0 2 2h2v-6H4" /><path d="M16 18c0 2-2 3-4 3" /></>,
   deals: <><path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8" /><path d="M2 7h20v5H2zM12 21V7" /></>,
+  discord: <><path d="M8.5 17.5c-2.2-.7-3.6-1.7-4.5-2.6.3-4 1.3-7.1 2.6-9.1 1.4-.6 2.6-.9 3.7-1.1l.5 1.1c.8-.1 1.6-.1 2.4 0l.5-1.1c1.1.2 2.3.5 3.7 1.1 1.3 2 2.3 5.1 2.6 9.1-.9.9-2.3 1.9-4.5 2.6l-.9-1.5c-1.6.5-3.5.5-5.2 0z" /><circle cx="9.5" cy="12.5" r="1.1" /><circle cx="14.5" cy="12.5" r="1.1" /></>,
 };
 type IconName = keyof typeof P;
 export type MenuItem = { href: string; label: string; icon: IconName; badge?: string; badgeStyle?: "lime" | "teal" | "button"; primary?: boolean };
@@ -110,6 +111,7 @@ export function SideMenu({
                   key={it.href + it.label}
                   href={it.href}
                   onClick={() => setOpen(false)}
+                  {...(/^https?:/.test(it.href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   style={{ transitionDelay: open ? `${60 + i * 35}ms` : "0ms" }}
                   className={`flex items-center gap-4 rounded-2xl px-4 py-3.5 text-[17px] font-semibold transition-all duration-300 ${open ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"} ${
                     it.primary

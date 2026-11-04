@@ -75,6 +75,49 @@ input[type="range"] {
   accent-color: var(--color-lime);
 }
 
+/* ───── Site-wide polish ───── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* anchors (#styles…) land below the sticky header */
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+* { -webkit-tap-highlight-color: transparent; }
+a, button, [role="button"], input, select, textarea, summary, label { touch-action: manipulation; } /* no double-tap zoom delay */
+:focus-visible { outline: 2px solid var(--color-lime); outline-offset: 2px; border-radius: 0.5rem; }
+::selection { background: rgba(255, 46, 136, 0.35); color: #fff; }
+/* iPhones zoom in on any field smaller than 16px — keep fields at 16px on phones */
+@media (max-width: 640px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), select, textarea { font-size: 16px !important; }
+}
+/* Loading placeholders */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: var(--color-panel-2);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  animation: kixo-shimmer 1.4s ease-in-out infinite;
+}
+/* Sticky step bar in the creator */
+.kixo-stepbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin: 1.5rem -1.25rem -1.25rem;
+  padding: 0.75rem 1.25rem calc(0.75rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-line);
+  border-radius: 0 0 1rem 1rem;
+  background: color-mix(in srgb, var(--color-panel) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 /* Generation progress: scanning light + bar shimmer */
 @keyframes kixo-scan {
   0% { top: -6rem; }

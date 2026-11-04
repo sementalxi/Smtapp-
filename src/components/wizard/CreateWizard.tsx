@@ -547,17 +547,20 @@ export function CreateWizard({
   );
 
   const nav = ({ canNext, onNext, nextLabel }: { canNext: boolean; onNext: () => void; nextLabel?: string }) => (
-    <div className="mt-6 flex items-center justify-between">
+    <div className="kixo-stepbar flex items-center justify-between gap-3">
       {step > 1 ? (
-        <button type="button" className="text-sm text-muted hover:text-white" onClick={() => setStep(step - 1)}>
+        <button type="button" className="rounded-lg px-2 py-2 text-sm font-semibold text-muted hover:text-white" onClick={() => setStep(step - 1)}>
           ‹ {L.back}
         </button>
       ) : (
         <span />
       )}
-      <button type="button" className="btn-primary" disabled={!canNext} onClick={onNext}>
-        {nextLabel ?? L.next} ›
-      </button>
+      <div className="flex items-center gap-3">
+        {!canNext && <span className="hidden text-[11px] text-muted sm:inline">{L.required}</span>}
+        <button type="button" className="btn-primary min-w-32 py-3" disabled={!canNext} onClick={onNext}>
+          {nextLabel ?? L.next} ›
+        </button>
+      </div>
     </div>
   );
 

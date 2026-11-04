@@ -49,7 +49,7 @@ export async function PricingCards({ user }: { user: CurrentUser | null }) {
                   {p.quality === "high" ? (locale === "es" ? "💎 IA Pro de máxima calidad" : "💎 Best-quality Pro AI") : p.quality === "low" ? (locale === "es" ? "⚡ IA Pro rápida" : "⚡ Fast Pro AI") : locale === "es" ? "✨ IA Pro estándar" : "✨ Standard Pro AI"}
                 </p>
                 {(() => {
-                  const feats = ((locale === "es" ? p.featuresEs || p.features : p.features) ?? "").split("\n").map((x) => x.trim()).filter(Boolean);
+                  const feats = ((locale === "es" ? p.featuresEs || p.features : p.features) ?? "").split("\n").map((x) => x.trim().replace(/^[^\p{L}\p{N}$#@]+/u, "").trim()).filter(Boolean);
                   return feats.length ? (
                     <ul className="-mt-3 mb-6 space-y-1.5 text-sm">
                       {feats.map((f) => (

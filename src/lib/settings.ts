@@ -10,6 +10,7 @@ export const SETTING_DEFAULTS = {
   max_upload_mb: "10",
   maintenance_message: "",
   discord_webhook: "",
+  discord_server: "",
   hero_1: "",
   hero_2: "",
   hero_3: "",
