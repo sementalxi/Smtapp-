@@ -7,6 +7,7 @@ import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./sto
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation } from "./pro-options";
+import sharp from "sharp";
 import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
 import { FORMATION_ROWS } from "./formations";
@@ -756,6 +757,12 @@ export async function generateProForBanner(opts: {
   // Saved right away (also when it fails) so admins can read exactly what the AI was asked.
   await db.banner.update({ where: { id: opts.bannerId }, data: { prompt: opts.prompt.slice(0, 40000) } }).catch(() => {});
   let usedModel = "OpenAI GPT Image";
+  // The whole job must finish inside the server's 300 s limit — every AI step gets a share of the time
+  // that is left, so a slow step never leaves the poster stuck "Generating…" (it fails and refunds instead).
+  const started = Date.now();
+  const TOTAL_MS = 272_000;
+  const left = () => TOTAL_MS - (Date.now() - started);
+  const clamp = (ms: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, ms));
   try {
     const images: { bytes: Buffer; type: string }[] = [];
     for (const r of opts.refs.filter((x) => !x.overlay)) {
@@ -775,26 +782,33 @@ export async function generateProForBanner(opts: {
     if (!opts.edit && mixModes.includes(posterModel)) {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
-        const t0 = Date.now();
         try {
           // The admin's "Design instructions for the AI" — every step of the mix reads them.
           const director = (opts.instructions ?? "").trim().slice(0, 20000);
           const artStep = posterModel === "flux-mix" ? fb.fluxPoster : posterModel === "seedream-mix" ? fb.seedreamArt : fb.nanoBananaArt;
+          // Art step: leave at least ~105 s for the text step (and FLUX in between).
           let artRes = await artStep(
             `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.`,
             refUrls,
             opts.format,
             isWide,
+            clamp(left() - 105_000, 45_000, 160_000),
           );
           // ALL 3: FLUX.2 makes Nano Banana's art look like a real photo shoot (keeps it identical).
-          if (posterModel === "mix3" || posterModel === "seedream-mix") {
+          // Only when there is still time for it AND the text step afterwards.
+          if ((posterModel === "mix3" || posterModel === "seedream-mix") && left() > 135_000) {
             try {
-              artRes = await fb.fluxRealism(artRes.url, opts.format, isWide, director);
+              artRes = await fb.fluxRealism(artRes.url, opts.format, isWide, director, clamp(left() - 85_000, 40_000, 120_000));
             } catch (e) {
               await import("./activity").then((mm) => mm.logActivity("site", "mix3", `⚠️ FLUX.2 realism step skipped: ${(e instanceof Error ? e.message : String(e)).slice(0, 160)}`, "warn")).catch(() => {});
             }
+          } else if (posterModel === "mix3" || posterModel === "seedream-mix") {
+            await import("./activity").then((mm) => mm.logActivity("site", "mix3", "⏱️ FLUX.2 realism step skipped — not enough time left (the art step was slow)", "warn")).catch(() => {});
           }
-          const art = artRes.buf;
+          // The text model works at the poster's output size — send it the art at that size (faster upload, same detail).
+          const sizesForText = fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : ["1632x2040", "1088x1360", "1024x1536"]);
+          const [tw, th] = sizesForText[0].split("x").map(Number);
+          const art = await sharp(artRes.buf).resize({ width: tw, height: th, fit: "inside", withoutEnlargement: true }).png().toBuffer().catch(() => artRes.buf);
           const keep = opts.prompt
             .split("\n\n")
             .filter((sec) => /^(USER CHOICES|TITLE FONT|NAMES FONT|Write generic words|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
@@ -808,7 +822,12 @@ export async function generateProForBanner(opts: {
             keep,
             `Spell every item exactly, letter for letter, each once. Add no other words.`,
           ].filter(Boolean).join("\n\n");
-          poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], quality, fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : undefined), 280_000 - (Date.now() - t0));
+          // Text step: full quality when there is time; a faster pass (medium quality, standard size) when the art steps were slow.
+          const textBudget = left() - 6_000;
+          if (textBudget < 50_000) throw new Error(`out of time before the text step (${Math.round((Date.now() - started) / 1000)} s used)`);
+          const fast = textBudget < 115_000;
+          poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], fast ? "medium" : quality, fast ? [...sizesForText].reverse() : sizesForText, textBudget);
+          if (fast) await import("./activity").then((mm) => mm.logActivity("site", "mix", "⏱️ Text step ran in fast mode (the art steps used most of the time)", "warn")).catch(() => {});
           made = true;
           usedModel = posterModel === "seedream-mix" ? "Seedream Mix: Seedream art + FLUX.2 realism + OpenAI text" : posterModel === "mix3" ? "All 3: Nano Banana art + FLUX.2 realism + OpenAI text" : posterModel === "flux-mix" ? "Mix: FLUX.2 Pro art + OpenAI text" : "Mix: Nano Banana Pro art + OpenAI text";
         } catch (e) {
@@ -840,10 +859,11 @@ export async function generateProForBanner(opts: {
         }
       }
     }
+    if (!made && left() < 75_000) throw new Error(`The AI steps took too long (${Math.round((Date.now() - started) / 1000)} s) — please try again.`);
     if (!made) try {
       // Wide styles ([WIDE] in the art director's instructions) are made in landscape.
       const wide = fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["2304x1536", "1536x1024"] : undefined);
-      poster = await generatePoster(opts.prompt, images, quality, wide);
+      poster = await generatePoster(opts.prompt, images, left() < 115_000 ? "medium" : quality, wide, left() - 5_000);
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
       // Still blocked after the text retries: one of the extra images (style reference, logo, trophy)
@@ -866,7 +886,8 @@ export async function generateProForBanner(opts: {
         .filter((sec) => !/^Reference image (?!1 )\d+ is /.test(sec.trim()))
         .join("\n\n");
       try {
-        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["2304x1536", "1536x1024"] : undefined));
+        if (left() < 60_000) throw e;
+        poster = await generatePoster(onlyFirst, images.slice(0, 1), left() < 115_000 ? "medium" : quality, fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["2304x1536", "1536x1024"] : undefined), left() - 5_000);
       } catch (e2) {
         const m2 = e2 instanceof Error ? e2.message : String(e2);
         if (/moderation_blocked|safety system/i.test(m2)) {
@@ -877,7 +898,6 @@ export async function generateProForBanner(opts: {
             const b = await fb.backupPoster(opts.prompt, refUrls, opts.format, isWide);
             poster = b.buf;
             usedModel = `${b.model} (backup)`;
-          usedModel = `${b.model} (backup)`;
             await import("./activity").then((m) => m.logActivity("site", "fallback", `🛟 OpenAI refused the photo — made with the backup generator (${b.model}) instead`)).catch(() => {});
           } catch (e3) {
             throw new Error(`PHOTO_BLOCKED: the photo was rejected by OpenAI's safety filter and the backup generator. ${m2} | ${e3 instanceof Error ? e3.message : e3}`);

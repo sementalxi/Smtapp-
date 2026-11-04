@@ -239,7 +239,14 @@ export function CreateWizard({
   const [tplId, setTplId] = useState<string | null>(null);
   const tpl = styles.find((t) => t.id === tplId) ?? null;
   // Team logo category: "create a new logo" styles vs "show off my logo" styles.
-  const logoCreate = layout === "LOGO" && !!tpl && /^logo-new-/.test(tpl.slug);
+  const logoCreate = layout === "LOGO" && !!tpl && (tpl.logoCreate || /^logo-new-/.test(tpl.slug));
+  // Wide styles always come out as a 16:9 banner (the size picker is hidden for them).
+  const wideStyle = !!tpl?.wide;
+  useEffect(() => {
+    if (wideStyle) setFormat("banner");
+    else if (format === "banner" && tpl && !tpl.wide) setFormat("post");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tplId]);
 
   const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English" });
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
@@ -704,6 +711,9 @@ export function CreateWizard({
                 className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
                 <TemplateThumb template={s} eager={styles.indexOf(s) < 4} />
+                {s.wide && (
+                  <span className="absolute top-1.5 right-1.5 rounded-md bg-ink/80 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow backdrop-blur">▭ Banner 16:9</span>
+                )}
                 {s.badge === "recommended" && (
                   <span className="absolute top-1.5 left-1.5 rounded-md bg-lime px-1.5 py-0.5 text-[10px] font-black uppercase text-ink shadow">⭐ {locale === "es" ? "Recomendado" : "Recommended"}</span>
                 )}
@@ -1218,6 +1228,8 @@ export function CreateWizard({
                   {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
                   {logoCreate ? (
                     <p className="mt-5 text-xs text-muted">⬛ {locale === "es" ? "El logo se hace cuadrado (1:1)." : "The logo is made square (1:1)."}</p>
+                  ) : wideStyle ? (
+                    <p className="mt-5 text-xs text-muted">▭ {locale === "es" ? "Este estilo es de tamaño banner (16:9)." : "This style is banner size (16:9)."}</p>
                   ) : (
                   <div className="mt-5 grid grid-cols-3 gap-2">
                     {([["post", "4:5", es5 ? "Post" : "Post", "aspect-[4/5] w-5"], ["story", "9:16", es5 ? "Historia" : "Story", "aspect-[9/16] w-4"], ["banner", "16:9", "Banner", "aspect-[16/9] w-8"]] as const).map(([k, r, l, box]) => (
@@ -1233,7 +1245,13 @@ export function CreateWizard({
                   <button type="button" className="btn-primary mt-5 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
                     {phase === "error" ? "↻" : "✨"} {L.generate}
                   </button>
-                  <p className="mt-2 text-[11px] text-muted">{locale === "es" ? "Tarda 1–2 minutos" : "Takes 1–2 minutes"}</p>
+                  <p className="mt-2 text-[11px] text-muted">
+                    {(() => {
+                      const lo = Math.max(1, Math.round((expectedSeconds * 0.6) / 60));
+                      const hi = Math.max(lo + 1, Math.round((expectedSeconds * 1.3) / 60));
+                      return locale === "es" ? `Tarda ${lo}–${hi} minutos — la IA se toma su tiempo para la mejor calidad` : `Takes ${lo}–${hi} minutes — the AI takes its time for the best quality`;
+                    })()}
+                  </p>
                   {credits < cost && (
                     <Link href="/pricing" className="btn-ghost mt-3 w-full">{L.getCredits}</Link>
                   )}

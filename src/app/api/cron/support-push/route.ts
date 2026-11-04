@@ -36,6 +36,8 @@ export async function GET(req: NextRequest) {
   const todo = await db.user.findMany({ where: { discordId: { not: null }, discordUser: null }, select: { id: true, discordId: true }, take: 25 });
   let synced = 0;
   for (const u of todo) if (await syncDiscordProfile(u.id, u.discordId!).catch(() => false)) synced++;
+  // Posters whose generation died (server limit, crash): mark failed + refund automatically.
+  await import("@/lib/banners").then((m) => m.reapStale()).catch(() => {});
   // Finish AI videos in the background.
   const videos = await import("@/lib/ai-video").then((m) => m.advanceAllVideos()).catch(() => 0);
   return json({ ok: true, tickets: tickets.length, pushed, synced, videos });

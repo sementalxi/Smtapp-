@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
-import { DesignSchema, InputsSchema, titleFor, toJson } from "@/lib/banners";
+import { DesignSchema, InputsSchema, titleFor, toJson, reapStale } from "@/lib/banners";
 import { deleteFile } from "@/lib/storage";
 import { EMPTY_INPUTS } from "@/lib/templates";
 
@@ -19,7 +19,12 @@ async function ownBanner(id: string, userId: string, isAdmin: boolean) {
 export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
   const user = await apiUser();
   const { id } = await params;
-  const b = await ownBanner(id, user.id, user.role === "ADMIN");
+  let b = await ownBanner(id, user.id, user.role === "ADMIN");
+  // Still "generating" after 8 minutes = the job died → fail it and refund now (don't make the user wait).
+  if (b.status === "PROCESSING" && Date.now() - b.createdAt.getTime() > 8 * 60_000) {
+    await reapStale(b.userId).catch(() => {});
+    b = await ownBanner(id, user.id, user.role === "ADMIN");
+  }
   const err = b.error ?? "";
   const error = !err ? null : err === "err_credits" ? "err_credits" : /PHOTO_BLOCKED/.test(err) ? "err_photo_blocked" : /moderation|safety system|err_blocked/i.test(err) ? "err_blocked" : "err_generic";
   return json({

@@ -26,5 +26,7 @@ export async function activeTemplates(viewer?: { role?: string; isOrg?: boolean 
     thumbUrl: r.thumbUrl,
     hasInstructions: !!r.proInstructions?.trim(),
     badge: r.badge,
+    wide: /\[WIDE\]/.test(r.proInstructions ?? ""),
+    logoCreate: /\[LOGO CREATE\]/.test(r.proInstructions ?? ""),
   }));
 }
