@@ -34,7 +34,7 @@ export function EditDesign({
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
-  const [parts, setParts] = useState<Part[]>([]);
+  const [tab, setTab] = useState<Part>("text");
   const [text, setText] = useState(initial);
   const [colors, setColors] = useState<{ c1: string; c2?: string } | null>(null);
   const [scene, setScene] = useState("");
@@ -46,26 +46,19 @@ export function EditDesign({
   const [barDone, setBarDone] = useState(false);
   const [genStage, setGenStage] = useState<string | null>(null);
 
-  const PARTS: { id: Part; icon: string; en: string; es: string }[] = [
+  const TABS: { id: Part; icon: string; en: string; es: string }[] = [
     { id: "text", icon: "🔤", en: "Text", es: "Texto" },
     { id: "colors", icon: "🎨", en: "Colors", es: "Colores" },
     { id: "background", icon: "🌆", en: "Background", es: "Fondo" },
     { id: "photo", icon: "🧍", en: "Photo", es: "Foto" },
     { id: "logo", icon: "🛡️", en: "Logo", es: "Logo" },
+    { id: "other", icon: "✍️", en: "Describe", es: "Describir" },
   ];
-  const toggle = (p: Part) => setParts((x) => (x.includes(p) ? x.filter((y) => y !== p) : [...x, p]));
-  const has = (p: Part) => parts.includes(p);
 
   const changedText = Object.fromEntries(
     Object.entries(text).filter(([k, v]) => typeof v === "string" && v !== (initial as unknown as Record<string, unknown>)[k] && k !== "extraPrompt"),
   ) as Record<string, string>;
-  const ready =
-    (has("text") && Object.keys(changedText).length > 0) ||
-    (has("colors") && !!colors) ||
-    (has("background") && !!scene) ||
-    (has("photo") && !!photo) ||
-    (has("logo") && !!logo) ||
-    note.trim().length > 2;
+  const ready = Object.keys(changedText).length > 0 || !!colors || !!scene || !!photo || !!logo || note.trim().length > 2;
 
   async function apply() {
     setBusy(true);
@@ -76,11 +69,11 @@ export function EditDesign({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        ...(has("text") ? { text: changedText } : {}),
-        ...(has("colors") && colors ? { colors } : {}),
-        ...(has("background") && scene ? { scene } : {}),
-        ...(has("photo") && photo ? { photoUrl: photo } : {}),
-        ...(has("logo") && logo ? { logoUrl: logo } : {}),
+        ...(Object.keys(changedText).length ? { text: changedText } : {}),
+        ...(colors ? { colors } : {}),
+        ...(scene ? { scene } : {}),
+        ...(photo ? { photoUrl: photo } : {}),
+        ...(logo ? { logoUrl: logo } : {}),
         ...(note.trim() ? { note: note.trim() } : {}),
       }),
     });
@@ -123,114 +116,197 @@ export function EditDesign({
     );
   }
 
+  const pending = {
+    text: Object.keys(changedText).length,
+    colors: colors ? 1 : 0,
+    background: scene ? 1 : 0,
+    photo: photo ? 1 : 0,
+    logo: logo ? 1 : 0,
+    other: note.trim().length > 2 ? 1 : 0,
+  };
+  const total = Object.values(pending).reduce((a, b) => a + b, 0);
+  const summary = [
+    pending.text ? (es ? `Texto (${pending.text})` : `Text (${pending.text})`) : "",
+    colors ? (es ? "Colores" : "Colors") : "",
+    scene ? `${es ? "Fondo" : "Background"}: ${(() => { const b = BG_SCENES.find((x) => x.id === scene); return b ? (es ? b.es : b.en) : scene; })()}` : "",
+    photo ? (es ? "Foto nueva" : "New photo") : "",
+    logo ? (es ? "Logo nuevo" : "New logo") : "",
+    pending.other ? (es ? "Tu nota" : "Your note") : "",
+  ].filter(Boolean);
+  const addFix = (line: string) => setNote((n) => (n.includes(line) ? n : `${n.trim()}${n.trim() ? ". " : ""}${line}`));
+
   return (
-    <section className="card space-y-4 border-lime/30 p-5">
-      <div>
-        <h2 className="text-lg font-extrabold">✏️ {es ? "Editar este diseño" : "Edit this design"}</h2>
-        <p className="text-xs text-muted">
-          {es
-            ? "Toca lo que quieres cambiar. La IA edita este mismo póster y deja todo lo demás igual. Se guarda como una versión nueva — el original no se pierde."
-            : "Tap what you want to change. The AI edits this same poster and keeps everything else the same. It's saved as a new version — the original stays."}
-        </p>
+    <section className="card overflow-hidden border-lime/30">
+      <div className="flex items-start justify-between gap-3 p-4 pb-3 sm:p-5 sm:pb-3">
+        <div className="min-w-0">
+          <h2 className="text-lg font-extrabold">✏️ {es ? "Editar este diseño" : "Edit this design"}</h2>
+          <p className="text-xs text-muted">
+            {es
+              ? "Cambia solo lo que elijas — el resto del póster se queda igual. Se guarda como versión nueva; el original no se pierde."
+              : "Only what you pick changes — the rest of the poster stays the same. Saved as a new version; the original stays."}
+          </p>
+        </div>
+        {total > 0 && (
+          <span className="shrink-0 rounded-full border border-lime/50 bg-lime/10 px-2.5 py-1 text-[11px] font-bold text-lime">
+            {total} {es ? (total === 1 ? "cambio" : "cambios") : total === 1 ? "change" : "changes"}
+          </span>
+        )}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-        {PARTS.map((p) => (
-          <button
-            key={p.id}
-            type="button"
-            onClick={() => toggle(p.id)}
-            className={`rounded-xl border px-2 py-3 text-center text-sm font-bold transition ${has(p.id) ? "border-lime bg-lime/10 text-lime" : "border-line bg-panel-2 hover:border-muted"}`}
-          >
-            <span className="block text-xl">{p.icon}</span>
-            {es ? p.es : p.en}
-          </button>
-        ))}
-      </div>
-
-      {has("text") && (
-        <div className="space-y-3 rounded-xl border border-line p-4">
-          <div className="text-xs font-bold uppercase tracking-wider text-muted">🔤 {es ? "Texto" : "Text"}</div>
-          <TextFields layout={layout} value={text} onChange={setText} />
-        </div>
-      )}
-
-      {has("colors") && (
-        <div className="space-y-2 rounded-xl border border-line p-4">
-          <div className="text-xs font-bold uppercase tracking-wider text-muted">🎨 {es ? "Nuevos colores" : "New colors"}</div>
-          <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
-            {PALETTES.map(([name, c1, c2, dark]) => (
-              <button
-                key={name}
-                type="button"
-                title={name}
-                onClick={() => setColors({ c1, c2 })}
-                className={`h-11 rounded-lg border-2 ${colors?.c1 === c1 && colors?.c2 === c2 ? "border-white" : "border-line"}`}
-                style={{ background: `linear-gradient(135deg, ${c1} 0 45%, ${c2} 45% 75%, ${dark} 75%)` }}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {has("background") && (
-        <div className="space-y-2 rounded-xl border border-line p-4">
-          <div className="text-xs font-bold uppercase tracking-wider text-muted">🌆 {es ? "Nuevo fondo" : "New background"}</div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {BG_SCENES.map((b) => (
-              <button
-                key={b.id}
-                type="button"
-                onClick={() => setScene(b.id)}
-                className={`rounded-lg border px-3 py-2.5 text-left text-sm ${scene === b.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
-              >
-                {b.icon} {es ? b.es : b.en}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {has("photo") && (
-        <div className="rounded-xl border border-line p-4">
-          <ImageDrop kind="photo" label={es ? "🧍 Nueva foto del jugador" : "🧍 New player photo"} value={photo} onChange={setPhoto} searchQuery={initial.name} />
-        </div>
-      )}
-
-      {has("logo") && (
-        <div className="rounded-xl border border-line p-4">
-          <ImageDrop kind="logo" label={es ? "🛡️ Nuevo logo del equipo" : "🛡️ New team logo"} value={logo} onChange={setLogo} searchQuery={initial.team} />
-        </div>
-      )}
-
-      {(
-        <div className="space-y-2 rounded-xl border border-line p-4">
-          <div className="text-xs font-bold uppercase tracking-wider text-muted">✍️ {es ? "Describe el cambio (la imagen se queda igual)" : "Describe the change (the image stays the same)"}</div>
-          <textarea
-            className="input min-h-20"
-            maxLength={1000}
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder={es ? "ej. Cambia los colores a azul y blanco, haz el título más grande, quita el humo de la izquierda" : "e.g. Change the colors to blue and white, make the title bigger, remove the smoke on the left"}
-          />
-        </div>
-      )}
-
-      {(parts.length > 0 || note.trim().length > 0) && (
-        <div>
-          {credits >= cost ? (
-            <button type="button" className="btn-primary w-full py-3" disabled={!ready} onClick={apply}>
-              ✨ {es ? "Aplicar cambios" : "Apply changes"} · {cost} {es ? "créditos" : "credits"}
+      {/* Tabs — one panel at a time, a dot on the ones with pending changes */}
+      <div className="-mx-1 flex gap-1.5 overflow-x-auto px-4 pb-3 sm:px-5 [scrollbar-width:none]">
+        {TABS.map((p) => {
+          const on = tab === p.id;
+          const dot = pending[p.id] > 0;
+          return (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => setTab(p.id)}
+              className={`relative flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-bold transition ${on ? "border-lime bg-lime text-ink" : "border-line bg-panel-2 text-white/85 hover:border-muted"}`}
+            >
+              <span>{p.icon}</span>
+              {es ? p.es : p.en}
+              {dot && <span className={`ml-0.5 h-2 w-2 rounded-full ${on ? "bg-ink" : "bg-lime"}`} />}
             </button>
-          ) : (
-            <Link href="/pricing" className="btn-ghost w-full">
-              {es ? "Comprar créditos" : "Get credits"}
-            </Link>
-          )}
-          {!ready && <p className="mt-1 text-center text-xs text-muted">{es ? "Completa lo que elegiste arriba." : "Fill in what you picked above."}</p>}
-        </div>
-      )}
-      {err && <p className="text-sm text-danger">{err}</p>}
+          );
+        })}
+      </div>
+
+      <div className="border-t border-line bg-panel-2/40 p-4 sm:p-5">
+        {tab === "text" && (
+          <div className="space-y-3">
+            <PanelHead title={es ? "Cambia cualquier texto" : "Change any text"} hint={es ? "Solo se reescribe lo que edites." : "Only the fields you edit get rewritten."} onReset={pending.text ? () => setText(initial) : undefined} es={es} />
+            <TextFields layout={layout} value={text} onChange={setText} />
+          </div>
+        )}
+
+        {tab === "colors" && (
+          <div className="space-y-3">
+            <PanelHead title={es ? "Nuevos colores" : "New colors"} hint={es ? "Luces, fondo, título y efectos se recolorean." : "Lighting, background, title and effects get recoloured."} onReset={colors ? () => setColors(null) : undefined} es={es} />
+            <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
+              {PALETTES.map(([name, c1, c2, dark]) => {
+                const on = colors?.c1 === c1 && colors?.c2 === c2;
+                return (
+                  <button
+                    key={name}
+                    type="button"
+                    title={name}
+                    onClick={() => setColors(on ? null : { c1, c2 })}
+                    className={`relative h-12 rounded-xl border-2 transition ${on ? "scale-105 border-white shadow-[0_0_18px_-4px_rgba(255,255,255,0.8)]" : "border-line hover:border-muted"}`}
+                    style={{ background: `linear-gradient(135deg, ${c1} 0 45%, ${c2} 45% 75%, ${dark} 75%)` }}
+                  >
+                    {on && <span className="absolute inset-0 grid place-items-center text-lg drop-shadow">✓</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {tab === "background" && (
+          <div className="space-y-3">
+            <PanelHead title={es ? "Nuevo fondo" : "New background"} hint={es ? "El jugador, el texto y el estilo se quedan." : "The player, text and style stay."} onReset={scene ? () => setScene("") : undefined} es={es} />
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {BG_SCENES.map((b) => {
+                const on = scene === b.id;
+                return (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setScene(on ? "" : b.id)}
+                    className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-sm font-semibold transition ${on ? "border-lime bg-lime/10 text-lime" : "border-line bg-panel-2 hover:border-muted"}`}
+                  >
+                    <span className="text-lg">{b.icon}</span> {es ? b.es : b.en}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {tab === "photo" && (
+          <div className="space-y-3">
+            <PanelHead title={es ? "Otra foto del jugador" : "Another player photo"} hint={es ? "La IA rehace el recorte con la foto nueva." : "The AI redoes the cut-out with the new photo."} onReset={photo ? () => setPhoto(null) : undefined} es={es} />
+            <ImageDrop kind="photo" label={es ? "🧍 Nueva foto" : "🧍 New photo"} value={photo} onChange={setPhoto} searchQuery={initial.name} />
+          </div>
+        )}
+
+        {tab === "logo" && (
+          <div className="space-y-3">
+            <PanelHead title={es ? "Otro logo del equipo" : "Another team logo"} hint={es ? "Se coloca tal cual, sin redibujar." : "Placed exactly as uploaded, never redrawn."} onReset={logo ? () => setLogo(null) : undefined} es={es} />
+            <ImageDrop kind="logo" label={es ? "🛡️ Nuevo logo" : "🛡️ New logo"} value={logo} onChange={setLogo} searchQuery={initial.team} />
+          </div>
+        )}
+
+        {tab === "other" && (
+          <div className="space-y-3">
+            <PanelHead title={es ? "Dile a la IA qué cambiar" : "Tell the AI what to change"} hint={es ? "Toca un arreglo rápido o escribe el tuyo." : "Tap a quick fix or write your own."} onReset={note ? () => setNote("") : undefined} es={es} />
+            <div className="flex flex-wrap gap-1.5">
+              {QUICK_FIXES.map((f) => (
+                <button key={f.en} type="button" onClick={() => addFix(es ? f.es : f.en)} className="rounded-full border border-line bg-panel-2 px-3 py-1.5 text-xs font-semibold transition hover:border-lime/60 hover:text-lime">
+                  {f.icon} {es ? f.es : f.en}
+                </button>
+              ))}
+            </div>
+            <textarea
+              className="input min-h-24"
+              maxLength={1000}
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder={es ? "ej. Haz el título más grande, quita el humo de la izquierda, el jugador más nítido" : "e.g. Make the title bigger, remove the smoke on the left, sharper player"}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Summary + apply */}
+      <div className="border-t border-line p-4 sm:p-5">
+        {summary.length > 0 ? (
+          <p className="mb-2 text-xs text-muted">
+            <span className="font-bold text-white/80">{es ? "Cambiando:" : "Changing:"}</span> {summary.join(" · ")}
+          </p>
+        ) : (
+          <p className="mb-2 text-xs text-muted">{es ? "Elige una pestaña y cambia algo — todo lo demás se queda igual." : "Pick a tab and change something — everything else stays the same."}</p>
+        )}
+        {credits >= cost ? (
+          <button type="button" className="btn-primary w-full py-3 disabled:opacity-50" disabled={!ready} onClick={apply}>
+            ✨ {es ? "Aplicar cambios" : "Apply changes"} · {cost} {es ? "créditos" : "credits"}
+          </button>
+        ) : (
+          <Link href="/pricing" className="btn-ghost w-full">
+            {es ? "Comprar créditos" : "Get credits"}
+          </Link>
+        )}
+        {err && <p className="mt-2 text-sm text-danger">{err}</p>}
+      </div>
     </section>
   );
 }
+
+function PanelHead({ title, hint, onReset, es }: { title: string; hint: string; onReset?: () => void; es: boolean }) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <div>
+        <div className="text-sm font-bold">{title}</div>
+        <div className="text-[11px] text-muted">{hint}</div>
+      </div>
+      {onReset && (
+        <button type="button" onClick={onReset} className="shrink-0 text-xs font-bold text-muted hover:text-white">
+          ↺ {es ? "Deshacer" : "Reset"}
+        </button>
+      )}
+    </div>
+  );
+}
+
+const QUICK_FIXES: { icon: string; en: string; es: string }[] = [
+  { icon: "🔠", en: "Make the name bigger", es: "Haz el nombre más grande" },
+  { icon: "✅", en: "Fix the spelling of the text", es: "Corrige la ortografía del texto" },
+  { icon: "🧹", en: "Remove any extra words", es: "Quita cualquier palabra extra" },
+  { icon: "🧑", en: "Make the face more realistic", es: "Haz la cara más realista" },
+  { icon: "☀️", en: "Brighter and more contrast", es: "Más brillo y contraste" },
+  { icon: "🌫️", en: "Calmer, less busy background", es: "Fondo más calmado, menos cargado" },
+  { icon: "🏃", en: "A different pose for the player", es: "Otra pose para el jugador" },
+  { icon: "🛡️", en: "Make the crest bigger", es: "Haz el escudo más grande" },
+];
