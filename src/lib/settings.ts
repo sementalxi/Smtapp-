@@ -33,6 +33,13 @@ export const SETTING_DEFAULTS = {
   video_cost_5: "10",
   video_cost_10: "18",
   video_cost_audio: "5",
+  daily_on: "1",
+  daily_credits: "1",
+  daily_streak_bonus: "3",
+  daily_title: "Daily reward",
+  daily_text: "Come back every day and claim your free credits. Keep your streak going!",
+  daily_title_es: "Recompensa diaria",
+  daily_text_es: "Vuelve cada día y reclama tus créditos gratis. ¡Mantén tu racha!",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

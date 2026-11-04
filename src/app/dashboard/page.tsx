@@ -9,6 +9,7 @@ import { ART_TYPES } from "@/lib/pro-options";
 import { visibleCategories } from "@/lib/categories";
 import { AccountShell } from "@/components/account/AccountShell";
 import { TypeIcon } from "@/components/wizard/TypeIcon";
+import { DailyReward } from "@/components/DailyReward";
 
 export const metadata = { title: "Home" };
 
@@ -73,6 +74,10 @@ export default async function DashboardPage() {
             <div className="mt-1 text-xl font-extrabold">{value}</div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-4">
+        <DailyReward variant="card" />
       </div>
 
       <div className="mt-7 mb-3 flex items-end justify-between">

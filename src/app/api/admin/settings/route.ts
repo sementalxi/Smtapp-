@@ -32,6 +32,13 @@ const Body = z.object({
   video_cost_10: z.coerce.number().int().min(0).max(1000).optional(),
   video_cost_audio: z.coerce.number().int().min(0).max(500).optional(),
   site_description: z.string().trim().max(300).optional(),
+  daily_on: z.enum(["0", "1"]).optional(),
+  daily_credits: z.coerce.number().int().min(0).max(1000).optional(),
+  daily_streak_bonus: z.coerce.number().int().min(0).max(1000).optional(),
+  daily_title: z.string().trim().max(60).optional(),
+  daily_text: z.string().trim().max(240).optional(),
+  daily_title_es: z.string().trim().max(60).optional(),
+  daily_text_es: z.string().trim().max(240).optional(),
   share_image: z.string().trim().max(500).optional(),
   discord_link_role: z.string().trim().regex(/^(\d{15,22})?$/).optional(),
   discord_webhook: z

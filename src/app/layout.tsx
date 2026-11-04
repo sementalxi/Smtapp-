@@ -13,6 +13,7 @@ import { SoundEvents } from "@/components/SoundEvents";
 import { KeepAwake } from "@/components/KeepAwake";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NoticeBar } from "@/components/NoticeBar";
+import { DailyReward } from "@/components/DailyReward";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
@@ -83,6 +84,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </html>
     );
   }
+  const me = await getCurrentUser().catch(() => null);
+  const path = (await headers()).get("x-kixo-path") ?? "/";
   return (
     <html lang={locale} className={fontVariables}>
       <body className="antialiased">
@@ -96,7 +99,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <SoundEvents />
           <KeepAwake />
           <main>{children}</main>
-          {(await getCurrentUser().catch(() => null)) && <SupportChat />}
+          {me && <SupportChat />}
+          {/* Daily reward pop-up (the dashboard shows the full card instead) */}
+          {me && !path.startsWith("/dashboard") && !path.startsWith("/admin") && <DailyReward />}
           <SiteFooter site={site} />
         </I18nProvider>
       </body>

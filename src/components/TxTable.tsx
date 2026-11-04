@@ -9,6 +9,7 @@ const TYPE_STYLE: Record<string, string> = {
   REFUND: "text-amber-300",
   ADMIN_ADJUST: "text-fuchsia-300",
   REFERRAL: "text-teal",
+  DAILY: "text-amber-200",
 };
 
 const TYPE_LABEL: Record<string, [string, string]> = {
@@ -19,6 +20,7 @@ const TYPE_LABEL: Record<string, [string, string]> = {
   REFUND: ["Refund", "Reembolso"],
   ADMIN_ADJUST: ["Admin adjustment", "Ajuste del admin"],
   REFERRAL: ["Invite reward", "Premio por invitar"],
+  DAILY: ["Daily reward", "Recompensa diaria"],
 };
 
 // Notes the system writes, translated for Spanish readers.

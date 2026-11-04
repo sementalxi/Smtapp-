@@ -601,7 +601,417 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out.
 - The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow this style.`,
-  "player-crimson-arena": `CRIMSON ARENA — a red-and-black ultras-night player card, made like a high-end PHOTOSHOP composite by a top club designer. Loud, hot, intimidating.
+  "player-crimson-arena": `CRIMSON ARENA — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- red (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a packed night stadium drowned in RED flare smoke, ultras silhouettes with burning red flares, big red-and-black flags, glowing embers.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in heavy condensed capitals in brushed blood-red metal with silver bevels.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-ice-kingdom": `ICE KINGDOM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- icy blue (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a frozen night stadium: real frost on the floor, drifting snow, cold breath haze, huge cracked ice shards rising behind the player, icy blue floodlights.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in tall condensed capitals in frosted steel with ice-crystal edges and a cold blue shadow.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-inferno-gold": `INFERNO GOLD — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- gold (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a dark arena with real molten-gold fire and lava-glow cracks in the floor, thick smoke, flying embers and sparks, warm orange-gold backlight.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in heavy condensed capitals forged in dark scratched gold with molten glowing edges.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-emerald-storm": `EMERALD STORM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- emerald green (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a night stadium in a heavy rainstorm: real rain streaks lit by floodlights, wet glossy pitch, green-tinted stands, a distant real lightning flash in the clouds.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in bold condensed capitals in wet black chrome with emerald edge light.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-purple-reign": `PURPLE REIGN — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- purple and gold (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a royal throne-room arena: deep purple velvet drapes, gold baroque ornaments and pillars, purple smoke, warm gold spotlights from above.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in tall elegant condensed capitals in polished gold with a purple shadow, plus a regal gold script.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-chrome-noir": `CHROME NOIR — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- black-and-white with one red accent (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a black-and-white editorial studio: dark concrete backdrop, hard single spotlight, light smoke, everything monochrome except ONE accent colour on the number and tag.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in huge ultra-condensed white capitals with a grainy print texture, the accent colour only on small details.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-sunset-rooftop": `SUNSET ROOFTOP — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- orange and teal (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a city rooftop at golden hour: real sunset sky in orange and teal, the skyline and a stadium in the distance, lens flare, warm haze.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in bold condensed white capitals with an orange-to-teal gradient edge and a hard shadow.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-tunnel-walkout": `TUNNEL WALKOUT — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- team colours (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- the players' tunnel: rough concrete walls with team-colour strip lights, the bright floodlit pitch at the end of the tunnel, haze and light rays pouring in.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in heavy slanted condensed capitals in brushed steel with a team-colour outline.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-midnight-city": `MIDNIGHT CITY — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- pink and cyan (realistic city light, not neon haze) (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- a rainy city street at midnight: wet asphalt with real reflections of shop lights and street lamps, light rain, steam from a drain, a stadium glow over the buildings.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in bold condensed white capitals with a subtle pink-and-cyan edge light.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-colosseum": `COLOSSEUM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+
+COLOURS
+- bronze and gold (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
+
+BACKGROUND
+- an ancient stone colosseum arena at sunset: real sun rays through the arches, dust in the air, sand floor, warm cinematic light.
+- A glossy reflective floor at the bottom with real reflections of the player and the number.
+- The team crest ONLY if a crest reference image is provided: big in the upper right, fully inside the frame, as a premium 3D metal emblem — faithful to its artwork — slightly faded into the background. Otherwise no crest. Never copy a badge from the player's shirt.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper left, large): a waist-up portrait with a calm, confident, intense look (arms crossed, a cold side look, or looking down — mouth closed, never a finger on the lips), slightly darker and blended softly into the background, with a rim light.
+2. IN FRONT (centre-right): FULL BODY head to feet, standing in a confident pose on the floor — the sharpest element of the poster, strong rim light, a real reflection under the feet, feet never cut off.
+- Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The POSITION in a small bevelled tag box with a thin accent frame.
+2. The tagline (if given) in an elegant script right above the name.
+3. The player NAME huge in monumental carved-stone capitals with gold inlay and a deep shadow.
+4. The subtitle (if given) in a brush script slashing across the bottom of the name.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
+- RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
+- Leave one bottom corner calm (brand mark goes there).
+
+ESPORTS FLAVOUR (important — it must feel like a pro ESPORTS org's player reveal, e.g. an EA FC / Pro Clubs team announcing its star)
+- Blend the scene with an esports-arena vibe: LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze.
+- Sharp esports graphic language on top of the photo: thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers).
+- The full-body figure may wear or hold a GAMING HEADSET around the neck or a controller in one hand ONLY if it fits the photo naturally — never change the person or their outfit.
+- Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel; the position tag like an esports role badge.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-flare-sprint": `FLARE SPRINT — a red-and-black ultras-night player card, made like a high-end PHOTOSHOP composite by a top club designer. Loud, hot, intimidating.
 
 SCENE & COLOURS: blood red, black and white (if the COLOURS line below gives team colours, use them in the same roles).
 - A packed night stadium drowned in RED flare smoke: ultras with burning flares, big flags, embers in the air; black angular shapes and red light slashes at the sides; a thin white frame line and halftone grain.
@@ -641,7 +1051,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-ice-kingdom": `ICE KINGDOM — an ice-blue frozen-arena player card, made like a high-end PHOTOSHOP composite by a top club designer. Cold, clean, powerful.
+  "player-frost-slide": `FROST SLIDE — an ice-blue frozen-arena player card, made like a high-end PHOTOSHOP composite by a top club designer. Cold, clean, powerful.
 
 SCENE & COLOURS: ice blue, white and deep navy (team colours in the same roles if the COLOURS line gives them).
 - A frozen arena: giant ice crystals, frost mist, a faint aurora, snow particles, a cracked-ice texture over the whole poster, thin frost-white frame lines.
@@ -681,7 +1091,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-inferno-gold": `INFERNO GOLD — a black-and-gold ember player card, made like a high-end PHOTOSHOP composite by a top club designer. Luxurious, hot, premium.
+  "player-golden-strike": `GOLDEN STRIKE — a black-and-gold ember player card, made like a high-end PHOTOSHOP composite by a top club designer. Luxurious, hot, premium.
 
 SCENE & COLOURS: black, metallic gold and ember orange (team colours in the same roles if the COLOURS line gives them).
 - A dark arena with gold embers and sparks rising, black smoke, cracked gold-leaf and gold-foil textures, a thin gold inner frame line.
@@ -721,7 +1131,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-emerald-storm": `EMERALD STORM — a green-lightning thunderstorm player card, made like a high-end PHOTOSHOP composite by a top club designer. Electric, dramatic, bold.
+  "player-storm-leap": `STORM LEAP — a green-lightning thunderstorm player card, made like a high-end PHOTOSHOP composite by a top club designer. Electric, dramatic, bold.
 
 SCENE & COLOURS: emerald green, black and white (team colours in the same roles if the COLOURS line gives them).
 - A thunderstorm night: dark rolling clouds, branching green lightning, rain streaks lit by flashes; the poster cut by a DIAGONAL torn-paper edge — dark storm upper-left, emerald light lower-right.
@@ -761,7 +1171,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-purple-reign": `PURPLE REIGN — a royal purple cosmic player card with liquid-chrome lettering, made like a high-end PHOTOSHOP composite by a top club designer. Flashy, premium, esports.
+  "player-violet-chrome": `VIOLET CHROME — a royal purple cosmic player card with liquid-chrome lettering, made like a high-end PHOTOSHOP composite by a top club designer. Flashy, premium, esports.
 
 SCENE & COLOURS: royal purple, magenta and chrome silver (team colours in the same roles if the COLOURS line gives them).
 - A cosmic purple sky with planets, sparkles and floating crystal shards, purple stage smoke, halftone and scan-line textures, thin white frame lines.
@@ -801,7 +1211,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-chrome-noir": `CHROME NOIR — a black-and-white chrome editorial player card with one red accent, made like a high-end PHOTOSHOP composite by a top club designer. Cold, classy, cinematic.
+  "player-noir-walk": `NOIR WALK — a black-and-white chrome editorial player card with one red accent, made like a high-end PHOTOSHOP composite by a top club designer. Cold, classy, cinematic.
 
 SCENE & COLOURS: black, white and silver chrome with ONE red accent (or the team colour as the accent).
 - Entirely monochrome: a black-and-white stadium / studio with silver light, film grain, scratches, halftone dots and dust, a thin white frame line.
@@ -841,7 +1251,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-sunset-rooftop": `SUNSET ROOFTOP — a teal-and-orange city-sunset player card, made like a high-end PHOTOSHOP composite by a top club designer. Warm, cinematic, premium.
+  "player-golden-hour": `GOLDEN HOUR — a teal-and-orange city-sunset player card, made like a high-end PHOTOSHOP composite by a top club designer. Warm, cinematic, premium.
 
 SCENE & COLOURS: sunset orange, teal and warm white (team colours as accents if the COLOURS line gives them).
 - A city rooftop at sunset: the skyline silhouette along the bottom, the sun low with a big warm flare, birds, haze and long shadows; teal-and-orange grade, film grain, light leaks, a thin frame line.
@@ -881,7 +1291,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-tunnel-walkout": `TUNNEL WALKOUT — a stadium-tunnel player card, made like a high-end PHOTOSHOP composite by a top club designer. Focused, cinematic, matchday.
+  "player-tunnel-vision": `TUNNEL VISION — a stadium-tunnel player card, made like a high-end PHOTOSHOP composite by a top club designer. Focused, cinematic, matchday.
 
 SCENE & COLOURS: the team colour (default electric blue) with white and black.
 - The players' tunnel in perspective: concrete walls, LED strips in the colour, the bright pitch light at the end, haze and light beams; scan lines and grunge textures.
@@ -920,7 +1330,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-midnight-city": `MIDNIGHT CITY — a rainy neon-street player card, made like a high-end PHOTOSHOP composite by a top club designer. Moody, electric, premium.
+  "player-neon-streets": `NEON STREETS — a rainy neon-street player card, made like a high-end PHOTOSHOP composite by a top club designer. Moody, electric, premium.
 
 SCENE & COLOURS: deep navy, electric blue and magenta neon (team colours as the neon if the COLOURS line gives them).
 - A rainy city street at night: neon signs with no readable words, wet asphalt with soft reflections, steam, light trails, halftone and grain, a thin frame line.
@@ -960,7 +1370,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
 - No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-colosseum": `COLOSSEUM — a gold-and-stone gladiator-arena player card, made like a high-end PHOTOSHOP composite by a top club designer. Epic, heroic, premium.
+  "player-gladiator": `GLADIATOR — a gold-and-stone gladiator-arena player card, made like a high-end PHOTOSHOP composite by a top club designer. Epic, heroic, premium.
 
 SCENE & COLOURS: gold, bronze, stone grey and black (team colours as accents if the COLOURS line gives them).
 - An ancient arena at night: stone columns and arches, torch fire, golden dust and smoke, a marble floor; carved-stone and gold-leaf textures, laurel-line ornaments (no words).
