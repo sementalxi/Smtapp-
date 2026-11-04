@@ -117,6 +117,7 @@ export default async function AdminHome() {
     ["/admin/users", "👥", es ? "Usuarios" : "Users"],
     ["/admin/settings", "💲", es ? "Precios" : "Prices"],
     ["/admin/banners", "🧾", es ? "Pósters creados" : "Posters made"],
+    ["/admin/daily", "🎁", es ? "Recompensa diaria" : "Daily reward"],
   ] as const;
   const missing = setup.filter(([, , ok, optional]) => !ok && !optional).length;
 
@@ -158,7 +159,7 @@ export default async function AdminHome() {
       {/* Quick actions */}
       <div>
         <div className="mb-2 text-[11px] font-bold uppercase tracking-widest text-muted">{es ? "Acciones rápidas" : "Quick actions"}</div>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {actions.map(([href, icon, label]) => (
             <Link key={href} href={href} className="flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-panel/70 px-1 py-3 text-center transition hover:border-lime/50 active:scale-95">
               <span className="text-2xl">{icon}</span>

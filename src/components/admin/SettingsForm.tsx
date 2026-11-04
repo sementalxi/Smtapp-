@@ -115,50 +115,14 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <p className="mt-2 text-xs text-muted">{es ? "Necesita FAL_KEY en Vercel (fal.ai → API Keys). Los videos fallidos se reembolsan solos." : "Needs FAL_KEY on Vercel (fal.ai → API Keys). Failed videos are refunded automatically."}</p>
       </div>
       </AdminSection>
-      <AdminSection icon="🎁" title={es ? "Recompensa diaria" : "Daily reward"} sub={es ? "Créditos gratis cada día al pulsar “Reclamar”, bono por racha, textos" : "Free credits every day when they press “Claim”, streak bonus, texts"}>
-      <div className="rounded-xl border border-amber-300/40 bg-panel-2 p-4">
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Encendida" : "On"}</span>
-            <select className="input" value={v.daily_on ?? "1"} onChange={(e) => setV({ ...v, daily_on: e.target.value })}>
-              <option value="1">{es ? "Sí" : "Yes"}</option>
-              <option value="0">{es ? "No (ocultar)" : "No (hide)"}</option>
-            </select>
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Créditos por día" : "Credits per day"}</span>
-            <input type="number" min={0} className="input" value={v.daily_credits ?? "1"} onChange={(e) => setV({ ...v, daily_credits: e.target.value })} />
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Bono el día 7 de racha" : "Bonus on streak day 7"}</span>
-            <input type="number" min={0} className="input" value={v.daily_streak_bonus ?? "3"} onChange={(e) => setV({ ...v, daily_streak_bonus: e.target.value })} />
-          </div>
-        </div>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Título (inglés)" : "Title (English)"}</span>
-            <input className="input" maxLength={60} value={v.daily_title ?? ""} onChange={(e) => setV({ ...v, daily_title: e.target.value })} />
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Título (español)" : "Title (Spanish)"}</span>
-            <input className="input" maxLength={60} value={v.daily_title_es ?? ""} onChange={(e) => setV({ ...v, daily_title_es: e.target.value })} />
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Texto (inglés)" : "Text (English)"}</span>
-            <textarea className="input min-h-[72px]" maxLength={240} value={v.daily_text ?? ""} onChange={(e) => setV({ ...v, daily_text: e.target.value })} />
-          </div>
-          <div>
-            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Texto (español)" : "Text (Spanish)"}</span>
-            <textarea className="input min-h-[72px]" maxLength={240} value={v.daily_text_es ?? ""} onChange={(e) => setV({ ...v, daily_text_es: e.target.value })} />
-          </div>
-        </div>
-        <p className="mt-2 text-xs text-muted">
-          {es
-            ? "Cada usuario puede reclamar una vez al día (el día cambia a medianoche, hora de Chicago). Aparece como tarjeta en el panel y como aviso flotante en las demás páginas hasta que lo reclamen. Bono de racha 0 = apagado."
-            : "Each user can claim once a day (the day rolls over at midnight, Chicago time). Shows as a card on the dashboard and as a floating pop-up on other pages until they claim it. Streak bonus 0 = off."}
-        </p>
-      </div>
-      </AdminSection>
+      <a href="/admin/daily" className="flex items-center gap-3 rounded-2xl border border-line bg-panel/70 p-4 transition hover:border-lime/50">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime/15 text-xl">🎁</span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-bold">{es ? "Recompensa diaria" : "Daily reward"}</span>
+          <span className="block truncate text-xs text-muted">{es ? "Créditos gratis cada día, bono por racha y textos — tiene su propia página" : "Free credits every day, streak bonus and texts — has its own page"}</span>
+        </span>
+        <span className="text-muted">›</span>
+      </a>
       <AdminSection icon="🏠" title={es ? "Página principal y vista previa" : "Home page & link preview"} sub={es ? "Imágenes, título del sitio, descripción, imagen al compartir" : "Home images, site title, description, share picture"}>
       <div className="rounded-xl border border-line bg-panel-2 p-4">
         <label className="label">{es ? "Imágenes de la página principal" : "Home page images"}</label>
