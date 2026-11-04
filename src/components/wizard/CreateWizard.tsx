@@ -177,6 +177,7 @@ export function CreateWizard({
   seasonStart = false,
   typePics = {},
   expectedSeconds = 100,
+  totwCost,
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -194,6 +195,8 @@ export function CreateWizard({
   typePics?: Record<string, string>;
   /** How long the chosen poster generator usually takes (for the progress bar). */
   expectedSeconds?: number;
+  /** Team of the week price (background + eleven full player cards). */
+  totwCost?: number;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -245,6 +248,11 @@ export function CreateWizard({
   const tpl = styles.find((t) => t.id === tplId) ?? null;
   // Team logo category: "create a new logo" styles vs "show off my logo" styles.
   const logoCreate = layout === "LOGO" && !!tpl && (tpl.logoCreate || /^logo-new-/.test(tpl.slug));
+  // Team of the week: priced on its own (eleven cards + background), and every card is made in a player-card style.
+  const effCost = layout === "TOTW" && totwCost !== undefined ? totwCost : cost;
+  const cardStyles = useMemo(() => templates.filter((t) => t.layout === "PLAYER"), [templates]);
+  const [cardTplId, setCardTplId] = useState<string | null>(null);
+  const cardTpl = cardStyles.find((t) => t.id === cardTplId) ?? cardStyles[0] ?? null;
   // Wide styles always come out as a 16:9 banner (the size picker is hidden for them).
   const wideStyle = !!tpl?.wide;
   useEffect(() => {
@@ -484,6 +492,7 @@ export function CreateWizard({
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
         ...(format !== "post" ? { format } : {}),
+        ...(layout === "TOTW" && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -500,7 +509,7 @@ export function CreateWizard({
       await new Promise((r) => setTimeout(r, 1300));
       setBarDone(false);
       setResult({ id: data.id, url: data.finalUrl ?? null });
-      setCredits((c) => c - cost);
+      setCredits((c) => c - effCost);
       setPhase("done");
       sfx("done");
       router.refresh(); // header credits update right away
@@ -664,7 +673,7 @@ export function CreateWizard({
                     <span className={`grid h-11 w-11 place-items-center rounded-xl border backdrop-blur ${sel ? "border-lime/60 bg-lime text-ink" : "border-lime/40 bg-ink/60 text-lime"}`}>
                       <TypeIcon layout={a.layout} />
                     </span>
-                    <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {cost}</span>
+                    <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {a.layout === "TOTW" && totwCost !== undefined ? totwCost : cost}</span>
                   </span>
                   <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
                   <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
@@ -915,7 +924,7 @@ export function CreateWizard({
           {layout === "TOTW" && (
             <>
               <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
-                ⭐ {locale === "es" ? "Once tarjetas en formación: pon el gamertag, los puntos o el club y una foto por jugador. El de más puntos sale como jugador de la semana." : "Eleven cards in formation: add each player's gamertag, points or club and a photo. The highest points becomes the player of the week."}
+                ⭐ {locale === "es" ? "Cada jugador se hace como una tarjeta de jugador completa (con el estilo que elijas) y las once se colocan en formación sobre el fondo. El de más puntos sale como jugador de la semana." : "Every player is made as a full player card (in the style you pick) and the eleven are placed in formation on the background. The highest points becomes the player of the week."}
               </p>
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
               <div className="grid grid-cols-2 gap-3">
@@ -933,6 +942,27 @@ export function CreateWizard({
                 </div>
                 {field({ label: L.footer, k: "footer", max: 40, ph: locale === "es" ? "Temporada 4" : "Season 4" })}
               </div>
+              {cardStyles.length > 0 && (
+                <div>
+                  <label className="label">🃏 {locale === "es" ? "Estilo de las tarjetas (cada jugador sale como una tarjeta de jugador completa)" : "Card style (every player is made as a full player card)"}</label>
+                  <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+                    {cardStyles.map((t) => {
+                      const on = cardTpl?.id === t.id;
+                      return (
+                        <button key={t.id} type="button" onClick={() => setCardTplId(t.id)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${on ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
+                          {t.thumbUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={thumb(t.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                          ) : (
+                            <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🃏</span>
+                          )}
+                          <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${on ? "text-lime" : ""}`}>{locale === "es" ? t.nameEs : t.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="label">
                   {locale === "es" ? "Los once" : "The eleven"} <span className="text-lime">*</span>
@@ -1281,8 +1311,9 @@ export function CreateWizard({
                     <span className="chip text-muted">{artName}</span>
                     {tpl && <span className="chip text-muted">{locale === "es" ? tpl.nameEs : tpl.name}</span>}
                     <span className="chip border-lime/40 text-lime">
-                      {cost} {locale === "es" ? "créditos" : "credits"}
+                      {effCost} {locale === "es" ? "créditos" : "credits"}
                     </span>
+                    {layout === "TOTW" && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? cardTpl.nameEs : cardTpl.name}</span>}
                   </div>
                   {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
                   {logoCreate ? (
@@ -1301,7 +1332,7 @@ export function CreateWizard({
                   </div>
                   )}
                   {phase === "error" && <p className="mt-4 text-sm text-danger">{error}</p>}
-                  <button type="button" className="btn-primary mt-5 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
+                  <button type="button" className="btn-primary mt-5 w-full py-3.5 text-base" disabled={credits < effCost} onClick={generate}>
                     {phase === "error" ? "↻" : "✨"} {L.generate}
                   </button>
                   <p className="mt-2 text-[11px] text-muted">
@@ -1311,7 +1342,7 @@ export function CreateWizard({
                       return locale === "es" ? `Tarda ${lo}–${hi} minutos — la IA se toma su tiempo para la mejor calidad` : `Takes ${lo}–${hi} minutes — the AI takes its time for the best quality`;
                     })()}
                   </p>
-                  {credits < cost && (
+                  {credits < effCost && (
                     <Link href="/pricing" className="btn-ghost mt-3 w-full">{L.getCredits}</Link>
                   )}
                 </div>
@@ -1333,7 +1364,7 @@ export function CreateWizard({
                 <dt className="text-muted">{L.status}</dt>
                 <dd>{phase === "done" ? L.completed : phase === "busy" ? L.generating : phase === "error" ? L.failed : "—"}</dd>
               </div>
-              <div className="flex justify-between"><dt className="text-muted">{L.creditsUsed}</dt><dd>{cost}</dd></div>
+              <div className="flex justify-between"><dt className="text-muted">{L.creditsUsed}</dt><dd>{effCost}</dd></div>
               <div className="flex justify-between rounded-lg bg-panel-2 px-3 py-2"><dt className="text-muted">{L.balance}</dt><dd className="font-bold text-lime">{credits} {locale === "es" ? "créditos" : "credits"}</dd></div>
             </dl>
             {phase === "done" && result && (

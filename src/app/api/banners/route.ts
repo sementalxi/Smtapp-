@@ -42,6 +42,8 @@ const Body = z.object({
   /** Admin style test: free, no rate limit, tagged with the run id (ignored for non-admins). */
   test: z.boolean().optional(),
   testRun: z.string().max(40).optional(),
+  /** Team of the week: the player-card style every card is made in. */
+  cardTemplateId: z.string().max(40).optional(),
 });
 
 // Per-player fields a team-set card may change; everything else comes from the first card.
@@ -91,7 +93,8 @@ export const POST = handle(async (req: NextRequest) => {
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
   if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");
-  const cost = adminTest ? 0 : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
+  const totw = pro && template.layout === "TOTW";
+  const cost = adminTest ? 0 : totw ? await getNumberSetting("totw_cost") : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
   // Fast path; the real check is atomic when credits are taken.
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
@@ -133,6 +136,43 @@ export const POST = handle(async (req: NextRequest) => {
       const detail = (e as { detail?: string }).detail;
       return json({ error: "err_blocked", ...(user.role === "ADMIN" && detail ? { detail } : {}) }, 400);
     }
+  }
+
+  // Team of the week: the eleven are made as full player cards (in the picked player-card style) and placed on the background.
+  if (totw) {
+    const { planTotw, pickCardTemplate, generateTotwForBanner } = await import("@/lib/totw");
+    const cardTemplate = await pickCardTemplate(user, body.cardTemplateId);
+    if (!cardTemplate) throw new HttpError(400, "no_card_style");
+    let plan;
+    try {
+      plan = planTotw({ template, cardTemplate, inputs, season: seasonPrompt(seasonDef) });
+    } catch (e) {
+      const detail = (e as { detail?: string }).detail;
+      return json({ error: "err_blocked", ...(user.role === "ADMIN" && detail ? { detail } : {}) }, 400);
+    }
+    const banner = await db.banner.create({
+      data: {
+        userId: user.id,
+        templateId: template.id,
+        title: titleFor(inputs),
+        inputs: toJson(inputs),
+        design: toJson({ ...defaultDesign(), variation, ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(plan.wide ? { format: "banner" } : {}), totw: { cardTemplateId: cardTemplate.id }, ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}) }),
+        photoUrl: null,
+        logoUrl,
+        mode: "PRO",
+      },
+    });
+    const accent = (template.style as unknown as { accent?: string } | null)?.accent ?? "#ffffff";
+    after(async () => {
+      try {
+        await generateTotwForBanner({ bannerId: banner.id, userId: user.id, cost, plan, accent });
+      } catch (e) {
+        if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
+        const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
+        await db.banner.update({ where: { id: banner.id }, data: { status: "FAILED", error: msg } }).catch(() => {});
+      }
+    });
+    return json({ id: banner.id, finalUrl: null, pending: true });
   }
 
   const banner = await db.banner.create({

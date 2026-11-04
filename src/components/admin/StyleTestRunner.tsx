@@ -45,6 +45,7 @@ const STAGE_LABEL: Record<string, [string, string]> = {
   realism: ["Adding realism", "Agregando realismo"],
   text: ["Writing the text", "Escribiendo el texto"],
   openai: ["OpenAI is designing it", "OpenAI lo está diseñando"],
+  cards: ["Making the eleven cards", "Haciendo las once tarjetas"],
   finishing: ["Final touches", "Detalles finales"],
 };
 

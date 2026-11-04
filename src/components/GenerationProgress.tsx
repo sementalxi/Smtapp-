@@ -30,12 +30,18 @@ const STAGES: Record<string, { from: number; to: number; secs: number; en: strin
   realism: { from: 50, to: 70, secs: 40, en: "Adding realism", es: "Agregando realismo" },
   text: { from: 70, to: 92, secs: 70, en: "Writing your text", es: "Escribiendo tu texto" },
   openai: { from: 8, to: 92, secs: 90, en: "Designing your poster", es: "Diseñando tu póster" },
+  cards: { from: 8, to: 90, secs: 150, en: "Making the background and all the player cards", es: "Haciendo el fondo y todas las tarjetas" },
   finishing: { from: 92, to: 98, secs: 8, en: "Final touches", es: "Detalles finales" },
 };
 
 /** The checklist shown under the bar — picked from the first real stage we see. */
 type Step = { key: string; icon: string; en: string; es: string; subEn: string; subEs: string };
-const STEP_SETS: Record<"mix" | "openai" | "edit", Step[]> = {
+const STEP_SETS: Record<"mix" | "openai" | "edit" | "totw", Step[]> = {
+  totw: [
+    { key: "queued", icon: "📷", en: "Reading the eleven & the league", es: "Leyendo los once y la liga", subEn: "Photos, clubs, points, formation", subEs: "Fotos, clubes, puntos, formación" },
+    { key: "cards", icon: "🃏", en: "Making the background and every player card", es: "Haciendo el fondo y cada tarjeta", subEn: "All at the same time — eleven full cards", subEs: "Todo a la vez — once tarjetas completas" },
+    { key: "finishing", icon: "✨", en: "Placing the cards in formation", es: "Colocando las tarjetas en formación", subEn: "Shadows, frames, brand mark, export", subEs: "Sombras, marcos, marca, exportación" },
+  ],
   mix: [
     { key: "queued", icon: "📷", en: "Reading your photo & details", es: "Leyendo tu foto y datos", subEn: "Cut-out, crest, colours, fonts", subEs: "Recorte, escudo, colores, fuentes" },
     { key: "art", icon: "🎨", en: "Painting the artwork", es: "Pintando el arte", subEn: "Background, layout and lighting", subEs: "Fondo, composición y luces" },
@@ -71,7 +77,7 @@ export function GenerationProgress({ photo, done, expectedSeconds = 90, stage }:
   const stageRef = useRef<{ key: string | null; at: number }>({ key: null, at: Date.now() });
   const doneAtRef = useRef<number | null>(null);
   const maxRef = useRef(0); // the bar never goes backwards
-  const modeRef = useRef<"mix" | "openai" | "edit" | null>(null);
+  const modeRef = useRef<"mix" | "openai" | "edit" | "totw" | null>(null);
   const seenRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
@@ -82,7 +88,7 @@ export function GenerationProgress({ photo, done, expectedSeconds = 90, stage }:
   if (done && doneAtRef.current === null) doneAtRef.current = Date.now();
   if (stage) seenRef.current.add(stage);
   // Which pipeline is running? Decided by the first real stage we see.
-  if (!modeRef.current && stage && stage !== "queued") modeRef.current = stage === "openai" ? "openai" : stage === "edit" ? "edit" : "mix";
+  if (!modeRef.current && stage && stage !== "queued") modeRef.current = stage === "openai" ? "openai" : stage === "edit" ? "edit" : stage === "cards" ? "totw" : "mix";
 
   const secs = (now - startedRef.current) / 1000;
   const info = stage ? STAGES[stage] : undefined;
