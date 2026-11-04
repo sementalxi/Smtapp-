@@ -14,7 +14,7 @@ const EDITABLE: Record<string, Record<string, number>> = {
   MATCHDAY: { headline: 30, footer: 48 },
   LINEUP: { headline: 30, footer: 48 },
   RESULT: { headline: 30, footer: 48 },
-  STANDINGS: { headline: 30, footer: 48 },
+  STANDINGS: { headline: 30, tagline: 30, subtitle: 40, footer: 48 },
   TOTW: { headline: 30, footer: 48 },
   LOGO: { headline: 30, footer: 48 },
   EVENT: { headline: 30, name: 40, subtitle: 40, details: 48, prize: 24, footer: 48 },

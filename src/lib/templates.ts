@@ -151,7 +151,7 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   MATCHDAY: ["homeTeam", "awayTeam", "competition", "date", "time", "venue", "footer"],
   LINEUP: ["team", "formation", "players", "competition", "date", "footer"],
   RESULT: ["homeTeam", "awayTeam", "homeScore", "awayScore", "scorers", "competition", "footer"],
-  STANDINGS: ["headline", "competition", "standings", "date", "footer"],
+  STANDINGS: ["headline", "tagline", "subtitle", "competition", "standings", "date", "footer"],
   LOGO: ["team", "subtitle", "headline", "footer"],
   TOTW: ["headline", "competition", "formation", "players", "date", "footer"],
 };

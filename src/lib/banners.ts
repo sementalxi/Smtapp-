@@ -613,11 +613,13 @@ export function buildProPrompt(opts: {
       const rows = i.standings.filter(Boolean);
       composition = [
         `A premium league STANDINGS table graphic — like an official league / TV broadcast table posted by a top competition's media team.`,
-        `A huge "${i.headline || "STANDINGS"}" title at the top${i.competition ? ", the league / competition name and its logo" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted, the bottom rows subtly marked. Every row the same height, every number lined up in its column, all text perfectly legible. NO people, players, faces or figures anywhere — the background is the scene plus ${i.champLogoUrl ? "the league / organization logo echoed GIANT and faded behind the table (clearly visible), with the same logo crisp beside the title" : "big graphic energy (light, texture, atmosphere) — no league logo was given, so NO logo beside the title and NO watermark: team crests stay small inside their rows"}.`,
+        `A huge "${i.headline || "STANDINGS"}" title at the top${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.competition ? ", the league / competition name and its logo" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted, the bottom rows subtly marked. Every row the same height, every number lined up in its column, all text perfectly legible. NO people, players, faces or figures anywhere — the background is the scene plus ${i.champLogoUrl ? "the league / organization logo echoed GIANT and faded behind the table (clearly visible), with the same logo crisp beside the title" : "big graphic energy (light, texture, atmosphere) — no league logo was given, so NO logo beside the title and NO watermark: team crests stay small inside their rows"}.`,
         frame,
         finish,
       ].join(" ");
+      add("Small letter-spaced word right ABOVE the title", i.tagline);
       add("Title (huge)", i.headline || "STANDINGS");
+      add("Accent line right UNDER the title (script or condensed style)", i.subtitle);
       add(i.champLogoUrl ? "League / organization name (small line beside its logo, under the title)" : "League / competition", i.competition);
       add("Matchday / week", i.date);
       if (rows.length)

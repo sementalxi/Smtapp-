@@ -1044,6 +1044,10 @@ export function CreateWizard({
                 {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "TABLA DE POSICIONES" : "STANDINGS" })}
                 {field({ label: locale === "es" ? "Jornada / semana" : "Matchday / week", k: "date", max: 30, ph: locale === "es" ? "Jornada 7" : "Matchday 7" })}
               </div>
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: locale === "es" ? "Palabra pequeña arriba del titular" : "Small word above the headline", k: "tagline", max: 30, ph: locale === "es" ? "TEMPORADA 4" : "SEASON 4" })}
+                {field({ label: locale === "es" ? "Línea de acento bajo el titular" : "Accent line under the headline", k: "subtitle", max: 40, ph: locale === "es" ? "División 1" : "Division 1" })}
+              </div>
               {cardStyles.length > 0 && (
                 <div>
                   <label className="label">🃏 {locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y la tabla)" : "Poster look (a player-card style for the background and the table)"}</label>
