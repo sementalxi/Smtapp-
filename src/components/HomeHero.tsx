@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeroEffect } from "./HeroEffect";
+import { CountUp, HeroShowcase, RotatingWord } from "./HeroShowcase";
 import type { ClientTemplate } from "@/lib/samples";
 import { thumb } from "@/lib/thumb";
 
@@ -46,11 +47,16 @@ export function HomeHero({
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
   // Three real sample posters for the hero (labelled styles first).
   const withThumb = templates.filter((x) => x.thumbUrl);
-  const auto = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].map((x) => thumb(x.thumbUrl!, 480));
   // Admin's picks (Home page — left / center / right) win; empty spots use style samples.
-  const posters = [0, 1, 2].map((n) => heroImgs[n] || auto[n]).filter(Boolean) as string[];
-  // The sliding strip: the admin's picks first, then every style sample (up to 14).
-  const strip = [...new Set([...heroImgs.filter(Boolean), ...withThumb.map((x) => x.thumbUrl!)])].slice(0, 14).map((u) => thumb(u, 320));
+  // Every real poster we can show: the admin's picks (Home page — left / center / right) first, then style samples.
+  const raw = [...new Set([...heroImgs.filter(Boolean), ...[...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].map((x) => x.thumbUrl!)])];
+  // The sliding strip under the hero (up to 14).
+  const strip = raw.slice(0, 14).map((u) => thumb(u, 320));
+  // Cinematic background: four posters crossfading with a slow zoom (always 4 slots so the CSS timing works).
+  const slides = raw.length >= 2 ? [0, 1, 2, 3].map((n) => thumb(raw[n % raw.length], 900)) : [];
+  // The showpiece card cycles through the first five.
+  const showcase = raw.slice(0, 5).map((u) => thumb(u, 640));
+  const words = tt("hero_words").split(",").map((w) => w.trim()).filter(Boolean);
   const feats: [keyof typeof ICONS, string, string][] = [
     ["card", "hero_feat_1", "PLAYER"],
     ["trophy", "hero_feat_2", "CHAMPIONS"],
@@ -77,7 +83,14 @@ export function HomeHero({
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
           style={{ opacity: heroBg.opacity / 100 }}
         />
-      ) : heroBg?.mode === "none" ? null : (
+      ) : heroBg?.mode === "none" ? null : slides.length >= 2 ? (
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          {slides.map((src, n) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={n} src={src} alt="" className="kixo-slide absolute inset-0 h-full w-full object-cover object-top opacity-0" style={{ animationDelay: `${n * 6}s` }} />
+          ))}
+        </div>
+      ) : (
         <img src="/kixo-hero-bg.webp" alt="" aria-hidden className="kixo-hero-bg pointer-events-none absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-90 [filter:hue-rotate(195deg)_saturate(1.1)]" />
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
@@ -97,24 +110,25 @@ export function HomeHero({
               </span>
             ))}
           </div>
-          <h1 className="kixo-hero-title font-display mt-5 text-[4rem] leading-[0.86] sm:text-7xl lg:text-[5.6rem]">
-            {(() => {
-              const words = tt("hero_title").split(" ");
-              const a = Math.ceil(words.length * 0.4);
-              const b = Math.max(a + 1, Math.ceil(words.length * 0.8));
-              const lines = [words.slice(0, a), words.slice(a, b), words.slice(b)].filter((l) => l.length);
-              return lines.map((line, n) => (
-                <span key={n} className="kixo-slam block" style={{ animationDelay: `${350 + n * 160}ms` }}>
-                  <span className={n === 1 ? "kixo-pink-text" : "kixo-chrome-text"}>{line.join(" ")}</span>
-                </span>
-              ));
-            })()}
+          <h1 className="kixo-hero-title font-display mt-5 text-[3.9rem] leading-[0.88] sm:text-7xl lg:text-[5.4rem]">
+            <span className="kixo-slam block" style={{ animationDelay: "350ms" }}>
+              <span className="kixo-chrome-text">{tt("hero_l1")}</span>
+            </span>
+            <span className="kixo-slam block" style={{ animationDelay: "510ms" }}>
+              <RotatingWord words={words} className="kixo-pink-text" />
+            </span>
+            <span className="kixo-slam block" style={{ animationDelay: "670ms" }}>
+              <span className="kixo-chrome-text">{tt("hero_l3")}</span>
+            </span>
           </h1>
           <div className="kixo-fade-up mt-5 flex items-center gap-3" style={{ animationDelay: "700ms" }}>
             <span className="kixo-glow h-1.5 w-24 rounded-full bg-lime" />
             <span className="rounded-md border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-white/80">AI · 4K</span>
           </div>
-          <p className="kixo-fade-up mt-5 max-w-lg text-base text-white/85 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] sm:text-lg" style={{ animationDelay: "800ms" }}>{tt("hero_sub")}</p>
+          <div className="kixo-fade-up mt-6 lg:hidden" style={{ animationDelay: "750ms" }}>
+            <HeroShowcase posters={showcase} labels={{ designing: tt("hero_designing"), done: tt("hero_done"), next: tt("hero_next") }} />
+          </div>
+          <p className="kixo-fade-up mt-6 max-w-lg text-base text-white/85 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] sm:text-lg" style={{ animationDelay: "800ms" }}>{tt("hero_sub")}</p>
           <div className="kixo-fade-up mt-6 flex flex-wrap gap-3" style={{ animationDelay: "900ms" }}>
             <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine kixo-cta-pulse px-7 py-3.5 text-base">
               ⚡ {tt("hero_cta")} <span className="ml-1">›</span>
@@ -127,13 +141,17 @@ export function HomeHero({
             <li>⚡ {tt("hero_proof_1")}</li>
             <li>📐 {tt("hero_proof_2")}</li>
             {bonus > 0 && <li className="text-lime">🎁 {tt("free_note", { n: bonus })}</li>}
-            {made >= 25 && <li className="text-teal">🔥 {tt("hero_made", { n: made.toLocaleString() })}</li>}
+            {made >= 25 && (
+              <li className="text-teal">
+                🔥 <CountUp to={made} /> {tt("hero_made_suffix")}
+              </li>
+            )}
           </ul>
         </div>
 
-        {/* Right: a fan of real posters made with KIXO (falls back to the crest) */}
-        <div className="relative mx-auto hidden w-full max-w-[460px] lg:block lg:max-w-[640px] xl:max-w-[700px]">
-          {posters.length >= 3 ? <PosterFan posters={posters} /> : <Crest />}
+        {/* Right (desktop): the showpiece card, or the crest when there are no posters yet */}
+        <div className="relative mx-auto hidden w-full max-w-[520px] lg:block">
+          {showcase.length ? <HeroShowcase posters={showcase} labels={{ designing: tt("hero_designing"), done: tt("hero_done"), next: tt("hero_next") }} /> : <Crest />}
         </div>
       </div>
 
@@ -195,33 +213,6 @@ export function HomeHero({
       </div>
     </section>
     </>
-  );
-}
-
-/** Three posters fanned out, floating and glowing. */
-function PosterFan({ posters }: { posters: string[] }) {
-  const [l, c, r] = posters;
-  const card = "absolute top-1/2 aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-panel shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]";
-  return (
-    <div className="kixo-logo-in relative mx-auto aspect-[5/4] w-full max-w-[440px] lg:max-w-none">
-      <div className="kixo-logo-aura pointer-events-none absolute inset-[12%] rounded-full bg-lime/25 blur-3xl" />
-      <div className={`${card} left-[2%] w-[44%] -translate-y-1/2 -rotate-[11deg] opacity-90`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={l} alt="" className="kixo-grade h-full w-full object-cover" />
-      </div>
-      <div className={`${card} right-[2%] w-[44%] -translate-y-1/2 rotate-[11deg] opacity-90`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={r} alt="" className="kixo-grade h-full w-full object-cover" />
-      </div>
-      <div className="absolute left-1/2 top-1/2 w-[54%] -translate-x-1/2 -translate-y-1/2">
-        <div className="kixo-logo-float relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-lime/60 shadow-[0_0_60px_-10px] shadow-lime/60">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={c} alt="KIXO poster" fetchPriority="high" className="kixo-grade h-full w-full object-cover" />
-          <span className="kixo-logo-shine pointer-events-none absolute inset-0" aria-hidden />
-          <span className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-lime backdrop-blur">⚡ AI</span>
-        </div>
-      </div>
-    </div>
   );
 }
 
