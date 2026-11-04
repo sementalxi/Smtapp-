@@ -14,6 +14,7 @@ import { KeepAwake } from "@/components/KeepAwake";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NoticeBar } from "@/components/NoticeBar";
 import { DailyReward } from "@/components/DailyReward";
+import { ZoomReset } from "@/components/ZoomReset";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
@@ -94,6 +95,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="kixo-grain" aria-hidden />
           <div className="kixo-vignette" aria-hidden />
           <RefCapture />
+          <ZoomReset />
           <LangPrompt suggested={locale} asked={chosen} />
           <Header />
           <SoundEvents />
