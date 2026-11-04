@@ -41,7 +41,16 @@ export function TeamSetForm({
       <label className="label">
         {label} {req && <span className="text-lime">*</span>}
       </label>
-      <input className={`input ${k === "position" ? "uppercase" : ""}`} maxLength={max} placeholder={ph} value={f[k]} onChange={(e) => setF({ ...f, [k]: k === "position" ? e.target.value.toUpperCase() : e.target.value })} autoCapitalize={k === "position" ? "characters" : undefined} />
+      <input
+        className={`input ${k === "position" ? "uppercase" : ""}`}
+        maxLength={max}
+        placeholder={ph}
+        value={f[k]}
+        onChange={(e) => setF({ ...f, [k]: k === "position" ? e.target.value.toUpperCase() : e.target.value })}
+        autoCapitalize={k === "position" ? "characters" : undefined}
+        inputMode={k === "number" ? "numeric" : undefined}
+        pattern={k === "number" ? "[0-9]*" : undefined}
+      />
     </div>
   );
 

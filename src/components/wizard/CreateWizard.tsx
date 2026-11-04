@@ -157,6 +157,8 @@ const TXT = {
 };
 
 const lines = (s: string) => s.split(/\n|,/).map((x) => x.trim()).filter(Boolean);
+/** Fields that are plain numbers — they get the digit keypad on phones. */
+const NUMERIC_FIELDS = new Set<string>(["number", "homeScore", "awayScore"]);
 
 const SWATCHES = [
   "#e10600", "#ff5a1f", "#ffb800", "#ffd35a", "#b6ff1a", "#0fbf6b", "#00a88f", "#00e5ff",
@@ -571,7 +573,17 @@ export function CreateWizard({
       <label className="label">
         {label} {req && <span className="text-lime">*</span>}
       </label>
-      <input className={`input ${k === "position" ? "uppercase" : ""}`} maxLength={max} placeholder={ph} value={inp[k] as string} onChange={(e) => set(k, (k === "position" ? e.target.value.toUpperCase() : e.target.value) as never)} autoCapitalize={k === "position" ? "characters" : undefined} />
+      <input
+        className={`input ${k === "position" ? "uppercase" : ""}`}
+        maxLength={max}
+        placeholder={ph}
+        value={inp[k] as string}
+        onChange={(e) => set(k, (k === "position" ? e.target.value.toUpperCase() : e.target.value) as never)}
+        autoCapitalize={k === "position" ? "characters" : undefined}
+        // Numbers (jersey number, scores) open the phone's digit pad.
+        inputMode={NUMERIC_FIELDS.has(k) ? "numeric" : undefined}
+        pattern={NUMERIC_FIELDS.has(k) ? "[0-9]*" : undefined}
+      />
     </div>
   );
 
