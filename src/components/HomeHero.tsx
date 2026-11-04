@@ -32,7 +32,6 @@ export function HomeHero({
   heroBg,
   heroImgs = [],
   templates = [],
-  made = 0,
 }: {
   t: T;
   user: boolean;
@@ -40,8 +39,6 @@ export function HomeHero({
   heroImgs?: string[];
   heroBg?: { mode: string; video: string; opacity: number; effect?: string };
   templates?: ClientTemplate[];
-  /** Posters made on the site so far (social proof). */
-  made?: number;
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
   // Three real sample posters for the hero (labelled styles first).
@@ -49,8 +46,6 @@ export function HomeHero({
   const auto = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].map((x) => thumb(x.thumbUrl!, 480));
   // Admin's picks (Home page — left / center / right) win; empty spots use style samples.
   const posters = [0, 1, 2].map((n) => heroImgs[n] || auto[n]).filter(Boolean) as string[];
-  // The sliding strip: the admin's picks first, then every style sample (up to 14).
-  const strip = [...new Set([...heroImgs.filter(Boolean), ...withThumb.map((x) => x.thumbUrl!)])].slice(0, 14).map((u) => thumb(u, 320));
   const feats: [keyof typeof ICONS, string, string][] = [
     ["card", "hero_feat_1", "PLAYER"],
     ["trophy", "hero_feat_2", "CHAMPIONS"],
@@ -82,78 +77,41 @@ export function HomeHero({
       )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/75 to-ink lg:bg-gradient-to-r lg:from-ink/95 lg:via-ink/75 lg:to-ink/20" />
       <HeroEffect effect={heroBg?.effect ?? "stadium"} />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pt-10 pb-10 lg:grid-cols-[1fr_1.15fr] lg:py-20">
-        {/* Left: kicker chips, slammed title, copy, actions, proof badges */}
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pt-12 pb-16 lg:grid-cols-[1fr_1.15fr] lg:py-20">
+        {/* Left: title, copy, feature tiles */}
         <div className="relative isolate">
-          {/* Giant ghost word behind the title, like the background lettering on the posters */}
-          <span aria-hidden className="kixo-ghost-word font-display pointer-events-none absolute -left-4 -top-10 select-none text-[34vw] leading-none lg:-top-16 lg:text-[15rem]">
-            KIXO
-          </span>
-          <div className="kixo-fade-up flex flex-wrap gap-1.5">
-            {tt("hero_kicker").split("·").map((w, n) => (
-              <span key={n} className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.25em] backdrop-blur ${n % 2 ? "border-teal/50 bg-teal/10 text-teal" : "border-lime/50 bg-lime/10 text-lime"}`}>
-                <span className={`h-1.5 w-1.5 rounded-full ${n % 2 ? "bg-teal" : "bg-lime"} kixo-glow`} />
-                {w.trim()}
-              </span>
-            ))}
-          </div>
-          <h1 className="kixo-hero-title font-display mt-5 text-[4rem] leading-[0.86] sm:text-7xl lg:text-[5.6rem]">
+          <p className="kixo-fade-up mb-4 text-xs font-bold uppercase tracking-[0.35em] text-teal">{tt("hero_kicker")}</p>
+          <h1 className="font-display text-[3.4rem] leading-[0.9] sm:text-7xl lg:text-[5.2rem]">
             {(() => {
               const words = tt("hero_title").split(" ");
               const a = Math.ceil(words.length * 0.4);
               const b = Math.max(a + 1, Math.ceil(words.length * 0.8));
-              const lines = [words.slice(0, a), words.slice(a, b), words.slice(b)].filter((l) => l.length);
-              return lines.map((line, n) => (
-                <span key={n} className="kixo-slam block" style={{ animationDelay: `${350 + n * 160}ms` }}>
-                  <span className={n === 1 ? "kixo-pink-text" : "kixo-chrome-text"}>{line.join(" ")}</span>
+              return words.map((w, n) => (
+                <span key={n} className="kixo-focus-in inline-block" style={{ animationDelay: `${450 + n * 110}ms` }}>
+                  <span className={n >= a && n < b ? "lime-text" : "gold-text"}>{w}</span>&nbsp;
                 </span>
               ));
             })()}
           </h1>
-          <div className="kixo-fade-up mt-5 flex items-center gap-3" style={{ animationDelay: "700ms" }}>
-            <span className="kixo-glow h-1.5 w-24 rounded-full bg-lime" />
-            <span className="rounded-md border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-[0.3em] text-white/80">AI · 4K</span>
-          </div>
-          <p className="kixo-fade-up mt-5 max-w-lg text-base text-white/85 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)] sm:text-lg" style={{ animationDelay: "800ms" }}>{tt("hero_sub")}</p>
-          <div className="kixo-fade-up mt-6 flex flex-wrap gap-3" style={{ animationDelay: "900ms" }}>
-            <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine kixo-cta-pulse px-7 py-3.5 text-base">
+          <div className="kixo-glow kixo-fade-up mt-6 h-1 w-24 rounded-full bg-lime" style={{ animationDelay: "500ms, 500ms" }} />
+          <p className="kixo-fade-up mt-6 max-w-lg text-lg text-white/80 [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]" style={{ animationDelay: "600ms" }}>{tt("hero_sub")}</p>
+          <div className="kixo-fade-up mt-7 flex flex-wrap gap-3" style={{ animationDelay: "700ms" }}>
+            <Link href={user ? "/create" : "/register"} className="btn-primary kixo-shine px-6 py-3 text-base">
               ⚡ {tt("hero_cta")} <span className="ml-1">›</span>
             </Link>
-            <Link href="/pricing" className="btn-ghost px-6 py-3.5 text-base">
+            <Link href="/pricing" className="btn-ghost px-6 py-3 text-base">
               {tt("hero_cta2")} <span className="ml-1 text-teal">›</span>
             </Link>
           </div>
-          <ul className="kixo-fade-up mt-5 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] font-semibold text-white/70" style={{ animationDelay: "1000ms" }}>
-            <li>⚡ {tt("hero_proof_1")}</li>
-            <li>📐 {tt("hero_proof_2")}</li>
-            {bonus > 0 && <li className="text-lime">🎁 {tt("free_note", { n: bonus })}</li>}
-            {made >= 25 && <li className="text-teal">🔥 {tt("hero_made", { n: made.toLocaleString() })}</li>}
-          </ul>
+          {bonus > 0 && <p className="mt-3 text-sm text-muted">{tt("free_note", { n: bonus })}</p>}
         </div>
 
         {/* Right: a fan of real posters made with KIXO (falls back to the crest) */}
-        <div className="relative mx-auto hidden w-full max-w-[460px] lg:block lg:max-w-[640px] xl:max-w-[700px]">
-          {posters.length >= 3 ? <PosterFan posters={posters} /> : <Crest />}
+        <div className="relative mx-auto w-full max-w-[460px] lg:max-w-[640px] xl:max-w-[700px]">
+          {posters.length >= 3 ? <PosterFan posters={posters} /> : <div className="hidden lg:block"><Crest /></div>}
         </div>
       </div>
 
-      {/* A strip of real posters sliding past — the proof that it works */}
-      {strip.length >= 6 && (
-        <div className="relative -mx-2 pb-8 pt-2 lg:pb-12" aria-hidden>
-          <div className="kixo-strip-tilt">
-            <div className="kixo-marquee flex w-max gap-3">
-              {[...strip, ...strip].map((src, n) => (
-                <div key={n} className={`h-28 w-[5.6rem] shrink-0 overflow-hidden rounded-xl border border-white/10 bg-panel shadow-[0_18px_40px_-16px_rgba(0,0,0,0.9)] sm:h-36 sm:w-28 ${n % 2 ? "translate-y-2" : "-translate-y-1"}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt="" loading="lazy" decoding="async" className="kixo-grade h-full w-full object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink to-transparent" />
-        </div>
-      )}
     </section>
 
     {/* Feature tiles — picture cards, each showing a real sample of that kind */}
