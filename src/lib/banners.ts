@@ -272,10 +272,14 @@ export function collectProRefs(opts: {
         label: `a SHEET of club crests on a dark grid, four per row, read left to right then top to bottom: ${opts.crestSheet.order.map((n, k) => `crest ${k + 1} = ${q(n)}`).join(", ")}. On every card whose sub line names one of these clubs, show THAT club's crest SMALL — a glossy badge beside the gamertag plate — faithful to its shape, symbols and colours. Copy nothing else from the sheet (not the dark grid).`,
       });
   } else if (layout === "STANDINGS") {
+    // One reference per distinct crest (two teams can share one), each naming every row it belongs to.
+    const byUrl = new Map<string, string[]>();
     i.standings.forEach((row, n) => {
       const url = i.tableLogos?.[n];
-      if (url && n < 10) refs.push({ url, label: `the crest of the TEAM in table row ${n + 1} (${row.split(/\s+[—-]\s+|\s+P\s/)[0]}). Show it SMALL next to that team's name in its row ONLY — never enlarged, never beside the title, never as a background watermark and never as the league / organization logo.` });
+      if (!url || n >= 10) return;
+      byUrl.set(url, [...(byUrl.get(url) ?? []), `row ${n + 1} (${row.split(/\s+·\s+|\s+[—-]\s+|\s+P\s/)[0]})`]);
     });
+    for (const [url, rows] of byUrl) refs.push({ url, label: `the crest of the TEAM in table ${rows.join(" and ")}. Show it SMALL next to that team's name in its row ONLY — never enlarged, never beside the title, never as a background watermark and never as the league / organization logo.` });
   } else if (layout === "MATCHDAY" || layout === "RESULT") {
     if (i.homeLogoUrl) crest(i.homeLogoUrl, "the home team", "left");
     if (i.awayLogoUrl) crest(i.awayLogoUrl, "the away team", "right");
@@ -291,19 +295,22 @@ export function collectProRefs(opts: {
     }
   }
   if (i.champLogoUrl) {
-    refs.push({
+    const champRef = {
       url: i.champLogoUrl,
       label:
         layout === "CHAMPIONS"
           ? "the competition/championship logo. Put it ONLY on the trophy — engraved or embossed on the front of the cup, reproduced faithfully. Do not show it anywhere else and never as a big logo on the poster."
           : layout === "STANDINGS"
-            ? "the LEAGUE / ORGANIZATION logo (THIS image — not any team crest from the table) — it MUST appear, in TWO places: (1) crisp and clearly visible beside the title, about 14% of the poster width, as a glossy premium 3D emblem faithful to the reference (same shape, letters, symbols and colours — never redesigned); (2) echoed GIANT behind the table — about 90% of the poster width, centred — faded to roughly 20–25% opacity so it clearly reads through the table rows, blended into the light like a watermark carved in light. If the logo image has a solid background square, ignore the square."
+            ? "the LEAGUE / ORGANIZATION logo — THIS image, reference image 1, and no other (the team crests that follow are NOT it) — it MUST appear, in TWO places: (1) crisp and clearly visible beside the title, about 14% of the poster width, as a glossy premium 3D emblem faithful to the reference (same shape, letters, symbols and colours — never redesigned); (2) echoed GIANT behind the table — about 90% of the poster width, centred — faded to roughly 20–25% opacity so it clearly reads through the table rows, blended into the light like a watermark carved in light. If the logo image has a solid background square, ignore the square."
           : layout === "TOTW"
             ? "the league / competition logo. Reproduce it faithfully (same shape, letters, symbols and colours — do not redesign it) as a clean glossy badge next to the title, at a size that reads clearly — never covering the cards. If the logo image has a solid background square, ignore the square."
           : layout === "EVENT"
             ? "the league / event logo (the organiser of this tournament). Keep its exact shape, letters, symbols and colours — do not redesign it — and make it a HERO element: a large glossy premium 3D emblem with a polished rim, depth, reflections and a coloured glow, placed prominently near the top centre (if there is a trophy, it can sit just above it or be engraved on it as well), lit by the scene's lights with particles around it — never a flat sticker in a corner. Build the poster's colour palette from this logo's colours (unless the user picked colours). If the logo has a solid background square, ignore the square and use only the emblem."
             : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
-    });
+    };
+    // Standings / team of the week: the league logo is reference image 1 — the first thing the model sees — so a team crest never takes its place.
+    if (layout === "STANDINGS" || layout === "TOTW") refs.unshift(champRef);
+    else refs.push(champRef);
   }
   if (i.trophyUrl) {
     refs.push({ url: i.trophyUrl, label: "the trophy. Reproduce this exact trophy design, large and shiny, as the centrepiece." });
