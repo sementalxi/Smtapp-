@@ -60,6 +60,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
   const needPhoto = queue.some((t) => t.layout === "PLAYER") && !sample.photoUrl;
   const needLogo = queue.some((t) => t.layout === "LOGO" && !t.logoCreate) && !sample.logoUrl;
   const running = run?.status === "running";
+  const paused = run?.status === "paused";
   const processing = results.some((r) => r.status === "PROCESSING");
 
   function apply(d: ServerState | null) {
@@ -84,7 +85,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
   // While a run is going (or a poster is still processing), keep in sync. A running queue is also *advanced* from
   // here so the next style starts the second the previous one finishes — the cron only has to cover closed tabs.
   useEffect(() => {
-    if (!running && !processing) return;
+    if (!running && !paused && !processing) return;
     const t = setInterval(async () => {
       if (ticking.current) return;
       ticking.current = true;
@@ -96,7 +97,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
     }, 5000);
     return () => clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running, processing]);
+  }, [running, paused, processing]);
 
   async function start(list: TestTemplate[]) {
     if (!list.length || busy) return;
@@ -105,9 +106,9 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
     apply(await call({ action: "start", items: list.map((t) => ({ id: t.id, name: t.name, layout: t.layout, logoCreate: t.logoCreate })), sample }));
     setBusy(false);
   }
-  async function stop() {
+  async function control(action: "pause" | "resume" | "stop") {
     setBusy(true);
-    apply(await call({ action: "stop" }));
+    apply(await call({ action }));
     setBusy(false);
   }
 
@@ -176,6 +177,31 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
             </label>
           ))}
         </div>
+        <div className="mt-3">
+          <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "Colores de la prueba" : "Colors for the test"}</span>
+          <div className="flex flex-wrap gap-1.5">
+            {(
+              [
+                ["template", es ? "🎨 Del estilo" : "🎨 Style's own", es ? "cada estilo con sus propios colores" : "each style in its own colors"],
+                ["team", es ? "🛡️ Del escudo" : "🛡️ From the crest", es ? "lo que reciben los usuarios por defecto" : "what users get by default"],
+                ["surprise", es ? "🎲 Únicos" : "🎲 Unique", es ? "paleta nueva en cada póster" : "new palette every poster"],
+              ] as const
+            ).map(([id, label, sub]) => {
+              const on = (sample.colorMode ?? "template") === id;
+              return (
+                <button key={id} type="button" onClick={() => setSample({ ...sample, colorMode: id })} className={`rounded-xl border px-3 py-1.5 text-left transition ${on ? "border-lime bg-lime/10" : "border-line bg-panel-2"}`}>
+                  <span className={`block text-xs font-bold ${on ? "text-lime" : ""}`}>{label}</span>
+                  <span className="block text-[10px] text-muted">{sub}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-1.5 text-[11px] text-muted">
+            {es
+              ? "“Del escudo” tiñe todos los estilos con los colores del escudo de prueba (un escudo dorado → todo dorado). Para ver cómo es cada estilo de verdad, usa “Del estilo”."
+              : "“From the crest” paints every style in the test crest's colors (a gold crest → everything gold). To see what each style really looks like, use “Style's own”."}
+          </p>
+        </div>
       </div>
 
       {/* Pick + run */}
@@ -193,10 +219,21 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
           })}
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          {running ? (
-            <button type="button" onClick={stop} disabled={busy} className="btn-danger px-5 py-2.5 disabled:opacity-50">
-              ⏹ {es ? "Parar después de este" : "Stop after this one"}
-            </button>
+          {running || paused ? (
+            <>
+              {running ? (
+                <button type="button" onClick={() => control("pause")} disabled={busy} className="btn-ghost px-5 py-2.5 disabled:opacity-50">
+                  ⏸ {es ? "Pausar" : "Pause"}
+                </button>
+              ) : (
+                <button type="button" onClick={() => control("resume")} disabled={busy} className="btn-primary px-5 py-2.5 disabled:opacity-50">
+                  ▶ {es ? "Reanudar" : "Resume"}
+                </button>
+              )}
+              <button type="button" onClick={() => control("stop")} disabled={busy} className="btn-danger px-5 py-2.5 disabled:opacity-50">
+                ⏹ {es ? "Parar" : "Stop"}
+              </button>
+            </>
           ) : (
             <button type="button" onClick={() => start(queue)} disabled={busy || !queue.length || needPhoto || needLogo} className="btn-primary px-5 py-2.5 disabled:opacity-50">
               ▶ {es ? `Generar todos (${queue.length} estilos)` : `Generate all (${queue.length} styles)`}
@@ -207,7 +244,15 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
               🔁 {es ? `Reintentar los fallidos (${stats.failed})` : `Retry failed (${stats.failed})`}
             </button>
           )}
-          <span className="text-xs text-muted">{es ? "Gratis para el admin · uno por uno · ~2–4 min cada uno" : "Free for admin · one at a time · ~2–4 min each"}</span>
+          <span className="text-xs text-muted">
+            {running || paused
+              ? es
+                ? "El póster que se está haciendo termina igual; Pausar guarda la cola, Parar la cierra."
+                : "The poster being made now still finishes; Pause keeps the queue, Stop ends the round."
+              : es
+                ? "Gratis para el admin · uno por uno · ~2–4 min cada uno"
+                : "Free for admin · one at a time · ~2–4 min each"}
+          </span>
         </div>
         <p className="mt-2 text-xs text-teal">☁️ {es ? "Corre en el servidor: puedes cerrar esta página y sigue generando. Vuelve cuando quieras a ver los resultados." : "Runs on the server: you can close this page and it keeps generating. Come back any time to see the results."}</p>
         {needPhoto && <p className="mt-2 text-xs text-amber-200">⚠️ {es ? "Las tarjetas de jugador necesitan la foto de prueba." : "Player cards need the test photo."}</p>}
@@ -217,7 +262,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
           <div className="mt-4">
             <div className="mb-1 flex justify-between gap-3 text-xs text-muted">
               <span className="truncate">
-                {running ? `${es ? "Generando" : "Generating"}: ${current ?? "…"}` : run.status === "stopped" ? (es ? "Parado" : "Stopped") : es ? "Terminado" : "Finished"}
+                {running ? `${es ? "Generando" : "Generating"}: ${current ?? "…"}` : paused ? `⏸ ${es ? "En pausa" : "Paused"}${inFlight ? ` · ${es ? "terminando" : "finishing"} ${current ?? ""}` : ""}` : run.status === "stopped" ? (es ? "Parado" : "Stopped") : es ? "Terminado" : "Finished"}
                 {running && !inFlight && <span className="opacity-70"> · {es ? "arrancando el siguiente…" : "starting the next one…"}</span>}
               </span>
               <span className="shrink-0">
@@ -228,7 +273,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
               <div className="h-full rounded-full bg-gradient-to-r from-lime/60 via-lime to-white transition-all" style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
             </div>
             <div className="mt-1 text-[10px] text-muted">
-              {es ? "Empezó" : "Started"} {new Date(run.startedAt).toLocaleString(locale)} · {running ? (es ? "el servidor sigue aunque cierres la página" : "the server keeps going even if you close the page") : es ? "listo para otra ronda" : "ready for another round"}
+              {es ? "Empezó" : "Started"} {new Date(run.startedAt).toLocaleString(locale)} · {running ? (es ? "el servidor sigue aunque cierres la página" : "the server keeps going even if you close the page") : paused ? (es ? "pulsa Reanudar para seguir donde quedó" : "press Resume to carry on where it left off") : es ? "listo para otra ronda" : "ready for another round"}
             </div>
           </div>
         )}
@@ -253,7 +298,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
         </div>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {shown.map(({ t, r }) => {
-            const queued = running && !!run && run.queue.slice(run.next).some((q) => q.id === t.id);
+            const queued = (running || paused) && !!run && run.queue.slice(run.next).some((q) => q.id === t.id);
             return (
               <div key={t.id} className={`card overflow-hidden ${r?.status === "FAILED" ? "border-danger/50" : r?.status === "READY" ? "border-lime/30" : ""}`}>
                 {r?.status === "READY" && r.finalUrl ? (

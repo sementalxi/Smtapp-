@@ -30,9 +30,10 @@ async function saveRun(run: Run) {
 export async function startRun(userId: string, items: RunItem[], sample: Sample): Promise<Run> {
   const cur = await getRun();
   let run: Run;
-  if (cur && cur.status === "running" && cur.userId === userId) {
+  if (cur && (cur.status === "running" || cur.status === "paused") && cur.userId === userId) {
+    // Add to the current round (and get it going again if it was paused).
     const have = new Set(cur.queue.slice(cur.next).map((q) => q.id));
-    run = { ...cur, queue: [...cur.queue, ...items.filter((i) => !have.has(i.id))], sample };
+    run = { ...cur, queue: [...cur.queue, ...items.filter((i) => !have.has(i.id))], sample, status: "running" };
   } else {
     run = { id: `run-${Date.now().toString(36)}`, userId, queue: items, next: 0, status: "running", startedAt: new Date().toISOString(), sample, skipped: [] };
   }
@@ -41,9 +42,28 @@ export async function startRun(userId: string, items: RunItem[], sample: Sample)
   return (await getRun()) ?? run;
 }
 
-export async function stopRun() {
+/** Pause: the poster being made finishes, nothing new starts until resume. */
+export async function pauseRun() {
   const run = await getRun();
   if (!run || run.status !== "running") return run;
+  run.status = "paused";
+  await saveRun(run);
+  return run;
+}
+
+export async function resumeRun() {
+  const run = await getRun();
+  if (!run || run.status !== "paused") return run;
+  run.status = "running";
+  await saveRun(run);
+  await advanceStyleTest().catch(() => {});
+  return (await getRun()) ?? run;
+}
+
+/** Stop: ends the round (the poster being made still finishes — an AI call can't be cancelled halfway). */
+export async function stopRun() {
+  const run = await getRun();
+  if (!run || (run.status !== "running" && run.status !== "paused")) return run;
   run.status = "stopped";
   await saveRun(run);
   return run;

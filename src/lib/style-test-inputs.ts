@@ -14,6 +14,8 @@ export type Sample = {
   date: string;
   venue: string;
   mascot: string;
+  /** Palette for the test: the style's own colours (default, so every style shows as designed), the crest's colours (what users get by default), or a random one. */
+  colorMode?: "template" | "team" | "surprise";
 };
 
 export type RunItem = { id: string; name: string; layout: string; logoCreate: boolean };
@@ -22,7 +24,7 @@ export type Run = {
   userId: string;
   queue: RunItem[];
   next: number; // index of the next style to start
-  status: "running" | "stopped" | "done";
+  status: "running" | "paused" | "stopped" | "done";
   startedAt: string;
   sample: Sample;
   skipped: { templateId: string; error: string; at: string }[]; // styles whose request was refused before a poster existed
@@ -43,6 +45,7 @@ export const DEFAULT_SAMPLE: Sample = {
   date: "Saturday 8 PM",
   venue: "KIXO Arena",
   mascot: "a wolf head",
+  colorMode: "template",
 };
 
 const ROSTER = ["Alex", "Bruno", "Carlos", "Diego", "Eli", "Fabio", "Gabo", "Hugo", "Iker", "Javi", "Kevin"];
@@ -50,7 +53,7 @@ const PLAYERS = ["1 Alex GK", "2 Bruno RB", "3 Carlos CB", "4 Diego CB", "5 Eli 
 
 /** Sample inputs for each kind of poster, from one shared sample. */
 export function inputsFor(layout: string, s: Sample, logoCreate: boolean): Record<string, unknown> {
-  const base = { language: "English", aiCopy: "off", colorMode: "", bgPose: "style" };
+  const base = { language: "English", aiCopy: "off", colorMode: s.colorMode || "template", bgPose: "style" };
   switch (layout) {
     case "CHAMPIONS":
       return { ...base, headline: "CHAMPIONS", team: s.team, roster: ROSTER, trophy: "surprise", date: s.date, eventName: s.competition };

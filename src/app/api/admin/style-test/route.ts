@@ -4,7 +4,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiAdmin } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
-import { advanceStyleTest, getRun, startRun, stopRun } from "@/lib/style-test";
+import { advanceStyleTest, getRun, pauseRun, resumeRun, startRun, stopRun } from "@/lib/style-test";
 import { DEFAULT_SAMPLE } from "@/lib/style-test-inputs";
 
 export const dynamic = "force-dynamic";
@@ -26,9 +26,12 @@ const SampleSchema = z.object({
   date: z.string().max(40),
   venue: z.string().max(40),
   mascot: z.string().max(80),
+  colorMode: z.enum(["template", "team", "surprise"]).optional(),
 });
 const Body = z.discriminatedUnion("action", [
   z.object({ action: z.literal("start"), items: z.array(Item).min(1).max(300), sample: SampleSchema }),
+  z.object({ action: z.literal("pause") }),
+  z.object({ action: z.literal("resume") }),
   z.object({ action: z.literal("stop") }),
   z.object({ action: z.literal("advance") }),
 ]);
@@ -69,6 +72,8 @@ export const POST = handle(async (req: NextRequest) => {
     const run = await startRun(admin.id, body.items, sample);
     return json({ run, results: await results(admin.id) });
   }
+  if (body.action === "pause") return json({ run: await pauseRun(), results: await results(admin.id) });
+  if (body.action === "resume") return json({ run: await resumeRun(), results: await results(admin.id) });
   if (body.action === "stop") return json({ run: await stopRun(), results: await results(admin.id) });
   const did = await advanceStyleTest();
   return json({ did, run: await getRun(), results: await results(admin.id) });
