@@ -82,11 +82,20 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
             ? "Pósters nuevos: el que elijas aquí. Las ediciones (“Editar este diseño”) siempre usan Nano Banana Pro porque mantiene la misma imagen. Nano Banana usa tu saldo de fal.ai."
             : "New posters: the one you pick here. Edits (“Edit this design”) always use Nano Banana Pro because it keeps the same image. Nano Banana uses your fal.ai balance."}
         </p>
-        <label className="label mt-4">⭐ {es ? "Equipo de la semana" : "Team of the week"}</label>
-        <select className="input" value={v.totw_model ?? "openai"} onChange={(e) => setV({ ...v, totw_model: e.target.value })}>
-          <option value="openai">{es ? "Solo OpenAI GPT Image — sin fal.ai (una pasada, texto exacto)" : "OpenAI GPT Image only — no fal.ai (one pass, exact text)"}</option>
-          <option value="same">{es ? "Igual que el generador de pósters de arriba" : "Same as the poster generator above"}</option>
-        </select>
+        <label className="label mt-4">{es ? "Solo OpenAI (sin fal.ai) para estos tipos" : "OpenAI only (no fal.ai) for these types"}</label>
+        <div className="flex flex-wrap gap-1.5">
+          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"] as const).map((l) => {
+            const list = (v.openai_only_layouts ?? "TOTW,STANDINGS").split(",").filter(Boolean);
+            const on = list.includes(l);
+            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Tablas"], LOGO: ["Team logos", "Logos"], EVENT: ["Tournaments", "Torneos"] };
+            return (
+              <button key={l} type="button" onClick={() => setV({ ...v, openai_only_layouts: (on ? list.filter((x) => x !== l) : [...list, l]).join(",") })} className={`rounded-full border px-3 py-1 text-xs font-bold ${on ? "border-lime bg-lime/15 text-lime" : "border-line text-muted"}`}>
+                {names[l][es ? 1 : 0]}
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-1 text-[11px] text-muted">{es ? "Los tipos marcados se hacen con OpenAI GPT Image en una pasada (texto exacto) y no usan fal.ai; el resto usa el generador de arriba." : "Checked types are made by OpenAI GPT Image in one pass (exact text) and never touch fal.ai; the rest use the generator above."}</p>
       </div>
       <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
         <label className="label">✨ {es ? "Video con IA (Kling 3.0)" : "AI video (Kling 3.0)"}</label>

@@ -160,7 +160,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (pro) {
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, openaiOnly: template.layout === "TOTW" && (await getSettings()).totw_model !== "same" });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout) });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
