@@ -1035,6 +1035,11 @@ export function CreateWizard({
           {layout === "STANDINGS" && (
             <>
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              {champ && !champ.logoUrl && (
+                <p className="-mt-1 rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-xs text-amber-200">
+                  ⚠️ {locale === "es" ? `${champ.name} no tiene logo: el póster saldrá sin el logo de la liga. Agrégalo en Mis ligas.` : `${champ.name} has no logo yet — the poster will come out without the league logo. Add it in My leagues.`}
+                </p>
+              )}
               <div className="grid grid-cols-2 gap-3">
                 {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "TABLA DE POSICIONES" : "STANDINGS" })}
                 {field({ label: locale === "es" ? "Jornada / semana" : "Matchday / week", k: "date", max: 30, ph: locale === "es" ? "Jornada 7" : "Matchday 7" })}

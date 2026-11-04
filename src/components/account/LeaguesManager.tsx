@@ -95,6 +95,16 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
     setNewLogo(null);
     router.refresh();
   }
+  async function setLogo(l: League, url: string | null) {
+    if (l.official) return;
+    const r = await fetch(`/api/saved/${l.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ logoUrl: url }) }).catch(() => null);
+    const d = await r?.json().catch(() => ({}));
+    if (!d?.item) return setMsg((m) => ({ ...m, [l.id]: es ? "❌ No se pudo guardar el logo" : "❌ Couldn't save the logo" }));
+    setLeagues((ls) => ls.map((x) => (x.id === l.id ? { ...x, logoUrl: d.item.logoUrl ?? null } : x)));
+    setDraft((dr) => (dr[l.id] ? { ...dr, [l.id]: { ...dr[l.id], logoUrl: d.item.logoUrl ?? null } } : dr));
+    savedChanged("championship");
+    router.refresh();
+  }
   async function remove(l: League) {
     setBusy(l.id);
     if (!l.official) await fetch(`/api/saved/${l.id}`, { method: "DELETE" }).catch(() => {});
@@ -173,6 +183,9 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
             </button>
             {isOpen && (
               <div className="space-y-3 border-t border-line p-4">
+                {!l.official && (
+                  <ImageDrop kind="logo" label={es ? "🏟️ Logo de la liga / organización (sale en todos sus pósters)" : "🏟️ League / organization logo (goes on all its posters)"} value={l.logoUrl} onChange={(u) => setLogo(l, u)} searchQuery={l.name} />
+                )}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="block">
                     <span className="label">{es ? "Titular" : "Headline"}</span>
