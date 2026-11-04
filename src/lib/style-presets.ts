@@ -1019,7 +1019,7 @@ SCENE & COLOURS: blood red, black and white (if the COLOURS line below gives tea
 
 FIGURES
 1. BEHIND (top centre, huge): a chest-up portrait looking DOWN into the camera with a cold stare, red-and-black duotone, hard contrast, blending into the smoke.
-2. IN FRONT (lower right): a FULL-BODY SPRINT with the ball — mid-stride, leaning forward, full colour, red rim light, feet inside the frame.
+2. IN FRONT (lower right): a FULL-BODY figure POSING SIDEWAYS — standing still in a confident side-on / three-quarter stance (body turned to the side, head turned toward the camera, arms crossed or hands on the hips), NOT running, NOT mid-action — full colour, red rim light, feet inside the frame. This is THIS style's exception to the house look: a calm sideways pose instead of an action shot.
 
 LAYOUT
 - The crest (if given) big at the centre-left, overlapping the portrait's shoulder, crisp with a red glow.
@@ -4750,6 +4750,7 @@ const SMALL_TEAM_NAME_FIXES: [string, string][] = [
   ["(tagline, subtitle, footer repeated small — never the team name)", "(tagline, subtitle, footer repeated small; nothing else)"],
   ["Write each item once (the giant background team name is the only team-name text).", "Write each item once (the player's name may also appear as the giant background echo)."],
   ["- A big polished metal TROPHY at the upper right if the tagline or subtitle mentions champions / winners; otherwise glowing light.", "- UPPER RIGHT: the team crest (if provided) echoed LARGE and FADED — a ghosted, semi-transparent version blended into the purple light and smoke (about 25% opacity), partly cut off by the edge. NEVER a trophy, cup, award or medal anywhere on this poster. If no crest is given: glowing light and neon rings only."],
+  ["2. IN FRONT (lower right): a FULL-BODY SPRINT with the ball — mid-stride, leaning forward, full colour, red rim light, feet inside the frame.", "2. IN FRONT (lower right): a FULL-BODY figure POSING SIDEWAYS — standing still in a confident side-on / three-quarter stance (body turned to the side, head turned toward the camera, arms crossed or hands on the hips), NOT running, NOT mid-action — full colour, red rim light, feet inside the frame. This is THIS style's exception to the house look: a calm sideways pose instead of an action shot."],
 ];
 
 /** Removes the "team name small / tiny / letter-spaced" lines from a style's design instructions (big design uses stay). */

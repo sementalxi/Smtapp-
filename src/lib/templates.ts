@@ -792,7 +792,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "PLAYER",
     sort: 0,
     prompt:
-      "player shown twice (big duotone bust behind, full-body sprint with the ball in front), red ultras night with flares and smoke, giant distressed name letters, crest hero element, torn paper textures, pro Photoshop composite",
+      "player shown twice (big duotone bust behind, full-body sideways pose in front), red ultras night with flares and smoke, giant distressed name letters, crest hero element, torn paper textures, pro Photoshop composite",
     style: {
       primary: "#d4142b",
       accent: "#ffffff",
