@@ -31,7 +31,8 @@ export function PosterZoom({ src, alt, className = "" }: { src: string; alt: str
     const maxY = box ? ((s - 1) * box.height) / 2 : 0;
     return { s, x: s === 1 ? 0 : Math.min(maxX, Math.max(-maxX, v.x)), y: s === 1 ? 0 : Math.min(maxY, Math.max(-maxY, v.y)) };
   };
-  const dist = (t: TouchList) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  type Pts = { length: number; [i: number]: { clientX: number; clientY: number } };
+  const dist = (t: Pts) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
 
   function onTouchStart(e: React.TouchEvent) {
     const t = e.touches;
