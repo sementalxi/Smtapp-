@@ -53,7 +53,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
         ))}
       </div>
       {banners.length ? (
-        <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} />
+        <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} es={es} />
       ) : (
         <div className="card grid place-items-center gap-3 p-12 text-center">
           <div className="text-4xl">🎨</div>

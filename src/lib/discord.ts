@@ -121,7 +121,8 @@ export async function logGeneration(opts: {
       color: opts.ok ? 0xff2e88 : 0xff4d5e,
       fields: [
         { name: "User", value: `${user?.name ?? "?"}\n${user?.email ?? ""}`.slice(0, 1000), inline: true },
-        { name: "Type", value: `${kind}\n${banner?.template.name ?? ""}`.slice(0, 1000), inline: true },
+        { name: "Type", value: kind.slice(0, 1000), inline: true },
+        { name: "Style", value: (banner?.template.name || "—").slice(0, 1000), inline: true },
         { name: "Credits", value: opts.ok ? `−${opts.cost} (left: ${user?.credits ?? "?"})` : "refunded", inline: true },
         ...(opts.error ? [{ name: "Error", value: opts.error.slice(0, 1000) }] : []),
       ],

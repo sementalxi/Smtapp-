@@ -71,7 +71,7 @@ export default async function AdminUserPage({ params }: { params: Promise<{ id: 
       {banners.length > 0 && (
         <div>
           <h2 className="mb-3 font-bold">{t("admin_banners")}</h2>
-          <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} admin />
+          <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} admin es={locale === "es"} />
         </div>
       )}
     </div>

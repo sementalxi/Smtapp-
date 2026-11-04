@@ -1269,6 +1269,12 @@ export function CreateWizard({
             <h3 className="mb-3 font-bold">{L.finish}</h3>
             <dl className="space-y-2">
               <div className="flex justify-between"><dt className="text-muted">{L.artType}</dt><dd>{artName}</dd></div>
+              {tpl && (
+                <div className="flex justify-between gap-3">
+                  <dt className="text-muted">{locale === "es" ? "Estilo" : "Style"}</dt>
+                  <dd className="truncate text-right font-semibold">{locale === "es" ? tpl.nameEs : tpl.name}</dd>
+                </div>
+              )}
               <div className="flex justify-between">
                 <dt className="text-muted">{L.status}</dt>
                 <dd>{phase === "done" ? L.completed : phase === "busy" ? L.generating : phase === "error" ? L.failed : "—"}</dd>

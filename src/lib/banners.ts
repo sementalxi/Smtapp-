@@ -12,6 +12,7 @@ import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
 import { FORMATION_ROWS } from "./formations";
 import { getSettings } from "./settings";
+import { stripSmallTeamName } from "./style-presets";
 
 const str = (max: number) => z.string().trim().max(max).default("");
 
@@ -397,18 +398,23 @@ export function buildProPrompt(opts: {
   /** Output format chosen by the user: post 4:5 (default), story 9:16, banner 16:9. */
   format?: "post" | "story" | "banner" | "square";
 }) {
+  // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
+  if (opts.instructions) opts = { ...opts, instructions: stripSmallTeamName(opts.instructions) };
   const { inputs: raw, style, layout } = opts;
-  // When a team has a logo, the built-in layouts show only the logo — not the team's name as text.
-  // Styles whose design instructions use the team name (giant background letters, a team line…) keep it,
-  // otherwise the AI would improvise a name (e.g. from the shirt in the photo).
+  // The team name is typed to save the team (and its crest) — it is NOT a caption for the poster.
+  // It becomes poster text only where a design makes it a big graphic element: a style whose instructions
+  // use it (giant background letters, a hero word, a ribbon) or the built-in player layout's giant lettering
+  // when no crest exists. With a crest, the crest shows the team. It is never a small letter-spaced line.
   const hasTeamLogo = opts.refs.some((r) => r.label.startsWith("the crest/logo of the team"));
+  const styleLed = !!opts.instructions?.trim();
   const styleUsesTeamName = /team name|team's name|nombre del equipo/i.test(opts.instructions ?? "");
+  const teamNameInDesign = hasTeamLogo || (layout === "PLAYER" && styleLed) ? styleUsesTeamName : true;
   const overlays = opts.refs.filter((r) => r.overlay);
   const exactLogos = overlays.length > 0;
   const aiRefs = opts.refs.filter((r) => !r.overlay);
   const i: BannerInputs = {
     ...raw,
-    team: hasTeamLogo && !styleUsesTeamName ? "" : raw.team,
+    team: teamNameInDesign ? raw.team : "",
     homeTeam: raw.homeLogoUrl ? "" : raw.homeTeam,
     awayTeam: raw.awayLogoUrl ? "" : raw.awayTeam,
     eventName: raw.champLogoUrl ? "" : raw.eventName,
@@ -529,7 +535,7 @@ export function buildProPrompt(opts: {
       composition = create
         ? `A brand-new, professional TEAM LOGO (crest / emblem) for a team called ${q(i.team || "the team")}${i.subtitle ? `, built around this mascot / idea: ${q(i.subtitle)}` : ""}. One centred emblem on a clean dark background with generous margin, bold and readable at small sizes, crisp edges, balanced symmetry, strong silhouette — like the logo of a top esports org or football club. The team name lettered as part of the emblem.`
         : `A premium LOGO SHOWCASE poster: the team's own logo (reference image) is the hero, big in the centre, faithfully reproduced, in an epic scene${i.headline ? `, with the short headline` : ""}. No people or players.`;
-      add(create ? "Team name (lettered inside the logo)" : "Team name (small)", i.team);
+      if (create) add("Team name (lettered inside the logo)", i.team); // a showcase never repeats the name — the logo already carries it
       if (!create) add("Headline", i.headline);
       add("Small line", i.footer);
       break;
@@ -592,7 +598,12 @@ export function buildProPrompt(opts: {
       add("Position tag box", i.position);
       add("Small elegant word above the name", i.tagline);
       add("Script-font line under the name", i.subtitle);
-      add("Team name (small, letter-spaced)", i.team);
+      add(
+        styleLed
+          ? "Team name — ONLY as the big graphic element the design instructions describe (giant background letters / hero word), written once; NEVER as a small line, caption or letter-spaced text"
+          : "Team name — ONLY as the giant background lettering described above, written once; NEVER as a small line, caption or letter-spaced text",
+        i.team,
+      );
       add("Jersey number (large outlined, right side)", i.number);
   }
   add("Letter-spaced footer line at the very bottom", i.footer);
@@ -706,6 +717,9 @@ export function buildProPrompt(opts: {
       ? `FINAL REMINDER: the layout, composition, figures, style and effects must follow the ART DIRECTOR'S DESIGN INSTRUCTIONS at the top of this brief.`
       : "",
     `THE PHOTO IS NOT CONTENT (very important): the uploaded photo is only a picture of the PERSON. Anything printed on their kit — a club badge, sponsor names, brand marks, words, numbers — belongs to that kit and is NOT the team, NOT a logo for this poster and NOT text for this poster. Never read, copy, echo, enlarge or rewrite any word, letter, number or badge that appears in the photo: not as giant background letters, not as a crest or emblem, not as a name, tagline or team name. ${i.team ? `The team is ${q(i.team)} — that is the only team name on this poster.` : "No team name was given — so no team name or club letters anywhere."} ${hasTeamLogo ? "The team crest is ONLY the crest given as its own reference image — the badge on the shirt in the photo is a different kit; leave it where it is on the shirt and never draw it as a separate element." : "No crest was given — draw no crest, badge or emblem anywhere (the badge on the shirt stays only on the shirt)."}`,
+    layout === "STANDINGS" || layout === "MATCHDAY" || layout === "CHAMPIONS"
+      ? ""
+      : `NO SMALL TEAM-NAME LINE: never print a team name as a small caption, label, tag or tiny letter-spaced line — not at the top, not at the bottom, not under the player's name, not beside the crest and never in the calm brand-mark corner. ${i.team ? `The team name ${q(i.team)} appears ONLY as the big design element this brief describes for it, once.` : "The team is shown by its crest only (if one was given) — no team name text anywhere."}`,
     `Only write the text items listed above${i.aiCopy === "on" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. Words that appear INSIDE a logo or crest (club names, "ESPORTS", "EST. 2023", mottos) stay only inside that logo — never copy them out as a title, name, tagline or any separate text. Never invent club info, years, slogans or "edition" lines. No real company or league logos except the provided crests and badges. NEVER take a crest, badge or logo from the player's photo (e.g. the club badge or sponsor on their shirt) and place it on the poster as a separate logo or emblem — the only crests/logos allowed as poster elements are the ones given as their own reference images. If no crest image is given, draw no crest at all.`,
   ]
     .filter(Boolean)

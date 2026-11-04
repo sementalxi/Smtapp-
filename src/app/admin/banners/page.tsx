@@ -82,7 +82,7 @@ export default async function AdminBanners({ searchParams }: { searchParams: Pro
           </div>
         )
       ) : (
-        <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} admin />
+        <BannerGrid banners={banners} labels={{ processing: t("processing"), failed: t("failed"), open: t("open") }} admin es={locale === "es"} />
       )}
       {pages > 1 && (
         <div className="flex items-center justify-center gap-3 text-sm">

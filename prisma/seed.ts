@@ -3,7 +3,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { DEFAULT_TEMPLATES } from "../src/lib/templates";
 import { SETTING_DEFAULTS } from "../src/lib/settings";
-import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS } from "../src/lib/style-presets";
+import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS, stripSmallTeamName } from "../src/lib/style-presets";
 import { DEFAULT_PRICING } from "../src/lib/pricing";
 
 const db = new PrismaClient();
@@ -99,6 +99,16 @@ async function main() {
     if (!cfg.plans?.length) cfg.plans = DEFAULT_PRICING.plans;
     await db.setting.upsert({ where: { key: "pricing" }, create: { key: "pricing", value: JSON.stringify(cfg) }, update: { value: JSON.stringify(cfg) } });
     await db.setting.create({ data: { key: "packs_off_v1", value: new Date().toISOString() } });
+  }
+  // One-time (owner's request): no small team-name line on any poster — the team name is typed to save the team, the crest shows it.
+  if (!(await db.setting.findUnique({ where: { key: "no_small_team_name_v1" } }))) {
+    const all = await db.template.findMany({ select: { id: true, proInstructions: true } });
+    for (const t of all) {
+      if (!t.proInstructions) continue;
+      const fixed = stripSmallTeamName(t.proInstructions);
+      if (fixed !== t.proInstructions) await db.template.update({ where: { id: t.id }, data: { proInstructions: fixed } });
+    }
+    await db.setting.create({ data: { key: "no_small_team_name_v1", value: new Date().toISOString() } });
   }
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });

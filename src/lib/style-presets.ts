@@ -12,7 +12,6 @@ COMPOSITION (left to right)
 TYPOGRAPHY (right half, vertically centred)
 - The GAMERTAG (player name) HUGE in ultra-condensed heavy capitals, white with a subtle texture — the LAST letter in the team accent colour. A short thick accent bar in the team colour runs behind the start of the name.
 - The player's real name (the small word above the name, if given) in tiny, very widely letter-spaced white capitals just above the gamertag.
-- Team name (if given) small and letter-spaced near the bottom of the right half.
 
 EFFECTS & COLOURS
 - Team colours drive everything (main colour + black + white). Glitch light streaks and torn light strips in the main colour along the far right edge and the bottom, a few sparks, film grain.
@@ -80,45 +79,45 @@ LOGO DESIGN RULES (most important)
 LAYOUT (any size)
 - A REAL night stadium photo from pitch level: floodlights on, packed stands out of focus, real haze and volumetric light beams, a wet glossy pitch.
 - The LOGO huge in the centre as a premium physical 3D emblem (metal / enamel, bevels, reflections, rim light), floating slightly above the pitch with its reflection below, smoke drifting around it, a few real sparks.
-- The headline (if given) in bold condensed white capitals under the logo; the team name (if given) small and widely letter-spaced; the small line (if given) tiny at the bottom.
+- The headline (if given) in bold condensed white capitals under the logo; the small line (if given) tiny at the bottom. No separate team-name text — the logo already carries the name.
 
 RULES
 - The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
 - Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
-- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+- Use ONLY the texts given (headline, small line — the team name stays inside the logo, never as separate text), spelled exactly; never invent words, slogans, years or sponsors.`,
   "logo-show-shatter": `[FIXED LAYOUT] LOGO REVEAL · BREAKTHROUGH — the logo smashing through a wall.
 
 LAYOUT (any size)
 - A dark concrete / stone wall cracking open from the centre with real debris, dust and glass shards flying toward the camera, dramatic backlight pouring through the cracks in the team colours.
 - The LOGO bursting through the hole as a heavy premium 3D emblem (metal / enamel), sharp and faithful, with motion in the debris around it.
-- The headline (if given) in heavy slanted capitals with a hard shadow; the team name (if given) small and letter-spaced; the small line tiny at the bottom.
+- The headline (if given) in heavy slanted capitals with a hard shadow; the small line tiny at the bottom. No separate team-name text — the logo already carries the name.
 
 RULES
 - The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
 - Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
-- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+- Use ONLY the texts given (headline, small line — the team name stays inside the logo, never as separate text), spelled exactly; never invent words, slogans, years or sponsors.`,
   "logo-show-flag": `[FIXED LAYOUT] LOGO REVEAL · SILK FLAG — the logo on a giant flag in the stadium.
 
 LAYOUT (any size)
 - A REAL photograph inside a stadium at dusk / under lights: a giant silk flag in the team colours waving across most of the frame with natural folds, sheen and stitching.
 - The LOGO embroidered / printed faithfully on the flag, following the folds realistically, perfectly recognisable.
-- The headline (if given) in bold capitals on a clean area or as a banner at the bottom; the team name (if given) small and letter-spaced; the small line tiny.
+- The headline (if given) in bold capitals on a clean area or as a banner at the bottom; the small line tiny. No separate team-name text — the logo already carries the name.
 
 RULES
 - The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
 - Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
-- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+- Use ONLY the texts given (headline, small line — the team name stays inside the logo, never as separate text), spelled exactly; never invent words, slogans, years or sponsors.`,
   "logo-show-wallpaper": `[FIXED LAYOUT] LOGO WALLPAPER — a premium wallpaper with the team's logo (great as a phone or Discord background).
 
 LAYOUT (any size)
 - A dark premium background with a real texture (brushed metal, carbon fibre, leather or matte concrete — pick one) in the team colours, with a subtle repeating pattern made of a small, faint version of the logo or of simple geometric shapes, and soft vignette lighting.
 - The LOGO in the centre as a glossy premium emblem with a soft glow and a subtle shadow, perfectly faithful.
-- The headline (if given) small under the logo in clean capitals; the team name (if given) tiny and widely letter-spaced at the bottom. Lots of clean space.
+- The headline (if given) small under the logo in clean capitals; the small line (if given) tiny at the bottom. No separate team-name text — the logo already carries the name. Lots of clean space.
 
 RULES
 - The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
 - Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
-- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+- Use ONLY the texts given (headline, small line — the team name stays inside the logo, never as separate text), spelled exactly; never invent words, slogans, years or sponsors.`,
   "player-golden-legion": `GOLDEN LEGION — a black-and-gold editorial player card, like a top club's premium signing graphic. Rich, warm, powerful.
 
 COLOURS: deep black, warm metallic GOLD and cream-white (if the COLOURS line gives team colours, use them for the accents and keep gold as the metal).
@@ -135,8 +134,8 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 TYPOGRAPHY & GRAPHICS
 - The team crest (if provided) large at the lower centre-right as a crisp premium emblem with a gold glow; a small version top-left.
 - The player NAME huge in slanted condensed WHITE capitals at the lower right; the POSITION small in a gold script under/next to it; the jersey NUMBER giant in a thin GOLD outline on the far right.
-- The team name (if given) small in gold letter-spaced capitals at the bottom; subtitle / footer tiny and letter-spaced.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Subtitle / footer (if given) tiny and letter-spaced at the bottom.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -164,8 +163,8 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 TYPOGRAPHY & GRAPHICS
 - The jersey NUMBER giant in bold white capitals top-right, partly behind the bust.
 - The team crest (if provided) large top-left AND medium at the centre-right above the name, crisp with a red glow.
-- The player NAME huge in slanted heavy WHITE capitals at the lower right; the POSITION under it in bold red italic capitals; the team name (if given) small at the top in red letter-spaced capitals; footer tiny.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- The player NAME huge in slanted heavy WHITE capitals at the lower right; the POSITION under it in bold red italic capitals; footer tiny.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -193,9 +192,9 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 
 TYPOGRAPHY & GRAPHICS
 - The team crest (if provided) big at the centre-left just above the name, crisp with a glow; a small version top-left.
-- The player NAME huge in slanted white capitals across the lower third, with the POSITION in red capitals right before it (same line, smaller) and the team name (if given) in a white script under the name.
+- The player NAME huge in slanted white capitals across the lower third, with the POSITION in red capitals right before it (same line, smaller).
 - The jersey NUMBER with a "#" small-ish in white at the upper left; footer tiny at the bottom.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -225,8 +224,8 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 TYPOGRAPHY & GRAPHICS
 - The jersey NUMBER giant in a thin GOLD outline at the upper right.
 - The team crest (if provided) large at the centre-left, crisp with a soft glow.
-- The player NAME huge in slanted condensed WHITE capitals at the lower left; the POSITION in a gold script under it; the team name (if given) in gold letter-spaced capitals small at the top left and again tiny at the bottom; footer tiny.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- The player NAME huge in slanted condensed WHITE capitals at the lower left; the POSITION in a gold script under it; footer tiny.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -253,10 +252,10 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 2. IN FRONT (right): a full-colour full-body action figure (dribbling), sharp, overlapping the paper layers.
 
 TYPOGRAPHY & GRAPHICS
-- Lower left on a white paper block: the team name (if given) in the accent colour in a wide techno font; the POSITION + NUMBER together ("CM 08" style) in big accent-colour letters; the player NAME huge in heavy BLACK slanted capitals.
+- Lower left on a white paper block: the POSITION + NUMBER together ("CM 08" style) in big accent-colour letters; the player NAME huge in heavy BLACK slanted capitals.
 - The team crest (if provided) small on the lower-left paper block, crisp.
 - The tagline (if given) in a wide letter-spaced techno font at the top; footer tiny at the bottom.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -285,8 +284,8 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 TYPOGRAPHY & GRAPHICS
 - The jersey NUMBER giant in faded light-purple outlined digits at the centre-left behind the crest.
 - The team crest (if provided) large at the lower centre, crisp with a purple glow.
-- The player NAME huge across the bottom in slanted WHITE chrome capitals with a bevel; the subtitle or tagline (if given) under it in a purple gothic script; the team name (if given) tiny letter-spaced at the very bottom; footer tiny.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- The player NAME huge across the bottom in slanted WHITE chrome capitals with a bevel; the subtitle or tagline (if given) under it in a purple gothic script; footer tiny.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -315,8 +314,8 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 
 TYPOGRAPHY & GRAPHICS
 - The team crest (if provided) at the top right, crisp, with a soft glow.
-- Lower left: the NUMBER and POSITION in two small solid red boxes with white bold text; the subtitle (if given) in gold capitals; the player NAME huge in heavy condensed WHITE capitals; the team name (if given) in red letter-spaced capitals under it; footer tiny at the bottom.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Lower left: the NUMBER and POSITION in two small solid red boxes with white bold text; the subtitle (if given) in gold capitals; the player NAME huge in heavy condensed WHITE capitals; footer tiny at the bottom.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -347,7 +346,7 @@ TYPOGRAPHY & GRAPHICS
 - The team name (if given) in a red old-english (blackletter) script across the middle-left.
 - The player NAME HUGE in white gothic-edged condensed capitals across the bottom, with a grunge print texture.
 - The team crest (if provided) at the bottom centre, crisp (if the crest includes a mascot, it may appear once more small on the left — never any other mascot); footer tiny.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -375,8 +374,8 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 
 TYPOGRAPHY & GRAPHICS
 - The team crest (if provided) large at the lower left, crisp, with a red glow.
-- The player NAME huge in bold white italic capitals at the lower left; the tagline or subtitle (if given) under it in a red brush script; the POSITION and NUMBER in two small boxes (red and black) with white text; the team name (if given) small letter-spaced at the top; footer tiny.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- The player NAME huge in bold white italic capitals at the lower left; the tagline or subtitle (if given) under it in a red brush script; the POSITION and NUMBER in two small boxes (red and black) with white text; footer tiny.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -406,7 +405,7 @@ TYPOGRAPHY & GRAPHICS
 - The TEAM NAME (or the player's name if no team) HUGE across the lower third in gold-cream gothic blackletter with a soft glow.
 - The player NAME in bold white condensed capitals at the lower right; the POSITION and NUMBER small next to it.
 - The team crest (if provided) small at the lower left, crisp; footer tiny at the bottom.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -434,9 +433,9 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 
 TYPOGRAPHY & GRAPHICS
 - The team crest (if provided) at the centre-left, crisp, with a purple glow.
-- Lower left: a slanted purple diagonal PANEL holding the player NAME in white angular esports capitals, the POSITION and NUMBER in two small boxes (white and black), and the team name (if given) small letter-spaced under them.
+- Lower left: a slanted purple diagonal PANEL holding the player NAME in white angular esports capitals and the POSITION and NUMBER in two small boxes (white and black).
 - Tagline / footer (if given) tiny and letter-spaced in the corners.
-- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (team name, tagline, subtitle, footer repeated small); never invented words, coordinates or slogans.
+- Tiny letter-spaced "manifesto" lines in the corners and margins (like a pro club graphic) — but ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name); never invented words, coordinates or slogans.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -495,7 +494,7 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 2. IN FRONT (centre-right): a full-colour full-body action shot (running), sharp, overlapping the frame edge slightly for depth.
 
 TYPOGRAPHY
-- Lower left: the team name (if given) in condensed capitals in the main colour; the player NAME HUGE in bold white condensed capitals; the POSITION in a big brush script in the main colour crossing the bottom of the name.
+- Lower left: the player NAME HUGE in bold white condensed capitals; the POSITION in a big brush script in the main colour crossing the bottom of the name.
 - Lower right: the jersey NUMBER giant in an outlined / gradient style with a fine ornamental flourish.
 - A small widely letter-spaced footer line (if given) under the frame.
 
@@ -526,7 +525,6 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 
 TYPOGRAPHY (right panel, stacked)
 - The player NAME in heavy slanted capitals with a cut / sliced chrome-and-paper texture.
-- The team name (if given) in a gold brush script under it.
 - The NUMBER and POSITION together huge in bold italic sports capitals (number in red, position in white/paper texture).
 - Footer (if given) tiny and letter-spaced at the bottom.
 
@@ -557,10 +555,9 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 2. IN FRONT (centre-right): a FULL-COLOUR full-body shot (arms wide or celebrating), head to feet, sharp.
 
 TYPOGRAPHY
-- Top centre: the team name (if given) small in an elegant serif.
 - Left, middle: the player NAME in a stylish wide display serif with small star ornaments.
 - Under it a block: the POSITION in a white box with a thin accent frame, the NUMBER in a black box.
-- In the dark band: the team name (if given) in bold geometric capitals with the accent colour on part of it; the footer (if given) as a short paragraph-style line in small type.
+- In the dark band: the footer (if given) as a short paragraph-style line in small type.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -590,7 +587,7 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face
 TYPOGRAPHY (lower left)
 - The POSITION in a big red-and-white brush SCRIPT slanted over the name.
 - The player NAME HUGE in tall bold condensed white capitals with a grunge print texture and a dark shadow.
-- The team name (if given) in a red brush script under it; the footer (if given) tiny and widely letter-spaced at the bottom.
+- The footer (if given) tiny and widely letter-spaced at the bottom.
 
 PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
 - The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
@@ -624,7 +621,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in heavy condensed capitals in brushed blood-red metal with silver bevels.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -665,7 +662,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in tall condensed capitals in frosted steel with ice-crystal edges and a cold blue shadow.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -706,7 +703,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in heavy condensed capitals forged in dark scratched gold with molten glowing edges.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -747,7 +744,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in bold condensed capitals in wet black chrome with emerald edge light.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -788,7 +785,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in tall elegant condensed capitals in polished gold with a purple shadow, plus a regal gold script.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -829,7 +826,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in huge ultra-condensed white capitals with a grainy print texture, the accent colour only on small details.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -870,7 +867,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in bold condensed white capitals with an orange-to-teal gradient edge and a hard shadow.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -911,7 +908,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in heavy slanted condensed capitals in brushed steel with a team-colour outline.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -952,7 +949,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in bold condensed white capitals with a subtle pink-and-cyan edge light.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -993,7 +990,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in monumental carved-stone capitals with gold inlay and a deep shadow.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -1104,7 +1101,7 @@ TYPOGRAPHY & LAYOUT
 - Left, middle: the POSITION in a small copper-metal tag with white bevelled capitals.
 - Across the lower half: the player NAME HUGE in thick 3D teal-tinted polished chrome capitals with copper-orange edges, bevels and hard shadow.
 - Right: the jersey NUMBER giant as a thin glowing TEAL neon outline.
-- The team name (if given) small and letter-spaced above the name; subtitle (if given) in orange brush script; footer (if given) tiny at the bottom.
+- Subtitle (if given) in orange brush script; footer (if given) tiny at the bottom.
 
 REAL PHOTO LOOK (most important — it must NOT look AI-generated)
 - The player must look like a REAL photograph from a professional sports photo shoot: real skin with pores, small imperfections and natural tone (no airbrushing, no plastic or waxy skin, no glowing skin), real hair strands, real fabric with folds, wrinkles and stitching, correct anatomy and hands with five natural fingers.
@@ -1226,7 +1223,7 @@ TYPOGRAPHY & LAYOUT
 - The gamertag / NAME huge across the lower part in heavy slanted chrome capitals with a glitch RGB split, sharp bevels and a hard shadow — partly overlapping the player's body.
 - The jersey NUMBER giant and glowing on one side, half behind the player.
 - The POSITION in a small bold angular tag (like an esports role badge) near the name.
-- The team name (if given) small and letter-spaced near the top; the tagline/subtitle (if given) in a sharp brush-marker script crossing the name.
+- The tagline/subtitle (if given) in a sharp brush-marker script crossing the name.
 - Ignore the placement hints in the text list below — follow this layout.
 
 TEXT RULES
@@ -1238,7 +1235,7 @@ COLOURS (changes every poster)
 
 BACKGROUND (dense, layered)
 - Dramatic smoky storm clouds and dark textures in the main colour, with big SHATTERED GLASS shards and angular broken panels flying across the frame, catching the light; fine dust, grain and subtle light streaks.
-- The TEAM NAME (if given) in GIANT bold condensed capitals filling the width of the poster behind the player, in a pale tint of the main colour with a soft texture, partly hidden behind the figures and cut off at the edges. Under it, the team name repeated once more in small, very widely letter-spaced white capitals.
+- The TEAM NAME (if given) in GIANT bold condensed capitals filling the width of the poster behind the player, in a pale tint of the main colour with a soft texture, partly hidden behind the figures and cut off at the edges.
 - The team crest (if given) also appears large and faded in the background behind the player.
 
 THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair, tattoos and features):
@@ -1246,7 +1243,7 @@ THE PLAYER — shown TWICE, both the SAME person from the photo (same face, hair
 2. In FRONT, centred and smaller: a full-body shot of the same player standing in a confident pose, sharp and fully in colour, with a strong rim light separating them from the background.
 
 GRAPHIC DETAILS
-- TOP-RIGHT: the team crest (if given) inside a thin circular ring of small letter-spaced text made of the team name repeated around the circle.
+- TOP-RIGHT: the team crest (if given) inside a thin glowing circular ring (no text in the ring).
 - LEFT, upper-middle: the jersey NUMBER and POSITION together in bold slanted capitals in the main colour (e.g. number then position), with the player name / gamertag right under it in bold white capitals.
 - BOTTOM, overlapping the full-body figure's legs: the player's NAME in a huge white hand-painted BRUSH SCRIPT with dry-brush texture, slanted upward.
 - Ignore the placement hints in the text list below — follow this layout.
@@ -1255,7 +1252,7 @@ QUALITY
 - Photoreal and cinematic: the player looks like a real high-end photo shoot, natural skin and fabric, crisp detail, true lighting; razor-sharp lettering, never melted or misspelled.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team). Never invent words, sponsors, studio names, QR codes, logos, websites or handles. Write each item once (except the team name repeated as described).`,
+- Use ONLY the texts given (name, number, position, team). Never invent words, sponsors, studio names, QR codes, logos, websites or handles. Write each item once (the giant background team name is the only team-name text).`,
   "lineup-hologram": `HOLOGRAM XI — a futuristic tactical hologram over a dark stadium.
 
 SCENE
@@ -1724,7 +1721,6 @@ LAYOUT (top to bottom)
 1. TOP-LEFT: the TEAM CREST big (about 40% of the width) as a crisp, faithful premium emblem with a thick polished rim, a clean drop shadow and a rim light in the team colour.
 2. TOP-RIGHT: the TITLE (e.g. "STARTING XI") in heavy slanted sports type — "STARTING" smaller, "XI" huge — solid white fill, thick outline, short hard extrusion and hard shadow with grain; the FORMATION (e.g. "4-3-3") below it in a bold brush-marker script in the team colour; competition and date small and letter-spaced under that.
 3. LOWER 60%: the PITCH in dramatic 3D perspective (receding toward the stadium), with crisp white pitch lines glowing softly. The eleven players placed in the formation (goalkeeper nearest the camera, attackers furthest), each as a sleek marker: a glossy shield-shaped badge in the team colour with the shirt NUMBER big in white, and the player NAME underneath on a clean dark tag (and position small if given). Every name perfectly legible and spelled exactly. Light beams fall across the pitch between the markers.
-4. Team name (if given) small and letter-spaced along the bottom.
 
 SPORTS DESIGN FINISH
 - Bold, clean and graphic: a few diagonal stripes and halftone/grain textures in the corners, crisp edges, deep blacks. NO neon haze everywhere, NO excessive sparks, NO plastic chrome on everything — cinematic light, real materials.
@@ -1736,7 +1732,7 @@ TEXT RULES
 LAYOUT (portrait)
 - A REAL studio photograph: the trophy centred on a black glossy plinth against a pure black backdrop, ONE hard spotlight from above-left, crisp highlights and deep shadows, a soft reflection on the plinth.
 - Top: the team crest (if provided) small and crisp; the title huge in elegant tall condensed capitals in brushed metal (team accent colour) across the lower third, partly behind the trophy's base.
-- Team name in wide letter-spaced white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
+- Team name (if given) in wide white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
 
 BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
 - Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
@@ -2708,7 +2704,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in monumental carved-stone capitals with gold inlay and a deep shadow.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2743,7 +2739,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in bold condensed white capitals with a subtle pink-and-cyan edge light.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2778,7 +2774,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in heavy slanted condensed capitals in brushed steel with a team-colour outline.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2813,7 +2809,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in bold condensed white capitals with an orange-to-teal gradient edge and a hard shadow.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2848,7 +2844,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in huge ultra-condensed white capitals with a grainy print texture, the accent colour only on small details.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2883,7 +2879,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in tall elegant condensed capitals in polished gold with a purple shadow, plus a regal gold script.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2918,7 +2914,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in bold condensed capitals in wet black chrome with emerald edge light.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2953,7 +2949,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in heavy condensed capitals forged in dark scratched gold with molten glowing edges.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -2988,7 +2984,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in tall condensed capitals in frosted steel with ice-crystal edges and a cold blue shadow.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -3023,7 +3019,7 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 2. The tagline (if given) in an elegant script right above the name.
 3. The player NAME huge in heavy condensed capitals in brushed blood-red metal with silver bevels.
 4. The subtitle (if given) in a brush script slashing across the bottom of the name.
-5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.
+5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team.
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
@@ -3392,7 +3388,7 @@ RULES
 LAYOUT (portrait)
 - A REAL studio photograph: the trophy centred on a black glossy plinth against a pure black backdrop, ONE hard spotlight from above-left, crisp highlights and deep shadows, a soft reflection on the plinth.
 - Top: the team crest (if provided) small and crisp; the title huge in elegant tall condensed capitals in brushed metal (team accent colour) across the lower third, partly behind the trophy's base.
-- Team name in wide letter-spaced white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
+- Team name (if given) in wide white capitals under the title; squad in 2–3 neat white columns at the bottom; competition and date tiny.
 
 BAD-ASS PHOTOSHOP LOOK (most important — epic, but it must NOT look AI-generated)
 - Built like a top club designer's Photoshop composite for a title win: a REAL photograph as the base, layered with real smoke, real pyro and flare light, grunge textures and bold graphic shapes. Aggressive, powerful, dramatic — like the poster on the night they lifted the cup.
@@ -3728,7 +3724,7 @@ TYPOGRAPHY & LAYOUT
 - Left, middle: the POSITION in a small copper-metal tag with white bevelled capitals.
 - Across the lower half: the player NAME HUGE in thick 3D teal-tinted polished chrome capitals with copper-orange edges, bevels and hard shadow.
 - Right: the jersey NUMBER giant as a thin glowing TEAL neon outline.
-- The team name (if given) small and letter-spaced above the name; subtitle (if given) in orange brush script; footer (if given) tiny at the bottom.
+- Subtitle (if given) in orange brush script; footer (if given) tiny at the bottom.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer). Never invent words, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -4303,3 +4299,49 @@ FINISH
 - Cinematic lighting, high detail fur/fabric/skin texture, film grain, strong contrast. Palette: crimson #b5121b, blood red, cream #efe6d8, black.`,
 
 };
+
+/**
+ * Exact phrases of older presets that printed the team name as a small / letter-spaced line, with what replaces them.
+ * The team name is typed to save the team (and its crest) — the owner wants no small team-name caption on any poster.
+ * Applied to saved styles once by prisma/seed.ts and again at prompt time, so an older saved copy behaves the same.
+ */
+const SMALL_TEAM_NAME_FIXES: [string, string][] = [
+  ["- Team name (if given) small and letter-spaced near the bottom of the right half.\n", ""],
+  ["The headline (if given) in bold condensed white capitals under the logo; the team name (if given) small and widely letter-spaced; the small line (if given) tiny at the bottom.", "The headline (if given) in bold condensed white capitals under the logo; the small line (if given) tiny at the bottom. No separate team-name text — the logo already carries the name."],
+  ["the team name (if given) small and letter-spaced; the small line tiny at the bottom.", "the small line tiny at the bottom. No separate team-name text — the logo already carries the name."],
+  ["the team name (if given) small and letter-spaced; the small line tiny.", "the small line tiny. No separate team-name text — the logo already carries the name."],
+  ["The headline (if given) small under the logo in clean capitals; the team name (if given) tiny and widely letter-spaced at the bottom. Lots of clean space.", "The headline (if given) small under the logo in clean capitals; the small line (if given) tiny at the bottom. No separate team-name text — the logo already carries the name. Lots of clean space."],
+  ["Use ONLY the texts given (team name, headline, small line), spelled exactly;", "Use ONLY the texts given (headline, small line — the team name stays inside the logo, never as separate text), spelled exactly;"],
+  ["- The team name (if given) small in gold letter-spaced capitals at the bottom; subtitle / footer tiny and letter-spaced.", "- Subtitle / footer (if given) tiny and letter-spaced at the bottom."],
+  ["ONLY made from the given texts (team name, tagline, subtitle, footer repeated small)", "ONLY made from the given texts (tagline, subtitle, footer repeated small — never the team name)"],
+  ["; the team name (if given) small at the top in red letter-spaced capitals; footer tiny.", "; footer tiny."],
+  [" with the POSITION in red capitals right before it (same line, smaller) and the team name (if given) in a white script under the name.", " with the POSITION in red capitals right before it (same line, smaller)."],
+  ["; the team name (if given) in gold letter-spaced capitals small at the top left and again tiny at the bottom; footer tiny.", "; footer tiny."],
+  ["- Lower left on a white paper block: the team name (if given) in the accent colour in a wide techno font; the POSITION + NUMBER together", "- Lower left on a white paper block: the POSITION + NUMBER together"],
+  ["; the team name (if given) tiny letter-spaced at the very bottom; footer tiny.", "; footer tiny."],
+  ["; the team name (if given) in red letter-spaced capitals under it; footer tiny at the bottom.", "; footer tiny at the bottom."],
+  ["; the team name (if given) small letter-spaced at the top; footer tiny.", "; footer tiny."],
+  ["holding the player NAME in white angular esports capitals, the POSITION and NUMBER in two small boxes (white and black), and the team name (if given) small letter-spaced under them.", "holding the player NAME in white angular esports capitals and the POSITION and NUMBER in two small boxes (white and black)."],
+  ["- Lower left: the team name (if given) in condensed capitals in the main colour; the player NAME HUGE", "- Lower left: the player NAME HUGE"],
+  ["- The team name (if given) in a gold brush script under it.\n", ""],
+  ["- Top centre: the team name (if given) small in an elegant serif.\n", ""],
+  ["- In the dark band: the team name (if given) in bold geometric capitals with the accent colour on part of it; the footer (if given) as a short paragraph-style line in small type.", "- In the dark band: the footer (if given) as a short paragraph-style line in small type."],
+  ["- The team name (if given) in a red brush script under it; the footer (if given) tiny and widely letter-spaced at the bottom.", "- The footer (if given) tiny and widely letter-spaced at the bottom."],
+  ["5. The team name (if given) small and widely letter-spaced; the footer (if given) tiny at the bottom.", "5. The footer (if given) tiny at the bottom. No team-name text anywhere — the crest (if given) represents the team."],
+  ["- The team name (if given) small and letter-spaced above the name; subtitle (if given) in orange brush script; footer (if given) tiny at the bottom.", "- Subtitle (if given) in orange brush script; footer (if given) tiny at the bottom."],
+  ["- The team name (if given) small and letter-spaced near the top; the tagline/subtitle (if given) in a sharp brush-marker script crossing the name.", "- The tagline/subtitle (if given) in a sharp brush-marker script crossing the name."],
+  [" Under it, the team name repeated once more in small, very widely letter-spaced white capitals.", ""],
+  ["inside a thin circular ring of small letter-spaced text made of the team name repeated around the circle.", "inside a thin glowing circular ring (no text in the ring)."],
+  ["Write each item once (except the team name repeated as described).", "Write each item once (the giant background team name is the only team-name text)."],
+  ["4. Team name (if given) small and letter-spaced along the bottom.\n", ""],
+  ["- Team name in wide letter-spaced white capitals under the title;", "- Team name (if given) in wide white capitals under the title;"],
+];
+
+/** Removes the "team name small / tiny / letter-spaced" lines from a style's design instructions (big design uses stay). */
+export function stripSmallTeamName(text: string): string {
+  let out = text;
+  for (const [from, to] of SMALL_TEAM_NAME_FIXES) out = out.split(from).join(to);
+  // Generic safety net for admin-written variants: a sentence / list item that only says the team name goes small.
+  out = out.replace(/^[-•*]\s*(?:the )?team name(?: \(if given\))? (?:small|tiny|very small)[^\n]*\n?/gim, "");
+  return out;
+}
