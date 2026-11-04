@@ -16,6 +16,7 @@ export default async function Home() {
   const { t, locale } = await getT();
   let templates: ClientTemplate[] = [];
   let bonus = 3;
+  let made = 0;
   let heroImgs: string[] = [];
   let heroBg: { mode: string; video: string; opacity: number; effect?: string } = { mode: "image", video: "", opacity: 70, effect: "stadium" };
   let partners: { id: string; name: string; logoUrl: string | null }[] = [];
@@ -23,12 +24,14 @@ export default async function Home() {
   try {
     const now = new Date();
     // All home-page data in parallel.
-    const [st, tpls, dealRows, partnerRows] = await Promise.all([
+    const [st, tpls, dealRows, partnerRows, madeCount] = await Promise.all([
       getSettings(),
       activeTemplates(null),
       db.deal.findMany({ where: { active: true, OR: [{ endsAt: null }, { endsAt: { gt: now } }] }, orderBy: [{ sort: "asc" }, { createdAt: "desc" }], take: 9 }),
       db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } }),
+      db.banner.count({ where: { status: "READY" } }),
     ]);
+    made = madeCount;
     heroImgs = [st.hero_1, st.hero_2, st.hero_3];
     heroBg = { mode: st.hero_bg_mode, video: st.hero_video, opacity: Number(st.hero_video_opacity) || 70, effect: st.hero_effect };
     templates = tpls;
@@ -46,7 +49,7 @@ export default async function Home() {
   return (
     <div>
       <RevealOnScroll />
-      <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} templates={templates} heroBg={heroBg} />
+      <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} templates={templates} heroBg={heroBg} made={made} />
 
       {/* How it works — numbered timeline */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
