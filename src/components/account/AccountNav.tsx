@@ -13,6 +13,12 @@ const PATHS = {
       <path d="M12 7v5l3 2" />
     </>
   ),
+  leagues: (
+    <>
+      <rect x="3.5" y="4" width="17" height="16" rx="2" />
+      <path d="M3.5 9h17M3.5 13.5h17M8 4v16" />
+    </>
+  ),
   credits: (
     <>
       <circle cx="12" cy="12" r="9" />

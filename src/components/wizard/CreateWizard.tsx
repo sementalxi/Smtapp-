@@ -171,6 +171,7 @@ export function CreateWizard({
   cost,
   proEnabled,
   initialLayout,
+  initialChamp = null,
   categories,
   season = null,
   seasonStart = false,
@@ -182,6 +183,8 @@ export function CreateWizard({
   cost: number;
   proEnabled: boolean;
   initialLayout?: LayoutKind;
+  /** League picked before opening the creator (from "My leagues"). */
+  initialChamp?: SavedItem | null;
   /** Visible categories in the admin's order. */
   categories?: LayoutKind[];
   /** Holiday/season the admin turned on (null = off). */
@@ -256,7 +259,7 @@ export function CreateWizard({
   const [team, setTeam] = useState<SavedItem | null>(null);
   const [home, setHome] = useState<SavedItem | null>(null);
   const [away, setAway] = useState<SavedItem | null>(null);
-  const [champ, setChamp] = useState<SavedItem | null>(null);
+  const [champ, setChamp] = useState<SavedItem | null>(initialChamp);
   const [playersText, setPlayersText] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);

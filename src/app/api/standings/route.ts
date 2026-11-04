@@ -30,3 +30,10 @@ export const PUT = handle(async (req: NextRequest) => {
   await db.setting.upsert({ where: { key: key(user.id, b.league) }, create: { key: key(user.id, b.league), value }, update: { value } });
   return json({ ok: true });
 });
+
+export const DELETE = handle(async (req: NextRequest) => {
+  const user = await apiUser();
+  const league = req.nextUrl.searchParams.get("league") ?? "";
+  if (league) await db.setting.deleteMany({ where: { key: key(user.id, league) } });
+  return json({ ok: true });
+});

@@ -2,17 +2,23 @@ import Link from "next/link";
 import type { CurrentUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { getNumberSetting } from "@/lib/settings";
+import { db } from "@/lib/db";
 import { AccountNav, type AccountLink } from "./AccountNav";
 
 /** Layout for the user's own pages: sidebar (desktop) / chip menu (phone) + content. */
 export async function AccountShell({ user, children }: { user: CurrentUser; children: React.ReactNode }) {
   const { locale } = await getT();
   const es = locale === "es";
-  const reward = await getNumberSetting("referral_reward").catch(() => 0);
+  const [reward, leagues] = await Promise.all([
+    getNumberSetting("referral_reward").catch(() => 0),
+    db.savedItem.count({ where: { userId: user.id, kind: "championship" } }).catch(() => 0),
+  ]);
   const links: AccountLink[] = [
     { href: "/dashboard", label: es ? "Inicio" : "Home", icon: "home" },
     { href: "/create", label: es ? "Crear arte" : "Create art", icon: "create" },
     { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "teams" },
+    // Organizations / league admins: their standings live here (shown once they have a league).
+    ...(leagues > 0 ? [{ href: "/leagues", label: es ? "Mis ligas" : "My leagues", icon: "leagues" as const }] : []),
     { href: "/history", label: es ? "Historial" : "History", icon: "history" },
     { href: "/credits", label: es ? "Créditos" : "Credits", icon: "credits" },
     { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", badge: reward > 0 ? `+${reward}` : undefined },

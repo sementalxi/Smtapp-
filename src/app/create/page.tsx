@@ -17,11 +17,20 @@ export const metadata = { title: "Create" };
 
 const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"];
 
-export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string }> }) {
+export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string; league?: string }> }) {
   const user = await requireUser();
   const { t } = await getT();
   const templates = await activeTemplates(user);
-  const { type, match, team: teamMode } = await searchParams;
+  const { type, match, team: teamMode, league } = await searchParams;
+  // From "My leagues": the league is picked already (its saved standings load by themselves).
+  const initialChamp = league
+    ? await (async () => {
+        const mine = await db.savedItem.findFirst({ where: { id: league, userId: user.id, kind: "championship" }, select: { id: true, name: true, logoUrl: true } });
+        if (mine) return { ...mine, official: false };
+        const off = await db.libraryItem.findFirst({ where: { id: league, kind: "championship" }, select: { id: true, name: true, logoUrl: true } });
+        return off ? { ...off, official: true } : null;
+      })()
+    : null;
 
   // Team set: next card with the same design as one of the user's player cards.
   if (match) {
@@ -111,6 +120,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         cost={await getNumberSetting("pro_cost")}
         proEnabled={proConfigured()}
         initialLayout={initial}
+        initialChamp={initialChamp}
         categories={cats}
         season={season}
         seasonStart={seasonOn && !!season}

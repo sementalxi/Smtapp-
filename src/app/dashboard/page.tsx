@@ -143,6 +143,16 @@ export default async function DashboardPage() {
           </div>
         </section>
 
+        {/* Organizations / league admins: standings kept on the site */}
+        <Link href="/leagues" className="flex items-center gap-3 rounded-2xl border border-line bg-panel px-4 py-3 transition hover:border-teal/60">
+          <span className="text-xl">🏟️</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-bold">{es ? "¿Organizas una liga?" : "Run a league?"}</span>
+            <span className="block truncate text-xs text-muted">{es ? "Guarda tu tabla aquí: toca G / E / P tras cada jornada y genera el póster." : "Keep your standings here: tap W / D / L after each matchday and generate the poster."}</span>
+          </span>
+          <span className="shrink-0 text-xs font-bold text-teal">{es ? "Mis ligas ›" : "My leagues ›"}</span>
+        </Link>
+
         {/* Recent posters */}
         <section>
           <div className="mb-3 flex items-end justify-between">
