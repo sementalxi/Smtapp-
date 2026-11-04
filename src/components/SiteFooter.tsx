@@ -37,7 +37,7 @@ export async function SiteFooter({ site }: { site: string }) {
     },
   ];
   return (
-    <footer className="mt-24 border-t border-line bg-panel/40">
+    <footer className="mt-10 border-t border-line bg-panel/40 sm:mt-20">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}

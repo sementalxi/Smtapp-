@@ -174,6 +174,7 @@ export function DailyReward({ variant = "modal" }: { variant?: "modal" | "card" 
   const [busy, setBusy] = useState(false);
   const [won, setWon] = useState<{ amount: number; streak: number } | null>(null);
   const [hidden, setHidden] = useState(false);
+  const [expanded, setExpanded] = useState(false); // dashboard card: show the 7 days after today's claim
   const [, tick] = useState(0);
 
   const load = useCallback(async () => {
@@ -266,6 +267,22 @@ export function DailyReward({ variant = "modal" }: { variant?: "modal" | "card" 
   );
 
   if (variant === "card") {
+    // Already claimed: a compact strip, so the dashboard stays short (tap to see the 7 days).
+    if (st.claimedToday && !won && !expanded) {
+      return (
+        <button type="button" onClick={() => setExpanded(true)} className="card flex w-full items-center gap-3 p-3 text-left transition hover:border-lime/40">
+          <span className="text-2xl">🎁</span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm font-bold">{st.title}</span>
+            <span className="block truncate text-xs text-muted">
+              ✅ {es ? "Reclamado hoy" : "Claimed today"} · {es ? "vuelve en" : "next in"} {untilText(st.resetAt)}
+              {st.streak > 0 && <> · 🔥 {st.streak} {es ? (st.streak === 1 ? "día" : "días") : st.streak === 1 ? "day" : "days"}</>}
+            </span>
+          </span>
+          <span className="shrink-0 text-xs font-bold text-lime">{es ? "Ver días ›" : "See days ›"}</span>
+        </button>
+      );
+    }
     return (
       <div className="card relative overflow-hidden p-4 sm:p-5">
         <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-300/10 blur-3xl" />
