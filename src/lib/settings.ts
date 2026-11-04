@@ -34,8 +34,7 @@ export const SETTING_DEFAULTS = {
   video_cost_10: "18",
   video_cost_audio: "5",
   daily_on: "1",
-  daily_credits: "1",
-  daily_streak_bonus: "3",
+  daily_ladder: "1,2,3,4,5,6,10", // credits for day 1…7 of a streak (then it starts over)
   daily_title: "Daily reward",
   daily_text: "Come back every day and claim your free credits. Keep your streak going!",
   daily_title_es: "Recompensa diaria",

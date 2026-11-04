@@ -100,8 +100,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <KeepAwake />
           <main>{children}</main>
           {me && <SupportChat />}
-          {/* Daily reward pop-up (the dashboard shows the full card instead) */}
-          {me && !path.startsWith("/dashboard") && !path.startsWith("/admin") && <DailyReward />}
+          {/* Daily reward pop-up (the dashboard shows the full card instead; never over the creator or a poster page) */}
+          {me && !["/dashboard", "/admin", "/create", "/banner"].some((p) => path.startsWith(p)) && <DailyReward />}
           <SiteFooter site={site} />
         </I18nProvider>
       </body>

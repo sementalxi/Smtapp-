@@ -4,14 +4,20 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 
-type V = { daily_on: string; daily_credits: string; daily_streak_bonus: string; daily_title: string; daily_text: string; daily_title_es: string; daily_text_es: string };
+type V = { daily_on: string; daily_ladder: string; daily_title: string; daily_text: string; daily_title_es: string; daily_text_es: string };
 
-/** Admin → Daily reward: amount, streak bonus and texts, with a live preview of what users see. */
+const parse = (raw: string) => {
+  const n = raw.split(",").map((x) => Number(x.trim()));
+  return n.length === 7 && n.every((x) => Number.isInteger(x) && x >= 0) ? n : [1, 2, 3, 4, 5, 6, 10];
+};
+
+/** Admin → Daily reward: the 7-day ladder and the texts, with a preview of the pop-up users see. */
 export function DailyRewardAdmin({ initial }: { initial: V }) {
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
   const [v, setV] = useState<V>(initial);
+  const [ladder, setLadder] = useState<number[]>(parse(initial.daily_ladder));
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const set = (k: keyof V) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setV({ ...v, [k]: e.target.value });
@@ -20,38 +26,52 @@ export function DailyRewardAdmin({ initial }: { initial: V }) {
     e.preventDefault();
     setBusy(true);
     setMsg("");
-    const r = await fetch("/api/admin/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(v) });
+    const body = { ...v, daily_ladder: ladder.map((n) => Math.max(0, Math.min(9999, Math.round(n) || 0))).join(",") };
+    const r = await fetch("/api/admin/settings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     setBusy(false);
     setMsg(r.ok ? (es ? "✅ Guardado" : "✅ Saved") : es ? "❌ No se pudo guardar" : "❌ Could not save");
     if (r.ok) router.refresh();
   }
 
-  const n = Number(v.daily_credits) || 0;
-  const bonus = Number(v.daily_streak_bonus) || 0;
   const title = (es ? v.daily_title_es || v.daily_title : v.daily_title) || (es ? "Recompensa diaria" : "Daily reward");
   const text = es ? v.daily_text_es || v.daily_text : v.daily_text;
+  const total = ladder.reduce((a, b) => a + b, 0);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <form onSubmit={save} className="card space-y-4 p-5">
-        <div className="grid gap-3 sm:grid-cols-3">
-          <label className="block">
-            <span className="label">{es ? "Encendida" : "On"}</span>
-            <select className="input" value={v.daily_on} onChange={set("daily_on")}>
-              <option value="1">{es ? "Sí — los usuarios la ven" : "Yes — users see it"}</option>
-              <option value="0">{es ? "No — oculta" : "No — hidden"}</option>
-            </select>
-          </label>
-          <label className="block">
-            <span className="label">{es ? "Créditos por día" : "Credits per day"}</span>
-            <input type="number" min={0} max={1000} className="input" value={v.daily_credits} onChange={set("daily_credits")} />
-          </label>
-          <label className="block">
-            <span className="label">{es ? "Bono el día 7 de racha" : "Bonus on streak day 7"}</span>
-            <input type="number" min={0} max={1000} className="input" value={v.daily_streak_bonus} onChange={set("daily_streak_bonus")} />
-            <span className="mt-1 block text-[11px] text-muted">{es ? "0 = sin bono" : "0 = no bonus"}</span>
-          </label>
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <form onSubmit={save} className="card space-y-5 p-5">
+        <label className="block sm:max-w-xs">
+          <span className="label">{es ? "Encendida" : "On"}</span>
+          <select className="input" value={v.daily_on} onChange={set("daily_on")}>
+            <option value="1">{es ? "Sí — los usuarios la ven" : "Yes — users see it"}</option>
+            <option value="0">{es ? "No — oculta" : "No — hidden"}</option>
+          </select>
+        </label>
+
+        <div>
+          <div className="label">🪙 {es ? "Créditos por día de racha" : "Credits per streak day"}</div>
+          <div className="grid grid-cols-4 gap-2 sm:grid-cols-7">
+            {ladder.map((n, i) => (
+              <label key={i} className={`block rounded-xl border p-2 text-center ${i === 6 ? "border-amber-300/60 bg-amber-300/5" : "border-line bg-panel-2"}`}>
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-muted">{i === 6 ? "★ " : ""}{es ? "Día" : "Day"} {i + 1}</span>
+                <input
+                  type="number"
+                  min={0}
+                  max={9999}
+                  className="input mt-1 px-1 text-center"
+                  value={n}
+                  onChange={(e) => setLadder(ladder.map((x, j) => (j === i ? Number(e.target.value) : x)))}
+                />
+              </label>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-muted">
+            {es
+              ? `Día 1 al reclamar por primera vez (o tras fallar un día), luego sube cada día seguido; después del día 7 vuelve a empezar. Una semana completa = ${total} créditos.`
+              : `Day 1 on the first claim (or after a missed day), then it climbs each day in a row; after day 7 it starts over. A full week = ${total} credits.`}
+          </p>
         </div>
+
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block">
             <span className="label">🇺🇸 {es ? "Título (inglés)" : "Title (English)"}</span>
@@ -72,8 +92,8 @@ export function DailyRewardAdmin({ initial }: { initial: V }) {
         </div>
         <p className="text-xs text-muted">
           {es
-            ? "Cada usuario puede reclamar una vez al día (el día cambia a medianoche, hora de Chicago). Aparece como tarjeta en su panel y como aviso flotante en las demás páginas hasta que lo reclamen. Los créditos salen en el historial como “Recompensa diaria”."
-            : "Each user can claim once a day (the day rolls over at midnight, Chicago time). It shows as a card on their dashboard and as a floating pop-up on other pages until they claim it. Credits appear in the history as “Daily reward”."}
+            ? "Cada usuario reclama una vez al día (el día cambia a medianoche, hora de Chicago). El pop-up aparece al entrar en cualquier página hasta que reclamen o lo cierren; en su panel siempre ven la tarjeta. Los créditos salen en el historial como “Recompensa diaria”."
+            : "Each user claims once a day (the day rolls over at midnight, Chicago time). The pop-up appears on any page until they claim or close it; their dashboard always shows the card. Credits appear in the history as “Daily reward”."}
         </p>
         <div className="flex items-center gap-3">
           <button type="submit" disabled={busy} className="btn-primary px-5 py-2 disabled:opacity-60">{busy ? "…" : es ? "Guardar" : "Save"}</button>
@@ -81,28 +101,37 @@ export function DailyRewardAdmin({ initial }: { initial: V }) {
         </div>
       </form>
 
-      {/* Preview of the pop-up users see */}
+      {/* Preview of the pop-up users see (day 3 of a streak as the example) */}
       <div className="space-y-2">
         <div className="text-[11px] font-bold uppercase tracking-widest text-muted">{es ? "Así lo ven los usuarios" : "What users see"}</div>
-        <div className={`relative rounded-2xl border border-lime/50 bg-panel/95 p-3 shadow-xl ${v.daily_on === "0" ? "opacity-40" : ""}`}>
-          <span className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full text-muted">×</span>
-          <div className="flex items-start gap-3 pr-6">
-            <div className="text-3xl">🎁</div>
-            <div className="min-w-0 flex-1">
-              <div className="font-bold">{title}</div>
-              {text && <p className="mt-0.5 text-xs text-muted">{text}</p>}
-              <div className="btn-primary mt-2 w-full py-2 text-center text-sm">
-                {es ? "Reclamar" : "Claim"} +{n} {es ? (n === 1 ? "crédito" : "créditos") : n === 1 ? "credit" : "credits"}
-              </div>
-              <div className="mt-1 text-center text-[11px] text-muted">🔥 {es ? "Racha" : "Streak"}: 3 {es ? "días" : "days"}</div>
-            </div>
+        <div className={`rounded-2xl border border-line bg-panel p-4 shadow-xl ${v.daily_on === "0" ? "opacity-40" : ""}`}>
+          <div className="mb-3 flex items-center justify-between">
+            <div className="font-display text-xl">🎁 {title}</div>
+            <span className="grid h-8 w-8 place-items-center rounded-lg border border-line bg-panel-2 text-muted">×</span>
           </div>
+          {text && <p className="mb-3 text-xs text-muted">{text}</p>}
+          <div className="grid grid-cols-3 gap-2">
+            {ladder.map((n, i) => {
+              const day = i + 1;
+              const s = day < 3 ? "done" : day === 3 ? "today" : "future";
+              const wide = day === 7;
+              return (
+                <div
+                  key={i}
+                  className={`rounded-xl border p-2 ${wide ? "col-span-3 flex items-center justify-between" : ""} ${s === "today" ? "border-lime bg-lime/10" : s === "done" ? "border-lime/30 bg-panel-2/60 opacity-70" : "border-line bg-panel-2/70"}`}
+                >
+                  <div className={`text-[10px] font-bold ${s === "today" ? "text-lime" : "text-muted"}`}>
+                    {s === "today" ? (es ? "Hoy" : "Today") : day === 4 ? (es ? "Mañana" : "Tomorrow") : `${es ? "Día" : "Day"} ${day}`}
+                    {s === "done" ? " ✓" : ""}
+                  </div>
+                  <div className={`${wide ? "" : "my-1 text-center"} text-xl`}>{wide ? "💰" : day <= 2 ? "🪙" : "🪙🪙"}</div>
+                  <div className={`font-display ${wide ? "text-2xl text-amber-300" : "text-right text-lg"}`}>{n}</div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="btn-primary mt-3 w-full py-2.5 text-center text-sm">{es ? "Reclamar mi recompensa" : "Claim your daily reward"} · +{ladder[2]}</div>
         </div>
-        {bonus > 0 && (
-          <div className="rounded-xl border border-line bg-panel-2 p-3 text-xs text-muted">
-            ★ {es ? `Día 7 seguido: +${bonus} créditos extra (y otra vez el día 14, 21…).` : `Day 7 in a row: +${bonus} extra credits (again on day 14, 21…).`}
-          </div>
-        )}
       </div>
     </div>
   );

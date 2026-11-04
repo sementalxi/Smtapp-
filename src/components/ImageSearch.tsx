@@ -97,7 +97,7 @@ export function ImageSearch({
     const res = await fetch("/api/upload/from-url", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: r.url, kind }),
+      body: JSON.stringify({ url: r.url, thumb: r.thumb, kind }),
     });
     const data = await res.json().catch(() => ({}));
     setPicking(null);
@@ -113,7 +113,13 @@ export function ImageSearch({
       unsafe_image: ["That image isn't allowed (sexual or graphic content) — pick another", "Esa imagen no está permitida (contenido sexual o violento) — elige otra"],
     };
     const known = msg[data.error as string];
-    setErr(known ? known[es ? 1 : 0] : es ? "No se pudo descargar esa imagen — prueba otra" : "Couldn't get that image — try another one");
+    setErr(
+      known
+        ? known[es ? 1 : 0]
+        : es
+          ? "Ese sitio bloquea la descarga de la foto — prueba otro resultado, o guárdala en tu teléfono y súbela."
+          : "That site blocks downloading the photo — try another result, or save it to your phone and upload it.",
+    );
   }
 
   return (

@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { getSettings } from "@/lib/settings";
-import { dayKey, prevDayKey } from "@/lib/daily";
+import { dayKey, parseLadder, prevDayKey } from "@/lib/daily";
 import { DailyRewardAdmin } from "@/components/admin/DailyRewardAdmin";
 
 export const dynamic = "force-dynamic";
@@ -44,7 +44,7 @@ export default async function AdminDaily() {
       <div className="flex flex-wrap items-end justify-between gap-2">
         <h1 className="font-display text-4xl">🎁 {es ? "Recompensa diaria" : "Daily reward"}</h1>
         <span className={`rounded-full border px-2.5 py-1 text-[11px] font-bold ${s.daily_on !== "0" ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300" : "border-amber-400/40 bg-amber-400/10 text-amber-200"}`}>
-          {s.daily_on !== "0" ? (es ? "Encendida" : "On") : es ? "Apagada" : "Off"} · {s.daily_credits} {es ? "créd./día" : "cr/day"}
+          {s.daily_on !== "0" ? (es ? "Encendida" : "On") : es ? "Apagada" : "Off"} · {parseLadder(s.daily_ladder).join(" → ")}
         </span>
       </div>
 
@@ -60,8 +60,7 @@ export default async function AdminDaily() {
       <DailyRewardAdmin
         initial={{
           daily_on: s.daily_on,
-          daily_credits: s.daily_credits,
-          daily_streak_bonus: s.daily_streak_bonus,
+          daily_ladder: s.daily_ladder,
           daily_title: s.daily_title,
           daily_text: s.daily_text,
           daily_title_es: s.daily_title_es,

@@ -164,21 +164,23 @@ async function assertPublicHost(u: URL) {
   if (!ips.length || ips.some(privateIp)) throw new Error("bad_url");
 }
 
-/**
- * Fetches an image from the web (only public hosts, at most 15 MB, following up
- * to 3 redirects, each one re-checked) and normalises it to PNG or JPEG.
- */
-export async function downloadImage(raw: string, maxBytes = 15 * 1024 * 1024): Promise<{ data: Buffer; type: string }> {
+const browserHeaders = (referer?: string) => ({
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  Accept: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+  "Accept-Language": "en-US,en;q=0.9",
+  ...(referer ? { Referer: referer } : {}),
+});
+
+/** A public image proxy that fetches with its own headers and converts odd formats (AVIF, HEIC, SVG…) — used when the site blocks us. */
+const proxied = (raw: string) => `https://images.weserv.nl/?url=${encodeURIComponent(raw)}&w=2400&h=2400&fit=inside&we`;
+
+/** GET with up to 3 redirects (each hop checked against private hosts) and a size cap. Throws fetch_failed / file_too_large. */
+async function fetchBytes(raw: string, maxBytes: number, referer?: string): Promise<Buffer> {
   let url = new URL(raw);
   let res: Response | null = null;
   for (let hop = 0; hop < 4; hop++) {
     await assertPublicHost(url);
-    res = await fetch(url, {
-      redirect: "manual",
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; KIXO/1.0)", Accept: "image/avif,image/webp,image/png,image/jpeg,image/*;q=0.8" },
-      signal: AbortSignal.timeout(15_000),
-      cache: "no-store",
-    });
+    res = await fetch(url, { redirect: "manual", headers: browserHeaders(referer), signal: AbortSignal.timeout(12_000), cache: "no-store" });
     const loc = res.headers.get("location");
     if (res.status >= 300 && res.status < 400 && loc) {
       url = new URL(loc, url);
@@ -188,7 +190,7 @@ export async function downloadImage(raw: string, maxBytes = 15 * 1024 * 1024): P
   }
   if (!res || !res.ok || !res.body) throw new Error("fetch_failed");
   if (Number(res.headers.get("content-length") ?? 0) > maxBytes) throw new Error("file_too_large");
-
+  if (/text\/html|application\/json/i.test(res.headers.get("content-type") ?? "")) throw new Error("fetch_failed"); // a login / block page, not a picture
   const chunks: Uint8Array[] = [];
   let size = 0;
   const reader = res.body.getReader();
@@ -202,8 +204,11 @@ export async function downloadImage(raw: string, maxBytes = 15 * 1024 * 1024): P
     }
     chunks.push(value);
   }
-  const buf = Buffer.concat(chunks);
+  return Buffer.concat(chunks);
+}
 
+/** Decodes any picture sharp understands and normalises it to PNG (with alpha) or JPEG. Throws too_small / unsupported_type. */
+async function normalise(buf: Buffer): Promise<{ data: Buffer; type: string }> {
   try {
     const img = sharp(buf, { animated: false }).rotate();
     const meta = await img.metadata();
@@ -215,4 +220,35 @@ export async function downloadImage(raw: string, maxBytes = 15 * 1024 * 1024): P
   } catch (e) {
     throw new Error(e instanceof Error && e.message === "too_small" ? "too_small" : "unsupported_type");
   }
+}
+
+/**
+ * Fetches an image from the web (only public hosts, at most 15 MB, following up to 3 redirects, each one
+ * re-checked) and normalises it to PNG or JPEG. Sites that block hotlinking or serve odd formats are retried
+ * through an image proxy, and as a last resort the search engine's thumbnail is used.
+ */
+export async function downloadImage(raw: string, maxBytes = 15 * 1024 * 1024, opts: { thumb?: string } = {}): Promise<{ data: Buffer; type: string }> {
+  const origin = (() => {
+    try {
+      return new URL(raw).origin + "/";
+    } catch {
+      return undefined;
+    }
+  })();
+  const thumb = opts.thumb && opts.thumb !== raw && /^https?:\/\//.test(opts.thumb) ? opts.thumb : null;
+  const attempts: Array<() => Promise<Buffer>> = [
+    () => fetchBytes(raw, maxBytes, origin),
+    () => fetchBytes(proxied(raw), maxBytes),
+    ...(thumb ? [() => fetchBytes(thumb, maxBytes), () => fetchBytes(proxied(thumb), maxBytes)] : []),
+  ];
+  let last: Error = new Error("fetch_failed");
+  for (const attempt of attempts) {
+    try {
+      return await normalise(await attempt());
+    } catch (e) {
+      last = e instanceof Error ? e : new Error("fetch_failed");
+      if (last.message === "file_too_large") throw last;
+    }
+  }
+  throw last;
 }

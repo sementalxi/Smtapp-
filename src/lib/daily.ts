@@ -1,5 +1,6 @@
-// Daily reward: signed-in users can claim free credits once per day (they must press "Claim").
-// Admin → Settings sets the amount, the streak bonus and the texts. Days roll over at midnight in the site's time zone.
+// Daily reward: signed-in users claim free credits once per day (they must press "Claim").
+// The reward follows a 7-day ladder (day 1 … day 7 of a streak, then it starts over); a missed day resets to day 1.
+// Admin → Daily reward sets the ladder and the texts. Days roll over at midnight in the site's time zone.
 import { db } from "./db";
 import { HttpError } from "./auth";
 import { grantOnce } from "./credits";
@@ -7,6 +8,13 @@ import { getSettings } from "./settings";
 
 /** The site's day boundary (the owner's time zone). */
 export const DAILY_TZ = "America/Chicago";
+export const DEFAULT_LADDER = [1, 2, 3, 4, 5, 6, 10];
+
+/** The 7 amounts (day 1 … day 7) from the setting, with a safe fallback. */
+export function parseLadder(raw: string | undefined): number[] {
+  const nums = (raw ?? "").split(",").map((x) => Number(x.trim()));
+  return nums.length === 7 && nums.every((n) => Number.isInteger(n) && n >= 0 && n <= 9999) ? nums : DEFAULT_LADDER;
+}
 
 /** "YYYY-MM-DD" for a moment in the site's time zone. */
 export function dayKey(d = new Date(), tz = DAILY_TZ) {
@@ -31,13 +39,16 @@ export function nextResetAt(now = new Date(), tz = DAILY_TZ) {
   return new Date(Date.UTC(+parts.year, +parts.month - 1, +parts.day + 1) - offset);
 }
 
+/** Which step of the 7-day ladder (1…7) a streak day is on. */
+export const ladderStep = (streakDay: number) => ((Math.max(1, streakDay) - 1) % 7) + 1;
+
 export type DailyStatus = {
   on: boolean;
-  credits: number;
-  bonus: number; // extra credits on every 7th consecutive day (0 = off)
+  ladder: number[]; // credits for day 1 … 7
   claimable: boolean;
   claimedToday: boolean;
-  streak: number; // current streak (0 when it was broken)
+  streak: number; // current streak in days (0 when it was broken)
+  day: number; // the ladder step (1…7) of today's claim — or of the next claim when today is done
   resetAt: string; // ISO — when the next claim opens
   title: string;
   text: string;
@@ -46,20 +57,22 @@ export type DailyStatus = {
 export async function dailyStatus(userId: string, locale: string): Promise<DailyStatus> {
   const s = await getSettings();
   const on = s.daily_on !== "0";
-  const credits = Math.max(0, Number(s.daily_credits) || 0);
-  const bonus = Math.max(0, Number(s.daily_streak_bonus) || 0);
+  const ladder = parseLadder(s.daily_ladder);
   const u = await db.user.findUnique({ where: { id: userId }, select: { dailyStreak: true, dailyClaimedDay: true } });
   const today = dayKey();
   const claimedToday = u?.dailyClaimedDay === today;
-  const streak = claimedToday || u?.dailyClaimedDay === prevDayKey(today) ? (u?.dailyStreak ?? 0) : 0;
+  const alive = claimedToday || u?.dailyClaimedDay === prevDayKey(today);
+  const streak = alive ? (u?.dailyStreak ?? 0) : 0;
+  // Today's step: the streak day being claimed today (streak + 1 while unclaimed, the streak itself once claimed).
+  const day = ladderStep(claimedToday ? streak : streak + 1);
   const es = locale === "es";
   return {
     on,
-    credits,
-    bonus,
-    claimable: on && credits > 0 && !claimedToday,
+    ladder,
+    claimable: on && !claimedToday && ladder.some((n) => n > 0),
     claimedToday,
     streak,
+    day,
     resetAt: nextResetAt().toISOString(),
     title: (es ? s.daily_title_es || s.daily_title : s.daily_title) || (es ? "Recompensa diaria" : "Daily reward"),
     text: (es ? s.daily_text_es || s.daily_text : s.daily_text) || "",
@@ -70,24 +83,18 @@ export async function dailyStatus(userId: string, locale: string): Promise<Daily
 export async function claimDaily(userId: string) {
   const s = await getSettings();
   if (s.daily_on === "0") throw new HttpError(404, "daily_off");
-  const credits = Math.max(0, Number(s.daily_credits) || 0);
-  const bonus = Math.max(0, Number(s.daily_streak_bonus) || 0);
-  if (credits <= 0) throw new HttpError(404, "daily_off");
+  const ladder = parseLadder(s.daily_ladder);
   const u = await db.user.findUniqueOrThrow({ where: { id: userId }, select: { dailyStreak: true, dailyClaimedDay: true } });
   const today = dayKey();
   if (u.dailyClaimedDay === today) throw new HttpError(409, "already_claimed");
   const streak = u.dailyClaimedDay === prevDayKey(today) ? u.dailyStreak + 1 : 1;
-  const bonusHit = bonus > 0 && streak % 7 === 0;
-  const amount = credits + (bonusHit ? bonus : 0);
-  const ok = await grantOnce({
-    userId,
-    amount,
-    type: "DAILY",
-    note: `Daily reward · day ${streak}${bonusHit ? ` · +${bonus} streak bonus` : ""}`,
-    externalRef: `daily:${userId}:${today}`,
-  });
-  if (!ok) throw new HttpError(409, "already_claimed");
+  const day = ladderStep(streak);
+  const amount = ladder[day - 1] ?? 0;
+  if (amount > 0) {
+    const ok = await grantOnce({ userId, amount, type: "DAILY", note: `Daily reward · day ${streak} (step ${day}/7)`, externalRef: `daily:${userId}:${today}` });
+    if (!ok) throw new HttpError(409, "already_claimed");
+  }
   const after = await db.user.update({ where: { id: userId }, data: { dailyStreak: streak, dailyClaimedDay: today, dailyClaimedAt: new Date() }, select: { credits: true } });
   await import("./activity").then((m) => m.logActivity("site", "daily", `🎁 Daily reward claimed: +${amount} credits (day ${streak})`)).catch(() => {});
-  return { amount, streak, bonusHit, balance: after.credits, resetAt: nextResetAt().toISOString() };
+  return { amount, streak, day, balance: after.credits, resetAt: nextResetAt().toISOString() };
 }
