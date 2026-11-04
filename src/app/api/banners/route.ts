@@ -160,7 +160,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (pro) {
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, onePass: template.layout === "TOTW" });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

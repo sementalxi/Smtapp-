@@ -100,6 +100,19 @@ export async function nanoBananaPoster(prompt: string, imageUrls: string[], form
   return Buffer.from(await img.arrayBuffer());
 }
 
+/**
+ * ONE PASS at 4K: Nano Banana Pro makes the finished poster, text included (no OpenAI re-render afterwards).
+ * Used for posters where a re-render would soften many small details — e.g. a team of the week with eleven faces.
+ */
+export async function nanoBananaDirect(prompt: string, imageUrls: string[], format?: string, wide?: boolean, timeoutMs = 200_000): Promise<Buffer> {
+  const urls = absUrls(imageUrls, 14);
+  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : format === "square" ? "1:1" : wide ? "3:2" : "4:5";
+  const full = `${prompt}\n\nTHIS IS THE FINAL IMAGE: write every text item listed above yourself — spelled EXACTLY as listed, letter for letter, each once, as designed premium sports typography — and render at maximum resolution and detail: razor-sharp, no softness, no compression artifacts.`;
+  const body = { prompt: fit(full, 30000), aspect_ratio: aspect, resolution: "4K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM };
+  const r = urls.length ? await falImage("fal-ai/nano-banana-pro/edit", { ...body, image_urls: urls }, "Nano Banana Pro", timeoutMs) : await falImage("fal-ai/nano-banana-pro", body, "Nano Banana Pro", timeoutMs);
+  return r.buf;
+}
+
 /** Backup chain when OpenAI refuses a photo: Nano Banana Pro first, then Seedream. */
 export async function backupPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean): Promise<{ buf: Buffer; model: string }> {
   try {

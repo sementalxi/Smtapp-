@@ -81,7 +81,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       // Runs in the background; the page polls the new poster until it's ready or an error is saved.
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format });
+          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format, onePass: banner.template.layout === "TOTW" });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

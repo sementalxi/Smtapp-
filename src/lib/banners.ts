@@ -818,6 +818,8 @@ export async function generateProForBanner(opts: {
   edit?: boolean;
   /** The style's "Design instructions for the AI" — given in full to every step of the mixes. */
   instructions?: string | null;
+  /** One pass at 4K by Nano Banana Pro, text included (team of the week: eleven small faces would soften in a re-render). */
+  onePass?: boolean;
 }) {
   // Big sizes first so the poster keeps its detail; smaller ones are only used if the model rejects the size.
   const fmtSizes =
@@ -857,10 +859,31 @@ export async function generateProForBanner(opts: {
     // Main generator chosen by the admin: Nano Banana Pro (default, best) or OpenAI. If Nano Banana fails, OpenAI takes over.
     let made = false;
     const posterModel = (await getSettings()).poster_model;
+    // One pass at 4K (team of the week): Nano Banana Pro paints AND writes everything; nothing re-renders it afterwards.
+    if (opts.onePass && !opts.edit && posterModel !== "openai") {
+      const fb = await import("./ai-fallback");
+      if (fb.fallbackReady()) {
+        try {
+          await stage("art");
+          poster = await fb.nanoBananaDirect(opts.prompt, refUrls, opts.format, isWide, clamp(left() - 75_000, 60_000, 200_000));
+          made = true;
+          usedModel = "Nano Banana Pro 4K (one pass)";
+          await import("./ai-alerts").then((a) => a.clearDegraded()).catch(() => {});
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e);
+          await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Nano Banana Pro one-pass failed — falling back: ${msg.slice(0, 200)}`, "warn")).catch(() => {});
+          await import("./ai-alerts").then(async (a) => {
+            await a.noteDegraded(msg);
+            const kind = a.providerOutage(msg);
+            if (kind === "fal_billing") await a.alertAdminsOutage(kind, msg);
+          }).catch(() => {});
+        }
+      }
+    }
     // MIX: Nano Banana Pro paints the artwork (people, background, crests, effects) with NO text,
     // then OpenAI adds the exact text on top — Nano's look + OpenAI's exact spelling.
     const mixModes = ["mix", "mix3", "flux-mix", "seedream-mix"];
-    if (!opts.edit && mixModes.includes(posterModel)) {
+    if (!made && !opts.edit && mixModes.includes(posterModel)) {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         try {
@@ -1010,8 +1033,14 @@ export async function generateProForBanner(opts: {
     }
     // The brand mark stays away from the pasted crests: top corners, and the bottom centre under a hero crest.
     const avoid = overlays.flatMap((o): ("tl" | "tr" | "bc")[] => (o.overlay === "tl" || o.overlay === "tr" ? [o.overlay] : o.overlay === "hero" ? ["bc"] : []));
-    const out = await stampLogo(poster, avoid);
-    const url = await saveFile("banners", out, "image/png");
+    let out = await stampLogo(poster, avoid);
+    // A 4K one-pass render is a 20+ MB PNG: keep it crisp but phone-friendly as a top-quality JPEG.
+    let type = "image/png";
+    if (out.length > 9 * 1024 * 1024) {
+      out = await sharp(out).jpeg({ quality: 94, chromaSubsampling: "4:4:4", mozjpeg: true }).toBuffer();
+      type = "image/jpeg";
+    }
+    const url = await saveFile("banners", out, type);
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url, prompt: `[Made with: ${usedModel}]\n\n${opts.prompt}`.slice(0, 40000) } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
