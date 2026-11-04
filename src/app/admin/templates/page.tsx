@@ -9,6 +9,7 @@ import { SeasonPicker } from "@/components/admin/SeasonPicker";
 import { SEASONS, getSeasonState } from "@/lib/seasons";
 import { TypePics } from "@/components/admin/TypePics";
 import { DeletedStyles } from "@/components/admin/DeletedStyles";
+import { StyleGroups } from "@/components/admin/StyleGroups";
 import { getTypePics } from "@/lib/type-pics";
 
 export default async function AdminTemplates() {
@@ -33,30 +34,27 @@ export default async function AdminTemplates() {
         initial={rows.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, active: r.active, thumbUrl: r.thumbUrl, uses: r._count.banners, badge: r.badge, audience: r.audience }))}
       />
       <h2 className="font-display pt-4 text-2xl">{locale === "es" ? "Editar estilos" : "Edit styles"}</h2>
-      <div className="space-y-3">
-        {rows.map((r) => (
-          <TemplateEditor
-            key={r.id}
-            initial={{
-              id: r.id,
-              slug: r.slug,
-              name: r.name,
-              nameEs: r.nameEs,
-              layout: r.layout,
-              prompt: r.prompt,
-              style: r.style as unknown as TemplateStyle,
-              cost: r.cost,
-              active: r.active,
-              sort: r.sort,
-              styleRefUrl: r.styleRefUrl,
-              thumbUrl: r.thumbUrl,
-              proInstructions: r.proInstructions,
-              randomize: r.randomize,
-              uses: r._count.banners,
-            }}
-          />
-        ))}
-      </div>
+      <StyleGroups
+        es={locale === "es"}
+        order={categories.order}
+        rows={rows.map((r) => ({
+          id: r.id,
+          slug: r.slug,
+          name: r.name,
+          nameEs: r.nameEs,
+          layout: r.layout,
+          prompt: r.prompt,
+          style: r.style as unknown as TemplateStyle,
+          cost: r.cost,
+          active: r.active,
+          sort: r.sort,
+          styleRefUrl: r.styleRefUrl,
+          thumbUrl: r.thumbUrl,
+          proInstructions: r.proInstructions,
+          randomize: r.randomize,
+          uses: r._count.banners,
+        }))}
+      />
       {deleted.length > 0 && <DeletedStyles items={deleted.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, uses: r._count.banners }))} es={locale === "es"} />}
       <h2 className="font-display pt-6 text-2xl">{t("new_template")}</h2>
       <TemplateEditor
