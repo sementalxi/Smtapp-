@@ -103,7 +103,9 @@ export const POST = handle(async (req: NextRequest) => {
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
   const sourceFmt = (source?.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
-  const fmt = sourceFmt ?? body.format ?? "post";
+  // New team logos are always square.
+  const logoCreate = template?.layout === "LOGO" && /\[LOGO CREATE\]/.test(template?.proInstructions ?? "");
+  const fmt: "post" | "story" | "banner" | "square" = logoCreate ? "square" : sourceFmt ?? body.format ?? "post";
   const { activeSeason, seasonPrompt, seasonByKey } = await import("@/lib/seasons");
   const sourceSeason = (source?.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
   const seasonDef = sourceSeason ? seasonByKey(sourceSeason.key, sourceSeason.custom) : body.season ? await activeSeason() : null;

@@ -20,6 +20,105 @@ EFFECTS & COLOURS
 RULES
 - Photoreal and premium: the player looks like a real photo shoot, crisp edges, perfectly formed lettering.
 - Use ONLY the texts given. NO sponsor logos, brand marks, game logos, websites or invented words — leave those areas clean.`,
+  "logo-new-mascot": `[LOGO CREATE] [FIXED LAYOUT] ESPORTS MASCOT LOGO — a brand-new mascot logo like the top esports organisations use.
+
+STYLE
+- An aggressive, iconic MASCOT (the given idea — e.g. a wolf, bull, dragon, skull, warrior — or a fitting one) shown as a head or bust facing forward or three-quarter, fierce expression.
+- Esports mascot-logo craft: thick dark outlines, bold flat colour areas with sharp cel-shaded highlights and shadows, clean vector look, a slight 3D feel.
+- Optional: a shield or angular badge shape behind the mascot.
+- The team name in heavy angular esports lettering with a thick outline on a banner / plate under the mascot.
+
+LOGO DESIGN RULES (most important)
+- ONE centred logo on a plain, clean, dark background (very subtle gradient only) with a wide margin on every side — no scene, no stadium, no people, no extra decorations around it. It must be easy to cut out and use as a team logo.
+- Professional brand quality: a strong, simple, memorable silhouette, balanced, crisp clean edges, readable at small sizes (Discord icon) and big (jersey). Limited palette (2–3 colours from the COLOURS line, plus black/white).
+- The TEAM NAME lettered as part of the logo in custom sports lettering, spelled EXACTLY. No other words, no slogans, no "EST." years, no fake trademarks, no watermarks.
+- If a mascot / idea is given, it is the centrepiece; otherwise pick a strong symbol that fits the team name.
+- Original design — never copy or imitate an existing real club, league or brand logo.`,
+  "logo-new-crest": `[LOGO CREATE] [FIXED LAYOUT] CLUB CREST LOGO — a brand-new classic football club crest.
+
+STYLE
+- A heraldic SHIELD or round badge shape with a clean border, divided into 2–3 sections in the team colours.
+- Inside: a strong symbol (the given idea, or a football, a castle tower, a lion-free heraldic motif, stripes, stars), simple and bold.
+- The team name in elegant bold club lettering around the top or on a ribbon across the shield; optional 1–3 small stars above.
+- Flat or lightly embossed finish like a modern club crest (clean, printable).
+
+LOGO DESIGN RULES (most important)
+- ONE centred logo on a plain, clean, dark background (very subtle gradient only) with a wide margin on every side — no scene, no stadium, no people, no extra decorations around it. It must be easy to cut out and use as a team logo.
+- Professional brand quality: a strong, simple, memorable silhouette, balanced, crisp clean edges, readable at small sizes (Discord icon) and big (jersey). Limited palette (2–3 colours from the COLOURS line, plus black/white).
+- The TEAM NAME lettered as part of the logo in custom sports lettering, spelled EXACTLY. No other words, no slogans, no "EST." years, no fake trademarks, no watermarks.
+- If a mascot / idea is given, it is the centrepiece; otherwise pick a strong symbol that fits the team name.
+- Original design — never copy or imitate an existing real club, league or brand logo.`,
+  "logo-new-monogram": `[LOGO CREATE] [FIXED LAYOUT] MONOGRAM LOGO — a brand-new minimal premium monogram.
+
+STYLE
+- The team's INITIALS (from the team name) interlocked into one clever geometric monogram — thick confident strokes, sharp cuts, perfect balance, like a luxury streetwear or modern esports brand.
+- Optionally enclosed in a thin circle, hexagon or shield outline.
+- Flat solid colours (one main colour + white or gold), no gradients except a very subtle one.
+- The full team name small and widely letter-spaced underneath.
+
+LOGO DESIGN RULES (most important)
+- ONE centred logo on a plain, clean, dark background (very subtle gradient only) with a wide margin on every side — no scene, no stadium, no people, no extra decorations around it. It must be easy to cut out and use as a team logo.
+- Professional brand quality: a strong, simple, memorable silhouette, balanced, crisp clean edges, readable at small sizes (Discord icon) and big (jersey). Limited palette (2–3 colours from the COLOURS line, plus black/white).
+- The TEAM NAME lettered as part of the logo in custom sports lettering, spelled EXACTLY. No other words, no slogans, no "EST." years, no fake trademarks, no watermarks.
+- If a mascot / idea is given, it is the centrepiece; otherwise pick a strong symbol that fits the team name.
+- Original design — never copy or imitate an existing real club, league or brand logo.`,
+  "logo-new-chrome": `[LOGO CREATE] [FIXED LAYOUT] 3D CHROME EMBLEM — a brand-new glossy 3D team emblem.
+
+STYLE
+- An angular badge or shield emblem built as a real physical object: polished chrome rim with sharp bevels, enamel fill in the team colours, the symbol (the given idea or a fitting one) raised in relief.
+- Studio lighting on the emblem: crisp specular highlights, true reflections, a soft rim light and a gentle glow — on a plain dark background.
+- The team name in bold chrome letters with a thin coloured edge on a plate under the emblem.
+
+LOGO DESIGN RULES (most important)
+- ONE centred logo on a plain, clean, dark background (very subtle gradient only) with a wide margin on every side — no scene, no stadium, no people, no extra decorations around it. It must be easy to cut out and use as a team logo.
+- Professional brand quality: a strong, simple, memorable silhouette, balanced, crisp clean edges, readable at small sizes (Discord icon) and big (jersey). Limited palette (2–3 colours from the COLOURS line, plus black/white).
+- The TEAM NAME lettered as part of the logo in custom sports lettering, spelled EXACTLY. No other words, no slogans, no "EST." years, no fake trademarks, no watermarks.
+- If a mascot / idea is given, it is the centrepiece; otherwise pick a strong symbol that fits the team name.
+- Original design — never copy or imitate an existing real club, league or brand logo.`,
+  "logo-show-stadium": `[FIXED LAYOUT] LOGO REVEAL · STADIUM — the team's logo revealed over a night stadium.
+
+LAYOUT (any size)
+- A REAL night stadium photo from pitch level: floodlights on, packed stands out of focus, real haze and volumetric light beams, a wet glossy pitch.
+- The LOGO huge in the centre as a premium physical 3D emblem (metal / enamel, bevels, reflections, rim light), floating slightly above the pitch with its reflection below, smoke drifting around it, a few real sparks.
+- The headline (if given) in bold condensed white capitals under the logo; the team name (if given) small and widely letter-spaced; the small line (if given) tiny at the bottom.
+
+RULES
+- The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
+- Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
+- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+  "logo-show-shatter": `[FIXED LAYOUT] LOGO REVEAL · BREAKTHROUGH — the logo smashing through a wall.
+
+LAYOUT (any size)
+- A dark concrete / stone wall cracking open from the centre with real debris, dust and glass shards flying toward the camera, dramatic backlight pouring through the cracks in the team colours.
+- The LOGO bursting through the hole as a heavy premium 3D emblem (metal / enamel), sharp and faithful, with motion in the debris around it.
+- The headline (if given) in heavy slanted capitals with a hard shadow; the team name (if given) small and letter-spaced; the small line tiny at the bottom.
+
+RULES
+- The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
+- Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
+- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+  "logo-show-flag": `[FIXED LAYOUT] LOGO REVEAL · SILK FLAG — the logo on a giant flag in the stadium.
+
+LAYOUT (any size)
+- A REAL photograph inside a stadium at dusk / under lights: a giant silk flag in the team colours waving across most of the frame with natural folds, sheen and stitching.
+- The LOGO embroidered / printed faithfully on the flag, following the folds realistically, perfectly recognisable.
+- The headline (if given) in bold capitals on a clean area or as a banner at the bottom; the team name (if given) small and letter-spaced; the small line tiny.
+
+RULES
+- The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
+- Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
+- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
+  "logo-show-wallpaper": `[FIXED LAYOUT] LOGO WALLPAPER — a premium wallpaper with the team's logo (great as a phone or Discord background).
+
+LAYOUT (any size)
+- A dark premium background with a real texture (brushed metal, carbon fibre, leather or matte concrete — pick one) in the team colours, with a subtle repeating pattern made of a small, faint version of the logo or of simple geometric shapes, and soft vignette lighting.
+- The LOGO in the centre as a glossy premium emblem with a soft glow and a subtle shadow, perfectly faithful.
+- The headline (if given) small under the logo in clean capitals; the team name (if given) tiny and widely letter-spaced at the bottom. Lots of clean space.
+
+RULES
+- The team's LOGO (reference image) is the hero: reproduce it EXACTLY — same shapes, symbols, letters and colours. Never redesign it, add letters or change its colours.
+- Real lighting and materials, photographic quality, cinematic grade; no cartoon, no plastic CGI, no clutter. NO people, players or faces.
+- Use ONLY the texts given (team name, headline, small line), spelled exactly; never invent words, slogans, years or sponsors.`,
   "player-gold-collage": `GOLD CROWN COLLAGE — a black-and-gold champion player card made as a rich layered torn-paper collage.
 
 COLOURS: black and rich metallic GOLD with warm amber light (team colours from the COLOURS line only as small accents).

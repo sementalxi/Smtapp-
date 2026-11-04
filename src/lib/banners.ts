@@ -246,7 +246,13 @@ export function collectProRefs(opts: {
       url,
       label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
     });
-  if (layout === "STANDINGS") {
+  if (layout === "LOGO") {
+    if (opts.logoUrl)
+      refs.push({
+        url: opts.logoUrl,
+        label: "the team's LOGO — the HERO of this poster. Reproduce it EXACTLY: same shapes, symbols, letters and colours (do not redesign, add or remove anything). You may render it as a premium physical 3D emblem (real metal / enamel, bevels, reflections, rim light) built into the scene. If the logo image has a solid background square, ignore the square.",
+      });
+  } else if (layout === "STANDINGS") {
     i.standings.forEach((row, n) => {
       const url = i.tableLogos?.[n];
       if (url && n < 10) refs.push({ url, label: `the crest of the team in table row ${n + 1} (${row.split(/\s+[—-]\s+|\s+P\s/)[0]}). Show it SMALL next to that team's name in the table, faithful to its shape and colours.` });
@@ -388,7 +394,7 @@ export function buildProPrompt(opts: {
   /** Holiday/season theme text (from lib/seasons) — added on top of the style. */
   season?: string;
   /** Output format chosen by the user: post 4:5 (default), story 9:16, banner 16:9. */
-  format?: "post" | "story" | "banner";
+  format?: "post" | "story" | "banner" | "square";
 }) {
   const { inputs: raw, style, layout } = opts;
   // When a team has a logo, the poster shows only the logo — never the team's name as text.
@@ -514,6 +520,16 @@ export function buildProPrompt(opts: {
       add("Competition", i.competition);
       add("Date / matchday", i.date);
       break;
+    case "LOGO": {
+      const create = /\[LOGO CREATE\]/.test(opts.instructions ?? "");
+      composition = create
+        ? `A brand-new, professional TEAM LOGO (crest / emblem) for a team called ${q(i.team || "the team")}${i.subtitle ? `, built around this mascot / idea: ${q(i.subtitle)}` : ""}. One centred emblem on a clean dark background with generous margin, bold and readable at small sizes, crisp edges, balanced symmetry, strong silhouette — like the logo of a top esports org or football club. The team name lettered as part of the emblem.`
+        : `A premium LOGO SHOWCASE poster: the team's own logo (reference image) is the hero, big in the centre, faithfully reproduced, in an epic scene${i.headline ? `, with the short headline` : ""}. No people or players.`;
+      add(create ? "Team name (lettered inside the logo)" : "Team name (small)", i.team);
+      if (!create) add("Headline", i.headline);
+      add("Small line", i.footer);
+      break;
+    }
     case "STANDINGS": {
       const rows = i.standings.filter(Boolean);
       composition = [
@@ -606,7 +622,7 @@ export function buildProPrompt(opts: {
 
   // A style with admin design instructions: those describe the whole design; the built-in layout recipe is skipped.
   const adminLed = !!opts.instructions?.trim();
-  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table" }[layout] ?? "sports";
+  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table", LOGO: "team logo" }[layout] ?? "sports";
   const directorBlock =
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
@@ -627,7 +643,9 @@ export function buildProPrompt(opts: {
     ? `USER CHOICES — the customer picked these in the creator. They ALWAYS apply and override the matching parts of the style (and of the art director's instructions); everything else in the style stays the same:\n${picks.join("\n")}`
     : "";
   return [
-    opts.format === "story"
+    opts.format === "square"
+      ? `Design a finished, high-end SQUARE (1:1) image.`
+      : opts.format === "story"
       ? `Design a finished, high-end TALL vertical sports poster for Instagram / TikTok STORIES (9:16). Use the whole tall canvas — extend the background and scene to fill it top to bottom (no empty bands, no borders); recompose the layout for the tall frame and keep all text and the player inside the middle 80% (away from the very top and bottom where the phone's buttons sit).`
       : opts.format === "banner" || /\[WIDE\]/.test(opts.instructions ?? "")
         ? `Design a finished, high-end WIDE landscape sports banner (16:9). Use the whole wide canvas — extend the background and scene edge to edge (no empty sides, no borders); recompose the layout for the wide frame: player on one side, title and details on the other.`
@@ -671,7 +689,7 @@ export function buildProPrompt(opts: {
       ? `SPORTS DESIGN LOOK (always applies): it must look made by a pro sports graphic designer, not a generic AI image — bold, graphic and clean like official club / EA FC / Nike match graphics: diagonal shapes and stripes, solid colour blocks, halftone and grunge print textures, film grain, a real photographic stadium (slightly desaturated, high contrast). Restraint: no glowing fog everywhere, no neon haze, no excessive sparks or lightning, no plastic chrome on everything; deep blacks and crisp edges. Crests crisp and faithful with a clean drop shadow. TYPOGRAPHY: heavy slanted sports type with solid fills, a thick outline, a short hard 3D extrusion and a hard offset shadow with a grain texture; the title's second word in a bold brush-marker script crossing the first. Match info at the bottom with no bar or box: the time big in the same sports type (left half home colour, right half away colour), the date above in bold wide letter-spaced white caps, the venue below. Never rewrite text that appears inside a logo; write each text item only once.`
       : "",
     layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
-    `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
+    layout === "LOGO" ? "" : `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
@@ -714,13 +732,13 @@ export async function generateProForBanner(opts: {
   prompt: string;
   refs: ProRef[];
   regenerate?: boolean;
-  format?: "post" | "story" | "banner";
+  format?: "post" | "story" | "banner" | "square";
   /** Edits of a finished poster: Nano Banana Pro keeps the image identical best. */
   edit?: boolean;
   /** The style's "Design instructions for the AI" — given in full to every step of the mixes. */
   instructions?: string | null;
 }) {
-  const fmtSizes = opts.format === "story" ? ["1152x2048", "1024x1536"] : opts.format === "banner" ? ["2048x1152", "1536x1024"] : undefined;
+  const fmtSizes = opts.format === "story" ? ["1152x2048", "1024x1536"] : opts.format === "banner" ? ["2048x1152", "1536x1024"] : opts.format === "square" ? ["1024x1024"] : undefined;
   if (opts.cost > 0) {
     await changeCredits({
       userId: opts.userId,

@@ -73,7 +73,7 @@ export async function seedreamArt(prompt: string, imageUrls: string[], format?: 
 /** Nano Banana Pro returning both the image and its fal URL (for chaining steps). */
 export async function nanoBananaArt(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
   const urls = absUrls(imageUrls, 14);
-  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : wide ? "3:2" : "4:5";
+  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : format === "square" ? "1:1" : wide ? "3:2" : "4:5";
   // No photo/crest (e.g. a lineup): plain text-to-image.
   if (!urls.length) return falImage("fal-ai/nano-banana-pro", { prompt: fit(prompt, 30000), aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
   return falImage("fal-ai/nano-banana-pro/edit", { prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
@@ -83,7 +83,7 @@ export async function nanoBananaArt(prompt: string, imageUrls: string[], format?
 export async function nanoBananaPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean): Promise<Buffer> {
   const urls = imageUrls.map((u) => (u.startsWith("/") ? site() + u : u)).filter((u) => /^https:\/\//.test(u)).slice(0, 14);
   if (!urls.length) throw new Error("nano banana: no reference image");
-  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : wide ? "3:2" : "4:5";
+  const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : format === "square" ? "1:1" : wide ? "3:2" : "4:5";
   const r = await fetch("https://fal.run/fal-ai/nano-banana-pro/edit", {
     method: "POST",
     headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
@@ -140,6 +140,7 @@ export async function seedreamPoster(prompt: string, imageUrls: string[], size: 
 export function fallbackSize(format?: string, wide?: boolean) {
   if (format === "story") return { width: 1152, height: 2048 };
   if (format === "banner") return { width: 2048, height: 1152 };
+  if (format === "square") return { width: 1024, height: 1024 };
   if (wide) return { width: 1536, height: 1024 };
   return { width: 1088, height: 1360 };
 }

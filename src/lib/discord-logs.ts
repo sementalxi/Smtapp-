@@ -13,6 +13,7 @@ export const LOG_CHANNELS = [
   { key: "MATCHDAY", channel: "match-day", label: "📅 Match day", labelEs: "📅 Día de partido" },
   { key: "LINEUP", channel: "lineups", label: "📋 Lineups", labelEs: "📋 Alineaciones" },
   { key: "RESULT", channel: "results", label: "⚽ Results", labelEs: "⚽ Resultados" },
+  { key: "LOGO", channel: "team-logos", label: "🛡️ Team logos", labelEs: "🛡️ Logos de equipo" },
   { key: "STANDINGS", channel: "standings", label: "📊 Standings", labelEs: "📊 Tablas de posiciones" },
   { key: "EVENT", channel: "tournaments", label: "🎟️ Tournaments / events", labelEs: "🎟️ Torneos / eventos" },
   { key: "videos", channel: "ai-videos", label: "🎬 AI videos", labelEs: "🎬 Videos con IA" },
@@ -173,6 +174,7 @@ export const SHOWCASE_TYPES = [
   { key: "LINEUP", label: "📋 Lineups", labelEs: "📋 Alineaciones", match: /line-?ups?|lien-?ups?|alinea/i },
   { key: "MATCHDAY", label: "📅 Match day", labelEs: "📅 Día de partido", match: /match-?days?|partido/i },
   { key: "RESULT", label: "⚽ Results", labelEs: "⚽ Resultados", match: /result|resultado/i },
+  { key: "LOGO", label: "🛡️ Team logos", labelEs: "🛡️ Logos", match: /logo|crest|escudo/i },
   { key: "STANDINGS", label: "📊 Standings", labelEs: "📊 Tablas", match: /standing|table|tabla|posicion/i },
   { key: "EVENT", label: "🎟️ Tournaments / leagues", labelEs: "🎟️ Torneos / ligas", match: /tourn|league|torneo|liga|event/i },
 ] as const;
@@ -201,8 +203,8 @@ export async function setShowcaseHook(url: string) {
   return db.setting.upsert({ where: { key: "discord_showcase_hook" }, create: { key: "discord_showcase_hook", value: url }, update: { value: url } });
 }
 
-const TYPE_NAMES: Record<string, string> = { TEAM: "Team card", PLAYER: "Player card", CHAMPIONS: "Champions", MATCHDAY: "Match day", LINEUP: "Lineup", RESULT: "Result", EVENT: "Tournament", STANDINGS: "Standings" };
-const TYPE_ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️", STANDINGS: "📊" };
+const TYPE_NAMES: Record<string, string> = { TEAM: "Team card", PLAYER: "Player card", CHAMPIONS: "Champions", MATCHDAY: "Match day", LINEUP: "Lineup", RESULT: "Result", EVENT: "Tournament", STANDINGS: "Standings", LOGO: "Team logo" };
+const TYPE_ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️", STANDINGS: "📊", LOGO: "🛡️" };
 
 /** Posts a finished poster to the public showcase channel. Never throws. */
 export async function postShowcase(o: { bannerId: string; userId: string; image: Buffer }) {

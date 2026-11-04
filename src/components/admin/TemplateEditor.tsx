@@ -133,6 +133,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
               <option value="LINEUP">LINEUP</option>
               <option value="RESULT">RESULT</option>
               <option value="STANDINGS">STANDINGS</option>
+              <option value="LOGO">LOGO</option>
             </select>
           </div>
         </div>

@@ -34,6 +34,12 @@ const P: Record<string, React.ReactNode> = {
       <path d="M6 10.5h2.5v3H6zM15.5 10.5H18v3h-2.5z" />
     </>
   ),
+  LOGO: (
+    <>
+      <path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6z" />
+      <path d="m12 8 1.4 2.8 3.1.5-2.2 2.2.5 3.1L12 15.1l-2.8 1.5.5-3.1-2.2-2.2 3.1-.5z" />
+    </>
+  ),
   STANDINGS: (
     <>
       <rect x="3.5" y="4" width="17" height="16" rx="2" />

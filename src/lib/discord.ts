@@ -43,6 +43,7 @@ const LAYOUT_NAMES: Record<string, string> = {
   LINEUP: "Lineup",
   RESULT: "Result",
   STANDINGS: "Standings",
+  LOGO: "Team logo",
   EVENT: "Tournament / event",
 };
 

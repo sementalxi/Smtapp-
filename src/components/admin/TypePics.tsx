@@ -11,6 +11,7 @@ const LABELS: Record<string, [string, string]> = {
   RESULT: ["⚽ Result", "⚽ Resultado"],
   EVENT: ["🎟️ Tournament / event", "🎟️ Torneo / evento"],
   STANDINGS: ["📊 Standings", "📊 Tabla de posiciones"],
+  LOGO: ["🛡️ Team logo", "🛡️ Logo del equipo"],
   ROSTER: ["🪪 Roster banners", "🪪 Banners de plantilla"],
   TEAMSET: ["👥 Team player cards", "👥 Tarjetas del equipo"],
   SEASON: ["🎉 Season flyers", "🎉 Flyers de temporada"],

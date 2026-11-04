@@ -36,6 +36,7 @@ enum Layout {
   LINEUP
   RESULT
   STANDINGS
+  LOGO
 }
 
 model User {

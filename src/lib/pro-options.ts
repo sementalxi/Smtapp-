@@ -46,6 +46,12 @@ export const ART_TYPES: ArtType[] = [
     es: { name: "Tabla de posiciones", desc: "Tabla de la liga: posiciones, equipos, puntos y estadísticas." },
   },
   {
+    layout: "LOGO",
+    icon: "🛡️",
+    en: { name: "Team logo", desc: "Create a brand-new team logo, or a cool poster that shows off your logo." },
+    es: { name: "Logo del equipo", desc: "Crea un logo nuevo para tu equipo, o un póster épico que presuma tu logo." },
+  },
+  {
     layout: "EVENT",
     icon: "🎟️",
     en: { name: "Tournament / event", desc: "Announce a tournament: prize, entry, date and times." },

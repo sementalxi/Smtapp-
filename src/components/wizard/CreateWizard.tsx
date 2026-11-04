@@ -238,6 +238,8 @@ export function CreateWizard({
   }, [templates]);
   const [tplId, setTplId] = useState<string | null>(null);
   const tpl = styles.find((t) => t.id === tplId) ?? null;
+  // Team logo category: "create a new logo" styles vs "show off my logo" styles.
+  const logoCreate = layout === "LOGO" && !!tpl && /^logo-new-/.test(tpl.slug);
 
   const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English" });
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
@@ -360,6 +362,8 @@ export function CreateWizard({
         return !!inp.headline.trim();
       case "STANDINGS":
         return tableRows.length >= 2;
+      case "LOGO":
+        return logoCreate ? !!inp.team.trim() : !!team?.logoUrl;
     }
   }
 
@@ -455,7 +459,7 @@ export function CreateWizard({
         templateId: tpl?.id,
         inputs: finalInputs(),
         photoUrl: photo,
-        logoUrl: team?.logoUrl ?? null,
+        logoUrl: logoCreate ? null : team?.logoUrl ?? null,
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
         ...(format !== "post" ? { format } : {}),
@@ -869,6 +873,26 @@ export function CreateWizard({
             </>
           )}
 
+          {layout === "LOGO" && (
+            logoCreate ? (
+              <>
+                <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
+                  🛡️ {locale === "es" ? "La IA diseña un logo NUEVO para tu equipo (cuadrado, listo para redes y Discord)." : "The AI designs a brand-NEW logo for your team (square, ready for socials and Discord)."}
+                </p>
+                {field({ label: locale === "es" ? "Nombre del equipo" : "Team name", k: "team", req: true, max: 40, ph: "Blitz FC" })}
+                {field({ label: locale === "es" ? "Mascota o idea (opcional)" : "Mascot or idea (optional)", k: "subtitle", max: 40, ph: locale === "es" ? "Lobo con corona" : "Wolf with a crown" })}
+              </>
+            ) : (
+              <>
+                <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
+                  🛡️ {locale === "es" ? "Un póster épico que presume tu logo. Elige tu equipo (con su logo) o súbelo." : "An epic poster that shows off your logo. Pick your team (with its logo) or upload it."}
+                </p>
+                <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} required />
+                {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "EST. 2026" : "EST. 2026" })}
+              </>
+            )
+          )}
+
           {layout === "STANDINGS" && (
             <>
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
@@ -1192,6 +1216,9 @@ export function CreateWizard({
                     </span>
                   </div>
                   {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
+                  {logoCreate ? (
+                    <p className="mt-5 text-xs text-muted">⬛ {locale === "es" ? "El logo se hace cuadrado (1:1)." : "The logo is made square (1:1)."}</p>
+                  ) : (
                   <div className="mt-5 grid grid-cols-3 gap-2">
                     {([["post", "4:5", es5 ? "Post" : "Post", "aspect-[4/5] w-5"], ["story", "9:16", es5 ? "Historia" : "Story", "aspect-[9/16] w-4"], ["banner", "16:9", "Banner", "aspect-[16/9] w-8"]] as const).map(([k, r, l, box]) => (
                       <button key={k} type="button" data-sfx="select" onClick={() => setFormat(k)} className={`flex flex-col items-center gap-1 rounded-xl border px-2 py-2.5 text-xs font-bold transition ${format === k ? "border-lime bg-lime/15 text-white" : "border-line bg-ink/40 text-muted"}`}>
@@ -1201,6 +1228,7 @@ export function CreateWizard({
                       </button>
                     ))}
                   </div>
+                  )}
                   {phase === "error" && <p className="mt-4 text-sm text-danger">{error}</p>}
                   <button type="button" className="btn-primary mt-5 w-full py-3.5 text-base" disabled={credits < cost} onClick={generate}>
                     {phase === "error" ? "↻" : "✨"} {L.generate}
