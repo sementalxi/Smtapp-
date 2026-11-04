@@ -68,6 +68,11 @@ async function main() {
     await db.template.updateMany({ where: { slug: { startsWith: "xi-" } }, data: { active: true } });
     await db.setting.create({ data: { key: "lineups_v2", value: new Date().toISOString() } });
   }
+  // One-time (owner's request): every image uses the top generator — All 3 (Nano Banana + FLUX.2 + OpenAI).
+  if (!(await db.setting.findUnique({ where: { key: "poster_model_mix3" } }))) {
+    await db.setting.upsert({ where: { key: "poster_model" }, create: { key: "poster_model", value: "mix3" }, update: { value: "mix3" } });
+    await db.setting.create({ data: { key: "poster_model_mix3", value: new Date().toISOString() } });
+  }
   // The combined "Double Threat" style was replaced by 4 separate styles — hide it.
   await db.template.updateMany({ where: { slug: "player-double-threat" }, data: { active: false } });
   // One-time: Gold XI becomes "Shatter XI" (team colours, no gold) — the owner's request.

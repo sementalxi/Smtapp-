@@ -59,9 +59,9 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       </div>
       <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
         <label className="label">🎨 {es ? "Generador de pósters" : "Poster generator"}</label>
-        <select className="input" value={v.poster_model ?? "mix"} onChange={(e) => setV({ ...v, poster_model: e.target.value })}>
-          <option value="mix">{es ? "⭐ Mix: Nano Banana hace el arte + OpenAI el texto (recomendado, lo mejor)" : "⭐ Mix: Nano Banana makes the art + OpenAI adds the text (recommended, best)"}</option>
-          <option value="mix3">{es ? "🔥 Los 3: Nano Banana arte + FLUX.2 realismo + OpenAI texto (más lento)" : "🔥 All 3: Nano Banana art + FLUX.2 realism + OpenAI text (slower)"}</option>
+        <select className="input" value={v.poster_model ?? "mix3"} onChange={(e) => setV({ ...v, poster_model: e.target.value })}>
+          <option value="mix3">{es ? "⭐ Los 3: Nano Banana arte + FLUX.2 realismo + OpenAI texto (el mejor)" : "⭐ All 3: Nano Banana art + FLUX.2 realism + OpenAI text (best)"}</option>
+          <option value="mix">{es ? "Mix: Nano Banana arte + OpenAI texto (más rápido)" : "Mix: Nano Banana art + OpenAI text (faster)"}</option>
           <option value="flux-mix">{es ? "Mix FLUX: FLUX.2 Pro arte + OpenAI texto (muy realista)" : "FLUX Mix: FLUX.2 Pro art + OpenAI text (very realistic)"}</option>
           <option value="flux">{es ? "Solo FLUX.2 Pro" : "FLUX.2 Pro only"}</option>
           <option value="openai">{es ? "Solo OpenAI GPT Image (sigue tu texto exacto)" : "OpenAI GPT Image only (follows your exact text)"}</option>
