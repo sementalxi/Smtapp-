@@ -21,11 +21,15 @@ export async function posterCollage(posters: Buffer[], opts: { width?: number; h
     <rect width="${W}" height="${H}" fill="url(#t)"/>
   </svg>`);
 
+  // Each picture keeps its own shape (tall poster, square logo, wide banner).
+  const metas = await Promise.all(pics.map((b) => sharp(b).metadata().catch(() => ({ width: 4, height: 5 }))));
+  const ratios = metas.map((m) => Math.min(1.9, Math.max(0.55, (m.width ?? 4) / (m.height ?? 5))));
+  const wideMode = ratios.filter((r) => r > 1.2).length >= Math.ceil(pics.length / 2);
   // Poster sizes: side ones a bit smaller and tilted, the middle one biggest and straight.
-  const mainH = Math.round(H * 0.86);
-  const sideH = Math.round(H * 0.72);
-  const rounded = async (buf: Buffer, h: number) => {
-    const w = Math.round(h * 0.8);
+  const mainH = Math.round(H * (wideMode ? 0.5 : 0.86));
+  const sideH = Math.round(H * (wideMode ? 0.44 : 0.72));
+  const rounded = async (buf: Buffer, h: number, ratio: number) => {
+    const w = Math.round(h * ratio);
     const img = await sharp(buf).resize({ width: w, height: h, fit: "cover" }).png().toBuffer();
     const mask = Buffer.from(`<svg width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="${Math.round(h * 0.03)}" fill="#fff"/></svg>`);
     // Rounded corners + a thin light edge.
@@ -39,15 +43,16 @@ export async function posterCollage(posters: Buffer[], opts: { width?: number; h
   const order = pics.length === 1 ? [["c", 0]] : pics.length === 2 ? [["l", 0], ["r", 1]] : [["l", 1], ["r", 2], ["c", 0]];
   for (const [slot, idx] of order as ["l" | "r" | "c", number][]) {
     const h = slot === "c" ? mainH : sideH;
-    const w = Math.round(h * 0.8);
-    const card = await rounded(pics[idx], h);
-    const angle = slot === "l" ? -9 : slot === "r" ? 9 : 0;
+    const w = Math.round(h * ratios[idx]);
+    const card = await rounded(pics[idx], h, ratios[idx]);
+    const angle = wideMode ? (slot === "l" ? -4 : slot === "r" ? 4 : 2) : slot === "l" ? -9 : slot === "r" ? 9 : 0;
     const tilted = angle ? await sharp(card).rotate(angle, { background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer() : card;
     const meta = await sharp(tilted).metadata();
     const tw = meta.width ?? w;
     const th = meta.height ?? h;
-    const cx = slot === "l" ? W * 0.28 : slot === "r" ? W * 0.72 : W * 0.5;
-    const cy = slot === "c" ? H * 0.52 : H * 0.55;
+    // Wide banners stack diagonally (top-left, bottom-right, big one in the middle); posters fan out side by side.
+    const cx = wideMode ? (slot === "l" ? W * 0.36 : slot === "r" ? W * 0.64 : W * 0.5) : slot === "l" ? W * 0.28 : slot === "r" ? W * 0.72 : W * 0.5;
+    const cy = wideMode ? (slot === "l" ? H * 0.28 : slot === "r" ? H * 0.74 : H * 0.5) : slot === "c" ? H * 0.52 : H * 0.55;
     const left = Math.round(cx - tw / 2);
     const top = Math.round(cy - th / 2);
     const sh = await shadowOf(tw, th);

@@ -36,7 +36,7 @@ export function TypePics({ initial, es }: { initial: Record<string, string>; es:
       setPics((p) => ({ ...p, [k]: d.url }));
       setMsg(es ? `✓ Portada creada con ${d.used} póster${d.used === 1 ? "" : "es"}` : `✓ Cover made from ${d.used} poster${d.used === 1 ? "" : "s"}`);
       router.refresh();
-    } else setMsg(d.error === "no_pictures" ? (es ? "Esa categoría aún no tiene estilos con foto" : "That category has no styles with a picture yet") : es ? "No se pudo crear" : "Couldn't make it");
+    } else setMsg(d.error === "no_pictures" ? (es ? "Esa categoría aún no tiene pósters ni estilos con foto — haz uno primero" : "That category has no posters or style pictures yet — make one first") : es ? "No se pudo crear" : "Couldn't make it");
   }
   async function save(next: Record<string, string>) {
     setPics(next);
