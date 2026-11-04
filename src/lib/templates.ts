@@ -1122,7 +1122,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "PLAYER",
     sort: 0,
     prompt:
-      "player shown twice (black-and-white bust behind, full-body walk toward the camera in front), monochrome studio with one red accent, giant outlined name letters, chrome name, pro Photoshop composite",
+      "player shown twice (black-and-white bust behind, full-body standing cool pose in front), monochrome studio with one red accent, giant outlined name letters, chrome name, pro Photoshop composite",
     style: {
       primary: "#ffffff",
       accent: "#e3102b",

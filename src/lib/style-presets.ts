@@ -1376,7 +1376,7 @@ SCENE & COLOURS: black, white and silver chrome with ONE red accent (or the team
 
 FIGURES
 1. BEHIND (upper half, huge): a black-and-white portrait looking STRAIGHT into the camera, hard contrast — hand on the chin or adjusting the collar.
-2. IN FRONT (lower centre): a FULL-BODY WALK toward the camera — confident stride — black-and-white with only the accent colour kept on the kit, a long shadow on the ground.
+2. IN FRONT (lower centre): a FULL-BODY figure STANDING STILL in a cool, cinematic pose — weight on one leg, hands in the pockets or adjusting the jacket / collar, chin up, calm stare at the camera — NOT walking, NOT running, NOT mid-action — black-and-white with only the accent colour kept on the kit, a long shadow on the ground. This is THIS style's exception to the house look: a still pose instead of an action shot.
 
 LAYOUT
 - The crest (if given) as a silver-chrome emblem at the top-left.
@@ -4908,6 +4908,7 @@ const SMALL_TEAM_NAME_FIXES: [string, string][] = [
   ["Write each item once (the giant background team name is the only team-name text).", "Write each item once (the player's name may also appear as the giant background echo)."],
   ["- A big polished metal TROPHY at the upper right if the tagline or subtitle mentions champions / winners; otherwise glowing light.", "- UPPER RIGHT: the team crest (if provided) echoed LARGE and FADED — a ghosted, semi-transparent version blended into the purple light and smoke (about 25% opacity), partly cut off by the edge. NEVER a trophy, cup, award or medal anywhere on this poster. If no crest is given: glowing light and neon rings only."],
   ["2. IN FRONT (lower right): a FULL-BODY SPRINT with the ball — mid-stride, leaning forward, full colour, red rim light, feet inside the frame.", "2. IN FRONT (lower right): a FULL-BODY figure POSING SIDEWAYS — standing still in a confident side-on / three-quarter stance (body turned to the side, head turned toward the camera, arms crossed or hands on the hips), NOT running, NOT mid-action — full colour, red rim light, feet inside the frame. This is THIS style's exception to the house look: a calm sideways pose instead of an action shot."],
+  ["2. IN FRONT (lower centre): a FULL-BODY WALK toward the camera — confident stride — black-and-white with only the accent colour kept on the kit, a long shadow on the ground.", "2. IN FRONT (lower centre): a FULL-BODY figure STANDING STILL in a cool, cinematic pose — weight on one leg, hands in the pockets or adjusting the jacket / collar, chin up, calm stare at the camera — NOT walking, NOT running, NOT mid-action — black-and-white with only the accent colour kept on the kit, a long shadow on the ground. This is THIS style's exception to the house look: a still pose instead of an action shot."],
 ];
 
 /** Removes the "team name small / tiny / letter-spaced" lines from a style's design instructions (big design uses stay). */
