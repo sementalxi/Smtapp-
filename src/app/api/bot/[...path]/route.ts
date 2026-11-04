@@ -32,6 +32,26 @@ async function asUser(userId: string, path: string, init: RequestInit = {}) {
   return fetch(`${site()}${path}`, { ...init, headers: { ...(init.headers ?? {}), cookie }, signal: AbortSignal.timeout(55000) });
 }
 
+/** Discord attachment → stored on KIXO as that user (the AI and saved teams only take our own files). */
+async function rehostFor(userId: string, src: string | undefined, kind: "photo" | "logo") {
+  if (!src) return null;
+  // Already on KIXO (saved team / league logo) — use as is.
+  if (src.startsWith(site() + "/")) return src.slice(site().length);
+  if (src.startsWith("/") || /\.blob\.vercel-storage\.com\//.test(src)) return src;
+  const s = new URL(src);
+  if (s.protocol !== "https:" || !/(^|\.)discordapp\.(com|net)$/.test(s.hostname)) throw new Error("bad_image_host");
+  const img = await fetch(s, { signal: AbortSignal.timeout(15000) });
+  if (!img.ok) throw new Error("image_download_failed");
+  const type = img.headers.get("content-type") ?? "image/jpeg";
+  const fd = new FormData();
+  fd.append("file", new Blob([await img.arrayBuffer()], { type }), `discord.${type.includes("png") ? "png" : type.includes("webp") ? "webp" : "jpg"}`);
+  fd.append("kind", kind);
+  const up = await asUser(userId, "/api/upload", { method: "POST", body: fd });
+  const d = await up.json().catch(() => ({}));
+  if (!d.url) throw new Error(d.error ?? "upload_failed");
+  return d.url as string;
+}
+
 async function handler(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   if (!authorized(req)) return j({ error: "unauthorized" }, 401);
   const action = (await params).path.join("/");
@@ -85,34 +105,38 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
     return j({ teams: pack("team"), competitions: pack("championship") });
   }
 
+  // Save a new team (name + optional logo sent in Discord) to the user's "My teams" — reused on the site and in the bot.
+  if (action === "teams/create" && req.method === "POST") {
+    const b = (await req.json().catch(() => ({}))) as { discordId?: string; name?: string; logoUrl?: string; kind?: string };
+    const u = await userFor(b.discordId ?? null);
+    if (!u) return j({ error: "not_linked" }, 404);
+    const name = String(b.name ?? "").trim().slice(0, 40);
+    if (!name) return j({ error: "name_required" }, 400);
+    const kind = b.kind === "championship" ? "championship" : "team";
+    let logoUrl: string | null = null;
+    try {
+      logoUrl = await rehostFor(u.id, b.logoUrl, "logo");
+    } catch (e) {
+      return j({ error: e instanceof Error ? e.message : "upload_failed" }, 400);
+    }
+    // Same name already saved? Update its logo instead of making a twin.
+    const existing = await db.savedItem.findFirst({ where: { userId: u.id, kind, name: { equals: name, mode: "insensitive" } } });
+    const item = existing
+      ? await db.savedItem.update({ where: { id: existing.id }, data: { ...(logoUrl ? { logoUrl } : {}) } })
+      : await db.savedItem.create({ data: { userId: u.id, kind, name, logoUrl } });
+    const abs = (x: string | null) => (x ? (x.startsWith("/") ? site() + x : x) : null);
+    return j({ team: { id: `s:${item.id}`, name: item.name, logoUrl: abs(item.logoUrl), source: "mine", players: [] }, updated: !!existing });
+  }
+
   // Make a poster.
   if (action === "generate" && req.method === "POST") {
     const b = (await req.json().catch(() => ({}))) as { discordId?: string; templateId?: string; inputs?: Record<string, unknown>; photoUrl?: string; logoUrl?: string; season?: boolean };
     const u = await userFor(b.discordId ?? null);
     if (!u) return j({ error: "not_linked" }, 404);
-    // Discord attachment → stored on KIXO (the AI only takes our own files).
-    const rehost = async (src?: string) => {
-      if (!src) return null;
-      // Already on KIXO (saved team / league logo) — use as is.
-      if (src.startsWith(site() + "/")) return src.slice(site().length);
-      if (src.startsWith("/") || /\.blob\.vercel-storage\.com\//.test(src)) return src;
-      const s = new URL(src);
-      if (s.protocol !== "https:" || !/(^|\.)discordapp\.(com|net)$/.test(s.hostname)) throw new Error("bad_image_host");
-      const img = await fetch(s, { signal: AbortSignal.timeout(15000) });
-      if (!img.ok) throw new Error("image_download_failed");
-      const type = img.headers.get("content-type") ?? "image/jpeg";
-      const fd = new FormData();
-      fd.append("file", new Blob([await img.arrayBuffer()], { type }), `discord.${type.includes("png") ? "png" : type.includes("webp") ? "webp" : "jpg"}`);
-      fd.append("kind", "photo");
-      const up = await asUser(u.id, "/api/upload", { method: "POST", body: fd });
-      const d = await up.json().catch(() => ({}));
-      if (!d.url) throw new Error(d.error ?? "upload_failed");
-      return d.url as string;
-    };
     let photoUrl: string | null = null;
     let logoUrl: string | null = null;
     try {
-      [photoUrl, logoUrl] = await Promise.all([rehost(b.photoUrl), rehost(b.logoUrl)]);
+      [photoUrl, logoUrl] = await Promise.all([rehostFor(u.id, b.photoUrl, "photo"), rehostFor(u.id, b.logoUrl, "logo")]);
     } catch (e) {
       return j({ error: e instanceof Error ? e.message : "upload_failed" }, 400);
     }
