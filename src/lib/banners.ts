@@ -234,7 +234,7 @@ export function collectProRefs(opts: {
       label:
         layout === "LINEUP" || layout === "RESULT" || layout === "MATCHDAY"
           ? "a player photo to feature as the hero image. Keep the face exactly recognisable — same person, not a lookalike."
-          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo. Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
+          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo (any badge, sponsor or words printed on it stay only on the kit — never reuse them anywhere else on the poster). Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
     });
   }
   // Default: the real logo is pasted onto the finished poster (the AI redraws logos inaccurately).
@@ -245,7 +245,7 @@ export function collectProRefs(opts: {
       ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
       : refs.push({
       url,
-      label: `the crest/logo of ${who}. Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
+      label: `the crest/logo of ${who} — the ONLY crest for this poster (if the shirt in the photo shows another club's badge, ignore that badge; this reference is the team). Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
     });
   if (layout === "LOGO") {
     if (opts.logoUrl)
@@ -398,14 +398,17 @@ export function buildProPrompt(opts: {
   format?: "post" | "story" | "banner" | "square";
 }) {
   const { inputs: raw, style, layout } = opts;
-  // When a team has a logo, the poster shows only the logo — never the team's name as text.
+  // When a team has a logo, the built-in layouts show only the logo — not the team's name as text.
+  // Styles whose design instructions use the team name (giant background letters, a team line…) keep it,
+  // otherwise the AI would improvise a name (e.g. from the shirt in the photo).
   const hasTeamLogo = opts.refs.some((r) => r.label.startsWith("the crest/logo of the team"));
+  const styleUsesTeamName = /team name|team's name|nombre del equipo/i.test(opts.instructions ?? "");
   const overlays = opts.refs.filter((r) => r.overlay);
   const exactLogos = overlays.length > 0;
   const aiRefs = opts.refs.filter((r) => !r.overlay);
   const i: BannerInputs = {
     ...raw,
-    team: hasTeamLogo ? "" : raw.team,
+    team: hasTeamLogo && !styleUsesTeamName ? "" : raw.team,
     homeTeam: raw.homeLogoUrl ? "" : raw.homeTeam,
     awayTeam: raw.awayLogoUrl ? "" : raw.awayTeam,
     eventName: raw.champLogoUrl ? "" : raw.eventName,
@@ -702,6 +705,7 @@ export function buildProPrompt(opts: {
     adminLed
       ? `FINAL REMINDER: the layout, composition, figures, style and effects must follow the ART DIRECTOR'S DESIGN INSTRUCTIONS at the top of this brief.`
       : "",
+    `THE PHOTO IS NOT CONTENT (very important): the uploaded photo is only a picture of the PERSON. Anything printed on their kit — a club badge, sponsor names, brand marks, words, numbers — belongs to that kit and is NOT the team, NOT a logo for this poster and NOT text for this poster. Never read, copy, echo, enlarge or rewrite any word, letter, number or badge that appears in the photo: not as giant background letters, not as a crest or emblem, not as a name, tagline or team name. ${i.team ? `The team is ${q(i.team)} — that is the only team name on this poster.` : "No team name was given — so no team name or club letters anywhere."} ${hasTeamLogo ? "The team crest is ONLY the crest given as its own reference image — the badge on the shirt in the photo is a different kit; leave it where it is on the shirt and never draw it as a separate element." : "No crest was given — draw no crest, badge or emblem anywhere (the badge on the shirt stays only on the shirt)."}`,
     `Only write the text items listed above${i.aiCopy === "on" ? " (plus those optional hype words)" : ""}. Never write labels or field names such as "LOGO", "CREST", "POSITION", "TEAM", "NAME" or "PHOTO" unless they are part of a listed item. Do not add any other text, words, watermarks, sponsor logos, brand names or website addresses. Words that appear INSIDE a logo or crest (club names, "ESPORTS", "EST. 2023", mottos) stay only inside that logo — never copy them out as a title, name, tagline or any separate text. Never invent club info, years, slogans or "edition" lines. No real company or league logos except the provided crests and badges. NEVER take a crest, badge or logo from the player's photo (e.g. the club badge or sponsor on their shirt) and place it on the poster as a separate logo or emblem — the only crests/logos allowed as poster elements are the ones given as their own reference images. If no crest image is given, draw no crest at all.`,
   ]
     .filter(Boolean)

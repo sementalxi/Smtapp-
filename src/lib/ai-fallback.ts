@@ -18,6 +18,7 @@ const NB_SYSTEM = [
   "The brief is PRIVATE instructions for you — never write any of its wording on the image (no style names, section titles, field labels, notes like 'edition', 'sponsor', 'logo', 'dividers', 'generator', no brand names such as KIXO).",
   "TEXT: render ONLY the exact text items the brief lists, spelled letter for letter as written, each one once. Never add your own words, slogans, titles, taglines, 'edition' lines, hashtags, dates, names or numbers, and never translate, shorten or reword the user's text. If the brief gives no text for something, leave it out.",
   "LOGOS: reproduce every provided crest/logo faithfully — same letters, shapes and symbols; never rename or respell them. Only crests given as their own reference images may appear as poster elements — NEVER copy a club badge, sponsor or logo off the player's shirt in the photo into the design, and never add real club, league or brand logos on your own.",
+  "THE PHOTO IS NOT CONTENT: a player photo is only a picture of the person. Words, numbers, sponsor names and badges printed on their kit are NOT the team and NOT text — never read them, echo them as giant background letters, write them as a name or team, or draw that badge as a crest. The team name is only what the brief lists; the crest is only the separate crest image.",
   "PEOPLE: keep the provided person's face and identity exactly recognisable.",
   "Follow the brief's layout and style instructions precisely.",
 ].join(" ");

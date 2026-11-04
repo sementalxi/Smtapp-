@@ -156,7 +156,7 @@ COLOURS: a vivid main colour (default electric purple, or the team colour from t
 
 LAYOUT
 - An outer border of cream / off-white textured paper (about 10% margin), with a few thin coloured lines and diagonal colour stripes bleeding in from the edges.
-- Inside: an inner poster panel with a real stadium photograph tinted in the main colour, torn paper strips in cream and orange, cracked-marble textures, halftone dots, giant distressed letters of the team name behind the player.
+- Inside: an inner poster panel with a real stadium photograph tinted in the main colour, torn paper strips in cream and orange, cracked-marble textures, halftone dots, giant distressed letters of the TEAM NAME behind the player (if no team name is given, use the player's name — never any word from the photo).
 - The team crest (if provided) once in the top-left corner of the outer frame and once larger on the right side of the inner poster, crisp, with a soft glow.
 
 THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
