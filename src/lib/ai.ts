@@ -215,6 +215,11 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
       }
       // other 4xx = our request/key problem: retrying won't help
       if (res.status < 500 && res.status !== 429) break;
+      if (res.status === 429) {
+        // Rate limited (too many posters this minute): wait for the window to pass, keep the same size.
+        await new Promise((r) => setTimeout(r, 15_000 * (attempt + 1)));
+        continue;
+      }
       sizeIdx = Math.min(sizeIdx + 1, sizes.length - 1);
     } catch (e) {
       lastErr = `OpenAI image failed: ${e instanceof Error ? e.message : String(e)}`;

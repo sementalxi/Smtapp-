@@ -16,6 +16,8 @@ export type Sample = {
   mascot: string;
   /** Palette for the test: the style's own colours (default, so every style shows as designed), the crest's colours (what users get by default), or a random one. */
   colorMode?: "template" | "team" | "surprise";
+  /** How many posters to make at the same time (0 = all at once). */
+  parallel?: number;
 };
 
 export type RunItem = { id: string; name: string; layout: string; logoCreate: boolean };
@@ -27,7 +29,10 @@ export type Run = {
   status: "running" | "paused" | "stopped" | "done";
   startedAt: string;
   sample: Sample;
+  parallel: number; // how many at once (0 = all)
   skipped: { templateId: string; error: string; at: string }[]; // styles whose request was refused before a poster existed
+  retries?: Record<string, number>; // automatic retries per style after an AI rate limit
+  requeued?: string[]; // failed poster ids already handled
 };
 
 export const DEFAULT_SAMPLE: Sample = {
@@ -46,6 +51,7 @@ export const DEFAULT_SAMPLE: Sample = {
   venue: "KIXO Arena",
   mascot: "a wolf head",
   colorMode: "template",
+  parallel: 0,
 };
 
 const ROSTER = ["Alex", "Bruno", "Carlos", "Diego", "Eli", "Fabio", "Gabo", "Hugo", "Iker", "Javi", "Kevin"];

@@ -27,6 +27,7 @@ const SampleSchema = z.object({
   venue: z.string().max(40),
   mascot: z.string().max(80),
   colorMode: z.enum(["template", "team", "surprise"]).optional(),
+  parallel: z.number().int().min(0).max(300).optional(),
 });
 const Body = z.discriminatedUnion("action", [
   z.object({ action: z.literal("start"), items: z.array(Item).min(1).max(300), sample: SampleSchema }),
@@ -69,7 +70,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (body.action === "start") {
     const sample = { ...DEFAULT_SAMPLE, ...body.sample };
     await db.setting.upsert({ where: { key: "style_test_sample" }, create: { key: "style_test_sample", value: JSON.stringify(sample) }, update: { value: JSON.stringify(sample) } });
-    const run = await startRun(admin.id, body.items, sample);
+    const run = await startRun(admin.id, body.items, sample, sample.parallel ?? 0);
     return json({ run, results: await results(admin.id) });
   }
   if (body.action === "pause") return json({ run: await pauseRun(), results: await results(admin.id) });

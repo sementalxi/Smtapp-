@@ -37,6 +37,16 @@ const LAYOUT_NAMES: Record<string, [string, string]> = {
 
 type ServerState = { run: Run | null; results: TestResult[]; did?: string };
 
+const STAGE_LABEL: Record<string, [string, string]> = {
+  queued: ["Getting ready", "Preparando"],
+  art: ["Painting the artwork", "Pintando el arte"],
+  edit: ["Editing", "Editando"],
+  realism: ["Adding realism", "Agregando realismo"],
+  text: ["Writing the text", "Escribiendo el texto"],
+  openai: ["OpenAI is designing it", "OpenAI lo está diseñando"],
+  finishing: ["Final touches", "Detalles finales"],
+};
+
 /**
  * Admin → Style test. The run itself lives on the server (a queue the cron advances every minute), so it keeps
  * generating after this page is closed; while the page is open it pokes the server so there's no waiting.
@@ -139,10 +149,17 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
   const lname = (l: string) => (LAYOUT_NAMES[l] ? LAYOUT_NAMES[l][es ? 1 : 0] : l);
 
   // Progress of the server run.
-  const inFlight = !!run && results.some((r) => r.run === run.id && r.status === "PROCESSING");
+  const flying = run ? results.filter((r) => r.run === run.id && r.status === "PROCESSING") : [];
+  const inFlight = flying.length > 0;
   const total = run?.queue.length ?? 0;
-  const done = run ? Math.max(0, run.next - (inFlight ? 1 : 0)) : 0;
-  const current = run ? (inFlight ? run.queue[run.next - 1]?.name : running ? run.queue[run.next]?.name : undefined) : undefined;
+  const done = run ? Math.max(0, run.next - flying.length) : 0;
+  const current = run
+    ? inFlight
+      ? `${flying.length > 1 ? `${flying.length} ${es ? "a la vez" : "at once"} · ` : ""}${flying.slice(0, 3).map((r) => r.templateName || templates.find((t) => t.id === r.templateId)?.name || "").filter(Boolean).join(", ")}${flying.length > 3 ? "…" : ""}`
+      : running
+        ? run.queue[run.next]?.name
+        : undefined
+    : undefined;
   const mmss = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 
   return (
@@ -218,6 +235,18 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
             );
           })}
         </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "A la vez" : "At once"}</span>
+          {([1, 3, 5, 10, 0] as const).map((n) => {
+            const on = (sample.parallel ?? 0) === n;
+            return (
+              <button key={n} type="button" onClick={() => setSample({ ...sample, parallel: n })} className={`rounded-full border px-3 py-1 text-xs font-bold transition ${on ? "border-lime bg-lime text-ink" : "border-line bg-panel-2 text-muted"}`}>
+                {n === 0 ? (es ? "Todos" : "All") : n}
+              </button>
+            );
+          })}
+          <span className="text-[11px] text-muted">{es ? "Si la IA limita el ritmo (429), se reintentan solos un minuto después." : "If the AI rate-limits (429), they retry by themselves a minute later."}</span>
+        </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           {running || paused ? (
             <>
@@ -250,8 +279,8 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                 ? "El póster que se está haciendo termina igual; Pausar guarda la cola, Parar la cierra."
                 : "The poster being made now still finishes; Pause keeps the queue, Stop ends the round."
               : es
-                ? "Gratis para el admin · uno por uno · ~2–4 min cada uno"
-                : "Free for admin · one at a time · ~2–4 min each"}
+                ? "Gratis para el admin · ~1–3 min por póster"
+                : "Free for admin · ~1–3 min per poster"}
           </span>
         </div>
         <p className="mt-2 text-xs text-teal">☁️ {es ? "Corre en el servidor: puedes cerrar esta página y sigue generando. Vuelve cuando quieras a ver los resultados." : "Runs on the server: you can close this page and it keeps generating. Come back any time to see the results."}</p>
@@ -311,7 +340,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                     {r?.status === "PROCESSING" ? (
                       <span>
                         <span className="mb-1 block animate-pulse text-2xl">⚙️</span>
-                        {r.stage ?? (es ? "Generando…" : "Generating…")}
+                        {r.stage ? (STAGE_LABEL[r.stage] ? STAGE_LABEL[r.stage][es ? 1 : 0] : r.stage) + "…" : es ? "Generando…" : "Generating…"}
                       </span>
                     ) : r?.status === "FAILED" ? (
                       <span className="text-danger">❌ {es ? "Falló" : "Failed"}</span>
