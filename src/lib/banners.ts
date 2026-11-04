@@ -402,13 +402,12 @@ export function buildProPrompt(opts: {
   if (opts.instructions) opts = { ...opts, instructions: stripSmallTeamName(opts.instructions) };
   const { inputs: raw, style, layout } = opts;
   // The team name is typed to save the team (and its crest) — it is NOT a caption for the poster.
-  // It becomes poster text only where a design makes it a big graphic element: a style whose instructions
-  // use it (giant background letters, a hero word, a ribbon) or the built-in player layout's giant lettering
-  // when no crest exists. With a crest, the crest shows the team. It is never a small letter-spaced line.
+  // Player cards never print it: the crest shows the team, and any giant background lettering spells the
+  // player's name / gamertag. Other layouts (lineups, champions…) use it as a title element — unless a crest
+  // is given and the style's design doesn't mention it. It is never a small letter-spaced line.
   const hasTeamLogo = opts.refs.some((r) => r.label.startsWith("the crest/logo of the team"));
-  const styleLed = !!opts.instructions?.trim();
   const styleUsesTeamName = /team name|team's name|nombre del equipo/i.test(opts.instructions ?? "");
-  const teamNameInDesign = hasTeamLogo || (layout === "PLAYER" && styleLed) ? styleUsesTeamName : true;
+  const teamNameInDesign = layout !== "PLAYER" && (hasTeamLogo ? styleUsesTeamName : true);
   const overlays = opts.refs.filter((r) => r.overlay);
   const exactLogos = overlays.length > 0;
   const aiRefs = opts.refs.filter((r) => !r.overlay);
@@ -580,7 +579,7 @@ export function buildProPrompt(opts: {
     default:
       composition = [
         `A premium pro-clubs / esports football player announcement poster, the dense layered style of top club social-media designers.`,
-        `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) ${i.team ? "GIANT background lettering of the team name spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player" : hasTeamLogo && !exactLogos ? "the team crest echoed HUGE, ghosted and partly hidden behind the player (no team name text)" : "giant abstract graphic shapes and light"};`,
+        `LAYERING (back to front): 1) a dramatic themed background filling the frame; 2) ${i.name ? `GIANT background lettering of the player's name ${q(i.name)} spanning the whole width — mix a huge blackletter/gothic word with huge condensed outlined letters, partly hidden behind the player (a graphic echo of the name — never the team name)` : "giant abstract graphic shapes and light"}${hasTeamLogo && !exactLogos ? ", plus the team crest echoed large, ghosted and partly hidden behind the player (no team name text)" : ""};`,
         i.bgPose === "none"
           ? `3) (no second figure — only ONE image of the player on this poster);`
           : i.bgPose === "style"
@@ -598,12 +597,6 @@ export function buildProPrompt(opts: {
       add("Position tag box", i.position);
       add("Small elegant word above the name", i.tagline);
       add("Script-font line under the name", i.subtitle);
-      add(
-        styleLed
-          ? "Team name — ONLY as the big graphic element the design instructions describe (giant background letters / hero word), written once; NEVER as a small line, caption or letter-spaced text"
-          : "Team name — ONLY as the giant background lettering described above, written once; NEVER as a small line, caption or letter-spaced text",
-        i.team,
-      );
       add("Jersey number (large outlined, right side)", i.number);
   }
   add("Letter-spaced footer line at the very bottom", i.footer);
@@ -719,6 +712,9 @@ export function buildProPrompt(opts: {
     `THE PHOTO IS NOT CONTENT (very important): the uploaded photo is only a picture of the PERSON. Anything printed on their kit — a club badge, sponsor names, brand marks, words, numbers — belongs to that kit and is NOT the team, NOT a logo for this poster and NOT text for this poster. Never read, copy, echo, enlarge or rewrite any word, letter, number or badge that appears in the photo: not as giant background letters, not as a crest or emblem, not as a name, tagline or team name. ${i.team ? `The team is ${q(i.team)} — that is the only team name on this poster.` : "No team name was given — so no team name or club letters anywhere."} ${hasTeamLogo ? "The team crest is ONLY the crest given as its own reference image — the badge on the shirt in the photo is a different kit; leave it where it is on the shirt and never draw it as a separate element." : "No crest was given — draw no crest, badge or emblem anywhere (the badge on the shirt stays only on the shirt)."}`,
     layout === "PLAYER" && i.bgPose !== "silence"
       ? `POSES: do NOT use the finger-on-lips "shush" gesture on any figure — it is banned (overused). Unless the design instructions describe the poses, the main full-body figure is a real ACTION moment (sprinting, dribbling, striking, leaping, a knee-slide, a celebration with arms out) — never a stiff standing pose — and the second figure is a calm, intense portrait with a closed mouth (no screaming). Vary the pose from poster to poster.`
+      : "",
+    layout === "PLAYER"
+      ? `GIANT BACKGROUND LETTERS: wherever this design has huge background / graphic lettering, it spells the PLAYER'S NAME (gamertag) ${i.name ? q(i.name) : ""} — never the team name, never a word from the photo or the crest. The player's name may therefore appear twice: once as the main title and once as that graphic echo.`
       : "",
     layout === "STANDINGS" || layout === "MATCHDAY" || layout === "CHAMPIONS"
       ? ""
