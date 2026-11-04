@@ -115,7 +115,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         season={season}
         seasonStart={seasonOn && !!season}
         typePics={await getTypePics()}
-        expectedSeconds={({ mix3: 190, mix: 150, "flux-mix": 130, flux: 60, "nano-pro": 80, openai: 100 } as Record<string, number>)[(await getSettings()).poster_model] ?? 120}
+        expectedSeconds={({ mix3: 190, "seedream-mix": 190, mix: 150, "flux-mix": 130, flux: 60, "nano-pro": 80, openai: 100 } as Record<string, number>)[(await getSettings()).poster_model] ?? 120}
       />
     </div>
   );

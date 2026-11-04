@@ -61,6 +61,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <label className="label">🎨 {es ? "Generador de pósters" : "Poster generator"}</label>
         <select className="input" value={v.poster_model ?? "mix3"} onChange={(e) => setV({ ...v, poster_model: e.target.value })}>
           <option value="mix3">{es ? "⭐ Los 3: Nano Banana arte + FLUX.2 realismo + OpenAI texto (el mejor)" : "⭐ All 3: Nano Banana art + FLUX.2 realism + OpenAI text (best)"}</option>
+          <option value="seedream-mix">{es ? "🆕 Seedream Mix: Seedream 5 arte + FLUX.2 realismo + OpenAI texto" : "🆕 Seedream Mix: Seedream 5 art + FLUX.2 realism + OpenAI text"}</option>
           <option value="mix">{es ? "Mix: Nano Banana arte + OpenAI texto (más rápido)" : "Mix: Nano Banana art + OpenAI text (faster)"}</option>
           <option value="flux-mix">{es ? "Mix FLUX: FLUX.2 Pro arte + OpenAI texto (muy realista)" : "FLUX Mix: FLUX.2 Pro art + OpenAI text (very realistic)"}</option>
           <option value="flux">{es ? "Solo FLUX.2 Pro" : "FLUX.2 Pro only"}</option>

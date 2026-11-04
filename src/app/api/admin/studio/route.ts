@@ -63,15 +63,15 @@ export const POST = handle(async (req: NextRequest) => {
       // Same top generator as the posters (Admin → Settings → Poster generator).
       const model = (await getSettings()).poster_model;
       const fb = await import("@/lib/ai-fallback");
-      if (["mix", "mix3", "flux-mix"].includes(model) && fb.fallbackReady()) {
+      if (["mix", "mix3", "flux-mix", "seedream-mix"].includes(model) && fb.fallbackReady()) {
         const t0 = Date.now();
         try {
           const [w, h] = sizes[0].split("x").map(Number);
           const format = h / w > 1.5 ? "story" : w / h > 1.3 ? "banner" : "post";
           const artPrompt = `${prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished design exactly as described but with ABSOLUTELY NO TEXT, letters or numbers anywhere (logos keep their own artwork). Leave clean empty space where the text will go — it is added in a second step.`;
           const urls = b.images.map((i) => i.url);
-          let art = model === "flux-mix" ? await fb.fluxPoster(artPrompt, urls, format) : await fb.nanoBananaArt(artPrompt, urls, format);
-          if (model === "mix3") art = await fb.fluxRealism(art.url, format, false, b.prompt).catch(() => art);
+          let art = model === "flux-mix" ? await fb.fluxPoster(artPrompt, urls, format) : model === "seedream-mix" ? await fb.seedreamArt(artPrompt, urls, format) : await fb.nanoBananaArt(artPrompt, urls, format);
+          if (model === "mix3" || model === "seedream-mix") art = await fb.fluxRealism(art.url, format, false, b.prompt).catch(() => art);
           out = b.texts
             ? await generatePoster(
                 [

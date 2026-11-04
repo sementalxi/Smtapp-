@@ -54,6 +54,22 @@ export async function fluxRealism(imageUrl: string, format?: string, wide?: bool
   return falImage("fal-ai/flux-2-pro/edit", { prompt, image_urls: [imageUrl], image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 realism", 100_000);
 }
 
+/** Seedream 5.0 Pro (falls back to Seedream 4) returning the image and its URL — for the "Seedream Mix". */
+export async function seedreamArt(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
+  const urls = absUrls(imageUrls, 10);
+  const size = fallbackSize(format, wide);
+  const body = { prompt: fit(prompt, 4000), image_size: size, num_images: 1, enable_safety_checker: true, ...(urls.length ? { image_urls: urls } : {}) };
+  const v5 = urls.length ? "bytedance/seedream/v5/pro/edit" : "bytedance/seedream/v5/pro/text-to-image";
+  const v4 = urls.length ? "fal-ai/bytedance/seedream/v4/edit" : "fal-ai/bytedance/seedream/v4/text-to-image";
+  try {
+    return await falImage(v5, body, "Seedream 5", 170_000);
+  } catch (e) {
+    const st = (e as { status?: number }).status;
+    if (st !== 404 && st !== 405 && st !== 422) throw e;
+    return falImage(v4, body, "Seedream 4", 170_000);
+  }
+}
+
 /** Nano Banana Pro returning both the image and its fal URL (for chaining steps). */
 export async function nanoBananaArt(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
   const urls = absUrls(imageUrls, 14);
