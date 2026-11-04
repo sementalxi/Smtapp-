@@ -4,7 +4,7 @@
 // connected with a webhook; types with no channel get one created inside the same category.
 import { db } from "./db";
 import { SHOWCASE_TYPES, getShowcaseHooks, saveShowcaseHooks } from "./discord-logs";
-import { botReady, createCategory, createTextChannel, createWebhookIn, guildId, listAllChannels } from "./discord-bot";
+import { botReady, createCategory, createTextChannel, createWebhookIn, guildId, listAllChannels, type GuildChannel } from "./discord-bot";
 import { visibleCategories } from "./categories";
 
 const ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️", STANDINGS: "📊", LOGO: "🛡️" };
@@ -22,7 +22,14 @@ export function plainChannelName(name: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-type Chan = { id: string; name: string; type: number; parent_id?: string | null };
+type Chan = GuildChannel;
+const VIEW_CHANNEL = 1024n;
+
+/** Hidden from @everyone (its own overwrites or its category's) — the private KIXO LOGS channels, staff rooms… */
+function isPrivate(c: Chan, all: Chan[], g: string) {
+  const denied = (x?: Chan) => !!x?.permission_overwrites?.some((o) => o.id === g && (BigInt(o.deny || "0") & VIEW_CHANNEL) !== 0n);
+  return denied(c) || denied(all.find((x) => x.id === c.parent_id));
+}
 export type SyncReport = { ok: boolean; done: string[]; created: string[]; error?: string; skipped?: string[] };
 
 /** The map of type → connected channel (for the admin page). */
@@ -60,23 +67,33 @@ export async function syncShowcaseChannels(opts: { create: boolean }): Promise<S
     if (visible.has("PLAYER")) visible.add("TEAM"); // team cards are player cards made for a whole squad
     const types = SHOWCASE_TYPES.filter((t) => visible.size === 0 || visible.has(t.key));
 
+    const g = guildId();
     const textish = (c: Chan) => c.type === 0 || c.type === 5;
-    const chans = all.filter((c) => textish(c) || c.type === 15 || c.type === 16).map((c) => ({ ...c, plain: plainChannelName(c.name) }));
+    // Only public channels count — the private KIXO LOGS channels have the same names and must never get showcase posts.
+    const logsCat = (c: Chan) => /\blogs?\b/i.test(all.find((x) => x.id === c.parent_id)?.name ?? "");
+    const chans = all
+      .filter((c) => (textish(c) || c.type === 15 || c.type === 16) && !isPrivate(c, all, g) && !logsCat(c))
+      .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+      .map((c) => ({ ...c, plain: plainChannelName(c.name) }));
     const hooks = { ...(await getShowcaseHooks()) } as Record<string, string>;
     const map = await getShowcaseMap();
+    const fits = (t: (typeof SHOWCASE_TYPES)[number], c: { plain: string }) => t.match.test(c.plain);
+
+    // The showcase category: where most of the channels that fit a type live (e.g. "KIXO DESIGNS").
+    const votes = new Map<string, number>();
+    for (const t of types) for (const c of chans) if (fits(t, c) && c.parent_id) votes.set(c.parent_id, (votes.get(c.parent_id) ?? 0) + 1);
+    let parent: string | null | undefined = [...votes.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+
     const used = new Set<string>();
     const matched: { t: (typeof SHOWCASE_TYPES)[number]; ch: (Chan & { plain: string }) | null }[] = [];
     for (const t of types) {
-      // The channel it's already connected to wins; otherwise the first channel whose plain name fits the type.
-      const known = map[t.key]?.id ? chans.find((c) => c.id === map[t.key].id) : undefined;
-      const ch = known ?? chans.find((c) => !used.has(c.id) && t.match.test(c.plain)) ?? null;
+      // The public channel it's already connected to wins (if it still fits); otherwise the first fitting channel in
+      // the showcase category, otherwise any fitting public channel.
+      const known = map[t.key]?.id ? chans.find((c) => c.id === map[t.key].id && fits(t, c) && (!parent || c.parent_id === parent)) : undefined;
+      const ch = known ?? chans.find((c) => !used.has(c.id) && fits(t, c) && (!parent || c.parent_id === parent)) ?? chans.find((c) => !used.has(c.id) && fits(t, c)) ?? null;
       if (ch) used.add(ch.id);
       matched.push({ t, ch });
     }
-
-    // Where new channels go: the category most of the existing showcase channels live in.
-    const parents = matched.map((m) => m.ch?.parent_id).filter((p): p is string => !!p);
-    let parent: string | null | undefined = parents.sort((a, b) => parents.filter((x) => x === b).length - parents.filter((x) => x === a).length)[0];
     const styled = matched.some((m) => m.ch && /・|\p{Extended_Pictographic}/u.test(m.ch.name)); // "👥・team-cards" style names
 
     for (const { t, ch } of matched) {
@@ -91,6 +108,7 @@ export async function syncShowcaseChannels(opts: { create: boolean }): Promise<S
         }
         const r = await createWebhookIn(ch.id);
         if (r.error) return { ok: false, done, created, skipped, error: r.error };
+        if (hooks[t.key] && map[t.key]?.id && map[t.key].id !== ch.id) await fetch(hooks[t.key], { method: "DELETE", signal: AbortSignal.timeout(8000) }).catch(() => {}); // moved: the old webhook goes
         hooks[t.key] = r.url!;
         map[t.key] = { id: ch.id, name: ch.name };
         done.push(`${t.label} → #${ch.name}`);
@@ -109,6 +127,7 @@ export async function syncShowcaseChannels(opts: { create: boolean }): Promise<S
       if (!made.id) return { ok: false, done, created, skipped, error: made.error };
       const r = await createWebhookIn(made.id);
       if (r.error) return { ok: false, done, created, skipped, error: r.error };
+      if (hooks[t.key]) await fetch(hooks[t.key], { method: "DELETE", signal: AbortSignal.timeout(8000) }).catch(() => {}); // it pointed at the wrong place
       hooks[t.key] = r.url!;
       map[t.key] = { id: made.id, name };
       created.push(`#${name}`);
@@ -130,7 +149,7 @@ const SYNC_EVERY_MS = 6 * 60 * 60_000;
 /** For the cron: checks a few times a day that every poster type on the site has its channel (and makes the missing ones). */
 export async function syncShowcaseIfDue() {
   if (!botReady() || !guildId()) return;
-  const KEY = "showcase_sync_at";
+  const KEY = "showcase_sync_v2_at";
   const s = await db.setting.findUnique({ where: { key: KEY } }).catch(() => null);
   const last = s?.value ? Date.parse(s.value) : 0;
   if (last && Date.now() - last < SYNC_EVERY_MS) return;

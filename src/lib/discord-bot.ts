@@ -167,13 +167,15 @@ export async function createWebhookIn(channelId: string): Promise<{ url?: string
   return { url: `https://discord.com/api/webhooks/${w.id}/${w.token}` };
 }
 
-/** Every channel in the server, with its type (0 text, 4 category) and parent. */
-export async function listAllChannels(): Promise<{ id: string; name: string; type: number; parent_id?: string | null }[]> {
+export type GuildChannel = { id: string; name: string; type: number; parent_id?: string | null; position?: number; permission_overwrites?: { id: string; type: number; allow: string; deny: string }[] };
+
+/** Every channel in the server, with its type (0 text, 4 category), parent and permission overwrites. */
+export async function listAllChannels(): Promise<GuildChannel[]> {
   const g = guildId();
   if (!botReady() || !g) return [];
   const r = await call(`/guilds/${g}/channels`, { method: "GET" }).catch(() => null);
   if (!r?.ok) return [];
-  return (await r.json()) as { id: string; name: string; type: number; parent_id?: string | null }[];
+  return (await r.json()) as GuildChannel[];
 }
 
 /** Makes a public text channel (optionally inside a category). Needs Manage Channels. */
