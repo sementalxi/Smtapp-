@@ -101,7 +101,7 @@ export function DiscordLogs({ es }: { es: boolean }) {
         <div className="space-y-2 rounded-xl border border-line bg-panel-2/40 p-3">
           <div className="text-xs font-bold">{es ? "Un canal por tipo de póster" : "One channel per poster type"}</div>
           <button type="button" className="btn-primary w-full py-2.5 text-sm" disabled={!!busy} onClick={() => showcase({ action: "showcase_auto" }, "✅")}>
-            {busy === "sc" ? "…" : es ? "⚡ Conectar cada tipo a su canal (por nombre)" : "⚡ Connect each type to its channel (by name)"}
+            {busy === "sc" ? "…" : es ? "⚡ Conectar cada tipo a su canal (crea los que falten)" : "⚡ Connect each type to its channel (creates the missing ones)"}
           </button>
           <ul className="divide-y divide-line">
             {d.showcaseTypes.map((t) => (

@@ -11,6 +11,8 @@ export const SETTING_DEFAULTS = {
   maintenance_message: "",
   discord_webhook: "",
   discord_server: "",
+  notice_color: "#ff2e88",
+  notice_effect: "none",
   hero_1: "",
   hero_2: "",
   hero_3: "",

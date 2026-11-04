@@ -104,6 +104,15 @@ a, button, [role="button"], input, select, textarea, summary, label { touch-acti
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
   animation: kixo-shimmer 1.4s ease-in-out infinite;
 }
+/* Notice bar text effects */
+@keyframes kixo-text-glow { 0%, 100% { text-shadow: 0 0 6px var(--glow, #fff), 0 0 14px rgba(255,255,255,0.35); } 50% { text-shadow: 0 0 2px var(--glow, #fff); } }
+.kixo-text-glow { animation: kixo-text-glow 1.6s ease-in-out infinite; }
+@keyframes kixo-text-shine { from { background-position: 200% 50%; } to { background-position: -200% 50%; } }
+.kixo-text-shine { background: linear-gradient(100deg, currentColor 40%, rgba(255,255,255,0.95) 50%, currentColor 60%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: kixo-text-shine 2.2s linear infinite; }
+@keyframes kixo-text-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.kixo-text-blink { animation: kixo-text-blink 1.1s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .kixo-text-glow, .kixo-text-shine, .kixo-text-blink { animation: none; } }
+
 /* Sticky step bar in the creator */
 .kixo-stepbar {
   position: sticky;

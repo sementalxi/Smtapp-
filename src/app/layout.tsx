@@ -12,6 +12,7 @@ import { SupportChat } from "@/components/SupportChat";
 import { SoundEvents } from "@/components/SoundEvents";
 import { KeepAwake } from "@/components/KeepAwake";
 import { SiteFooter } from "@/components/SiteFooter";
+import { NoticeBar } from "@/components/NoticeBar";
 import { getCurrentUser } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
@@ -47,11 +48,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Ask once per browser (separate from the language cookie, so people who already had one still see it once).
   const chosen = !!(await cookies()).get("kixo_lang_asked")?.value;
   let notice = "";
+  let noticeColor = "#ff2e88";
+  let noticeEffect = "none";
   let soon = false;
   let dBonus = 0;
   try {
     const st = await getSettings();
     notice = st.maintenance_message;
+    noticeColor = st.notice_color || "#ff2e88";
+    noticeEffect = st.notice_effect || "none";
     dBonus = Number(st.discord_bonus) || 0;
     if (st.coming_soon === "1") {
       // Coming-soon mode: everyone except admins sees the launch page; sign-up/login pages stay open.
@@ -82,7 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang={locale} className={fontVariables}>
       <body className="antialiased">
         <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
-          {notice && <div className="bg-lime px-4 py-2 text-center text-sm font-bold text-ink">{notice}</div>}
+          <NoticeBar text={notice} color={noticeColor} effect={noticeEffect} />
           <div className="kixo-grain" aria-hidden />
           <div className="kixo-vignette" aria-hidden />
           <RefCapture />

@@ -22,6 +22,8 @@ const Body = z.object({
   hero_bg_mode: z.enum(["image", "video", "none"]).optional(),
   coming_soon: z.enum(["0", "1"]).optional(),
   site_title: z.string().trim().max(80).optional(),
+  notice_color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
+  notice_effect: z.enum(["none", "marquee", "glow", "shine", "blink"]).optional(),
   discord_server: z.string().trim().max(300).refine((u) => !u || /^https:\/\/(discord\.gg|discord\.com\/invite)\/\S+$/.test(u), "Use a discord.gg invite link").optional(),
   poster_model: z.enum(["mix", "mix3", "seedream-mix", "flux-mix", "flux", "nano-pro", "openai"]).optional(),
   video_on: z.enum(["0", "1"]).optional(),

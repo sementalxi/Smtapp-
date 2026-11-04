@@ -168,15 +168,15 @@ export async function logGiftPlan(p: { userId: string; action: "given" | "remove
 
 // ── 🌍 Public showcase: finished posters posted to a public channel (no emails or private info) ──
 export const SHOWCASE_TYPES = [
-  { key: "PLAYER", label: "🧍 Player cards", labelEs: "🧍 Tarjetas de jugador", match: /player|jugador/i },
-  { key: "TEAM", label: "👥 Team cards", labelEs: "👥 Tarjetas de equipo", match: /^teams?$|team-?cards?|equipos?/i },
-  { key: "CHAMPIONS", label: "🏆 Champions", labelEs: "🏆 Campeones", match: /champ|campeon/i },
-  { key: "LINEUP", label: "📋 Lineups", labelEs: "📋 Alineaciones", match: /line-?ups?|lien-?ups?|alinea/i },
-  { key: "MATCHDAY", label: "📅 Match day", labelEs: "📅 Día de partido", match: /match-?days?|partido/i },
-  { key: "RESULT", label: "⚽ Results", labelEs: "⚽ Resultados", match: /result|resultado/i },
-  { key: "LOGO", label: "🛡️ Team logos", labelEs: "🛡️ Logos", match: /logo|crest|escudo/i },
-  { key: "STANDINGS", label: "📊 Standings", labelEs: "📊 Tablas", match: /standing|table|tabla|posicion/i },
-  { key: "EVENT", label: "🎟️ Tournaments / leagues", labelEs: "🎟️ Torneos / ligas", match: /tourn|league|torneo|liga|event/i },
+  { key: "PLAYER", label: "🧍 Player cards", labelEs: "🧍 Tarjetas de jugador", match: /player|jugador/i, channel: "player-cards" },
+  { key: "TEAM", label: "👥 Team cards", labelEs: "👥 Tarjetas de equipo", match: /^teams?$|team-?cards?|equipos?/i, channel: "team-cards" },
+  { key: "CHAMPIONS", label: "🏆 Champions", labelEs: "🏆 Campeones", match: /champ|campeon/i, channel: "champions" },
+  { key: "LINEUP", label: "📋 Lineups", labelEs: "📋 Alineaciones", match: /line-?ups?|lien-?ups?|alinea/i, channel: "lineups" },
+  { key: "MATCHDAY", label: "📅 Match day", labelEs: "📅 Día de partido", match: /match-?days?|partido/i, channel: "match-day" },
+  { key: "RESULT", label: "⚽ Results", labelEs: "⚽ Resultados", match: /result|resultado/i, channel: "results" },
+  { key: "LOGO", label: "🛡️ Team logos", labelEs: "🛡️ Logos", match: /logo|crest|escudo/i, channel: "team-logos" },
+  { key: "STANDINGS", label: "📊 Standings", labelEs: "📊 Tablas", match: /standing|table|tabla|posicion/i, channel: "standings" },
+  { key: "EVENT", label: "🎟️ Tournaments / leagues", labelEs: "🎟️ Torneos / ligas", match: /tourn|league|torneo|liga|event/i, channel: "tournaments" },
 ] as const;
 export type ShowcaseKey = (typeof SHOWCASE_TYPES)[number]["key"];
 

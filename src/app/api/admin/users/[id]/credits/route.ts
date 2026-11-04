@@ -1,4 +1,5 @@
-import { NextRequest } from "next/server";
+import { NextRequest, after } from "next/server";
+import { dmCreditChange } from "@/lib/credit-dm";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { apiAdmin, HttpError } from "@/lib/auth";
@@ -24,6 +25,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       note: body.note || (body.amount > 0 ? "Added by admin" : "Removed by admin"),
       adminId: admin.id,
     });
+    // Tell them on Discord (if their account is linked) — in the background.
+    after(() => dmCreditChange(id, body.amount, tx.balance, body.note));
     return json({ balance: tx.balance });
   } catch (e) {
     if (e instanceof HttpError && e.status === 402) return json({ error: "Balance can't go below 0" }, 400);

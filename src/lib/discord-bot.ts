@@ -167,6 +167,33 @@ export async function createWebhookIn(channelId: string): Promise<{ url?: string
   return { url: `https://discord.com/api/webhooks/${w.id}/${w.token}` };
 }
 
+/** Every channel in the server, with its type (0 text, 4 category) and parent. */
+export async function listAllChannels(): Promise<{ id: string; name: string; type: number; parent_id?: string | null }[]> {
+  const g = guildId();
+  if (!botReady() || !g) return [];
+  const r = await call(`/guilds/${g}/channels`, { method: "GET" }).catch(() => null);
+  if (!r?.ok) return [];
+  return (await r.json()) as { id: string; name: string; type: number; parent_id?: string | null }[];
+}
+
+/** Makes a public text channel (optionally inside a category). Needs Manage Channels. */
+export async function createTextChannel(name: string, parentId?: string | null, topic?: string): Promise<{ id?: string; error?: string }> {
+  const g = guildId();
+  if (!botReady() || !g) return { error: "missing" };
+  const r = await call(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name, type: 0, ...(parentId ? { parent_id: parentId } : {}), ...(topic ? { topic } : {}) }) }).catch(() => null);
+  if (!r?.ok) return { error: r?.status === 403 ? "no_permission" : `http_${r?.status ?? "net"}` };
+  return { id: (await r.json()).id as string };
+}
+
+/** Makes a category (public). */
+export async function createCategory(name: string): Promise<{ id?: string; error?: string }> {
+  const g = guildId();
+  if (!botReady() || !g) return { error: "missing" };
+  const r = await call(`/guilds/${g}/channels`, { method: "POST", body: JSON.stringify({ name, type: 4 }) }).catch(() => null);
+  if (!r?.ok) return { error: r?.status === 403 ? "no_permission" : `http_${r?.status ?? "net"}` };
+  return { id: (await r.json()).id as string };
+}
+
 /** Text channels in your server (id + name). */
 export async function listTextChannels(): Promise<{ id: string; name: string }[]> {
   const g = guildId();

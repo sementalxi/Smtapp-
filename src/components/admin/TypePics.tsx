@@ -25,6 +25,19 @@ export function TypePics({ initial, es }: { initial: Record<string, string>; es:
   const router = useRouter();
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
+  const [making, setMaking] = useState("");
+  async function generate(k: string) {
+    setMaking(k);
+    setMsg("");
+    const r = await fetch("/api/admin/type-pics/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: k }) });
+    const d = await r.json().catch(() => ({}));
+    setMaking("");
+    if (r.ok && d.url) {
+      setPics((p) => ({ ...p, [k]: d.url }));
+      setMsg(es ? `✓ Portada creada con ${d.used} póster${d.used === 1 ? "" : "es"}` : `✓ Cover made from ${d.used} poster${d.used === 1 ? "" : "s"}`);
+      router.refresh();
+    } else setMsg(d.error === "no_pictures" ? (es ? "Esa categoría aún no tiene estilos con foto" : "That category has no styles with a picture yet") : es ? "No se pudo crear" : "Couldn't make it");
+  }
   async function save(next: Record<string, string>) {
     setPics(next);
     setBusy(true);
@@ -45,6 +58,14 @@ export function TypePics({ initial, es }: { initial: Record<string, string>; es:
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {Object.entries(LABELS).map(([k, [en, esL]]) => (
           <div key={k} className="rounded-xl border border-line p-3">
+            <button
+              type="button"
+              className="mb-2 w-full rounded-lg border border-lime/40 bg-lime/10 py-2 text-xs font-bold text-lime hover:bg-lime/20 disabled:opacity-50"
+              disabled={!!making}
+              onClick={() => generate(k)}
+            >
+              {making === k ? (es ? "Creando…" : "Making…") : es ? "✨ Crear portada con los pósters de esta categoría" : "✨ Make a cover from this category's posters"}
+            </button>
             <ImageDrop
               kind="photo"
               noSearch

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { NoticeBar } from "@/components/NoticeBar";
 
 import { useState } from "react";
 import { useT } from "@/i18n/client";
@@ -171,6 +172,32 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       <div>
         <label className="label">{t("maintenance_message")}</label>
         <input className="input" maxLength={300} value={v.maintenance_message} onChange={(e) => setV({ ...v, maintenance_message: e.target.value })} />
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Color de la barra" : "Bar colour"}</span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {["#ff2e88", "#e3102b", "#f2b51c", "#2fd8e8", "#18c46b", "#7b2cff", "#ffffff", "#111111"].map((c) => (
+                <button key={c} type="button" aria-label={c} onClick={() => setV({ ...v, notice_color: c })} className={`h-8 w-8 rounded-full border-2 ${(v.notice_color ?? "#ff2e88") === c ? "border-white" : "border-line"}`} style={{ background: c }} />
+              ))}
+              <input type="color" value={v.notice_color ?? "#ff2e88"} onChange={(e) => setV({ ...v, notice_color: e.target.value })} className="h-8 w-10 cursor-pointer rounded-md border border-line bg-panel-2" title={es ? "Otro color" : "Custom colour"} />
+            </div>
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Efecto del texto" : "Text effect"}</span>
+            <select className="input" value={v.notice_effect ?? "none"} onChange={(e) => setV({ ...v, notice_effect: e.target.value })}>
+              <option value="none">{es ? "Normal" : "Plain"}</option>
+              <option value="marquee">{es ? "Desplazamiento (marquesina)" : "Scrolling (marquee)"}</option>
+              <option value="glow">{es ? "Brillo pulsante" : "Pulsing glow"}</option>
+              <option value="shine">{es ? "Destello" : "Shine sweep"}</option>
+              <option value="blink">{es ? "Parpadeo" : "Blink"}</option>
+            </select>
+          </div>
+        </div>
+        {v.maintenance_message?.trim() && (
+          <div className="mt-3 overflow-hidden rounded-lg border border-line">
+            <NoticeBar text={v.maintenance_message} color={v.notice_color ?? "#ff2e88"} effect={v.notice_effect ?? "none"} />
+          </div>
+        )}
       </div>
       <div className="rounded-xl border border-line bg-panel-2 p-4">
         <label className="label">{es ? "Registro en Discord (webhook)" : "Discord log (webhook)"}</label>
