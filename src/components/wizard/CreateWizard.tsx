@@ -248,8 +248,8 @@ export function CreateWizard({
   // Team of the week: the cards borrow the look of one of the player-card styles.
   const effCost = cost;
   const cardStyles = useMemo(() => templates.filter((t) => t.layout === "PLAYER"), [templates]);
-  const [cardTplId, setCardTplId] = useState<string | null>(null);
-  const cardTpl = cardStyles.find((t) => t.id === cardTplId) ?? cardStyles[0] ?? null;
+  const [cardTplId, setCardTplId] = useState<string | null>(null); // null = the TOTW style's own look
+  const cardTpl = cardStyles.find((t) => t.id === cardTplId) ?? null;
   // Wide styles always come out as a 16:9 banner (the size picker is hidden for them).
   const wideStyle = !!tpl?.wide;
   useEffect(() => {
@@ -975,8 +975,17 @@ export function CreateWizard({
               </div>
               {cardStyles.length > 0 && (
                 <div>
-                  <label className="label">🃏 {locale === "es" ? "Look de las tarjetas (un estilo de tarjeta de jugador)" : "Card look (one of your player-card styles)"}</label>
+                  <label className="label">🃏 {locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y las tarjetas)" : "Poster look (a player-card style for the background and the cards)"}</label>
                   <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+                    <button type="button" onClick={() => setCardTplId(null)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${!cardTpl ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
+                      {tpl?.thumbUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={thumb(tpl.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                      ) : (
+                        <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🎨</span>
+                      )}
+                      <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${!cardTpl ? "text-lime" : ""}`}>{locale === "es" ? "Propio del estilo" : "Style's own"}</span>
+                    </button>
                     {cardStyles.map((t) => {
                       const on = cardTpl?.id === t.id;
                       return (
@@ -1344,7 +1353,7 @@ export function CreateWizard({
                     <span className="chip border-lime/40 text-lime">
                       {effCost} {locale === "es" ? "créditos" : "credits"}
                     </span>
-                    {layout === "TOTW" && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? cardTpl.nameEs : cardTpl.name}</span>}
+                    {layout === "TOTW" && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? `look ${cardTpl.nameEs}` : `${cardTpl.name} look`}</span>}
                   </div>
                   {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
                   {logoCreate ? (

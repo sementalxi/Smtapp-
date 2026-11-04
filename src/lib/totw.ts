@@ -7,23 +7,22 @@ import { parseTotwLine } from "./formations";
 
 export type CardTemplate = { id: string; name: string; prompt: string; style: unknown; proInstructions: string | null; audience?: string | null };
 
-/** The player-card style whose look the cards borrow: the one asked for, else the first active player style the user may use. */
+/** The player-card style whose look the poster borrows — only when the user picked one (none = the TOTW style's own look). */
 export async function pickCardTemplate(viewer: { role?: string; isOrg?: boolean }, id?: string | null): Promise<CardTemplate | null> {
+  if (!id) return null;
   const { canUseTemplate } = await import("./queries");
-  if (id) {
-    const t = await db.template.findFirst({ where: { id, active: true, layout: "PLAYER" } });
-    if (t && canUseTemplate(t, viewer)) return t;
-  }
-  const all = await db.template.findMany({ where: { active: true, layout: "PLAYER" }, orderBy: [{ sort: "asc" }, { name: "asc" }] });
-  return all.find((t) => canUseTemplate(t, viewer)) ?? null;
+  const t = await db.template.findFirst({ where: { id, active: true, layout: "PLAYER" } });
+  return t && canUseTemplate(t, viewer) ? t : null;
 }
 
-/** One paragraph describing the player-card style, for the TOTW brief ("every card is a miniature of this"). */
-export function cardLookFor(t: CardTemplate | null): string {
-  if (!t) return "";
+export type CardLook = { name: string; text: string; colours?: { primary: string; accent: string; dark: string } };
+
+/** The player-card style as a brief: its scene / materials / effects and its colours — the whole TOTW poster takes this look. */
+export function cardLookFor(t: CardTemplate | null): CardLook | null {
+  if (!t) return null;
   const s = (t.style ?? {}) as Partial<TemplateStyle>;
-  const colours = s.primary && s.accent && s.dark ? ` Card colours: main ${s.primary}, accent / glow ${s.accent}, deep shadows ${s.dark}.` : "";
-  return `"${t.name}" player-card look — ${t.prompt.trim().replace(/\.$/, "")}.${colours}`;
+  const colours = s.primary && s.accent && s.dark ? { primary: s.primary, accent: s.accent, dark: s.dark } : undefined;
+  return { name: t.name, text: t.prompt.trim().replace(/\.$/, ""), colours };
 }
 
 /**
