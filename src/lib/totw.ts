@@ -66,7 +66,10 @@ export async function buildCrestSheet(inputs: BannerInputs): Promise<{ url: stri
 }
 
 /** What a team-of-the-week brief needs on top of the usual inputs. */
-export async function totwExtras(inputs: BannerInputs, cardTemplateId: string | null | undefined, viewer: { role?: string; isOrg?: boolean }) {
-  const [cardTemplate, sheet] = await Promise.all([pickCardTemplate(viewer, cardTemplateId), buildCrestSheet(inputs).catch(() => null)]);
+export async function totwExtras(inputs: BannerInputs, cardTemplateId: string | null | undefined, viewer: { role?: string; isOrg?: boolean }, layout: string = "TOTW") {
+  const [cardTemplate, sheet] = await Promise.all([pickCardTemplate(viewer, cardTemplateId), layout === "TOTW" ? buildCrestSheet(inputs).catch(() => null) : Promise.resolve(null)]);
   return { cardTemplate, cardLook: cardLookFor(cardTemplate), crestSheet: sheet };
 }
+
+/** Layouts whose whole poster can take a player-card style's look. */
+export const LOOK_LAYOUTS = ["TOTW", "STANDINGS"];

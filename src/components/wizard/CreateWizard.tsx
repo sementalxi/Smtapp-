@@ -512,7 +512,7 @@ export function CreateWizard({
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
         ...(format !== "post" ? { format } : {}),
-        ...(layout === "TOTW" && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
+        ...((layout === "TOTW" || layout === "STANDINGS") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -1039,6 +1039,36 @@ export function CreateWizard({
                 {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "TABLA DE POSICIONES" : "STANDINGS" })}
                 {field({ label: locale === "es" ? "Jornada / semana" : "Matchday / week", k: "date", max: 30, ph: locale === "es" ? "Jornada 7" : "Matchday 7" })}
               </div>
+              {cardStyles.length > 0 && (
+                <div>
+                  <label className="label">🃏 {locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y la tabla)" : "Poster look (a player-card style for the background and the table)"}</label>
+                  <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+                    <button type="button" onClick={() => setCardTplId(null)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${!cardTpl ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
+                      {tpl?.thumbUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={thumb(tpl.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                      ) : (
+                        <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🎨</span>
+                      )}
+                      <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${!cardTpl ? "text-lime" : ""}`}>{locale === "es" ? "Propio del estilo" : "Style's own"}</span>
+                    </button>
+                    {cardStyles.map((t) => {
+                      const on = cardTpl?.id === t.id;
+                      return (
+                        <button key={t.id} type="button" onClick={() => setCardTplId(t.id)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${on ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
+                          {t.thumbUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={thumb(t.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                          ) : (
+                            <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🃏</span>
+                          )}
+                          <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${on ? "text-lime" : ""}`}>{locale === "es" ? t.nameEs : t.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="label">
                   {locale === "es" ? "Tabla" : "Table"} <span className="text-lime">*</span>
@@ -1353,7 +1383,7 @@ export function CreateWizard({
                     <span className="chip border-lime/40 text-lime">
                       {effCost} {locale === "es" ? "créditos" : "credits"}
                     </span>
-                    {layout === "TOTW" && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? `look ${cardTpl.nameEs}` : `${cardTpl.name} look`}</span>}
+                    {(layout === "TOTW" || layout === "STANDINGS") && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? `look ${cardTpl.nameEs}` : `${cardTpl.name} look`}</span>}
                   </div>
                   {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
                   {logoCreate ? (

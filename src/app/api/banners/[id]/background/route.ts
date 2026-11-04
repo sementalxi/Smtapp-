@@ -34,7 +34,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     const seriesUrl = info.seriesRootId ? await seriesRefUrl(user.id, info.seriesRootId) : null;
     try {
       assertInputUrls(inputs);
-      const totw = banner.template.layout === "TOTW" ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? (banner.design as { totw?: { cardTemplateId?: string } } | null)?.totw?.cardTemplateId, user)) : null;
+      const design = (banner.design ?? {}) as { look?: { templateId?: string }; totw?: { cardTemplateId?: string } };
+      const totw = ["TOTW", "STANDINGS"].includes(banner.template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? design.look?.templateId ?? design.totw?.cardTemplateId, user, banner.template.layout)) : null;
       const refs = collectProRefs({
         layout: banner.template.layout,
         inputs,

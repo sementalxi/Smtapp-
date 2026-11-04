@@ -100,7 +100,7 @@ export const POST = handle(async (req: NextRequest) => {
   assertInputUrls(inputs);
   let proPrompt = "";
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
-  const totw = pro && template.layout === "TOTW" ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user)) : null;
+  const totw = pro && ["TOTW", "STANDINGS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   const refs = collectProRefs({
     layout: template.layout,
     inputs,
@@ -147,7 +147,7 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}), ...(totw?.cardTemplate ? { totw: { cardTemplateId: totw.cardTemplate.id } } : {}) }),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}), ...(totw?.cardTemplate ? { look: { templateId: totw.cardTemplate.id } } : {}) }),
       photoUrl: body.photoUrl ?? null,
       logoUrl,
       mode: body.mode,
