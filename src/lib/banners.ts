@@ -709,7 +709,7 @@ export function buildProPrompt(opts: {
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     userChoices ? `FINAL CHECK — make sure every USER CHOICE above is visible in the poster (background scene, colours, fonts, language, extra idea).` : "",
-    `Keep ${exactLogos ? "one of the bottom corners" : "at least one corner of the poster"} calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
+    `Keep ${exactLogos ? "one of the bottom corners" : "at least one corner of the poster (ideally the bottom-right)"} calm — no text, no face, no important detail there — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
     i.aiCopy === "on"
       ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
       : "",
@@ -941,7 +941,8 @@ export async function generateProForBanner(opts: {
       for (const o of overlays) logos.push({ bytes: await loadBytes(o.url), corner: o.overlay! });
       poster = await placeLogos(poster, logos);
     }
-    const avoid = overlays.map((o) => o.overlay).filter((c): c is "tl" | "tr" => c === "tl" || c === "tr");
+    // The brand mark stays away from the pasted crests: top corners, and the bottom centre under a hero crest.
+    const avoid = overlays.flatMap((o): ("tl" | "tr" | "bc")[] => (o.overlay === "tl" || o.overlay === "tr" ? [o.overlay] : o.overlay === "hero" ? ["bc"] : []));
     const out = await stampLogo(poster, avoid);
     const url = await saveFile("banners", out, "image/png");
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
