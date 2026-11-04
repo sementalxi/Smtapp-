@@ -12,6 +12,7 @@ const P = {
   team: <><circle cx="9" cy="8" r="3.2" /><circle cx="17" cy="9" r="2.4" /><path d="M3 20c.5-3.3 3-5.2 6-5.2s5.5 1.9 6 5.2M15.5 14.6c2.6.1 4.6 1.8 5 4.6" /></>,
   shield: <><path d="M12 3 4.5 5.8v5.4c0 4.6 3.1 8.3 7.5 9.8 4.4-1.5 7.5-5.2 7.5-9.8V5.8z" /><path d="M9 11.5h6M12 8.5v6" /></>,
   history: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
+  leagues: <><rect x="3.5" y="4" width="17" height="16" rx="2" /><path d="M3.5 9h17M3.5 13.5h17M8 4v16" /></>,
   pricing: <path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01" />,
   credits: <><circle cx="12" cy="12" r="9" /><path d="M13 7 9 13h3l-1 4 4-6h-3z" /></>,
   invite: <><rect x="3" y="8" width="18" height="13" rx="2" /><path d="M12 8v13M3 12h18M12 8c-1.5-3-5-4-5-1.5S10 8 12 8zm0 0c1.5-3 5-4 5-1.5S14 8 12 8z" /></>,

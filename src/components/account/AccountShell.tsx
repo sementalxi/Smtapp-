@@ -18,7 +18,7 @@ export async function AccountShell({ user, children }: { user: CurrentUser; chil
     { href: "/create", label: es ? "Crear arte" : "Create art", icon: "create" },
     { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "teams" },
     // Organizations / league admins: their standings live here (shown once they have a league).
-    ...(leagues > 0 ? [{ href: "/leagues", label: es ? "Mis ligas" : "My leagues", icon: "leagues" as const }] : []),
+    ...(leagues > 0 || user.role === "ADMIN" ? [{ href: "/leagues", label: es ? "Mis ligas" : "My leagues", icon: "leagues" as const }] : []),
     { href: "/history", label: es ? "Historial" : "History", icon: "history" },
     { href: "/credits", label: es ? "Créditos" : "Credits", icon: "credits" },
     { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", badge: reward > 0 ? `+${reward}` : undefined },

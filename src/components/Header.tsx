@@ -6,6 +6,7 @@ import { NavLinks } from "./NavLinks";
 import { LiveCredits } from "./LiveCredits";
 import { SideMenu, type MenuItem } from "./SideMenu";
 import { getNumberSetting, getSettings } from "@/lib/settings";
+import { db } from "@/lib/db";
 
 const site = process.env.NEXT_PUBLIC_SITE_NAME || "KIXO";
 
@@ -25,12 +26,15 @@ export async function Header() {
   const es = locale === "es";
   const reward = await getNumberSetting("referral_reward").catch(() => 0);
   const discordServer = await getSettings().then((s) => s.discord_server).catch(() => "");
+  // "My leagues" (standings kept on the site) is for organizations: shown to admins and to anyone who has a league saved.
+  const runsLeague = !!user && (user.role === "ADMIN" || (await db.savedItem.count({ where: { userId: user.id, kind: "championship" } }).catch(() => 0)) > 0);
   const discordItem: MenuItem[] = discordServer ? [{ href: discordServer, label: es ? "Únete al Discord" : "Join the Discord", icon: "discord", badge: es ? "Comunidad" : "Community", badgeStyle: "teal" as const }] : [];
   const menu: MenuItem[] = user
     ? [
         { href: "/create", label: es ? "Crear" : "Create", icon: "create", primary: true },
         { href: "/dashboard", label: es ? "Inicio" : "Home", icon: "home" },
         { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "shield", badge: es ? "NUEVO" : "NEW" },
+        ...(runsLeague ? [{ href: "/leagues", label: es ? "Mis ligas" : "My leagues", icon: "leagues" as const, badge: es ? "Organizaciones" : "Organizations", badgeStyle: "teal" as const }] : []),
         { href: "/create?team=1", label: es ? "Tarjetas del equipo" : "Team cards", icon: "team" },
         { href: "/history", label: es ? "Historial" : "History", icon: "history" },
         { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", ...(reward > 0 ? { badge: `+${reward}`, badgeStyle: "teal" as const } : {}) },
