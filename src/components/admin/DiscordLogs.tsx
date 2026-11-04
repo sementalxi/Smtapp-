@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type Ch = { key: string; label: string; labelEs: string; connected: boolean };
+type Ch = { key: string; label: string; labelEs: string; connected: boolean; channel?: string | null };
 
 /** Admin: one Discord channel per kind of log. */
 export function DiscordLogs({ es }: { es: boolean }) {
@@ -78,7 +78,10 @@ export function DiscordLogs({ es }: { es: boolean }) {
           : r.error === "no_channels" ? (es ? "❌ El bot no ve canales en tu servidor" : "❌ The bot can't see any channels in your server")
           : `❌ ${r.error ?? "error"}`,
     );
-    if (r.ok && Array.isArray(r.done)) setMsg(r.done.length ? `✅ ${es ? "Conectados" : "Connected"}: ${r.done.join(" · ")}` : es ? "⚠️ No encontré canales con esos nombres" : "⚠️ No channels with those names found");
+    if (r.ok && Array.isArray(r.done)) {
+      const extra = Array.isArray(r.skipped) && r.skipped.length ? ` · ⚠️ ${r.skipped.join(" · ")}` : "";
+      setMsg(r.done.length ? `✅ ${es ? "Conectados" : "Connected"}: ${r.done.join(" · ")}${extra}` : r.unchanged ? (es ? "✅ Todo en orden: cada tipo de la web ya tiene su canal." : "✅ All good: every poster type on the site already has its channel.") + extra : es ? "⚠️ No encontré canales con esos nombres" : "⚠️ No channels with those names found");
+    }
     setChId("");
     setScUrl("");
     setTypeEdit(null);
@@ -107,7 +110,10 @@ export function DiscordLogs({ es }: { es: boolean }) {
             {d.showcaseTypes.map((t) => (
               <li key={t.key} className="py-2">
                 <div className="flex items-center gap-2">
-                  <span className="min-w-0 flex-1 truncate text-sm">{es ? t.labelEs : t.label}</span>
+                  <span className="min-w-0 flex-1 truncate text-sm">
+                    {es ? t.labelEs : t.label}
+                    {t.channel && <span className="ml-1.5 text-[11px] text-muted">#{t.channel}</span>}
+                  </span>
                   <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${t.connected ? "bg-teal/15 text-teal" : "bg-panel-2 text-muted"}`}>{t.connected ? (es ? "Conectado" : "Connected") : es ? "Sin canal" : "No channel"}</span>
                   <button type="button" className="rounded-lg border border-line px-2 py-1 text-xs" onClick={() => { setTypeEdit(typeEdit === t.key ? null : t.key); setTypeCh(""); }}>✏️</button>
                 </div>
@@ -120,7 +126,7 @@ export function DiscordLogs({ es }: { es: boolean }) {
               </li>
             ))}
           </ul>
-          <p className="text-[11px] text-muted">{es ? "Tipos sin canal usan el canal general de abajo (si hay)." : "Types without a channel use the general channel below (if set)."}</p>
+          <p className="text-[11px] text-muted">{es ? "Se revisa solo varias veces al día: si en la web hay un tipo de póster sin canal, se crea en la misma categoría. Tipos sin canal usan el canal general de abajo (si hay)." : "Checked by itself a few times a day: a poster type on the site with no channel gets one created in the same category. Types without a channel use the general channel below (if set)."}</p>
         </div>
       )}
       {d.bot && (

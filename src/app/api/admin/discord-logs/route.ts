@@ -6,6 +6,7 @@ import { LOG_CHANNELS, getLogHooks, saveLogHooks, testLog, getShowcaseHook, setS
 import { postToDiscord } from "@/lib/discord";
 import { discordWebhook } from "@/lib/discord";
 import { botReady, createLogChannels, createWebhookIn, guildId } from "@/lib/discord-bot";
+import { getShowcaseMap, syncShowcaseChannels } from "@/lib/showcase-sync";
 
 export const maxDuration = 60;
 
@@ -19,8 +20,8 @@ export const GET = handle(async () => {
     bot: botReady(),
     showcase: !!(await getShowcaseHook()),
     showcaseTypes: await (async () => {
-      const h = (await getShowcaseHooks()) as Record<string, string>;
-      return SHOWCASE_TYPES.map((t) => ({ key: t.key, label: t.label, labelEs: t.labelEs, connected: !!h[t.key] }));
+      const [h, map] = await Promise.all([getShowcaseHooks() as Promise<Record<string, string>>, getShowcaseMap()]);
+      return SHOWCASE_TYPES.map((t) => ({ key: t.key, label: t.label, labelEs: t.labelEs, connected: !!h[t.key], channel: h[t.key] ? map[t.key]?.name ?? null : null }));
     })(),
     channels: LOG_CHANNELS.map((c) => ({ key: c.key, label: c.label, labelEs: c.labelEs, connected: !!(h as Record<string, string>)[c.key] })),
   });
@@ -54,47 +55,10 @@ export const POST = handle(async (req: NextRequest) => {
     return json({ ok: true });
   }
   if (b.action === "showcase_auto") {
-    // Match your channels by name (players, teams, champions, lineups…) and connect each.
-    // Types that have no channel yet get one CREATED, next to the existing showcase channels.
-    const { listAllChannels, createTextChannel, createCategory } = await import("@/lib/discord-bot");
-    const all = await listAllChannels();
-    if (!all.length) return json({ error: "no_channels" }, 400);
-    const chans = all.filter((c) => c.type === 0 || c.type === 5);
-    const hooks = { ...(await getShowcaseHooks()) } as Record<string, string>;
-    const done: string[] = [];
-    const used = new Set<string>();
-    const missing: (typeof SHOWCASE_TYPES)[number][] = [];
-    let parent: string | null | undefined;
-    for (const t of SHOWCASE_TYPES) {
-      const ch = chans.find((c) => !used.has(c.id) && t.match.test(c.name));
-      if (!ch) {
-        if (!hooks[t.key]) missing.push(t);
-        continue;
-      }
-      used.add(ch.id);
-      if (parent === undefined && ch.parent_id) parent = ch.parent_id; // the showcase category
-      if (hooks[t.key]) continue; // already connected
-      const r = await createWebhookIn(ch.id);
-      if (r.error) return json({ error: r.error, done }, 400);
-      hooks[t.key] = r.url!;
-      done.push(`${t.label} → #${ch.name}`);
-    }
-    if (missing.length) {
-      if (parent === undefined) {
-        const cat = all.find((c) => c.type === 4 && /showcase|vitrina|kixo/i.test(c.name));
-        parent = cat?.id ?? (await createCategory("🔥 KIXO SHOWCASE")).id ?? null;
-      }
-      for (const t of missing) {
-        const made = await createTextChannel(t.channel, parent, `KIXO · ${t.label.replace(/^\S+\s/, "")} made on kixo.pro`);
-        if (!made.id) return json({ error: made.error, done }, 400);
-        const r = await createWebhookIn(made.id);
-        if (r.error) return json({ error: r.error, done }, 400);
-        hooks[t.key] = r.url!;
-        done.push(`${t.label} → #${t.channel} (${"created"})`);
-      }
-    }
-    await saveShowcaseHooks(hooks);
-    return json({ ok: true, done });
+    // One channel per poster type the website shows: match existing channels by name, create the missing ones.
+    const r = await syncShowcaseChannels({ create: true });
+    if (!r.ok) return json({ error: r.error ?? "failed", done: r.done }, 400);
+    return json({ ok: true, done: r.done, created: r.created, skipped: r.skipped ?? [], unchanged: r.done.length === 0 });
   }
   if (b.action === "showcase_type") {
     const t = SHOWCASE_TYPES.find((x) => x.key === b.key);
