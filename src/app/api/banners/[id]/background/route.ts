@@ -6,7 +6,7 @@ import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import { assertInputUrls, buildProPrompt, collectProRefs, seriesInfo, seriesRefUrl, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
 import { proConfigured } from "@/lib/ai";
-import { getNumberSetting } from "@/lib/settings";
+import { getNumberSetting, getSettings } from "@/lib/settings";
 import { BannerInputs, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
 import { deleteFile } from "@/lib/storage";
 
@@ -81,7 +81,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       // Runs in the background; the page polls the new poster until it's ready or an error is saved.
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format });
+          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format, openaiOnly: banner.template.layout === "TOTW" && (await getSettings()).totw_model !== "same" });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

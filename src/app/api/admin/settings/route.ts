@@ -26,6 +26,7 @@ const Body = z.object({
   notice_effect: z.enum(["none", "marquee", "glow", "shine", "blink"]).optional(),
   discord_server: z.string().trim().max(300).refine((u) => !u || /^https:\/\/(discord\.gg|discord\.com\/invite)\/\S+$/.test(u), "Use a discord.gg invite link").optional(),
   poster_model: z.enum(["mix", "mix3", "seedream-mix", "flux-mix", "flux", "nano-pro", "openai"]).optional(),
+  totw_model: z.enum(["openai", "same"]).optional(),
   video_on: z.enum(["0", "1"]).optional(),
   video_model: z.enum(["kling-std", "kling-pro"]).optional(),
   video_cost_5: z.coerce.number().int().min(0).max(500).optional(),

@@ -19,7 +19,7 @@ import {
   toJson,
 } from "@/lib/banners";
 import { proConfigured } from "@/lib/ai";
-import { getNumberSetting } from "@/lib/settings";
+import { getNumberSetting, getSettings } from "@/lib/settings";
 import { BannerInputs, EMPTY_INPUTS, TemplateStyle } from "@/lib/templates";
 import { createVariation, type Variation } from "@/lib/pro-options";
 
@@ -160,7 +160,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (pro) {
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, openaiOnly: template.layout === "TOTW" && (await getSettings()).totw_model !== "same" });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

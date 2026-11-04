@@ -28,6 +28,7 @@ export const SETTING_DEFAULTS = {
   support_role: "",
   support_on: "1",
   poster_model: "mix3",
+  totw_model: "openai", // team of the week: "openai" = OpenAI GPT Image only (no fal.ai), "same" = the poster generator above
   video_on: "1",
   video_model: "kling-std",
   video_cost_5: "10",
