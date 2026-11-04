@@ -7,7 +7,7 @@ import { SHOWCASE_TYPES, getShowcaseHooks, saveShowcaseHooks } from "./discord-l
 import { botReady, createCategory, createTextChannel, createWebhookIn, guildId, listAllChannels, type GuildChannel } from "./discord-bot";
 import { visibleCategories } from "./categories";
 
-const ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", RESULT: "⚽", EVENT: "🎟️", STANDINGS: "📊", LOGO: "🛡️" };
+const ICON: Record<string, string> = { TEAM: "👥", PLAYER: "🧍", CHAMPIONS: "🏆", MATCHDAY: "📅", LINEUP: "📋", TOTW: "⭐", RESULT: "⚽", EVENT: "🎟️", STANDINGS: "📊", LOGO: "🛡️" };
 const SMALL_CAPS: Record<string, string> = { ᴀ: "a", ʙ: "b", ᴄ: "c", ᴅ: "d", ᴇ: "e", ꜰ: "f", ɢ: "g", ʜ: "h", ɪ: "i", ᴊ: "j", ᴋ: "k", ʟ: "l", ᴍ: "m", ɴ: "n", ᴏ: "o", ᴘ: "p", ǫ: "q", ʀ: "r", ꜱ: "s", ᴛ: "t", ᴜ: "u", ᴠ: "v", ᴡ: "w", ʏ: "y", ᴢ: "z" };
 
 /** "👥・ᴛᴇᴀᴍ-ᴄᴀʀᴅꜱ" → "team-cards": plain letters so the type matchers can read any channel name style. */

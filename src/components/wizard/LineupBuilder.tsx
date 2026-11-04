@@ -3,10 +3,16 @@
 import { useState } from "react";
 
 import { FORMATION_ROWS, positionsFor, type Slot } from "@/lib/formations";
+import { ImageDrop } from "../ImageDrop";
+import { thumb } from "@/lib/thumb";
 export { slotsToLines, type Slot } from "@/lib/formations";
 
-/** Tap a spot on the pitch to add that player's number and name. */
-export function LineupBuilder({ formation, slots, onChange, es }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean }) {
+/**
+ * Tap a spot on the pitch to add that player's number and name.
+ * mode "totw" (team of the week): gamertag + a points / club line + a photo per player instead of a number.
+ */
+export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup" }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean; mode?: "lineup" | "totw" }) {
+  const totw = mode === "totw";
   const rows = FORMATION_ROWS[formation] ?? [];
   const [sel, setSel] = useState<number | null>(0);
   let idx = 0;
@@ -37,11 +43,18 @@ export function LineupBuilder({ formation, slots, onChange, es }: { formation: s
                 return (
                   <button key={i} type="button" onClick={() => setSel(i)} className="flex w-16 flex-col items-center gap-1">
                     <span
-                      className={`grid h-10 w-10 place-items-center rounded-full border-2 text-sm font-extrabold transition ${
+                      className={`grid h-10 w-10 place-items-center overflow-hidden rounded-full border-2 text-sm font-extrabold transition ${
                         on ? "scale-110 border-lime bg-lime text-ink" : s?.name.trim() ? "border-teal bg-teal/20 text-white" : "border-white/30 bg-black/30 text-white/70"
                       }`}
                     >
-                      {s?.num.trim() || pos}
+                      {totw && s?.photo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={thumb(s.photo, 80)} alt="" className="h-full w-full object-cover" />
+                      ) : totw ? (
+                        <span className="text-[11px]">{pos}</span>
+                      ) : (
+                        s?.num.trim() || pos
+                      )}
                     </span>
                     <span className={`w-full truncate text-center text-[10px] font-bold ${s?.name.trim() ? "text-white" : "text-white/40"}`}>{s?.name.trim() || pos}</span>
                   </button>
@@ -58,6 +71,39 @@ export function LineupBuilder({ formation, slots, onChange, es }: { formation: s
             <span className="text-xs font-bold uppercase tracking-widest text-lime">{positions[cur]}</span>
             <span className="text-[11px] text-muted">{filled}/11</span>
           </div>
+          {totw ? (
+            <div className="space-y-2">
+              <input
+                className="input"
+                type="text"
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
+                name={`kixo-player-${cur}`}
+                maxLength={24}
+                placeholder={es ? "Gamertag del jugador" : "Player's gamertag"}
+                value={slots[cur]?.name ?? ""}
+                onChange={(e) => upd(cur, { name: e.target.value })}
+              />
+              <input
+                className="input"
+                type="text"
+                autoComplete="off"
+                name={`kixo-sub-${cur}`}
+                maxLength={20}
+                placeholder={es ? "Puntos o club (opcional) — ej. 104 PTS" : "Points or club (optional) — e.g. 104 PTS"}
+                value={slots[cur]?.num ?? ""}
+                onChange={(e) => upd(cur, { num: e.target.value })}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    setSel(cur + 1 < positions.length ? cur + 1 : null);
+                  }
+                }}
+              />
+              <ImageDrop kind="photo" label={es ? "📸 Foto del jugador (opcional)" : "📸 Player photo (optional)"} value={slots[cur]?.photo || null} onChange={(u) => upd(cur, { photo: u ?? "" })} searchQuery={slots[cur]?.name} />
+            </div>
+          ) : (
           <div className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-2">
             <input
               className="input text-center"
@@ -90,6 +136,7 @@ export function LineupBuilder({ formation, slots, onChange, es }: { formation: s
               }}
             />
           </div>
+          )}
           <div className="mt-2 flex justify-between text-xs">
             <button type="button" className="text-muted disabled:opacity-30" disabled={cur === 0} onClick={() => setSel(cur - 1)}>‹ {es ? "Anterior" : "Previous"}</button>
             <button type="button" className="font-bold text-lime" onClick={() => setSel(cur + 1 < positions.length ? cur + 1 : null)}>
@@ -98,7 +145,15 @@ export function LineupBuilder({ formation, slots, onChange, es }: { formation: s
           </div>
         </div>
       )}
-      <p className="text-[11px] text-muted">{es ? "Toca una posición en la cancha para poner el número y nombre." : "Tap a position on the pitch to add the number and name."}</p>
+      <p className="text-[11px] text-muted">
+        {totw
+          ? es
+            ? "Toca una posición en la cancha para poner el gamertag, sus puntos o club y su foto. El que tenga más puntos sale como jugador de la semana."
+            : "Tap a position on the pitch to add the gamertag, their points or club and their photo. The highest points becomes the player of the week card."
+          : es
+            ? "Toca una posición en la cancha para poner el número y nombre."
+            : "Tap a position on the pitch to add the number and name."}
+      </p>
     </div>
   );
 }

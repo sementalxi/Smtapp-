@@ -803,7 +803,7 @@ export function renderBanner(canvas: HTMLCanvasElement, o: RenderOptions) {
   colorGrade(ctx, o);
 
   if (o.layout === "CHAMPIONS") layoutChampions(ctx, o, r);
-  else if (o.layout === "EVENT" || o.layout === "MATCHDAY" || o.layout === "LINEUP" || o.layout === "RESULT" || o.layout === "STANDINGS" || o.layout === "LOGO") layoutEvent(ctx, o, r);
+  else if (o.layout === "EVENT" || o.layout === "MATCHDAY" || o.layout === "LINEUP" || o.layout === "RESULT" || o.layout === "STANDINGS" || o.layout === "LOGO" || o.layout === "TOTW") layoutEvent(ctx, o, r);
   else layoutPlayer(ctx, o, r);
 
   watermark(ctx, o);

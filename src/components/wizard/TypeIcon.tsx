@@ -40,6 +40,13 @@ const P: Record<string, React.ReactNode> = {
       <path d="m12 8 1.4 2.8 3.1.5-2.2 2.2.5 3.1L12 15.1l-2.8 1.5.5-3.1-2.2-2.2 3.1-.5z" />
     </>
   ),
+  TOTW: (
+    <>
+      <rect x="6" y="3" width="12" height="18" rx="2" />
+      <path d="m12 7.2 1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4z" />
+      <path d="M8.5 17h7" />
+    </>
+  ),
   STANDINGS: (
     <>
       <rect x="3.5" y="4" width="17" height="16" rx="2" />

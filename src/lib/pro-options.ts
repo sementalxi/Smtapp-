@@ -34,6 +34,12 @@ export const ART_TYPES: ArtType[] = [
     es: { name: "Alineación", desc: "Once inicial en tu formación con nombres, números y posiciones." },
   },
   {
+    layout: "TOTW",
+    icon: "⭐",
+    en: { name: "Team of the week", desc: "Eleven player cards in formation — gamertag, position, points or club, and a photo on every card." },
+    es: { name: "Equipo de la semana", desc: "Once tarjetas de jugador en formación — gamertag, posición, puntos o club, y una foto en cada tarjeta." },
+  },
+  {
     layout: "RESULT",
     icon: "⚽",
     en: { name: "Result", desc: "Full-time score with both crests and the goal scorers." },

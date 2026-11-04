@@ -1,6 +1,6 @@
 // Shared (client + server) definitions for banner templates and inputs.
 
-export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS" | "LOGO";
+export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS" | "LOGO" | "TOTW";
 
 export type FontKey = "anton" | "bebas" | "gothic" | "brush" | "sans";
 export type Particles = "sparks" | "embers" | "snow" | "none";
@@ -49,6 +49,7 @@ export interface BannerInputs {
   scorers: string[]; // result
   standings: string[]; // standings table rows
   tableLogos: string[]; // standings: crest URL per row ("" = none)
+  playerPhotos: string[]; // team of the week: photo URL per player line ("" = none)
   trophy: string; // champions trophy style
   colorMode: string; // "surprise" | "template" | "custom"
   color1: string;
@@ -95,6 +96,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   scorers: [],
   standings: [],
   tableLogos: [],
+  playerPhotos: [],
   trophy: "",
   colorMode: "",
   color1: "",
@@ -149,6 +151,7 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   RESULT: ["homeTeam", "awayTeam", "homeScore", "awayScore", "scorers", "competition", "footer"],
   STANDINGS: ["headline", "competition", "standings", "date", "footer"],
   LOGO: ["team", "subtitle", "headline", "footer"],
+  TOTW: ["headline", "competition", "formation", "players", "date", "footer"],
 };
 
 export const CANVAS_W = 1080;
@@ -2945,6 +2948,12 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     ["standings-gold", "Title Race", "Carrera por el Título", "STANDINGS", 2, "title-race league table: dark luxury stage with a golden trophy glowing softly behind the table, gold light rays, gold dust and sparks, the top spot highlighted in gold", "#d4a64a", "#ffe08a", "#070605", "anton", "embers"],
     ["standings-neon", "Neon Table", "Tabla Neón", "STANDINGS", 3, "esports league table: dark arena with neon stage lights, holographic HUD panels, scan lines, glowing rows in the league colours, futuristic gaming broadcast look", "#ff2bd6", "#16e0ff", "#07020f", "bebas", "sparks"],
     ["standings-grunge", "Street Table", "Tabla Callejera", "STANDINGS", 4, "gritty street-poster league table: torn paper, halftone and spray-paint textures, bold diagonal colour blocks, real photographic stadium behind, aggressive sports-design look", "#e3102b", "#ffffff", "#0a0505", "anton", "embers"],
+    ["totw-gold-pitch", "Gold Pitch", "Cancha Dorada", "TOTW", 1, "team of the week on a dark olive-and-gold stadium pitch seen from above, white pitch lines, gold diagonal light bands, eleven gold-framed player cards in formation, luxurious and clean", "#d4a64a", "#ffe08a", "#1a1a12", "anton", "sparks"],
+    ["totw-stadium-night", "Stadium Night", "Noche de Estadio", "TOTW", 2, "wide team of the week in a real night stadium under floodlights, fire and sparks at the edges, red-and-gold player cards in formation on the pitch, the title huge on the left", "#e3102b", "#ffb347", "#0a0406", "anton", "embers"],
+    ["totw-broadcast", "Broadcast", "Transmisión", "TOTW", 3, "wide TV-broadcast team of the week: dark pitch with glowing lines, black-and-gold player cards with fire accents, huge TOTW block title on the left, packed stadium behind", "#f0b429", "#ffffff", "#050505", "anton", "sparks"],
+    ["totw-neon", "Neon XI", "Once Neón", "TOTW", 4, "esports team of the week: dark arena with neon pink and cyan lights, holographic player cards with glowing edges on a scan-lined pitch, futuristic gaming broadcast look", "#ff2bd6", "#16e0ff", "#07020f", "bebas", "sparks"],
+    ["totw-ice", "Ice Cards", "Cartas de Hielo", "TOTW", 5, "team of the week in a frozen stadium: blue ice crystals, frost and cold light, icy chrome player cards in formation, deep navy and cyan", "#1d5bff", "#7cd6ff", "#020718", "anton", "snow"],
+    ["totw-street", "Street Print", "Impresión Urbana", "TOTW", 6, "wide screen-printed team of the week: halftone stadium photo, torn paper and spray textures, bold diagonal colour blocks, paper-textured player cards in formation", "#e3102b", "#ffffff", "#0a0505", "anton", "embers"],
   ].map(([slug, name, nameEs, layout, sort, prompt, primary, accent, dark, nameFont, particles]) => ({
     slug: slug as string,
     name: name as string,

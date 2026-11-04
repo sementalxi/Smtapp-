@@ -37,6 +37,7 @@ Object.assign(SAMPLE_INPUTS, {
   LINEUP: { ...EMPTY_INPUTS, headline: "Starting XI", name: "Blitz FC", subtitle: "4-3-3", date: "Matchday 7", footer: "Liga Pro" },
   LOGO: { ...EMPTY_INPUTS, headline: "Est. 2026", name: "Blitz FC", subtitle: "Wolf", footer: "Esports" },
   STANDINGS: { ...EMPTY_INPUTS, headline: "Standings", name: "Liga Pro", subtitle: "Matchday 7", footer: "Season 2026" },
+  TOTW: { ...EMPTY_INPUTS, headline: "Team of the week", name: "Liga Pro", subtitle: "Week 1 · Division 1", footer: "Season 2026" },
   RESULT: { ...EMPTY_INPUTS, headline: "3 - 1", name: "Full Time", subtitle: "Blitz FC vs Renegade XI", footer: "Liga Pro" },
 });
 

@@ -41,6 +41,7 @@ const LAYOUT_NAMES: Record<string, string> = {
   CHAMPIONS: "Champions",
   MATCHDAY: "Match day",
   LINEUP: "Lineup",
+  TOTW: "Team of the week",
   RESULT: "Result",
   STANDINGS: "Standings",
   LOGO: "Team logo",

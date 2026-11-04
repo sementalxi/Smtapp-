@@ -55,6 +55,7 @@ export const DEFAULT_SAMPLE: Sample = {
 };
 
 const ROSTER = ["Alex", "Bruno", "Carlos", "Diego", "Eli", "Fabio", "Gabo", "Hugo", "Iker", "Javi", "Kevin"];
+const TOTW_PLAYERS = ["ALEX_GK · 61 PTS · GK", "BRUNO9 · 48 PTS · RB", "CARLOSX · 52 PTS · CB", "DIEGO_DF · 44 PTS · CB", "ELI_LB · 39 PTS · LB", "FABIO10 · 70 PTS · CM", "GABO_CM · 66 PTS · CM", "HUGO_8 · 58 PTS · CM", "IKER_RW · 83 PTS · RW", "JAVI_9 · 104 PTS · ST", "KEVIN_LW · 77 PTS · LW"];
 const PLAYERS = ["1 Alex GK", "2 Bruno RB", "3 Carlos CB", "4 Diego CB", "5 Eli LB", "6 Fabio CM", "8 Gabo CM", "10 Hugo CAM", "7 Iker RW", "9 Javi ST", "11 Kevin LW"];
 
 /** Sample inputs for each kind of poster, from one shared sample. */
@@ -65,6 +66,8 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean): Recor
       return { ...base, headline: "CHAMPIONS", team: s.team, roster: ROSTER, trophy: "surprise", date: s.date, eventName: s.competition };
     case "LINEUP":
       return { ...base, headline: "STARTING XI", team: s.team, formation: "4-3-3", players: PLAYERS, competition: s.competition, date: s.date };
+    case "TOTW":
+      return { ...base, headline: "TEAM OF THE WEEK", formation: "4-3-3", players: TOTW_PLAYERS, competition: s.competition, date: "Week 1 · Division 1", footer: s.footer };
     case "MATCHDAY":
       return { ...base, headline: "MATCH DAY", homeTeam: s.team, awayTeam: s.rival, competition: s.competition, date: s.date, time: "8:00 PM", venue: s.venue };
     case "RESULT":

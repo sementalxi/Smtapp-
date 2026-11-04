@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { apiAdmin } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 
-const Layout = z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT", "STANDINGS", "LOGO"]);
+const Layout = z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT", "STANDINGS", "LOGO", "TOTW"]);
 const Schema = z.object({
   categories: z.object({ order: z.array(Layout).max(10), hidden: z.array(Layout).max(10) }),
   templates: z.array(z.object({ id: z.string().min(1), layout: Layout, sort: z.number().int().min(0).max(100000), active: z.boolean(), badge: z.enum(["recommended", "fire"]).nullable().default(null), audience: z.enum(["all", "users", "orgs"]).default("all") })).max(500),

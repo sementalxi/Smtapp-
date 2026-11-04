@@ -14,7 +14,7 @@ import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
 import { parseLine } from "@/lib/roster";
-import { positionsFor } from "@/lib/formations";
+import { positionsFor, slotsToPhotos, slotsToTotwLines } from "@/lib/formations";
 import { LineupBuilder, slotsToLines, type Slot } from "./LineupBuilder";
 import { AiVideo } from "../AiVideo";
 import { DownloadSizes } from "../DownloadSizes";
@@ -260,6 +260,9 @@ export function CreateWizard({
   const [playersText, setPlayersText] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);
+  // Team of the week: always built on the pitch (4-3-3 unless another formation is picked).
+  const totwFormation = inp.formation || "4-3-3";
+  const totwPlayers = slotsToTotwLines(totwFormation, slots);
   const [squadText, setSquadText] = useState("");
   const [scorersText, setScorersText] = useState("");
   const [barDone, setBarDone] = useState(false);
@@ -349,7 +352,9 @@ export function CreateWizard({
       eventName: champ?.name ?? inp.eventName,
       competition: champ?.name ?? inp.competition,
       champLogoUrl: champ?.logoUrl ?? "",
-      players: (layout === "LINEUP" ? lineupPlayers : lines(playersText)).slice(0, 18),
+      formation: layout === "TOTW" ? totwFormation : inp.formation,
+      players: (layout === "LINEUP" ? lineupPlayers : layout === "TOTW" ? totwPlayers : lines(playersText)).slice(0, 18),
+      playerPhotos: layout === "TOTW" ? slotsToPhotos(totwFormation, slots).slice(0, 18) : [],
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
       standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
@@ -368,6 +373,8 @@ export function CreateWizard({
         return !!home && !!away;
       case "LINEUP":
         return lineupPlayers.length > 0;
+      case "TOTW":
+        return totwPlayers.length > 0;
       case "EVENT":
         return !!inp.headline.trim();
       case "STANDINGS":
@@ -899,6 +906,36 @@ export function CreateWizard({
                   <p className="mt-1 text-xs text-muted">{lines(playersText).length}/11 · {locale === "es" ? "o elige una formación para usar la cancha" : "or pick a formation to use the pitch"}</p>
                 </div>
               )}
+            </>
+          )}
+
+          {layout === "TOTW" && (
+            <>
+              <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
+                ⭐ {locale === "es" ? "Once tarjetas en formación: pon el gamertag, los puntos o el club y una foto por jugador. El de más puntos sale como jugador de la semana." : "Eleven cards in formation: add each player's gamertag, points or club and a photo. The highest points becomes the player of the week."}
+              </p>
+              <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "EQUIPO DE LA SEMANA" : "TEAM OF THE WEEK" })}
+                {field({ label: locale === "es" ? "Semana / división" : "Week / division", k: "date", max: 30, ph: locale === "es" ? "Semana 1 · División 1" : "Week 1 · Division 1" })}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="label">{L.formation}</label>
+                  <select className="input" value={totwFormation} onChange={(e) => set("formation", e.target.value)}>
+                    {FORMATIONS.map((f) => (
+                      <option key={f}>{f}</option>
+                    ))}
+                  </select>
+                </div>
+                {field({ label: L.footer, k: "footer", max: 40, ph: locale === "es" ? "Temporada 4" : "Season 4" })}
+              </div>
+              <div>
+                <label className="label">
+                  {locale === "es" ? "Los once" : "The eleven"} <span className="text-lime">*</span>
+                </label>
+                <LineupBuilder mode="totw" formation={totwFormation} slots={slots} onChange={setSlots} es={locale === "es"} />
+              </div>
             </>
           )}
 

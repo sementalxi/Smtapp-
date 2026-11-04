@@ -28,6 +28,7 @@ const LAYOUT_NAMES: Record<string, [string, string]> = {
   PLAYER: ["Player card", "Tarjeta de jugador"],
   CHAMPIONS: ["Champions", "Campeones"],
   LINEUP: ["Lineup", "Alineación"],
+  TOTW: ["Team of the week", "Equipo de la semana"],
   MATCHDAY: ["Match day", "Día de partido"],
   RESULT: ["Result", "Resultado"],
   EVENT: ["Tournament / event", "Torneo / evento"],
