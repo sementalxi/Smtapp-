@@ -39,6 +39,9 @@ const Body = z.object({
   season: z.boolean().optional(),
   /** Output size: post 4:5 (default), story 9:16, banner 16:9 — the AI makes it in that size. */
   format: z.enum(["post", "story", "banner"]).optional(),
+  /** Admin style test: free, no rate limit, tagged with the run id (ignored for non-admins). */
+  test: z.boolean().optional(),
+  testRun: z.string().max(40).optional(),
 });
 
 // Per-player fields a team-set card may change; everything else comes from the first card.
@@ -46,8 +49,9 @@ const PLAYER_FIELDS = ["name", "position", "number", "tagline", "subtitle"] as c
 
 export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
-  rateLimit(req, "generate", 30, 60 * 60_000, user.id);
   const body = Body.parse(await req.json());
+  const adminTest = !!body.test && user.role === "ADMIN";
+  if (!adminTest) rateLimit(req, "generate", 30, 60 * 60_000, user.id);
   assertOwnUrl(body.photoUrl);
   assertOwnUrl(body.logoUrl);
 
@@ -87,7 +91,7 @@ export const POST = handle(async (req: NextRequest) => {
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
   if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");
-  const cost = pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
+  const cost = adminTest ? 0 : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
   // Fast path; the real check is atomic when credits are taken.
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
@@ -137,7 +141,7 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}) }),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}) }),
       photoUrl: body.photoUrl ?? null,
       logoUrl,
       mode: body.mode,

@@ -34,6 +34,7 @@ const Body = z.object({
   site_description: z.string().trim().max(300).optional(),
   daily_on: z.enum(["0", "1"]).optional(),
   daily_ladder: z.string().trim().regex(/^\d{1,4}(,\d{1,4}){6}$/, "7 numbers separated by commas").optional(),
+  style_test_sample: z.string().max(8000).optional(),
   daily_title: z.string().trim().max(60).optional(),
   daily_text: z.string().trim().max(240).optional(),
   daily_title_es: z.string().trim().max(60).optional(),

@@ -13,6 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       links: [
         { href: "/admin/studio", label: es ? "Estudio libre" : "Free studio", icon: "🎨" },
         { href: "/admin/templates", label: es ? "Estilos" : "Styles", icon: "🖼️" },
+        { href: "/admin/style-test", label: es ? "Probar estilos" : "Style test", icon: "🧪" },
         { href: "/admin/leagues", label: es ? "Ligas y logos" : "Leagues & logos", icon: "🛡️" },
         { href: "/admin/deals", label: es ? "Ofertas" : "Deals", icon: "🔥" },
         { href: "/admin/texts", label: es ? "Textos del sitio" : "Site texts", icon: "✏️" },

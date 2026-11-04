@@ -36,6 +36,7 @@ export const SETTING_DEFAULTS = {
   daily_on: "1",
   daily_ladder: "1,2,3,4,5,6,10", // credits for day 1…7 of a streak (then it starts over)
   daily_epoch: "0", // bumped when the admin resets the daily reward for everyone
+  style_test_sample: "", // JSON: the sample photo / crest / texts used by Admin → Style test
   daily_title: "Daily reward",
   daily_text: "Come back every day and claim your free credits. Keep your streak going!",
   daily_title_es: "Recompensa diaria",

@@ -43,6 +43,7 @@ export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
     finalUrl: b.finalUrl,
     error,
     ...(user.role === "ADMIN" && err ? { detail: err } : {}),
+    ...(user.role === "ADMIN" ? { madeWith: b.prompt?.match(/^\[Made with: ([^\]]+)\]/)?.[1] ?? null } : {}),
   });
 });
 

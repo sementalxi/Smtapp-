@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ART_TYPES } from "@/lib/pro-options";
 import type { LayoutKind } from "@/lib/templates";
 import { TemplateEditor, type AdminTemplate } from "./TemplateEditor";
@@ -8,6 +8,15 @@ import { TemplateEditor, type AdminTemplate } from "./TemplateEditor";
 /** Admin → Styles: every style grouped by category (in the admin's category order), with a search box. */
 export function StyleGroups({ rows, order, es }: { rows: AdminTemplate[]; order: LayoutKind[]; es: boolean }) {
   const [q, setQ] = useState("");
+  // Other admin pages can deep-link to a style with ?q=<name>.
+  useEffect(() => {
+    try {
+      const v = new URLSearchParams(window.location.search).get("q");
+      if (v) setQ(v);
+    } catch {
+      /* ignore */
+    }
+  }, []);
   const [openAll, setOpenAll] = useState(false);
   const needle = q.trim().toLowerCase();
   const groups = useMemo(() => {

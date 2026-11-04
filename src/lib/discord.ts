@@ -107,6 +107,8 @@ export async function logGeneration(opts: {
       db.user.findUnique({ where: { id: opts.userId }, select: { name: true, email: true, credits: true } }),
       db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, design: true, template: { select: { name: true, layout: true } } } }),
     ]);
+    // Admin style-test runs stay out of Discord (they would flood the channels).
+    if ((banner?.design as unknown as { styleTest?: string } | null)?.styleTest) return;
     // Each flyer type goes to its own channel (falls back to the main webhook).
     const { hookFor } = await import("./discord-logs");
     const url = await hookFor(banner?.template.layout ?? "");
