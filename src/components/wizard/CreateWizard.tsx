@@ -944,7 +944,7 @@ export function CreateWizard({
           {layout === "TOTW" && (
             <>
               <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
-                ⭐ {locale === "es" ? "Once tarjetas en formación con el look de tus tarjetas de jugador. Elige la liga: su tabla trae los clubes, sus puntos y sus escudos. El de más puntos sale como jugador de la semana." : "Eleven cards in formation with the look of your player cards. Pick the league: its standings bring the clubs, their points and their crests. The highest points becomes the player of the week."}
+                ⭐ {locale === "es" ? "Once tarjetas en formación con el look de tus tarjetas de jugador. La IA crea los futbolistas de cada tarjeta (foto solo para pedidos especiales). Elige la liga: su tabla trae los clubes, sus puntos y sus escudos." : "Eleven cards in formation with the look of your player cards. The AI creates each card's footballer (photos only for special orders). Pick the league: its standings bring the clubs, their points and their crests."}
               </p>
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
               {champ?.id && (

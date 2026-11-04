@@ -571,7 +571,9 @@ export function buildProPrompt(opts: {
         best ? `The PLAYER OF THE WEEK card (${q(best.name)}) is a special premium variant — a different metal / colour, a little larger, with a small crown or star — the rest are identical in size and style.` : "",
         `A huge "${i.headline || "TEAM OF THE WEEK"}" title at the top${i.date ? `, the week / division line under it` : ""}${i.champLogoUrl ? ", the league logo beside the title" : i.competition ? ", the league name" : ""}. Cards in neat rows with even spacing, none overlapping another card's text; every name perfectly legible.`,
         cards.some((c) => c.photo) ? `Cards with a reference photo show THAT person. ` : "",
-        cards.some((c) => !c.photo) ? `Cards without a photo show an invented generic player — each one different (hair, skin tone, pose, expression), in a plain dark kit with no badges, names or words on it, no real person.` : "",
+        cards.some((c) => !c.photo)
+          ? `Cards without a photo show an AI-CREATED FOOTBALLER: a realistic, photographic-looking player (never a cartoon), a clearly different person on every card (hair, skin tone, age, build, expression) in a varied cool pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm…), wearing a football kit ${opts.refs.some((r) => /SHEET of club crests/.test(r.label)) ? "in the colours of that card's club (plain kit, no badge or words on it)" : "in plain colours with no badge, sponsor, name or number on it"}; no real-world celebrity.`
+          : "",
         frame,
         finish,
       ].join(" ");

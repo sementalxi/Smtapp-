@@ -14,6 +14,7 @@ export { slotsToLines, type Slot } from "@/lib/formations";
 export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup", teams = [] }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean; mode?: "lineup" | "totw"; teams?: { name: string; logoUrl: string | null; pts?: string }[] }) {
   const totw = mode === "totw";
   const [otherClub, setOtherClub] = useState<number | null>(null); // slot typing a club that isn't in My teams
+  const [photoOpen, setPhotoOpen] = useState<number | null>(null); // slot showing the optional photo box
   const rows = FORMATION_ROWS[formation] ?? [];
   const [sel, setSel] = useState<number | null>(0);
   let idx = 0;
@@ -150,7 +151,16 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup",
                   {es ? "El escudo del club sale en la tarjeta." : "The club's crest goes on the card."}
                 </p>
               )}
-              <ImageDrop kind="photo" label={es ? "📸 Foto del jugador (opcional)" : "📸 Player photo (optional)"} value={slots[cur]?.photo || null} onChange={(u) => upd(cur, { photo: u ?? "" })} searchQuery={slots[cur]?.name} />
+              {slots[cur]?.photo || photoOpen === cur ? (
+                <ImageDrop kind="photo" label={es ? "📸 Foto de esta persona (opcional)" : "📸 This person's photo (optional)"} value={slots[cur]?.photo || null} onChange={(u) => upd(cur, { photo: u ?? "" })} searchQuery={slots[cur]?.name} />
+              ) : (
+                <p className="flex flex-wrap items-center gap-x-2 text-[11px] text-muted">
+                  <span>🤖 {es ? "La IA crea el futbolista de esta tarjeta sola." : "The AI creates this card's footballer by itself."}</span>
+                  <button type="button" onClick={() => setPhotoOpen(cur)} className="font-bold text-lime">
+                    {es ? "＋ Usar una foto real (pedido especial)" : "＋ Use a real photo (special order)"}
+                  </button>
+                </p>
+              )}
             </div>
           ) : (
           <div className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-2">
@@ -197,8 +207,8 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup",
       <p className="text-[11px] text-muted">
         {totw
           ? es
-            ? "Toca una posición en la cancha para poner el gamertag, su club, sus puntos y su foto. El que tenga más puntos sale como jugador de la semana."
-            : "Tap a position on the pitch to add the gamertag, their club, their points and their photo. The highest points becomes the player of the week card."
+            ? "Toca una posición en la cancha para poner el gamertag, su club y sus puntos. La IA crea los futbolistas; agrega una foto solo si quieres a una persona en concreto. El de más puntos sale como jugador de la semana."
+            : "Tap a position on the pitch to add the gamertag, their club and their points. The AI creates the footballers; add a photo only if you want a specific person. The highest points becomes the player of the week card."
           : es
             ? "Toca una posición en la cancha para poner el número y nombre."
             : "Tap a position on the pitch to add the number and name."}
