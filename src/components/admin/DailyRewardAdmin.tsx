@@ -19,7 +19,19 @@ export function DailyRewardAdmin({ initial }: { initial: V }) {
   const [v, setV] = useState<V>(initial);
   const [ladder, setLadder] = useState<number[]>(parse(initial.daily_ladder));
   const [busy, setBusy] = useState(false);
+  const [resetting, setResetting] = useState(false);
   const [msg, setMsg] = useState("");
+
+  async function resetAll() {
+    if (!confirm(es ? "¿Reiniciar la recompensa diaria para TODOS los usuarios? Las rachas vuelven a 0 y todos podrán reclamar de nuevo hoy." : "Reset the daily reward for ALL users? Streaks go back to 0 and everyone can claim again today.")) return;
+    setResetting(true);
+    setMsg("");
+    const r = await fetch("/api/admin/daily/reset", { method: "POST" });
+    const d = (await r.json().catch(() => ({}))) as { count?: number };
+    setResetting(false);
+    setMsg(r.ok ? (es ? `✅ Reiniciado para ${d.count ?? 0} usuarios` : `✅ Reset for ${d.count ?? 0} users`) : es ? "❌ No se pudo reiniciar" : "❌ Could not reset");
+    if (r.ok) router.refresh();
+  }
   const set = (k: keyof V) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setV({ ...v, [k]: e.target.value });
 
   async function save(e: React.FormEvent) {
@@ -98,6 +110,16 @@ export function DailyRewardAdmin({ initial }: { initial: V }) {
         <div className="flex items-center gap-3">
           <button type="submit" disabled={busy} className="btn-primary px-5 py-2 disabled:opacity-60">{busy ? "…" : es ? "Guardar" : "Save"}</button>
           {msg && <span className="text-sm">{msg}</span>}
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-danger/40 bg-danger/5 p-3">
+          <div className="text-xs text-muted">
+            <span className="font-bold text-white">{es ? "Reiniciar para todos" : "Reset for everyone"}</span>
+            <br />
+            {es ? "Todas las rachas vuelven a 0 y todos pueden reclamar el día 1 de nuevo (los créditos ya dados se quedan)." : "Every streak goes back to 0 and everyone can claim day 1 again (credits already given stay)."}
+          </div>
+          <button type="button" onClick={resetAll} disabled={resetting} className="rounded-xl border border-danger bg-danger/20 px-4 py-2 text-sm font-bold text-white transition hover:bg-danger/40 disabled:opacity-60">
+            {resetting ? "…" : es ? "🔄 Reiniciar todo" : "🔄 Reset everything"}
+          </button>
         </div>
       </form>
 

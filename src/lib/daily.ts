@@ -91,7 +91,7 @@ export async function claimDaily(userId: string) {
   const day = ladderStep(streak);
   const amount = ladder[day - 1] ?? 0;
   if (amount > 0) {
-    const ok = await grantOnce({ userId, amount, type: "DAILY", note: `Daily reward · day ${streak} (step ${day}/7)`, externalRef: `daily:${userId}:${today}` });
+    const ok = await grantOnce({ userId, amount, type: "DAILY", note: `Daily reward · day ${streak} (step ${day}/7)`, externalRef: `daily:${s.daily_epoch || "0"}:${userId}:${today}` });
     if (!ok) throw new HttpError(409, "already_claimed");
   }
   const after = await db.user.update({ where: { id: userId }, data: { dailyStreak: streak, dailyClaimedDay: today, dailyClaimedAt: new Date() }, select: { credits: true } });
