@@ -38,6 +38,8 @@ export async function GET(req: NextRequest) {
   for (const u of todo) if (await syncDiscordProfile(u.id, u.discordId!).catch(() => false)) synced++;
   // Posters whose generation died (server limit, crash): mark failed + refund automatically.
   await import("@/lib/banners").then((m) => m.reapStale()).catch(() => {});
+  // Admin style test: keep the queue moving even when the admin closed the page.
+  await import("@/lib/style-test").then((m) => m.advanceStyleTest()).catch(() => {});
   // Finish AI videos in the background.
   const videos = await import("@/lib/ai-video").then((m) => m.advanceAllVideos()).catch(() => 0);
   return json({ ok: true, tickets: tickets.length, pushed, synced, videos });
