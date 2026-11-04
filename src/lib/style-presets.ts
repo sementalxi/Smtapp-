@@ -449,6 +449,163 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out.
 - The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow this style.`,
+  "player-ink-splash": `INK SPLASH — a white-paper player card with orange ink splatter and the player drawn as a bold INK / CEL-SHADED ILLUSTRATION. Fresh, graphic, anime-poster energy.
+
+COLOURS: off-white paper, burnt ORANGE (or the team colour) ink, black — plus the kit's own colours.
+
+BACKGROUND
+- Clean off-white paper with big burnt-orange ink splatters, drips and dry-brush strokes exploding from the upper right and the top-left corner; a faint ghosted pencil-sketch of the player's NAME as giant letters across the middle; paper grain and a few tiny ink flecks.
+
+THE PLAYER — shown TWICE, the SAME person from the photo (exact same face, features, hair, skin tone, outfit), rendered as a bold illustration: thick clean ink outlines, flat cel shading with two or three tones, crisp highlights — like a premium anime key-visual or a comic cover, but faithful to the real person.
+1. BEHIND (upper half, huge): a chest-up figure with one gloved / bare hand REACHING dramatically toward the camera in strong foreshortening, intense calm face, blended into the orange splatter and the paper; parts of it painted in the orange ink tone.
+2. IN FRONT (lower centre): a full-body standing figure with a confident wide stance (arms out slightly, or holding the ball under one arm), fully inked and coloured, sharp, with a soft paper shadow under the feet.
+
+TYPOGRAPHY & GRAPHICS
+- The jersey NUMBER giant at the mid-right as a hand-painted ORANGE brush numeral with dry-brush edges and drips.
+- The player NAME huge at the lower right in heavy slanted black italic capitals with a white inline / outline, like a game title; the POSITION small in orange letter-spaced capitals right above it; the tagline (if given) in a thin letter-spaced line above the name.
+- The team crest (if provided) large at the lower LEFT, crisp with a soft drop shadow on the paper.
+- The subtitle (if given) in an orange brush script near the name; footer tiny at the bottom.
+- Tiny letter-spaced "manifesto" lines and small geometric marks in the corners and margins (like a pro club graphic) — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years, barcodes or slogans.
+
+PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
+- The player is a clean, confident INK ILLUSTRATION of the real person: sharp inked outlines, flat cel shading, correct anatomy and hands, the face clearly recognisable — no photo-realistic rendering on this style, and no muddy painterly smear.
+- Hand-made collage craft: real scanned textures (paper, grunge, ink, halftone), real torn edges with fibres, believable shadows between layers, cohesive colour grade, fine grain. Effects are purposeful — no plastic CGI, no cartoon, no melted shapes.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+- Illustration look: ink lines crisp and confident, colours flat and clean, no muddy painterly smear — but the face stays recognisably the real person.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, tickets, "original content" labels, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow this style.`,
+  "player-teal-shards": `TEAL SHARDS — a black-and-neon-teal esports player card with glass and chrome shards. Electric, sharp, premium.
+
+COLOURS: black, neon TEAL (or the team colour) and white.
+
+BACKGROUND
+- Deep black with flying GLASS and chrome shards catching teal light, teal lens flares and light streaks, a faint stadium in teal haze, fine grain; thin HUD frame lines and small geometric marks in the margins.
+- GIANT letters of the player's NAME in solid teal filling the upper half behind everything, partly hidden by the figures and cut off at the edges (a graphic echo of the name).
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper centre, huge): a chest-up portrait in BLACK-AND-WHITE, high contrast, looking off to the side with a determined face, blended into the teal letters.
+2. IN FRONT (right): a full-COLOUR full-body ACTION shot — a fist-pump celebration mid-stride or a leap — sharp, with a teal rim light and real shadow.
+
+TYPOGRAPHY & GRAPHICS
+- The team crest (if provided) medium-large at the mid-left, crisp with a teal glow, sitting right above the name block.
+- Name block (lower left, stacked, left-aligned): the POSITION and NUMBER together in teal condensed italic capitals (number bigger), then the player NAME HUGE in white ultra-condensed capitals, then the subtitle (if given) in small teal italic capitals.
+- The tagline (if given) in a white script at the upper right; footer tiny at the bottom centre.
+- Tiny letter-spaced "manifesto" lines and small geometric marks in the corners and margins (like a pro club graphic) — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years, barcodes or slogans.
+
+PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
+- The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
+- Hand-made collage craft: real scanned textures (paper, grunge, ink, halftone), real torn edges with fibres, believable shadows between layers, cohesive colour grade, fine grain. Effects are purposeful — no plastic CGI, no cartoon, no melted shapes.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, tickets, "original content" labels, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow this style.`,
+  "player-electric-blue": `ELECTRIC BLUE — a vivid electric-blue city-night player card with torn paper and ice crystals. Loud, layered, premium.
+
+COLOURS: electric BLUE and ice blue (or the team colour), white and black.
+
+BACKGROUND
+- A blue-lit city skyline at night with light beams, blue smoke and ice-crystal shards at the bottom corners; TORN PAPER edges and strips in blue and white, halftone dots, scratches and grain; thin frame lines and small geometric marks in the margins.
+- GIANT letters of the player's NAME: once VERTICAL along the right edge in a pale blue tint, and once across the bottom in big distressed white-blue capitals — both partly hidden by the figures and cut off at the edges (graphic echoes of the name).
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (top centre, huge): a chest-up portrait with an intense, fierce face (mouth closed), cold blue grade, hard contrast, blended into the paper.
+2. IN FRONT (right): a full-COLOUR full-body celebration — arms out or fists clenched, mid-run — sharp, blue rim light.
+
+TYPOGRAPHY & GRAPHICS
+- The team crest (if provided) BIG at the centre-left overlapping the portrait's shoulder, crisp with a blue glow; a small copy at the top-right.
+- The jersey NUMBER big at the left in blue outlined italic digits with a thin white inner line, right beside the name.
+- The player NAME HUGE across the lower-middle in white ultra-condensed capitals with a hard blue shadow; the POSITION small in blue capitals above it; the subtitle (if given) in a light-blue brush script under it; footer tiny at the bottom.
+- Tiny letter-spaced "manifesto" lines and small geometric marks in the corners and margins (like a pro club graphic) — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years, barcodes or slogans.
+
+PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
+- The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
+- Hand-made collage craft: real scanned textures (paper, grunge, ink, halftone), real torn edges with fibres, believable shadows between layers, cohesive colour grade, fine grain. Effects are purposeful — no plastic CGI, no cartoon, no melted shapes.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, tickets, "original content" labels, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow this style.`,
+  "player-paper-red": `PAPER RED — a white grunge-paper player card with red paint, like a club's championship poster. Bright, bold, celebratory.
+
+COLOURS: off-white paper, bright RED (or the team colour) and black.
+
+BACKGROUND
+- Off-white grunge paper with big RED paint strokes, splatter and halftone, black diagonal brush slashes at the corners, a faint stadium photo tinted red at the bottom; torn edges and grain; thin frame lines and small marks in the margins.
+- GIANT letters of the player's NAME in distressed RED filling the lower-middle behind the figures, cut off at the edges (a graphic echo of the name).
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (top centre, big): a chest-up portrait SMILING warmly, hands making a HEART shape in front of the chest, full colour with clean light.
+2. IN FRONT (right): a full-body standing figure holding the ball under one arm or on the hip, relaxed and proud, sharp, with a soft shadow on the paper.
+
+TYPOGRAPHY & GRAPHICS
+- The jersey NUMBER GIANT at the upper right in tall distressed RED digits with cracks and paper texture, partly behind the full-body figure.
+- The team crest (if provided) large at the top-left, crisp; a small copy at the bottom-right.
+- The player NAME huge across the lower third in WHITE slanted bold italic with a thick BLACK outline; the POSITION in big red slanted capitals at the lower left under it; the subtitle or tagline (if given) in a white script beside the position; footer tiny at the bottom centre.
+- Tiny letter-spaced "manifesto" lines and small geometric marks in the corners and margins (like a pro club graphic) — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years, barcodes or slogans.
+
+PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
+- The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
+- Hand-made collage craft: real scanned textures (paper, grunge, ink, halftone), real torn edges with fibres, believable shadows between layers, cohesive colour grade, fine grain. Effects are purposeful — no plastic CGI, no cartoon, no melted shapes.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, tickets, "original content" labels, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow this style.`,
+  "player-gothic-gold": `GOTHIC GOLD — a luxurious black-and-gold player card with gothic lettering, gold stars and crown ornaments. Regal, rich, cinematic.
+
+COLOURS: black, warm metallic GOLD and cream (team colours only as tiny accents).
+
+BACKGROUND
+- Black with warm gold smoke, floating gold stars (small five-point stars) and sparkles, gold crown and laurel ORNAMENTS at the bottom corners, fine gold hairlines and small geometric marks in the margins, film grain.
+- GIANT faded GOLD letters of the player's NAME: once diagonal across the middle and once vertical along the right edge, partly hidden by the figures and cut off at the edges (graphic echoes of the name).
+
+THE PLAYER — shown THREE TIMES, all the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND LEFT (upper half, huge): a chest-up portrait in BLACK-AND-WHITE looking slightly down and to the side, calm.
+2. BEHIND RIGHT (upper half, huge): a chest-up portrait graded warm GOLD, looking up or to the side with a confident smile, overlapping the first.
+3. IN FRONT (centre-right): a full-COLOUR full-body ACTION shot — running or dribbling with the ball — sharp, gold rim light.
+
+TYPOGRAPHY & GRAPHICS
+- The team crest (if provided) BIG at the centre-left with gold stars around it, crisp with a gold glow.
+- The player NAME huge across the lower third in cream-GOLD GOTHIC BLACKLETTER with a soft glow and a thin dark outline.
+- The subtitle (if given) in small, widely letter-spaced cream capitals right under the name; the POSITION and NUMBER small in gold capitals near the name; the tagline (if given) in a thin letter-spaced line at the top; footer tiny at the bottom.
+- Tiny letter-spaced "manifesto" lines and small geometric marks in the corners and margins (like a pro club graphic) — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years, barcodes or slogans.
+
+PRO PHOTOSHOP FINISH (it must look like a top football graphic designer's work, NOT AI)
+- The player looks like a real high-end sports photo: real skin texture and pores, sharp eyes, sweat sheen where natural, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges.
+- Hand-made collage craft: real scanned textures (paper, grunge, ink, halftone), real torn edges with fibres, believable shadows between layers, cohesive colour grade, fine grain. Effects are purposeful — no plastic CGI, no cartoon, no melted shapes.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, tickets, "original content" labels, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo. No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow this style.`,
   "player-gold-collage": `GOLD CROWN COLLAGE — a black-and-gold champion player card made as a rich layered torn-paper collage.
 
 COLOURS: black and rich metallic GOLD with warm amber light (team colours from the COLOURS line only as small accents).
