@@ -738,7 +738,12 @@ export async function generateProForBanner(opts: {
   /** The style's "Design instructions for the AI" — given in full to every step of the mixes. */
   instructions?: string | null;
 }) {
-  const fmtSizes = opts.format === "story" ? ["1152x2048", "1024x1536"] : opts.format === "banner" ? ["2048x1152", "1536x1024"] : opts.format === "square" ? ["1024x1024"] : undefined;
+  // Big sizes first so the poster keeps its detail; smaller ones are only used if the model rejects the size.
+  const fmtSizes =
+    opts.format === "story" ? ["1440x2560", "1152x2048", "1024x1536"]
+    : opts.format === "banner" ? ["2560x1440", "2048x1152", "1536x1024"]
+    : opts.format === "square" ? ["2048x2048", "1536x1536", "1024x1024"]
+    : undefined;
   if (opts.cost > 0) {
     await changeCredits({
       userId: opts.userId,
@@ -803,7 +808,7 @@ export async function generateProForBanner(opts: {
             keep,
             `Spell every item exactly, letter for letter, each once. Add no other words.`,
           ].filter(Boolean).join("\n\n");
-          poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], quality, fmtSizes ?? (isWide ? ["1536x1024"] : undefined), 280_000 - (Date.now() - t0));
+          poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], quality, fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : undefined), 280_000 - (Date.now() - t0));
           made = true;
           usedModel = posterModel === "seedream-mix" ? "Seedream Mix: Seedream art + FLUX.2 realism + OpenAI text" : posterModel === "mix3" ? "All 3: Nano Banana art + FLUX.2 realism + OpenAI text" : posterModel === "flux-mix" ? "Mix: FLUX.2 Pro art + OpenAI text" : "Mix: Nano Banana Pro art + OpenAI text";
         } catch (e) {
@@ -837,7 +842,7 @@ export async function generateProForBanner(opts: {
     }
     if (!made) try {
       // Wide styles ([WIDE] in the art director's instructions) are made in landscape.
-      const wide = fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined);
+      const wide = fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["2304x1536", "1536x1024"] : undefined);
       poster = await generatePoster(opts.prompt, images, quality, wide);
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
@@ -861,7 +866,7 @@ export async function generateProForBanner(opts: {
         .filter((sec) => !/^Reference image (?!1 )\d+ is /.test(sec.trim()))
         .join("\n\n");
       try {
-        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["1536x1024"] : undefined));
+        poster = await generatePoster(onlyFirst, images.slice(0, 1), quality, fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["2304x1536", "1536x1024"] : undefined));
       } catch (e2) {
         const m2 = e2 instanceof Error ? e2.message : String(e2);
         if (/moderation_blocked|safety system/i.test(m2)) {

@@ -174,7 +174,8 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
   const model = process.env.PRO_IMAGE_MODEL || "gpt-image-2";
   const quality = (["low", "medium", "high"].includes(qualityOverride ?? "") ? qualityOverride : null) ?? process.env.PRO_IMAGE_QUALITY ?? "medium";
   // First try an exact 4:5 size; if OpenAI's servers choke, retry with the standard portrait size.
-  const sizes = sizesOverride?.length ? sizesOverride : [process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
+  // Biggest size first (keeps detail); smaller ones only if the model rejects it.
+  const sizes = sizesOverride?.length ? sizesOverride : ["1632x2040", process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
   // OpenAI's image prompt limit is 32,000 characters.
   if (prompt.length > 31_900) prompt = prompt.slice(0, 31_900);
   const deadline = Date.now() + Math.min(270_000, budgetMs); // stay under the 300 s function limit so failures can be refunded
@@ -205,6 +206,11 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
       if (/moderation_blocked|safety system/i.test(body)) {
         if (soft >= 2) break;
         soft++;
+        continue;
+      }
+      // A size this model doesn't accept → try the next (smaller) size.
+      if (res.status === 400 && /size/i.test(body) && sizeIdx < sizes.length - 1) {
+        sizeIdx++;
         continue;
       }
       // other 4xx = our request/key problem: retrying won't help

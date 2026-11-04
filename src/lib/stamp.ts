@@ -72,8 +72,8 @@ export async function stampLogo(input: Buffer, avoid: ("tl" | "tr" | "bl" | "br"
     ]);
     const png = await stamped.clone().png().toBuffer();
     // Keep files small enough to serve from a serverless function (~4.5 MB limit).
-    if (png.length < 3.5 * 1024 * 1024) return png;
-    return await stamped.jpeg({ quality: 92, mozjpeg: true }).toBuffer();
+    if (png.length < 4.2 * 1024 * 1024) return png;
+    return await stamped.jpeg({ quality: 96, mozjpeg: true, chromaSubsampling: "4:4:4" }).toBuffer();
   } catch (e) {
     console.error("stampLogo failed", e);
     return input;

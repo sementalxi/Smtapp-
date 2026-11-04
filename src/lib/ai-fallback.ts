@@ -40,8 +40,8 @@ async function falImage(endpoint: string, body: Record<string, unknown>, label: 
 export async function fluxPoster(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
   const urls = absUrls(imageUrls, 9);
   // No photo/crest (e.g. a lineup): plain text-to-image.
-  if (!urls.length) return falImage("fal-ai/flux-2-pro", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 120_000);
-  return falImage("fal-ai/flux-2-pro/edit", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_urls: urls, image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 120_000);
+  if (!urls.length) return falImage("fal-ai/flux-2-pro", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_size: hiSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 140_000);
+  return falImage("fal-ai/flux-2-pro/edit", { prompt: fit(`${prompt}\n\n${NB_SYSTEM}`, 20000), image_urls: urls, image_size: hiSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 Pro", 140_000);
 }
 
 /** FLUX.2 Pro realism pass: keeps the image identical, only makes it look like a real photo shoot. */
@@ -49,9 +49,9 @@ export async function fluxRealism(imageUrl: string, format?: string, wide?: bool
   const prompt = [
     instructions ? `This poster was designed from these ART DIRECTOR'S DESIGN INSTRUCTIONS — read all of them and keep every point exactly as it already is in the image (layout, positions, poses, background, style); where the image differs from them, gently correct it toward them:\n${fit(instructions, 12000)}\n\n` : "",
     "Retouch this exact image. Keep EVERYTHING identical — the same composition, layout, people, faces, poses, clothing, background, crests, objects, colours and framing; do not add, remove or move anything and do not add any text.",
-    "Only upgrade the REALISM so it looks like a real professional sports photo shoot composited by a top designer: real skin with pores and natural tone (no airbrushed, waxy or plastic skin), real hair strands, real fabric folds and stitching, true photographic lighting and shadows, natural lens depth of field, fine film grain, believable restrained effects. Remove any CGI, cartoon or over-smoothed AI look.",
+    "Output at full high resolution with maximum fine detail (sharp pores, hair strands, fabric weave, crisp lettering edges) — never soft or blurry. Only upgrade the REALISM so it looks like a real professional sports photo shoot composited by a top designer: real skin with pores and natural tone (no airbrushed, waxy or plastic skin), real hair strands, real fabric folds and stitching, true photographic lighting and shadows, natural lens depth of field, fine film grain, believable restrained effects. Remove any CGI, cartoon or over-smoothed AI look.",
   ].join(" ");
-  return falImage("fal-ai/flux-2-pro/edit", { prompt, image_urls: [imageUrl], image_size: fallbackSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 realism", 100_000);
+  return falImage("fal-ai/flux-2-pro/edit", { prompt, image_urls: [imageUrl], image_size: hiSize(format, wide), output_format: "png", safety_tolerance: "2" }, "FLUX.2 realism", 120_000);
 }
 
 /** Seedream 5.0 Pro (falls back to Seedream 4) returning the image and its URL — for the "Seedream Mix". */
@@ -73,10 +73,11 @@ export async function seedreamArt(prompt: string, imageUrls: string[], format?: 
 /** Nano Banana Pro returning both the image and its fal URL (for chaining steps). */
 export async function nanoBananaArt(prompt: string, imageUrls: string[], format?: string, wide?: boolean) {
   const urls = absUrls(imageUrls, 14);
+  prompt = `${prompt}\n\nQUALITY: render at maximum resolution and detail — razor-sharp, no softness, no compression artifacts.`;
   const aspect = format === "story" ? "9:16" : format === "banner" ? "16:9" : format === "square" ? "1:1" : wide ? "3:2" : "4:5";
   // No photo/crest (e.g. a lineup): plain text-to-image.
-  if (!urls.length) return falImage("fal-ai/nano-banana-pro", { prompt: fit(prompt, 30000), aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
-  return falImage("fal-ai/nano-banana-pro/edit", { prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
+  if (!urls.length) return falImage("fal-ai/nano-banana-pro", { prompt: fit(prompt, 30000), aspect_ratio: aspect, resolution: "4K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
+  return falImage("fal-ai/nano-banana-pro/edit", { prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "4K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }, "Nano Banana Pro");
 }
 
 /** Google Nano Banana Pro (Gemini 3 Pro Image — the partner model inside Photoshop's Generative Fill), on fal.ai. */
@@ -87,7 +88,7 @@ export async function nanoBananaPoster(prompt: string, imageUrls: string[], form
   const r = await fetch("https://fal.run/fal-ai/nano-banana-pro/edit", {
     method: "POST",
     headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "2K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }),
+    body: JSON.stringify({ prompt: fit(prompt, 30000), image_urls: urls, aspect_ratio: aspect, resolution: "4K", output_format: "png", num_images: 1, temperature: 0.7, system_prompt: NB_SYSTEM }),
     signal: AbortSignal.timeout(130_000),
   });
   const d = (await r.json().catch(() => ({}))) as { images?: { url?: string }[]; detail?: unknown };
@@ -134,6 +135,15 @@ export async function seedreamPoster(prompt: string, imageUrls: string[], size: 
   const img = await fetch(url, { signal: AbortSignal.timeout(60_000) });
   if (!img.ok) throw new Error(`fallback download failed: ${img.status}`);
   return Buffer.from(await img.arrayBuffer());
+}
+
+/** High-resolution output for the FLUX.2 steps (~3–4 megapixels, so the poster keeps its detail). */
+export function hiSize(format?: string, wide?: boolean) {
+  if (format === "story") return { width: 1440, height: 2560 };
+  if (format === "banner") return { width: 2560, height: 1440 };
+  if (format === "square") return { width: 2048, height: 2048 };
+  if (wide) return { width: 2304, height: 1536 };
+  return { width: 1632, height: 2040 };
 }
 
 /** Output size for Seedream (needs ≥ 921,600 pixels). */
