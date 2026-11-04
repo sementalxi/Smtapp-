@@ -1416,7 +1416,7 @@ SCENE & COLOURS: sunset orange, teal and warm white (team colours as accents if 
 
 FIGURES
 1. BEHIND (right, large): a chest-up portrait BACKLIT by the sun, looking into the distance (three-quarter / profile), warm rim light, blending into the haze.
-2. IN FRONT (left): a FULL-BODY DRIBBLE with the ball along the rooftop edge, full colour, a long shadow across the floor.
+2. IN FRONT (left): a FULL-BODY figure STANDING SIDEWAYS with the ARMS CROSSED — body turned side-on / three-quarter to the camera, head turned toward the lens, calm confident look, feet planted on the rooftop — NOT running, NOT dribbling, NOT mid-action — full colour, a long shadow across the floor. This is THIS style's exception to the house look: a still sideways pose instead of an action shot.
 
 LAYOUT
 - The crest (if given) big at the top-left as a crisp emblem with a warm glow.
@@ -4909,6 +4909,7 @@ const SMALL_TEAM_NAME_FIXES: [string, string][] = [
   ["- A big polished metal TROPHY at the upper right if the tagline or subtitle mentions champions / winners; otherwise glowing light.", "- UPPER RIGHT: the team crest (if provided) echoed LARGE and FADED — a ghosted, semi-transparent version blended into the purple light and smoke (about 25% opacity), partly cut off by the edge. NEVER a trophy, cup, award or medal anywhere on this poster. If no crest is given: glowing light and neon rings only."],
   ["2. IN FRONT (lower right): a FULL-BODY SPRINT with the ball — mid-stride, leaning forward, full colour, red rim light, feet inside the frame.", "2. IN FRONT (lower right): a FULL-BODY figure POSING SIDEWAYS — standing still in a confident side-on / three-quarter stance (body turned to the side, head turned toward the camera, arms crossed or hands on the hips), NOT running, NOT mid-action — full colour, red rim light, feet inside the frame. This is THIS style's exception to the house look: a calm sideways pose instead of an action shot."],
   ["2. IN FRONT (lower centre): a FULL-BODY WALK toward the camera — confident stride — black-and-white with only the accent colour kept on the kit, a long shadow on the ground.", "2. IN FRONT (lower centre): a FULL-BODY figure STANDING STILL in a cool, cinematic pose — weight on one leg, hands in the pockets or adjusting the jacket / collar, chin up, calm stare at the camera — NOT walking, NOT running, NOT mid-action — black-and-white with only the accent colour kept on the kit, a long shadow on the ground. This is THIS style's exception to the house look: a still pose instead of an action shot."],
+  ["2. IN FRONT (left): a FULL-BODY DRIBBLE with the ball along the rooftop edge, full colour, a long shadow across the floor.", "2. IN FRONT (left): a FULL-BODY figure STANDING SIDEWAYS with the ARMS CROSSED — body turned side-on / three-quarter to the camera, head turned toward the lens, calm confident look, feet planted on the rooftop — NOT running, NOT dribbling, NOT mid-action — full colour, a long shadow across the floor. This is THIS style's exception to the house look: a still sideways pose instead of an action shot."],
 ];
 
 /** Removes the "team name small / tiny / letter-spaced" lines from a style's design instructions (big design uses stay). */

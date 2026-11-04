@@ -1166,7 +1166,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "PLAYER",
     sort: 0,
     prompt:
-      "player shown twice (backlit bust behind, full-body dribble on a rooftop in front), city skyline at sunset with a big warm flare, teal-and-orange grade, giant faded number, crest hero element, pro Photoshop composite",
+      "player shown twice (backlit bust behind, full-body standing sideways with arms crossed in front), city skyline at sunset with a big warm flare, teal-and-orange grade, giant faded number, crest hero element, pro Photoshop composite",
     style: {
       primary: "#ff7a1a",
       accent: "#12c2a0",
