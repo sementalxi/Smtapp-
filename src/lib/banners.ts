@@ -862,23 +862,56 @@ export async function generateProForBanner(opts: {
     let made = false;
     const posterModel = (await getSettings()).poster_model;
     // One pass at 4K (team of the week): Nano Banana Pro paints AND writes everything; nothing re-renders it afterwards.
+    // Hedged against the 300 s limit: if the 4K pass hasn't answered after ~105 s, an OpenAI backup starts alongside
+    // it, so the poster still lands in time if the 4K pass is slow or fails.
     if (opts.onePass && !opts.edit && posterModel !== "openai") {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
-        try {
-          await stage("art");
-          poster = await fb.nanoBananaDirect(opts.prompt, refUrls, opts.format, isWide, clamp(left() - 75_000, 60_000, 200_000));
+        await stage("art");
+        let nanoDone = false;
+        let hedgeStarted = false;
+        let timer: ReturnType<typeof setTimeout> | null = null;
+        const nano = fb
+          .nanoBananaDirect(opts.prompt, refUrls, opts.format, isWide, clamp(left() - 65_000, 60_000, 205_000))
+          .then((buf) => ({ buf, model: "Nano Banana Pro 4K (one pass)" }))
+          .catch((e) => ({ error: e instanceof Error ? e.message : String(e) }))
+          .finally(() => (nanoDone = true));
+        const hedge = new Promise<{ buf: Buffer; model: string } | { error: string } | null>((resolve) => {
+          timer = setTimeout(async () => {
+            if (nanoDone) return resolve(null);
+            hedgeStarted = true;
+            try {
+              const sizes = fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : ["1632x2040", "1088x1360", "1024x1536"]);
+              const buf = await generatePoster(opts.prompt, images, "medium", sizes, left() - 5_000);
+              resolve({ buf, model: "OpenAI GPT Image (backup — the 4K pass was slow)" });
+            } catch (e) {
+              resolve({ error: e instanceof Error ? e.message : String(e) });
+            }
+          }, Math.max(10_000, Math.min(105_000, left() - 160_000)));
+        });
+        const first = await nano;
+        if ("buf" in first) {
+          poster = first.buf;
           made = true;
-          usedModel = "Nano Banana Pro 4K (one pass)";
+          usedModel = first.model;
           await import("./ai-alerts").then((a) => a.clearDegraded()).catch(() => {});
-        } catch (e) {
-          const msg = e instanceof Error ? e.message : String(e);
-          await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Nano Banana Pro one-pass failed — falling back: ${msg.slice(0, 200)}`, "warn")).catch(() => {});
+        } else {
+          await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Nano Banana Pro 4K one-pass failed — using the OpenAI backup: ${first.error.slice(0, 200)}`, "warn")).catch(() => {});
           await import("./ai-alerts").then(async (a) => {
-            await a.noteDegraded(msg);
-            const kind = a.providerOutage(msg);
-            if (kind === "fal_billing") await a.alertAdminsOutage(kind, msg);
+            await a.noteDegraded(first.error);
+            const kind = a.providerOutage(first.error);
+            if (kind === "fal_billing") await a.alertAdminsOutage(kind, first.error);
           }).catch(() => {});
+          if (hedgeStarted) {
+            const backup = await hedge;
+            if (backup && "buf" in backup) {
+              poster = backup.buf;
+              made = true;
+              usedModel = backup.model;
+            } else if (backup && "error" in backup) {
+              throw new Error(`The 4K pass failed (${first.error.slice(0, 120)}) and the backup too (${backup.error.slice(0, 120)})`);
+            }
+          } else if (timer) clearTimeout(timer); // it failed early — the normal path below has plenty of time
         }
       }
     }
