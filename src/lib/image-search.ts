@@ -7,6 +7,9 @@ export interface ImageResult {
   url: string;
   title: string;
   source: string;
+  /** Pixel size of the full image when the search engine knows it. */
+  w?: number;
+  h?: number;
 }
 
 const UA = "KIXO/1.0 (+poster maker)";
@@ -32,11 +35,12 @@ const isHttp = (u: unknown): u is string => typeof u === "string" && /^https?:\/
 
 export let lastSearchError = "";
 
-async function serper(q: string, page = 1): Promise<ImageResult[]> {
+async function serper(q: string, page = 1, kind: "photo" | "logo" = "photo"): Promise<ImageResult[]> {
   const res = await fetch("https://google.serper.dev/images", {
     method: "POST",
     headers: { "X-API-KEY": process.env.SERPER_API_KEY!.trim().replace(/^["']|["']$/g, ""), "Content-Type": "application/json" },
-    body: JSON.stringify({ q, num: 20, page }),
+    // Photos: only LARGE real photographs (no clipart / tiny thumbnails) — posters need resolution.
+    body: JSON.stringify({ q, num: 30, page, ...(kind === "photo" ? { tbs: "isz:l,itp:photo" } : {}) }),
     signal: AbortSignal.timeout(10_000),
     cache: "no-store",
   });
@@ -53,6 +57,8 @@ async function serper(q: string, page = 1): Promise<ImageResult[]> {
       title: String(r.title ?? ""),
       source: String(r.domain ?? r.source ?? ""),
       link: String(r.link ?? ""),
+      w: Number(r.imageWidth) || undefined,
+      h: Number(r.imageHeight) || undefined,
     }));
 }
 
@@ -60,13 +66,15 @@ async function brave(q: string, page = 1): Promise<ImageResult[]> {
   const data = await getJson(`https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(q)}&count=40&offset=${(page - 1) * 40}&safesearch=strict`, {
     headers: { "X-Subscription-Token": process.env.BRAVE_API_KEY!.trim(), Accept: "application/json" },
   });
-  return ((data.results ?? []) as { title?: string; source?: string; url?: string; properties?: { url?: string }; thumbnail?: { src?: string } }[])
+  return ((data.results ?? []) as { title?: string; source?: string; url?: string; properties?: { url?: string; width?: number; height?: number }; thumbnail?: { src?: string } }[])
     .filter((r) => isHttp(r.properties?.url))
     .map((r) => ({
       url: r.properties!.url!,
       thumb: isHttp(r.thumbnail?.src) ? r.thumbnail!.src! : r.properties!.url!,
       title: r.title ?? "",
       source: r.source ?? "",
+      w: r.properties?.width || undefined,
+      h: r.properties?.height || undefined,
     }));
 }
 
@@ -115,7 +123,7 @@ export async function searchImages(q: string, kind: "photo" | "logo", page = 1, 
   lastSearchError = "";
   // Google/Brave first; if that fails (bad key, no credits…) fall back to the free sources instead of failing.
   try {
-    if (provider === "google") results = await serper(query, page);
+    if (provider === "google") results = await serper(query, page, kind);
     else if (provider === "brave") results = await brave(query, page);
   } catch (e) {
     lastSearchError = e instanceof Error ? e.message : String(e);
@@ -129,6 +137,8 @@ export async function searchImages(q: string, kind: "photo" | "logo", page = 1, 
     const pins = results.filter((r) => /pinterest\.|pinimg\.com/i.test(`${r.source} ${(r as ImageResult & { link?: string }).link ?? ""} ${r.url}`));
     if (pins.length) results = pins;
   }
+  // Photos smaller than ~500 px come out blurry on a poster — drop them when the size is known.
+  if (kind === "photo") results = results.filter((r) => !r.w || !r.h || Math.min(r.w, r.h) >= 500);
   const seen = new Set<string>();
   return results.filter((r) => !seen.has(r.url) && seen.add(r.url)).slice(0, 40);
 }

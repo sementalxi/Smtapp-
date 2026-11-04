@@ -8,7 +8,12 @@ interface Result {
   url: string;
   title: string;
   source: string;
+  w?: number;
+  h?: number;
 }
+
+/** "HD" badge text for a result whose size is known. */
+const sizeTag = (r: Result) => (r.w && r.h ? (Math.min(r.w, r.h) >= 1400 ? "4K" : Math.min(r.w, r.h) >= 900 ? "HD" : `${r.w}×${r.h}`) : "");
 
 /** Search the web for a player photo or crest, pick one, and it is copied to our storage. */
 export function ImageSearch({
@@ -34,11 +39,12 @@ export function ImageSearch({
   const [moreBusy, setMoreBusy] = useState(false);
   const [lastQ, setLastQ] = useState("");
   const [src, setSrc] = useState<"web" | "pinterest">("web");
+  const [preview, setPreview] = useState<Result | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && (preview ? setPreview(null) : onClose());
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     if (initial.trim().length >= 2) search(initial);
@@ -127,6 +133,9 @@ export function ImageSearch({
             <input
               ref={inputRef}
               className="input"
+              type="search"
+              enterKeyHint="search"
+              autoComplete="off"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={kind === "logo" ? (es ? "Nombre del equipo o torneo…" : "Team or competition name…") : es ? "Nombre del jugador…" : "Player name…"}
@@ -167,20 +176,26 @@ export function ImageSearch({
                 : es ? "Escribe el nombre de un jugador y toca la foto que quieras." : "Type a player's name and tap the photo you want."}
             </p>
           )}
-          {busy && <p className="p-8 text-center text-sm text-muted">{es ? "Buscando…" : "Searching…"}</p>}
+          {busy && (
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+              {Array.from({ length: 8 }, (_, i) => (
+                <span key={i} className="skeleton block aspect-[3/4] w-full" style={{ animationDelay: `${i * 70}ms` }} />
+              ))}
+            </div>
+          )}
           {results && !busy && results.length === 0 && !err && (
             <p className="p-8 text-center text-sm text-muted">{es ? "Sin resultados. Prueba con otro nombre." : "No results. Try a different name."}</p>
           )}
           {results && !busy && results.length > 0 && (
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+            <div className={`grid gap-2 ${kind === "logo" ? "grid-cols-3 sm:grid-cols-4 md:grid-cols-5" : "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"}`}>
               {results.map((r) => (
                 <button
                   key={r.url}
                   type="button"
                   disabled={!!picking}
-                  onClick={() => pick(r)}
+                  onClick={() => (kind === "logo" ? pick(r) : setPreview(r))}
                   title={r.title}
-                  className="group relative aspect-square overflow-hidden rounded-lg border border-line bg-panel-2 transition hover:border-lime disabled:opacity-60"
+                  className={`group relative overflow-hidden rounded-xl border border-line bg-panel-2 transition hover:border-lime active:scale-[0.98] disabled:opacity-60 ${kind === "logo" ? "aspect-square" : "aspect-[3/4]"}`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -188,14 +203,17 @@ export function ImageSearch({
                     alt={r.title}
                     loading="lazy"
                     referrerPolicy="no-referrer"
-                    className={`h-full w-full ${kind === "logo" ? "object-contain p-2" : "object-cover"}`}
+                    className={`h-full w-full ${kind === "logo" ? "object-contain p-2" : "object-cover object-top"}`}
                     onError={(e) => {
                       const img = e.currentTarget;
                       if (img.src !== r.url) img.src = r.url;
                       else img.closest("button")?.remove();
                     }}
                   />
-                  <span className="absolute inset-x-0 bottom-0 truncate bg-ink/80 px-1.5 py-0.5 text-[10px] text-muted opacity-0 transition group-hover:opacity-100">
+                  {kind === "photo" && sizeTag(r) && (
+                    <span className={`absolute top-1.5 left-1.5 rounded-md px-1.5 py-0.5 text-[10px] font-black ${/HD|4K/.test(sizeTag(r)) ? "bg-lime text-ink" : "bg-ink/80 text-white/80"}`}>{sizeTag(r)}</span>
+                  )}
+                  <span className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-ink/90 to-transparent px-1.5 pb-1 pt-4 text-left text-[10px] text-white/70">
                     {r.source}
                   </span>
                   {picking === r.url && <span className="absolute inset-0 grid place-items-center bg-ink/70 text-sm font-bold text-lime">…</span>}
@@ -215,6 +233,51 @@ export function ImageSearch({
             : "Photos from the web may be copyrighted. Only use ones you have permission to use."}
         </p>
       </div>
+
+      {/* Preview: see the full photo before using it */}
+      {preview && (
+        <div className="fixed inset-0 z-[60] flex flex-col bg-black/95" onClick={() => setPreview(null)}>
+          <div className="flex items-center justify-between gap-3 p-3" onClick={(e) => e.stopPropagation()}>
+            <div className="min-w-0">
+              <div className="truncate text-sm font-bold">{preview.title || (es ? "Foto" : "Photo")}</div>
+              <div className="truncate text-[11px] text-muted">
+                {preview.source}
+                {preview.w && preview.h ? ` · ${preview.w}×${preview.h}` : ""}
+              </div>
+            </div>
+            <button type="button" className="btn-ghost shrink-0 px-3" onClick={() => setPreview(null)} aria-label="Close">✕</button>
+          </div>
+          <div className="min-h-0 flex-1 px-3" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={preview.url}
+              alt={preview.title}
+              referrerPolicy="no-referrer"
+              className="mx-auto h-full w-auto max-w-full rounded-xl object-contain"
+              onError={(e) => {
+                if (e.currentTarget.src !== preview.thumb) e.currentTarget.src = preview.thumb;
+              }}
+            />
+          </div>
+          <div className="flex gap-2 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="btn-ghost flex-1 py-3" onClick={() => setPreview(null)}>
+              ‹ {es ? "Otra" : "Back"}
+            </button>
+            <button
+              type="button"
+              className="btn-primary flex-[2] py-3"
+              disabled={!!picking}
+              onClick={async () => {
+                const r = preview;
+                await pick(r);
+              }}
+            >
+              {picking ? (es ? "Guardando…" : "Saving…") : es ? "✓ Usar esta foto" : "✓ Use this photo"}
+            </button>
+          </div>
+          {err && <p className="px-3 pb-3 text-center text-sm text-danger">{err}</p>}
+        </div>
+      )}
     </div>
   );
 }
