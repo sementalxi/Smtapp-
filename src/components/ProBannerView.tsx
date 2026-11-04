@@ -10,6 +10,7 @@ import { TextFields } from "./TextFields";
 import { DownloadSizes } from "./DownloadSizes";
 import { AiVideo } from "./AiVideo";
 import { waitForBanner } from "@/lib/wait-banner";
+import { PosterZoom } from "./PosterZoom";
 import { EditDesign } from "./EditDesign";
 
 /** Result page for a Pro AI banner: the finished image, download, and "new version". */
@@ -80,8 +81,7 @@ export function ProBannerView({
       <div className="lg:sticky lg:top-24 lg:self-start">
         <div className="card relative overflow-hidden">
           {url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={url} alt={title} className={`block h-auto w-full ${busy ? "opacity-40" : ""}`} />
+            <PosterZoom src={url} alt={title} className={`block h-auto w-full ${busy ? "opacity-40" : ""}`} />
           ) : (
             <div className="aspect-[4/5] bg-panel-2" />
           )}
@@ -90,7 +90,6 @@ export function ProBannerView({
               {t("pro_wait")}
             </div>
           )}
-          <span className="chip absolute top-3 left-3 border-lime bg-ink/70 text-lime">✨ {t("pro_badge")}</span>
         </div>
         {url && !busy && (
           <div className="mt-3">
