@@ -8,7 +8,7 @@ import { ImageDrop } from "../ImageDrop";
 import { thumb } from "@/lib/thumb";
 
 export type Row = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
-export type League = { id: string; name: string; logoUrl: string | null; official: boolean; rows: Row[]; headline: string; date: string; savedAt: string | null };
+export type League = { id: string; name: string; logoUrl: string | null; official: boolean; rows: Row[]; headline: string; date: string; qualify?: string; relegate?: string; savedAt: string | null };
 
 const blank = (): Row => ({ team: "", p: "", w: "", d: "", l: "", gd: "", pts: "" });
 const n = (v: string) => parseInt(v, 10) || 0;
@@ -28,7 +28,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
 
   const cur = (l: League) => draft[l.id] ?? l;
   const setRows = (l: League, rows: Row[]) => setDraft((d) => ({ ...d, [l.id]: { ...cur(l), rows } }));
-  const setField = (l: League, k: "headline" | "date", v: string) => setDraft((d) => ({ ...d, [l.id]: { ...cur(l), [k]: v } }));
+  const setField = (l: League, k: "headline" | "date" | "qualify" | "relegate", v: string) => setDraft((d) => ({ ...d, [l.id]: { ...cur(l), [k]: v } }));
   const dirty = (l: League) => !!draft[l.id] && JSON.stringify(draft[l.id]) !== JSON.stringify(l);
 
   function withRows(l: League) {
@@ -54,7 +54,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
     const d = cur(l);
     const rows = withRows(l).filter((r) => r.team.trim());
     setBusy(l.id);
-    const r = await fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: l.id, rows, headline: d.headline, date: d.date }) }).catch(() => null);
+    const r = await fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: l.id, rows, headline: d.headline, date: d.date, qualify: d.qualify ?? "", relegate: d.relegate ?? "" }) }).catch(() => null);
     setBusy(null);
     if (!r?.ok) return setMsg((m) => ({ ...m, [l.id]: es ? "❌ No se pudo guardar" : "❌ Couldn't save" }));
     const saved = { ...d, rows, savedAt: new Date().toISOString() };
@@ -194,6 +194,14 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                   <label className="block">
                     <span className="label">{es ? "Jornada / semana" : "Matchday / week"}</span>
                     <input className="input !py-2 text-sm" maxLength={30} placeholder={es ? "Jornada 7" : "Matchday 7"} value={d.date} onChange={(e) => setField(l, "date", e.target.value)} />
+                  </label>
+                  <label className="block">
+                    <span className="label">{es ? "✅ Cuántos avanzan (arriba)" : "✅ How many advance (top)"}</span>
+                    <input className="input !py-2 text-sm" inputMode="numeric" maxLength={2} placeholder="0" value={d.qualify ?? ""} onChange={(e) => setField(l, "qualify", e.target.value.replace(/\D/g, ""))} />
+                  </label>
+                  <label className="block">
+                    <span className="label">{es ? "❌ Cuántos quedan fuera (abajo)" : "❌ How many are out (bottom)"}</span>
+                    <input className="input !py-2 text-sm" inputMode="numeric" maxLength={2} placeholder="0" value={d.relegate ?? ""} onChange={(e) => setField(l, "relegate", e.target.value.replace(/\D/g, ""))} />
                   </label>
                 </div>
                 <div className="overflow-x-auto rounded-xl border border-line">

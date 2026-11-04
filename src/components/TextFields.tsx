@@ -55,8 +55,8 @@ export function TextFields({
               value={value[key] as string}
               maxLength={MAX[key] ?? 40}
               onChange={(e) => set(key, (key === "position" ? e.target.value.toUpperCase() : e.target.value) as never)}
-              inputMode={key === "number" || key === "homeScore" || key === "awayScore" ? "numeric" : undefined}
-              pattern={key === "number" || key === "homeScore" || key === "awayScore" ? "[0-9]*" : undefined}
+              inputMode={key === "number" || key === "homeScore" || key === "awayScore" || key === "qualify" || key === "relegate" ? "numeric" : undefined}
+              pattern={key === "number" || key === "homeScore" || key === "awayScore" || key === "qualify" || key === "relegate" ? "[0-9]*" : undefined}
             />
           </div>
         );

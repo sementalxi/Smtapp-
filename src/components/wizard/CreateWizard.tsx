@@ -322,7 +322,7 @@ export function CreateWizard({
         const t = d?.table;
         if (t?.rows?.length) {
           setTable([...t.rows, ...Array.from({ length: Math.max(0, 2 - t.rows.length) }, blankRow)]);
-          setInp((x) => ({ ...x, headline: x.headline || t.headline || "", date: t.date || x.date }));
+          setInp((x) => ({ ...x, headline: x.headline || t.headline || "", date: t.date || x.date, qualify: t.qualify ?? x.qualify, relegate: t.relegate ?? x.relegate }));
           setTableMsg(locale === "es" ? `✓ Tabla guardada de ${champ.name} cargada — solo actualízala.` : `✓ Saved ${champ.name} table loaded — just update it.`);
         } else setTable(Array.from({ length: 6 }, blankRow));
       })
@@ -331,7 +331,7 @@ export function CreateWizard({
   }, [champ?.id, layout]);
   function saveTable(quiet = false) {
     if (layout !== "STANDINGS" || !champ?.id || !tableRows.length) return;
-    fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: champ.id, rows: tableRows, headline: inp.headline, date: inp.date }) })
+    fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: champ.id, rows: tableRows, headline: inp.headline, date: inp.date, qualify: inp.qualify, relegate: inp.relegate }) })
       .then((r) => {
         if (r.ok && !quiet) setTableMsg(locale === "es" ? `💾 Tabla guardada en ${champ.name}.` : `💾 Table saved to ${champ.name}.`);
       })
@@ -1078,6 +1078,17 @@ export function CreateWizard({
                   </div>
                 </div>
               )}
+              <div className="grid grid-cols-2 gap-3">
+                <label className="block">
+                  <span className="label">{locale === "es" ? "✅ Cuántos avanzan (arriba)" : "✅ How many advance (top)"}</span>
+                  <input className="input" type="text" inputMode="numeric" pattern="[0-9]*" maxLength={2} placeholder="0" value={inp.qualify} onChange={(e) => set("qualify", e.target.value.replace(/\D/g, ""))} />
+                </label>
+                <label className="block">
+                  <span className="label">{locale === "es" ? "❌ Cuántos quedan fuera (abajo)" : "❌ How many are out (bottom)"}</span>
+                  <input className="input" type="text" inputMode="numeric" pattern="[0-9]*" maxLength={2} placeholder="0" value={inp.relegate} onChange={(e) => set("relegate", e.target.value.replace(/\D/g, ""))} />
+                </label>
+              </div>
+              <p className="-mt-1 text-[11px] text-muted">{locale === "es" ? "Las filas de arriba se marcan en verde y las de abajo en rojo, con una leyenda pequeña bajo la tabla." : "The top rows get a green mark and the bottom rows a red one, with a small legend under the table."}</p>
               <div>
                 <label className="label">
                   {locale === "es" ? "Tabla" : "Table"} <span className="text-lime">*</span>

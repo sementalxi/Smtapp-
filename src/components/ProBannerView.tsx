@@ -168,6 +168,9 @@ export function ProBannerView({
           )}
           </div>
         </details>
+        <Link href={`/create?type=${layout.toLowerCase()}`} className="btn-primary w-full py-3.5 text-base">
+          ＋ {locale === "es" ? "Crear otro" : "Create another one"}
+        </Link>
       </div>
     </div>
   );

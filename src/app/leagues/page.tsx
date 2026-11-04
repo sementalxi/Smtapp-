@@ -17,7 +17,7 @@ export default async function LeaguesPage() {
     db.libraryItem.findMany({ where: { kind: "championship" }, orderBy: [{ sort: "asc" }, { name: "asc" }], select: { id: true, name: true, logoUrl: true } }),
     db.setting.findMany({ where: { key: { startsWith: `standings:${user.id}:` } } }),
   ]);
-  const saved = new Map<string, { rows: League["rows"]; headline: string; date: string; savedAt: string }>();
+  const saved = new Map<string, { rows: League["rows"]; headline: string; date: string; qualify?: string; relegate?: string; savedAt: string }>();
   for (const t of tables) {
     try {
       saved.set(t.key.slice(`standings:${user.id}:`.length), JSON.parse(t.value));
@@ -29,7 +29,7 @@ export default async function LeaguesPage() {
   const list = [...mine.map((l) => ({ ...l, official: false })), ...official.filter((o) => saved.has(o.id)).map((o) => ({ ...o, official: true }))];
   const leagues: League[] = list.map((l) => {
     const t = saved.get(l.id);
-    return { id: l.id, name: l.name, logoUrl: l.logoUrl, official: l.official, rows: t?.rows ?? [], headline: t?.headline ?? "", date: t?.date ?? "", savedAt: t?.savedAt ?? null };
+    return { id: l.id, name: l.name, logoUrl: l.logoUrl, official: l.official, rows: t?.rows ?? [], headline: t?.headline ?? "", date: t?.date ?? "", qualify: t?.qualify ?? "", relegate: t?.relegate ?? "", savedAt: t?.savedAt ?? null };
   });
   const officialChoices = official.filter((o) => !saved.has(o.id)).map((o) => ({ id: o.id, name: o.name, logoUrl: o.logoUrl }));
 

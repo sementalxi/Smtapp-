@@ -48,6 +48,8 @@ export interface BannerInputs {
   players: string[]; // lineup: "10 Name ST"
   scorers: string[]; // result
   standings: string[]; // standings table rows
+  qualify: string; // standings: how many top rows advance / qualify ("" = none)
+  relegate: string; // standings: how many bottom rows are out / relegated ("" = none)
   tableLogos: string[]; // standings: crest URL per row ("" = none)
   playerPhotos: string[]; // team of the week: photo URL per player line ("" = none)
   playerLogos: string[]; // team of the week: club crest URL per player line ("" = none)
@@ -96,6 +98,8 @@ export const EMPTY_INPUTS: BannerInputs = {
   players: [],
   scorers: [],
   standings: [],
+  qualify: "",
+  relegate: "",
   tableLogos: [],
   playerPhotos: [],
   playerLogos: [],
@@ -151,7 +155,7 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   MATCHDAY: ["homeTeam", "awayTeam", "competition", "date", "time", "venue", "footer"],
   LINEUP: ["team", "formation", "players", "competition", "date", "footer"],
   RESULT: ["homeTeam", "awayTeam", "homeScore", "awayScore", "scorers", "competition", "footer"],
-  STANDINGS: ["headline", "tagline", "subtitle", "competition", "standings", "date", "footer"],
+  STANDINGS: ["headline", "tagline", "subtitle", "competition", "standings", "qualify", "relegate", "date", "footer"],
   LOGO: ["team", "subtitle", "headline", "footer"],
   TOTW: ["headline", "competition", "formation", "players", "date", "footer"],
 };
