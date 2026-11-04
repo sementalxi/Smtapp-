@@ -3244,6 +3244,147 @@ SCENE
 - The title block at the top centre: the headline in massive gold 3D capitals with a thin white inner line, the week / division line in white letter-spaced caps on a slim dark ribbon under it, the league logo top-left as a clean badge.
 
 THE CARDS (the heart of this design — follow exactly)
+- ELEVEN cards placed in the given formation (goalkeeper at the bottom, defence, midfield, attack at the top). Fewer than eleven given → only those cards; never invent a player.
+- Each card is a MINI KIXO PLAYER CARD — NOT a video-game trading card: a tall rounded panel (about 2:3) with a SLIM frame that glows in the style's accent colour, filled edge to edge with the player-card style's own artwork (its dramatic background, lighting, smoke, sparks and effects), and the player LARGE — waist-up, cut out razor-sharp with a strong coloured rim light, popping over the top edge of the frame. Across the bottom of the card the GAMERTAG in heavy condensed chrome / 3D capitals (the player-card style's typography), tight under it the sub line (club · points) in small letter-spaced caps, a small solid position tag in the top-left corner, and the club's crest small in the top-right corner (only when that club's crest is given — never invent one).
+- The cards are BIG: together the eleven FILL the whole card area — rows close together (a card may slightly overlap the row behind it, never another card's text), the pitch only a subtle backdrop under them. One identical card design, size and text layout for all eleven.
+- PLAYER OF THE WEEK (marked ★ in the text list, if any): the largest card, a brighter frame in the style's accent, a small crown on it.
+- Players WITH a reference photo: that exact person inside their card — same face, hair, skin tone and build, cut out cleanly, relit to the card's light. Players WITHOUT a photo: an AI-created footballer, photographic and realistic (never cartoon), and CLEARLY DIFFERENT on every card — vary hair (short, long, curly, braids, shaved), skin tone, beard, age, build, expression and pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm, shouting); kits in that card's club colours, plain, with no badge or words — never eleven clones in the same dark shirt. No real-world celebrities.
+- Every gamertag spelled EXACTLY as given, every card fully readable, nothing hidden behind another element.
+
+TITLE BLOCK
+- The headline (e.g. "TEAM OF THE WEEK") huge in heavy 3D sports lettering in the style's colours, the week / division line right under it in letter-spaced caps, the league logo (only if a logo reference is given — faithful, never redrawn) next to the title. The footer line small at the very bottom.
+
+RULES
+- Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.`,
+  "totw-stadium-night": `[WIDE] STADIUM NIGHT — a WIDE landscape (16:9) "Team of the Week" banner inside a real night stadium, explosive and cinematic, like the weekly post of a big Pro Clubs league.
+
+COLOURS: deep red and black with gold and orange fire accents, white text; the player-of-the-week card in gold chrome.
+
+LAYOUT (wide, left to right)
+- Full-bleed background: a REAL photograph of a packed stadium at night from pitch level — floodlights blazing, flags and phone lights in the crowd out of focus, haze, embers and sparks drifting at the edges, a few flames low in the corners, cinematic teal-and-red grade, film grain.
+- LEFT third: the title block stacked — the league logo (if given) at the top, the headline in gigantic cracked-chrome 3D capitals with a hard shadow, the week / division line in bold letter-spaced white caps under it, the footer small below.
+- RIGHT two thirds: the ELEVEN cards BIG, filling that whole area in the formation — goalkeeper at the bottom, attack at the top — over a pitch drawn in perspective (glowing white lines on dark grass) that only peeks out between them; every card fully readable.
+
+THE CARDS (the heart of this design — follow exactly)
+- ELEVEN cards placed in the given formation (goalkeeper at the bottom, defence, midfield, attack at the top). Fewer than eleven given → only those cards; never invent a player.
+- Each card is a MINI KIXO PLAYER CARD — NOT a video-game trading card: a tall rounded panel (about 2:3) with a SLIM frame that glows in the style's accent colour, filled edge to edge with the player-card style's own artwork (its dramatic background, lighting, smoke, sparks and effects), and the player LARGE — waist-up, cut out razor-sharp with a strong coloured rim light, popping over the top edge of the frame. Across the bottom of the card the GAMERTAG in heavy condensed chrome / 3D capitals (the player-card style's typography), tight under it the sub line (club · points) in small letter-spaced caps, a small solid position tag in the top-left corner, and the club's crest small in the top-right corner (only when that club's crest is given — never invent one).
+- The cards are BIG: together the eleven FILL the whole card area — rows close together (a card may slightly overlap the row behind it, never another card's text), the pitch only a subtle backdrop under them. One identical card design, size and text layout for all eleven.
+- PLAYER OF THE WEEK (marked ★ in the text list, if any): the largest card, a brighter frame in the style's accent, a small crown on it.
+- Players WITH a reference photo: that exact person inside their card — same face, hair, skin tone and build, cut out cleanly, relit to the card's light. Players WITHOUT a photo: an AI-created footballer, photographic and realistic (never cartoon), and CLEARLY DIFFERENT on every card — vary hair (short, long, curly, braids, shaved), skin tone, beard, age, build, expression and pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm, shouting); kits in that card's club colours, plain, with no badge or words — never eleven clones in the same dark shirt. No real-world celebrities.
+- Every gamertag spelled EXACTLY as given, every card fully readable, nothing hidden behind another element.
+
+TITLE BLOCK
+- The headline (e.g. "TEAM OF THE WEEK") huge in heavy 3D sports lettering in the style's colours, the week / division line right under it in letter-spaced caps, the league logo (only if a logo reference is given — faithful, never redrawn) next to the title. The footer line small at the very bottom.
+
+RULES
+- Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.`,
+  "totw-broadcast": `[WIDE] BROADCAST — a WIDE landscape (16:9) "Team of the Week" banner in the look of a premium TV / league broadcast package: black, gold and white, bold and clean.
+
+COLOURS: black and dark charcoal, polished gold frames, white typography, a warm orange rim light; the player-of-the-week card in white-and-gold.
+
+LAYOUT (wide, left to right)
+- Full-bleed background: a dark stadium photographed from the stands at night, blurred floodlights, a faint repeated headline watermark running along the top and bottom edges in thin outlined caps, subtle smoke and gold particles, film grain.
+- LEFT third: the league logo (if given) small at the top, then the headline as a massive stacked block of heavy 3D white capitals with a gold bevel and a deep hard shadow, the week / division line in gold letter-spaced caps under it, the footer small at the bottom.
+- RIGHT two thirds: the ELEVEN cards BIG, filling that whole area in the formation — goalkeeper at the bottom, attack at the top — over a dark pitch with thin glowing gold lines that only peeks out between them, fine gold light trails connecting the rows.
+
+THE CARDS (the heart of this design — follow exactly)
+- ELEVEN cards placed in the given formation (goalkeeper at the bottom, defence, midfield, attack at the top). Fewer than eleven given → only those cards; never invent a player.
+- Each card is a MINI KIXO PLAYER CARD — NOT a video-game trading card: a tall rounded panel (about 2:3) with a SLIM frame that glows in the style's accent colour, filled edge to edge with the player-card style's own artwork (its dramatic background, lighting, smoke, sparks and effects), and the player LARGE — waist-up, cut out razor-sharp with a strong coloured rim light, popping over the top edge of the frame. Across the bottom of the card the GAMERTAG in heavy condensed chrome / 3D capitals (the player-card style's typography), tight under it the sub line (club · points) in small letter-spaced caps, a small solid position tag in the top-left corner, and the club's crest small in the top-right corner (only when that club's crest is given — never invent one).
+- The cards are BIG: together the eleven FILL the whole card area — rows close together (a card may slightly overlap the row behind it, never another card's text), the pitch only a subtle backdrop under them. One identical card design, size and text layout for all eleven.
+- PLAYER OF THE WEEK (marked ★ in the text list, if any): the largest card, a brighter frame in the style's accent, a small crown on it.
+- Players WITH a reference photo: that exact person inside their card — same face, hair, skin tone and build, cut out cleanly, relit to the card's light. Players WITHOUT a photo: an AI-created footballer, photographic and realistic (never cartoon), and CLEARLY DIFFERENT on every card — vary hair (short, long, curly, braids, shaved), skin tone, beard, age, build, expression and pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm, shouting); kits in that card's club colours, plain, with no badge or words — never eleven clones in the same dark shirt. No real-world celebrities.
+- Every gamertag spelled EXACTLY as given, every card fully readable, nothing hidden behind another element.
+
+TITLE BLOCK
+- The headline (e.g. "TEAM OF THE WEEK") huge in heavy 3D sports lettering in the style's colours, the week / division line right under it in letter-spaced caps, the league logo (only if a logo reference is given — faithful, never redrawn) next to the title. The footer line small at the very bottom.
+
+RULES
+- Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.`,
+  "totw-neon": `NEON XI — an esports "Team of the Week" graphic (4:5): dark arena, neon pink and electric cyan, holographic cards — the weekly post of a gaming league.
+
+COLOURS: near-black violet with hot pink and cyan neon, white text; the player-of-the-week card in gold-and-white holographic foil.
+
+SCENE
+- A dark esports arena seen from above: a pitch drawn in glowing neon lines (pink sidelines, cyan centre circle) on a dark reflective floor with subtle scan lines and a faint hex grid, stage lights and laser beams crossing high above, light haze, neon reflections on the floor, tiny floating particles.
+- The title block at the top: the headline in huge chrome capitals with a pink-to-cyan neon glow and a glitch-split edge, the week / division line in cyan letter-spaced caps under it, the league logo top-left as a glossy badge.
+
+THE CARDS (the heart of this design — follow exactly)
+- ELEVEN cards placed in the given formation (goalkeeper at the bottom, defence, midfield, attack at the top). Fewer than eleven given → only those cards; never invent a player.
+- Each card is a MINI KIXO PLAYER CARD — NOT a video-game trading card: a tall rounded panel (about 2:3) with a SLIM frame that glows in the style's accent colour, filled edge to edge with the player-card style's own artwork (its dramatic background, lighting, smoke, sparks and effects), and the player LARGE — waist-up, cut out razor-sharp with a strong coloured rim light, popping over the top edge of the frame. Across the bottom of the card the GAMERTAG in heavy condensed chrome / 3D capitals (the player-card style's typography), tight under it the sub line (club · points) in small letter-spaced caps, a small solid position tag in the top-left corner, and the club's crest small in the top-right corner (only when that club's crest is given — never invent one).
+- The cards are BIG: together the eleven FILL the whole card area — rows close together (a card may slightly overlap the row behind it, never another card's text), the pitch only a subtle backdrop under them. One identical card design, size and text layout for all eleven.
+- PLAYER OF THE WEEK (marked ★ in the text list, if any): the largest card, a brighter frame in the style's accent, a small crown on it.
+- Players WITH a reference photo: that exact person inside their card — same face, hair, skin tone and build, cut out cleanly, relit to the card's light. Players WITHOUT a photo: an AI-created footballer, photographic and realistic (never cartoon), and CLEARLY DIFFERENT on every card — vary hair (short, long, curly, braids, shaved), skin tone, beard, age, build, expression and pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm, shouting); kits in that card's club colours, plain, with no badge or words — never eleven clones in the same dark shirt. No real-world celebrities.
+- Every gamertag spelled EXACTLY as given, every card fully readable, nothing hidden behind another element.
+
+TITLE BLOCK
+- The headline (e.g. "TEAM OF THE WEEK") huge in heavy 3D sports lettering in the style's colours, the week / division line right under it in letter-spaced caps, the league logo (only if a logo reference is given — faithful, never redrawn) next to the title. The footer line small at the very bottom.
+
+RULES
+- Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.
+- Card frames here are translucent holographic glass with a neon edge light — still one identical design for all eleven.`,
+  "totw-ice": `ICE CARDS — a "Team of the Week" graphic (4:5) in a frozen stadium: ice-blue, white and chrome, cold and premium.
+
+COLOURS: deep navy and ice blue, frosted white, polished silver-chrome frames; the player-of-the-week card in warm gold chrome.
+
+SCENE
+- A football pitch under snow and ice seen from above at a slight angle: frosted grass with crisp white lines, shards of blue ice crystal rising at the edges, cold volumetric light from the floodlights, a frozen stadium far behind, falling snow and frost particles, breath-like mist, a cool cinematic grade.
+- The title block at the top: the headline in huge ice-chrome 3D capitals with frost on the top edges and a cyan inner glow, the week / division line in white letter-spaced caps under it, the league logo top-left as a clean badge.
+
+THE CARDS (the heart of this design — follow exactly)
+- ELEVEN cards placed in the given formation (goalkeeper at the bottom, defence, midfield, attack at the top). Fewer than eleven given → only those cards; never invent a player.
+- Each card is a MINI KIXO PLAYER CARD — NOT a video-game trading card: a tall rounded panel (about 2:3) with a SLIM frame that glows in the style's accent colour, filled edge to edge with the player-card style's own artwork (its dramatic background, lighting, smoke, sparks and effects), and the player LARGE — waist-up, cut out razor-sharp with a strong coloured rim light, popping over the top edge of the frame. Across the bottom of the card the GAMERTAG in heavy condensed chrome / 3D capitals (the player-card style's typography), tight under it the sub line (club · points) in small letter-spaced caps, a small solid position tag in the top-left corner, and the club's crest small in the top-right corner (only when that club's crest is given — never invent one).
+- The cards are BIG: together the eleven FILL the whole card area — rows close together (a card may slightly overlap the row behind it, never another card's text), the pitch only a subtle backdrop under them. One identical card design, size and text layout for all eleven.
+- PLAYER OF THE WEEK (marked ★ in the text list, if any): the largest card, a brighter frame in the style's accent, a small crown on it.
+- Players WITH a reference photo: that exact person inside their card — same face, hair, skin tone and build, cut out cleanly, relit to the card's light. Players WITHOUT a photo: an AI-created footballer, photographic and realistic (never cartoon), and CLEARLY DIFFERENT on every card — vary hair (short, long, curly, braids, shaved), skin tone, beard, age, build, expression and pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm, shouting); kits in that card's club colours, plain, with no badge or words — never eleven clones in the same dark shirt. No real-world celebrities.
+- Every gamertag spelled EXACTLY as given, every card fully readable, nothing hidden behind another element.
+
+TITLE BLOCK
+- The headline (e.g. "TEAM OF THE WEEK") huge in heavy 3D sports lettering in the style's colours, the week / division line right under it in letter-spaced caps, the league logo (only if a logo reference is given — faithful, never redrawn) next to the title. The footer line small at the very bottom.
+
+RULES
+- Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.`,
+  "totw-street": `[WIDE] STREET PRINT — a WIDE landscape (16:9) "Team of the Week" banner in a screen-printed street-poster style: bold, graphic, textured — like a club designer's Photoshop piece.
+
+COLOURS: black, red and off-white paper with a touch of gold; the player-of-the-week card in gold on black.
+
+LAYOUT (wide, left to right)
+- Full-bleed background: a halftone-printed photograph of a packed stadium, torn-paper edges, spray-paint and roller textures, bold diagonal red and black colour blocks, paper grain, a few print misregistration offsets. Flat and graphic — no neon, no glowing haze, no lightning.
+- LEFT third: the headline as a massive stacked block of ultra-bold grunge capitals in off-white with a red offset shadow, the week / division line in black letter-spaced caps on a white strip under it, the league logo (if given) small at the top, the footer small at the bottom.
+- RIGHT two thirds: the ELEVEN cards BIG, filling that whole area in the formation — goalkeeper at the bottom, attack at the top — over a pitch printed in thin white lines on the dark paper that only peeks out between them.
+
+THE CARDS (the heart of this design — follow exactly)
+- ELEVEN cards placed in the given formation (goalkeeper at the bottom, defence, midfield, attack at the top). Fewer than eleven given → only those cards; never invent a player.
+- Each card is a MINI KIXO PLAYER CARD — NOT a video-game trading card: a tall rounded panel (about 2:3) with a SLIM frame that glows in the style's accent colour, filled edge to edge with the player-card style's own artwork (its dramatic background, lighting, smoke, sparks and effects), and the player LARGE — waist-up, cut out razor-sharp with a strong coloured rim light, popping over the top edge of the frame. Across the bottom of the card the GAMERTAG in heavy condensed chrome / 3D capitals (the player-card style's typography), tight under it the sub line (club · points) in small letter-spaced caps, a small solid position tag in the top-left corner, and the club's crest small in the top-right corner (only when that club's crest is given — never invent one).
+- The cards are BIG: together the eleven FILL the whole card area — rows close together (a card may slightly overlap the row behind it, never another card's text), the pitch only a subtle backdrop under them. One identical card design, size and text layout for all eleven.
+- PLAYER OF THE WEEK (marked ★ in the text list, if any): the largest card, a brighter frame in the style's accent, a small crown on it.
+- Players WITH a reference photo: that exact person inside their card — same face, hair, skin tone and build, cut out cleanly, relit to the card's light. Players WITHOUT a photo: an AI-created footballer, photographic and realistic (never cartoon), and CLEARLY DIFFERENT on every card — vary hair (short, long, curly, braids, shaved), skin tone, beard, age, build, expression and pose (arms crossed, pointing, celebrating, looking over the shoulder, ball under the arm, shouting); kits in that card's club colours, plain, with no badge or words — never eleven clones in the same dark shirt. No real-world celebrities.
+- Every gamertag spelled EXACTLY as given, every card fully readable, nothing hidden behind another element.
+
+TITLE BLOCK
+- The headline (e.g. "TEAM OF THE WEEK") huge in heavy 3D sports lettering in the style's colours, the week / division line right under it in letter-spaced caps, the league logo (only if a logo reference is given — faithful, never redrawn) next to the title. The footer line small at the very bottom.
+
+RULES
+- Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.
+- Card frames here are printed paper with an off-white edge and a red corner tab — still one identical design for all eleven.`,
+};
+
+/** Earlier versions — replaced automatically if the admin never edited them. */
+export const PRESET_PREVIOUS: Record<string, string> = {
+  "totw-gold-pitch": `GOLD PITCH — a premium "Team of the Week" graphic (4:5) in dark olive and gold, like the weekly TOTW post of a top Pro Clubs league.
+
+COLOURS: deep olive-khaki and charcoal with polished GOLD as the hero metal, warm ivory highlights; the player-of-the-week card in cool blue-and-white chrome so it stands out.
+
+SCENE
+- A football pitch seen from above at a slight angle, filling the frame: dark olive grass with a subtle real texture, crisp white pitch lines (centre circle, boxes), two wide diagonal bands of warm gold light sweeping across the pitch from the corners, fine gold dust and soft bokeh in the air, deep vignette at the edges. Clean and luxurious — no clutter, no fire.
+- The title block at the top centre: the headline in massive gold 3D capitals with a thin white inner line, the week / division line in white letter-spaced caps on a slim dark ribbon under it, the league logo top-left as a clean badge.
+
+THE CARDS (the heart of this design — follow exactly)
 - ELEVEN collectible player cards placed in the given formation on the pitch (goalkeeper at the bottom, defence, midfield, attack at the top), rows evenly spaced, cards centred in their row, NO card covering another card's text. Fewer than eleven given → only those cards; never invent a player.
 - One card design for the whole set: a tall rounded trading card (about 2:3), a thick metallic frame with bevelled edges and a subtle engraved pattern, a glossy inner panel in the style's colours, a tiny glossy POSITION badge (GK, CB, ST…) in the upper-left corner of the card, the player figure popping slightly out over the frame, and at the bottom a dark plate with the GAMERTAG in heavy condensed capitals and the sub line (points or club) small under it in letter-spaced caps. Same size and layout for all cards.
 - PLAYER OF THE WEEK (marked ★ in the text list, if any): that one card is the premium variant — a different metal and colour (the style's accent), slightly larger, with a small crown or star on the frame.
@@ -3366,10 +3507,6 @@ RULES
 - Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.
 - Card frames here are printed paper cards with a thick off-white border and a red corner tab instead of chrome — still one identical design for all eleven.`,
-};
-
-/** Earlier versions — replaced automatically if the admin never edited them. */
-export const PRESET_PREVIOUS: Record<string, string> = {
   "player-colosseum": `COLOSSEUM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
