@@ -44,6 +44,7 @@ export function EditDesign({
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [barDone, setBarDone] = useState(false);
+  const [genStage, setGenStage] = useState<string | null>(null);
 
   const PARTS: { id: Part; icon: string; en: string; es: string }[] = [
     { id: "text", icon: "🔤", en: "Text", es: "Texto" },
@@ -70,6 +71,7 @@ export function EditDesign({
     setBusy(true);
     onBusy?.(true);
     setErr("");
+    setGenStage("queued");
     const res = await fetch(`/api/banners/${id}/edit`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -84,7 +86,7 @@ export function EditDesign({
     });
     const data = await res.json().catch(() => ({}));
     if (res.ok && data.id) {
-      const w = await waitForBanner(data.id);
+      const w = await waitForBanner(data.id, { onStage: setGenStage });
       if (w.ok) {
         setBarDone(true);
         await new Promise((r) => setTimeout(r, 1300));
@@ -115,7 +117,7 @@ export function EditDesign({
     return (
       <section className="card overflow-hidden">
         <div className="mx-auto max-w-sm">
-          <GenerationProgress photo={imageUrl} expectedSeconds={100} done={barDone} />
+          <GenerationProgress photo={imageUrl} expectedSeconds={100} done={barDone} stage={genStage} />
         </div>
       </section>
     );

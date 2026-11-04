@@ -146,6 +146,7 @@ model Banner {
   backgroundUrl String?
   finalUrl      String?
   error         String?
+  stage         String? // live progress while generating: art | realism | text | openai | finishing
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 

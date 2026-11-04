@@ -29,7 +29,8 @@ export function pendingBanner(): string | null {
   }
 }
 
-export function waitForBanner(id: string, opts: { previousUrl?: string | null; timeoutMs?: number } = {}): Promise<WaitResult> {
+export function waitForBanner(id: string, opts: { previousUrl?: string | null; timeoutMs?: number; onStage?: (stage: string | null) => void } = {}): Promise<WaitResult> {
+  let lastStage: string | null | undefined;
   const deadline = Date.now() + (opts.timeoutMs ?? 9 * 60_000);
   return new Promise((resolve) => {
     let done = false;
@@ -46,8 +47,12 @@ export function waitForBanner(id: string, opts: { previousUrl?: string | null; t
       if (done) return;
       try {
         const res = await fetch(`/api/banners/${id}`, { cache: "no-store" });
-        const d = (await res.json()) as { status?: string; finalUrl?: string | null; error?: string | null; detail?: string };
+        const d = (await res.json()) as { status?: string; stage?: string | null; finalUrl?: string | null; error?: string | null; detail?: string };
         if (res.ok) {
+          if (opts.onStage && d.stage !== lastStage) {
+            lastStage = d.stage ?? null;
+            opts.onStage(lastStage);
+          }
           if (opts.previousUrl !== undefined) {
             // New version of an existing poster: done when the image changes or an error is saved.
             if (d.finalUrl && d.finalUrl !== opts.previousUrl) return finish({ ok: true, url: d.finalUrl });
@@ -63,7 +68,7 @@ export function waitForBanner(id: string, opts: { previousUrl?: string | null; t
         /* offline for a moment (screen off) — keep trying */
       }
       if (Date.now() > deadline) return finish({ ok: false, error: "err_generic" });
-      timer = setTimeout(check, 3000);
+      timer = setTimeout(check, 2500);
     };
     const onVisible = () => {
       if (document.visibilityState === "visible") {
@@ -73,6 +78,6 @@ export function waitForBanner(id: string, opts: { previousUrl?: string | null; t
     };
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("focus", onVisible);
-    timer = setTimeout(check, 4000);
+    timer = setTimeout(check, 2500);
   });
 }

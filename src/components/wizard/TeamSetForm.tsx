@@ -26,6 +26,8 @@ export function TeamSetForm({
   const es = locale === "es";
   const router = useRouter();
   const [photo, setPhoto] = useState<string | null>(null);
+  const [barDone, setBarDone] = useState(false);
+  const [genStage, setGenStage] = useState<string | null>(null);
   const [f, setF] = useState({ name: "", position: "", number: "", tagline: "", subtitle: "" });
   const [credits, setCredits] = useState(initialCredits);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
@@ -44,6 +46,7 @@ export function TeamSetForm({
   );
 
   async function generate() {
+    setGenStage("queued");
     setPhase("busy");
     setError("");
     const res = await fetch("/api/banners", {
@@ -60,11 +63,14 @@ export function TeamSetForm({
     let data = await res.json().catch(() => ({}));
     if (res.ok && data.id && !data.finalUrl) {
       rememberPending(data.id);
-      const w = await waitForBanner(data.id);
+      const w = await waitForBanner(data.id, { onStage: setGenStage });
       forgetPending();
       data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
     }
     if (data.id && data.finalUrl) {
+      setBarDone(true);
+      await new Promise((r) => setTimeout(r, 1300));
+      setBarDone(false);
       setResult({ id: data.id, url: data.finalUrl ?? null });
       setCredits((c) => c - cost);
       setMade((n) => n + 1);
@@ -136,7 +142,7 @@ export function TeamSetForm({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="h-full w-full object-cover" />
             ) : phase === "busy" ? (
-              <GenerationProgress photo={photo} expectedSeconds={100} />
+              <GenerationProgress photo={photo} expectedSeconds={150} done={barDone} stage={genStage} />
             ) : (
               <div className="p-6 text-center text-sm text-muted">
                 {phase === "error" ? <span className="text-danger">{error}</span> : es ? "Aquí aparecerá la tarjeta." : "The card will appear here."}

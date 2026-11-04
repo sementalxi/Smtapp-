@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useT } from "@/i18n/client";
 
 const STEPS = {
@@ -24,25 +24,60 @@ const TIPS = {
   ],
 };
 
+/** Real steps reported by the server while the poster is made: where each one sits on the bar, how long it usually takes, what to call it. */
+const STAGES: Record<string, { from: number; to: number; secs: number; en: string; es: string; dot: number }> = {
+  queued: { from: 0, to: 8, secs: 6, en: "Getting ready", es: "Preparando", dot: 0 },
+  art: { from: 8, to: 50, secs: 70, en: "Painting the artwork", es: "Pintando el arte", dot: 1 },
+  edit: { from: 8, to: 92, secs: 80, en: "Editing your poster", es: "Editando tu póster", dot: 2 },
+  realism: { from: 50, to: 70, secs: 40, en: "Adding realism", es: "Agregando realismo", dot: 3 },
+  text: { from: 70, to: 92, secs: 70, en: "Writing your text", es: "Escribiendo tu texto", dot: 4 },
+  openai: { from: 8, to: 92, secs: 90, en: "Designing your poster", es: "Diseñando tu póster", dot: 2 },
+  finishing: { from: 92, to: 98, secs: 8, en: "Final touches", es: "Detalles finales", dot: 5 },
+};
+
 /**
- * Progress screen while the AI makes a poster. The AI doesn't report real progress,
- * so the bar eases toward 96% over the typical time and jumps to 100% when done.
+ * Progress screen while the AI makes a poster.
+ * With `stage` (reported by the server) the bar follows the real steps; without it, it eases over the expected time.
+ * When `done` turns on, the bar sweeps to 100% (the parent waits a moment before showing the result).
  */
-export function GenerationProgress({ photo, done, expectedSeconds = 90 }: { photo?: string | null; done?: boolean; expectedSeconds?: number }) {
+export function GenerationProgress({ photo, done, expectedSeconds = 90, stage }: { photo?: string | null; done?: boolean; expectedSeconds?: number; stage?: string | null }) {
   const { locale } = useT();
   const lang = locale === "es" ? "es" : "en";
-  const [secs, setSecs] = useState(0);
+  const [now, setNow] = useState(() => Date.now());
+  const startedRef = useRef(Date.now());
+  const stageRef = useRef<{ key: string | null; at: number }>({ key: null, at: Date.now() });
+  const doneAtRef = useRef<number | null>(null);
+  const maxRef = useRef(0); // the bar never goes backwards
 
   useEffect(() => {
-    const started = Date.now();
-    const t = setInterval(() => setSecs((Date.now() - started) / 1000), 250);
+    const t = setInterval(() => setNow(Date.now()), 200);
     return () => clearInterval(t);
   }, []);
+  // Remember when each stage started.
+  if ((stage ?? null) !== stageRef.current.key) stageRef.current = { key: stage ?? null, at: Date.now() };
+  if (done && doneAtRef.current === null) doneAtRef.current = Date.now();
 
-  // Moves steadily to 90% over the expected time, then keeps creeping toward 99% (never looks frozen).
-  const pct = done ? 100 : secs < expectedSeconds ? (90 * secs) / expectedSeconds : Math.min(99, 90 + 9 * (1 - Math.exp(-(secs - expectedSeconds) / 45)));
+  const secs = (now - startedRef.current) / 1000;
+  const info = stage ? STAGES[stage] : undefined;
+  let raw: number;
+  if (info) {
+    // Eases from the stage's start toward its end; only the next stage (or "done") moves it past the end.
+    const x = (now - stageRef.current.at) / 1000 / info.secs;
+    raw = info.from + (info.to - info.from) * Math.min(0.97, 1 - Math.exp(-x * 2.2));
+  } else {
+    raw = secs < expectedSeconds ? (90 * secs) / expectedSeconds : Math.min(99, 90 + 9 * (1 - Math.exp(-(secs - expectedSeconds) / 45)));
+  }
+  maxRef.current = Math.max(maxRef.current, raw);
+  let pct = maxRef.current;
+  if (doneAtRef.current !== null) {
+    // Sweep from wherever we are to 100% in ~0.9 s.
+    const k = Math.min(1, (now - doneAtRef.current) / 900);
+    pct = maxRef.current + (100 - maxRef.current) * k;
+  }
+
   const steps = STEPS[lang];
-  const stepIdx = done ? steps.length : Math.min(steps.length - 1, Math.floor((pct / 99) * steps.length));
+  const stepIdx = done ? steps.length : info ? info.dot : Math.min(steps.length - 1, Math.floor((pct / 99) * steps.length));
+  const label = done ? (lang === "es" ? "¡Listo!" : "Done!") : info ? info[lang] : steps[stepIdx];
   const tip = TIPS[lang][Math.floor(secs / 7) % TIPS[lang].length];
   const mm = `${Math.floor(secs / 60)}:${String(Math.floor(secs % 60)).padStart(2, "0")}`;
   const left = Math.max(0, Math.round(expectedSeconds - secs));
@@ -65,12 +100,12 @@ export function GenerationProgress({ photo, done, expectedSeconds = 90 }: { phot
             {Math.floor(pct)}
             <span className="text-3xl text-lime">%</span>
           </div>
-          <div className="mt-1 text-sm font-semibold text-lime">{done ? (lang === "es" ? "¡Listo!" : "Done!") : steps[stepIdx]}…</div>
+          <div className="mt-1 text-sm font-semibold text-lime">{label}…</div>
         </div>
 
         <div className="relative h-2.5 overflow-hidden rounded-full bg-white/10">
           <div
-            className="relative h-full rounded-full bg-gradient-to-r from-lime/60 via-lime to-white transition-[width] duration-500 ease-out"
+            className="relative h-full rounded-full bg-gradient-to-r from-lime/60 via-lime to-white transition-[width] duration-300 ease-out"
             style={{ width: `${pct}%` }}
           >
             <span className="kixo-shimmer absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent)]" />

@@ -261,6 +261,7 @@ export function CreateWizard({
   const [squadText, setSquadText] = useState("");
   const [scorersText, setScorersText] = useState("");
   const [barDone, setBarDone] = useState(false);
+  const [genStage, setGenStage] = useState<string | null>(null);
   // Standings table rows
   type TRow = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
   const blankRow = (): TRow => ({ team: "", p: "", w: "", d: "", l: "", gd: "", pts: "" });
@@ -457,6 +458,7 @@ export function CreateWizard({
   async function generate() {
     saveRosterBack();
     saveTable(true);
+    setGenStage("queued");
     setPhase("busy");
     setError("");
     const res = await fetch("/api/banners", {
@@ -476,7 +478,7 @@ export function CreateWizard({
     if (res.ok && data.id && !data.finalUrl) {
       // Made in the background — wait for it (survives the screen turning off).
       rememberPending(data.id);
-      const w = await waitForBanner(data.id);
+      const w = await waitForBanner(data.id, { onStage: setGenStage });
       forgetPending();
       data = w.ok ? { id: data.id, finalUrl: w.url } : { error: w.error, detail: w.detail };
     }
@@ -1206,7 +1208,7 @@ export function CreateWizard({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={result.url} alt="" className="block h-auto w-full" />
             ) : phase === "busy" ? (
-              <GenerationProgress photo={photo} expectedSeconds={expectedSeconds} done={barDone} />
+              <GenerationProgress photo={photo} expectedSeconds={expectedSeconds} done={barDone} stage={genStage} />
             ) : (
               <div className="relative grid aspect-[4/5] place-items-center overflow-hidden p-8">
                 {photo && (

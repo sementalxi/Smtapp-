@@ -764,6 +764,7 @@ export async function generateProForBanner(opts: {
   // The whole job must finish inside the server's 300 s limit — every AI step gets a share of the time
   // that is left, so a slow step never leaves the poster stuck "Generating…" (it fails and refunds instead).
   const started = Date.now();
+  const stage = (s: string) => db.banner.update({ where: { id: opts.bannerId }, data: { stage: s } }).catch(() => {});
   const TOTAL_MS = 272_000;
   const left = () => TOTAL_MS - (Date.now() - started);
   const clamp = (ms: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, ms));
@@ -791,6 +792,7 @@ export async function generateProForBanner(opts: {
           const director = (opts.instructions ?? "").trim().slice(0, 20000);
           const artStep = posterModel === "flux-mix" ? fb.fluxPoster : posterModel === "seedream-mix" ? fb.seedreamArt : fb.nanoBananaArt;
           // Art step: leave at least ~105 s for the text step (and FLUX in between).
+          await stage("art");
           let artRes = await artStep(
             `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.`,
             refUrls,
@@ -802,6 +804,7 @@ export async function generateProForBanner(opts: {
           // Only when there is still time for it AND the text step afterwards.
           if ((posterModel === "mix3" || posterModel === "seedream-mix") && left() > 135_000) {
             try {
+              await stage("realism");
               artRes = await fb.fluxRealism(artRes.url, opts.format, isWide, director, clamp(left() - 85_000, 40_000, 120_000));
             } catch (e) {
               await import("./activity").then((mm) => mm.logActivity("site", "mix3", `⚠️ FLUX.2 realism step skipped: ${(e instanceof Error ? e.message : String(e)).slice(0, 160)}`, "warn")).catch(() => {});
@@ -830,6 +833,7 @@ export async function generateProForBanner(opts: {
           const textBudget = left() - 6_000;
           if (textBudget < 50_000) throw new Error(`out of time before the text step (${Math.round((Date.now() - started) / 1000)} s used)`);
           const fast = textBudget < 115_000;
+          await stage("text");
           poster = await generatePoster(textPrompt, [{ bytes: art, type: sniffImage(art) ?? "image/png" }], fast ? "medium" : quality, fast ? [...sizesForText].reverse() : sizesForText, textBudget);
           if (fast) await import("./activity").then((mm) => mm.logActivity("site", "mix", "⏱️ Text step ran in fast mode (the art steps used most of the time)", "warn")).catch(() => {});
           made = true;
@@ -843,6 +847,7 @@ export async function generateProForBanner(opts: {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         try {
+          await stage("art");
           poster = (await fb.fluxPoster(opts.prompt, refUrls, opts.format, isWide)).buf;
           made = true;
           usedModel = "FLUX.2 Pro";
@@ -855,6 +860,7 @@ export async function generateProForBanner(opts: {
       const fb = await import("./ai-fallback");
       if (fb.fallbackReady()) {
         try {
+          await stage(opts.edit ? "edit" : "art");
           poster = await fb.nanoBananaPoster(opts.prompt, refUrls, opts.format, isWide);
           made = true;
           usedModel = "Nano Banana Pro";
@@ -867,6 +873,7 @@ export async function generateProForBanner(opts: {
     if (!made) try {
       // Wide styles ([WIDE] in the art director's instructions) are made in landscape.
       const wide = fmtSizes ?? (/\[WIDE\]/.test(opts.prompt) ? ["2304x1536", "1536x1024"] : undefined);
+      await stage("openai");
       poster = await generatePoster(opts.prompt, images, left() < 115_000 ? "medium" : quality, wide, left() - 5_000);
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
@@ -910,6 +917,7 @@ export async function generateProForBanner(opts: {
       }
       }
     }
+    await stage("finishing");
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {
       const logos: { bytes: Buffer; corner: LogoSpot }[] = [];

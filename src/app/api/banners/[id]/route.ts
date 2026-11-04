@@ -29,6 +29,7 @@ export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
   const error = !err ? null : err === "err_credits" ? "err_credits" : /PHOTO_BLOCKED/.test(err) ? "err_photo_blocked" : /moderation|safety system|err_blocked/i.test(err) ? "err_blocked" : "err_generic";
   return json({
     status: b.status,
+    stage: b.stage ?? null,
     finalUrl: b.finalUrl,
     error,
     ...(user.role === "ADMIN" && err ? { detail: err } : {}),
