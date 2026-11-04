@@ -44,8 +44,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -74,8 +79,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -104,8 +114,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -134,8 +149,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -164,8 +184,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -194,8 +219,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -224,8 +254,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -254,8 +289,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -284,8 +324,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -314,8 +359,13 @@ TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 - RIGHT, lower: the jersey NUMBER giant as a thin glowing outline in the accent colour, partly behind the full-body figure, with its reflection on the floor.
 - Leave one bottom corner calm (brand mark goes there).
 
-PHOTOSHOP FINISH (it must NOT look AI-generated)
-- Clean cut-outs with natural hair edges, matched lighting and colour grade between all layers, one clear light direction, real shadows, subtle contrast curve, fine film grain, gentle vignette. Effects are real and restrained — no plastic CGI, no cartoon, no melted shapes, no clutter.
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: shot on a full-frame camera with an 85mm lens, real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows on the face and body, a hard coloured rim light separating the figure from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the background, real contact shadows and reflections, depth layering (background → faded crest → portrait → full body → lettering → foreground smoke/particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels and shadows, clean alignment.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter.
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
@@ -1994,7 +2044,7 @@ TYPOGRAPHY
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
-  "player-colosseum": `[FIXED LAYOUT] COLOSSEUM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+  "player-colosseum": `COLOSSEUM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - bronze and gold (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2023,8 +2073,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-midnight-city": `[FIXED LAYOUT] MIDNIGHT CITY — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-midnight-city": `MIDNIGHT CITY — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - pink and cyan (realistic city light, not neon haze) (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2053,8 +2103,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-tunnel-walkout": `[FIXED LAYOUT] TUNNEL WALKOUT — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-tunnel-walkout": `TUNNEL WALKOUT — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - team colours (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2083,8 +2133,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-sunset-rooftop": `[FIXED LAYOUT] SUNSET ROOFTOP — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-sunset-rooftop": `SUNSET ROOFTOP — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - orange and teal (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2113,8 +2163,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-chrome-noir": `[FIXED LAYOUT] CHROME NOIR — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-chrome-noir": `CHROME NOIR — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - black-and-white with one red accent (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2143,8 +2193,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-purple-reign": `[FIXED LAYOUT] PURPLE REIGN — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-purple-reign": `PURPLE REIGN — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - purple and gold (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2173,8 +2223,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-emerald-storm": `[FIXED LAYOUT] EMERALD STORM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-emerald-storm": `EMERALD STORM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - emerald green (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2203,8 +2253,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-inferno-gold": `[FIXED LAYOUT] INFERNO GOLD — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-inferno-gold": `INFERNO GOLD — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - gold (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2233,8 +2283,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-ice-kingdom": `[FIXED LAYOUT] ICE KINGDOM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-ice-kingdom": `ICE KINGDOM — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - icy blue (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2263,8 +2313,8 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
-  "player-crimson-arena": `[FIXED LAYOUT] CRIMSON ARENA — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
+  "player-crimson-arena": `CRIMSON ARENA — a professional pro-clubs / esports player card, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic and premium.
 
 COLOURS
 - red (if the COLOURS line below gives team colours, use them in the same roles) over deep blacks.
@@ -2293,7 +2343,7 @@ PHOTOSHOP FINISH (it must NOT look AI-generated)
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, years or "edition" lines. Write each item once. If an item is not given, leave its spot out.
-- Ignore the placement hints in the text list below — follow this layout.`,
+- VARIETY: every poster keeps this style's scene, colours, figures, typography and quality, but ARRANGES the elements differently each time (e.g. portrait and full-body swap sides, name on the left or right, crest and number in a different corner, different poses).`,
   "xi-wide-print": `[WIDE] PRINT XI (WIDE) — a WIDE landscape lineup banner (16:9) in a screen-printed poster style.
 
 COLOURS: off-white paper, black, and ONE strong team colour from the crest as flat ink.
