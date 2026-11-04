@@ -611,6 +611,21 @@ export function buildProPrompt(opts: {
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
       : "";
+  // What the user picked in the creator — always applied, even over a style's own instructions.
+  const picks = [
+    bgScenePrompt(i.bgScene) ? `- BACKGROUND SCENE: ${bgScenePrompt(i.bgScene)}. Replace the style's own background with this scene (real, detailed, photographic, with depth) — keep the style's layout, figures and typography.` : "",
+    i.colorMode === "custom" && i.color1 ? `- COLOURS: main ${i.color1}${i.color2 ? `, second ${i.color2}` : ""} — recolour the lighting, background, title, effects and metals to these colours instead of the style's colours.` : "",
+    i.colorMode === "team" ? `- COLOURS: taken from the TEAM CREST's own main colours — they replace the style's colours in the lighting, background, title and effects.` : "",
+    fontPrompt(i.fontPrimary) ? `- TITLE FONT: titles and the main headline in ${fontPrompt(i.fontPrimary)}.` : "",
+    fontPrompt(i.fontSecondary) ? `- NAMES FONT: names, numbers and small text in ${fontPrompt(i.fontSecondary)}.` : "",
+    i.language && i.language !== "English" ? `- LANGUAGE: generic words (titles, labels) written in ${i.language}; names stay exactly as typed.` : "",
+    layout === "PLAYER" && i.bgPose && !["style", "none", ""].includes(i.bgPose) && bgPosePrompt(i.bgPose) ? `- SECOND FIGURE POSE: ${bgPosePrompt(i.bgPose)}.` : "",
+    layout === "PLAYER" && i.bgPose === "none" ? `- Show the player only ONCE (no second figure).` : "",
+    i.extraPrompt ? `- EXTRA IDEA: ${i.extraPrompt}.` : "",
+  ].filter(Boolean);
+  const userChoices = picks.length
+    ? `USER CHOICES — the customer picked these in the creator. They ALWAYS apply and override the matching parts of the style (and of the art director's instructions); everything else in the style stays the same:\n${picks.join("\n")}`
+    : "";
   return [
     opts.format === "story"
       ? `Design a finished, high-end TALL vertical sports poster for Instagram / TikTok STORIES (9:16). Use the whole tall canvas — extend the background and scene to fill it top to bottom (no empty bands, no borders); recompose the layout for the tall frame and keep all text and the player inside the middle 80% (away from the very top and bottom where the phone's buttons sit).`
@@ -618,6 +633,7 @@ export function buildProPrompt(opts: {
         ? `Design a finished, high-end WIDE landscape sports banner (16:9). Use the whole wide canvas — extend the background and scene edge to edge (no empty sides, no borders); recompose the layout for the wide frame: player on one side, title and details on the other.`
         : `Design a finished, high-end vertical sports social-media poster (4:5).`,
     directorBlock,
+    userChoices,
     opts.season ?? "",
     adminLed
       ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.bgPose === "none" ? "Show the player only once. " : i.bgPose && i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
@@ -659,6 +675,7 @@ export function buildProPrompt(opts: {
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
+    userChoices ? `FINAL CHECK — make sure every USER CHOICE above is visible in the poster (background scene, colours, fonts, language, extra idea).` : "",
     `Keep ${exactLogos ? "one of the bottom corners" : "at least one corner of the poster"} calm (no text or faces) — a small brand mark goes there. Never draw borders, frame lines, corner brackets, crop marks or "× × ×" decorations.`,
     i.aiCopy === "on"
       ? `You MAY add 1–2 short, punchy hype words that fit this poster (e.g. NEW SIGNING, WELCOME, MVP, GAME DAY, LET'S GO, CAMPEONES), written${i.language && i.language !== "English" ? ` in ${i.language}` : ""} and styled as part of the design. Never change, translate or misspell the listed names.`
@@ -757,7 +774,7 @@ export async function generateProForBanner(opts: {
           const art = artRes.buf;
           const keep = opts.prompt
             .split("\n\n")
-            .filter((sec) => /^(TITLE FONT|NAMES FONT|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
+            .filter((sec) => /^(USER CHOICES|TITLE FONT|NAMES FONT|Write generic words|TYPOGRAPHY|Typography|STRICT TEXT RULE|Text on the poster|Only write the text|You MAY add)/.test(sec.trim()))
             .join("\n\n");
           const textPrompt = [
             director
