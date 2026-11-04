@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { useT } from "@/i18n/client";
 import { ImageDrop } from "../ImageDrop";
@@ -9,6 +11,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
   const { t, locale } = useT();
   const es = locale === "es";
   const [v, setV] = useState(initial);
+  const router = useRouter();
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
   const [test, setTest] = useState("");
@@ -23,6 +26,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
     });
     setBusy(false);
     setMsg(res.ok ? t("saved_ok") : t("err_generic"));
+    if (res.ok) router.refresh();
   }
 
   return (

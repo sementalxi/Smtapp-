@@ -14,7 +14,7 @@ export function canUseTemplate(t: { audience?: string | null }, viewer?: { role?
 
 export async function activeTemplates(viewer?: { role?: string; isOrg?: boolean } | null): Promise<ClientTemplate[]> {
   const aud = audienceFor(viewer);
-  const rows = await db.template.findMany({ where: { active: true, ...(aud ? { audience: { in: aud } } : {}) }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }] });
+  const rows = await db.template.findMany({ where: { active: true, deletedAt: null, ...(aud ? { audience: { in: aud } } : {}) }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }] });
   return rows.map((r) => ({
     id: r.id,
     slug: r.slug,

@@ -118,6 +118,7 @@ model Template {
   // Who can see/use this style: "all" | "users" (regular accounts only) | "orgs" (organizations only)
   audience   String   @default("all")
   active     Boolean  @default(true)
+  deletedAt  DateTime? // deleted by the admin (kept so old posters still know their style)
   sort       Int      @default(0)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

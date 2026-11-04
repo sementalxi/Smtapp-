@@ -8,6 +8,7 @@ import { getCategoryConfig } from "@/lib/categories";
 import { SeasonPicker } from "@/components/admin/SeasonPicker";
 import { SEASONS, getSeasonState } from "@/lib/seasons";
 import { TypePics } from "@/components/admin/TypePics";
+import { DeletedStyles } from "@/components/admin/DeletedStyles";
 import { getTypePics } from "@/lib/type-pics";
 
 export default async function AdminTemplates() {
@@ -15,10 +16,12 @@ export default async function AdminTemplates() {
   const { t, locale } = await getT();
   const categories = await getCategoryConfig();
   const season = await getSeasonState();
-  const rows = await db.template.findMany({
+  const all = await db.template.findMany({
     orderBy: [{ sort: "asc" }, { createdAt: "asc" }],
     include: { _count: { select: { banners: true } } },
   });
+  const rows = all.filter((r) => !r.deletedAt);
+  const deleted = all.filter((r) => r.deletedAt);
 
   return (
     <div className="space-y-6">
@@ -54,6 +57,7 @@ export default async function AdminTemplates() {
           />
         ))}
       </div>
+      {deleted.length > 0 && <DeletedStyles items={deleted.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, uses: r._count.banners }))} es={locale === "es"} />}
       <h2 className="font-display pt-6 text-2xl">{t("new_template")}</h2>
       <TemplateEditor
         isNew

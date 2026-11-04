@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { ImageDrop } from "../ImageDrop";
 
@@ -20,6 +22,7 @@ const LABELS: Record<string, [string, string]> = {
 /** Admin: pick the picture shown behind each box on the "What are you making?" page. */
 export function TypePics({ initial, es }: { initial: Record<string, string>; es: boolean }) {
   const [pics, setPics] = useState<Record<string, string>>(initial);
+  const router = useRouter();
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
   async function save(next: Record<string, string>) {
@@ -29,6 +32,7 @@ export function TypePics({ initial, es }: { initial: Record<string, string>; es:
     const r = await fetch("/api/admin/type-pics", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pics: next }) });
     setBusy(false);
     setMsg(r.ok ? (es ? "✓ Guardado" : "✓ Saved") : es ? "No se pudo guardar" : "Couldn't save");
+    if (r.ok) router.refresh();
   }
   return (
     <details className="card p-5">

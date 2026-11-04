@@ -77,12 +77,18 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
     }
   }
 
+  const [gone, setGone] = useState(false);
   async function remove() {
     if (!tpl.id || !confirm(t("confirm_delete"))) return;
     setBusy(true);
-    await fetch(`/api/admin/templates/${tpl.id}`, { method: "DELETE" });
-    router.refresh();
+    const r = await fetch(`/api/admin/templates/${tpl.id}`, { method: "DELETE" });
+    setBusy(false);
+    if (r.ok) {
+      setGone(true); // disappears right away; the list re-syncs behind it
+      router.refresh();
+    }
   }
+  if (gone) return null;
 
   if (!open) {
     return (

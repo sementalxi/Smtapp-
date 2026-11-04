@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import { ImageDrop } from "../ImageDrop";
 
@@ -8,6 +10,7 @@ type W = { on: boolean; title: string; content: string; imageUrls: string[]; lin
 /** Admin: the welcome DM the bot sends when someone signs up with / connects Discord. */
 export function WelcomeDmEditor({ es }: { es: boolean }) {
   const [w, setW] = useState<W | null>(null);
+  const router = useRouter();
   const [busy, setBusy] = useState("");
   const [msg, setMsg] = useState("");
   useEffect(() => {
@@ -23,6 +26,7 @@ export function WelcomeDmEditor({ es }: { es: boolean }) {
     const r = await fetch("/api/admin/welcome-dm", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(next) });
     setBusy("");
     const e = r.ok ? null : await r.json().catch(() => ({}));
+    if (r.ok) router.refresh();
     setMsg(r.ok ? (next.on ? (es ? "✅ Guardado — se enviará a cada cuenta nueva con Discord" : "✅ Saved — it'll be sent to every new Discord account") : es ? "✅ Guardado (apagado)" : "✅ Saved (off)") : `❌ ${e?.error ?? (es ? "No se pudo guardar" : "Couldn't save")}`);
   }
   async function test() {

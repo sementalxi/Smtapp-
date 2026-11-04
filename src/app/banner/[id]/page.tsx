@@ -66,7 +66,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
                   hasInstructions: !!banner.template.proInstructions?.trim(),
                   templateName: banner.template.name,
                   templateId: banner.templateId,
-                  templates: (await db.template.findMany({ orderBy: [{ layout: "asc" }, { sort: "asc" }], select: { id: true, name: true, layout: true } })).map((x) => ({
+                  templates: (await db.template.findMany({ where: { deletedAt: null }, orderBy: [{ layout: "asc" }, { sort: "asc" }], select: { id: true, name: true, layout: true } })).map((x) => ({
                     id: x.id,
                     name: `${x.name} (${x.layout.toLowerCase()})`,
                   })),

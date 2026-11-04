@@ -2,19 +2,23 @@
 
 import { useEffect, useState } from "react";
 
-/** Asks which language to use every time someone opens the website (once per visit). */
-export function LangPrompt({ suggested }: { suggested: "en" | "es" }) {
+/** Asks which language to use the FIRST time someone opens the website on this device (never again after they pick). */
+export function LangPrompt({ suggested, asked = false }: { suggested: "en" | "es"; asked?: boolean }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
+    if (asked) return; // the server saw the "already chose" cookie
     try {
-      if (sessionStorage.getItem("kixo_lang_session")) return;
+      if (localStorage.getItem("kixo_lang_chosen") || sessionStorage.getItem("kixo_lang_session")) return;
     } catch {}
     const t = setTimeout(() => setShow(true), 350);
     return () => clearTimeout(t);
-  }, []);
+  }, [asked]);
   if (!show) return null;
   const go = (l: "en" | "es") => {
-    try { sessionStorage.setItem("kixo_lang_session", l); } catch {}
+    try {
+      localStorage.setItem("kixo_lang_chosen", l);
+      sessionStorage.setItem("kixo_lang_session", l);
+    } catch {}
     const next = window.location.pathname + window.location.search;
     window.location.href = `/api/locale?l=${l}&next=${encodeURIComponent(next)}`;
   };

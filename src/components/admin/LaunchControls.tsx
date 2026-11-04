@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 type D = { comingSoon: boolean; role: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string };
@@ -7,6 +9,7 @@ type D = { comingSoon: boolean; role: string; roles: { id: string; name: string 
 /** Admin: "Coming soon" switch + Discord role given to everyone who links their account. */
 export function LaunchControls({ es }: { es: boolean }) {
   const [d, setD] = useState<D | null>(null);
+  const router = useRouter();
   const [soon, setSoon] = useState(false);
   const [role, setRole] = useState("");
   const [sOn, setSOn] = useState(true);
@@ -24,12 +27,14 @@ export function LaunchControls({ es }: { es: boolean }) {
     const r = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "save", comingSoon: nextSoon, role: nextRole }) });
     setBusy("");
     setMsg(r.ok ? (es ? "✅ Guardado" : "✅ Saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
+    if (r.ok) router.refresh();
   }
   async function saveSupport(on = sOn, r = sRole) {
     setBusy("support");
     const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "support", on, role: r }) });
     setBusy("");
     setMsg(res.ok ? (es ? "✅ Soporte guardado" : "✅ Support saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
+    if (res.ok) router.refresh();
   }
   async function giveAll() {
     setBusy("all");

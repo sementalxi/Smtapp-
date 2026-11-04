@@ -31,9 +31,9 @@ export const DELETE = handle(async (_req: NextRequest, { params }: Ctx) => {
   const { id } = await params;
   const used = await db.banner.count({ where: { templateId: id } });
   if (used > 0) {
-    // Keep history intact: hide instead of deleting.
-    await db.template.update({ where: { id }, data: { active: false } });
-    return json({ ok: true, hidden: true });
+    // Posters were made with it: archive (disappears everywhere, old posters keep their style, restorable from the bin).
+    await db.template.update({ where: { id }, data: { active: false, deletedAt: new Date() } });
+    return json({ ok: true, archived: true });
   }
   await db.template.delete({ where: { id } });
   return json({ ok: true });

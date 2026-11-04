@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { useT } from "@/i18n/client";
 import { ImageDrop } from "../ImageDrop";
@@ -11,6 +13,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
   const { locale } = useT();
   const es = locale === "es";
   const [items, setItems] = useState(initial);
+  const router = useRouter();
   const [kind, setKind] = useState<Item["kind"]>("championship");
   const [name, setName] = useState("");
   const [logo, setLogo] = useState<string | null>(null);
@@ -31,6 +34,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
     setBusy(false);
     if (data.item) {
       setItems((x) => [...x, data.item]);
+      router.refresh();
       setName("");
       setLogo(null);
       setTab(kind);
@@ -41,6 +45,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
   async function remove(id: string) {
     setItems((x) => x.filter((i) => i.id !== id));
     await fetch(`/api/admin/library/${id}`, { method: "DELETE" });
+    router.refresh();
   }
 
   const shown = items.filter((i) => i.kind === tab);
