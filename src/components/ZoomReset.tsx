@@ -17,8 +17,11 @@ export function ZoomReset() {
     const orig = meta.getAttribute("content") || "width=device-width, initial-scale=1";
     // Briefly pinning maximum-scale=1 makes Safari/Chrome re-apply the initial scale; then the original is restored.
     meta.setAttribute("content", `${orig.replace(/,?\s*maximum-scale=[^,]*/i, "")}, maximum-scale=1`);
-    const t = setTimeout(() => meta.setAttribute("content", orig), 150);
-    window.scrollTo(0, 0);
+    const t = setTimeout(() => {
+      meta.setAttribute("content", orig);
+      window.scrollTo({ left: 0, top: 0 });
+    }, 150);
+    window.scrollTo({ left: 0, top: 0 });
     return () => clearTimeout(t);
   }, [path]);
   return null;

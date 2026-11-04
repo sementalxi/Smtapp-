@@ -30,7 +30,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
         {isAdmin && banner.prompt && (
           <details className="mt-4 rounded-xl border border-dashed border-line p-3 text-left text-xs">
             <summary className="cursor-pointer font-bold text-muted">Admin · see what the AI was asked</summary>
-            <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-[11px] text-muted">{banner.prompt}</pre>
+            <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-[11px] text-muted [overflow-wrap:anywhere]">{banner.prompt}</pre>
           </details>
         )}
         {banner.status !== "FAILED" && <AutoRefresh seconds={4} times={150} />}

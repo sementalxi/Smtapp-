@@ -77,7 +77,7 @@ export function ProBannerView({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,560px)_1fr]">
+    <div className="grid min-w-0 gap-8 [grid-template-columns:minmax(0,1fr)] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)]">
       <div className="lg:sticky lg:top-24 lg:self-start">
         <div className="card relative overflow-hidden">
           {url ? (
@@ -120,7 +120,7 @@ export function ProBannerView({
                   : `⚠ The “${admin.templateName}” style has NO design instructions. Add them in Admin → Styles for that style.`}
             </p>
             {admin.prompt ? (
-              <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-ink p-3 text-[11px] leading-relaxed text-muted">{admin.prompt}</pre>
+              <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-ink p-3 text-[11px] leading-relaxed text-muted [overflow-wrap:anywhere]">{admin.prompt}</pre>
             ) : (
               <p className="mt-2 text-muted">{locale === "es" ? "Este póster se hizo antes de guardar los pedidos." : "This poster was made before briefs were saved."}</p>
             )}

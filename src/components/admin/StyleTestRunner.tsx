@@ -352,7 +352,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults }: { 
                   )}
                 </div>
                 {open === t.id && (
-                  <div className="mt-2 space-y-1 border-t border-line pt-2 text-[10px] text-muted">
+                  <div className="mt-2 space-y-1 border-t border-line pt-2 text-[10px] text-muted [overflow-wrap:anywhere]">
                     <div>
                       <span className="font-bold text-white/80">{es ? "Estilo" : "Style"}:</span> {t.name} · {lname(t.layout)} {t.hasInstructions ? "· 📝 " + (es ? "con instrucciones de diseño" : "has design instructions") : "· " + (es ? "sin instrucciones (diseño base)" : "no instructions (built-in layout)")}
                     </div>
