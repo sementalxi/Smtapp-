@@ -11,8 +11,9 @@ export { slotsToLines, type Slot } from "@/lib/formations";
  * Tap a spot on the pitch to add that player's number and name.
  * mode "totw" (team of the week): gamertag + a points / club line + a photo per player instead of a number.
  */
-export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup" }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean; mode?: "lineup" | "totw" }) {
+export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup", teams = [] }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean; mode?: "lineup" | "totw"; teams?: { name: string; logoUrl: string | null }[] }) {
   const totw = mode === "totw";
+  const [otherClub, setOtherClub] = useState<number | null>(null); // slot typing a club that isn't in My teams
   const rows = FORMATION_ROWS[formation] ?? [];
   const [sel, setSel] = useState<number | null>(0);
   let idx = 0;
@@ -85,22 +86,58 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup" 
                 value={slots[cur]?.name ?? ""}
                 onChange={(e) => upd(cur, { name: e.target.value })}
               />
-              <input
-                className="input"
-                type="text"
-                autoComplete="off"
-                name={`kixo-sub-${cur}`}
-                maxLength={20}
-                placeholder={es ? "Puntos o club (opcional) — ej. 104 PTS" : "Points or club (optional) — e.g. 104 PTS"}
-                value={slots[cur]?.num ?? ""}
-                onChange={(e) => upd(cur, { num: e.target.value })}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    setSel(cur + 1 < positions.length ? cur + 1 : null);
-                  }
-                }}
-              />
+              <div className="grid grid-cols-[minmax(0,1fr)_6.5rem] gap-2">
+                {teams.length && otherClub !== cur && (!slots[cur]?.club || teams.some((t) => t.name === slots[cur]?.club)) ? (
+                  <select
+                    className="input"
+                    value={slots[cur]?.club ?? ""}
+                    onChange={(e) => {
+                      if (e.target.value === "__other") {
+                        setOtherClub(cur);
+                        upd(cur, { club: "" });
+                      } else upd(cur, { club: e.target.value });
+                    }}
+                  >
+                    <option value="">{es ? "— Club (opcional) —" : "— Club (optional) —"}</option>
+                    {teams.map((t) => (
+                      <option key={t.name} value={t.name}>
+                        {t.name}
+                      </option>
+                    ))}
+                    <option value="__other">{es ? "✏️ Otro club…" : "✏️ Other club…"}</option>
+                  </select>
+                ) : (
+                  <input
+                    className="input"
+                    type="text"
+                    autoComplete="off"
+                    name={`kixo-club-${cur}`}
+                    maxLength={24}
+                    placeholder={es ? "Club (opcional)" : "Club (optional)"}
+                    value={slots[cur]?.club ?? ""}
+                    onChange={(e) => upd(cur, { club: e.target.value })}
+                  />
+                )}
+                <input
+                  className="input text-center"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  autoComplete="off"
+                  name={`kixo-pts-${cur}`}
+                  maxLength={4}
+                  placeholder="PTS"
+                  value={slots[cur]?.num ?? ""}
+                  onChange={(e) => upd(cur, { num: e.target.value.replace(/[^0-9]/g, "") })}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      setSel(cur + 1 < positions.length ? cur + 1 : null);
+                    }
+                  }}
+                />
+              </div>
+              {!teams.length && <p className="text-[11px] text-muted">{es ? "Guarda tus clubes en “Mis equipos” para elegirlos aquí de una lista." : "Save your clubs in “My teams” to pick them here from a list."}</p>}
               <ImageDrop kind="photo" label={es ? "📸 Foto del jugador (opcional)" : "📸 Player photo (optional)"} value={slots[cur]?.photo || null} onChange={(u) => upd(cur, { photo: u ?? "" })} searchQuery={slots[cur]?.name} />
             </div>
           ) : (
@@ -148,8 +185,8 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup" 
       <p className="text-[11px] text-muted">
         {totw
           ? es
-            ? "Toca una posición en la cancha para poner el gamertag, sus puntos o club y su foto. El que tenga más puntos sale como jugador de la semana."
-            : "Tap a position on the pitch to add the gamertag, their points or club and their photo. The highest points becomes the player of the week card."
+            ? "Toca una posición en la cancha para poner el gamertag, su club, sus puntos y su foto. El que tenga más puntos sale como jugador de la semana."
+            : "Tap a position on the pitch to add the gamertag, their club, their points and their photo. The highest points becomes the player of the week card."
           : es
             ? "Toca una posición en la cancha para poner el número y nombre."
             : "Tap a position on the pitch to add the number and name."}

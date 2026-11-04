@@ -276,7 +276,7 @@ export function CreateWizard({
   const [table, setTable] = useState<TRow[]>(() => Array.from({ length: 6 }, blankRow));
   const [myTeams, setMyTeams] = useState<{ name: string; logoUrl: string | null }[]>([]);
   useEffect(() => {
-    if (layout !== "STANDINGS" || myTeams.length) return;
+    if ((layout !== "STANDINGS" && layout !== "TOTW") || myTeams.length) return;
     fetch("/api/saved?kind=team", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => Array.isArray(d?.items) && setMyTeams(d.items))
@@ -937,7 +937,7 @@ export function CreateWizard({
                 <label className="label">
                   {locale === "es" ? "Los once" : "The eleven"} <span className="text-lime">*</span>
                 </label>
-                <LineupBuilder mode="totw" formation={totwFormation} slots={slots} onChange={setSlots} es={locale === "es"} />
+                <LineupBuilder mode="totw" formation={totwFormation} slots={slots} onChange={setSlots} es={locale === "es"} teams={myTeams} />
               </div>
             </>
           )}
