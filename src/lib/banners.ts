@@ -44,6 +44,7 @@ export const InputsSchema = z.object({
   standings: z.array(z.string().trim().max(90)).max(20).default([]),
   tableLogos: z.array(z.string().trim().max(500)).max(20).default([]),
   playerPhotos: z.array(z.string().trim().max(500)).max(18).default([]),
+  playerLogos: z.array(z.string().trim().max(500)).max(18).default([]),
   trophy: str(60),
   bgPose: str(40),
   bgScene: str(40),
@@ -227,6 +228,8 @@ export function collectProRefs(opts: {
   styleRefUrl?: string | null;
   /** Team set: the first card of the set, whose design must be copied. */
   seriesRefUrl?: string | null;
+  /** Team of the week: one sheet with every club crest, in this order (left to right, top to bottom, four per row). */
+  crestSheet?: { url: string; order: string[] } | null;
 }): ProRef[] {
   const { inputs: i, layout } = opts;
   const refs: ProRef[] = [];
@@ -263,6 +266,11 @@ export function collectProRefs(opts: {
       const { name, pos } = parseTotwLine(line);
       refs.push({ url, label: `the player for the card of ${q(name)}${pos ? ` (${pos})` : ""}: this exact person goes inside THAT card — same face, hair, skin tone and build (recognisable, not a lookalike), cut out cleanly from the photo's background, chest-up or full body, relit to match the card's lighting with a rim light. Any badge, sponsor or words on their clothes stay on the clothes only.` });
     });
+    if (opts.crestSheet)
+      refs.push({
+        url: opts.crestSheet.url,
+        label: `a SHEET of club crests on a dark grid, four per row, read left to right then top to bottom: ${opts.crestSheet.order.map((n, k) => `crest ${k + 1} = ${q(n)}`).join(", ")}. On every card whose sub line names one of these clubs, show THAT club's crest SMALL — a glossy badge beside the gamertag plate — faithful to its shape, symbols and colours. Copy nothing else from the sheet (not the dark grid).`,
+      });
   } else if (layout === "STANDINGS") {
     i.standings.forEach((row, n) => {
       const url = i.tableLogos?.[n];
@@ -408,10 +416,8 @@ export function buildProPrompt(opts: {
   season?: string;
   /** Output format chosen by the user: post 4:5 (default), story 9:16, banner 16:9. */
   format?: "post" | "story" | "banner" | "square";
-  /** Team of the week made as a composite: this prompt is the BACKGROUND only (the cards are made separately and placed on it). */
-  totwBackground?: boolean;
-  /** Player card without a photo (a team-of-the-week card): the player is invented. */
-  noPhoto?: boolean;
+  /** Team of the week: the player-card style every card is a miniature of (from lib/totw cardLookFor). */
+  cardLook?: string;
 }) {
   // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
   if (opts.instructions) opts = { ...opts, instructions: stripSmallTeamName(opts.instructions) };
@@ -557,15 +563,12 @@ export function buildProPrompt(opts: {
     case "TOTW": {
       const cards = i.players.filter(Boolean).map((line, n) => ({ ...parseTotwLine(line), n, photo: !!i.playerPhotos?.[n] }));
       const best = cards.reduce<(typeof cards)[number] | null>((b, c) => (c.pts !== null && (b === null || c.pts > (b.pts ?? -1)) ? c : b), null);
-      composition = opts.totwBackground
-        ? [
-            `The BACKGROUND of a premium "TEAM OF THE WEEK" graphic — the kind a top Pro Clubs league posts every week. The eleven player cards are made separately and placed on it afterwards, so this image has NO cards and NO people: only the scene — a football pitch seen from a slightly raised angle filling the lower ${opts.format === "banner" ? "right two thirds" : "three quarters"} of the image (crisp lines, atmospheric lighting, kept darker and calm so cards read on it), the stadium / scene around it, and the title block${opts.format === "banner" ? " on the left third" : " at the top"}: a huge "${i.headline || "TEAM OF THE WEEK"}" title${i.date ? ", the week / division line under it" : ""}${i.champLogoUrl ? ", the league logo beside the title" : i.competition ? ", the league name" : ""}. Keep every text item away from the pitch area.`,
-            frame,
-            finish,
-          ].join(" ")
-        : [
+      composition = [
         `A premium "TEAM OF THE WEEK" graphic — the kind a top Pro Clubs league posts every week: ELEVEN collectible PLAYER CARDS standing in the ${i.formation || "4-3-3"} formation on a football pitch (goalkeeper at the bottom, attackers at the top), seen from a slightly raised angle.`,
-        `Every card is the same design: a tall rounded trading card with a thick metallic frame, a glossy inner panel, the player figure inside (chest-up or full body, popping slightly out of the frame), a small POSITION badge on the card, the GAMERTAG in bold condensed capitals on a plate at the bottom of the card and the small sub line (points or club) under it. ${best ? `The PLAYER OF THE WEEK card (${q(best.name)}) is a special premium variant — a different metal / colour, a little larger, with a small crown or star — the rest are identical in size and style.` : ""}`,
+        opts.cardLook
+          ? `Every card is a MINIATURE KIXO PLAYER CARD in the ${opts.cardLook} Inside each card: that style's background and lighting, the player cut out sharp with a strong rim light popping slightly over the card's frame, the GAMERTAG huge in heavy condensed capitals at the bottom of the card, a small solid position tag, the sub line (points / club) small under the gamertag${opts.refs.some((r) => /SHEET of club crests/.test(r.label)) ? ", and the club's small crest beside the plate" : ""}. All eleven cards share the same frame, size and text layout so they read as one set.`
+          : `Every card is the same design: a tall rounded trading card with a thick metallic frame, a glossy inner panel, the player figure inside (chest-up or full body, popping slightly out of the frame), a small POSITION badge on the card, the GAMERTAG in bold condensed capitals on a plate at the bottom of the card and the small sub line (points or club) under it.`,
+        best ? `The PLAYER OF THE WEEK card (${q(best.name)}) is a special premium variant — a different metal / colour, a little larger, with a small crown or star — the rest are identical in size and style.` : "",
         `A huge "${i.headline || "TEAM OF THE WEEK"}" title at the top${i.date ? `, the week / division line under it` : ""}${i.champLogoUrl ? ", the league logo beside the title" : i.competition ? ", the league name" : ""}. Cards in neat rows with even spacing, none overlapping another card's text; every name perfectly legible.`,
         cards.some((c) => c.photo) ? `Cards with a reference photo show THAT person. ` : "",
         cards.some((c) => !c.photo) ? `Cards without a photo show an invented generic player — each one different (hair, skin tone, pose, expression), in a plain dark kit with no badges, names or words on it, no real person.` : "",
@@ -575,7 +578,7 @@ export function buildProPrompt(opts: {
       add("Title (huge)", i.headline || "TEAM OF THE WEEK");
       add("Week / division line (under the title)", i.date);
       add("League / competition", i.competition);
-      if (cards.length && !opts.totwBackground) {
+      if (cards.length) {
         const rows = FORMATION_ROWS[i.formation];
         const lineLabel = (n: number, total: number) => (n === 0 ? "goalkeeper (bottom)" : n === total - 1 ? "attack (top)" : n === 1 ? "defence" : "midfield");
         const card = (c: (typeof cards)[number]) => `${q(c.name)}${c.pos ? ` [${c.pos}]` : ""}${c.sub ? ` sub line ${q(c.sub)}` : ""}${best && c.n === best.n ? " ★ PLAYER OF THE WEEK card" : ""}${c.photo ? " (photo given)" : ""}`;
@@ -642,9 +645,7 @@ export function buildProPrompt(opts: {
           : i.bgPose === "style"
             ? `3) the background figure / second image exactly as described in the DESIGN INSTRUCTIONS FROM THE ART DIRECTOR below${opts.instructions?.trim() ? "" : " (none were given, so create a dramatic close-up of the SAME player — clearly the same person, a newly generated shot, not a copy of the photo)"};`
             : `3) a SECOND, NEWLY CREATED image of the SAME player, very large in the upper half/behind: ${bgPosePrompt(i.bgPose)}. This must be a genuinely different shot generated by you — different pose, angle and expression from the uploaded photo, NOT a copy, crop or enlargement of it — but clearly the same person (same face, hair, skin tone, beard, kit). Render it in the same style as the rest of the poster: colour-graded and tinted with the main colour, slightly faded/double-exposed into the background, with light rays and texture over it;`,
-        opts.noPhoto
-          ? `4) in front, ONE invented footballer (no photo was given): a realistic, generic adult player — a different person every time (hair, skin tone, build) — in a plain dark kit with no badge, sponsor, name or number, as a sharp full cut-out with a strong rim light and glow separating them from the background; 5) effects on top.`
-          : `4) in front, the player from the uploaded photo as a sharp full cut-out (same pose as the photo), with a strong rim light and glow separating them from the background; 5) effects on top.`,
+        `4) in front, the player from the uploaded photo as a sharp full cut-out (same pose as the photo), with a strong rim light and glow separating them from the background; 5) effects on top.`,
         i.bgPose === "none" || i.bgPose === "style"
           ? ""
           : `The two figures must clearly differ (e.g. one a dramatic close-up, the other the action/full-body pose), like a pro designer's double-shot player card.`,
@@ -745,10 +746,8 @@ export function buildProPrompt(opts: {
     layout === "LINEUP" && !/PHOTOSHOP LOOK/.test(opts.instructions ?? "")
       ? `PHOTOREAL CINEMATIC LINEUP (always applies, whatever the style): it must look like a REAL photograph composited by a top club's design team — like a still from a cinematic stadium film shot on a full-frame cinema camera with an anamorphic lens — NOT a video-game render, NOT cartoon, NOT a generic AI image. Physically correct lighting: real stadium floodlights with volumetric beams through real haze, true shadows, natural falloff, wet grass/pitch with real reflections, shallow depth of field with creamy bokeh, subtle anamorphic flares, fine film grain, a restrained teal-and-team-colour grade, deep but detailed blacks. Real materials only: brushed and polished metal, glass, enamel, concrete, grass. Neon and glow kept subtle and believable (real light sources, not cartoon outlines). The team crest crisp and faithful as a premium physical emblem with real reflections and a soft contact shadow. The pitch photographic with depth and crisp real pitch lines. Players as refined, sleek markers: slim glossy glass-and-metal badges in the team colour with the shirt number big, the name underneath on a clean thin dark tag — smaller and more elegant than chunky game icons, every name perfectly legible and spelled exactly, all eleven in their rows. Title in heavy slanted sports type with real metal/print texture and a hard shadow (not cartoon outlines); formation in a bold brush-marker script; competition and date small and letter-spaced. NO people, players or faces — only the markers.`
       : "",
-    layout === "TOTW" && opts.totwBackground
-      ? `TOTW BACKGROUND ONLY (always applies and overrides any card description in the art director's instructions): this image is the BACKGROUND of the graphic. Draw NO player cards, NO card frames, NO players, NO people, NO name plates, NO formation markers — the eleven cards are placed on it afterwards. Keep the pitch area clean, slightly darker and free of text so the cards read on it; put the title block, the week / division line, the league logo and the footer where the style describes them, away from the pitch. Everything else about the style (scene, colours, materials, lighting, atmosphere, typography) stays exactly as described.`
-      : layout === "TOTW"
-      ? `TEAM OF THE WEEK CARDS (always applies, whatever the style): it must look like a REAL premium graphic composited by a top league's design team — photoreal lighting, real materials (brushed metal frames, glass, enamel), a real photographic pitch and stadium, film grain, a cinematic grade — NOT a video-game screenshot, NOT a cartoon. ALL cards share ONE design (same frame, same size, same text layout) so the eleven read as one set; only the player-of-the-week card may differ (premium variant, slightly larger). Each card holds exactly: the player figure, the position badge, the gamertag and its sub line — nothing else, no ratings, no numbers that were not given, no invented club names, no small logos. Faces from the reference photos must be recognisable; invented figures must look like different real people, never clones. Keep every card fully inside the frame and keep the title clear of the cards.`
+    layout === "TOTW"
+      ? `TEAM OF THE WEEK CARDS (always applies, whatever the style): it must look like a REAL premium graphic composited by a top league's design team — the same quality as a KIXO player card: photoreal lighting, real materials (brushed metal frames, glass, enamel), a real photographic pitch and stadium, film grain, a cinematic grade — NOT a video-game screenshot, NOT a cartoon. ALL cards share ONE design (same frame, same size, same text layout) so the eleven read as one set; only the player-of-the-week card may differ (premium variant, slightly larger). Each card holds exactly: the player figure, the position tag, the gamertag, its sub line${opts.refs.some((r) => /SHEET of club crests/.test(r.label)) ? " and (where the sheet has it) the club's small crest" : ""} — nothing else: no ratings, no numbers that were not given, no invented club names, no other logos. Faces from the reference photos must be recognisable; invented figures must look like different real people, never clones. Keep every card fully inside the frame and keep the title clear of the cards. Razor-sharp 4K detail, crisp perfectly formed lettering.`
       : "",
     layout === "CHAMPIONS"
       ? /\[FREESTYLE\]/.test(opts.instructions ?? "")
@@ -1051,7 +1050,7 @@ export async function generateProForBanner(opts: {
 
 /** All image URLs inside inputs must be ours. */
 export function assertInputUrls(i: BannerInputs) {
-  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? [])].forEach((u) => assertOwnUrl(u || null));
+  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? [])].forEach((u) => assertOwnUrl(u || null));
 }
 
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {

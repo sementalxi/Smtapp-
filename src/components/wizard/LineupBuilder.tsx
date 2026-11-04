@@ -11,7 +11,7 @@ export { slotsToLines, type Slot } from "@/lib/formations";
  * Tap a spot on the pitch to add that player's number and name.
  * mode "totw" (team of the week): gamertag + a points / club line + a photo per player instead of a number.
  */
-export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup", teams = [] }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean; mode?: "lineup" | "totw"; teams?: { name: string; logoUrl: string | null }[] }) {
+export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup", teams = [] }: { formation: string; slots: Slot[]; onChange: (s: Slot[]) => void; es: boolean; mode?: "lineup" | "totw"; teams?: { name: string; logoUrl: string | null; pts?: string }[] }) {
   const totw = mode === "totw";
   const [otherClub, setOtherClub] = useState<number | null>(null); // slot typing a club that isn't in My teams
   const rows = FORMATION_ROWS[formation] ?? [];
@@ -94,14 +94,19 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup",
                     onChange={(e) => {
                       if (e.target.value === "__other") {
                         setOtherClub(cur);
-                        upd(cur, { club: "" });
-                      } else upd(cur, { club: e.target.value });
+                        upd(cur, { club: "", logo: "" });
+                      } else {
+                        // The club's crest comes along, and its standings points fill the box when it's empty.
+                        const t = teams.find((x) => x.name === e.target.value);
+                        upd(cur, { club: e.target.value, logo: t?.logoUrl ?? "", ...(t?.pts && !slots[cur]?.num?.trim() ? { num: t.pts } : {}) });
+                      }
                     }}
                   >
                     <option value="">{es ? "— Club (opcional) —" : "— Club (optional) —"}</option>
                     {teams.map((t) => (
                       <option key={t.name} value={t.name}>
                         {t.name}
+                        {t.pts ? ` · ${t.pts} PTS` : ""}
                       </option>
                     ))}
                     <option value="__other">{es ? "✏️ Otro club…" : "✏️ Other club…"}</option>
@@ -115,7 +120,7 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup",
                     maxLength={24}
                     placeholder={es ? "Club (opcional)" : "Club (optional)"}
                     value={slots[cur]?.club ?? ""}
-                    onChange={(e) => upd(cur, { club: e.target.value })}
+                    onChange={(e) => upd(cur, { club: e.target.value, logo: teams.find((x) => x.name.toLowerCase() === e.target.value.trim().toLowerCase())?.logoUrl ?? "" })}
                   />
                 )}
                 <input
@@ -137,7 +142,14 @@ export function LineupBuilder({ formation, slots, onChange, es, mode = "lineup",
                   }}
                 />
               </div>
-              {!teams.length && <p className="text-[11px] text-muted">{es ? "Guarda tus clubes en “Mis equipos” para elegirlos aquí de una lista." : "Save your clubs in “My teams” to pick them here from a list."}</p>}
+              {!teams.length && <p className="text-[11px] text-muted">{es ? "Elige la liga arriba (su tabla trae los clubes y sus puntos) o guarda tus clubes en “Mis equipos” para elegirlos de una lista." : "Pick the league above (its table brings the clubs and their points) or save your clubs in “My teams” to pick them from a list."}</p>}
+              {slots[cur]?.logo && (
+                <p className="flex items-center gap-2 text-[11px] text-muted">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={thumb(slots[cur].logo!, 48)} alt="" className="h-5 w-5 rounded object-contain" />
+                  {es ? "El escudo del club sale en la tarjeta." : "The club's crest goes on the card."}
+                </p>
+              )}
               <ImageDrop kind="photo" label={es ? "📸 Foto del jugador (opcional)" : "📸 Player photo (optional)"} value={slots[cur]?.photo || null} onChange={(u) => upd(cur, { photo: u ?? "" })} searchQuery={slots[cur]?.name} />
             </div>
           ) : (

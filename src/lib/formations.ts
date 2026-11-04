@@ -10,7 +10,7 @@ export const FORMATION_ROWS: Record<string, string[][]> = {
   "4-5-1": [["GK"], ["RB", "CB", "CB", "LB"], ["RM", "CM", "CDM", "CM", "LM"], ["ST"]],
 };
 
-export type Slot = { num: string; name: string; photo?: string; club?: string };
+export type Slot = { num: string; name: string; photo?: string; club?: string; logo?: string };
 
 /** Flat list of positions in order (GK first). */
 export const positionsFor = (formation: string) => (FORMATION_ROWS[formation] ?? []).flat();
@@ -43,6 +43,14 @@ export function slotsToPhotos(formation: string, slots: Slot[]) {
     .map((pos, i) => slots[i])
     .filter((s) => s?.name.trim())
     .map((s) => s.photo ?? "");
+}
+
+/** The club crest for each line of slotsToTotwLines (same order; "" = none). */
+export function slotsToLogos(formation: string, slots: Slot[]) {
+  return positionsFor(formation)
+    .map((pos, i) => slots[i])
+    .filter((s) => s?.name.trim())
+    .map((s) => (s.club?.trim() ? s.logo ?? "" : ""));
 }
 
 /** Reads a team-of-the-week line back: gamertag, the sub line (points / club) and the position code. */

@@ -30,42 +30,11 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     const inputs: BannerInputs = body.inputs
       ? { ...EMPTY_INPUTS, ...body.inputs }
       : { ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) };
-    // Team of the week: background + eleven player cards, made again as a new poster.
-    if (banner.template.layout === "TOTW") {
-      const { planTotw, pickCardTemplate, generateTotwForBanner } = await import("@/lib/totw");
-      const design = (banner.design ?? {}) as { totw?: { cardTemplateId?: string }; season?: { key: string; custom?: string } };
-      const cardTemplate = await pickCardTemplate(user, body.cardTemplateId ?? design.totw?.cardTemplateId);
-      if (!cardTemplate) throw new HttpError(400, "no_card_style");
-      try {
-        assertInputUrls(inputs);
-        const season = design.season ? await import("@/lib/seasons").then((m) => m.seasonPrompt(m.seasonByKey(design.season!.key, design.season!.custom))) : "";
-        const plan = planTotw({ template: banner.template, cardTemplate, inputs, season });
-        const cost = await getNumberSetting("totw_cost");
-        if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
-        const copy = await db.banner.create({
-          data: { userId: banner.userId, templateId: banner.templateId, title: titleFor(inputs), inputs: toJson(inputs), design: toJson({ ...(banner.design as object), totw: { cardTemplateId: cardTemplate.id } }), photoUrl: null, logoUrl: banner.logoUrl, mode: "PRO" },
-        });
-        const accent = (banner.template.style as unknown as { accent?: string } | null)?.accent ?? "#ffffff";
-        after(async () => {
-          try {
-            await generateTotwForBanner({ bannerId: copy.id, userId: user.id, cost, plan, accent, regenerate: true });
-          } catch (e) {
-            if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
-            const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
-            await db.banner.update({ where: { id: copy.id }, data: { status: "FAILED", error: msg } }).catch(() => {});
-          }
-        });
-        return json({ pending: true, id: copy.id });
-      } catch (e) {
-        if (e instanceof HttpError && e.status === 402) return json({ error: "err_credits" }, 402);
-        if (e instanceof HttpError && e.message === "err_blocked") return json({ error: "err_blocked", ...(user.role === "ADMIN" && (e as { detail?: string }).detail ? { detail: (e as { detail?: string }).detail } : {}) }, 400);
-        throw e;
-      }
-    }
     const info = seriesInfo(banner.design);
     const seriesUrl = info.seriesRootId ? await seriesRefUrl(user.id, info.seriesRootId) : null;
     try {
       assertInputUrls(inputs);
+      const totw = banner.template.layout === "TOTW" ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? (banner.design as { totw?: { cardTemplateId?: string } } | null)?.totw?.cardTemplateId, user)) : null;
       const refs = collectProRefs({
         layout: banner.template.layout,
         inputs,
@@ -73,6 +42,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         logoUrl: banner.logoUrl,
         styleRefUrl: banner.template.styleRefUrl,
         seriesRefUrl: seriesUrl,
+        crestSheet: totw?.crestSheet,
       });
       const prompt = buildProPrompt({
         layout: banner.template.layout,
@@ -85,6 +55,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         variation: seriesUrl ? info.variation : undefined,
         series: !!seriesUrl,
         format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format,
+        cardLook: totw?.cardLook,
         season: await (async () => {
           const s = (banner.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
           if (!s) return "";

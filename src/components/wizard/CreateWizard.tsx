@@ -14,7 +14,7 @@ import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
 import { parseLine } from "@/lib/roster";
-import { positionsFor, slotsToPhotos, slotsToTotwLines } from "@/lib/formations";
+import { positionsFor, slotsToLogos, slotsToPhotos, slotsToTotwLines } from "@/lib/formations";
 import { LineupBuilder, slotsToLines, type Slot } from "./LineupBuilder";
 import { AiVideo } from "../AiVideo";
 import { DownloadSizes } from "../DownloadSizes";
@@ -177,7 +177,6 @@ export function CreateWizard({
   seasonStart = false,
   typePics = {},
   expectedSeconds = 100,
-  totwCost,
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -195,8 +194,6 @@ export function CreateWizard({
   typePics?: Record<string, string>;
   /** How long the chosen poster generator usually takes (for the progress bar). */
   expectedSeconds?: number;
-  /** Team of the week price (background + eleven full player cards). */
-  totwCost?: number;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -248,8 +245,8 @@ export function CreateWizard({
   const tpl = styles.find((t) => t.id === tplId) ?? null;
   // Team logo category: "create a new logo" styles vs "show off my logo" styles.
   const logoCreate = layout === "LOGO" && !!tpl && (tpl.logoCreate || /^logo-new-/.test(tpl.slug));
-  // Team of the week: priced on its own (eleven cards + background), and every card is made in a player-card style.
-  const effCost = layout === "TOTW" && totwCost !== undefined ? totwCost : cost;
+  // Team of the week: the cards borrow the look of one of the player-card styles.
+  const effCost = cost;
   const cardStyles = useMemo(() => templates.filter((t) => t.layout === "PLAYER"), [templates]);
   const [cardTplId, setCardTplId] = useState<string | null>(null);
   const cardTpl = cardStyles.find((t) => t.id === cardTplId) ?? cardStyles[0] ?? null;
@@ -292,6 +289,28 @@ export function CreateWizard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layout]);
   const tableRows = table.filter((t) => t.team.trim());
+  // Team of the week: the league's standings bring the clubs and their points to the club picker.
+  const [leagueTeams, setLeagueTeams] = useState<{ name: string; pts: string }[]>([]);
+  useEffect(() => {
+    if (layout !== "TOTW" || !champ?.id) {
+      setLeagueTeams([]);
+      return;
+    }
+    fetch(`/api/standings?league=${encodeURIComponent(champ.id)}`, { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => setLeagueTeams(Array.isArray(d?.table?.rows) ? d.table.rows.filter((r: { team?: string }) => r.team?.trim()).map((r: { team: string; pts?: string }) => ({ name: r.team.trim(), pts: (r.pts ?? "").trim() })) : []))
+      .catch(() => setLeagueTeams([]));
+  }, [champ?.id, layout]);
+  const totwClubs = useMemo(() => {
+    const out: { name: string; logoUrl: string | null; pts?: string }[] = [];
+    const seen = new Set<string>();
+    for (const t of leagueTeams) {
+      seen.add(t.name.toLowerCase());
+      out.push({ name: t.name, logoUrl: myTeams.find((m) => m.name.toLowerCase() === t.name.toLowerCase())?.logoUrl ?? null, pts: t.pts });
+    }
+    for (const m of myTeams) if (!seen.has(m.name.toLowerCase())) out.push({ name: m.name, logoUrl: m.logoUrl });
+    return out;
+  }, [leagueTeams, myTeams]);
   // Each league keeps its own saved table: picking the league loads it, generating (or "Save") updates it.
   const [tableMsg, setTableMsg] = useState("");
   useEffect(() => {
@@ -366,6 +385,7 @@ export function CreateWizard({
       formation: layout === "TOTW" ? totwFormation : inp.formation,
       players: (layout === "LINEUP" ? lineupPlayers : layout === "TOTW" ? totwPlayers : lines(playersText)).slice(0, 18),
       playerPhotos: layout === "TOTW" ? slotsToPhotos(totwFormation, slots).slice(0, 18) : [],
+      playerLogos: layout === "TOTW" ? slotsToLogos(totwFormation, slots).slice(0, 18) : [],
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
       standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
@@ -673,7 +693,7 @@ export function CreateWizard({
                     <span className={`grid h-11 w-11 place-items-center rounded-xl border backdrop-blur ${sel ? "border-lime/60 bg-lime text-ink" : "border-lime/40 bg-ink/60 text-lime"}`}>
                       <TypeIcon layout={a.layout} />
                     </span>
-                    <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {a.layout === "TOTW" && totwCost !== undefined ? totwCost : cost}</span>
+                    <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {cost}</span>
                   </span>
                   <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
                   <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
@@ -924,9 +944,20 @@ export function CreateWizard({
           {layout === "TOTW" && (
             <>
               <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
-                ⭐ {locale === "es" ? "Cada jugador se hace como una tarjeta de jugador completa (con el estilo que elijas) y las once se colocan en formación sobre el fondo. El de más puntos sale como jugador de la semana." : "Every player is made as a full player card (in the style you pick) and the eleven are placed in formation on the background. The highest points becomes the player of the week."}
+                ⭐ {locale === "es" ? "Once tarjetas en formación con el look de tus tarjetas de jugador. Elige la liga: su tabla trae los clubes, sus puntos y sus escudos. El de más puntos sale como jugador de la semana." : "Eleven cards in formation with the look of your player cards. Pick the league: its standings bring the clubs, their points and their crests. The highest points becomes the player of the week."}
               </p>
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              {champ?.id && (
+                <p className="-mt-1 text-[11px] text-muted">
+                  {leagueTeams.length
+                    ? locale === "es"
+                      ? `✓ ${leagueTeams.length} clubes y sus puntos vienen de la tabla de ${champ.name}.`
+                      : `✓ ${leagueTeams.length} clubs and their points come from the ${champ.name} standings.`
+                    : locale === "es"
+                      ? "Esta liga aún no tiene tabla guardada (Mis ligas) — los clubes salen de Mis equipos."
+                      : "This league has no saved standings yet (My leagues) — clubs come from My teams."}
+                </p>
+              )}
               <div className="grid grid-cols-2 gap-3">
                 {field({ label: L.headline, k: "headline", max: 30, ph: locale === "es" ? "EQUIPO DE LA SEMANA" : "TEAM OF THE WEEK" })}
                 {field({ label: locale === "es" ? "Semana / división" : "Week / division", k: "date", max: 30, ph: locale === "es" ? "Semana 1 · División 1" : "Week 1 · Division 1" })}
@@ -944,7 +975,7 @@ export function CreateWizard({
               </div>
               {cardStyles.length > 0 && (
                 <div>
-                  <label className="label">🃏 {locale === "es" ? "Estilo de las tarjetas (cada jugador sale como una tarjeta de jugador completa)" : "Card style (every player is made as a full player card)"}</label>
+                  <label className="label">🃏 {locale === "es" ? "Look de las tarjetas (un estilo de tarjeta de jugador)" : "Card look (one of your player-card styles)"}</label>
                   <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
                     {cardStyles.map((t) => {
                       const on = cardTpl?.id === t.id;
@@ -967,7 +998,7 @@ export function CreateWizard({
                 <label className="label">
                   {locale === "es" ? "Los once" : "The eleven"} <span className="text-lime">*</span>
                 </label>
-                <LineupBuilder mode="totw" formation={totwFormation} slots={slots} onChange={setSlots} es={locale === "es"} teams={myTeams} />
+                <LineupBuilder mode="totw" formation={totwFormation} slots={slots} onChange={setSlots} es={locale === "es"} teams={totwClubs} />
               </div>
             </>
           )}

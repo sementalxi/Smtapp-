@@ -50,6 +50,7 @@ export interface BannerInputs {
   standings: string[]; // standings table rows
   tableLogos: string[]; // standings: crest URL per row ("" = none)
   playerPhotos: string[]; // team of the week: photo URL per player line ("" = none)
+  playerLogos: string[]; // team of the week: club crest URL per player line ("" = none)
   trophy: string; // champions trophy style
   colorMode: string; // "surprise" | "template" | "custom"
   color1: string;
@@ -97,6 +98,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   standings: [],
   tableLogos: [],
   playerPhotos: [],
+  playerLogos: [],
   trophy: "",
   colorMode: "",
   color1: "",

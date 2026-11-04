@@ -52,10 +52,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <label className="label">{t("pro_cost_label")}</label>
         <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
       </div>
-      <div>
-        <label className="label">{es ? "Créditos por “Equipo de la semana” (fondo + 11 tarjetas completas)" : "Credits per “Team of the week” (background + 11 full player cards)"}</label>
-        <input type="number" min={0} className="input" value={v.totw_cost ?? "8"} onChange={(e) => setV({ ...v, totw_cost: e.target.value })} />
-      </div>
+
       <div>
         <label className="label">{es ? "Calidad IA Pro (usuarios sin suscripción)" : "Pro AI quality (users without a subscription)"}</label>
         <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>

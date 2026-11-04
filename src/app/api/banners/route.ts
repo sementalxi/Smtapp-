@@ -93,13 +93,14 @@ export const POST = handle(async (req: NextRequest) => {
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
   if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");
-  const totw = pro && template.layout === "TOTW";
-  const cost = adminTest ? 0 : totw ? await getNumberSetting("totw_cost") : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
+  const cost = adminTest ? 0 : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
   // Fast path; the real check is atomic when credits are taken.
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
   assertInputUrls(inputs);
   let proPrompt = "";
+  // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
+  const totw = pro && template.layout === "TOTW" ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user)) : null;
   const refs = collectProRefs({
     layout: template.layout,
     inputs,
@@ -107,6 +108,7 @@ export const POST = handle(async (req: NextRequest) => {
     logoUrl,
     styleRefUrl: template.styleRefUrl,
     seriesRefUrl: series?.refUrl,
+    crestSheet: totw?.crestSheet,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
   const sourceFmt = (source?.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
@@ -131,48 +133,12 @@ export const POST = handle(async (req: NextRequest) => {
       series: !!series,
       season: seasonPrompt(seasonDef),
       format: fmt,
+      cardLook: totw?.cardLook,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
       return json({ error: "err_blocked", ...(user.role === "ADMIN" && detail ? { detail } : {}) }, 400);
     }
-  }
-
-  // Team of the week: the eleven are made as full player cards (in the picked player-card style) and placed on the background.
-  if (totw) {
-    const { planTotw, pickCardTemplate, generateTotwForBanner } = await import("@/lib/totw");
-    const cardTemplate = await pickCardTemplate(user, body.cardTemplateId);
-    if (!cardTemplate) throw new HttpError(400, "no_card_style");
-    let plan;
-    try {
-      plan = planTotw({ template, cardTemplate, inputs, season: seasonPrompt(seasonDef) });
-    } catch (e) {
-      const detail = (e as { detail?: string }).detail;
-      return json({ error: "err_blocked", ...(user.role === "ADMIN" && detail ? { detail } : {}) }, 400);
-    }
-    const banner = await db.banner.create({
-      data: {
-        userId: user.id,
-        templateId: template.id,
-        title: titleFor(inputs),
-        inputs: toJson(inputs),
-        design: toJson({ ...defaultDesign(), variation, ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(plan.wide ? { format: "banner" } : {}), totw: { cardTemplateId: cardTemplate.id }, ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}) }),
-        photoUrl: null,
-        logoUrl,
-        mode: "PRO",
-      },
-    });
-    const accent = (template.style as unknown as { accent?: string } | null)?.accent ?? "#ffffff";
-    after(async () => {
-      try {
-        await generateTotwForBanner({ bannerId: banner.id, userId: user.id, cost, plan, accent });
-      } catch (e) {
-        if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
-        const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);
-        await db.banner.update({ where: { id: banner.id }, data: { status: "FAILED", error: msg } }).catch(() => {});
-      }
-    });
-    return json({ id: banner.id, finalUrl: null, pending: true });
   }
 
   const banner = await db.banner.create({
@@ -181,7 +147,7 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}) }),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}), ...(totw?.cardTemplate ? { totw: { cardTemplateId: totw.cardTemplate.id } } : {}) }),
       photoUrl: body.photoUrl ?? null,
       logoUrl,
       mode: body.mode,

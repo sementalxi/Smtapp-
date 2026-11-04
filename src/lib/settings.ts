@@ -6,7 +6,6 @@ export const SETTING_DEFAULTS = {
   discord_bonus: "10",
   referral_reward: "20",
   pro_cost: "4",
-  totw_cost: "8", // team of the week = background + eleven full player cards
   pro_quality: "high",
   max_upload_mb: "10",
   maintenance_message: "",
