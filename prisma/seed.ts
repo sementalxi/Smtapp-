@@ -110,6 +110,24 @@ async function main() {
     }
     await db.setting.create({ data: { key: "no_small_team_name_v1", value: new Date().toISOString() } });
   }
+  // One-time (owner's request): the 10 esports player cards each get their OWN layout and poses (they all came out the same, finger on the lips).
+  // Any admin-edited text is backed up in a Setting row before it is replaced.
+  if (!(await db.setting.findUnique({ where: { key: "esports_cards_v3" } }))) {
+    const slugs = ["player-crimson-arena", "player-ice-kingdom", "player-inferno-gold", "player-emerald-storm", "player-purple-reign", "player-chrome-noir", "player-sunset-rooftop", "player-tunnel-walkout", "player-midnight-city", "player-colosseum"];
+    for (const slug of slugs) {
+      const text = PRESET_INSTRUCTIONS[slug];
+      if (!text) continue;
+      const t = await db.template.findUnique({ where: { slug }, select: { id: true, proInstructions: true } });
+      if (!t) continue;
+      const prev = t.proInstructions ?? "";
+      if (prev && prev !== text && prev !== PRESET_PREVIOUS[slug] && !/POSE RULE \(strict\)/.test(prev) && !/THE PLAYER — shown TWICE/.test(prev)) {
+        const key = `backup_instructions_${slug}`;
+        await db.setting.upsert({ where: { key }, create: { key, value: prev }, update: { value: prev } });
+      }
+      await db.template.update({ where: { id: t.id }, data: { proInstructions: text } });
+    }
+    await db.setting.create({ data: { key: "esports_cards_v3", value: new Date().toISOString() } });
+  }
   for (const [key, value] of Object.entries(SETTING_DEFAULTS)) {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
   }
