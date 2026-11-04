@@ -857,7 +857,7 @@ export async function generateProForBanner(opts: {
           // Art step: leave at least ~105 s for the text step (and FLUX in between).
           await stage("art");
           let artRes = await artStep(
-            `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.`,
+            `${opts.prompt}\n\nIMPORTANT — THIS STEP IS ARTWORK ONLY: create the complete finished poster artwork exactly as described (people, background, crests, trophy, effects, lighting, colours, layout) but with ABSOLUTELY NO TEXT, letters, numbers or words anywhere (logos/crests keep their own artwork). Leave clean, well-composed empty space where each text item listed above will be placed (the big title, the name, the number, the small lines). The text is added in a second step.${/TEAM OF THE WEEK CARDS/.test(opts.prompt) ? " For the player cards: draw every card complete with its frame, its player and an EMPTY dark plate at the bottom (the gamertag and sub line go there next) and an empty small badge in the corner (the position goes there) — all eleven cards the same size, nothing written on them yet." : ""}`,
             refUrls,
             opts.format,
             isWide,
@@ -901,8 +901,16 @@ export async function generateProForBanner(opts: {
           if (fast) await import("./activity").then((mm) => mm.logActivity("site", "mix", "⏱️ Text step ran in fast mode (the art steps used most of the time)", "warn")).catch(() => {});
           made = true;
           usedModel = posterModel === "seedream-mix" ? "Seedream Mix: Seedream art + FLUX.2 realism + OpenAI text" : posterModel === "mix3" ? "All 3: Nano Banana art + FLUX.2 realism + OpenAI text" : posterModel === "flux-mix" ? "Mix: FLUX.2 Pro art + OpenAI text" : "Mix: Nano Banana Pro art + OpenAI text";
+          await import("./ai-alerts").then((a) => a.clearDegraded()).catch(() => {});
         } catch (e) {
-          await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Mix generator failed — using OpenAI alone: ${(e instanceof Error ? e.message : String(e)).slice(0, 200)}`, "warn")).catch(() => {});
+          const msg = e instanceof Error ? e.message : String(e);
+          await import("./activity").then((mm) => mm.logActivity("site", "mix", `⚠️ Mix generator failed — using OpenAI alone (lower quality): ${msg.slice(0, 200)}`, "warn")).catch(() => {});
+          // The admin should know the posters just lost the 4K mix — above all when it's the fal.ai balance.
+          await import("./ai-alerts").then(async (a) => {
+            await a.noteDegraded(msg);
+            const kind = a.providerOutage(msg);
+            if (kind === "fal_billing") await a.alertAdminsOutage(kind, msg);
+          }).catch(() => {});
         }
       }
     }

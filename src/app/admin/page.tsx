@@ -1,4 +1,4 @@
-import { OUTAGE_TEXT, providerOutage, type Outage } from "@/lib/ai-alerts";
+import { OUTAGE_TEXT, providerOutage, degradedInfo, type Outage } from "@/lib/ai-alerts";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
@@ -25,6 +25,12 @@ export default async function AdminHome() {
     if (k && !outageKinds.includes(k)) outageKinds.push(k);
   }
   const outages: string[] = outageKinds.map((k) => `🚨 ${OUTAGE_TEXT[k]}`);
+  // Posters still come out, but from the OpenAI-only fallback (the 4K mix failed) — say so, with the reason.
+  const degraded = await degradedInfo().catch(() => null);
+  if (degraded && !outageKinds.includes("fal_billing")) {
+    const k = providerOutage(degraded.reason);
+    outages.push(k === "fal_billing" ? `⚠️ ${OUTAGE_TEXT.fal_billing}` : `⚠️ Posters are being made with OpenAI ONLY (the 4K mix — Nano Banana Pro + FLUX.2 — failed at ${new Date(degraded.at).toLocaleTimeString()}): ${degraded.reason.slice(0, 160)}`);
+  }
   const [users, banners, revenue, subs, gens, credits, recentTx, newUsers, failed] = await Promise.all([
     db.user.count(),
     db.banner.count(),

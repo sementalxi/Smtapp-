@@ -15,7 +15,7 @@ export function providerOutage(msg: string): Outage | null {
 
 export const OUTAGE_TEXT: Record<Outage, string> = {
   openai_billing: "OpenAI account has NO CREDITS left — every poster fails until you top up at platform.openai.com → Settings → Billing.",
-  fal_billing: "fal.ai account is LOCKED (TOP_UP) — Nano Banana / FLUX / videos fail until you top up at fal.ai → Billing.",
+  fal_billing: "fal.ai account is LOCKED (TOP_UP) — the 4K mix (Nano Banana Pro art + FLUX.2 realism) is OFF, so every poster is made with OpenAI ONLY (clearly lower quality than your usual player cards) and AI videos fail — until you top up at fal.ai → Billing.",
   openai_down: "OpenAI is returning server errors — posters are failing; usually passes in a few minutes.",
 };
 
@@ -34,13 +34,33 @@ export async function alertAdminsOutage(kind: Outage, raw: string) {
     for (const a of admins) {
       if (!a.discordId) continue;
       await dmUser(a.discordId, {
-        title: "🚨 KIXO — posters are failing",
-        content: `${text}\n\nUsers see "The AI is temporarily unavailable" and get their credits back automatically.`,
+        title: kind === "fal_billing" ? "⚠️ KIXO — posters lost the 4K mix" : "🚨 KIXO — posters are failing",
+        content: kind === "fal_billing" ? text : `${text}\n\nUsers see "The AI is temporarily unavailable" and get their credits back automatically.`,
         linkUrl: `${site}/admin/logs`,
         linkLabel: "Open the live log",
       }).catch(() => {});
     }
   } catch {
     /* no bot configured */
+  }
+}
+
+/** Remembers that posters are coming out of the OpenAI-only fallback (and why), so the admin overview can say so. */
+export async function noteDegraded(reason: string) {
+  const value = JSON.stringify({ at: new Date().toISOString(), reason: reason.slice(0, 300) });
+  await db.setting.upsert({ where: { key: "ai_degraded" }, create: { key: "ai_degraded", value }, update: { value } }).catch(() => {});
+}
+export async function clearDegraded() {
+  await db.setting.deleteMany({ where: { key: "ai_degraded" } }).catch(() => {});
+}
+/** The last fallback, if it happened in the past 6 hours. */
+export async function degradedInfo(): Promise<{ at: string; reason: string } | null> {
+  const row = await db.setting.findUnique({ where: { key: "ai_degraded" } }).catch(() => null);
+  if (!row?.value) return null;
+  try {
+    const d = JSON.parse(row.value) as { at: string; reason: string };
+    return Date.now() - new Date(d.at).getTime() < 6 * 60 * 60_000 ? d : null;
+  } catch {
+    return null;
   }
 }
