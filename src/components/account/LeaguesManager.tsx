@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { savedChanged } from "../wizard/SavedPicker";
@@ -25,6 +25,15 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
   const [newName, setNewName] = useState("");
   const [newLogo, setNewLogo] = useState<string | null>(null);
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
+  // The organization's saved teams: pick a team from the list (its crest comes along on the poster), or type one.
+  const [myTeams, setMyTeams] = useState<{ name: string; logoUrl: string | null }[]>([]);
+  const [typing, setTyping] = useState<Record<string, boolean>>({}); // "leagueId:row" cells typing a team that isn't saved
+  useEffect(() => {
+    fetch("/api/saved?kind=team", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => Array.isArray(d?.items) && setMyTeams(d.items.map((x: { name: string; logoUrl: string | null }) => ({ name: x.name, logoUrl: x.logoUrl ?? null }))))
+      .catch(() => {});
+  }, []);
 
   const cur = (l: League) => draft[l.id] ?? l;
   const setRows = (l: League, rows: Row[]) => setDraft((d) => ({ ...d, [l.id]: { ...cur(l), rows } }));
@@ -220,7 +229,42 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                           <tr key={i} className="border-t border-line">
                             <td className="px-1 py-1 text-center text-xs text-muted">{i + 1}</td>
                             <td className="px-1 py-1">
-                              <input className="input !py-1.5 text-sm" maxLength={30} placeholder={es ? "Equipo" : "Team"} value={row.team} onChange={(e) => setCell("team", e.target.value)} />
+                              {(() => {
+                                const k = `${l.id}:${i}`;
+                                const known = myTeams.some((t) => t.name.toLowerCase() === row.team.trim().toLowerCase());
+                                const logo = myTeams.find((t) => t.name.toLowerCase() === row.team.trim().toLowerCase())?.logoUrl;
+                                const useSelect = myTeams.length > 0 && !typing[k] && (known || !row.team.trim());
+                                return (
+                                  <div className="flex items-center gap-1.5">
+                                    {logo && (
+                                      // eslint-disable-next-line @next/next/no-img-element
+                                      <img src={thumb(logo, 48)} alt="" className="h-6 w-6 shrink-0 rounded object-contain" />
+                                    )}
+                                    {useSelect ? (
+                                      <select
+                                        className="input !py-1.5 text-sm"
+                                        value={known ? myTeams.find((t) => t.name.toLowerCase() === row.team.trim().toLowerCase())!.name : ""}
+                                        onChange={(e) => {
+                                          if (e.target.value === "__other") {
+                                            setTyping((t) => ({ ...t, [k]: true }));
+                                            setCell("team", "");
+                                          } else setCell("team", e.target.value);
+                                        }}
+                                      >
+                                        <option value="">{es ? "— Equipo —" : "— Team —"}</option>
+                                        {myTeams.map((t) => (
+                                          <option key={t.name} value={t.name}>
+                                            {t.name}
+                                          </option>
+                                        ))}
+                                        <option value="__other">{es ? "✏️ Otro (escribir)…" : "✏️ Other (type it)…"}</option>
+                                      </select>
+                                    ) : (
+                                      <input className="input !py-1.5 text-sm" maxLength={30} placeholder={es ? "Equipo" : "Team"} value={row.team} onChange={(e) => setCell("team", e.target.value)} onBlur={() => !row.team.trim() && setTyping((t) => ({ ...t, [k]: false }))} />
+                                    )}
+                                  </div>
+                                );
+                              })()}
                             </td>
                             {keys.map((k) => (
                               <td key={k} className="px-0.5 py-1">
@@ -254,7 +298,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                   <button type="button" className="chip" onClick={() => sortByPoints(l)}>
                     ↕ {es ? "Ordenar por puntos" : "Sort by points"}
                   </button>
-                  <span className="self-center text-muted">{es ? "G / E / P suma el partido y los puntos solos (3 · 1 · 0)." : "W / D / L adds the match and the points for you (3 · 1 · 0)."}</span>
+                  <span className="self-center text-muted">{es ? "G / E / P suma el partido y los puntos solos (3 · 1 · 0). Los equipos de “Mis equipos” se eligen de la lista y llevan su escudo al póster." : "W / D / L adds the match and the points for you (3 · 1 · 0). Teams from “My teams” are picked from the list and bring their crest to the poster."}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <button type="button" className="btn-ghost px-4 py-2 text-sm" disabled={busy === l.id} onClick={() => save(l)}>
