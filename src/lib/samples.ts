@@ -58,4 +58,6 @@ export interface ClientTemplate {
   wide?: boolean;
   /** Team logo category: this style creates a brand-new logo (square). */
   logoCreate?: boolean;
+  /** Flyer styles: one text box per line of the reference flyer. */
+  textSlots?: import("./text-slots").TextSlot[];
 }

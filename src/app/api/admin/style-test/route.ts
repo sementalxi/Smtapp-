@@ -10,7 +10,7 @@ import { DEFAULT_SAMPLE } from "@/lib/style-test-inputs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-const Item = z.object({ id: z.string().min(1), name: z.string().max(80), layout: z.string().max(20), logoCreate: z.boolean() });
+const Item = z.object({ id: z.string().min(1), name: z.string().max(80), layout: z.string().max(20), logoCreate: z.boolean(), slug: z.string().max(80).optional() });
 const SampleSchema = z.object({
   photoUrl: z.string().max(500),
   logoUrl: z.string().max(500),

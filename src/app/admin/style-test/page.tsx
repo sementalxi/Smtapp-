@@ -55,6 +55,7 @@ export default async function AdminStyleTest() {
   const templates: TestTemplate[] = tpls.map((t) => ({
     id: t.id,
     name: t.name,
+    slug: t.slug,
     layout: t.layout,
     logoCreate: /\[LOGO CREATE\]/.test(t.proInstructions ?? ""),
     hasInstructions: !!t.proInstructions?.trim(),

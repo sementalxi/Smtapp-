@@ -141,6 +141,7 @@ export const POST = handle(async (req: NextRequest) => {
       format: fmt,
       cardLook: totw?.cardLook,
       exactTable,
+      slug: template.slug,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;

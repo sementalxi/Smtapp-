@@ -70,6 +70,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format,
         cardLook: totw?.cardLook,
         exactTable,
+        slug: banner.template.slug,
         season: await (async () => {
           const s = (banner.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
           if (!s) return "";

@@ -4,6 +4,7 @@ import { db } from "./db";
 import { HttpError } from "./auth";
 import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generatePoster, generateBackground, removeBackground } from "./ai";
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
+import { textSlotsFor } from "./text-slots";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation, surprisePose } from "./pro-options";
@@ -54,6 +55,7 @@ export const InputsSchema = z.object({
   partnerNames: z.array(z.string().trim().max(40)).max(4).default([]),
   refImageUrl: str(500),
   photo2Url: str(500),
+  slots: z.record(z.string().max(32), z.string().max(120)).optional().default({}),
   trophy: str(60),
   bgPose: str(40),
   bgScene: str(40),
@@ -474,6 +476,8 @@ export function buildProPrompt(opts: {
   cardLook?: { name: string; text: string; colours?: { primary: string; accent: string; dark: string } } | null;
   /** Standings: KIXO draws the table afterwards — the AI leaves the table area empty. */
   exactTable?: boolean;
+  /** Style slug — flyer styles have their own text slots (lib/text-slots). */
+  slug?: string | null;
 }) {
   // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
   const hasPhoto = opts.refs.some((r) => r.label.startsWith("the main subject"));
@@ -509,13 +513,14 @@ export function buildProPrompt(opts: {
   const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.rule, i.ruleNote, i.entry,
-    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers,
+    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
   ].join(" ");
   const hit = allText.match(BLOCKED);
   if (hit) throw Object.assign(new HttpError(400, "err_blocked"), { detail: `Word filter matched "${hit[0]}"` });
 
   const lines: string[] = [];
   const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
+  const flyerSlots = layout === "PLAYER" ? textSlotsFor(opts.slug) : [];
   const finish = `BACKGROUND & FINISH (must be epic, never simple): build at least three layers of depth — 1) a detailed, dramatic environment far behind (stadium, sky, architecture or a themed scene, with bokeh and atmosphere), 2) big bold graphic energy in the middle (light beams, lightning, smoke, shattered shards, flowing liquid metal or fire — matching the theme), 3) sharp foreground particles and debris flying toward the camera. Dense layered effects (light streaks, sparks, embers, glitter dust, lens flares, fine grain, haze) and a rich, contrasty cinematic colour grade. A plain gradient, flat colour, soft blur or simple texture is NOT acceptable.`;
   const frame = `FULL-BLEED: the artwork runs edge to edge — no border, no frame lines, no corner marks, no crop marks, no decorative lines along the edges.`;
 
@@ -744,11 +749,19 @@ export function buildProPrompt(opts: {
       ].join(" ");
       add("Player name (huge, bottom left)", i.name);
       add("Position tag box", i.position);
-      add("Small elegant word above the name", i.tagline);
-      add("Script-font line under the name", i.subtitle);
       add("Jersey number (large outlined, right side)", i.number);
+      if (flyerSlots.length) {
+        // Flyer styles: one line per slot of the reference flyer, each at that line's spot and in its lettering.
+        for (const sl of flyerSlots) {
+          const v = (i.slots?.[sl.key] ?? "").trim();
+          if (v) lines.push(`- ${sl.label} — ${sl.where}: ${q(v)}`);
+        }
+      } else {
+        add("Small elegant word above the name", i.tagline);
+        add("Script-font line under the name", i.subtitle);
+      }
   }
-  add("Letter-spaced footer line at the very bottom", i.footer);
+  if (!flyerSlots.length) add("Letter-spaced footer line at the very bottom", i.footer);
 
   const typeFx = `TYPOGRAPHY TREATMENT (very important): every title is a designed lettering piece by a pro designer, never plain typed text. The main name/headline: thick 3D extruded letters with bevelled edges, polished chrome or brushed-metal faces with a gradient in the main colour, sharp specular highlights, a coloured outline or inner glow, a hard drop shadow and subtle wear/texture; it may be slightly slanted, tightly kerned and overlap the subject in places. Mix 2–3 contrasting type styles (huge condensed caps + a gothic or brush-script accent + tiny letter-spaced caps) with a clear size hierarchy. Tag boxes and badges look like real graphic elements (bevel, gradient, glow). No flat, thin, default-looking white text.`;
   const typo = [
@@ -882,6 +895,7 @@ export function buildProPrompt(opts: {
     layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     layout === "LOGO" ? "" : `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
+    flyerSlots.length ? `FLYER TEXT LINES: this style copies a reference flyer, and each text item below names the flyer line it replaces and where that line sits — put each text exactly there, lettered like that line of the flyer (same font style, size, colour and effects). Flyer lines whose text is not given stay EMPTY (no placeholder, no invented words) — the layout simply closes up. These placements override any tagline / subtitle / footer mentions in the instructions above.` : "",
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     layout === "LOGO"

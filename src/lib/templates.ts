@@ -59,6 +59,7 @@ export interface BannerInputs {
   partnerLogos: string[]; // event: collaborator / co-organizer logos (up to 4)
   partnerNames: string[]; // event: their names, same order
   photo2Url: string; // PLAYER: a second photo of the same player, used for the background figure
+  slots: Record<string, string>; // PLAYER flyer styles: one text per flyer line (lib/text-slots)
   refImageUrl: string; // the user's inspiration image: a style reference only (look, not content)
   trophy: string; // champions trophy style
   colorMode: string; // "surprise" | "template" | "custom"
@@ -117,6 +118,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   partnerNames: [],
   refImageUrl: "",
   photo2Url: "",
+  slots: {},
   trophy: "",
   colorMode: "",
   color1: "",

@@ -1,3 +1,4 @@
+import { textSlotsFor } from "./text-slots";
 import { db } from "./db";
 import type { ClientTemplate } from "./samples";
 import type { TemplateStyle } from "./templates";
@@ -33,5 +34,6 @@ async function loadTemplates(aud: string[] | null): Promise<ClientTemplate[]> {
     badge: r.badge,
     wide: /\[WIDE\]/.test(r.proInstructions ?? ""),
     logoCreate: /\[LOGO CREATE\]/.test(r.proInstructions ?? ""),
+    textSlots: textSlotsFor(r.slug),
   }));
 }

@@ -881,8 +881,32 @@ export function CreateWizard({
                 {field({ label: L.position, k: "position", max: 24, ph: "ST · CAM | OM" })}
                 {field({ label: L.number, k: "number", max: 4 })}
               </div>
-              {field({ label: L.tagline, k: "tagline", max: 30 })}
-              {field({ label: L.subtitle, k: "subtitle" })}
+              {tpl?.textSlots?.length ? (
+                <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
+                  <p className="text-xs text-muted">
+                    {locale === "es"
+                      ? "Este estilo copia un flyer: cada caja es una línea de ese flyer. Deja vacías las que no quieras."
+                      : "This style copies a flyer: each box is one line of that flyer. Leave the ones you don't want empty."}
+                  </p>
+                  {tpl.textSlots.map((sl) => (
+                    <div key={sl.key}>
+                      <label className="label">{locale === "es" ? sl.labelEs : sl.label}</label>
+                      <input
+                        className="input"
+                        maxLength={sl.max ?? 60}
+                        placeholder={sl.ph}
+                        value={inp.slots?.[sl.key] ?? ""}
+                        onChange={(e) => set("slots", { ...(inp.slots ?? {}), [sl.key]: e.target.value })}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  {field({ label: L.tagline, k: "tagline", max: 30 })}
+                  {field({ label: L.subtitle, k: "subtitle" })}
+                </>
+              )}
             </>
           )}
 
@@ -1203,7 +1227,7 @@ export function CreateWizard({
             </>
           )}
 
-          {field({ label: L.footer, k: "footer", max: 48 })}
+          {!tpl?.textSlots?.length && field({ label: L.footer, k: "footer", max: 48 })}
           <div className="rounded-xl border border-teal/40 bg-teal/5 p-3">
             <ImageDrop kind="photo" label={locale === "es" ? "🖼️ Imagen de referencia (opcional) — un póster que te guste, para que la IA capte la idea" : "🖼️ Reference image (optional) — a poster you like, so the AI gets the idea"} value={refImg} onChange={setRefImg} searchQuery={locale === "es" ? "póster deportivo" : "sports poster design"} />
             <p className="mt-1 text-[11px] text-muted">{locale === "es" ? "La IA copia el look (composición, luces, colores, tipografía) — no sus personas, textos ni logos. Describe en “Idea extra” qué te gusta de ella si quieres." : "The AI copies the look (composition, lighting, colours, typography) — not its people, text or logos. Say what you like about it in “Extra idea” if you want."}</p>
