@@ -192,9 +192,13 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           </div>
           <div>
             <span className="mb-1 block text-xs font-bold text-muted">{es ? "Token de acceso (de larga duración)" : "Access token (long-lived)"}</span>
-            <input className="input" type="password" autoComplete="off" maxLength={600} placeholder="IGAA…" value={v.instagram_token ?? ""} onChange={(e) => setV({ ...v, instagram_token: e.target.value.trim() })} />
+            <input className="input" type="password" autoComplete="off" maxLength={1000} placeholder="IGAA… / EAA…" value={v.instagram_token ?? ""} onChange={(e) => setV({ ...v, instagram_token: e.target.value.trim() })} />
           </div>
         </div>
+        <label className="mt-2 block">
+          <span className="mb-1 block text-xs font-bold text-muted">{es ? "ID de la cuenta de Instagram (solo si tu token empieza con EAA)" : "Instagram account ID (only if your token starts with EAA)"}</span>
+          <input className="input" inputMode="numeric" maxLength={30} placeholder="17841…" value={v.instagram_id ?? ""} onChange={(e) => setV({ ...v, instagram_id: e.target.value.replace(/\D/g, "") })} />
+        </label>
         <InstagramTest />
         <details className="mt-3 text-xs text-muted">
           <summary className="cursor-pointer font-bold text-white/80">{es ? "¿Cómo consigo el token? (5 minutos, gratis)" : "How do I get the token? (5 minutes, free)"}</summary>

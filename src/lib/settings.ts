@@ -24,6 +24,7 @@ export const SETTING_DEFAULTS = {
   feat_6: "",
   instagram_on: "off", // home Instagram section
   instagram_user: "",
+  instagram_id: "", // Instagram account ID — only needed for Unified-login (EAA…) tokens
   instagram_token: "", // long-lived Instagram access token (Instagram API with Instagram Login)
   hero_video: "",
   hero_video_opacity: "70",

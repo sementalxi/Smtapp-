@@ -15,7 +15,7 @@ export const POST = handle(async (req: NextRequest) => {
   const s = await getSettings();
   if (!s.instagram_token) return json({ error: "no_token" }, 400);
   try {
-    const feed = await fetchInstagram(s.instagram_token, 9);
+    const feed = await fetchInstagram(s.instagram_token, 9, s.instagram_id);
     await db.setting.upsert({ where: { key: "instagram_cache" }, create: { key: "instagram_cache", value: JSON.stringify({ at: Date.now(), ...feed }) }, update: { value: JSON.stringify({ at: Date.now(), ...feed }) } }).catch(() => {});
     await db.setting.upsert({ where: { key: "instagram_token_at" }, create: { key: "instagram_token_at", value: String(Date.now()) }, update: {} }).catch(() => {});
     return json({ ok: true, username: feed.username, count: feed.posts.length, thumbs: feed.posts.slice(0, 6).map((p) => p.image) });
