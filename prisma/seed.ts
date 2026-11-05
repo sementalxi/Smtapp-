@@ -68,6 +68,20 @@ async function main() {
     await db.template.updateMany({ where: { slug: { startsWith: "event-" } }, data: { active: true } });
     await db.setting.create({ data: { key: "events_v2", value: new Date().toISOString() } });
   }
+  // One-time (owner's request): event announcements show a person only when a photo is uploaded — reload the event briefs.
+  if (!(await db.setting.findUnique({ where: { key: "events_v3_no_people" } }))) {
+    for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
+      if (slug.startsWith("event-")) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
+    }
+    await db.setting.create({ data: { key: "events_v3_no_people", value: new Date().toISOString() } });
+  }
+  // One-time: the four styles copied from the owner's own flyers come first in the event list.
+  if (!(await db.setting.findUnique({ where: { key: "events_v4_order" } }))) {
+    for (const t of DEFAULT_TEMPLATES) {
+      if (t.layout === "EVENT" && t.slug.startsWith("event-")) await db.template.updateMany({ where: { slug: t.slug }, data: { sort: t.sort } });
+    }
+    await db.setting.create({ data: { key: "events_v4_order", value: new Date().toISOString() } });
+  }
   // One-time (owner's request): hide all the old lineup styles — only the new Photoshop-style ones stay.
   if (!(await db.setting.findUnique({ where: { key: "lineups_v2" } }))) {
     await db.template.updateMany({ where: { layout: "LINEUP", NOT: { slug: { startsWith: "xi-" } } }, data: { active: false } });

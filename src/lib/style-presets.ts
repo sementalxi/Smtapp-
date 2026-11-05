@@ -2,11 +2,10 @@
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
 /** Shared blocks of the event flyer briefs (the player-card hero treatment, the flyer rules and the pro finish). */
-const EVENT_HERO = `THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
+const EVENT_HERO = `[IF PHOTO]THE HERO — the person from the uploaded photo shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
 1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident, closed-mouth look).
 2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
-Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
-WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.`;
+Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.[/IF PHOTO][IF NO PHOTO]NO PEOPLE — no photo was uploaded, so this poster has NO people at all: no players, athletes, faces, bodies, hands, crowds or silhouettes, not even blurred or far in the background. It is a TEXT-DRIVEN announcement: the lettering pieces ARE the hero — the HEADLINE big and centred where a figure would stand, the date block and the prize as designed 3D pieces, the logo emblem, and the scene's atmosphere (light, smoke, textures, shards) with foreground particles filling the frame. No big empty areas. Wherever this brief mentions the hero, the portrait or the front figure, it means the main lettering piece (the HEADLINE) instead.[/IF NO PHOTO]`;
 const EVENT_FLYER = `ANNOUNCEMENT FLYER: this is a flyer that announces what is coming — so the DATE & TIMES block is a big designed element, not a footnote; the accent line is the small "eyebrow" line that sets up the headline; the PRIZE is a hero number; and the info line is split into short rows (split it on · or / ) set as stamps, tags or icon rows. Words like COMING SOON, REGISTRATION OPEN or FREE ENTRY, when they appear in the given texts, become rubber-stamp / tag boxes.`;
 const EVENT_FINISH = `ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
 
@@ -3400,17 +3399,17 @@ RULES
 COLOURS: near-black with deep red and electric blue accents, warm gold for the prize and trophy, chrome-white headline; a cool-red cinematic grade.
 
 SCENE
-- A dark esports arena at night: tall hanging banners with the league logo (only if a league logo is given — otherwise plain dark banners) fading into the rafters, rows of stage lights, haze, a faint crowd far behind.
-- LEFT HALF: a GIANT polished gold trophy standing on a dark marble base in the lower left (its engraved plate carries the event title if given, nothing else), beside it the person from the uploaded photo standing tall and confident, cut out and rim-lit in red and blue, looking at the camera (if no photo: the trophy alone, larger, with light beams behind it).
+- A dark esports arena at night: tall hanging banners with the league logo (only if a league logo is given — otherwise plain dark banners) fading into the rafters, rows of stage lights, haze — no crowd, no people.
+- LEFT HALF: a GIANT polished gold trophy standing on a dark marble base in the lower left (its engraved plate carries the event title if given, nothing else)[IF PHOTO], beside it the person from the uploaded photo standing tall and confident, cut out and rim-lit in red and blue, looking at the camera[/IF PHOTO][IF NO PHOTO] — the trophy alone, larger, with light beams behind it; NO people anywhere[/IF NO PHOTO].
 - RIGHT HALF (a clean vertical column, left-aligned, top to bottom): a thin red–blue rule with the accent line in small letter-spaced caps; the HEADLINE massive in two lines — the first in brushed chrome, the second in deep red chrome; the event title in a thin-bordered box (red-blue gradient border) in letter-spaced caps; the PRIZE huge in polished gold 3D with the word under it in wide letter-spaced caps; then the date / times inside another thin-bordered box; then the info line split into short rows with a tiny icon-like glyph before each (if it contains several parts separated by · or /); the small league logo near the top of the column; a closing letter-spaced line at the very bottom of the column.
-- Red and blue light streaks, sparks and lens flares cross the composition; the person and the trophy overlap the column's left edge slightly.
+- Red and blue light streaks, sparks and lens flares cross the composition; the trophy[IF PHOTO] and the person[/IF PHOTO] overlap the column's left edge slightly.
 
 QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
 
 RULES
 - Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
 - Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
-- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO people at all — no faces, bodies, crowds, dancers or silhouettes; the lettering, the logos and the scene carry the poster.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
   "event-studio-trophy": `[FIXED LAYOUT] STUDIO TROPHY — a vertical (4:5) tournament announcement shot like a luxury product photo: black, silver and gold, calm and expensive.
 
@@ -3418,7 +3417,7 @@ COLOURS: black and charcoal, polished silver and warm gold, white letter-spaced 
 
 SCENE
 - A dark photo studio: a black reflective floor, two tall softbox lights on stands at the left and right edges throwing soft white light, flight cases in the shadows, a faint vignette.
-- LEFT TWO THIRDS: a GIANT polished silver-and-gold trophy (tall cup with sweeping handles, a gold rim and a football at its base) standing on a low black plinth, the league logo (only if given) engraved on the cup and EMBOSSED huge in dark metal on the wall behind it; perfect reflections on the floor. If a photo is given, the person stands beside the trophy at the left, cut out and softly lit (never covering the text).
+- LEFT TWO THIRDS: a GIANT polished silver-and-gold trophy (tall cup with sweeping handles, a gold rim and a football at its base) standing on a low black plinth, the league logo (only if given) engraved on the cup and EMBOSSED huge in dark metal on the wall behind it; perfect reflections on the floor. [IF PHOTO]The person from the uploaded photo stands beside the trophy at the left, cut out and softly lit (never covering the text).[/IF PHOTO][IF NO PHOTO]No people anywhere — the trophy and the lettering carry the poster.[/IF NO PHOTO]
 - RIGHT THIRD (a clean column, left-aligned, top to bottom): a tiny letter-spaced eyebrow line (the accent line); the HEADLINE in two stacked lines of heavy chrome-silver capitals with a gold second line; a thin gold rule with the event title small and letter-spaced under it; the PRIZE giant in brushed gold 3D with the word under it in wide letter-spaced caps; a gold-bordered box with the first part of the info line (e.g. FREE ENTRY); the date / times in condensed white caps; the remaining info parts as short gold-and-white lines; the collaborator logos small at the bottom of the column; the small league logo beside the eyebrow line.
 
 QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
@@ -3426,7 +3425,7 @@ QUALITY (the KIXO player-card standard): a REAL premium composite like a top esp
 RULES
 - Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
 - Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
-- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO people at all — no faces, bodies, crowds, dancers or silhouettes; the lettering, the logos and the scene carry the poster.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
   "event-party-clash": `[FIXED LAYOUT] PARTY CLASH — a vertical (4:5) nightclub / contest flyer that screams: red and orange neon, two sides facing off, money in the air.
 
@@ -3435,7 +3434,7 @@ COLOURS: deep crimson and black with hot orange and neon-red lasers, gold for th
 SCENE
 - A nightclub at full blast: red neon laser lines cutting diagonally through haze, strobe flares, confetti and sparks everywhere.
 - TOP (two stacked 3D title blocks side by side): the HEADLINE on the left in huge chunky 3D red-and-gold capitals with a black outline, the PRIZE on the right in giant gold 3D figures with the same outline; a tiny letter-spaced eyebrow line above both (the accent line) and the event title in a small bold white tag under the headline.
-- MIDDLE: a VS face-off — the person(s) from the uploaded photo cut out large on the left and right, leaning in toward each other, holding fans of cash (if the photo has one person, they stand big on one side and the other side holds a burst of cash and light); between them a torn-paper split with an out-of-focus dancing crowd (no faces) and a spotlight beam; money bills flying through the air.
+- MIDDLE: [IF PHOTO]a VS face-off — the person(s) from the uploaded photo cut out large on the left and right, leaning in toward each other, holding fans of cash (if the photo has one person, they stand big on one side and the other side holds a burst of cash and light); between them a torn-paper split with a spotlight beam; money bills flying through the air.[/IF PHOTO][IF NO PHOTO]a giant cracked 3D "VS" lettering piece in gold and red between two bursts of cash, lasers and sparks, a torn-paper split behind it, money bills flying through the air — NO people, dancers, crowd or silhouettes anywhere.[/IF NO PHOTO]
 - BOTTOM: a gold trophy bursting up from the cracked floor in an explosion of sparks, broken ground and flying bills; under it the date / times line in huge condensed white capitals; the info line in a smaller condensed white line; the organizer / venue logo (only if given) big and centred as a wordmark at the very bottom with the collaborator logos smaller beside it.
 
 QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
@@ -3443,7 +3442,7 @@ QUALITY (the KIXO player-card standard): a REAL premium composite like a top esp
 RULES
 - Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
 - Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
-- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO people at all — no faces, bodies, crowds, dancers or silhouettes; the lettering, the logos and the scene carry the poster.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
   "event-fiesta-night": `[FIXED LAYOUT] FIESTA NIGHT — a vertical (4:5) festive event flyer in green, red and gold: fireworks, a skyline and ornate gold script, a face-off of two acts.
 
@@ -3452,7 +3451,7 @@ COLOURS: emerald green and deep red split left / right over black, warm gold fil
 SCENE
 - A city skyline at night under a moon, fireworks bursting in green and red, their light reflecting on a river; green smoke rolling in on the left, red on the right; a few green and red spotlights.
 - TOP: the HEADLINE huge in ornate 3D gold capitals with filigree flourishes and a subtle crack texture, a warm glow around it; the accent line small above it in letter-spaced caps.
-- MIDDLE: a VS split — the person(s) from the uploaded photo cut out large on the left (green side) and right (red side) facing the centre, a big cracked gold "VS" between them with a lightning crack; if the photo shows a group, place them as one side and fill the other with silhouettes in stage light (no faces). The event title as a gold script lettering piece at the end of the middle section.
+- MIDDLE: [IF PHOTO]a VS split — the person(s) from the uploaded photo cut out large on the left (green side) and right (red side) facing the centre, a big cracked gold "VS" between them with a lightning crack; if the photo shows a group, place them as one side and fill the other with a burst of fireworks and light. [/IF PHOTO][IF NO PHOTO]a big cracked gold "VS" lettering piece with a lightning crack between two bursts of green and red fireworks and smoke — NO people or silhouettes anywhere. [/IF NO PHOTO]The event title as a gold script lettering piece at the end of the middle section.
 - BOTTOM INFO BLOCK (centred, stacked): the date in wide letter-spaced white caps; the prize / main line in giant bold white capitals with a green glow; the info line in bold white and green capitals (names separated by small "X" marks if the line lists several); the organizer logo small in both top corners (only if given); collaborator logos in a small row at the very bottom.
 
 QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
@@ -3460,7 +3459,7 @@ QUALITY (the KIXO player-card standard): a REAL premium composite like a top esp
 RULES
 - Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
 - Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
-- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO people at all — no faces, bodies, crowds, dancers or silhouettes; the lettering, the logos and the scene carry the poster.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
   "event-chrome-noir": `[FIXED LAYOUT] CHROME NOIR NIGHT — a professional esports tournament / event announcement in the look of our Chrome Noir player card: black-and-white with ONE accent colour, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic, premium.
 
@@ -3472,11 +3471,7 @@ BACKGROUND
 - The HEADLINE echoed GIANT in faded white outline capitals across the upper background, cut off by the edges, partly hidden by the hero.
 - The organizer / league logo ONLY if its reference image is given: big in the upper right, fully inside the frame, as a premium 3D metal emblem faithful to its artwork, slightly faded into the background.
 
-THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
-1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
-2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
-Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
-WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+${EVENT_HERO}
 
 TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
 1. The accent line (if given) in a small bevelled tag box with a thin accent frame.
@@ -3512,11 +3507,7 @@ BACKGROUND
 - The HEADLINE echoed GIANT in faded dark-red capitals behind the shards, cut off by the edges.
 - The organizer / league logo (if given) upper right on the red panel, big and crisp as a premium 3D metal emblem with glow, faithful to its artwork.
 
-THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
-1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
-2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
-Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
-WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+${EVENT_HERO}
 
 TYPOGRAPHY & LAYOUT (on the dark red panel, right, stacked, left-aligned)
 1. The accent line (if given) small in letter-spaced white caps with a thin red rule.
@@ -3551,12 +3542,8 @@ BACKGROUND
 - The HEADLINE as GIANT liquid-CHROME 3D letters with sharp spikes floating behind the hero, cut off at the edges (a graphic echo — the headline is also set clean in the panel below).
 - The organizer / league logo (if given) centre-left, crisp as a premium 3D chrome emblem faithful to its artwork, with a faded giant echo of it in the nebula.
 
-THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
-1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
-2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
-Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
-WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
-(In this style the portrait behind is BLACK-AND-WHITE with a purple rim light and the front hero is full colour.)
+${EVENT_HERO}
+[IF PHOTO](In this style the portrait behind is BLACK-AND-WHITE with a purple rim light and the front hero is full colour.)[/IF PHOTO]
 
 TYPOGRAPHY & LAYOUT (a glassy translucent purple PANEL across the lower third, with a thin chrome edge)
 1. The accent line (if given) small in letter-spaced chrome caps at the top of the panel.
@@ -3592,11 +3579,7 @@ BACKGROUND
 - A big golden CROWN or a gold trophy silhouette rising behind the hero, real polished metal with warm reflections.
 - The organizer / league logo (if given) CENTRED in the upper middle, large and crisp as a premium gold 3D emblem faithful to its artwork, plus a huge faded echo of it behind the collage.
 
-THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
-1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
-2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
-Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
-WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+${EVENT_HERO}
 
 TYPOGRAPHY & LAYOUT (stacked on torn paper strips)
 1. The accent line (if given) small in letter-spaced gold caps on a torn black strip above the headline.
@@ -3651,11 +3634,11 @@ COLOURS: white paper, black, and a bright accent (default teal, or the organizer
 
 BACKGROUND
 - Layers of torn white and black paper with real fibres, tape strips, accent-colour paint splatter and halftone dots, small typographic marks (stars, slashes) in black.
-- A BLACK-AND-WHITE horizontal photo STRIP across the upper third: inside it the hero in monochrome (the portrait of the person from the photo, or the trophy) and the organizer / league logo (if given) in monochrome, like a newspaper cut-out. The hero partly breaks out of the strip's bottom edge.
+- A BLACK-AND-WHITE horizontal photo STRIP across the upper third: inside it [IF PHOTO]the portrait of the person from the photo in monochrome and [/IF PHOTO]the organizer / league logo (if given) in monochrome[IF NO PHOTO] with the HEADLINE's giant letters printed across it like a newspaper masthead[/IF NO PHOTO], like a newspaper cut-out.[IF PHOTO] The portrait partly breaks out of the strip's bottom edge.[/IF PHOTO]
 - The HEADLINE echoed as giant letters pressed faintly into the paper behind the lower block.
 
 ${EVENT_HERO}
-(In this style the front hero stands at the right overlapping the paper layers; the portrait is the monochrome one inside the strip.)
+[IF PHOTO](In this style the front hero stands at the right overlapping the paper layers; the portrait is the monochrome one inside the strip.)[/IF PHOTO]
 
 TYPOGRAPHY & LAYOUT (lower left, on a white paper block)
 1. The accent line (if given) in a wide letter-spaced techno font at the top of the block.
@@ -3677,7 +3660,7 @@ BACKGROUND
 - Clean off-white paper with big burnt-orange ink splatters, drips and dry-brush strokes exploding from the upper right and the top-left corner; a faint ghosted pencil-sketch of the HEADLINE as giant letters across the middle; paper grain and a few tiny ink flecks.
 
 ${EVENT_HERO}
-(In this style both figures are rendered as a bold illustration: thick clean ink outlines, flat cel shading with two or three tones, crisp highlights — like a premium anime key-visual or a comic cover, but faithful to the real person. Without a photo the trophy is drawn the same way in black ink with orange highlights.)
+[IF PHOTO](In this style both figures are rendered as a bold illustration: thick clean ink outlines, flat cel shading with two or three tones, crisp highlights — like a premium anime key-visual or a comic cover, but faithful to the real person.)[/IF PHOTO][IF NO PHOTO](Without a photo there is no figure: the HEADLINE is painted as a giant ink lettering piece with dry-brush edges and drips — no people.)[/IF NO PHOTO]
 
 TYPOGRAPHY & LAYOUT
 1. The HEADLINE huge at the lower right in heavy slanted black italic capitals with a white inline / outline, like a game title.
@@ -3747,7 +3730,7 @@ BACKGROUND
 - The organizer / league logo (if given) centred at the top as a premium 3D emblem in frosted steel, faithful to its artwork.
 
 ${EVENT_HERO}
-(Without a photo the trophy stands frozen in a block of ice at the centre.)
+[IF NO PHOTO](Without a photo the HEADLINE is frozen inside a giant block of cracked ice at the centre — no people.)[/IF NO PHOTO]
 
 TYPOGRAPHY & LAYOUT (a centred stack)
 1. The accent line (if given) small in letter-spaced ice-blue capitals under the logo.
@@ -3795,7 +3778,7 @@ BACKGROUND
 - The organizer / league logo (if given) as a NEON-sign emblem at the top-right, faithful to its artwork, with a real glow on the wet wall.
 
 ${EVENT_HERO}
-(In this style the portrait behind is a blue-and-magenta neon duotone looking over the shoulder and the front hero is caught mid-walk through the street, full colour with neon rim lights and a soft reflection on the wet asphalt.)
+[IF PHOTO](In this style the portrait behind is a blue-and-magenta neon duotone looking over the shoulder and the front hero is caught mid-walk through the street, full colour with neon rim lights and a soft reflection on the wet asphalt.)[/IF PHOTO]
 
 TYPOGRAPHY & LAYOUT
 1. The HEADLINE huge in white slanted capitals at the bottom-left with a magenta hard shadow.
@@ -3818,7 +3801,7 @@ BACKGROUND
 - The organizer / league logo (if given) also big as a gold medallion at the centre-left, faithful to its artwork.
 
 ${EVENT_HERO}
-(In this style the portrait behind is a bronze duotone with torch rim light and the front hero stands in a victory pose — arms wide, chest out — with a gold rim light. Without a photo the trophy stands on a stone plinth between the columns.)
+[IF PHOTO](In this style the portrait behind is a bronze duotone with torch rim light and the front hero stands in a victory pose — arms wide, chest out — with a gold rim light.)[/IF PHOTO]
 
 TYPOGRAPHY & LAYOUT
 1. The HEADLINE huge in gold Roman-style condensed capitals across the bottom, chiselled with a bevel.
@@ -3836,7 +3819,7 @@ ${EVENT_FINISH}`,
 COLOURS: deep navy and rich metallic GOLD (or the two colours from the COLOURS line in the same roles) over near-black. Gold is the light: every highlight, rim light, spark and edge glows gold.
 
 BACKGROUND (deep, layered, never muddy)
-- A packed ultras stand at night, slightly out of focus (real shallow depth of field): crowd silhouettes with raised arms, a few big GOLD flares burning with real bright cores and golden smoke drifting up, 2–3 large navy flags waving (no words on them).
+- A packed ultras stand at night, slightly out of focus (real shallow depth of field): waving flags and scarves, a few big GOLD flares burning with real bright cores and golden smoke drifting up, 2–3 large navy flags (no words on them) — no visible people.
 - Soft volumetric gold light beams from the top, fine gold dust and embers floating in the air (some in front of the hero, slightly blurred, for depth).
 - A WET, glossy black floor at the bottom with crisp mirror reflections of the hero, the prize and the flares.
 - Keep the background darker and calmer behind the text so every word reads perfectly.
@@ -3852,6 +3835,83 @@ TYPOGRAPHY & LAYOUT (left side, stacked, aligned on one left margin)
 5. The info line in tiny letter-spaced gold rows under the plaque.
 - RIGHT, lower: the PRIZE giant as a thin glowing gold outline, partly behind the front hero, with its reflection on the wet floor; its word small under it.
 - Collaborator logos (if given) in one small row at the very bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-relampago": `[FIXED LAYOUT] RELÁMPAGO — a vertical (4:5) lightning-tournament flyer in electric blue (or the organizer's colour from the COLOURS line in place of blue), loud and premium, like a top Pro Clubs community's flash-tournament announcement.
+
+COLOURS: electric blue, ice white and deep navy-black (or the organizer's colour in the same role), with gold only on the trophy.
+
+BACKGROUND
+- A dark arena wall covered in angular ice / glass shards and light streaks, LED dot grids glowing in the colour, real lightning bolts, grain and scratches, a faint hex texture.
+- GIANT echo lettering: the HEADLINE spanning the WHOLE width in huge white condensed capitals behind everything, cut off at both edges, partly hidden by the centrepiece.
+- The organizer / league logo (if given) echoed faded in the two lower corners, partly cut off.
+
+CENTREPIECE
+- TOP CENTRE: the organizer / league logo (if given) big and crisp as a premium 3D badge with a glow, like a tournament badge; the accent line (if given) small in letter-spaced caps right under it.
+- MIDDLE: [IF PHOTO]the person(s) from the uploaded photo cut out large in the middle, shoulder to shoulder, relit with a blue rim light, sharp — both overlapping the echo lettering.[/IF PHOTO][IF NO PHOTO]a GIANT gold-and-chrome 3D TROPHY (a tall cup with a crown-shaped rim and sweeping handles) with the organizer logo set into its front face like an enamel medallion (if no logo: a smooth chrome face), lightning crackling around it, real reflections — NO people anywhere.[/IF NO PHOTO]
+
+LOWER LOCK-UP (a dark translucent band)
+- TWO COLUMNS split by a glowing lightning bolt: LEFT — the event title (if given) small in letter-spaced white caps above a big brush / electric-script word made from the accent line's main word (if no accent line, the event title itself big); RIGHT — the PRIZE giant in bevelled chrome-blue 3D figures with its small word above it in letter-spaced caps.
+- Under it: a rounded glowing bar with a small clock icon — the DATE in a brush script word and the TIMES in condensed white caps (the city / zone words smaller).
+- Bottom: the info line in bold white capitals with a small generic chat-bubble icon before it; collaborator logos (if given) small beside it.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-golden-palace": `[FIXED LAYOUT] GOLDEN PALACE — a vertical (4:5) season / tournament launch flyer inside a golden marble palace: the most expensive-looking announcement, like a top league's season reveal.
+
+COLOURS: rich metallic gold, white-gold chrome, warm amber light, black marble and deep crimson banners.
+
+BACKGROUND
+- A grand golden palace / colosseum interior: tall marble columns with gold capitals, tiers of arches, deep red banners with gold laurel wreaths and small gold crowns (NO words on them), warm sunlight bursting through from behind, floating gold sparks and dust, a marble staircase descending toward the viewer with a glossy reflective floor at the bottom. The tiers are lit and empty — NO visible people.
+- Two white marble ANIMAL STATUES with gold crowns on black-and-gold pedestals, left and right (lions by default; the animal of the organizer's logo if the logo clearly shows one), rearing toward the centre.
+
+CENTREPIECE
+- TOP: the HEADLINE as a COLOSSAL 3D lettering piece in white-gold chrome capitals with thick gold bevels, a gold crown on top of it and ornamental gold wings / flourishes at both ends, spanning almost the full width; the event title (if given) right under it on a gold ribbon bar in bevelled gold capitals.
+- MIDDLE: a tall gold TROPHY on a black-and-gold marble podium with the organizer / league logo (if given) on the cup's face and again inside a laurel wreath on the podium front (if no logo: plain gold); [IF PHOTO]the person(s) from the uploaded photo standing on the stairs either side of the trophy, cut out, relit in warm gold light, sharp.[/IF PHOTO][IF NO PHOTO]NO people anywhere — the trophy, the statues and the lettering carry the poster.[/IF NO PHOTO]
+- The DATE on a small dark plate centred on the stairs under the podium (if given), condensed white caps.
+- LOWER THIRD: the PRIZE as COLOSSAL gold-chrome 3D figures across almost the full width, standing on the stairs with reflections; the accent line (if given) in white handwritten brush script tucked at the prize's lower right.
+- BOTTOM: two short columns in condensed white capitals with the key words in gold — the TIMES / details on one side, the info line on the other; collaborator logos (if given) small in the bottom corners.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-desert-plates": `[FIXED LAYOUT] DESERT PLATES — a vertical (4:5) showdown flyer in a sunset desert stadium, the information on riveted metal plates, cinematic and rugged.
+
+COLOURS: burnt orange and warm sunset gold, teal-blue dusk clouds, dark gunmetal plates, white and orange lettering.
+
+BACKGROUND
+- A desert stadium at sunset: red-rock mesas and cacti in the distance, floodlight towers blazing on both sides, orange flag banners (no words), a dramatic sky with teal clouds and an orange sun, dust and haze, cracked earth and big rocks in the foreground framing the plates. NO visible people in the stands.
+- TOP RIGHT: a riveted gunmetal PLATE with glowing orange edges holding the organizer / league logo (if given) and the collaborator logos (if given) side by side, separated by thin vertical orange lines.
+[IF PHOTO]- UPPER HALF: the person from the uploaded photo HUGE, from a low heroic angle, arms crossed or a strong pose, cut out, relit by the sunset with an orange rim light, dust at their feet.[/IF PHOTO][IF NO PHOTO]- UPPER HALF: the blazing sky, the floodlights and light beams — NO people anywhere.[/IF NO PHOTO]
+
+THE PLATES (a stack of riveted dark-metal plates with glowing orange edges, centred on the lower half, slightly overlapping each other)
+1. A small plate with the accent line (if given) in letter-spaced white caps.
+2. The HEADLINE in cracked-stone / brushed-steel white 3D capitals with a heavy bevel, two lines if long.
+3. The event title (if given) in glowing orange chrome 3D capitals right under it.
+4. A plate with the info line split into a bold white line and a tiny letter-spaced line (split on · or /).
+5. A plate with a small calendar icon + the DATE | a small clock icon + the TIMES, in condensed white capitals.
+6. A plate with the PRIZE in white italic 3D capitals with an orange outline.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-spiky-pyro": `[FIXED LAYOUT] SPIKY PYRO — a vertical (4:5) cup / special-edition flyer in a night stadium full of red and gold pyro, with a giant spiky metallic title.
+
+COLOURS: deep red and gold over black, white chrome lettering with red-gold bevels.
+
+BACKGROUND
+- A night stadium: stands glowing with red flares, gold sparks and smoke, flags and a big corner flag with the organizer / league logo (if given) waving at the top right, floodlights, confetti; the pitch grass at the bottom with a glossy wet look. The stands are light and pyro only — NO visible people.
+- Sparks and embers float in the foreground slightly out of focus.
+
+TYPOGRAPHY & LAYOUT
+1. The HEADLINE as a GIANT SPIKY 3D lettering piece at the top: white chrome capitals with thick gold-and-red bevels and sharp star-like points radiating from the letters, stacked in two or three lines if long, a warm glow around it; the event title (if given) in the same spiky lettering right under it, slightly smaller.
+2. MIDDLE: [IF PHOTO]the person(s) from the uploaded photo cut out in the middle in a confident pose, relit with red and gold rim lights, sharp, standing on the grass.[/IF PHOTO][IF NO PHOTO]the pyro, smoke and light beams fill the middle — NO people anywhere; the lettering pieces take the space.[/IF NO PHOTO]
+3. The accent line (if given) in a white brush / graffiti script at the right side, slightly rotated.
+4. BOTTOM: the PRIZE in the same spiky gold-red 3D lettering across the width; the DATE & TIMES in condensed white caps above it (if given).
+5. The info line at the very bottom in bold condensed white capitals with the last words in gold; the organizer logo small at the bottom right and collaborator logos (if given) small at the bottom left.
 
 ${EVENT_FLYER}
 
@@ -5671,6 +5731,20 @@ const SMALL_TEAM_NAME_FIXES: [string, string][] = [
 ];
 
 /** Removes the "team name small / tiny / letter-spaced" lines from a style's design instructions (big design uses stay). */
+/**
+ * Conditional blocks in a style's instructions: `[IF PHOTO]…[/IF PHOTO]` stays only when the user uploaded a
+ * photo, `[IF NO PHOTO]…[/IF NO PHOTO]` only when they didn't — so a brief never describes a person the AI
+ * then invents. Resolved right before the text reaches any AI step.
+ */
+export function resolveConditionals(text: string, ctx: { photo: boolean }): string {
+  return text
+    .replace(/\[IF PHOTO\]([\s\S]*?)\[\/IF PHOTO\]/g, (_, inner: string) => (ctx.photo ? inner : ""))
+    .replace(/\[IF NO PHOTO\]([\s\S]*?)\[\/IF NO PHOTO\]/g, (_, inner: string) => (ctx.photo ? "" : inner))
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 export function stripSmallTeamName(text: string): string {
   let out = text;
   for (const [from, to] of SMALL_TEAM_NAME_FIXES) out = out.split(from).join(to);

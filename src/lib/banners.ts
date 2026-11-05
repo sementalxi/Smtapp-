@@ -12,7 +12,7 @@ import { placeLogos, stampLogo } from "./stamp";
 import { logGeneration } from "./discord";
 import { FORMATION_ROWS, parseTotwLine } from "./formations";
 import { getSettings } from "./settings";
-import { stripSmallTeamName } from "./style-presets";
+import { resolveConditionals, stripSmallTeamName } from "./style-presets";
 
 const str = (max: number) => z.string().trim().max(max).default("");
 
@@ -455,7 +455,8 @@ export function buildProPrompt(opts: {
   exactTable?: boolean;
 }) {
   // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
-  if (opts.instructions) opts = { ...opts, instructions: stripSmallTeamName(opts.instructions) };
+  const hasPhoto = opts.refs.some((r) => r.label.startsWith("the main subject"));
+  if (opts.instructions) opts = { ...opts, instructions: resolveConditionals(stripSmallTeamName(opts.instructions), { photo: hasPhoto }) };
   const { inputs: raw, style, layout } = opts;
   // The team name is typed to save the team (and its crest) — it is NOT a caption for the poster.
   // Player cards never print it: the crest shows the team, and any giant background lettering spells the
@@ -764,6 +765,7 @@ export function buildProPrompt(opts: {
     layout === "PLAYER" && i.bgPose && !["style", "none", ""].includes(i.bgPose) && bgPosePrompt(i.bgPose) ? `- SECOND FIGURE POSE: ${bgPosePrompt(i.bgPose)}.` : "",
     layout === "PLAYER" && i.bgPose === "none" ? `- Show the player only ONCE (no second figure).` : "",
     i.extraPrompt ? `- EXTRA IDEA: ${i.extraPrompt}.` : "",
+    layout === "EVENT" && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. Text, logos and the scene only; the lettering is the hero.` : "",
     opts.cardLook
       ? `- LOOK OF THE WHOLE POSTER: the "${opts.cardLook.name}" player-card look — ${opts.cardLook.text}. The background, atmosphere, lighting, effects, materials and title typography of the entire poster (not only the cards) use this look${opts.cardLook.colours ? ` and these colours: main ${opts.cardLook.colours.primary}, accent / glow ${opts.cardLook.colours.accent}, deep shadows ${opts.cardLook.colours.dark}` : ""}. Keep this style's LAYOUT (where the title block sits, ${layout === "STANDINGS" ? "the table and its rows" : layout === "EVENT" ? "the hero, the prize and the information lines" : "the pitch and the formation of the cards"}) but replace its own scene, materials and colours with this look.${layout === "STANDINGS" ? " Take ONLY the look's scene, lighting, effects, colours and typography — NOT its player: a standings poster has no people, players, faces or figures at all; the league logo giant and faded in the background is the hero instead." : layout === "EVENT" ? " The look's player treatment applies to the uploaded photo only (the person shown exactly as that card style shows its player); without a photo take ONLY the scene, lighting, effects, colours and typography — no people or faces." : ""}`
       : "",
@@ -993,7 +995,7 @@ export async function generateProForBanner(opts: {
       if (fb.fallbackReady()) {
         try {
           // The admin's "Design instructions for the AI" — every step of the mix reads them.
-          const director = (opts.instructions ?? "").trim().slice(0, 20000);
+          const director = resolveConditionals(opts.instructions ?? "", { photo: opts.refs.some((r) => r.label.startsWith("the main subject")) }).slice(0, 20000);
           const artStep = posterModel === "flux-mix" ? fb.fluxPoster : posterModel === "seedream-mix" ? fb.seedreamArt : fb.nanoBananaArt;
           // Art step: leave at least ~105 s for the text step (and FLUX in between).
           await stage("art");
