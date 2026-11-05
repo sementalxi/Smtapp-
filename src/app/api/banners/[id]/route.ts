@@ -74,6 +74,7 @@ export const DELETE = handle(async (_req: NextRequest, { params }: Ctx) => {
   const { id } = await params;
   const b = await ownBanner(id, user.id, user.role === "ADMIN");
   await db.banner.delete({ where: { id } });
+  await (await import("@/lib/rev")).bumpRev();
   // Photos/logos may be reused by other banners, so only remove generated files.
   await Promise.all([b.backgroundUrl, b.finalUrl, b.cutoutUrl !== b.photoUrl ? b.cutoutUrl : null].map(deleteFile));
   return json({ ok: true });

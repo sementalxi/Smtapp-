@@ -7,7 +7,7 @@ import { DEFAULT_TEMPLATES } from "@/lib/templates";
 import { TemplateSchema } from "@/lib/template-schema";
 
 export const POST = handle(async (req: NextRequest) => {
-  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
+  await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const raw = await req.json();
   // Allow creating from a minimal body by filling in a default style.
   const body = TemplateSchema.parse({

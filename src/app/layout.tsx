@@ -11,6 +11,8 @@ import { ComingSoon } from "@/components/ComingSoon";
 import { SupportChat } from "@/components/SupportChat";
 import { SoundEvents } from "@/components/SoundEvents";
 import { KeepAwake } from "@/components/KeepAwake";
+import { LiveSync } from "@/components/LiveSync";
+import { getRev } from "@/lib/rev";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NoticeBar } from "@/components/NoticeBar";
 import { DailyReward } from "@/components/DailyReward";
@@ -81,6 +83,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="kixo-grain" aria-hidden />
             <RefCapture />
             <KeepAwake />
+            <LiveSync rev={await getRev().catch(() => "0")} />
             <ComingSoon bonus={dBonus} user={me ? { name: me.name, discord: !!me.discordId, discordName: me.discordName } : null} />
           </I18nProvider>
         </body>
@@ -89,6 +92,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
   const me = await getCurrentUser().catch(() => null);
   const path = (await headers()).get("x-kixo-path") ?? "/";
+  const rev = await getRev().catch(() => "0");
   return (
     <html lang={locale} className={fontVariables}>
       <body className="antialiased">
@@ -102,6 +106,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header />
           <SoundEvents />
           <KeepAwake />
+          <LiveSync rev={rev} />
           <main>{children}</main>
           {me && <SupportChat />}
           {/* Daily reward pop-up (the dashboard shows the full card instead; never over the creator or a poster page) */}

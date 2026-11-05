@@ -8,7 +8,7 @@ import { TYPE_PIC_KEYS } from "@/lib/type-pics";
 const Body = z.object({ pics: z.record(z.string(), z.string().max(500)) });
 
 export const PUT = handle(async (req: NextRequest) => {
-  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
+  await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const { pics } = Body.parse(await req.json());
   const clean = Object.fromEntries(Object.entries(pics).filter(([k, u]) => (TYPE_PIC_KEYS as readonly string[]).includes(k) && /^(https:\/\/|\/)/.test(String(u))));
   const value = JSON.stringify(clean);

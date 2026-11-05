@@ -8,6 +8,8 @@ export function memo<T>(key: string, ttlMs: number, fn: () => Promise<T>): Promi
   const hit = store.get(key);
   if (hit && Date.now() - hit.at < hit.ttl) return hit.value as Promise<T>;
   const value = fn();
+  const base = key.split("@")[0] + "@";
+  if (key.includes("@")) for (const k of [...store.keys()]) if (k.startsWith(base)) store.delete(k);
   store.set(key, { at: Date.now(), ttl: ttlMs, value });
   // A failed load is not cached.
   value.catch(() => {

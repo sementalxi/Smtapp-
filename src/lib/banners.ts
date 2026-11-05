@@ -158,6 +158,7 @@ export async function generateForBanner(opts: {
     const [backgroundUrl, cutoutUrl] = await Promise.all([bgTask, cutTask]);
 
     const data: Prisma.BannerUpdateInput = { status: "READY", error: null, backgroundUrl };
+    await (await import("./rev")).bumpRev();
     if (!opts.backgroundOnly) data.cutoutUrl = cutoutUrl;
     return db.banner.update({ where: { id: opts.bannerId }, data });
   } catch (err) {
@@ -1205,6 +1206,7 @@ export async function generateProForBanner(opts: {
     const old = await db.banner.findUnique({ where: { id: opts.bannerId }, select: { finalUrl: true } });
     const updated = await db.banner.update({ where: { id: opts.bannerId }, data: { status: "READY", error: null, finalUrl: url, prompt: `[Made with: ${usedModel}]\n\n${opts.prompt}`.slice(0, 40000) } });
     if (old?.finalUrl && old.finalUrl !== url) await deleteFile(old.finalUrl);
+    await (await import("./rev")).bumpRev();
     await logGeneration({ bannerId: opts.bannerId, userId: opts.userId, cost: opts.cost, ok: true, regenerate: opts.regenerate, image: out });
     { const { postShowcase } = await import("./discord-logs"); await postShowcase({ bannerId: opts.bannerId, userId: opts.userId, image: out }); }
     return updated;

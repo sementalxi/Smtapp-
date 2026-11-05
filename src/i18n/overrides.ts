@@ -9,7 +9,7 @@ export const TEXT_OVERRIDES_KEY = "text_overrides";
 export const getTextOverrides = cache(async (): Promise<TextOverrides> => {
   try {
     const { memo } = await import("@/lib/memo");
-    const row = await memo<{ value: string } | null>("texts", 60_000, () => db.setting.findUnique({ where: { key: TEXT_OVERRIDES_KEY } }));
+    const row = await memo<{ value: string } | null>(`texts@${await (await import("@/lib/rev")).getRev()}`, 60_000, () => db.setting.findUnique({ where: { key: TEXT_OVERRIDES_KEY } }));
     const v = row ? (JSON.parse(row.value) as Partial<TextOverrides>) : {};
     return { en: v.en ?? {}, es: v.es ?? {} };
   } catch {

@@ -63,7 +63,7 @@ const Body = z.object({
 });
 
 export const PUT = handle(async (req: NextRequest) => {
-  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
+  await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const body = Body.parse(await req.json());
   for (const k of ["hero_1", "hero_2", "hero_3", "share_image", "feat_1", "feat_2", "feat_3", "feat_4", "feat_5", "feat_6"] as const) if (body[k]) assertOwnUrl(body[k]);
   for (const [key, value] of Object.entries(body)) {

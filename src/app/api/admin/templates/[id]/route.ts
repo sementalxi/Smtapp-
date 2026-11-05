@@ -8,7 +8,7 @@ import { TemplateSchema } from "@/lib/template-schema";
 type Ctx = { params: Promise<{ id: string }> };
 
 export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
-  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
+  await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const { id } = await params;
   const body = TemplateSchema.partial().parse(await req.json());
   assertOwnUrl(body.styleRefUrl);
@@ -27,7 +27,7 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
 });
 
 export const DELETE = handle(async (_req: NextRequest, { params }: Ctx) => {
-  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
+  await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const { id } = await params;
   const used = await db.banner.count({ where: { templateId: id } });
   if (used > 0) {

@@ -8,7 +8,7 @@ import { loadBytes, saveFile } from "@/lib/storage";
 
 // Admin: put a finished poster on the home page (slot 1–3). The image is copied.
 export const POST = handle(async (req: NextRequest) => {
-  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
+  await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const { bannerId, slot } = z.object({ bannerId: z.string().max(40), slot: z.number().int().min(1).max(3) }).parse(await req.json());
   const banner = await db.banner.findUnique({ where: { id: bannerId }, select: { finalUrl: true } });
   if (!banner?.finalUrl) throw new HttpError(404, "not_found");
