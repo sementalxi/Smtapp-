@@ -250,7 +250,7 @@ export function collectProRefs(opts: {
       label:
         layout === "LINEUP" || layout === "RESULT" || layout === "MATCHDAY"
           ? "a player photo to feature as the hero image. Keep the face exactly recognisable — same person, not a lookalike."
-          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo (any badge, sponsor or words printed on it stay only on the kit — never reuse them anywhere else on the poster). Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
+          : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo (any badge, sponsor or words printed on it stay only on the kit, at its natural size — never reuse them anywhere else on the poster). If you recognise this person as a known footballer, IGNORE their real club: never add that club's crest, name, colours or badge — this card is for the team given in this brief only. Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
     });
   }
   if (opts.photoUrl && i.photo2Url && layout === "PLAYER") {
@@ -778,6 +778,11 @@ export function buildProPrompt(opts: {
     i.language && i.language !== "English" ? `- LANGUAGE: generic words (titles, labels) written in ${i.language}; names stay exactly as typed.` : "",
     layout === "PLAYER" && i.bgPose && !["style", "none", ""].includes(i.bgPose) && bgPosePrompt(i.bgPose) ? `- SECOND FIGURE POSE: ${bgPosePrompt(i.bgPose)}.` : "",
     layout === "PLAYER" && i.bgPose === "none" && !i.photo2Url ? `- Show the player only ONCE (no second figure).` : "",
+    layout === "PLAYER" && !exactLogos
+      ? hasTeamLogo
+        ? `- THE TEAM CREST: the ONLY crest on this card is the one in the reference image labelled "the crest/logo of the team" — copy THAT artwork (its exact shape, letters, symbols and colours). The badge printed on the shirt in the photo is NOT the crest (it may even be a different club): leave it on the shirt at its natural size and never redraw, enlarge or echo it. Before finishing, compare your crest with that reference image — if it looks like the shirt badge instead, it is wrong.`
+        : `- NO CREST: no team crest was given, so draw NO crest, badge, emblem or club name anywhere — the badge on the shirt stays only on the shirt at its natural size.`
+      : "",
     layout === "PLAYER" && i.photo2Url && opts.refs.some((r) => r.label.startsWith("a SECOND photo")) ? `- SECOND PICTURE: the second figure of the player (the portrait / background image) is the user's SECOND photo (its own reference image) — use that picture, do not invent a new pose for it.` : "",
     i.extraPrompt ? `- EXTRA IDEA: ${i.extraPrompt}.` : "",
     layout === "EVENT" && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",

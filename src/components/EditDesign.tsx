@@ -41,6 +41,7 @@ export function EditDesign({
   const [photo, setPhoto] = useState<string | null>(null);
   const [logo, setLogo] = useState<string | null>(null);
   const [note, setNote] = useState("");
+  const [fixCrest, setFixCrest] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [barDone, setBarDone] = useState(false);
@@ -58,7 +59,7 @@ export function EditDesign({
   const changedText = Object.fromEntries(
     Object.entries(text).filter(([k, v]) => typeof v === "string" && v !== (initial as unknown as Record<string, unknown>)[k] && k !== "extraPrompt"),
   ) as Record<string, string>;
-  const ready = Object.keys(changedText).length > 0 || !!colors || !!scene || !!photo || !!logo || note.trim().length > 2;
+  const ready = Object.keys(changedText).length > 0 || !!colors || !!scene || !!photo || !!logo || fixCrest || note.trim().length > 2;
 
   async function apply() {
     setBusy(true);
@@ -75,6 +76,7 @@ export function EditDesign({
         ...(photo ? { photoUrl: photo } : {}),
         ...(logo ? { logoUrl: logo } : {}),
         ...(note.trim() ? { note: note.trim() } : {}),
+        ...(fixCrest ? { fixCrest: true } : {}),
       }),
     });
     const data = await res.json().catch(() => ({}));
@@ -245,6 +247,9 @@ export function EditDesign({
           <div className="space-y-3">
             <PanelHead title={es ? "Dile a la IA qué cambiar" : "Tell the AI what to change"} hint={es ? "Toca un arreglo rápido o escribe el tuyo." : "Tap a quick fix or write your own."} onReset={note ? () => setNote("") : undefined} es={es} />
             <div className="flex flex-wrap gap-1.5">
+              <button type="button" onClick={() => setFixCrest((v) => !v)} className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${fixCrest ? "border-lime bg-lime/15 text-lime" : "border-line bg-panel-2 hover:border-lime/60 hover:text-lime"}`}>
+                🛡️ {es ? "Usa MI escudo (no el de la camiseta)" : "Use MY team crest (not the shirt badge)"}
+              </button>
               {QUICK_FIXES.map((f) => (
                 <button key={f.en} type="button" onClick={() => addFix(es ? f.es : f.en)} className="rounded-full border border-line bg-panel-2 px-3 py-1.5 text-xs font-semibold transition hover:border-lime/60 hover:text-lime">
                   {f.icon} {es ? f.es : f.en}

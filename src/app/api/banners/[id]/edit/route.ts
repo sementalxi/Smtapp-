@@ -27,6 +27,8 @@ const Body = z.object({
   photoUrl: z.string().max(500).optional(),
   logoUrl: z.string().max(500).optional(),
   note: z.string().trim().max(1000).optional(),
+  /** The AI drew the shirt badge (or an invented one) instead of the team crest: redo every crest with the real one, or remove it. */
+  fixCrest: z.boolean().optional(),
 });
 
 const q = (s: string) => `"${s.replace(/"/g, "'")}"`;
@@ -83,6 +85,14 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   if (body.logoUrl && !placed.length) {
     refs.push({ url: body.logoUrl, label: "the NEW TEAM CREST" });
     changes.push(`Replace the team crest/logo with the crest in reference image ${refs.length}, rendered in the same style and position, faithful to it.`);
+  }
+  if (body.fixCrest && !placed.length) {
+    if (logoUrl) {
+      refs.push({ url: logoUrl, label: "the REAL TEAM CREST" });
+      changes.push(`The crest on the poster is WRONG (it was copied from the shirt or invented). Replace EVERY crest, badge or emblem on the poster with the crest in reference image ${refs.length} — exactly its artwork, letters, symbols and colours — at the same size, position and style treatment as the wrong one. The badge on the player's shirt stays on the shirt at its natural size.`);
+    } else {
+      changes.push(`Remove every crest, badge, emblem and club name from the poster (they were copied from the shirt) and fill their places with matching background. The badge on the player's shirt stays on the shirt at its natural size.`);
+    }
   }
   if (body.note) changes.push(body.note);
   if (!changes.length && !body.logoUrl) throw new HttpError(400, "no_changes");

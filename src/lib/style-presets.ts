@@ -3947,6 +3947,81 @@ VARIETY
 
 TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, hashtags, stickers, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- Ignore the placement hints in the text list below — follow this style.`,
+  "player-muertos-print": `DÍA DE MUERTOS — a Day-of-the-Dead PRINT player card: white paper bands with hand-drawn skeleton folk art and red roses, a torn-paper deep-red band in the middle with the player. Festive, gritty, premium — like a top Latin nightlife designer's flyer, made for a football player.
+
+COLOURS: off-white paper, deep RED and black, fine grey line-art; the red may be replaced by the team colour from the COLOURS line below (same role), black and paper stay.
+
+BACKGROUND — THREE BANDS top to bottom
+1. TOP BAND (about 28%): off-white PAPER with a repeating hand-drawn Día de Muertos pattern in fine GREY line-art — skeleton charros with sombreros, elegant catrinas with feathered hats, sugar-skull faces, marigolds — with a few RED roses in colour, like a vintage tequila-label engraving; light grunge, grain and a subtle red paper-fold crease.
+2. MIDDLE BAND (about 48%): a DEEP RED-and-BLACK scene behind the player — red light streaks and lens flares shooting diagonally, red smoke along the bottom, dark scratched texture, red vignette; its top and bottom edges are TORN PAPER (rough white fibres) where the white bands tear away to reveal it, slightly tilted.
+   - GIANT ECHO LETTERING: the player's NAME in huge OUTLINED condensed capitals (hollow, thin white stroke) written TWICE, stacked and offset, spanning the width behind the player and cut off at the edges.
+3. BOTTOM BAND (about 24%): the same off-white paper and skeleton pattern, faded lighter, holding the crest and the text lines.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit — no face paint, no costume):
+1. BEHIND (in the red band, left or right, large): a chest-up portrait in a red DUOTONE, blended into the red light and smoke.
+2. IN FRONT (in the red band, centre): a full-COLOUR FULL-BODY action figure — striding, dribbling or a celebration — standing on the smoke at the band's bottom edge, sharp, with a red rim light and a real shadow; a few red rose petals and sparks drifting around the feet.
+
+TYPOGRAPHY & GRAPHICS
+- The player NAME at the top of the TOP BAND in big ornate BLACK BLACKLETTER / old-style serif capitals and lowercase with swash flourishes (like a classic tequila label), centred, with a thin engraved ornament line under it.
+- Right under the name, offset to the right: the POSITION in bold BLACK condensed capitals with a red drop shadow ("TRUCK"-style second line).
+- The tagline (if given) in a RED hand-painted BRUSH SCRIPT under the position, slanted.
+- BOTTOM BAND: the team crest (if provided) centred and crisp as a black-and-red print at the top of the band; under it the subtitle (if given) in bold black condensed capitals; the jersey NUMBER big in RED condensed digits beside it; the footer (if given) tiny in letter-spaced black capitals at the very bottom.
+- Small red roses and tiny skull motifs tucked in the margins of the white bands — ornaments only, never words.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, hashtags, stickers, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- Ignore the placement hints in the text list below — follow this style.`,
+};
+
+/** Earlier versions — replaced automatically if the admin never edited them. */
+export const PRESET_PREVIOUS: Record<string, string> = {
+  "player-pink-smoke": `PINK AFTERPARTY — an all-pink monochrome player card, glossy and glamorous: satin drapes, pink smoke, neon light ribbons. Like a top nightlife designer's headliner flyer, made for a football player.
+
+COLOURS: ONE colour family only — hot pink, blush pink, rose and white, with neon magenta for the light ribbons and one small deep-red tag box. Everything (background, smoke, clothes, lettering) sits in this pink grade; only the player's face keeps a natural, recognisable skin tone under the pink light. If the COLOURS line below gives a team colour, that colour replaces pink in the same role (the whole card in that one colour family).
+
+BACKGROUND
+- Glossy pink SATIN / silk drapes filling the whole frame, big soft folds catching the light, hung like a stage backdrop, with a satin-covered block or throne where the player sits.
+- Thick PINK SMOKE clouds billowing around and behind the player, lit from inside, soft and volumetric.
+- NEON LIGHT RIBBONS: two or three glowing magenta laser lines spiralling around the player in 3D — passing in FRONT of the body and BEHIND it — with a soft glow on the satin and the smoke; thin straight laser beams crossing the top corners.
+- ONE white dove in flight near the player's raised hand (the only creature allowed on this card — small, elegant, optional if it would cover the face).
+- TORN WHITE PAPER edges: rough white paper with fibres revealed at the left and right edges and along the bottom corners, as if the pink picture were a photo torn out and laid on white paper.
+- Fine film grain and a soft pink bloom on the highlights.
+
+THE PLAYER — shown TWICE, both the SAME person from the photo (exact same face, features, hair, skin tone, outfit):
+1. BEHIND (upper half, huge): a chest-up portrait in a soft pink duotone, dissolving into the smoke and the satin, slightly out of focus, calm and confident.
+2. IN FRONT (centre, large): FULL BODY, SEATED on the satin block / throne in a relaxed, powerful pose — one arm raised or resting, legs apart, looking at the camera — the sharpest element, the kit exactly as in the photo under the pink light, a hot-pink rim light on the edges and real shadows on the satin.
+
+TYPOGRAPHY & GRAPHICS
+- The player NAME HUGE at the very top in WIDE extended bold white capitals spanning the full width (one line; two lines if long), partly behind the smoke.
+- Right under it, offset to the right: the POSITION (or the tagline if given) in equally huge white OUTLINED capitals (hollow letters, thin white stroke).
+- The subtitle (if given) in a white handwritten BRUSH SCRIPT with an energetic flourish, overlapping the bottom of the outlined word.
+- The jersey NUMBER in a small deep-red rectangular TAG BOX on the left edge, bold white condensed digits inside.
+- The team crest (if provided) small and crisp in the bottom row, with the footer (if given) in condensed white capitals centred near the bottom over the torn paper, letter-spaced, two short lines maximum.
+- A thin letter-spaced white line at the very top edge made ONLY from the tagline or footer (if given) — never invented words.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+VARIETY
+- Each poster keeps this style's look, palette, textures and typography, but arranges the elements differently (portrait and full body can swap sides, the name block can sit left or right, crest and number move).
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, hashtags, stickers, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
 - The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-muertos-print": `DÍA DE MUERTOS — a Day-of-the-Dead PRINT player card: white paper bands with hand-drawn skeleton folk art and red roses, a torn-paper deep-red band in the middle with the player. Festive, gritty, premium — like a top Latin nightlife designer's flyer, made for a football player.
@@ -3983,10 +4058,6 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, hashtags, stickers, watermarks, game logos, years or legal text. Write each item once (the player's name may also appear as the giant background echo). If an item is not given, leave its spot out. No team-name text anywhere — the crest represents the team.
 - The team crest ONLY if a crest reference image is provided (faithful, never redrawn). Never copy a badge or sponsor from the player's shirt as a separate logo.
 - Ignore the placement hints in the text list below — follow this style.`,
-};
-
-/** Earlier versions — replaced automatically if the admin never edited them. */
-export const PRESET_PREVIOUS: Record<string, string> = {
   "totw-gold-pitch": `GOLD PITCH — a premium "Team of the Week" graphic (4:5) in dark olive and gold, like the weekly TOTW post of a top Pro Clubs league.
 
 COLOURS: deep olive-khaki and charcoal with polished GOLD as the hero metal, warm ivory highlights; the player-of-the-week card in cool blue-and-white chrome so it stands out.
