@@ -28,6 +28,10 @@ const SampleSchema = z.object({
   mascot: z.string().max(80),
   colorMode: z.enum(["template", "team", "surprise"]).optional(),
   parallel: z.number().int().min(0).max(300).optional(),
+  leagueLogo: z.string().max(500).optional(),
+  standings: z.array(z.string().max(120)).max(20).optional(),
+  tableLogos: z.array(z.string().max(500)).max(20).optional(),
+  qualify: z.string().max(2).optional(),
 });
 const Body = z.discriminatedUnion("action", [
   z.object({ action: z.literal("start"), items: z.array(Item).min(1).max(300), sample: SampleSchema }),

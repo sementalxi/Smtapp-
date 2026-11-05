@@ -18,7 +18,17 @@ export type Sample = {
   colorMode?: "template" | "team" | "surprise";
   /** How many posters to make at the same time (0 = all at once). */
   parallel?: number;
+  /** Synced from a saved league: its logo, its real table (lines like the creator makes), the crests per row, how many advance. */
+  leagueLogo?: string;
+  standings?: string[];
+  tableLogos?: string[];
+  qualify?: string;
 };
+
+/** A saved league as the style test can use it. */
+export type SyncLeague = { id: string; name: string; logoUrl: string; standings: string[]; tableLogos: string[]; teams: { name: string; logoUrl: string }[]; qualify: string; date: string };
+/** One of the admin's finished player cards. */
+export type SyncCard = { id: string; label: string; thumb: string; photoUrl: string; logoUrl: string; inputs: Partial<Record<"name" | "team" | "position" | "number" | "tagline" | "subtitle" | "footer", string>> };
 
 export type RunItem = { id: string; name: string; layout: string; logoCreate: boolean };
 export type Run = {
@@ -66,21 +76,28 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean): Recor
       return { ...base, headline: "CHAMPIONS", team: s.team, roster: ROSTER, trophy: "surprise", date: s.date, eventName: s.competition };
     case "LINEUP":
       return { ...base, headline: "STARTING XI", team: s.team, formation: "4-3-3", players: PLAYERS, competition: s.competition, date: s.date };
-    case "TOTW":
-      return { ...base, headline: "TEAM OF THE WEEK", formation: "4-3-3", players: TOTW_PLAYERS, competition: s.competition, date: "Week 1 · Division 1", footer: s.footer };
+    case "TOTW": {
+      // Synced league: the eleven play for the league's real clubs (with their crests).
+      const clubs = (s.standings ?? []).map((l) => l.replace(/^\d+\.\s*/, "").split(" · ")[0]).filter(Boolean);
+      const players = clubs.length ? TOTW_PLAYERS.map((p, n) => { const [tag, pts, pos] = p.split(" · "); return `${tag} · ${clubs[n % clubs.length]} · ${pts} · ${pos}`; }) : TOTW_PLAYERS;
+      const playerLogos = clubs.length ? TOTW_PLAYERS.map((_, n) => s.tableLogos?.[n % clubs.length] ?? "") : [];
+      return { ...base, headline: "TEAM OF THE WEEK", formation: "4-3-3", players, playerLogos, competition: s.competition, date: "Week 1 · Division 1", footer: s.footer, ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}) };
+    }
     case "MATCHDAY":
       return { ...base, headline: "MATCH DAY", homeTeam: s.team, awayTeam: s.rival, competition: s.competition, date: s.date, time: "8:00 PM", venue: s.venue };
     case "RESULT":
       return { ...base, headline: "FULL TIME", homeTeam: s.team, awayTeam: s.rival, homeScore: "3", awayScore: "1", scorers: [`${s.name} 23'`, `${s.name} 67'`, "Rival 80'"], competition: s.competition };
     case "EVENT":
-      return { ...base, headline: "TOURNAMENT", name: s.competition, subtitle: s.tagline, date: s.date, details: "8:00 PM · Online", prize: "$500" };
+      return { ...base, headline: "TOURNAMENT", name: s.competition, subtitle: s.tagline, date: s.date, details: "8:00 PM · Online", prize: "$500", ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}) };
     case "STANDINGS":
       return {
         ...base,
         headline: "STANDINGS",
         competition: s.competition,
         date: s.date,
-        standings: [`1. ${s.team} · P 10 · W 8 · D 1 · L 1 · GD 18 · PTS 25`, `2. ${s.rival} · P 10 · W 7 · D 1 · L 2 · GD 11 · PTS 22`, "3. Lions · P 10 · W 5 · D 2 · L 3 · GD 4 · PTS 17", "4. Sharks · P 10 · W 4 · D 2 · L 4 · GD -1 · PTS 14", "5. Wolves · P 10 · W 2 · D 1 · L 7 · GD -12 · PTS 7"],
+        ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}),
+        ...(s.standings?.length ? { tableLogos: s.tableLogos ?? [], qualify: s.qualify ?? "" } : {}),
+        standings: s.standings?.length ? s.standings : [`1. ${s.team} · P 10 · W 8 · D 1 · L 1 · GD 18 · PTS 25`, `2. ${s.rival} · P 10 · W 7 · D 1 · L 2 · GD 11 · PTS 22`, "3. Lions · P 10 · W 5 · D 2 · L 3 · GD 4 · PTS 17", "4. Sharks · P 10 · W 4 · D 2 · L 4 · GD -1 · PTS 14", "5. Wolves · P 10 · W 2 · D 1 · L 7 · GD -12 · PTS 7"],
       };
     case "LOGO":
       return logoCreate ? { ...base, team: s.team, subtitle: s.mascot, footer: s.footer } : { ...base, headline: s.tagline, footer: s.footer, team: s.team };

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import { ImageDrop } from "../ImageDrop";
 import { thumb } from "@/lib/thumb";
-import { DEFAULT_SAMPLE, inputsFor, type Run, type Sample } from "@/lib/style-test-inputs";
+import { DEFAULT_SAMPLE, inputsFor, type Run, type Sample, type SyncCard, type SyncLeague } from "@/lib/style-test-inputs";
 
 export type { Sample } from "@/lib/style-test-inputs";
 export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean; hidden?: boolean };
@@ -52,7 +52,7 @@ const STAGE_LABEL: Record<string, [string, string]> = {
  * Admin → Style test. The run itself lives on the server (a queue the cron advances every minute), so it keeps
  * generating after this page is closed; while the page is open it pokes the server so there's no waiting.
  */
-export function StyleTestRunner({ templates, initialSample, initialResults, initialRun }: { templates: TestTemplate[]; initialSample: Sample | null; initialResults: TestResult[]; initialRun: Run | null }) {
+export function StyleTestRunner({ templates, initialSample, initialResults, initialRun, cards = [], leagues = [] }: { templates: TestTemplate[]; initialSample: Sample | null; initialResults: TestResult[]; initialRun: Run | null; cards?: SyncCard[]; leagues?: SyncLeague[] }) {
   const { locale } = useT();
   const es = locale === "es";
   const [sample, setSample] = useState<Sample>({ ...DEFAULT_SAMPLE, ...(initialSample ?? {}) });
@@ -168,6 +168,56 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
       {/* Sample */}
       <div className="card p-4 sm:p-5">
         <div className="mb-3 text-[11px] font-bold uppercase tracking-widest text-muted">1 · {es ? "Muestra (foto, escudo y textos para todos los estilos)" : "Sample (photo, crest and texts used for every style)"}</div>
+        {(cards.length > 0 || leagues.length > 0) && (
+          <div className="mb-3 grid gap-2 rounded-xl border border-teal/40 bg-teal/5 p-3 sm:grid-cols-2">
+            <div className="sm:col-span-2 text-[11px] font-bold uppercase tracking-wider text-teal">🔄 {es ? "Sincronizar con mis datos" : "Sync from my data"}</div>
+            {cards.length > 0 && (
+              <label className="block">
+                <span className="mb-0.5 block text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "Mi tarjeta de jugador" : "My player card"}</span>
+                <select
+                  className="input !py-2 text-sm"
+                  defaultValue=""
+                  onChange={(e) => {
+                    const c = cards.find((x) => x.id === e.target.value);
+                    if (c) setSample((s) => ({ ...s, ...Object.fromEntries(Object.entries(c.inputs).filter(([, v]) => v)), photoUrl: c.photoUrl || s.photoUrl, logoUrl: c.logoUrl || s.logoUrl }));
+                  }}
+                >
+                  <option value="">{es ? "— Elegir —" : "— Pick one —"}</option>
+                  {cards.map((c) => (
+                    <option key={c.id} value={c.id}>{c.label}</option>
+                  ))}
+                </select>
+              </label>
+            )}
+            {leagues.length > 0 && (
+              <label className="block">
+                <span className="mb-0.5 block text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "Mi liga (tabla y escudos)" : "My league (table and crests)"}</span>
+                <select
+                  className="input !py-2 text-sm"
+                  value={leagues.find((l) => l.standings.join("|") === (sample.standings ?? []).join("|"))?.id ?? ""}
+                  onChange={(e) => {
+                    const l = leagues.find((x) => x.id === e.target.value);
+                    setSample((s) =>
+                      l
+                        ? { ...s, competition: l.name, leagueLogo: l.logoUrl, standings: l.standings, tableLogos: l.tableLogos, qualify: l.qualify, team: l.teams[0]?.name || s.team, rival: l.teams[1]?.name || s.rival, date: l.date || s.date }
+                        : { ...s, leagueLogo: "", standings: [], tableLogos: [], qualify: "" },
+                    );
+                  }}
+                >
+                  <option value="">{es ? "— Ninguna (tabla de ejemplo) —" : "— None (sample table) —"}</option>
+                  {leagues.map((l) => (
+                    <option key={l.id} value={l.id}>{l.name} · {l.standings.length} {es ? "equipos" : "teams"}</option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <p className="sm:col-span-2 text-[11px] text-muted">
+              {es
+                ? "La tarjeta llena foto, escudo y textos. La liga pone su logo, su tabla real (posiciones de clasificación) y los escudos en Clasificación, Equipo de la semana y Eventos."
+                : "A card fills the photo, crest and texts. A league puts its logo, its real table (with how many advance) and the club crests into Standings, Team of the week and Events."}
+            </p>
+          </div>
+        )}
         <div className="grid gap-3 sm:grid-cols-2">
           <ImageDrop kind="photo" label={es ? "🧍 Foto de prueba" : "🧍 Test photo"} value={sample.photoUrl || null} onChange={(u) => setSample({ ...sample, photoUrl: u ?? "" })} searchQuery={sample.name} />
           <ImageDrop kind="logo" label={es ? "🛡️ Escudo de prueba" : "🛡️ Test crest"} value={sample.logoUrl || null} onChange={(u) => setSample({ ...sample, logoUrl: u ?? "" })} searchQuery={sample.team} />

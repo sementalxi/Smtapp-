@@ -3,7 +3,8 @@ import { requireAdmin } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { getSettings } from "@/lib/settings";
 import { getRun } from "@/lib/style-test";
-import type { Sample } from "@/lib/style-test-inputs";
+import type { Sample, SyncCard, SyncLeague } from "@/lib/style-test-inputs";
+import { thumb } from "@/lib/thumb";
 import { StyleTestRunner, type TestResult, type TestTemplate } from "@/components/admin/StyleTestRunner";
 
 export const dynamic = "force-dynamic";
@@ -20,6 +21,36 @@ export default async function AdminStyleTest() {
     db.banner.findMany({ where: { userId: admin.id }, orderBy: { createdAt: "desc" }, take: 400, include: { template: { select: { name: true, layout: true } } } }),
     getRun().catch(() => null),
   ]);
+  // "Sync from my data": the admin's own finished player cards and saved league tables.
+  const [cardRows, myLeagues, official, tables, myTeams] = await Promise.all([
+    db.banner.findMany({ where: { userId: admin.id, mode: "PRO", status: "READY", template: { layout: "PLAYER" } }, orderBy: { createdAt: "desc" }, take: 20, select: { id: true, title: true, finalUrl: true, photoUrl: true, logoUrl: true, inputs: true, design: true } }),
+    db.savedItem.findMany({ where: { userId: admin.id, kind: "championship" }, select: { id: true, name: true, logoUrl: true } }),
+    db.libraryItem.findMany({ where: { kind: "championship" }, select: { id: true, name: true, logoUrl: true } }),
+    db.setting.findMany({ where: { key: { startsWith: `standings:${admin.id}:` } } }),
+    db.savedItem.findMany({ where: { userId: admin.id, kind: "team" }, select: { name: true, logoUrl: true } }),
+  ]);
+  const cards: SyncCard[] = cardRows
+    .filter((b) => !(b.design as unknown as { styleTest?: string } | null)?.styleTest && b.photoUrl)
+    .map((b) => {
+      const i = (b.inputs ?? {}) as Record<string, string>;
+      return { id: b.id, label: [i.name, i.team].filter(Boolean).join(" · ") || b.title, thumb: thumb(b.finalUrl, 160), photoUrl: b.photoUrl ?? "", logoUrl: b.logoUrl ?? "", inputs: { name: i.name ?? "", team: i.team ?? "", position: i.position ?? "", number: i.number ?? "", tagline: i.tagline ?? "", subtitle: i.subtitle ?? "", footer: i.footer ?? "" } };
+    });
+  const crest = (team: string) => myTeams.find((m) => m.name.trim().toLowerCase() === team.trim().toLowerCase())?.logoUrl ?? "";
+  const leagues: SyncLeague[] = [];
+  for (const t of tables) {
+    try {
+      const id = t.key.slice(`standings:${admin.id}:`.length);
+      const meta = myLeagues.find((l) => l.id === id) ?? official.find((l) => l.id === id);
+      const v = JSON.parse(t.value) as { rows?: { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string }[]; date?: string; qualify?: string };
+      const rows = (v.rows ?? []).filter((r) => r.team?.trim()).slice(0, 20);
+      if (!meta || !rows.length) continue;
+      const line = (r: (typeof rows)[number], n: number) =>
+        [`${n + 1}. ${r.team.trim()}`, ...([["P", r.p], ["W", r.w], ["D", r.d], ["L", r.l], ["GD", r.gd], ["PTS", r.pts]] as const).filter(([, x]) => (x ?? "").trim()).map(([k, x]) => `${k} ${x.trim()}`)].join(" · ");
+      leagues.push({ id, name: meta.name, logoUrl: meta.logoUrl ?? "", standings: rows.map(line), tableLogos: rows.map((r) => crest(r.team)), teams: rows.map((r) => ({ name: r.team.trim(), logoUrl: crest(r.team) })), qualify: v.qualify ?? "", date: v.date ?? "" });
+    } catch {
+      /* skip a broken table */
+    }
+  }
   const templates: TestTemplate[] = tpls.map((t) => ({
     id: t.id,
     name: t.name,
@@ -61,7 +92,7 @@ export default async function AdminStyleTest() {
             : "Makes one poster with every style on your site, one by one, from the same photo and texts — and shows how each came out, which AI made it, how long it took and whether it failed. Free for admin; every result lands in your history. The run happens on the server, so you can close the page and come back later."}
         </p>
       </div>
-      <StyleTestRunner templates={templates} initialSample={sample} initialResults={results} initialRun={run} />
+      <StyleTestRunner templates={templates} initialSample={sample} initialResults={results} initialRun={run} cards={cards} leagues={leagues} />
     </div>
   );
 }
