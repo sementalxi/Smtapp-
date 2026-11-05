@@ -70,7 +70,7 @@ const PLAYERS = ["1 Alex GK", "2 Bruno RB", "3 Carlos CB", "4 Diego CB", "5 Eli 
 
 /** Sample inputs for each kind of poster, from one shared sample. */
 export function inputsFor(layout: string, s: Sample, logoCreate: boolean): Record<string, unknown> {
-  const base = { language: "English", aiCopy: "off", colorMode: s.colorMode || "template", bgPose: "style" };
+  const base = { language: "English", aiCopy: "off", colorMode: s.colorMode || "template", bgPose: "surprise" };
   switch (layout) {
     case "CHAMPIONS":
       return { ...base, headline: "CHAMPIONS", team: s.team, roster: ROSTER, trophy: "surprise", date: s.date, eventName: s.competition };

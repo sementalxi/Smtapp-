@@ -177,6 +177,29 @@ export const BG_POSES = [
 
 export const bgPosePrompt = (id: string) => (BG_POSES.find((p) => p.id === id) ?? BG_POSES[0]).prompt;
 
+/** "Surprise me" (the default): the background figure gets a different angle / pose every poster — never the same straight-on portrait twice. */
+export const SURPRISE_POSES = [
+  "a close-up portrait turned three-quarters to the left, chin slightly down, eyes to the camera, intense and calm",
+  "a striking SIDE PROFILE head-and-shoulders shot looking right, serious, strongly rim-lit along the nose and jaw",
+  "looking back OVER THE SHOULDER toward the camera, the far shoulder forward, a cool half-smile",
+  "head tilted down with the eyes closed, calm and focused, light falling on the brow and cheekbones",
+  "looking UP and away to the right, chin raised, hopeful and proud, light from above",
+  "a low-angle waist-up shot from below, arms crossed, looking down at the camera with authority",
+  "laughing naturally, head thrown slightly back, eyes crinkled, genuine joy",
+  "a quiet three-quarter portrait looking away to the left into the distance, thoughtful, soft side light",
+  "a tight close-up of the face cropped at the forehead and chin, straight stare, every detail sharp",
+  "turned away from the camera showing the back and the shoulder, head turned to look back at the lens",
+  "hands clasped behind the head, elbows wide, chest-up, looking slightly up, relaxed power",
+  "adjusting the collar or the sleeve with both hands, looking down at the hands, a calm smirk",
+  "pointing at the camera with one hand, the other arm relaxed, confident grin, chest-up",
+  "a screaming-free celebration: fists clenched at chest height, eyes shut, teeth clenched in effort",
+  "leaning in toward the camera with the shoulders forward, a slight head tilt, playful confidence",
+  "chin resting on a fist, elbow on a knee, looking straight at the camera, thinking",
+  "walking toward the camera mid-stride, waist-up, looking to the side as if hearing the crowd",
+  "a profile looking left with the head slightly bowed, hair and jaw catching a hard rim light",
+];
+export const surprisePose = (seed: number) => SURPRISE_POSES[Math.abs(seed) % SURPRISE_POSES.length];
+
 /** Detailed background scenes. Users can pick one; otherwise a random one is used. */
 export const BG_SCENES = [
   { id: "stadium", icon: "🏟️", en: "Night stadium", es: "Estadio de noche", prompt: "a packed football stadium at night seen from pitch level: blazing floodlights with lens flares, thousands of fans as a bokeh wall, coloured flares and smoke drifting across the stands, wet grass reflecting the lights" },

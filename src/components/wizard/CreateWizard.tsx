@@ -849,7 +849,8 @@ export function CreateWizard({
                 <span className="label">{locale === "es" ? "Segunda imagen del jugador (fondo, creada por la IA)" : "Second player image (background, made by AI)"}</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {[
-                    { id: "style", en: "⭐ Recommended", es: "⭐ Recomendado" },
+                    { id: "surprise", en: "🎲 Surprise me (a new pose every time)", es: "🎲 Sorpréndeme (una pose nueva cada vez)" },
+                    { id: "style", en: "📐 As the style describes", es: "📐 Como lo describe el estilo" },
                     ...BG_POSES,
                     { id: "none", en: "🚫 No second image", es: "🚫 Sin segunda imagen" },
                   ].map((p) => (
@@ -857,7 +858,7 @@ export function CreateWizard({
                       key={p.id}
                       type="button"
                       onClick={() => set("bgPose", p.id)}
-                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || "style") === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${(inp.bgPose || "surprise") === p.id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                     >
                       {locale === "es" ? p.es : p.en}
                     </button>
@@ -865,8 +866,8 @@ export function CreateWizard({
                 </div>
                 <p className="mt-1 text-xs text-muted">
                   {locale === "es"
-                    ? "La IA crea una pose nueva del mismo jugador para el fondo, en el mismo estilo del póster."
-                    : "The AI creates a new pose of the same player for the background, in the same style as the poster."}
+                    ? "La IA crea una pose nueva del mismo jugador para el fondo, en el estilo del póster. Sorpréndeme: ángulo y pose distintos en cada póster (perfil, mirando atrás, riendo…) — nunca el mismo retrato de frente."
+                    : "The AI creates a new pose of the same player for the background, in the poster's style. Surprise me: a different angle and pose on every poster (profile, looking back, laughing…) — never the same straight-on portrait."}
                 </p>
               </div>}
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />

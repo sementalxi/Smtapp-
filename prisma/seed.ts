@@ -84,8 +84,16 @@ async function main() {
     await db.setting.create({ data: { key: "events_v5_dense", value: new Date().toISOString() } });
   }
   // The owner's own flyers (people cropped out) as the style reference of the four styles copied from them — unless the admin set one.
-  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro", "event-storm-plates", "event-golden-shield"]) {
+  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro", "event-storm-plates", "event-golden-shield", "player-copa-final", "player-split-duotone", "player-white-gold", "player-orange-stripes", "player-chrome-lasers", "player-green-gothic-chrome", "player-purple-gold-chrome", "player-duotone-trio", "player-neon-club", "player-carnival", "player-red-echo-frames", "player-neon-palms", "player-neon-echo", "player-face-off", "player-neon-garden", "player-neon-flowers", "player-brush-wall", "player-inferno-neon", "player-gold-throne", "player-desert-chrome"]) {
     await db.template.updateMany({ where: { slug, OR: [{ styleRefUrl: null }, { styleRefUrl: "" }] }, data: { styleRefUrl: `${siteUrl()}/refs/${slug}.jpg` } });
+  }
+  // One-time: the 20 flyer-based player styles get the exact-copy briefs (style reference + layout map).
+  if (!(await db.setting.findUnique({ where: { key: "players_v2_exact" } }))) {
+    for (const slug of ["player-copa-final", "player-split-duotone", "player-white-gold", "player-orange-stripes", "player-chrome-lasers", "player-green-gothic-chrome", "player-purple-gold-chrome", "player-duotone-trio", "player-neon-club", "player-carnival", "player-red-echo-frames", "player-neon-palms", "player-neon-echo", "player-face-off", "player-neon-garden", "player-neon-flowers", "player-brush-wall", "player-inferno-neon", "player-gold-throne", "player-desert-chrome"]) {
+      const text = PRESET_INSTRUCTIONS[slug];
+      if (text) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
+    }
+    await db.setting.create({ data: { key: "players_v2_exact", value: new Date().toISOString() } });
   }
   // One-time: the plate flyers (storm, golden shield, desert) with the rule / entry boxes — briefs reloaded, new order, desert reference refreshed.
   if (!(await db.setting.findUnique({ where: { key: "events_v6_plates" } }))) {

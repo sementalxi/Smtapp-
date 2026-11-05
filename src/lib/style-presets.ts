@@ -3985,6 +3985,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-copa-final": `COPA FINAL — a cup-final night player card in the team's colours: giant chrome 3D lettering, a gold script word, a polished trophy and two flags blended into the stadium light. Like a top Latin sports-bar's big-match flyer, made for one player.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: the team's colours from the COLOURS line (default green, red and white) over a deep night green-black; gold for the trophy and the script; white chrome for the name.
 
 BACKGROUND
@@ -4003,6 +4005,14 @@ TYPOGRAPHY & GRAPHICS
 - The tagline (if given) in a GOLD handwritten SCRIPT with a flourish across the middle, in front of the trophy; the subtitle (if given) in bold condensed white caps with a thin glow lower down.
 - The team crest (if provided) crisp at the top corner opposite the number; the footer (if given) tiny letter-spaced at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 2–9%: the tagline (if given) in two short lines of white letter-spaced capitals centred (the flyer's top lines); the crest (if given) small at the top-left corner, the jersey number small at the top-right.
+- 9–33%: the NAME as the giant white-chrome 3D lettering stacked in two lines (a small gold script "Vs"-style connector between them only if the name has two words), spanning the width.
+- 32–46%: the subtitle (if given) as the big gold script crossing the middle, in front of the trophy's top.
+- 28–64%: the gold trophy centred; 42–84%: the player full-body left-of-centre on the grass, the portrait behind in the upper half; flags blended at both sides.
+- 66–74%: the POSITION in stacked gold-and-white condensed capitals centred (the flyer's "banda en vivo" block).
+- 82–100%: bottom block — the footer (if given) in big neon-green capitals, then smaller white condensed capitals lines; grass and haze at the very bottom.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4017,7 +4027,9 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
-  "player-split-duotone": `SPLIT DUOTONE — a two-colour face-off player card: the frame split into a purple half and an orange half, the player's portrait huge in duotone, a giant stacked chrome name and a glowing laser grid floor. Fight-night energy.
+  "player-split-duotone": `[FIXED POSES] SPLIT DUOTONE — a two-colour face-off player card: the frame split into a purple half and an orange half, the player's portrait huge in duotone, a giant stacked chrome name and a glowing laser grid floor. Fight-night energy.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: deep violet on the left, hot orange-red on the right (or the two colours from the COLOURS line in the same roles), black, white chrome.
 
@@ -4036,6 +4048,14 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION in a small outlined tag at the top-left; the jersey NUMBER big in chrome digits at the bottom corner opposite the crest.
 - The team crest (if provided) crisp at the top-right; the footer (if given) tiny at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–5%: the footer (if given) in tiny letter-spaced capitals centred.
+- 6–17%: the tagline (if given, otherwise the position) in wide chrome gradient capitals centred (purple-to-orange), two lines; 16–24%: the subtitle (if given) in a white brush script under it.
+- 20–62%: the two mirrored portraits filling the sides (purple left, orange right), the crest (if given) small between them at 38–46%.
+- 44–72%: the NAME as the giant stacked chrome 3D lettering centred, tilted, in front of the portraits.
+- 72–80%: the POSITION in a big brush script centred (the flyer's "Saturdays").
+- 80–100%: the laser grid floor with the full-body figure's feet; the jersey number big at one bottom corner in chrome digits; small letter-spaced lines centred.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4051,6 +4071,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-white-gold": `WHITE GOLD — a clean luxury player card on pure white: liquid-gold 3D name, chrome balloons, gold paint splashes and gold roses, white light rays. Celebration and prestige.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: white and soft silver with rich metallic GOLD (the team colour from the COLOURS line only as a tiny accent on the tag box).
 
@@ -4070,6 +4092,14 @@ TYPOGRAPHY & GRAPHICS
 - The subtitle (if given) in a black handwritten SCRIPT at the right side; the jersey NUMBER big in thin gold outlined digits at the left.
 - The team crest (if provided) crisp near the bottom centre; the footer (if given) tiny in letter-spaced black caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–4%: the footer (if given) tiny letter-spaced at the top.
+- 8–18%: the tagline (if given) in black condensed capitals centred, two lines (the flyer's "26th Birthday").
+- 18–33%: the NAME in liquid-gold 3D capitals centred, two lines, the first line offset left and overlapping the second.
+- 30–42%: the subtitle (if given) in a black handwritten script at the right.
+- 30–95%: the player centred (waist-up or full body), balloons at both sides 40–82%, gold splashes behind the shoulders 52–76%, gold roses in the corners.
+- 86–92%: the crest (if given) centred and crisp; 92–98%: the POSITION and jersey number in bold black capitals centred, then the footer line.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4085,6 +4115,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-orange-stripes": `ORANGE STRIPES — a bold print-style player card: orange and white sunburst stripes, a halftone black-and-white portrait, gold confetti in the air, a chunky 3D gold name. Loud, graphic, celebratory.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: bright orange and warm off-white (or the team colour from the COLOURS line in place of orange), black, metallic gold.
 
@@ -4103,6 +4135,13 @@ TYPOGRAPHY & GRAPHICS
 - The jersey NUMBER big in a thin black outline beside the full-body figure; the subtitle (if given) in a black marker script.
 - The team crest (if provided) crisp inside a small black diamond / badge frame at the mid-left (no words in the frame); the footer (if given) in a black bar at the bottom in white letter-spaced caps.
 
+LAYOUT MAP (match the reference flyer)
+- 0–3%: tiny letter-spaced line (the footer if given); top-left 4–16%: the crest (if given) small inside a thin black badge frame; top-right 4–14%: the jersey number big in black.
+- 6–38%: the NAME as the chunky gold 3D lettering, two lines, tilted, left-of-centre.
+- 18–74%: the halftone black-and-white portrait at the right (the flyer's trophy spot), overlapping the stripes.
+- 40–50%: the tagline (if given) in orange capitals with a dark shadow at the left; 50–58%: the POSITION in a small black box; 58–72%: the subtitle (if given) in orange condensed capitals, two lines; 72–80%: small letter-spaced lines.
+- 76–100%: the full-body figure(s) along the bottom edge, full colour; 93–100%: a black bar with the footer in white letter-spaced capitals.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4118,6 +4157,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-chrome-lasers": `CHROME LASERS — a dark club player card with a giant chrome 3D name plus a chrome script word, red and blue laser lines, blue neon glow and smoke. Headliner energy.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: black with electric BLUE and hot RED-orange neon (or the two colours from the COLOURS line), bright chrome lettering.
 
@@ -4135,6 +4176,12 @@ TYPOGRAPHY & GRAPHICS
 - The jersey NUMBER big in chrome digits at the left side; the subtitle (if given) in a thin neon script at the bottom.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny letter-spaced at the very bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 1–8%: the crest (if given) centred small at the top; top-left 9–20%: the POSITION and jersey number stacked in bold white capitals with a glowing digit (the flyer's date block).
+- 9–44%: the NAME: the chrome block capitals 10–26% and the chrome script 22–44% overlapping, tilted, spanning the width, partly behind the head.
+- 28–60%: the portrait behind; 36–90%: the player centred; 44–52%: the tagline (if given) in italic white capitals inside a blue slanted box at the right (the flyer's "EN VIVO").
+- 76–88%: the subtitle (if given) in big white-and-orange condensed capitals centred, two lines; 88–93%: a cyan letter-spaced line (the footer if given); 94–98%: small capitals centred.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4150,6 +4197,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-green-gothic-chrome": `GREEN GOTHIC CHROME — an all-green monochrome player card: ornate blackletter name in green chrome 3D, neon green light lines framing the scene, green smoke. Dark, rich, premium.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: ONE colour family — emerald, neon green and black (or the team colour from the COLOURS line as the whole monochrome); the player's face keeps a natural recognisable skin tone under the green light.
 
@@ -4167,6 +4216,13 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION in a small green box at the top-right corner; the jersey NUMBER big in thin neon outline digits at the left.
 - The team crest (if provided) crisp at the bottom centre; the footer (if given) tiny in letter-spaced caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 2–10%: the crest (if given) centred small at the top; top-right 12–22%: the jersey number and POSITION in a small green tag box (the flyer's date box).
+- 12–20%: the tagline (if given) in a black-and-green script; 18–42%: the NAME in the ornate green chrome blackletter spanning the width, partly behind the head.
+- 30–60%: the portrait behind; 36–86%: the player centred with the neon line frame.
+- 72–84%: the subtitle (if given) in big bold white capitals centred (the flyer's venue-logo spot) — or the crest large if no subtitle.
+- 88–93%: the footer (if given) in letter-spaced green capitals; 93–97%: small white capitals centred.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4182,6 +4238,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-purple-gold-chrome": `PURPLE GOLD — a purple-and-gold luxury player card: a giant white-gold chrome 3D name with a gold script word under it, vertical text on the left edge, gold light streaks. Rich and loud.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: deep purple and violet with metallic GOLD and white chrome (or the team colour from the COLOURS line in place of purple).
 
@@ -4199,6 +4257,14 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION and the jersey NUMBER stacked at the lower left in bold white caps and gold digits inside a thin gold frame.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced gold caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–4%: tiny letter-spaced line (the footer if given); 6–38% LEFT EDGE: the subtitle (if given) vertical in big white condensed capitals.
+- 8–14%: the crest (if given) centred small; 10–36%: the NAME in the white-gold chrome 3D capitals, tilted, with the tagline script 24–42% overlapping its bottom.
+- 36–90%: the player right-of-centre, the portrait behind in the upper half; gold streaks from the upper right.
+- 54–70%: the POSITION in yellow-and-white stacked capitals at the lower left (the flyer's "The real industry night" block).
+- 72–86%: the jersey number in big outlined white digits at the lower left with a gold-boxed tag beside it; 86–90%: a letter-spaced line.
+- 80–92% RIGHT: small white capitals in a short list (the footer if given); 94–98%: a dotted line and small capitals.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4213,7 +4279,9 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
-  "player-duotone-trio": `DUOTONE TRIO — a cinematic three-portrait player card: the player three times in red and teal duotone with scan-line and halftone texture, a distressed western serif name, dark smoky film grain. Moody series-poster look.
+  "player-duotone-trio": `[FIXED POSES] DUOTONE TRIO — a cinematic three-portrait player card: the player three times in red and teal duotone with scan-line and halftone texture, a distressed western serif name, dark smoky film grain. Moody series-poster look.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: red, teal and black (or the team's two colours from the COLOURS line), off-white lettering.
 
@@ -4229,6 +4297,13 @@ TYPOGRAPHY & GRAPHICS
 - The player NAME in the middle-lower third in a DISTRESSED WESTERN SERIF (tall slab serifs with notched edges), off-white with a worn ink texture, centred and large, over the portraits.
 - The POSITION under it in letter-spaced caps, and the tagline (if given) in small bold caps under that; the subtitle (if given) in wide letter-spaced caps at the very bottom.
 - The jersey NUMBER faint and large in a thin outline behind the name; the team crest (if provided) crisp and small above the name; the footer (if given) tiny at the top edge in letter-spaced caps.
+
+LAYOUT MAP (match the reference flyer)
+- 0–3%: the footer (if given) in tiny letter-spaced capitals centred.
+- 6–60%: the three portraits — red left, teal centre (largest), red right — fading into the smoke.
+- 44–56%: the NAME in the distressed western serif centred, large; 56–61%: the POSITION letter-spaced; 61–65%: the tagline (if given) in small bold capitals.
+- 60–72%: the jersey number faint and large in a thin outline behind the name block.
+- 84–90%: the subtitle (if given) in wide letter-spaced capitals centred (the flyer's "COMING SOON").
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
@@ -4246,6 +4321,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-neon-club": `NEON CLUB — a purple-and-blue neon club player card: LED bars and light beams, a giant stacked chrome 3D name with a cyan neon glow, crowd lights and smoke. The biggest-party-in-town flyer, for a player.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: violet, purple and electric blue with cyan neon (or the team colour from the COLOURS line in place of purple), chrome lettering.
 
 BACKGROUND
@@ -4262,6 +4339,13 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION and the jersey NUMBER at the lower left in bold white caps and big digits with a thin cyan glow line under them; the subtitle (if given) in letter-spaced caps at the bottom.
 - The team crest (if provided) crisp at the bottom right corner area opposite the brand mark; the footer (if given) tiny at the very bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–6%: the tagline (if given) in small capitals centred in two alternating colours.
+- 8–38%: the NAME as the stacked chrome 3D lettering with the cyan neon glow, tilted, spanning the width; 36–44%: the subtitle (if given) on a purple angled banner in bold white capitals.
+- 30–90%: the player right-of-centre with the portrait behind; crowd lights and smoke around.
+- 76–84%: the POSITION in big white capitals at the left, two lines (the flyer's "Hookah & VIPs"); 84–88%: a thin line; 88–93%: the footer (if given) in gradient capitals at the left.
+- 92–97% RIGHT: the jersey number stacked in bold white digits; the crest (if given) small above it.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4277,6 +4361,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-carnival": `CARIBBEAN CARNIVAL — a bright white carnival player card: palm leaves and flags in the team colours, a giant 3D chrome name with coloured bevels, pink and blue smoke behind the player, neon triangle lines, drums and feathers. Festive, loud, tropical.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: white paper with RED and BLUE (or the team's two colours from the COLOURS line) plus pink-blue smoke; chrome lettering.
 
@@ -4295,6 +4381,13 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION small in letter-spaced caps beside the number; the jersey NUMBER big in thin chrome outline digits at one side.
 - The team crest (if provided) crisp at the top centre; the footer (if given) in the bottom black strip in white condensed caps.
 
+LAYOUT MAP (match the reference flyer)
+- 0–3%: tiny letter-spaced line (the footer if given); 3–9%: the crest (if given) centred small; 9–14%: the tagline (if given) in a blue slanted box in white capitals.
+- 12–46%: the NAME in the giant chrome 3D capitals, two lines, tilted, with the two-colour bevels.
+- RIGHT 42–52%: the subtitle (if given) stacked in bold blue and red capitals (the flyer's date block).
+- 40–88%: the player centred with the pink-blue smoke and the neon triangles behind the head; palms top corners, flags at the sides, feathers and drums in the lower corners.
+- 86–100%: the black torn strip: the POSITION and jersey number in big white-and-red capitals centred, then small white capitals.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4310,6 +4403,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-red-echo-frames": `RED ECHO — a red-and-black player card: giant red capitals echoed behind, neon square frames nesting behind the player, flowing light ribbons, an ornate serif name with a script word, red smoke. Live-show energy.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: deep red, black and white (or the team colour from the COLOURS line in place of red), neon red-white frames, blue-white light ribbons as a small accent.
 
@@ -4327,6 +4422,13 @@ TYPOGRAPHY & GRAPHICS
 - The jersey NUMBER in a small red circle badge at the upper right in white digits (no other words in the badge).
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced white caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–8%: the crest (if given) centred small; 8–14%: the tagline (if given) in letter-spaced white capitals centred.
+- 14–40%: the giant red echo capitals behind (the tagline if given, otherwise the name), repeated once faded; top-right 18–26%: the jersey number in a red circle badge.
+- 20–80%: the player centred with the neon square frames behind the head and the light ribbons across the lower half.
+- 54–70%: the NAME in the ornate white serif centred; 70–76%: the subtitle (if given) in red serif capitals; 76–81%: the POSITION in a white script.
+- 82–90%: the crest (if given) again small centred (the flyer's venue spot) or nothing; 90–95%: the footer (if given) in white letter-spaced capitals; small marks in the bottom corners.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4342,6 +4444,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-neon-palms": `NEON PALMS — a tropical neon player card: neon palm trees and chevron light walls in the team colours, two flags, the tagline repeated in a fading stack, the name as a bold logo-style wordmark. Night-out energy.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: neon GREEN and RED with white (or the team's two colours from the COLOURS line), black night.
 
@@ -4359,6 +4463,13 @@ TYPOGRAPHY & GRAPHICS
 - The subtitle (if given) under it in neon green serif caps; the POSITION and the jersey NUMBER small at the bottom in bold white caps and digits.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced white caps at the very bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–10%: the crest (if given) centred small at the top (the flyer's logo spot).
+- 10–46%: the portrait centred in the upper half with the two flags crossed behind the shoulders and the neon palms at the sides.
+- 50–66%: the tagline (if given, otherwise the position) repeated four times, stacked, fading downward, letter-spaced.
+- 68–82%: the NAME as the bold white logo-style wordmark across the lower third, slightly tilted.
+- 84–90%: the subtitle (if given) in neon green serif capitals centred; 92–96%: the POSITION and jersey number small in white capitals; 96–99%: the footer tiny.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4374,6 +4485,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-neon-echo": `NEON ECHO — a one-colour monochrome player card: the name stacked three times in glowing outlined capitals behind the player, light beams, smoke and a script accent. Hot and simple-looking, rich in detail.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: ONE colour family only — the team colour from the COLOURS line (default electric violet), from deep shade to neon highlight, plus white; the player's face keeps a natural recognisable skin tone under the coloured light.
 
@@ -4391,6 +4504,13 @@ TYPOGRAPHY & GRAPHICS
 - The subtitle (if given) in a big handwritten SCRIPT in the neon colour at the right side, slanted; the POSITION small in white caps under the name; the jersey NUMBER big in thin outlined digits at the left.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–8%: the crest (if given) centred small; 10–14%: the tagline (if given) in widely letter-spaced white capitals centred.
+- 14–48%: the NAME in the glowing outlined capitals stacked three times, fading downward, spanning the width behind the player.
+- 28–74%: the player centred with the portrait behind; RIGHT 30–48%: the subtitle (if given) in a big slanted neon script, two lines.
+- 70–78%: the NAME clean in heavy white condensed capitals centred with the coloured shadow; 78–82%: the POSITION small in white capitals; 82–88%: a letter-spaced line.
+- 88–94%: the jersey number big in white digits centred (the flyer's venue spot); 94–98%: the footer (if given) tiny.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4405,7 +4525,9 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
-  "player-face-off": `FACE OFF — a split print player card: a white top with the player's profile portrait mirrored left and right facing each other, a 3D chrome name, a torn edge to a black bottom with team-colour paint splatter and light beams. Fight-card drama.
+  "player-face-off": `[FIXED POSES] FACE OFF — a split print player card: a white top with the player's profile portrait mirrored left and right facing each other, a 3D chrome name, a torn edge to a black bottom with team-colour paint splatter and light beams. Fight-card drama.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: white paper, black, and the team colour from the COLOURS line (default teal) for the splatter and accents; chrome lettering with a copper-teal edge.
 
@@ -4423,6 +4545,13 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION in letter-spaced caps at the lower right; the jersey NUMBER big in thin white outline digits at the lower left.
 - The team crest (if provided) crisp at the top centre above the title; the footer (if given) tiny in letter-spaced caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–27%: the mirrored profile portraits at the top-left and top-right, facing each other, cropped by the edges; 4–10%: the crest (if given) centred small between them; 12–20%: the tagline (if given) in letter-spaced capitals centred, two lines.
+- 20–50%: the NAME in the stacked chrome 3D capitals, tilted, centred, overlapping the tear.
+- 50–53%: the torn-paper edge; 50–72%: the full-body figure(s) centred on the splatter with the light beams.
+- 72–78%: the subtitle (if given) in copper-orange capitals centred, two lines; 78–83%: the POSITION letter-spaced centred.
+- 86–97% LEFT: the jersey number and small lines stacked; 84–92%: the crest (if given) small centred; 94–98%: the footer tiny.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4438,6 +4567,8 @@ TEXT RULES
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-neon-garden": `NEON GARDEN — a tropical-night player card: a neon-tube 3D name glowing in the team colour over a dark garden with palms and string lights, a giant illuminated letter behind. Lush and glamorous.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
 COLOURS: deep night greens with NEON GREEN (or the team colour from the COLOURS line) and warm string-light gold; a small magenta accent.
 
@@ -4456,6 +4587,13 @@ TYPOGRAPHY & GRAPHICS
 - The POSITION and the jersey NUMBER at the lower left in bold white caps and big glowing digits ("MUSIC BY"-style lock-up: small label-like position above the number).
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced caps at the bottom.
 
+LAYOUT MAP (match the reference flyer)
+- 0–8%: the crest (if given) centred small; LEFT 10–18%: the tagline (if given) in bold white condensed capitals, two lines.
+- 10–46%: the NAME in the neon-tube 3D capitals, tilted, stacked in two lines, right-of-centre, partly behind the player.
+- 48–76% LEFT: the giant illuminated letter behind; 40–92%: the player right-of-centre with the palms and string lights.
+- 80–90% LEFT: the POSITION as a small label above the jersey number in big glowing digits (the flyer's "music by" block).
+- 86–94%: the subtitle (if given) in glowing serif capitals centred (the flyer's venue spot); 90–96% RIGHT: two small letter-spaced lines (the footer if given); 96–99%: tiny footer line.
+
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
 - Hand-made craft: real scanned textures (satin, paper, grunge, halftone), real torn edges with fibres, believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
@@ -4472,6 +4610,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-neon-flowers": `NEON FLOWERS — a teal-and-magenta player card: a flower wall, big illuminated letters behind, a 3D chrome name with a neon script word, criss-cross light beams. Glam nightlife.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: teal / cyan and hot MAGENTA (or the team's two colours from the COLOURS line), dark navy, white chrome.
 
 BACKGROUND
@@ -4486,6 +4626,12 @@ TYPOGRAPHY & GRAPHICS
 - The player NAME giant at the top as a two-part lettering piece: the first part in heavy slanted CHROME 3D capitals with a teal-blue face and a deep extrusion; the last part (or the tagline if given) in a big MAGENTA NEON SCRIPT with a glow, overlapping the chrome letters, partly behind the player's head.
 - The subtitle (if given) in letter-spaced white caps on a small magenta bar at the top; the POSITION and the jersey NUMBER at the lower left in bold white caps and glowing digits.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced caps at the bottom.
+
+LAYOUT MAP (match the reference flyer)
+- 0–8%: the crest (if given) centred small; 8–12%: the subtitle (if given) in letter-spaced white capitals on a small magenta bar centred.
+- 12–42%: the NAME: chrome 3D capitals and the magenta neon script overlapping, tilted, partly behind the head.
+- 40–72%: the big illuminated letters behind, cut off at the edges; 32–92%: the player centred (seated if the photo is seated) with the flower wall and the beams.
+- 80–90% LEFT: the POSITION label above the jersey number in big glowing digits; 86–94%: the tagline (if given) in glowing serif capitals centred; 88–94% RIGHT: two small letter-spaced lines; 96–99%: the footer tiny.
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
@@ -4503,6 +4649,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-brush-wall": `BRUSH WALL — a street player card: a dark brick wall with a giant neon brush-script name in blue and green, light beams, a blue-green duotone grade, the player sitting or leaning in front. Raw and cool.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: ice BLUE and lime GREEN neon (or the team's two colours from the COLOURS line) over a dark teal-black; everything graded in that blue-green.
 
 BACKGROUND
@@ -4518,6 +4666,13 @@ TYPOGRAPHY & GRAPHICS
 - The tagline (if given) in letter-spaced white caps between the lines (a small "x"-style connector allowed only if the tagline itself contains one); the subtitle (if given) at the right in a lime brush script.
 - VERTICAL STRIP: the POSITION in big condensed capitals rotated 90° inside a blue vertical band on the left edge; the jersey NUMBER big in neon green digits at the lower left.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced caps at the bottom.
+
+LAYOUT MAP (match the reference flyer)
+- LEFT EDGE 4–40%: the POSITION vertical in big condensed capitals inside a blue band; 0–8%: the crest (if given) centred small.
+- 12–44%: the NAME in the neon brush script, two lines, right-of-centre; 44–48%: the tagline (if given) in letter-spaced white capitals; 48–62%: the subtitle (if given) in a lime brush script at the right.
+- 26–82%: the player sitting / leaning on the ledge, left-of-centre, with the portrait behind.
+- 64–78% RIGHT: big italic brush capitals in two lines (the subtitle's second part, or the tagline again if nothing else is given — never invented words).
+- 84–94% LEFT: a small block of capitals (the jersey number, the position, the footer if given); 86–94% RIGHT: the crest (if given) small; 95–99%: tiny footer line.
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
@@ -4535,6 +4690,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-inferno-neon": `INFERNO NEON — a red horror-night player card: a neon red 3D name, fire and red smoke, carved stone skulls and statues with glowing eyes, red lasers, embers. Dark and dramatic.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: blood RED and black (or the team colour from the COLOURS line in place of red), neon red-white lettering, orange embers.
 
 BACKGROUND
@@ -4549,6 +4706,12 @@ TYPOGRAPHY & GRAPHICS
 - The tagline (if given) in letter-spaced white caps at the very top; the subtitle (if given) in bold white condensed caps with an orange glow at the bottom; the POSITION small in red caps.
 - The jersey NUMBER big in outlined red digits at the right edge, stacked with the position like a date block.
 - The team crest (if provided) crisp at the top centre; the footer (if given) tiny in letter-spaced caps at the bottom.
+
+LAYOUT MAP (match the reference flyer)
+- 0–4%: tiny letter-spaced line (the footer if given); 4–10%: the crest (if given) centred small.
+- 10–42%: the NAME in the neon red 3D capitals, tilted, stacked in two lines; the stone skulls at both sides 10–46%; the red neon arch behind the head.
+- 36–82%: the player centred with the fire glow; RIGHT 42–58%: the POSITION and jersey number stacked like a date block in white and red.
+- 78–88%: the subtitle (if given) in big white-and-orange condensed capitals centred, two lines; 88–92%: the tagline (if given) small in bold capitals; 92–96%: small capitals centred; small marks in the bottom corners.
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
@@ -4566,6 +4729,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-gold-throne": `GOLD THRONE — a celebration player card: the player on a gold throne under spotlights, gold and black balloons, cash raining, a 3D gold name with a blue script word, light beams and bokeh. King-of-the-night energy.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: metallic GOLD and black with warm amber light, one cool BLUE accent (or the team colour from the COLOURS line as the accent).
 
 BACKGROUND
@@ -4580,6 +4745,13 @@ TYPOGRAPHY & GRAPHICS
 - The player NAME giant at the top as a 3D GOLD lettering piece: heavy slanted capitals with brushed-gold faces, thick bevels and a very deep extrusion, stacked in two lines at an angle, lit by the spotlights.
 - The tagline (if given) under it in a BLUE neon SCRIPT with a glow; the subtitle (if given) in widely letter-spaced white caps at the very top.
 - The POSITION and the jersey NUMBER at the bottom corners in small gold caps and big gold digits; the team crest (if provided) crisp at the bottom centre; the footer (if given) tiny in letter-spaced gold caps at the bottom.
+
+LAYOUT MAP (match the reference flyer)
+- 0–5%: the subtitle (if given) in widely letter-spaced white capitals centred at the top.
+- 8–30%: the NAME in the gold 3D capitals, tilted, two lines; 26–34% RIGHT: the tagline (if given) in the blue neon script.
+- 30–86%: the throne centred with the player seated (or standing beside it), balloons at both sides 30–80%, cash raining and covering the floor, the spotlights from behind.
+- 90–94%: the POSITION small in letter-spaced capitals at the left, the crest (if given) centred, the jersey number at the right in gold digits.
+- 95–98%: the footer (if given) in letter-spaced gold capitals centred.
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
@@ -4597,6 +4769,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this style.`,
   "player-desert-chrome": `DESERT CHROME — a sunset-desert player card: orange dunes, a dark luxury SUV, a giant orange-and-blue chrome 3D name with a script word, a torn white paper corner, cyan neon lines. Cinematic key art.
 
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
 COLOURS: burnt ORANGE and sunset gold with CYAN-blue neon (or the team's two colours from the COLOURS line), dark chrome, a white paper corner.
 
 BACKGROUND
@@ -4611,6 +4785,12 @@ TYPOGRAPHY & GRAPHICS
 - The player NAME giant at the top as a two-part lettering piece: the first part in heavy slanted CHROME 3D capitals with an orange face and a dark extrusion, the second part (or the tagline if given) in a big ORANGE SCRIPT with a blue neon back-glow, overlapping and partly behind the player's head.
 - The jersey NUMBER big in black-and-gold digits inside the torn white paper corner with the POSITION small above it.
 - The subtitle (if given) at the lower left in cyan letter-spaced caps on three short lines; the team crest (if provided) crisp at the mid-left; the footer (if given) tiny in letter-spaced caps at the bottom.
+
+LAYOUT MAP (match the reference flyer)
+- TOP-LEFT 0–18%: the torn white paper corner with the jersey number big in black-and-gold digits and the POSITION small above it; 0–5% RIGHT: tiny letter-spaced capitals (the footer if given).
+- 8–40%: the NAME: the orange chrome 3D capitals and the big orange script overlapping, tilted, right-of-centre; LEFT 20–32%: the crest (if given) crisp.
+- 45–80%: the dark SUV behind at an angle; 32–88%: the player centred on the sand with the portrait behind in the sky.
+- 80–92% LEFT: the subtitle (if given) in cyan letter-spaced capitals, three short lines; 92–96%: the tagline (if given) in bold gold capitals centred; 96–99%: tiny footer line.
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
