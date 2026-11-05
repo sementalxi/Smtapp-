@@ -1,3 +1,4 @@
+import { crestModeLabel } from "./templates";
 import { db } from "./db";
 import { getSettings } from "./settings";
 import { appUrl } from "./stripe";
@@ -106,7 +107,7 @@ export async function logGeneration(opts: {
   try {
     const [user, banner] = await Promise.all([
       db.user.findUnique({ where: { id: opts.userId }, select: { name: true, email: true, credits: true } }),
-      db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, design: true, template: { select: { name: true, layout: true } } } }),
+      db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, design: true, inputs: true, logoUrl: true, template: { select: { name: true, layout: true } } } }),
     ]);
     // Admin style-test runs stay out of Discord (they would flood the channels).
     if ((banner?.design as unknown as { styleTest?: string } | null)?.styleTest) return;
@@ -126,6 +127,7 @@ export async function logGeneration(opts: {
         { name: "User", value: `${user?.name ?? "?"}\n${user?.email ?? ""}`.slice(0, 1000), inline: true },
         { name: "Type", value: kind.slice(0, 1000), inline: true },
         { name: "Style", value: (banner?.template.name || "—").slice(0, 1000), inline: true },
+        { name: "Crest", value: crestModeLabel(banner?.inputs as { aiLogo?: string } | null, !!banner?.logoUrl), inline: true },
         { name: "Credits", value: opts.ok ? `−${opts.cost} (left: ${user?.credits ?? "?"})` : "refunded", inline: true },
         ...(opts.error ? [{ name: "Error", value: opts.error.slice(0, 1000) }] : []),
       ],

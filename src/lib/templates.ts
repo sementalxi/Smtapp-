@@ -3042,3 +3042,10 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     },
   })),
 ];
+
+/** How the crest was put on a poster, for admins (Discord logs, poster page, style test). */
+export function crestModeLabel(inputs: { aiLogo?: string } | null | undefined, hasCrest: boolean): string {
+  if (!hasCrest) return "🚫 No crest";
+  const m = inputs?.aiLogo ?? "";
+  return m === "on" ? "✨ 3D remake (AI redraws it)" : m === "off" ? "📌 Real file pasted" : "✅ Exact, built in";
+}

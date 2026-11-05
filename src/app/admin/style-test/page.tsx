@@ -1,3 +1,4 @@
+import { crestModeLabel } from "@/lib/templates";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { getT } from "@/i18n/server";
@@ -75,7 +76,7 @@ export default async function AdminStyleTest() {
       status: b.status === "READY" ? "READY" : b.status === "FAILED" ? "FAILED" : "PROCESSING",
       finalUrl: b.finalUrl,
       error: b.error,
-      madeWith: b.prompt?.match(/^\[Made with: ([^\]]+)\]/)?.[1] ?? null,
+      madeWith: [b.prompt?.match(/^\[Made with: ([^\]]+)\]/)?.[1], crestModeLabel(b.inputs as { aiLogo?: string } | null, !!b.logoUrl)].filter(Boolean).join(" · ") || null,
       seconds: b.status === "READY" || b.status === "FAILED" ? Math.max(1, Math.round((b.updatedAt.getTime() - b.createdAt.getTime()) / 1000)) : null,
       createdAt: b.createdAt.toISOString(),
       run: String((b.design as unknown as { styleTest?: string }).styleTest),

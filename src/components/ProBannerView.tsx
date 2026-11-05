@@ -32,7 +32,7 @@ export function ProBannerView({
   credits: number;
   title: string;
   /** Admins can set this poster as a style's sample image. */
-  admin?: { templateId: string; templates: { id: string; name: string }[]; prompt?: string | null; hasInstructions?: boolean; templateName?: string };
+  admin?: { templateId: string; templates: { id: string; name: string }[]; prompt?: string | null; hasInstructions?: boolean; templateName?: string; crest?: string };
 }) {
   const { t, locale } = useT();
   const router = useRouter();
@@ -119,6 +119,7 @@ export function ProBannerView({
                   ? `⚠ El estilo “${admin.templateName}” NO tiene instrucciones de diseño. Agrégalas en Admin → Estilos para ese estilo.`
                   : `⚠ The “${admin.templateName}” style has NO design instructions. Add them in Admin → Styles for that style.`}
             </p>
+            {admin.crest && <p className="mt-1 text-muted">🛡️ {locale === "es" ? "Escudo" : "Crest"}: <span className="font-bold text-white/80">{admin.crest}</span></p>}
             {admin.prompt ? (
               <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-ink p-3 text-[11px] leading-relaxed text-muted [overflow-wrap:anywhere]">{admin.prompt}</pre>
             ) : (

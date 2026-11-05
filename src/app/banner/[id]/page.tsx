@@ -1,3 +1,4 @@
+import { crestModeLabel } from "@/lib/templates";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
@@ -65,6 +66,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
                   prompt: banner.prompt,
                   hasInstructions: !!banner.template.proInstructions?.trim(),
                   templateName: banner.template.name,
+                  crest: crestModeLabel(banner.inputs as { aiLogo?: string } | null, !!banner.logoUrl),
                   templateId: banner.templateId,
                   templates: (await db.template.findMany({ where: { deletedAt: null }, orderBy: [{ layout: "asc" }, { sort: "asc" }], select: { id: true, name: true, layout: true } })).map((x) => ({
                     id: x.id,
