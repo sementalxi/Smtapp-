@@ -62,6 +62,12 @@ async function main() {
     }
     await db.setting.create({ data: { key: "neon_gothic_no_white_echo", value: new Date().toISOString() } });
   }
+  // One-time (owner's request): the old event / tournament styles are replaced by four new ones — hide the old ones.
+  if (!(await db.setting.findUnique({ where: { key: "events_v2" } }))) {
+    await db.template.updateMany({ where: { layout: "EVENT", NOT: { slug: { startsWith: "event-" } } }, data: { active: false } });
+    await db.template.updateMany({ where: { slug: { startsWith: "event-" } }, data: { active: true } });
+    await db.setting.create({ data: { key: "events_v2", value: new Date().toISOString() } });
+  }
   // One-time (owner's request): hide all the old lineup styles — only the new Photoshop-style ones stay.
   if (!(await db.setting.findUnique({ where: { key: "lineups_v2" } }))) {
     await db.template.updateMany({ where: { layout: "LINEUP", NOT: { slug: { startsWith: "xi-" } } }, data: { active: false } });

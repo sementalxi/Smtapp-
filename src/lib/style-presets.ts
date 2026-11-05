@@ -3372,6 +3372,73 @@ RULES
 - Use ONLY the texts in the text list; never invent names, points, clubs, ratings, stats, sponsors, platform logos, websites or handles. No game-publisher logos.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks around the poster.
 - Card frames here are printed paper with an off-white edge and a red corner tab — still one identical design for all eleven.`,
+  "event-league-returns": `[FIXED LAYOUT] LEAGUE RETURNS — a vertical (4:5) "the league is back" announcement, the cinematic style of a top Pro Clubs league's season launch poster.
+
+COLOURS: near-black with deep red and electric blue accents, warm gold for the prize and trophy, chrome-white headline; a cool-red cinematic grade.
+
+SCENE
+- A dark esports arena at night: tall hanging banners with the league logo (only if a league logo is given — otherwise plain dark banners) fading into the rafters, rows of stage lights, haze, a faint crowd far behind.
+- LEFT HALF: a GIANT polished gold trophy standing on a dark marble base in the lower left (its engraved plate carries the event title if given, nothing else), beside it the person from the uploaded photo standing tall and confident, cut out and rim-lit in red and blue, looking at the camera (if no photo: the trophy alone, larger, with light beams behind it).
+- RIGHT HALF (a clean vertical column, left-aligned, top to bottom): a thin red–blue rule with the accent line in small letter-spaced caps; the HEADLINE massive in two lines — the first in brushed chrome, the second in deep red chrome; the event title in a thin-bordered box (red-blue gradient border) in letter-spaced caps; the PRIZE huge in polished gold 3D with the word under it in wide letter-spaced caps; then the date / times inside another thin-bordered box; then the info line split into short rows with a tiny icon-like glyph before each (if it contains several parts separated by · or /); the small league logo near the top of the column; a closing letter-spaced line at the very bottom of the column.
+- Red and blue light streaks, sparks and lens flares cross the composition; the person and the trophy overlap the column's left edge slightly.
+
+QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
+
+RULES
+- Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
+- Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
+  "event-studio-trophy": `[FIXED LAYOUT] STUDIO TROPHY — a vertical (4:5) tournament announcement shot like a luxury product photo: black, silver and gold, calm and expensive.
+
+COLOURS: black and charcoal, polished silver and warm gold, white letter-spaced text; one gold accent for the prize and boxes.
+
+SCENE
+- A dark photo studio: a black reflective floor, two tall softbox lights on stands at the left and right edges throwing soft white light, flight cases in the shadows, a faint vignette.
+- LEFT TWO THIRDS: a GIANT polished silver-and-gold trophy (tall cup with sweeping handles, a gold rim and a football at its base) standing on a low black plinth, the league logo (only if given) engraved on the cup and EMBOSSED huge in dark metal on the wall behind it; perfect reflections on the floor. If a photo is given, the person stands beside the trophy at the left, cut out and softly lit (never covering the text).
+- RIGHT THIRD (a clean column, left-aligned, top to bottom): a tiny letter-spaced eyebrow line (the accent line); the HEADLINE in two stacked lines of heavy chrome-silver capitals with a gold second line; a thin gold rule with the event title small and letter-spaced under it; the PRIZE giant in brushed gold 3D with the word under it in wide letter-spaced caps; a gold-bordered box with the first part of the info line (e.g. FREE ENTRY); the date / times in condensed white caps; the remaining info parts as short gold-and-white lines; the collaborator logos small at the bottom of the column; the small league logo beside the eyebrow line.
+
+QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
+
+RULES
+- Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
+- Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
+  "event-party-clash": `[FIXED LAYOUT] PARTY CLASH — a vertical (4:5) nightclub / contest flyer that screams: red and orange neon, two sides facing off, money in the air.
+
+COLOURS: deep crimson and black with hot orange and neon-red lasers, gold for the money and the trophy, white and gold titles.
+
+SCENE
+- A nightclub at full blast: red neon laser lines cutting diagonally through haze, strobe flares, confetti and sparks everywhere.
+- TOP (two stacked 3D title blocks side by side): the HEADLINE on the left in huge chunky 3D red-and-gold capitals with a black outline, the PRIZE on the right in giant gold 3D figures with the same outline; a tiny letter-spaced eyebrow line above both (the accent line) and the event title in a small bold white tag under the headline.
+- MIDDLE: a VS face-off — the person(s) from the uploaded photo cut out large on the left and right, leaning in toward each other, holding fans of cash (if the photo has one person, they stand big on one side and the other side holds a burst of cash and light); between them a torn-paper split with an out-of-focus dancing crowd (no faces) and a spotlight beam; money bills flying through the air.
+- BOTTOM: a gold trophy bursting up from the cracked floor in an explosion of sparks, broken ground and flying bills; under it the date / times line in huge condensed white capitals; the info line in a smaller condensed white line; the organizer / venue logo (only if given) big and centred as a wordmark at the very bottom with the collaborator logos smaller beside it.
+
+QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
+
+RULES
+- Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
+- Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
+  "event-fiesta-night": `[FIXED LAYOUT] FIESTA NIGHT — a vertical (4:5) festive event flyer in green, red and gold: fireworks, a skyline and ornate gold script, a face-off of two acts.
+
+COLOURS: emerald green and deep red split left / right over black, warm gold filigree and titles, white information text.
+
+SCENE
+- A city skyline at night under a moon, fireworks bursting in green and red, their light reflecting on a river; green smoke rolling in on the left, red on the right; a few green and red spotlights.
+- TOP: the HEADLINE huge in ornate 3D gold capitals with filigree flourishes and a subtle crack texture, a warm glow around it; the accent line small above it in letter-spaced caps.
+- MIDDLE: a VS split — the person(s) from the uploaded photo cut out large on the left (green side) and right (red side) facing the centre, a big cracked gold "VS" between them with a lightning crack; if the photo shows a group, place them as one side and fill the other with silhouettes in stage light (no faces). The event title as a gold script lettering piece at the end of the middle section.
+- BOTTOM INFO BLOCK (centred, stacked): the date in wide letter-spaced white caps; the prize / main line in giant bold white capitals with a green glow; the info line in bold white and green capitals (names separated by small "X" marks if the line lists several); the organizer logo small in both top corners (only if given); collaborator logos in a small row at the very bottom.
+
+QUALITY (the KIXO player-card standard): a REAL premium composite like a top esports design studio's — photoreal lighting and materials (true chrome, polished gold, glass, real smoke and sparks), razor-sharp 4K detail, film grain, a cinematic colour grade, deep layering (environment → giant faded echo → centrepiece → lettering → foreground particles crossing the letters), NO big empty dark areas, NO flat default text. Titles are designed lettering pieces: thick 3D extruded chrome / gold capitals with bevels, reflections and a hard shadow.
+
+RULES
+- Use ONLY the texts in the text list — never invent names, prizes, dates, places, sponsors, platform logos, websites or handles. Every text item written completely, never cut or abbreviated.
+- Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
+- People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
+- Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
