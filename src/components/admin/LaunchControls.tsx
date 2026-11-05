@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
-type D = { comingSoon: boolean; role: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string };
+type D = { comingSoon: boolean; role: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string; vipCode: string };
 
 /** Admin: "Coming soon" switch + Discord role given to everyone who links their account. */
 export function LaunchControls({ es }: { es: boolean }) {
@@ -16,9 +16,11 @@ export function LaunchControls({ es }: { es: boolean }) {
   const [sRole, setSRole] = useState("");
   const [busy, setBusy] = useState("");
   const [msg, setMsg] = useState("");
+  const [vip, setVip] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setSOn(x.supportOn); setSRole(x.supportRole); }).catch(() => {});
+    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setSOn(x.supportOn); setSRole(x.supportRole); setVip(x.vipCode || ""); }).catch(() => {});
   }, []);
 
   async function save(nextSoon = soon, nextRole = role) {
@@ -29,6 +31,13 @@ export function LaunchControls({ es }: { es: boolean }) {
     setMsg(r.ok ? (es ? "✅ Guardado" : "✅ Saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
     if (r.ok) router.refresh();
   }
+  async function vipAction(mode: "new" | "off") {
+    setBusy("vip");
+    const r = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "vip", mode }) }).then((x) => x.json()).catch(() => null);
+    setBusy("");
+    if (r?.ok) setVip(r.vipCode || "");
+  }
+  const vipLink = vip ? `${typeof window !== "undefined" ? window.location.origin : "https://kixo.pro"}/vip/${vip}` : "";
   async function saveSupport(on = sOn, r = sRole) {
     setBusy("support");
     const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "support", on, role: r }) });
@@ -67,6 +76,31 @@ export function LaunchControls({ es }: { es: boolean }) {
         >
           {soon ? (es ? "Encendido" : "On") : es ? "Apagado" : "Off"}
         </button>
+      </div>
+
+      <div className="space-y-2 border-t border-line pt-4">
+        <h3 className="font-bold">🎟️ {es ? "Link de acceso anticipado" : "Early-access link"}</h3>
+        <p className="text-sm text-muted">
+          {es
+            ? "Quien abra este link ve la web completa como si ya estuviera lanzada (aunque “Muy pronto” esté encendido) y puede crear su cuenta y pósters. Vale un año en ese navegador. “Link nuevo” desactiva el anterior."
+            : "Anyone who opens this link sees the full site as if it were launched (even with “Coming soon” on) and can sign up and make posters. It lasts a year in that browser. “New link” turns the old one off."}
+        </p>
+        {vipLink ? (
+          <>
+            <div className="flex gap-2">
+              <input className="input min-w-0 flex-1 py-2 text-xs" readOnly value={vipLink} onFocus={(e) => e.currentTarget.select()} />
+              <button type="button" className="btn-primary shrink-0 px-3 py-2 text-xs" onClick={() => { navigator.clipboard?.writeText(vipLink).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1500); }).catch(() => {}); }}>
+                {copied ? "✓" : es ? "Copiar" : "Copy"}
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <button type="button" disabled={!!busy} className="btn-ghost px-3 py-2 text-xs" onClick={() => vipAction("new")}>🔄 {es ? "Link nuevo" : "New link"}</button>
+              <button type="button" disabled={!!busy} className="btn-ghost px-3 py-2 text-xs" onClick={() => vipAction("off")}>⛔ {es ? "Desactivar" : "Turn off"}</button>
+            </div>
+          </>
+        ) : (
+          <button type="button" disabled={!!busy} className="btn-primary px-4 py-2 text-sm" onClick={() => vipAction("new")}>🎟️ {es ? "Crear link" : "Create link"}</button>
+        )}
       </div>
 
       <div className="space-y-2 border-t border-line pt-4">

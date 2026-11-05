@@ -31,6 +31,7 @@ export const SETTING_DEFAULTS = {
   hero_bg_mode: "image",
   hero_effect: "stadium",
   coming_soon: "0",
+  vip_code: "", // secret part of the early-access link (/vip/<code>) that opens the full site during "coming soon"
   discord_link_role: "",
   site_title: "",
   site_description: "",

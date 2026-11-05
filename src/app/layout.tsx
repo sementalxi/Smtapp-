@@ -63,9 +63,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     if (st.coming_soon === "1") {
       // Coming-soon mode: everyone except admins sees the launch page; sign-up/login pages stay open.
       const path = (await headers()).get("x-kixo-path") ?? "/";
-      const open = ["/login", "/register", "/forgot", "/reset", "/admin"].some((p) => path === p || path.startsWith(p + "/"));
+      const open = ["/login", "/register", "/forgot", "/reset", "/admin", "/vip"].some((p) => path === p || path.startsWith(p + "/"));
       const me = await getCurrentUser().catch(() => null);
-      soon = !open && me?.role !== "ADMIN";
+      // Early-access link: browsers that opened /vip/<code> see the full site as if it were launched.
+      const vip = !!st.vip_code && (await cookies()).get("kixo_vip")?.value === st.vip_code;
+      soon = !open && !vip && me?.role !== "ADMIN";
     }
   } catch {
     /* DB not ready yet */

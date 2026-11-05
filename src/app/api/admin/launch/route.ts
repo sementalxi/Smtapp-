@@ -13,18 +13,25 @@ export const GET = handle(async () => {
   await apiAdmin();
   const st = await getSettings();
   const linked = await db.user.count({ where: { discordId: { not: null } } });
-  return json({ comingSoon: st.coming_soon === "1", role: st.discord_link_role || "", roles: await listRoles(), bot: botReady(), linked, supportOn: st.support_on !== "0", supportRole: st.support_role || "" });
+  return json({ comingSoon: st.coming_soon === "1", role: st.discord_link_role || "", roles: await listRoles(), bot: botReady(), linked, supportOn: st.support_on !== "0", supportRole: st.support_role || "", vipCode: st.vip_code || "" });
 });
 
 const Body = z.discriminatedUnion("action", [
   z.object({ action: z.literal("save"), comingSoon: z.boolean(), role: z.string().regex(/^(\d{15,22})?$/) }),
   z.object({ action: z.literal("giveAll") }),
+  z.object({ action: z.literal("vip"), mode: z.enum(["new", "off"]) }),
   z.object({ action: z.literal("support"), on: z.boolean(), role: z.string().regex(/^(\d{15,22})?$/) }),
 ]);
 
 export const POST = handle(async (req: NextRequest) => {
   await apiAdmin();
   const b = Body.parse(await req.json());
+  if (b.action === "vip") {
+    // A new code invalidates the old link; "off" closes early access.
+    const value = b.mode === "new" ? (await import("crypto")).randomBytes(9).toString("base64url") : "";
+    await db.setting.upsert({ where: { key: "vip_code" }, create: { key: "vip_code", value }, update: { value } });
+    return json({ ok: true, vipCode: value });
+  }
   if (b.action === "support") {
     for (const [key, value] of [["support_on", b.on ? "1" : "0"], ["support_role", b.role]] as const) {
       await db.setting.upsert({ where: { key }, create: { key, value }, update: { value } });
