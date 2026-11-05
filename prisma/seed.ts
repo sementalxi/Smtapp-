@@ -98,6 +98,9 @@ async function main() {
     }
     await db.setting.create({ data: { key: "events_v6_plates", value: new Date().toISOString() } });
   }
+  // Owner removed the Instagram feed: clear its saved token and cache.
+  await db.setting.deleteMany({ where: { key: { in: ["instagram_token", "instagram_id", "instagram_cache", "instagram_token_at"] } } });
+  await db.setting.updateMany({ where: { key: "instagram_on" }, data: { value: "off" } });
   // One-time: the four styles copied from the owner's own flyers come first in the event list.
   if (!(await db.setting.findUnique({ where: { key: "events_v4_order" } }))) {
     for (const t of DEFAULT_TEMPLATES) {

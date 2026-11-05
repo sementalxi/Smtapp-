@@ -42,8 +42,6 @@ export async function GET(req: NextRequest) {
   await import("@/lib/style-test").then((m) => m.advanceStyleTest()).catch(() => {});
   // Discord showcase: every poster type on the site has its channel (checked a few times a day; missing ones get created).
   await import("@/lib/showcase-sync").then((m) => m.syncShowcaseIfDue()).catch(() => {});
-  // Instagram: renew the token before it expires and keep the home feed warm.
-  await import("@/lib/instagram").then((m) => m.instagramMaintenance()).catch(() => {});
   // Finish AI videos in the background.
   const videos = await import("@/lib/ai-video").then((m) => m.advanceAllVideos()).catch(() => 0);
   return json({ ok: true, tickets: tickets.length, pushed, synced, videos });

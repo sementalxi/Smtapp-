@@ -10,7 +10,6 @@ import { DealsSection, type PublicDeal } from "@/components/DealsSection";
 import { db } from "@/lib/db";
 import type { ClientTemplate } from "@/lib/samples";
 import { thumb } from "@/lib/thumb";
-import { InstagramSection } from "@/components/InstagramSection";
 
 export default async function Home() {
   const user = await getCurrentUser().catch(() => null);
@@ -162,7 +161,6 @@ export default async function Home() {
           </div>
         </section>
       )}
-      <InstagramSection es={locale === "es"} />
     </div>
   );
 }
