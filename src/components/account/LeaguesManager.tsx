@@ -12,11 +12,18 @@ export type League = { id: string; name: string; logoUrl: string | null; officia
 
 const blank = (): Row => ({ team: "", p: "", w: "", d: "", l: "", gd: "", pts: "" });
 const n = (v: string) => parseInt(v, 10) || 0;
+/** League order: points, then goal difference, then wins — named teams first, empty rows stay at the bottom. */
+const sortRows = (rows: Row[]) => {
+  const named = rows.filter((r) => r.team.trim());
+  const empty = rows.filter((r) => !r.team.trim());
+  named.sort((a, b) => n(b.pts) - n(a.pts) || n(b.gd) - n(a.gd) || n(b.w) - n(a.w));
+  return [...named, ...empty];
+};
 
 /** "My leagues": each league's standings, editable, with one-tap results and a Generate button. */
 export function LeaguesManager({ initial, es, officialChoices }: { initial: League[]; es: boolean; officialChoices: { id: string; name: string; logoUrl: string | null }[] }) {
   const router = useRouter();
-  const [leagues, setLeagues] = useState<League[]>(initial);
+  const [leagues, setLeagues] = useState<League[]>(() => initial.map((l) => ({ ...l, rows: sortRows(l.rows) })));
   const [open, setOpen] = useState<string | null>(initial[0]?.id ?? null);
   const [draft, setDraft] = useState<Record<string, League>>({});
   const [msg, setMsg] = useState<Record<string, string>>({});
@@ -52,16 +59,14 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
       next.pts = String(n(next.w) * 3 + n(next.d));
       return next;
     });
-    setRows(l, rows);
+    setRows(l, sortRows(rows));
   }
   function sortByPoints(l: League) {
-    const rows = withRows(l).filter((r) => r.team.trim());
-    rows.sort((a, b) => n(b.pts) - n(a.pts) || n(b.gd) - n(a.gd) || n(b.w) - n(a.w));
-    setRows(l, rows);
+    setRows(l, sortRows(withRows(l)));
   }
   async function save(l: League) {
     const d = cur(l);
-    const rows = withRows(l).filter((r) => r.team.trim());
+    const rows = sortRows(withRows(l)).filter((r) => r.team.trim());
     setBusy(l.id);
     const r = await fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: l.id, rows, headline: d.headline, date: d.date, qualify: d.qualify ?? "", relegate: d.relegate ?? "" }) }).catch(() => null);
     setBusy(null);
@@ -268,7 +273,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                             </td>
                             {keys.map((k) => (
                               <td key={k} className="px-0.5 py-1">
-                                <input className="input !px-1 !py-1.5 text-center text-sm" inputMode="numeric" maxLength={4} value={row[k]} onChange={(e) => setCell(k, e.target.value.replace(/[^0-9-]/g, ""))} />
+                                <input className="input !px-1 !py-1.5 text-center text-sm" inputMode="numeric" maxLength={4} value={row[k]} onChange={(e) => setCell(k, e.target.value.replace(/[^0-9-]/g, ""))} onBlur={() => (k === "pts" || k === "gd" || k === "w") && setRows(l, sortRows(withRows(l)))} />
                               </td>
                             ))}
                             <td className="px-1 py-1">
@@ -296,9 +301,9 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                     ＋ {es ? "Equipo" : "Team"}
                   </button>
                   <button type="button" className="chip" onClick={() => sortByPoints(l)}>
-                    ↕ {es ? "Ordenar por puntos" : "Sort by points"}
+                    ↕ {es ? "Ordenar ahora" : "Sort now"}
                   </button>
-                  <span className="self-center text-muted">{es ? "G / E / P suma el partido y los puntos solos (3 · 1 · 0). Los equipos de “Mis equipos” se eligen de la lista y llevan su escudo al póster." : "W / D / L adds the match and the points for you (3 · 1 · 0). Teams from “My teams” are picked from the list and bring their crest to the poster."}</span>
+                  <span className="self-center text-muted">{es ? "La tabla se ordena sola por puntos (luego DG, luego G). G / E / P suma el partido y los puntos (3 · 1 · 0). Los equipos de “Mis equipos” llevan su escudo al póster." : "The table orders itself by points (then GD, then W). W / D / L adds the match and the points (3 · 1 · 0). Teams from “My teams” bring their crest to the poster."}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <button type="button" className="btn-ghost px-4 py-2 text-sm" disabled={busy === l.id} onClick={() => save(l)}>
