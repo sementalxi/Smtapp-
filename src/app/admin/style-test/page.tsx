@@ -2,7 +2,6 @@ import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { getSettings } from "@/lib/settings";
-import { activeTemplates } from "@/lib/queries";
 import { getRun } from "@/lib/style-test";
 import type { Sample } from "@/lib/style-test-inputs";
 import { StyleTestRunner, type TestResult, type TestTemplate } from "@/components/admin/StyleTestRunner";
@@ -14,8 +13,9 @@ export default async function AdminStyleTest() {
   const admin = await requireAdmin();
   const { locale } = await getT();
   const es = locale === "es";
+  // Every style that exists in Admin → Styles (hidden ones too, marked), always fresh — same list, same order.
   const [tpls, settings, banners, run] = await Promise.all([
-    activeTemplates(admin),
+    db.template.findMany({ where: { deletedAt: null }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, layout: true, active: true, proInstructions: true } }),
     getSettings(),
     db.banner.findMany({ where: { userId: admin.id }, orderBy: { createdAt: "desc" }, take: 400, include: { template: { select: { name: true, layout: true } } } }),
     getRun().catch(() => null),
@@ -24,8 +24,9 @@ export default async function AdminStyleTest() {
     id: t.id,
     name: t.name,
     layout: t.layout,
-    logoCreate: !!t.logoCreate,
-    hasInstructions: !!t.hasInstructions,
+    logoCreate: /\[LOGO CREATE\]/.test(t.proInstructions ?? ""),
+    hasInstructions: !!t.proInstructions?.trim(),
+    hidden: !t.active,
   }));
   let sample: Sample | null = null;
   try {

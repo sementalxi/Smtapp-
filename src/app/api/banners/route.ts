@@ -66,7 +66,8 @@ export const POST = handle(async (req: NextRequest) => {
     : null;
   if (body.matchBannerId && (!source || !source.finalUrl || source.template.layout !== "PLAYER")) throw new HttpError(404, "match_not_found");
 
-  const template = source ? source.template : await db.template.findFirst({ where: { id: body.templateId, active: true } });
+  // Admin style test may also try hidden styles.
+  const template = source ? source.template : await db.template.findFirst({ where: { id: body.templateId, deletedAt: null, ...(adminTest ? {} : { active: true }) } });
   if (!template) throw new HttpError(404, "template_not_found");
   if (!source) {
     const { canUseTemplate } = await import("@/lib/queries");

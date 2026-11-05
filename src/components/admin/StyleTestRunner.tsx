@@ -8,7 +8,7 @@ import { thumb } from "@/lib/thumb";
 import { DEFAULT_SAMPLE, inputsFor, type Run, type Sample } from "@/lib/style-test-inputs";
 
 export type { Sample } from "@/lib/style-test-inputs";
-export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean };
+export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean; hidden?: boolean };
 export type TestResult = {
   bannerId: string;
   templateId: string;
@@ -353,7 +353,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                   </div>
                 )}
                 <div className="p-2.5">
-                  <div className="truncate text-sm font-bold">{t.name}</div>
+                  <div className="truncate text-sm font-bold">{t.name}{t.hidden ? <span className="ml-1 rounded bg-white/10 px-1 text-[9px] font-bold uppercase text-muted">{es ? "oculto" : "hidden"}</span> : null}</div>
                   <div className="truncate text-[11px] text-muted">
                     {lname(t.layout)}
                     {r?.seconds ? ` · ⏱ ${mmss(r.seconds)}` : ""}
