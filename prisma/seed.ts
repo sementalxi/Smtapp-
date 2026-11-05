@@ -75,6 +75,13 @@ async function main() {
     }
     await db.setting.create({ data: { key: "events_v3_no_people", value: new Date().toISOString() } });
   }
+  // One-time: event briefs reloaded — no-photo posters get a centrepiece prop and a density rule (they came out too plain).
+  if (!(await db.setting.findUnique({ where: { key: "events_v5_dense" } }))) {
+    for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
+      if (slug.startsWith("event-")) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
+    }
+    await db.setting.create({ data: { key: "events_v5_dense", value: new Date().toISOString() } });
+  }
   // One-time: the four styles copied from the owner's own flyers come first in the event list.
   if (!(await db.setting.findUnique({ where: { key: "events_v4_order" } }))) {
     for (const t of DEFAULT_TEMPLATES) {
