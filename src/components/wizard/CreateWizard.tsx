@@ -265,6 +265,8 @@ export function CreateWizard({
   const [home, setHome] = useState<SavedItem | null>(null);
   const [away, setAway] = useState<SavedItem | null>(null);
   const [champ, setChamp] = useState<SavedItem | null>(initialChamp);
+  // Events: collaborating organizations (their logos go in a row on the poster).
+  const [collabs, setCollabs] = useState<(SavedItem | null)[]>([]);
   const [playersText, setPlayersText] = useState("");
   const [slots, setSlots] = useState<Slot[]>([]);
   const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);
@@ -386,6 +388,8 @@ export function CreateWizard({
       players: (layout === "LINEUP" ? lineupPlayers : layout === "TOTW" ? totwPlayers : lines(playersText)).slice(0, 18),
       playerPhotos: layout === "TOTW" ? slotsToPhotos(totwFormation, slots).slice(0, 18) : [],
       playerLogos: layout === "TOTW" ? slotsToLogos(totwFormation, slots).slice(0, 18) : [],
+      partnerLogos: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.logoUrl!).slice(0, 4) : [],
+      partnerNames: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.name).slice(0, 4) : [],
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
       standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
@@ -1175,6 +1179,27 @@ export function CreateWizard({
               {field({ label: L.prize, k: "prize", max: 24 })}
               {field({ label: L.infoLine, k: "footer", max: 110, ph: L.infoPh })}
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              <div className="rounded-xl border border-line bg-panel-2/40 p-3">
+                <div className="mb-1 text-[11px] font-bold uppercase tracking-wider text-muted">🤝 {locale === "es" ? "Colaboradores / co-organizadores (opcional)" : "Collaborators / co-organizers (optional)"}</div>
+                <p className="mb-2 text-[11px] text-muted">{locale === "es" ? "Sus logos salen en una fila bajo “EN COLABORACIÓN CON”. Hasta 4." : "Their logos go in a row under “IN COLLABORATION WITH”. Up to 4."}</p>
+                <div className="space-y-2">
+                  {collabs.map((c, n) => (
+                    <div key={n} className="flex items-end gap-2">
+                      <div className="min-w-0 flex-1">
+                        <SavedPicker kind="championship" label={`${locale === "es" ? "Colaborador" : "Collaborator"} ${n + 1}`} value={c} onChange={(v) => setCollabs((list) => list.map((x, j) => (j === n ? v : x)))} />
+                      </div>
+                      <button type="button" aria-label="Remove" onClick={() => setCollabs((list) => list.filter((_, j) => j !== n))} className="mb-1 grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-line text-muted hover:text-danger">
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                {collabs.length < 4 && (
+                  <button type="button" onClick={() => setCollabs((list) => [...list, null])} className="mt-2 text-xs font-bold text-lime">
+                    ＋ {locale === "es" ? "Agregar colaborador" : "Add a collaborator"}
+                  </button>
+                )}
+              </div>
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
             </>

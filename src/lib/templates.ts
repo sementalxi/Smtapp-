@@ -53,6 +53,8 @@ export interface BannerInputs {
   tableLogos: string[]; // standings: crest URL per row ("" = none)
   playerPhotos: string[]; // team of the week: photo URL per player line ("" = none)
   playerLogos: string[]; // team of the week: club crest URL per player line ("" = none)
+  partnerLogos: string[]; // event: collaborator / co-organizer logos (up to 4)
+  partnerNames: string[]; // event: their names, same order
   trophy: string; // champions trophy style
   colorMode: string; // "surprise" | "template" | "custom"
   color1: string;
@@ -103,6 +105,8 @@ export const EMPTY_INPUTS: BannerInputs = {
   tableLogos: [],
   playerPhotos: [],
   playerLogos: [],
+  partnerLogos: [],
+  partnerNames: [],
   trophy: "",
   colorMode: "",
   color1: "",

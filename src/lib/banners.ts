@@ -47,6 +47,8 @@ export const InputsSchema = z.object({
   tableLogos: z.array(z.string().trim().max(500)).max(20).default([]),
   playerPhotos: z.array(z.string().trim().max(500)).max(18).default([]),
   playerLogos: z.array(z.string().trim().max(500)).max(18).default([]),
+  partnerLogos: z.array(z.string().trim().max(500)).max(4).default([]),
+  partnerNames: z.array(z.string().trim().max(40)).max(4).default([]),
   trophy: str(60),
   bgPose: str(40),
   bgScene: str(40),
@@ -318,6 +320,16 @@ export function collectProRefs(opts: {
   }
   if (i.trophyUrl) {
     refs.push({ url: i.trophyUrl, label: "the trophy. Reproduce this exact trophy design, large and shiny, as the centrepiece." });
+  }
+  if (layout === "EVENT") {
+    const partners = (i.partnerLogos ?? []).filter(Boolean).slice(0, 4);
+    partners.forEach((url, n) => {
+      const name = (i.partnerNames ?? [])[n] || `collaborator ${n + 1}`;
+      refs.push({
+        url,
+        label: `the logo of a COLLABORATOR / co-organizer of this event (${q(name)}). Reproduce it faithfully (same shape, letters, symbols and colours — never redesigned) as a clean glossy badge in the ROW OF PARTNER LOGOS: all ${partners.length} collaborator logo${partners.length > 1 ? "s" : ""} the same height, evenly spaced on one line (${i.champLogoUrl ? "below or beside the main organizer logo, smaller than it" : "near the bottom or beside the title"}), under a tiny letter-spaced label. If the logo image has a solid background square, ignore the square.`,
+      });
+    });
   }
   if (opts.seriesRefUrl) {
     refs.push({
@@ -663,14 +675,17 @@ export function buildProPrompt(opts: {
       if (i.scorers.length) lines.push(`- Goal scorers: ${q(i.scorers.filter(Boolean).join(" | "))}`);
       add("Competition", i.competition);
       break;
-    case "EVENT":
-      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}. ${frame} ${finish}`;
+    case "EVENT": {
+      const nPartners = (i.partnerLogos ?? []).filter(Boolean).length;
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}${nPartners ? `, and a neat ROW OF ${nPartners} COLLABORATOR LOGO${nPartners > 1 ? "S" : ""} (the partner logos given as reference images — same height, evenly spaced, under a tiny letter-spaced label) that never covers the headline or the subject` : ""}. ${frame} ${finish}`;
+      if (nPartners) add("Tiny letter-spaced label above the collaborator logos", i.language === "Español" ? "EN COLABORACIÓN CON" : i.language === "Português" ? "EM COLABORAÇÃO COM" : "IN COLLABORATION WITH");
       add("Headline (huge, glossy 3D)", i.headline);
       add("Event title (bold, under the headline)", i.name);
       add("Script accent line", i.subtitle);
       add("Date & times (designed lock-up on a ribbon / light bar)", [i.date, i.details].filter(Boolean).join("  ·  "));
       add("Prize", i.prize);
       break;
+    }
     default:
       composition = [
         `A premium pro-clubs / esports football player announcement poster, the dense layered style of top club social-media designers.`,
@@ -1165,7 +1180,7 @@ export async function generateProForBanner(opts: {
 
 /** All image URLs inside inputs must be ours. */
 export function assertInputUrls(i: BannerInputs) {
-  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? [])].forEach((u) => assertOwnUrl(u || null));
+  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? [])].forEach((u) => assertOwnUrl(u || null));
 }
 
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {
