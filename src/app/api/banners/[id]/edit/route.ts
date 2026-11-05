@@ -84,12 +84,12 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   const placed = collectProRefs({ layout: src.template.layout, inputs, photoUrl: null, logoUrl, styleRefUrl: null }).filter((r) => r.overlay);
   if (body.logoUrl && !placed.length) {
     refs.push({ url: body.logoUrl, label: "the NEW TEAM CREST" });
-    changes.push(`Replace the team crest/logo with the crest in reference image ${refs.length}, rendered in the same style and position, faithful to it.`);
+    changes.push(`Replace the team crest/logo with the crest in reference image ${refs.length} — EXACTLY its artwork, nothing added or changed — in the same position and size, lit by the scene.`);
   }
   if (body.fixCrest && !placed.length) {
     if (logoUrl) {
       refs.push({ url: logoUrl, label: "the REAL TEAM CREST" });
-      changes.push(`The crest on the poster is WRONG (it was copied from the shirt or invented). Replace EVERY crest, badge or emblem on the poster with the crest in reference image ${refs.length} — exactly its artwork, letters, symbols and colours — at the same size, position and style treatment as the wrong one. The badge on the player's shirt stays on the shirt at its natural size.`);
+      changes.push(`The crest on the poster is WRONG (it was copied from the shirt or invented). Replace EVERY crest, badge or emblem on the poster with the crest in reference image ${refs.length} — EXACTLY its artwork, outline, letters, symbols, proportions and colours, with nothing added (no shield, ring, frame, ribbon, extra words) — at the same size and position as the wrong one, lit by the scene. The badge on the player's shirt stays on the shirt at its natural size.`);
     } else {
       changes.push(`Remove every crest, badge, emblem and club name from the poster (they were copied from the shirt) and fill their places with matching background. The badge on the player's shirt stays on the shirt at its natural size.`);
     }

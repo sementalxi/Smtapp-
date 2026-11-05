@@ -58,7 +58,7 @@ export const InputsSchema = z.object({
   bgPose: str(40),
   bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("off"),
-  aiLogo: z.enum(["on", "off", ""]).default(""),
+  aiLogo: z.enum(["on", "off", "exact", ""]).default(""),
   colorMode: z.enum(["surprise", "template", "custom", "team", ""]).default(""),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -260,16 +260,22 @@ export function collectProRefs(opts: {
         "a SECOND photo of the SAME person, uploaded by the user — this picture IS the second figure of the player (the big portrait / background image): use it exactly as photographed — same pose, angle, expression and framing (crop it chest-up if the style asks for a portrait) — only cut out, enlarged, relit and colour-graded into the poster's style. Do NOT generate a different pose for the background figure. The first photo stays the main figure in front. Anything printed on its kit is not text for the poster.",
     });
   }
-  // Default: the real logo is pasted onto the finished poster (the AI redraws logos inaccurately).
-  // Default: the AI builds the crest into the design as a 3D emblem (blends far better). "off" = paste the exact logo.
+  // Crest modes: "" / "exact" (default) = the AI places the real crest faithfully, built into the design but never redrawn;
+  // "on" = the AI remakes it as a 3D chrome emblem (can add details); "off" = the exact file is pasted in a corner afterwards.
   const exact = i.aiLogo === "off";
+  const remake = i.aiLogo === "on";
   const crest = (url: string, who: string, corner: LogoSpot = "tl") =>
     exact
       ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
-      : refs.push({
-      url,
-      label: `the crest/logo of ${who} — the ONLY crest for this poster (if the shirt in the photo shows another club's badge, ignore that badge; this reference is the team). Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
-    });
+      : remake
+        ? refs.push({
+            url,
+            label: `the crest/logo of ${who} — the ONLY crest for this poster (if the shirt in the photo shows another club's badge, ignore that badge; this reference is the team). Keep its exact shape, letters, symbols and layout (do not redesign it, do not add or remove letters), but render it as a BADASS premium 3D emblem: a thick polished-chrome rim with bevelled edges, embossed relief with real depth, enamel or metallic fill in the poster's colours, sharp specular reflections, a coloured rim light and soft glow, slight perspective tilt, sparks or energy around it. Make it a hero element, large and prominent and BUILT INTO the scene — lit by the same lights, casting shadows, with the background's particles and effects around and in front of it, never a flat square or a sticker pasted in a corner. If the logo image has a solid background square, ignore that square and use only the emblem itself. You may also echo it huge and ghosted in the background.`,
+          })
+        : refs.push({
+            url,
+            label: `the crest/logo of ${who} — the ONLY crest for this poster (if the shirt in the photo shows another club's badge, ignore that badge; this reference is the team). Copy it EXACTLY as it is: the identical outline, shapes, letters, symbols, proportions and colours — as if the real crest file were placed into the design and lit by the scene (a soft cast shadow, a subtle sheen or a slight thickness at most). Do NOT redesign it in any way: no added shield, badge, circle, ring, rim, frame, banner, ribbon, laurel, stars, wings or sparks inside it, no extra words or letters, no recolouring, no 3D remake, nothing removed. If the logo image has a solid background square, ignore that square and use only the emblem itself. Place it large and prominent where this style puts the crest, built into the layout (not a pasted sticker); it may also appear huge and ghosted in the background — still the exact artwork.`,
+          });
   if (layout === "LOGO") {
     if (opts.logoUrl)
       refs.push({
@@ -785,11 +791,11 @@ export function buildProPrompt(opts: {
       ? `- SECOND FIGURE POSE (surprise #${v.seed % 1000}): the background / portrait figure of the player is NOT a straight-on portrait this time — it is ${surprisePose(v.seed)}. Same person, same face, hair, skin tone and outfit as the photo, newly created in this pose and rendered in the style's treatment (its duotone, grade, blend and placement). The main figure in front keeps the photo's own pose.`
       : "",
     layout === "PLAYER" && i.bgPose === "none" && !i.photo2Url ? `- Show the player only ONCE (no second figure).` : "",
-    layout === "PLAYER" && !exactLogos
-      ? hasTeamLogo
-        ? `- THE TEAM CREST: the ONLY crest on this card is the one in the reference image labelled "the crest/logo of the team" — copy THAT artwork (its exact shape, letters, symbols and colours). The badge printed on the shirt in the photo is NOT the crest (it may even be a different club): leave it on the shirt at its natural size and never redraw, enlarge or echo it. Before finishing, compare your crest with that reference image — if it looks like the shirt badge instead, it is wrong.`
-        : `- NO CREST: no team crest was given, so draw NO crest, badge, emblem or club name anywhere — the badge on the shirt stays only on the shirt at its natural size.`
-      : "",
+    !exactLogos && hasTeamLogo
+      ? `- THE TEAM CREST: the ONLY crest on this poster is the one in the reference image labelled "the crest/logo of the team" — copy THAT artwork ${i.aiLogo === "on" ? "(its exact shape, letters, symbols and colours, remade as the 3D emblem described)" : "EXACTLY: identical outline, shapes, letters, symbols, proportions and colours, with only the scene's light and shadow on it. Wherever this brief says emblem, badge, medallion or 3D crest, it means this exact artwork — never a redesign: no added shield, ring, frame, ribbon, stars, wings, extra words, no recolouring"}. ${layout === "PLAYER" ? "The badge printed on the shirt in the photo is NOT the crest (it may even be a different club): leave it on the shirt at its natural size and never redraw, enlarge or echo it. " : ""}Before finishing, compare your crest with that reference image side by side — if anything was added, changed or removed, fix it.`
+      : layout === "PLAYER" && !exactLogos
+        ? `- NO CREST: no team crest was given, so draw NO crest, badge, emblem or club name anywhere — the badge on the shirt stays only on the shirt at its natural size.`
+        : "",
     layout === "PLAYER" && i.photo2Url && aiRefs.some((r) => r.label.startsWith("a SECOND photo"))
       ? `- SECOND PICTURE (mandatory): the second figure of the player — the big portrait / background image — is reference image ${aiRefs.findIndex((r) => r.label.startsWith("a SECOND photo")) + 1} EXACTLY as photographed (same pose, angle, expression and framing; cropped chest-up if the style wants a portrait), only cut out, enlarged and graded into the style. Never generate another pose, angle or expression for that figure. The main figure in front stays the first photo.`
       : "",

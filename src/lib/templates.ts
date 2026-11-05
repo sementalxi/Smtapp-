@@ -65,7 +65,7 @@ export interface BannerInputs {
   color1: string;
   color2: string;
   aiCopy: string; // "on" lets the AI add a couple of hype words
-  aiLogo: string; // "on" = AI redraws the crest in 3D (may change details); default pastes the real logo
+  aiLogo: string; // "" / "exact" = the AI places the real crest faithfully (default); "on" = 3D remake; "off" = the file is pasted in a corner
   bgPose: string;
   bgScene: string; // background scene id, "" = surprise // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)

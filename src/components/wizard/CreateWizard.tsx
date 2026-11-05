@@ -1263,22 +1263,24 @@ export function CreateWizard({
 
       {step === 4 && (
         <div className="card space-y-4 p-5">
-          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-panel-2 p-4 text-sm">
-            <input
-              type="checkbox"
-              className="mt-1 accent-[var(--color-lime)]"
-              checked={inp.aiLogo !== "off"}
-              onChange={(e) => set("aiLogo", e.target.checked ? "on" : "off")}
-            />
-            <span>
-              <span className="block font-bold">{locale === "es" ? "Logo 3D hecho por la IA" : "AI-made 3D logo"}</span>
-              <span className="block text-xs text-muted">
-                {locale === "es"
-                  ? "Encendido (recomendado): la IA integra tu logo en el diseño como un emblema 3D — se ve espectacular, pero puede cambiar algún detalle pequeño. Apagado: tu logo real se coloca exacto, pixel por pixel, en una esquina."
-                  : "On (recommended): the AI builds your logo into the design as a 3D emblem — looks amazing, but can change small details. Off: your real logo is placed exactly, pixel for pixel, in a corner."}
-              </span>
-            </span>
-          </label>
+          <div>
+            <span className="label">🛡️ {locale === "es" ? "Tu escudo en el póster" : "Your crest on the poster"}</span>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {[
+                { id: "", en: "✅ Exact, built in (recommended)", es: "✅ Exacto, integrado (recomendado)", enD: "The AI places your real crest in the design — same shapes, letters and colours, lit by the scene. Nothing added.", esD: "La IA coloca tu escudo real en el diseño — mismas formas, letras y colores, con la luz de la escena. Sin agregar nada." },
+                { id: "on", en: "✨ 3D remake", es: "✨ Versión 3D", enD: "The AI rebuilds it as a chrome 3D emblem — spectacular, but it can add or change details.", esD: "La IA lo rehace como emblema 3D cromado — espectacular, pero puede agregar o cambiar detalles." },
+                { id: "off", en: "📌 Paste the real file", es: "📌 Pegar el archivo real", enD: "Your logo file is placed pixel for pixel in a corner after the poster is made.", esD: "Tu archivo se coloca pixel por pixel en una esquina al terminar el póster." },
+              ].map((m) => {
+                const on = (inp.aiLogo === "exact" ? "" : inp.aiLogo || "") === m.id;
+                return (
+                  <button key={m.id} type="button" onClick={() => set("aiLogo", m.id as never)} className={`rounded-xl border p-3 text-left text-sm transition ${on ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}>
+                    <span className="block font-bold">{locale === "es" ? m.es : m.en}</span>
+                    <span className="mt-0.5 block text-xs text-muted">{locale === "es" ? m.esD : m.enD}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <div>
             <span className="label">{locale === "es" ? "Fondo" : "Background"}</span>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
