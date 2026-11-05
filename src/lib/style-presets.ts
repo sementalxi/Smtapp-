@@ -1,6 +1,29 @@
 // Ready-made design instructions for some built-in styles. Loaded into a style only if its
 // instructions box is empty (prisma/seed.ts), so admin edits are never overwritten.
 
+/** Shared blocks of the event flyer briefs (the player-card hero treatment, the flyer rules and the pro finish). */
+const EVENT_HERO = `THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
+1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident, closed-mouth look).
+2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
+Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
+WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.`;
+const EVENT_FLYER = `ANNOUNCEMENT FLYER: this is a flyer that announces what is coming — so the DATE & TIMES block is a big designed element, not a footnote; the accent line is the small "eyebrow" line that sets up the headline; the PRIZE is a hero number; and the info line is split into short rows (split it on · or / ) set as stamps, tags or icon rows. Words like COMING SOON, REGISTRATION OPEN or FREE ENTRY, when they appear in the given texts, become rubber-stamp / tag boxes.`;
+const EVENT_FINISH = `ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic made by a top designer, NOT AI)
+- Photography-real: everything shot on a full-frame camera with an 85mm lens — real materials (true chrome, brushed gold, glass, concrete, paper fibres), real skin and fabric, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the hero from the background, real contact shadows and reflections, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, everything colour-matched and lit to the scene, depth layering (background → giant faded headline echo → faded logo → portrait → front hero → lettering → foreground smoke / particles slightly out of focus), soft layer-mask fades, dodge-and-burn depth, a double exposure where the portrait meets the background.
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, one cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast, a touch of chromatic aberration and lens flare only where light hits the lens.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels, reflections and hard shadows, clean alignment on one grid; the information lines small, letter-spaced and perfectly legible.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter, no big empty dark areas.
+
+TEXT RULES
+- Use ONLY the texts in the text list (headline, event title, accent line, date & times, prize, info line, the collaboration label), spelled letter for letter, each written once and complete. Never invent names, prizes, dates, places, sponsors, platform or game logos, websites or handles. If an item is not given, leave its spot out.
+- Logos: only the provided ones (organizer / league, collaborators, team crest), faithful and never redesigned, as premium 3D metal emblems. Never a badge copied from a shirt.
+- Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
+- VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`;
+
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
   "player-roster-banner": `[WIDE] ROSTER BANNER — a WIDE landscape (3:2) esports / pro-clubs roster banner, the kind a pro team posts to announce each player. Bold, clean, cinematic. Built so a whole roster can be made in the same design, one banner per player.
 
@@ -3599,6 +3622,240 @@ TEXT RULES
 - Logos: only the provided ones (organizer / league, collaborators, team crest), faithful and never redesigned, as premium 3D metal emblems. Never a badge copied from a shirt.
 - Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
 - VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`,
+  "event-gothic-final": `[FIXED LAYOUT] GOTHIC GOLD FINAL — a luxurious black-and-gold announcement flyer in the look of our Gothic Gold player card: gothic lettering, gold stars and crown ornaments. Regal, rich, cinematic.
+
+COLOURS: black, warm metallic GOLD and cream (the organizer's colour from the COLOURS line only as tiny accents).
+
+BACKGROUND
+- Black with warm gold smoke, floating gold stars (small five-point stars) and sparkles, gold crown and laurel ORNAMENTS at the bottom corners, fine gold hairlines and small geometric marks in the margins, film grain.
+- GIANT faded GOLD letters of the HEADLINE: once diagonal across the middle and once vertical along the right edge, partly hidden by the hero and cut off at the edges (graphic echoes).
+- The organizer / league logo (if given) BIG at the centre-left with gold stars around it, crisp with a gold glow, faithful to its artwork.
+
+${EVENT_HERO}
+
+TYPOGRAPHY & LAYOUT (a centred stack over the lower half)
+1. The accent line (if given) in a thin letter-spaced cream line at the very top between two gold hairlines.
+2. The HEADLINE huge across the lower third in cream-GOLD GOTHIC BLACKLETTER with a soft glow and a thin dark outline.
+3. The event title (if given) in small, widely letter-spaced cream capitals right under the headline.
+4. The DATE & TIMES big in a gold-framed black plaque with a crown ornament on top, cream condensed capitals.
+5. The PRIZE in polished gold 3D capitals / figures beside the plaque, with its word small under it.
+6. The info line in tiny letter-spaced cream rows with small gold stars between them.
+- Collaborator logos (if given) in one small row of gold emblems at the bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-paper-open": `[FIXED LAYOUT] PAPER CUT SIGN-UPS — a torn-paper street collage announcement flyer in the look of our Paper Cut player card: white, black and ONE bright accent colour. Raw, fresh, editorial.
+
+COLOURS: white paper, black, and a bright accent (default teal, or the organizer's colour from the COLOURS line).
+
+BACKGROUND
+- Layers of torn white and black paper with real fibres, tape strips, accent-colour paint splatter and halftone dots, small typographic marks (stars, slashes) in black.
+- A BLACK-AND-WHITE horizontal photo STRIP across the upper third: inside it the hero in monochrome (the portrait of the person from the photo, or the trophy) and the organizer / league logo (if given) in monochrome, like a newspaper cut-out. The hero partly breaks out of the strip's bottom edge.
+- The HEADLINE echoed as giant letters pressed faintly into the paper behind the lower block.
+
+${EVENT_HERO}
+(In this style the front hero stands at the right overlapping the paper layers; the portrait is the monochrome one inside the strip.)
+
+TYPOGRAPHY & LAYOUT (lower left, on a white paper block)
+1. The accent line (if given) in a wide letter-spaced techno font at the top of the block.
+2. The HEADLINE huge in heavy BLACK slanted capitals, two lines if long, a few letters knocked out in the accent colour.
+3. The event title (if given) in big accent-colour letters right under it ("CM 08" style weight).
+4. The DATE & TIMES as a big RUBBER-STAMP box in the accent colour, slightly rotated, black condensed capitals inside.
+5. The PRIZE in big black capitals with an accent underline swoosh.
+6. The info line in tiny typewriter rows with small black slashes between them.
+- The organizer / league logo (if given) small and crisp on the paper block; collaborator logos (if given) in a small row at the bottom like stickers.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-ink-cup": `[FIXED LAYOUT] INK SPLASH CUP — a white-paper announcement flyer in the look of our Ink Splash player card: burnt-orange ink splatter and the hero drawn as a bold INK / CEL-SHADED ILLUSTRATION. Fresh, graphic, anime-poster energy.
+
+COLOURS: off-white paper, burnt ORANGE (or the organizer's colour from the COLOURS line) ink, black.
+
+BACKGROUND
+- Clean off-white paper with big burnt-orange ink splatters, drips and dry-brush strokes exploding from the upper right and the top-left corner; a faint ghosted pencil-sketch of the HEADLINE as giant letters across the middle; paper grain and a few tiny ink flecks.
+
+${EVENT_HERO}
+(In this style both figures are rendered as a bold illustration: thick clean ink outlines, flat cel shading with two or three tones, crisp highlights — like a premium anime key-visual or a comic cover, but faithful to the real person. Without a photo the trophy is drawn the same way in black ink with orange highlights.)
+
+TYPOGRAPHY & LAYOUT
+1. The HEADLINE huge at the lower right in heavy slanted black italic capitals with a white inline / outline, like a game title.
+2. The accent line (if given) in a thin letter-spaced line above the headline; the event title (if given) small in orange letter-spaced capitals right above it.
+3. The DATE & TIMES as a hand-painted ORANGE brush lettering piece at the mid-right with dry-brush edges and drips (big, the flyer's second hero).
+4. The PRIZE in heavy black capitals on an orange brush stroke.
+5. The info line in tiny letter-spaced rows at the bottom.
+- The organizer / league logo (if given) large at the lower LEFT, crisp with a soft drop shadow on the paper; collaborator logos (if given) in a small row beside it.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-electric-kickoff": `[FIXED LAYOUT] ELECTRIC BLUE KICKOFF — a vivid electric-blue city-night announcement flyer in the look of our Electric Blue player card: torn paper and ice crystals. Loud, layered, premium.
+
+COLOURS: electric BLUE and ice blue (or the organizer's colour from the COLOURS line), white and black.
+
+BACKGROUND
+- A blue-lit city skyline at night with light beams, blue smoke and ice-crystal shards at the bottom corners; TORN PAPER edges and strips in blue and white, halftone dots, scratches and grain; thin frame lines and small geometric marks in the margins.
+- GIANT letters of the HEADLINE: once VERTICAL along the right edge in a pale blue tint, and once across the bottom in big distressed white-blue capitals — both partly hidden by the hero and cut off at the edges.
+- The organizer / league logo (if given) BIG at the centre-left overlapping the portrait's shoulder, crisp with a blue glow, faithful to its artwork; a small copy at the top-right.
+
+${EVENT_HERO}
+
+TYPOGRAPHY & LAYOUT
+1. The HEADLINE HUGE across the lower-middle in white ultra-condensed capitals with a hard blue shadow.
+2. The accent line (if given) small in blue capitals above it; the event title (if given) in a light-blue brush script under it.
+3. The DATE & TIMES big at the left in blue outlined italic digits and letters with a thin white inner line (the way the card shows its number), right beside the headline.
+4. The PRIZE in white chrome 3D with a blue glow on a torn paper strip.
+5. The info line in tiny letter-spaced rows between thin frame lines.
+- Collaborator logos (if given) in one small row at the bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-inferno-showdown": `[FIXED LAYOUT] INFERNO SHOWDOWN — a professional esports announcement flyer in the look of our Inferno Gold player card, made like a high-end PHOTOSHOP composite. Bold, cinematic, premium.
+
+COLOURS: gold and fire orange (or the organizer's colour from the COLOURS line in the same role) over deep blacks.
+
+BACKGROUND
+- A dark arena with real molten-gold fire and lava-glow cracks in the floor, thick smoke, flying embers and sparks, warm orange-gold backlight.
+- A glossy reflective floor at the bottom with real reflections of the hero and the prize.
+- The HEADLINE echoed GIANT in faded dark-gold capitals across the upper background, cut off by the edges.
+- The organizer / league logo ONLY if its reference image is given: big in the upper right, fully inside the frame, as a premium 3D metal emblem faithful to its artwork, slightly faded into the background.
+
+${EVENT_HERO}
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The accent line (if given) in a small bevelled tag box with a thin gold frame.
+2. The HEADLINE huge in heavy condensed capitals forged in dark scratched gold with molten glowing edges, two lines if long.
+3. The event title (if given) in a brush script slashing across the bottom of the headline.
+4. The DATE & TIMES big in condensed white capitals on a thin glowing gold frame line.
+5. The info line split into tiny rows with a small ember-gold chevron before each.
+- RIGHT, lower: the PRIZE giant as a thin glowing outline in the accent colour, partly behind the front hero, with its reflection on the floor; its word small under it.
+- Collaborator logos (if given) in one small row at the very bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-ice-cup": `[FIXED LAYOUT] ICE KINGDOM CUP — a professional esports announcement flyer in the look of our Ice Kingdom player card, made like a high-end PHOTOSHOP composite. Cold, bold, premium.
+
+COLOURS: icy blue and frosted white (or the organizer's colour from the COLOURS line in the same role) over deep blacks.
+
+BACKGROUND
+- A frozen night stadium: real frost on the floor, drifting snow, cold breath haze, huge cracked ice shards rising behind the hero, icy blue floodlights.
+- A glossy frozen floor at the bottom with real reflections.
+- The HEADLINE echoed GIANT, frozen inside the ice shards behind (faded, refracted), cut off by the edges.
+- The organizer / league logo (if given) centred at the top as a premium 3D emblem in frosted steel, faithful to its artwork.
+
+${EVENT_HERO}
+(Without a photo the trophy stands frozen in a block of ice at the centre.)
+
+TYPOGRAPHY & LAYOUT (a centred stack)
+1. The accent line (if given) small in letter-spaced ice-blue capitals under the logo.
+2. The HEADLINE huge in tall condensed capitals in frosted steel with ice-crystal edges and a cold blue shadow, centred over the hero's chest.
+3. The event title (if given) in a brush script slashing across the bottom of the headline.
+4. The DATE & TIMES giant across the bottom in icy outlined capitals with a glowing blue core — the flyer's second hero.
+5. The PRIZE in frosted chrome 3D above the date block, its word small under it.
+6. The info line in tiny letter-spaced white rows with small ice-crystal marks between them.
+- Collaborator logos (if given) in one small row at the very bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-overdrive-online": `[FIXED LAYOUT] OVERDRIVE ONLINE — a BAD-ASS esports announcement flyer in the look of our Overdrive player card. Aggressive, futuristic, expensive.
+
+COLOURS: a two-tone neon split from the COLOURS line (main colour on one side, second colour on the other) over near-black; deep crushed blacks, high contrast, hard coloured rim lights.
+
+BACKGROUND
+- A dark esports arena / stage at night with volumetric beams through smoke.
+- Behind the hero: a huge SHATTERED DIGITAL PORTAL — a screen or wall of light cracking open, glass-like pixel shards and glitch blocks exploding toward the camera, RGB chromatic-aberration splits on the edges, scan lines and data noise.
+- Crackling electric energy and sparks wrapping around the hero, glowing embers, fine dust, light streaks.
+- The organizer / league logo (if given) huge and faded in the background like a hologram, slightly glitched, plus crisp as a 3D emblem in the top-left HUD corner.
+- Sleek HUD frame elements (thin angled brackets, corner ticks, a hex grid) — graphic shapes only, NO numbers, stats or words in them.
+
+${EVENT_HERO}
+
+TYPOGRAPHY & LAYOUT
+1. The HEADLINE huge across the lower part in heavy slanted chrome capitals with a glitch RGB split, sharp bevels and a hard shadow — partly overlapping the hero's body.
+2. The accent line (if given) in a small bold angular tag (like an esports role badge) above the headline; the event title (if given) in a sharp brush-marker script crossing the headline.
+3. The DATE & TIMES giant and glowing in the second colour on one side, half behind the hero, like a countdown display.
+4. The PRIZE in chrome 3D figures with a neon glow inside a thin HUD frame.
+5. The info line in tiny letter-spaced rows inside a slim HUD panel at the bottom.
+- Collaborator logos (if given) in one small row under the panel under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-neon-streets": `[FIXED LAYOUT] NEON STREETS NIGHT — a rainy neon-street announcement flyer in the look of our Neon Streets player card, made like a high-end PHOTOSHOP composite. Moody, electric, premium.
+
+COLOURS: deep navy, electric blue and magenta neon (the organizer's colours as the neon if the COLOURS line gives them).
+
+BACKGROUND
+- A rainy city street at night: neon signs with NO readable words, wet asphalt with soft reflections, steam, light trails, halftone and grain, a thin frame line.
+- GIANT BACKGROUND ELEMENT: the DATE (its day and month, or the prize if no date) as a huge glowing NEON-TUBE sign on the building wall behind the hero.
+- The organizer / league logo (if given) as a NEON-sign emblem at the top-right, faithful to its artwork, with a real glow on the wet wall.
+
+${EVENT_HERO}
+(In this style the portrait behind is a blue-and-magenta neon duotone looking over the shoulder and the front hero is caught mid-walk through the street, full colour with neon rim lights and a soft reflection on the wet asphalt.)
+
+TYPOGRAPHY & LAYOUT
+1. The HEADLINE huge in white slanted capitals at the bottom-left with a magenta hard shadow.
+2. The event title (if given) in a magenta box in bold white capitals; the accent line (if given) in a thin neon script above the headline.
+3. The DATE & TIMES written clean in letter-spaced white caps under the headline (the neon sign behind is its echo).
+4. The PRIZE in blue neon-tube figures with a real glow, on the right.
+5. The info line in tiny letter-spaced rows at the bottom.
+- Collaborator logos (if given) in one small row at the bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-gladiator-arena": `[FIXED LAYOUT] GLADIATOR ARENA — a gold-and-stone gladiator-arena announcement flyer in the look of our Gladiator player card, made like a high-end PHOTOSHOP composite. Epic, heroic, premium.
+
+COLOURS: gold, bronze, stone grey and black (the organizer's colours as accents if the COLOURS line gives them).
+
+BACKGROUND
+- An ancient arena at night: stone columns and arches, torch fire, golden dust and smoke, a marble floor; carved-stone and gold-leaf textures, laurel-line ornaments (no words).
+- GIANT BACKGROUND ELEMENT: the organizer / league logo (if given) carved huge into the stone wall behind the hero; otherwise giant carved letters of the HEADLINE.
+- The organizer / league logo (if given) also big as a gold medallion at the centre-left, faithful to its artwork.
+
+${EVENT_HERO}
+(In this style the portrait behind is a bronze duotone with torch rim light and the front hero stands in a victory pose — arms wide, chest out — with a gold rim light. Without a photo the trophy stands on a stone plinth between the columns.)
+
+TYPOGRAPHY & LAYOUT
+1. The HEADLINE huge in gold Roman-style condensed capitals across the bottom, chiselled with a bevel.
+2. The event title (if given) in a small black box with gold text under it; the accent line (if given) in a gold serif above the headline.
+3. The DATE & TIMES big at the top-left in a bronze outline lettering piece on a carved stone tablet.
+4. The PRIZE in gold-leaf 3D figures on a laurel wreath at the right.
+5. The info line in tiny letter-spaced gold rows at the bottom with small laurel marks between them.
+- Collaborator logos (if given) in one small row of bronze emblems at the bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-ultras-opening": `[FIXED LAYOUT] ULTRAS NIGHT — a navy-and-gold announcement flyer in the look of our Ultras Gold player card, like the official announcement of a top European club. Photoreal, premium, razor-sharp.
+
+COLOURS: deep navy and rich metallic GOLD (or the two colours from the COLOURS line in the same roles) over near-black. Gold is the light: every highlight, rim light, spark and edge glows gold.
+
+BACKGROUND (deep, layered, never muddy)
+- A packed ultras stand at night, slightly out of focus (real shallow depth of field): crowd silhouettes with raised arms, a few big GOLD flares burning with real bright cores and golden smoke drifting up, 2–3 large navy flags waving (no words on them).
+- Soft volumetric gold light beams from the top, fine gold dust and embers floating in the air (some in front of the hero, slightly blurred, for depth).
+- A WET, glossy black floor at the bottom with crisp mirror reflections of the hero, the prize and the flares.
+- Keep the background darker and calmer behind the text so every word reads perfectly.
+- The organizer / league logo ONLY if its reference image is given: UPPER RIGHT, fully inside the poster with a clear margin, about 38% of the width, as a premium 3D emblem in brushed dark metal with gold edges, real reflections and a soft gold glow, faithful to its artwork. Otherwise a soft gold light burst there.
+
+${EVENT_HERO}
+
+TYPOGRAPHY & LAYOUT (left side, stacked, aligned on one left margin)
+1. The accent line (if given) in a small solid GOLD tag box with bold black capitals and a thin dark bevel.
+2. The HEADLINE HUGE in tall ultra-condensed white capitals with a subtle cracked-stone texture, a hard drop shadow and a faint gold edge light, two lines if long.
+3. The event title (if given) in a big gold brush script slashing across the bottom of the headline with a swoosh underline.
+4. The DATE & TIMES in a dark plaque with a thin gold frame, condensed white capitals, big.
+5. The info line in tiny letter-spaced gold rows under the plaque.
+- RIGHT, lower: the PRIZE giant as a thin glowing gold outline, partly behind the front hero, with its reflection on the wet floor; its word small under it.
+- Collaborator logos (if given) in one small row at the very bottom under a tiny letter-spaced label.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
