@@ -245,6 +245,11 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
             </label>
           ))}
         </div>
+        <p className="mt-2 text-xs text-muted">
+          {es
+            ? "🧾 Estilos copiados de un flyer (Copa Final, Neon Club, Brush Wall…): cada línea de texto del flyer se rellena sola con su ejemplo (fecha, script, ofertas, DJs, dirección…) para ver el diseño completo con sus fuentes y 3D."
+            : "🧾 Flyer styles (Copa Final, Neon Club, Brush Wall…): every text line of the flyer is filled in automatically with its example (date, script, offers, DJs, address…) so the test shows the full design with its fonts and 3D lettering."}
+        </p>
         <div className="mt-3">
           <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "Colores de la prueba" : "Colors for the test"}</span>
           <div className="flex flex-wrap gap-1.5">
