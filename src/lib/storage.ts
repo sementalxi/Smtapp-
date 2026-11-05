@@ -4,6 +4,7 @@ import path from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { put, del } from "@vercel/blob";
 import { db } from "./db";
+import { siteUrl } from "./email-template";
 
 const LOCAL_DIR = path.join(process.cwd(), "uploads");
 
@@ -57,6 +58,13 @@ export async function readDbFile(id: string) {
 /** Public hosts our stored files can live on (used to block arbitrary URLs). */
 export function isStorageUrl(url: string) {
   if (url.startsWith("/api/files/")) return true;
+  // Built-in style references live in /public/refs on our own site.
+  if (url.startsWith("/refs/")) return true;
+  try {
+    const u = new URL(url);
+    const site = new URL(siteUrl());
+    if (u.pathname.startsWith("/refs/") && (u.hostname === site.hostname || u.hostname === "kixo.pro" || u.hostname === "www.kixo.pro")) return true;
+  } catch {}
   const s3 = (process.env.S3_PUBLIC_URL ?? "").replace(/\/$/, "");
   if (s3 && url.startsWith(s3 + "/")) return true;
   try {
