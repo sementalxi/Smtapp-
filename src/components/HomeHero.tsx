@@ -48,7 +48,7 @@ export function HomeHero({
   const withThumb = templates.filter((x) => x.thumbUrl);
   const auto = [...withThumb.filter((x) => x.badge), ...withThumb.filter((x) => !x.badge)].map((x) => thumb(x.thumbUrl!, 480));
   // Admin's picks (Home page — left / center / right) win; empty spots use style samples.
-  const posters = [0, 1, 2].map((n) => heroImgs[n] || auto[n]).filter(Boolean) as string[];
+  const posters = [0, 1, 2].map((n) => (heroImgs[n] ? thumb(heroImgs[n], 560) : auto[n])).filter(Boolean) as string[];
   const feats: [keyof typeof ICONS, string, string][] = [
     ["card", "hero_feat_1", "PLAYER"],
     ["trophy", "hero_feat_2", "CHAMPIONS"],

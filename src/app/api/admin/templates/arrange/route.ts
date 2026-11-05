@@ -13,7 +13,7 @@ const Schema = z.object({
 
 /** Admin: save category order/visibility and each style's category, order and on/off. */
 export const PUT = handle(async (req: NextRequest) => {
-  await apiAdmin();
+  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
   const b = Schema.parse(await req.json());
   const value = JSON.stringify(b.categories);
   await db.$transaction([

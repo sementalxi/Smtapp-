@@ -11,7 +11,7 @@ const Body = z.object({ en: Map, es: Map });
 
 // Admin: save custom site texts. Only keys that exist and differ from the default are kept.
 export const PUT = handle(async (req: NextRequest) => {
-  await apiAdmin();
+  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
   const body = Body.parse(await req.json());
   const clean = { en: {} as Record<string, string>, es: {} as Record<string, string> };
   for (const lang of ["en", "es"] as const) {

@@ -13,7 +13,7 @@ const Body = z.object({
 
 /** Admin: turn season flyers on/off and pick the season. */
 export const PUT = handle(async (req: NextRequest) => {
-  await apiAdmin();
+  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
   const b = Body.parse(await req.json());
   await saveSeasonState({ on: b.on && !!b.key, key: b.key, custom: b.custom ?? "" });
   for (const p of ["/create", "/admin/templates"]) revalidatePath(p);

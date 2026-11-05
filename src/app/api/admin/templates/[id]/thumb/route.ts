@@ -10,7 +10,7 @@ type Ctx = { params: Promise<{ id: string }> };
 
 // Admin: use a finished poster as a style's sample image (copied, so deleting the poster keeps the sample).
 export const POST = handle(async (req: NextRequest, { params }: Ctx) => {
-  await apiAdmin();
+  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
   const { id } = await params;
   const { bannerId } = z.object({ bannerId: z.string().max(40) }).parse(await req.json());
   const [tpl, banner] = await Promise.all([

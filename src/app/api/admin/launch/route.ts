@@ -10,7 +10,7 @@ export const maxDuration = 60;
 
 /** Coming-soon mode + the Discord role for linked accounts. */
 export const GET = handle(async () => {
-  await apiAdmin();
+  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
   const st = await getSettings();
   const linked = await db.user.count({ where: { discordId: { not: null } } });
   return json({ comingSoon: st.coming_soon === "1", role: st.discord_link_role || "", roles: await listRoles(), bot: botReady(), linked, supportOn: st.support_on !== "0", supportRole: st.support_role || "", vipCode: st.vip_code || "" });
@@ -24,7 +24,7 @@ const Body = z.discriminatedUnion("action", [
 ]);
 
 export const POST = handle(async (req: NextRequest) => {
-  await apiAdmin();
+  await apiAdmin(); (await import("@/lib/memo")).bust("settings", "texts", "templates:");
   const b = Body.parse(await req.json());
   if (b.action === "vip") {
     // A new code invalidates the old link; "off" closes early access.

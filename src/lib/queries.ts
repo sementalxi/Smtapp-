@@ -14,6 +14,11 @@ export function canUseTemplate(t: { audience?: string | null }, viewer?: { role?
 
 export async function activeTemplates(viewer?: { role?: string; isOrg?: boolean } | null): Promise<ClientTemplate[]> {
   const aud = audienceFor(viewer);
+  const { memo } = await import("./memo");
+  return memo(`templates:${aud?.join(",") ?? "all"}`, 60_000, () => loadTemplates(aud));
+}
+
+async function loadTemplates(aud: string[] | null): Promise<ClientTemplate[]> {
   const rows = await db.template.findMany({ where: { active: true, deletedAt: null, ...(aud ? { audience: { in: aud } } : {}) }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }] });
   return rows.map((r) => ({
     id: r.id,

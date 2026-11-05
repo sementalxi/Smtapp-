@@ -60,7 +60,8 @@ export type SettingKey = keyof typeof SETTING_DEFAULTS;
 
 /** Site settings — one small query per request (only the known keys, memoized per render). */
 export const getSettings = cache(async (): Promise<Record<SettingKey, string>> => {
-  const rows = await db.setting.findMany({ where: { key: { in: Object.keys(SETTING_DEFAULTS) } } });
+  const { memo } = await import("./memo");
+  const rows = await memo<{ key: string; value: string }[]>("settings", 15_000, () => db.setting.findMany({ where: { key: { in: Object.keys(SETTING_DEFAULTS) } } }));
   const out: Record<string, string> = { ...SETTING_DEFAULTS };
   for (const r of rows) if (r.key in SETTING_DEFAULTS) out[r.key] = r.value;
   return out as Record<SettingKey, string>;
