@@ -106,13 +106,18 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean): Recor
   }
 }
 
+const PHOTO_LAYOUTS = ["PLAYER", "CHAMPIONS", "MATCHDAY", "RESULT"];
+const CREST_LAYOUTS = ["PLAYER", "CHAMPIONS", "LINEUP", "LOGO"];
+
 /** The request body for POST /api/banners for one style. */
 export function bannerBodyFor(t: { id: string; layout: string; logoCreate: boolean }, s: Sample, run: string) {
   return {
     templateId: t.id,
     inputs: inputsFor(t.layout, s, t.logoCreate),
-    photoUrl: t.layout === "LOGO" ? undefined : s.photoUrl || undefined,
-    logoUrl: t.layout === "LOGO" && t.logoCreate ? undefined : s.logoUrl || undefined,
+    // Only the kinds whose creator step takes them: a photo for player cards, champions and match posters;
+    // a team crest where the creator has a team picker. Standings, team of the week, lineups and events get none.
+    photoUrl: PHOTO_LAYOUTS.includes(t.layout) ? s.photoUrl || undefined : undefined,
+    logoUrl: CREST_LAYOUTS.includes(t.layout) && !(t.layout === "LOGO" && t.logoCreate) ? s.logoUrl || undefined : undefined,
     mode: "PRO" as const,
     test: true,
     testRun: run,
