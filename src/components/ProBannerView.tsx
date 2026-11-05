@@ -168,6 +168,7 @@ export function ProBannerView({
           )}
           </div>
         </details>
+        {admin && url && <UpscaleTest bannerId={id} original={url} />}
         <Link href={`/create?type=${layout.toLowerCase()}`} className="btn-primary w-full py-3.5 text-base">
           ＋ {locale === "es" ? "Crear otro" : "Create another one"}
         </Link>
@@ -223,6 +224,50 @@ function SampleSetter({ bannerId, admin }: { bannerId: string; admin: { template
         </button>
       </div>
       {msg && <p className="mt-1 text-xs">{msg}</p>}
+    </div>
+  );
+}
+
+/** Admin only: make a faithful 2× upscale next to the original, to compare before turning it on for everyone. */
+function UpscaleTest({ bannerId, original }: { bannerId: string; original: string }) {
+  const { locale } = useT();
+  const es = locale === "es";
+  const [busy, setBusy] = useState(false);
+  const [res, setRes] = useState<{ url: string; width?: number; height?: number } | null>(null);
+  const [err, setErr] = useState("");
+  async function run() {
+    setBusy(true);
+    setErr("");
+    const r = await fetch(`/api/banners/${bannerId}/upscale`, { method: "POST" }).catch(() => null);
+    const d = r ? await r.json().catch(() => ({})) : {};
+    setBusy(false);
+    if (r?.ok && d.url) setRes(d);
+    else setErr(d.detail || d.error || "error");
+  }
+  return (
+    <div className="rounded-xl border border-teal/40 bg-teal/5 p-3">
+      <button onClick={run} disabled={busy} className="btn-ghost w-full">
+        {busy ? (es ? "Escalando… (~20 s)" : "Upscaling… (~20 s)") : `⬆️ ${es ? "Escalar a 4K (prueba admin)" : "4K upscale (admin test)"}`}
+      </button>
+      <p className="mt-1 text-[11px] text-muted">{es ? "Agranda y afila sin redibujar. Se guarda aparte; el original no cambia." : "Enlarges and sharpens without redrawing. Saved separately; the original stays."}</p>
+      {err && <p className="mt-1 text-xs text-red-400">{err}</p>}
+      {res && (
+        <div className="mt-2 space-y-2">
+          <div className="grid grid-cols-2 gap-2 text-center text-[11px] font-bold">
+            <a href={original} target="_blank" rel="noreferrer">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={original} alt="" className="w-full rounded-lg" />
+              {es ? "Original" : "Original"}
+            </a>
+            <a href={res.url} target="_blank" rel="noreferrer">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={res.url} alt="" className="w-full rounded-lg" />
+              4K {res.width && res.height ? `· ${res.width}×${res.height}` : ""}
+            </a>
+          </div>
+          <p className="text-[11px] text-muted">{es ? "Abre cada una y haz zoom en caras y letras para comparar." : "Open each one and zoom into faces and letters to compare."}</p>
+        </div>
+      )}
     </div>
   );
 }
