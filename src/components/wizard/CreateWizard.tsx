@@ -250,6 +250,39 @@ export function CreateWizard({
   const cardStyles = useMemo(() => templates.filter((t) => t.layout === "PLAYER"), [templates]);
   const [cardTplId, setCardTplId] = useState<string | null>(null); // null = the TOTW style's own look
   const cardTpl = cardStyles.find((t) => t.id === cardTplId) ?? null;
+  // The whole poster can take a player-card style's look (team of the week, standings, events).
+  const lookPicker = (label: string) =>
+    cardStyles.length > 0 && (
+        <div>
+          <label className="label">🃏 {label}</label>
+          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+            <button type="button" onClick={() => setCardTplId(null)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${!cardTpl ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
+              {tpl?.thumbUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={thumb(tpl.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+              ) : (
+                <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🎨</span>
+              )}
+              <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${!cardTpl ? "text-lime" : ""}`}>{locale === "es" ? "Propio del estilo" : "Style's own"}</span>
+            </button>
+            {cardStyles.map((t) => {
+              const on = cardTpl?.id === t.id;
+              return (
+                <button key={t.id} type="button" onClick={() => setCardTplId(t.id)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${on ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
+                  {t.thumbUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={thumb(t.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+                  ) : (
+                    <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🃏</span>
+                  )}
+                  <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${on ? "text-lime" : ""}`}>{locale === "es" ? t.nameEs : t.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+    );
+
   // Wide styles always come out as a 16:9 banner (the size picker is hidden for them).
   const wideStyle = !!tpl?.wide;
   useEffect(() => {
@@ -518,7 +551,7 @@ export function CreateWizard({
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
         ...(format !== "post" ? { format } : {}),
-        ...((layout === "TOTW" || layout === "STANDINGS") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
+        ...((layout === "TOTW" || layout === "STANDINGS" || layout === "EVENT") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -979,36 +1012,7 @@ export function CreateWizard({
                 </div>
                 {field({ label: L.footer, k: "footer", max: 40, ph: locale === "es" ? "Temporada 4" : "Season 4" })}
               </div>
-              {cardStyles.length > 0 && (
-                <div>
-                  <label className="label">🃏 {locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y las tarjetas)" : "Poster look (a player-card style for the background and the cards)"}</label>
-                  <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
-                    <button type="button" onClick={() => setCardTplId(null)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${!cardTpl ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
-                      {tpl?.thumbUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={thumb(tpl.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-                      ) : (
-                        <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🎨</span>
-                      )}
-                      <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${!cardTpl ? "text-lime" : ""}`}>{locale === "es" ? "Propio del estilo" : "Style's own"}</span>
-                    </button>
-                    {cardStyles.map((t) => {
-                      const on = cardTpl?.id === t.id;
-                      return (
-                        <button key={t.id} type="button" onClick={() => setCardTplId(t.id)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${on ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
-                          {t.thumbUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={thumb(t.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-                          ) : (
-                            <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🃏</span>
-                          )}
-                          <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${on ? "text-lime" : ""}`}>{locale === "es" ? t.nameEs : t.name}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y las tarjetas)" : "Poster look (a player-card style for the background and the cards)")}
               <div>
                 <label className="label">
                   {locale === "es" ? "Los once" : "The eleven"} <span className="text-lime">*</span>
@@ -1054,36 +1058,7 @@ export function CreateWizard({
                 {field({ label: locale === "es" ? "Palabra pequeña arriba del titular" : "Small word above the headline", k: "tagline", max: 30, ph: locale === "es" ? "TEMPORADA 4" : "SEASON 4" })}
                 {field({ label: locale === "es" ? "Línea de acento bajo el titular" : "Accent line under the headline", k: "subtitle", max: 40, ph: locale === "es" ? "División 1" : "Division 1" })}
               </div>
-              {cardStyles.length > 0 && (
-                <div>
-                  <label className="label">🃏 {locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y la tabla)" : "Poster look (a player-card style for the background and the table)"}</label>
-                  <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
-                    <button type="button" onClick={() => setCardTplId(null)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${!cardTpl ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
-                      {tpl?.thumbUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={thumb(tpl.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-                      ) : (
-                        <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🎨</span>
-                      )}
-                      <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${!cardTpl ? "text-lime" : ""}`}>{locale === "es" ? "Propio del estilo" : "Style's own"}</span>
-                    </button>
-                    {cardStyles.map((t) => {
-                      const on = cardTpl?.id === t.id;
-                      return (
-                        <button key={t.id} type="button" onClick={() => setCardTplId(t.id)} className={`w-[88px] shrink-0 overflow-hidden rounded-xl border text-left transition ${on ? "border-lime ring-2 ring-lime/40" : "border-line hover:border-lime/50"}`}>
-                          {t.thumbUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={thumb(t.thumbUrl, 200)} alt="" loading="lazy" className="aspect-[4/5] w-full object-cover" />
-                          ) : (
-                            <span className="grid aspect-[4/5] w-full place-items-center bg-panel-2 text-2xl">🃏</span>
-                          )}
-                          <span className={`block truncate px-1.5 py-1 text-[10px] font-bold ${on ? "text-lime" : ""}`}>{locale === "es" ? t.nameEs : t.name}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para el fondo y la tabla)" : "Poster look (a player-card style for the background and the table)")}
               <div className="grid grid-cols-2 gap-3">
                 <label className="block">
                   <span className="label">{locale === "es" ? "⭐ Cuántos avanzan (arriba)" : "⭐ How many advance (top)"}</span>
@@ -1204,6 +1179,7 @@ export function CreateWizard({
               </div>
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
+              {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para todo el póster — fondo, luces, tipografía)" : "Poster look (a player-card style for the whole poster — background, lighting, typography)")}
             </>
           )}
 

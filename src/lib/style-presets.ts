@@ -3439,6 +3439,166 @@ RULES
 - Logos: only the provided ones (league / organizer, collaborators, team crest), faithful and never redesigned. No game-publisher or brand logos.
 - People: only the person(s) from the uploaded photo (cut out, relit, rim-lit, recognisable). With no photo: NO faces anywhere — use crowd silhouettes, out-of-focus dancers or shapes at most.
 - Keep the brand-mark corner (bottom right) calm. No borders, frame lines or corner marks.`,
+  "event-chrome-noir": `[FIXED LAYOUT] CHROME NOIR NIGHT — a professional esports tournament / event announcement in the look of our Chrome Noir player card: black-and-white with ONE accent colour, made like a high-end PHOTOSHOP composite by a top club designer. Bold, cinematic, premium.
+
+COLOURS: black-and-white over deep blacks with ONE accent colour (red by default, or the organizer's colour from the COLOURS line) on the prize, the tag boxes and the HUD lines only.
+
+BACKGROUND
+- A black-and-white editorial studio: dark concrete backdrop, hard single spotlight, light smoke, LED stage screens and light bars glowing softly in the accent colour far behind, everything monochrome except the accent.
+- A glossy reflective floor at the bottom with real reflections of the hero and the prize.
+- The HEADLINE echoed GIANT in faded white outline capitals across the upper background, cut off by the edges, partly hidden by the hero.
+- The organizer / league logo ONLY if its reference image is given: big in the upper right, fully inside the frame, as a premium 3D metal emblem faithful to its artwork, slightly faded into the background.
+
+THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
+1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
+2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
+Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
+WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+
+TYPOGRAPHY & LAYOUT (left side, stacked on one margin)
+1. The accent line (if given) in a small bevelled tag box with a thin accent frame.
+2. The HEADLINE huge in ultra-condensed white capitals with a grainy print texture, two lines if long.
+3. The event title (if given) in an elegant brush script slashing across the bottom of the headline.
+4. The date & times in a thin HUD frame line in letter-spaced white caps.
+5. The info line split into tiny rows with a small accent-colour chevron before each.
+- RIGHT, lower: the PRIZE giant as a thin glowing outline in the accent colour (like a jersey number), partly behind the front hero, with its reflection on the floor; its small word under it in letter-spaced caps.
+- Collaborator logos (if given) in one small row of same-height emblems under a tiny letter-spaced label at the very bottom.
+
+ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic made by a top designer, NOT AI)
+- Photography-real: everything shot on a full-frame camera with an 85mm lens — real materials (true chrome, brushed gold, glass, concrete, paper fibres), real skin and fabric, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the hero from the background, real contact shadows and reflections, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, everything colour-matched and lit to the scene, depth layering (background → giant faded headline echo → faded logo → portrait → front hero → lettering → foreground smoke / particles slightly out of focus), soft layer-mask fades, dodge-and-burn depth, a double exposure where the portrait meets the background.
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, one cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast, a touch of chromatic aberration and lens flare only where light hits the lens.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels, reflections and hard shadows, clean alignment on one grid; the information lines small, letter-spaced and perfectly legible.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter, no big empty dark areas.
+
+TEXT RULES
+- Use ONLY the texts in the text list (headline, event title, accent line, date & times, prize, info line, the collaboration label), spelled letter for letter, each written once and complete. Never invent names, prizes, dates, places, sponsors, platform or game logos, websites or handles. If an item is not given, leave its spot out.
+- Logos: only the provided ones (organizer / league, collaborators, team crest), faithful and never redesigned, as premium 3D metal emblems. Never a badge copied from a shirt.
+- Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
+- VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`,
+  "event-red-shards": `[FIXED LAYOUT] RED SHARDS CLASH — an aggressive esports tournament / event announcement in the look of our Red Shards player card: glossy red, sharp and modern, made like a high-end PHOTOSHOP composite.
+
+COLOURS: deep red and bright red with white and black (or the organizer's colour from the COLOURS line in the same role).
+
+BACKGROUND
+- Big glossy angular SHARDS and blade-like metallic shapes in red and black flying outward from the hero, red light streaks, a blurred red-lit stadium at the bottom, red glow and a few real sparks.
+- A vertical SPLIT: the left / centre is brighter and holds the hero; the right side is a darker red panel holding all the texts.
+- The HEADLINE echoed GIANT in faded dark-red capitals behind the shards, cut off by the edges.
+- The organizer / league logo (if given) upper right on the red panel, big and crisp as a premium 3D metal emblem with glow, faithful to its artwork.
+
+THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
+1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
+2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
+Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
+WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+
+TYPOGRAPHY & LAYOUT (on the dark red panel, right, stacked, left-aligned)
+1. The accent line (if given) small in letter-spaced white caps with a thin red rule.
+2. The HEADLINE huge in angular chrome-white 3D capitals with a red bevel and a hard black shadow, two lines if long, overlapping the panel's left edge.
+3. The event title (if given) in heavy slanted condensed capitals inside a thin white-framed box.
+4. The PRIZE giant in red-and-chrome 3D figures with the word under it in wide letter-spaced caps.
+5. The date & times in condensed white caps on a sharp red ribbon cut at an angle.
+6. The info line split into short rows with a small white chevron before each.
+- Collaborator logos (if given) in one small row at the bottom of the panel under a tiny letter-spaced label.
+
+ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic made by a top designer, NOT AI)
+- Photography-real: everything shot on a full-frame camera with an 85mm lens — real materials (true chrome, brushed gold, glass, concrete, paper fibres), real skin and fabric, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the hero from the background, real contact shadows and reflections, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, everything colour-matched and lit to the scene, depth layering (background → giant faded headline echo → faded logo → portrait → front hero → lettering → foreground smoke / particles slightly out of focus), soft layer-mask fades, dodge-and-burn depth, a double exposure where the portrait meets the background.
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, one cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast, a touch of chromatic aberration and lens flare only where light hits the lens.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels, reflections and hard shadows, clean alignment on one grid; the information lines small, letter-spaced and perfectly legible.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter, no big empty dark areas.
+
+TEXT RULES
+- Use ONLY the texts in the text list (headline, event title, accent line, date & times, prize, info line, the collaboration label), spelled letter for letter, each written once and complete. Never invent names, prizes, dates, places, sponsors, platform or game logos, websites or handles. If an item is not given, leave its spot out.
+- Logos: only the provided ones (organizer / league, collaborators, team crest), faithful and never redesigned, as premium 3D metal emblems. Never a badge copied from a shirt.
+- Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
+- VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`,
+  "event-cosmic-chrome": `[FIXED LAYOUT] COSMIC CHROME CUP — a futuristic esports tournament / event announcement in the look of our Cosmic Chrome player card: purple deep space with liquid-chrome lettering, glossy and premium, made like a high-end PHOTOSHOP composite.
+
+COLOURS: violet, magenta and chrome-white (or the organizer's colour from the COLOURS line in place of purple).
+
+BACKGROUND
+- Deep space in purple: ringed planets, floating crystals, stars, nebula glow, a glowing horizon line at the bottom with a reflective dark surface under the hero.
+- The HEADLINE as GIANT liquid-CHROME 3D letters with sharp spikes floating behind the hero, cut off at the edges (a graphic echo — the headline is also set clean in the panel below).
+- The organizer / league logo (if given) centre-left, crisp as a premium 3D chrome emblem faithful to its artwork, with a faded giant echo of it in the nebula.
+
+THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
+1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
+2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
+Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
+WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+(In this style the portrait behind is BLACK-AND-WHITE with a purple rim light and the front hero is full colour.)
+
+TYPOGRAPHY & LAYOUT (a glassy translucent purple PANEL across the lower third, with a thin chrome edge)
+1. The accent line (if given) small in letter-spaced chrome caps at the top of the panel.
+2. The HEADLINE clean in heavy slanted condensed chrome capitals (one line) — the giant spiked version floats behind the hero.
+3. The event title (if given) in slim letter-spaced white caps under it.
+4. The PRIZE giant in liquid-chrome 3D with a magenta glow, its word small under it.
+5. The date & times in condensed white caps with a thin violet rule above.
+6. The info line in tiny letter-spaced rows, a small chrome dot before each.
+- Collaborator logos (if given) in one small row at the panel's bottom edge under a tiny letter-spaced label.
+
+ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic made by a top designer, NOT AI)
+- Photography-real: everything shot on a full-frame camera with an 85mm lens — real materials (true chrome, brushed gold, glass, concrete, paper fibres), real skin and fabric, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the hero from the background, real contact shadows and reflections, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, everything colour-matched and lit to the scene, depth layering (background → giant faded headline echo → faded logo → portrait → front hero → lettering → foreground smoke / particles slightly out of focus), soft layer-mask fades, dodge-and-burn depth, a double exposure where the portrait meets the background.
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, one cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast, a touch of chromatic aberration and lens flare only where light hits the lens.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels, reflections and hard shadows, clean alignment on one grid; the information lines small, letter-spaced and perfectly legible.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter, no big empty dark areas.
+
+TEXT RULES
+- Use ONLY the texts in the text list (headline, event title, accent line, date & times, prize, info line, the collaboration label), spelled letter for letter, each written once and complete. Never invent names, prizes, dates, places, sponsors, platform or game logos, websites or handles. If an item is not given, leave its spot out.
+- Logos: only the provided ones (organizer / league, collaborators, team crest), faithful and never redesigned, as premium 3D metal emblems. Never a badge copied from a shirt.
+- Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
+- VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`,
+  "event-gold-collage": `[FIXED LAYOUT] GOLD CROWN NIGHT — a black-and-gold champion-night event announcement in the look of our Gold Crown Collage player card: a rich layered torn-paper collage, made like a high-end PHOTOSHOP composite.
+
+COLOURS: black and rich metallic GOLD with warm amber light (the organizer's colour from the COLOURS line only as small accents).
+
+BACKGROUND
+- A dense collage: torn black and gold paper layers with real fibres, gritty textures, scratched film, gold foil fragments, tape strips, a few warm light streaks and golden sparks, fine film grain.
+- GIANT distressed letters of the HEADLINE faded in the background behind everything, cut off by the edges.
+- A big golden CROWN or a gold trophy silhouette rising behind the hero, real polished metal with warm reflections.
+- The organizer / league logo (if given) CENTRED in the upper middle, large and crisp as a premium gold 3D emblem faithful to its artwork, plus a huge faded echo of it behind the collage.
+
+THE HERO — with an uploaded photo: the person shown TWICE, both the SAME person (exact same face, features, hair, skin tone, outfit), exactly like our player cards:
+1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident look).
+2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
+Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.
+WITHOUT a photo: the hero is a GIANT photoreal TROPHY (a tall polished cup, real metal, the event title engraved on its plate if given) shown large with a huge faded echo of it behind — NO people, faces, players or silhouettes anywhere.
+
+TYPOGRAPHY & LAYOUT (stacked on torn paper strips)
+1. The accent line (if given) small in letter-spaced gold caps on a torn black strip above the headline.
+2. The HEADLINE huge in heavy gold-foil capitals with a wedge-serif / gothic feel, embossed with a hard shadow, two lines if long.
+3. The event title (if given) in black heavy capitals on a torn gold paper strip laid across the bottom of the headline at a slight angle.
+4. The PRIZE giant in polished embossed gold 3D with the word under it in wide letter-spaced caps.
+5. The date & times in condensed cream caps on a torn black strip with a gold pin / tape corner.
+6. The info line in tiny letter-spaced cream caps, split into short rows with a small gold star before each.
+- Collaborator logos (if given) in one small row of gold emblems at the bottom under a tiny letter-spaced label.
+
+ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic made by a top designer, NOT AI)
+- Photography-real: everything shot on a full-frame camera with an 85mm lens — real materials (true chrome, brushed gold, glass, concrete, paper fibres), real skin and fabric, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the hero from the background, real contact shadows and reflections, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, everything colour-matched and lit to the scene, depth layering (background → giant faded headline echo → faded logo → portrait → front hero → lettering → foreground smoke / particles slightly out of focus), soft layer-mask fades, dodge-and-burn depth, a double exposure where the portrait meets the background.
+- Cinematic grade: deep but detailed blacks, controlled highlights, a subtle S-curve, one cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast, a touch of chromatic aberration and lens flare only where light hits the lens.
+- Typography crafted, not generated: perfect kerning, razor-sharp edges, real materials with believable bevels, reflections and hard shadows, clean alignment on one grid; the information lines small, letter-spaced and perfectly legible.
+- Restraint: effects are physically real and purposeful — no plastic CGI, no cartoon, no over-smoothing, no HDR halos, no random melted shapes, no clutter, no big empty dark areas.
+
+TEXT RULES
+- Use ONLY the texts in the text list (headline, event title, accent line, date & times, prize, info line, the collaboration label), spelled letter for letter, each written once and complete. Never invent names, prizes, dates, places, sponsors, platform or game logos, websites or handles. If an item is not given, leave its spot out.
+- Logos: only the provided ones (organizer / league, collaborators, team crest), faithful and never redesigned, as premium 3D metal emblems. Never a badge copied from a shirt.
+- Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
+- VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`,
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */

@@ -100,7 +100,7 @@ export const POST = handle(async (req: NextRequest) => {
   assertInputUrls(inputs);
   let proPrompt = "";
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
-  const totw = pro && ["TOTW", "STANDINGS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
+  const totw = pro && ["TOTW", "STANDINGS", "EVENT"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
   const exactTable = pro && template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   const refs = collectProRefs({
