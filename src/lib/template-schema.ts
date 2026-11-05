@@ -23,7 +23,7 @@ export const TemplateSchema = z.object({
   style: StyleSchema,
   cost: z.number().int().min(0).max(50),
   active: z.boolean(),
-  sort: z.number().int().min(0).max(1000),
+  sort: z.number().int().min(-1000).max(1000),
   styleRefUrl: z.string().max(500).nullable().optional(),
   thumbUrl: z.string().max(500).nullable().optional(),
   proInstructions: z.string().max(20000).nullable().optional(),
