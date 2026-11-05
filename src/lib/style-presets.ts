@@ -6,7 +6,7 @@ const EVENT_HERO = `[IF PHOTO]THE HERO — the person from the uploaded photo sh
 1. BEHIND: a large chest-up portrait, slightly darker, blended softly into the background with a coloured rim light (calm, confident, closed-mouth look).
 2. IN FRONT: FULL BODY head to feet in a confident pose — the sharpest element of the poster, strong rim light, a real contact shadow / reflection under the feet, feet never cut off.
 Pro retouch: real skin with pores and natural tone (no plastic or airbrushed look), sharp eyes, real hair strands and fabric folds. With a group photo: the group stands together as the front figure and the biggest person is the portrait behind.[/IF PHOTO][IF NO PHOTO]NO PEOPLE — no photo was uploaded, so this poster has NO people at all: no players, athletes, faces, bodies, hands, crowds or silhouettes, not even blurred or far in the background. But the poster is NOT simpler for it — it stays a DENSE, LAYERED, premium flyer like a top studio's. The hero spot is taken by a photoreal CENTREPIECE PROP, big (about 40% of the poster): a giant polished gold / chrome TROPHY (a tall cup with sweeping handles and a crown-shaped rim, the organizer logo set into its front face like an enamel medallion if a logo is given), or the organizer logo itself as a HUGE 3D metal-and-enamel emblem with real reflections — or the style's own centrepiece if the brief names one. It is dramatically lit with a hard rim light, sparks, smoke and light beams wrapping around it, and its reflection on the floor. Behind it the GIANT faded echo lettering of the HEADLINE, in front of it the designed lettering pieces, then foreground particles — every layer of this brief is kept; only the person is replaced by the prop. Never a plain text stack on an empty background. Wherever this brief mentions the hero, the portrait or the front figure, it means this centrepiece prop.[/IF NO PHOTO]`;
-const EVENT_FLYER = `ANNOUNCEMENT FLYER: this is a flyer that announces what is coming — so the DATE & TIMES block is a big designed element, not a footnote; the accent line is the small "eyebrow" line that sets up the headline; the PRIZE is a hero number; and the info line is split into short rows (split it on · or / ) set as stamps, tags or icon rows. Words like COMING SOON, REGISTRATION OPEN or FREE ENTRY, when they appear in the given texts, become rubber-stamp / tag boxes.`;
+const EVENT_FLYER = `ANNOUNCEMENT FLYER: this is a flyer that announces what is coming — so the DATE & TIMES block is a big designed element, not a footnote; the accent line is the small "eyebrow" line that sets up the headline; the PRIZE is a hero number; and the info line is split into short rows (split it on · or / ) set as stamps, tags or icon rows. The rule / requirement line (if given) gets its OWN box with the rule note in small letter-spaced caps right under it; the entry fee (if given) gets its own big box like the prize. Words like COMING SOON, REGISTRATION OPEN or FREE ENTRY, when they appear in the given texts, become rubber-stamp / tag boxes.`;
 const EVENT_FINISH = `DENSITY (the poster must never look simple): like the owner's reference flyers, EVERY area of the frame carries something — the giant echo lettering behind, the scene with real depth, the centrepiece, a second layer of graphic marks (thin HUD lines, corner brackets, small letter-spaced repeats of the given texts, stars, slashes, hex / dot textures), light streaks, sparks, smoke, shards or paper, and foreground particles slightly out of focus. At least six visible layers front to back. The information block is a DESIGNED lock-up (plates, bars, boxes, icons, dividers), never plain lines of text on a dark gradient.
 
 ESPORTS FLAVOUR: it must feel like a pro ESPORTS organisation's announcement — LED stage screens and light bars glowing in the colours somewhere in the background, a hint of a stage truss or broadcast set, real stage haze; thin angular HUD frame lines, corner brackets, chevrons, a subtle hex or grid texture, diagonal light slashes — flat, clean and minimal (graphic shapes only, never extra words or numbers). Lettering in an esports team-logo spirit: aggressive angular cuts, wedge serifs, slanted condensed capitals with a double outline or a bevel.
@@ -3828,26 +3828,6 @@ CENTREPIECE
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-desert-plates": `[FIXED LAYOUT] DESERT PLATES — a vertical (4:5) showdown flyer in a sunset desert stadium, the information on riveted metal plates, cinematic and rugged.
-
-COLOURS: burnt orange and warm sunset gold, teal-blue dusk clouds, dark gunmetal plates, white and orange lettering.
-
-BACKGROUND
-- A desert stadium at sunset: red-rock mesas and cacti in the distance, floodlight towers blazing on both sides, orange flag banners (no words), a dramatic sky with teal clouds and an orange sun, dust and haze, cracked earth and big rocks in the foreground framing the plates. NO visible people in the stands.
-- TOP RIGHT: a riveted gunmetal PLATE with glowing orange edges holding the organizer / league logo (if given) and the collaborator logos (if given) side by side, separated by thin vertical orange lines.
-[IF PHOTO]- UPPER HALF: the person from the uploaded photo HUGE, from a low heroic angle, arms crossed or a strong pose, cut out, relit by the sunset with an orange rim light, dust at their feet.[/IF PHOTO][IF NO PHOTO]- UPPER HALF: the blazing sky, the floodlights and light beams — NO people anywhere.[/IF NO PHOTO]
-
-THE PLATES (a stack of riveted dark-metal plates with glowing orange edges, centred on the lower half, slightly overlapping each other)
-1. A small plate with the accent line (if given) in letter-spaced white caps.
-2. The HEADLINE in cracked-stone / brushed-steel white 3D capitals with a heavy bevel, two lines if long.
-3. The event title (if given) in glowing orange chrome 3D capitals right under it.
-4. A plate with the info line split into a bold white line and a tiny letter-spaced line (split on · or /).
-5. A plate with a small calendar icon + the DATE | a small clock icon + the TIMES, in condensed white capitals.
-6. A plate with the PRIZE in white italic 3D capitals with an orange outline.
-
-${EVENT_FLYER}
-
-${EVENT_FINISH}`,
   "event-spiky-pyro": `[FIXED LAYOUT] SPIKY PYRO — a vertical (4:5) cup / special-edition flyer in a night stadium full of red and gold pyro, with a giant spiky metallic title.
 
 COLOURS: deep red and gold over black, white chrome lettering with red-gold bevels.
@@ -3862,6 +3842,72 @@ TYPOGRAPHY & LAYOUT
 3. The accent line (if given) in a white brush / graffiti script at the right side, slightly rotated.
 4. BOTTOM: the PRIZE in the same spiky gold-red 3D lettering across the width; the DATE & TIMES in condensed white caps above it (if given).
 5. The info line at the very bottom in bold condensed white capitals with the last words in gold; the organizer logo small at the bottom right and collaborator logos (if given) small at the bottom left.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-storm-plates": `[FIXED LAYOUT] STORM PLATES — a vertical (4:5) tournament flyer in a rain-soaked night stadium, the texts on angled steel plates: the owner's "storm" flyer, made better.
+
+COLOURS: electric blue, ice-white chrome and gunmetal over near-black (the organizer's colour from the COLOURS line in place of blue).
+
+BACKGROUND
+- A night stadium in a heavy rainstorm: real rain streaks lit by the floodlights, real lightning bolts in the clouds, blue haze, light towers blazing, a wet glossy floor at the bottom with crisp reflections of the plates and the lettering; blue light streaks and water drops on the lettering. The stands are light and rain only — NO visible people.
+- TOP RIGHT: the organizer / league logo (if given) and the collaborator logos (if given) side by side as crisp 3D metal emblems, separated by a thin slanted chrome slash, with a soft glow.
+[IF PHOTO]- UPPER LEFT: the person from the uploaded photo HUGE from a low heroic angle, rain-soaked, cut out and relit with a cold blue rim light, water drops and spray on them, overlapping the top of the plates.[/IF PHOTO][IF NO PHOTO]- UPPER HALF: lightning, rain, the floodlights and a giant faded chrome echo of the HEADLINE behind the storm — NO people anywhere.[/IF NO PHOTO]
+
+THE PLATES (the exact stack of the owner's flyer — every plate a solid designed piece, not a text line)
+1. A small angled plate with the accent line in letter-spaced white caps (the "eyebrow").
+2. The HEADLINE huge in heavy slanted 3D capitals, two lines if long — line one in wet brushed chrome with a hard bevel, line two (or the event title, if given) in electric-blue glowing chrome with ice cracks.
+3. A wide plate with the RULE line in bold letter-spaced white caps and the rule note in a small letter-spaced line right under it (both only if given), with a few small diagonal slashes at its left.
+4. A plate with a small calendar icon | the DATE in heavy condensed capitals.
+5. A plate with a small clock icon | the TIMES stacked in two short lines (if two zones are given, one per line) in heavy condensed capitals.
+6. The ENTRY FEE on its own wide plate at the bottom in big chrome italic capitals (the PRIZE the same way beside or above it, if given).
+7. The info line (if given) tiny in letter-spaced caps under the last plate; collaborator logos appear only in the top lock-up.
+Every plate: riveted dark metal with a glowing edge in the accent colour, a slight angle, real bevels and a hard shadow, slightly overlapping the plate behind — the whole stack on the lower 60% of the poster.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-golden-shield": `[FIXED LAYOUT] GOLDEN SHIELD — a vertical (4:5) tournament flyer in a golden arena, the headline inside a big shield badge: the owner's "gold arena" flyer, made better.
+
+COLOURS: rich metallic gold and royal blue over near-black, white-silver chrome for the headline (the organizer's colour from the COLOURS line in place of blue).
+
+BACKGROUND
+- A packed arena glowing gold: spotlights fanning from the roof, warm light beams, gold confetti falling, light bars, haze; a glossy reflective dark floor at the bottom mirroring the badge and the plates. The stands are light and confetti only — NO visible people.
+- TOP CENTRE: the organizer / league logo (if given) and the collaborator logos (if given) side by side as crisp 3D metal emblems with a thin gold divider between them.
+[IF PHOTO]- UPPER THIRD: the person from the uploaded photo big above the shield, cut out and relit in warm gold light with a blue rim light, confident pose, overlapping the top of the shield.[/IF PHOTO][IF NO PHOTO]- UPPER THIRD: the spotlights, confetti and a giant faded gold echo of the HEADLINE behind the shield — NO people anywhere.[/IF NO PHOTO]
+
+THE SHIELD BADGE (centre, about 70% of the width)
+- A big bevelled SHIELD / crest-shaped badge: a royal-blue brushed-metal face with a thick polished-gold frame, gold laurel wreaths curving up both sides, a small gold trophy sitting on top of it, small gold stars at the top corners.
+- Inside, top to bottom: the accent line small in letter-spaced white caps between two gold stars; the HEADLINE huge in cracked silver-chrome 3D capitals; the event title (if given) under it in polished gold 3D capitals; a gold ribbon bar with the RULE line in letter-spaced white caps; the rule note (if given) small in letter-spaced gold caps under the ribbon.
+
+THE PLATES (under the shield)
+1. A wide blue plate with a gold frame: a small calendar icon + the DATE | a thin gold divider | a small clock icon + the TIMES in two short lines — heavy condensed white capitals.
+2. The ENTRY FEE on a big gold-framed blue plate at the bottom in big chrome italic capitals (the PRIZE the same way above it, if given).
+3. The info line (if given) tiny in letter-spaced gold caps under the plates.
+Every plate: real bevels, a gold glow on the edges, a hard shadow, a mirror reflection on the floor.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-desert-plates": `[FIXED LAYOUT] DESERT PLATES — a vertical (4:5) showdown flyer in a sunset desert stadium, the texts on riveted metal plates: the owner's "desert" flyer, made better.
+
+COLOURS: burnt orange and warm sunset gold, teal-blue dusk clouds, dark gunmetal plates, white and orange lettering (the organizer's colour from the COLOURS line in place of orange).
+
+BACKGROUND
+- A desert stadium at sunset: red-rock mesas and cacti in the distance, floodlight towers blazing on both sides, orange flag banners (no words), a dramatic sky with teal clouds and an orange sun, dust and haze, cracked earth and big rocks in the foreground framing the plates, a faint giant echo of the HEADLINE in the sky. NO visible people in the stands.
+- TOP RIGHT: a riveted gunmetal PLATE with glowing orange edges holding the organizer / league logo (if given) and the collaborator logos (if given) side by side, separated by thin vertical orange lines.
+[IF PHOTO]- UPPER HALF: the person from the uploaded photo HUGE, from a low heroic angle, arms crossed or a strong pose, cut out, relit by the sunset with an orange rim light, dust at their feet.[/IF PHOTO][IF NO PHOTO]- UPPER HALF: the blazing sky, the floodlights and light beams — NO people anywhere.[/IF NO PHOTO]
+
+THE PLATES (the exact stack of the owner's flyer — every plate a solid designed piece, not a text line)
+1. A small angled plate with the accent line in letter-spaced white caps (the "eyebrow").
+2. The HEADLINE huge in heavy slanted 3D capitals, two lines if long — line one in cracked stone / brushed steel white with a heavy bevel, line two (or the event title, if given) in glowing orange chrome.
+3. A wide plate with the RULE line in bold letter-spaced white caps and the rule note in a small letter-spaced line right under it (both only if given), with a few small diagonal slashes at its left.
+4. A plate with a small calendar icon | the DATE in heavy condensed capitals.
+5. A plate with a small clock icon | the TIMES stacked in two short lines (if two zones are given, one per line) in heavy condensed capitals.
+6. The ENTRY FEE on its own wide plate at the bottom in big chrome italic capitals (the PRIZE the same way beside or above it, if given).
+7. The info line (if given) tiny in letter-spaced caps under the last plate; collaborator logos appear only in the top lock-up.
+Every plate: riveted dark metal with a glowing orange edge, a slight angle, real bevels and a hard shadow, slightly overlapping the plate behind — the whole stack on the lower 60% of the poster.
 
 ${EVENT_FLYER}
 

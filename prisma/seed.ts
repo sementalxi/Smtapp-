@@ -84,8 +84,19 @@ async function main() {
     await db.setting.create({ data: { key: "events_v5_dense", value: new Date().toISOString() } });
   }
   // The owner's own flyers (people cropped out) as the style reference of the four styles copied from them — unless the admin set one.
-  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro"]) {
+  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro", "event-storm-plates", "event-golden-shield"]) {
     await db.template.updateMany({ where: { slug, OR: [{ styleRefUrl: null }, { styleRefUrl: "" }] }, data: { styleRefUrl: `${siteUrl()}/refs/${slug}.jpg` } });
+  }
+  // One-time: the plate flyers (storm, golden shield, desert) with the rule / entry boxes — briefs reloaded, new order, desert reference refreshed.
+  if (!(await db.setting.findUnique({ where: { key: "events_v6_plates" } }))) {
+    for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
+      if (slug.startsWith("event-")) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
+    }
+    await db.template.updateMany({ where: { slug: "event-desert-plates", styleRefUrl: { contains: "/refs/event-desert-plates.jpg" } }, data: { styleRefUrl: `${siteUrl()}/refs/event-desert-plates.jpg?v=2` } });
+    for (const t of DEFAULT_TEMPLATES) {
+      if (t.layout === "EVENT" && t.slug.startsWith("event-")) await db.template.updateMany({ where: { slug: t.slug }, data: { sort: t.sort } });
+    }
+    await db.setting.create({ data: { key: "events_v6_plates", value: new Date().toISOString() } });
   }
   // One-time: the four styles copied from the owner's own flyers come first in the event list.
   if (!(await db.setting.findUnique({ where: { key: "events_v4_order" } }))) {

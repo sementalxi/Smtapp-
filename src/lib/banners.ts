@@ -30,6 +30,9 @@ export const InputsSchema = z.object({
   prize: str(24),
   date: str(30),
   details: str(48),
+  rule: str(30),
+  ruleNote: str(60),
+  entry: str(24),
   extraPrompt: str(1500),
   homeTeam: str(40),
   awayTeam: str(40),
@@ -485,7 +488,7 @@ export function buildProPrompt(opts: {
   // With randomize off, "unique colours" falls back to the style's own palette.
   const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
-    i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details,
+    i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.rule, i.ruleNote, i.entry,
     i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers,
   ].join(" ");
   const hit = allText.match(BLOCKED);
@@ -686,13 +689,16 @@ export function buildProPrompt(opts: {
       break;
     case "EVENT": {
       const nPartners = (i.partnerLogos ?? []).filter(Boolean).length;
-      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}${nPartners ? `, and a neat ROW OF ${nPartners} COLLABORATOR LOGO${nPartners > 1 ? "S" : ""} (the partner logos given as reference images — same height, evenly spaced, under a tiny letter-spaced label) that never covers the headline or the subject` : ""}. ${frame} ${finish}`;
+      composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}${i.rule ? ", a boxed rule line" + (i.ruleNote ? " with a small note under it" : "") : ""}${i.entry ? ", a boxed entry-fee line" : ""}${nPartners ? `, and a neat ROW OF ${nPartners} COLLABORATOR LOGO${nPartners > 1 ? "S" : ""} (the partner logos given as reference images — same height, evenly spaced, under a tiny letter-spaced label) that never covers the headline or the subject` : ""}. ${frame} ${finish}`;
       if (nPartners) add("Tiny letter-spaced label above the collaborator logos", i.language === "Español" ? "EN COLABORACIÓN CON" : i.language === "Português" ? "EM COLABORAÇÃO COM" : "IN COLLABORATION WITH");
       add("Headline (huge, glossy 3D)", i.headline);
       add("Event title (bold, under the headline)", i.name);
       add("Script accent line", i.subtitle);
+      add("Rule / requirement (bold, in its own box)", i.rule);
+      add("Rule note (small, right under the rule)", i.ruleNote);
       add("Date & times (designed lock-up on a ribbon / light bar)", [i.date, i.details].filter(Boolean).join("  ·  "));
       add("Prize", i.prize);
+      add("Entry fee (big, in its own box)", i.entry);
       break;
     }
     default:

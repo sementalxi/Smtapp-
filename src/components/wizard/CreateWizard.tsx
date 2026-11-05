@@ -57,6 +57,9 @@ const TXT = {
     trophy: "Trophy style",
     trophyUpload: "…or upload your own trophy image",
     prize: "Prize",
+    rule: "Rule / requirement (its own box)",
+    ruleNote: "Rule note (small line under it)",
+    entry: "Entry fee (its own box)",
     homeScore: "Home goals",
     awayScore: "Away goals",
     scorers: "Goal scorers (one per line)",
@@ -121,6 +124,9 @@ const TXT = {
     trophy: "Estilo de trofeo",
     trophyUpload: "…o sube la imagen de tu trofeo",
     prize: "Premio",
+    rule: "Regla / requisito (su propia caja)",
+    ruleNote: "Nota de la regla (línea pequeña debajo)",
+    entry: "Cuota de entrada (su propia caja)",
     homeScore: "Goles local",
     awayScore: "Goles visitante",
     scorers: "Goleadores (uno por línea)",
@@ -1148,12 +1154,17 @@ export function CreateWizard({
             <>
               {field({ label: L.headline, k: "headline", req: true, max: 30, ph: "$100 WINNER" })}
               {field({ label: L.title, k: "name", ph: "1v1 Ultimate Team" })}
-              {field({ label: L.subtitle, k: "subtitle", ph: "Free Entry" })}
+              {field({ label: L.subtitle, k: "subtitle", ph: "Afterhours x Semental" })}
+              {field({ label: L.rule, k: "rule", max: 30, ph: "GIANTS ONLY" })}
+              {field({ label: L.ruleNote, k: "ruleNote", max: 60, ph: "Must be max height and max weight" })}
               <div className="grid grid-cols-2 gap-3">
-                {field({ label: L.date, k: "date", max: 30 })}
-                {field({ label: L.details, k: "details", max: 48, ph: "8 PM · 9 PM" })}
+                {field({ label: L.date, k: "date", max: 30, ph: "November 6th" })}
+                {field({ label: L.details, k: "details", max: 48, ph: "7:00PM PST · 10:00PM EST" })}
               </div>
-              {field({ label: L.prize, k: "prize", max: 24 })}
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: L.prize, k: "prize", max: 24, ph: "$500 PRIZE POOL" })}
+                {field({ label: L.entry, k: "entry", max: 24, ph: "$10 ENTRY" })}
+              </div>
               {field({ label: L.infoLine, k: "footer", max: 110, ph: L.infoPh })}
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
               <div className="rounded-xl border border-line bg-panel-2/40 p-3">

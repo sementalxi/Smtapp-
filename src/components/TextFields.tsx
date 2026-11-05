@@ -17,6 +17,9 @@ const MAX: Partial<Record<keyof BannerInputs, number>> = {
   prize: 24,
   date: 30,
   details: 48,
+  rule: 30,
+  ruleNote: 60,
+  entry: 24,
 };
 
 export function TextFields({
