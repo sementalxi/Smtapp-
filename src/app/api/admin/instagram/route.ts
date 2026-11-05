@@ -20,6 +20,6 @@ export const POST = handle(async (req: NextRequest) => {
     await db.setting.upsert({ where: { key: "instagram_token_at" }, create: { key: "instagram_token_at", value: String(Date.now()) }, update: {} }).catch(() => {});
     return json({ ok: true, username: feed.username, count: feed.posts.length, thumbs: feed.posts.slice(0, 6).map((p) => p.image) });
   } catch (e) {
-    return json({ error: "instagram", detail: (e instanceof Error ? e.message : String(e)).slice(0, 200) }, 400);
+    return json({ error: "instagram", detail: (e instanceof Error ? e.message : String(e)).slice(0, 500) }, 400);
   }
 });

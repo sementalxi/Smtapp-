@@ -32,14 +32,27 @@ async function getJson(url: string) {
 /** Unified login: find the Instagram professional account behind the token (its pages, or the ID saved in Settings). */
 async function fbIgAccount(token: string, savedId: string): Promise<{ id: string; username: string }> {
   const t = encodeURIComponent(token);
+  let firstErr = "";
   if (/^\d{5,}$/.test(savedId)) {
-    const j = await getJson(`${FB}/${savedId}?fields=id,username&access_token=${t}`);
-    return { id: String(j.id ?? savedId), username: String(j.username ?? "") };
+    try {
+      const j = await getJson(`${FB}/${savedId}?fields=id,username&access_token=${t}`);
+      return { id: String(j.id ?? savedId), username: String(j.username ?? "") };
+    } catch (e) {
+      firstErr = e instanceof Error ? e.message : String(e);
+    }
   }
   const pages = (await getJson(`${FB}/me/accounts?fields=instagram_business_account{id,username}&limit=50&access_token=${t}`).catch(() => ({ data: [] }))) as { data?: { instagram_business_account?: { id: string; username?: string } }[] };
   const ig = (pages.data ?? []).map((p) => p.instagram_business_account).find(Boolean);
   if (ig) return { id: ig.id, username: ig.username ?? "" };
-  throw new Error("Unified-login token: paste your Instagram account ID (the number under your username in the Meta app) in the “Instagram account ID” box");
+  // Tell the admin what the token is and which permissions it carries — that shows what is missing.
+  const me = await getJson(`${FB}/me?fields=id,name&access_token=${t}`).catch((e) => ({ error: { message: String(e instanceof Error ? e.message : e) } }) as Record<string, unknown>);
+  const perms = (await getJson(`${FB}/me/permissions?access_token=${t}`).catch(() => ({ data: [] }))) as { data?: { permission: string; status: string }[] };
+  const granted = (perms.data ?? []).filter((p) => p.status === "granted").map((p) => p.permission);
+  const who = (me as { name?: string }).name ? `token of "${(me as { name?: string }).name}"` : "token";
+  const hint = !granted.includes("instagram_basic")
+    ? "it does NOT have the instagram_basic permission"
+    : "the Instagram account is not assigned to it (Business settings → System users → Assign assets → your Instagram account)";
+  throw new Error(`${firstErr ? `${firstErr.slice(0, 120)} — ` : savedId ? "" : "Paste your Instagram account ID in the box. "}${who}: ${hint}. Permissions: ${granted.join(", ") || "none"}`);
 }
 
 /** The account's latest posts (images; videos use their thumbnail). Throws with a readable reason. */
