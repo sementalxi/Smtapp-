@@ -1,7 +1,8 @@
 // Team of the week helpers: the player-card look the cards borrow, and the sheet of club crests the AI copies from.
 import sharp from "sharp";
 import { db } from "./db";
-import { loadBytes, saveFile } from "./storage";
+import { saveFile } from "./storage";
+import { cutoutCached } from "./cutout";
 import type { BannerInputs, TemplateStyle } from "./templates";
 import { parseTotwLine } from "./formations";
 
@@ -49,7 +50,7 @@ export async function buildCrestSheet(inputs: BannerInputs): Promise<{ url: stri
     const x = (i % cols) * cell;
     const y = Math.floor(i / cols) * cell;
     try {
-      const img = await sharp(await loadBytes(list[i].url)).resize(cell - 60, cell - 60, { fit: "inside" }).png().toBuffer();
+      const img = await sharp(await cutoutCached(list[i].url)).resize(cell - 60, cell - 60, { fit: "inside" }).png().toBuffer();
       const meta = await sharp(img).metadata();
       layers.push({ input: img, left: x + Math.round((cell - (meta.width ?? 0)) / 2), top: y + Math.round((cell - (meta.height ?? 0)) / 2) });
       order.push(list[i].name);

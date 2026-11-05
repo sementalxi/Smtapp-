@@ -66,7 +66,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
         ...n,
         [i.id]:
           d?.error === "not_configured"
-            ? es ? "❌ Falta REPLICATE_API_TOKEN en Vercel (quitar fondos usa Replicate)." : "❌ REPLICATE_API_TOKEN is missing in Vercel (background removal runs on Replicate)."
+            ? es ? "❌ Este fondo no es de un solo color; para fondos complejos agrega REPLICATE_API_TOKEN en Vercel." : "❌ This background isn't one solid colour; for complex backgrounds add REPLICATE_API_TOKEN in Vercel."
             : `❌ ${d?.detail ?? d?.error ?? "failed"}`,
       }));
   }

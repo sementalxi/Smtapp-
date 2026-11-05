@@ -2,7 +2,7 @@
 // the AI-made background. The AI leaves the table area empty. Fonts come from Google Fonts at run time (TTF).
 import { ImageResponse } from "next/og";
 import sharp from "sharp";
-import { loadBytes, sniffImage } from "./storage";
+import { cutoutCached } from "./cutout";
 import type { BannerInputs } from "./templates";
 
 export type TableRow = { pos: number; team: string; stats: Record<string, string>; crest: string | null };
@@ -83,10 +83,8 @@ const rgba = (c: string, a: number) => {
 
 async function crestData(url: string, px: number): Promise<string | null> {
   try {
-    const bytes = await loadBytes(url);
-    const type = sniffImage(bytes) ?? "image/png";
+    const bytes = await cutoutCached(url); // just the emblem — no white / black square behind it
     const small = await sharp(bytes).resize(px, px, { fit: "inside", withoutEnlargement: false }).png().toBuffer();
-    void type;
     return `data:image/png;base64,${small.toString("base64")}`;
   } catch {
     return null;
