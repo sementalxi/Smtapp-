@@ -169,6 +169,7 @@ export function ProBannerView({
           </div>
         </details>
         {admin && url && <UpscaleTest bannerId={id} original={url} />}
+        {admin && url && <CompareModels bannerId={id} inputs={inputs} />}
         <Link href={`/create?type=${layout.toLowerCase()}`} className="btn-primary w-full py-3.5 text-base">
           ＋ {locale === "es" ? "Crear otro" : "Create another one"}
         </Link>
@@ -266,6 +267,74 @@ function UpscaleTest({ bannerId, original }: { bannerId: string; original: strin
             </a>
           </div>
           <p className="text-[11px] text-muted">{es ? "Abre cada una y haz zoom en caras y letras para comparar." : "Open each one and zoom into faces and letters to compare."}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const MODELS: { key: string; en: string; es: string }[] = [
+  { key: "mix3", en: "⭐ All 3 (Nano + FLUX + OpenAI)", es: "⭐ Los 3 (Nano + FLUX + OpenAI)" },
+  { key: "seedream-mix", en: "Seedream Mix", es: "Seedream Mix" },
+  { key: "mix", en: "Mix: Nano + OpenAI", es: "Mix: Nano + OpenAI" },
+  { key: "flux-mix", en: "FLUX Mix: FLUX + OpenAI", es: "Mix FLUX: FLUX + OpenAI" },
+  { key: "flux", en: "FLUX.2 Pro only", es: "Solo FLUX.2 Pro" },
+  { key: "openai", en: "OpenAI only", es: "Solo OpenAI" },
+  { key: "nano-pro", en: "Nano Banana Pro only", es: "Solo Nano Banana Pro" },
+];
+
+/** Admin only: make this same poster with every generator, side by side (free; each copy lands in the history). */
+function CompareModels({ bannerId, inputs }: { bannerId: string; inputs: BannerInputs }) {
+  const { locale } = useT();
+  const es = locale === "es";
+  type Row = { status: "wait" | "ok" | "fail"; id?: string; url?: string; error?: string; secs?: number };
+  const [rows, setRows] = useState<Record<string, Row>>({});
+  const [running, setRunning] = useState(false);
+  async function one(key: string) {
+    const t0 = Date.now();
+    const set = (r: Row) => setRows((x) => ({ ...x, [key]: r }));
+    set({ status: "wait" });
+    const res = await fetch(`/api/banners/${bannerId}/background`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ inputs, compareModel: key }) }).catch(() => null);
+    const d = res ? await res.json().catch(() => ({})) : {};
+    if (!res?.ok || !d.id) return set({ status: "fail", error: d.detail || d.error || "error" });
+    const w = await waitForBanner(d.id);
+    const secs = Math.round((Date.now() - t0) / 1000);
+    set(w.ok ? { status: "ok", id: d.id, url: w.url, secs } : { status: "fail", id: d.id, error: w.detail || w.error, secs });
+  }
+  async function run() {
+    setRunning(true);
+    await Promise.all(MODELS.map((m) => one(m.key)));
+    setRunning(false);
+  }
+  return (
+    <div className="rounded-xl border border-lime/40 bg-lime/5 p-3">
+      <button onClick={run} disabled={running} className="btn-ghost w-full">
+        {running ? (es ? "Generando los 7… (1–4 min)" : "Making all 7… (1–4 min)") : `🧪 ${es ? "Comparar los 7 generadores (prueba admin, gratis)" : "Compare all 7 generators (admin test, free)"}`}
+      </button>
+      <p className="mt-1 text-[11px] text-muted">{es ? "Mismo póster, mismos textos — uno por cada generador de Ajustes. Cada copia queda en tu historial." : "Same poster, same texts — one per generator in Settings. Each copy lands in your history."}</p>
+      {Object.keys(rows).length > 0 && (
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {MODELS.filter((m) => rows[m.key]).map((m) => {
+            const r = rows[m.key];
+            return (
+              <div key={m.key} className="overflow-hidden rounded-lg border border-line text-[11px]">
+                {r.status === "ok" && r.url ? (
+                  <a href={`/banner/${r.id}`} target="_blank" rel="noreferrer">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={r.url} alt="" className="aspect-[4/5] w-full object-cover" />
+                  </a>
+                ) : (
+                  <div className="grid aspect-[4/5] w-full place-items-center bg-panel-2 p-2 text-center text-muted">
+                    {r.status === "wait" ? "⏳" : `❌ ${String(r.error ?? "").slice(0, 120)}`}
+                  </div>
+                )}
+                <div className="px-1.5 py-1 font-bold">
+                  {es ? m.es : m.en}
+                  {r.secs ? <span className="font-normal text-muted"> · {r.secs}s</span> : null}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

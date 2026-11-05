@@ -907,6 +907,8 @@ export async function generateProForBanner(opts: {
   openaiOnly?: boolean;
   /** Standings: the exact table KIXO draws on the finished background. */
   tableOverlay?: import("./standings-table").TableSpec | null;
+  /** Admin comparison: force one poster generator instead of the Settings choice. */
+  modelOverride?: string;
 }) {
   // Big sizes first so the poster keeps its detail; smaller ones are only used if the model rejects the size.
   const fmtSizes =
@@ -945,7 +947,7 @@ export async function generateProForBanner(opts: {
     const refUrls = opts.refs.filter((x) => !x.overlay).map((x) => x.url);
     // Main generator chosen by the admin: Nano Banana Pro (default, best) or OpenAI. If Nano Banana fails, OpenAI takes over.
     let made = false;
-    const posterModel = opts.openaiOnly ? "openai" : (await getSettings()).poster_model;
+    const posterModel = opts.modelOverride ?? (opts.openaiOnly ? "openai" : (await getSettings()).poster_model);
     // One pass at 4K (team of the week): Nano Banana Pro paints AND writes everything; nothing re-renders it afterwards.
     // Hedged against the 300 s limit: if the 4K pass hasn't answered after ~105 s, an OpenAI backup starts alongside
     // it, so the poster still lands in time if the 4K pass is slow or fails.

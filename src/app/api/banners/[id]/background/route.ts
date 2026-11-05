@@ -12,14 +12,22 @@ import { deleteFile } from "@/lib/storage";
 
 export const maxDuration = 300;
 
-const Body = z.object({ extraPrompt: z.string().trim().max(1500).optional(), inputs: InputsSchema.optional(), cardTemplateId: z.string().max(40).optional() });
+const COMPARE_MODELS = ["mix3", "seedream-mix", "mix", "flux-mix", "flux", "openai", "nano-pro"] as const;
+const Body = z.object({
+  extraPrompt: z.string().trim().max(1500).optional(),
+  inputs: InputsSchema.optional(),
+  cardTemplateId: z.string().max(40).optional(),
+  /** Admin comparison: make this copy with one specific generator (free for admins). */
+  compareModel: z.enum(COMPARE_MODELS).optional(),
+});
 
 // Paid: paints a brand-new AI background for an existing banner.
 export const POST = handle(async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   const user = await apiUser();
-  rateLimit(req, "generate", 30, 60 * 60_000, user.id);
   const { id } = await params;
   const body = Body.parse(await req.json().catch(() => ({})));
+  const compare = user.role === "ADMIN" ? body.compareModel : undefined;
+  if (!compare) rateLimit(req, "generate", 30, 60 * 60_000, user.id);
 
   const banner = await db.banner.findUnique({ where: { id }, include: { template: true } });
   if (!banner || banner.userId !== user.id) throw new HttpError(404, "not_found");
@@ -68,7 +76,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
           return seasonPrompt(seasonByKey(s.key, s.custom));
         })(),
       });
-      const cost = await getNumberSetting("pro_cost");
+      const cost = compare ? 0 : await getNumberSetting("pro_cost");
       if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
       // A new design is saved as a NEW poster — the old one stays untouched in the history.
       const copy = await db.banner.create({
@@ -77,7 +85,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
           templateId: banner.templateId,
           title: titleFor(inputs),
           inputs: toJson(inputs),
-          design: toJson(banner.design ?? {}),
+          design: toJson({ ...((banner.design ?? {}) as Record<string, unknown>), ...(compare ? { compareOf: banner.id, compareModel: compare } : {}) }),
           photoUrl: banner.photoUrl,
           logoUrl: banner.logoUrl,
           mode: "PRO",
@@ -88,7 +96,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       const tableOverlay = exactTable ? await import("@/lib/standings-table").then((m) => m.tableSpecFrom(inputs, accent, fmtNow === "banner")) : null;
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: fmtNow, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(banner.template.layout), tableOverlay });
+          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, ...(compare ? { modelOverride: compare } : {}), instructions: banner.template.proInstructions, format: fmtNow, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(banner.template.layout), tableOverlay });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
