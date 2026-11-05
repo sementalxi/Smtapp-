@@ -96,6 +96,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           })}
         </div>
         <p className="mt-1 text-[11px] text-muted">{es ? "Los tipos marcados se hacen con OpenAI GPT Image en una pasada (texto exacto) y no usan fal.ai; el resto usa el generador de arriba." : "Checked types are made by OpenAI GPT Image in one pass (exact text) and never touch fal.ai; the rest use the generator above."}</p>
+        <label className="mt-4 flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={(v.standings_exact_table ?? "on") !== "off"} onChange={(e) => setV({ ...v, standings_exact_table: e.target.checked ? "on" : "off" })} />
+          <span>📊 {es ? "Tablas exactas: KIXO dibuja la tabla de posiciones (escudos reales, nombres y números exactos) sobre el fondo de la IA" : "Exact standings: KIXO draws the table itself (real crests, exact names and numbers) on the AI background"}</span>
+        </label>
       </div>
       <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">
         <label className="label">✨ {es ? "Video con IA (Kling 3.0)" : "AI video (Kling 3.0)"}</label>

@@ -28,7 +28,8 @@ export const SETTING_DEFAULTS = {
   support_role: "",
   support_on: "1",
   poster_model: "mix3",
-  openai_only_layouts: "TOTW,STANDINGS", // poster types made by OpenAI GPT Image alone (no fal.ai steps), whatever the poster generator is
+  openai_only_layouts: "TOTW,STANDINGS",
+  standings_exact_table: "on", // "on" = KIXO draws the standings table itself (real crests, exact names and numbers) on the AI background // poster types made by OpenAI GPT Image alone (no fal.ai steps), whatever the poster generator is
   video_on: "1",
   video_model: "kling-std",
   video_cost_5: "10",

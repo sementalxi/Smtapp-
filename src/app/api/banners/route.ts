@@ -101,6 +101,8 @@ export const POST = handle(async (req: NextRequest) => {
   let proPrompt = "";
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
   const totw = pro && ["TOTW", "STANDINGS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
+  // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
+  const exactTable = pro && template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   const refs = collectProRefs({
     layout: template.layout,
     inputs,
@@ -109,6 +111,7 @@ export const POST = handle(async (req: NextRequest) => {
     styleRefUrl: template.styleRefUrl,
     seriesRefUrl: series?.refUrl,
     crestSheet: totw?.crestSheet,
+    skipTableCrests: exactTable,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
   const sourceFmt = (source?.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
@@ -134,6 +137,7 @@ export const POST = handle(async (req: NextRequest) => {
       season: seasonPrompt(seasonDef),
       format: fmt,
       cardLook: totw?.cardLook,
+      exactTable,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
@@ -158,9 +162,11 @@ export const POST = handle(async (req: NextRequest) => {
   // so a phone that locks its screen (and drops the connection) still gets its poster.
   // The page polls GET /api/banners/[id] until it's ready.
   if (pro) {
+    const accent = totw?.cardLook?.colours?.accent ?? (template.style as unknown as { accent?: string } | null)?.accent ?? "#ffc83d";
+    const tableOverlay = exactTable ? await import("@/lib/standings-table").then((m) => m.tableSpecFrom(inputs, accent, fmt === "banner")) : null;
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout) });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout), tableOverlay });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

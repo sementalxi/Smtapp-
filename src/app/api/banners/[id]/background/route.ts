@@ -36,6 +36,8 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       assertInputUrls(inputs);
       const design = (banner.design ?? {}) as { look?: { templateId?: string }; totw?: { cardTemplateId?: string } };
       const totw = ["TOTW", "STANDINGS"].includes(banner.template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? design.look?.templateId ?? design.totw?.cardTemplateId, user, banner.template.layout)) : null;
+      const fmtNow = (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
+      const exactTable = banner.template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const refs = collectProRefs({
         layout: banner.template.layout,
         inputs,
@@ -44,6 +46,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         styleRefUrl: banner.template.styleRefUrl,
         seriesRefUrl: seriesUrl,
         crestSheet: totw?.crestSheet,
+        skipTableCrests: exactTable,
       });
       const prompt = buildProPrompt({
         layout: banner.template.layout,
@@ -57,6 +60,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         series: !!seriesUrl,
         format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format,
         cardLook: totw?.cardLook,
+        exactTable,
         season: await (async () => {
           const s = (banner.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
           if (!s) return "";
@@ -80,9 +84,11 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         },
       });
       // Runs in the background; the page polls the new poster until it's ready or an error is saved.
+      const accent = totw?.cardLook?.colours?.accent ?? (banner.template.style as unknown as { accent?: string } | null)?.accent ?? "#ffc83d";
+      const tableOverlay = exactTable ? await import("@/lib/standings-table").then((m) => m.tableSpecFrom(inputs, accent, fmtNow === "banner")) : null;
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(banner.template.layout) });
+          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, instructions: banner.template.proInstructions, format: fmtNow, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(banner.template.layout), tableOverlay });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

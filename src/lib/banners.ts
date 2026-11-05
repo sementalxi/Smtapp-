@@ -232,6 +232,8 @@ export function collectProRefs(opts: {
   seriesRefUrl?: string | null;
   /** Team of the week: one sheet with every club crest, in this order (left to right, top to bottom, four per row). */
   crestSheet?: { url: string; order: string[] } | null;
+  /** Standings with the exact table: the crests are pasted by KIXO, so they are not sent to the AI. */
+  skipTableCrests?: boolean;
 }): ProRef[] {
   const { inputs: i, layout } = opts;
   const refs: ProRef[] = [];
@@ -278,7 +280,7 @@ export function collectProRefs(opts: {
     const byUrl = new Map<string, string[]>();
     i.standings.forEach((row, n) => {
       const url = i.tableLogos?.[n];
-      if (!url || n >= 10) return;
+      if (!url || n >= 10 || opts.skipTableCrests) return;
       byUrl.set(url, [...(byUrl.get(url) ?? []), `row ${n + 1} (${row.split(/\s+·\s+|\s+[—-]\s+|\s+P\s/)[0]})`]);
     });
     for (const [url, rows] of byUrl) refs.push({ url, label: `the crest of the TEAM in table ${rows.join(" and ")}. Show it SMALL next to that team's name in its row ONLY — never enlarged, never beside the title, never as a background watermark and never as the league / organization logo.` });
@@ -429,6 +431,8 @@ export function buildProPrompt(opts: {
   format?: "post" | "story" | "banner" | "square";
   /** Team of the week: the player-card style the WHOLE poster takes — background, title and cards (from lib/totw cardLookFor). */
   cardLook?: { name: string; text: string; colours?: { primary: string; accent: string; dark: string } } | null;
+  /** Standings: KIXO draws the table afterwards — the AI leaves the table area empty. */
+  exactTable?: boolean;
 }) {
   // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
   if (opts.instructions) opts = { ...opts, instructions: stripSmallTeamName(opts.instructions) };
@@ -617,7 +621,18 @@ export function buildProPrompt(opts: {
       const esLang = i.language === "Español";
       // Only the advancing rows are marked — in the poster's own accent colour, never green or red.
       const zones = up ? [`the top ${up} row${up > 1 ? "s" : ""} (positions 1–${up}) marked as ADVANCING with a glowing edge and a faint tint in the poster's own accent colour (the same colour as the title's highlights — NOT green, NOT red); the other rows plain`] : [];
-      composition = [
+      const areaText = opts.format === "banner"
+        ? "the rectangle from 40% to 96% of the width and from 10% to 90% of the height (the right side); the title block, the small league logo, the week line and the accent lines sit on the LEFT 36% of the width"
+        : "the rectangle from 6% to 94% of the width and from 37% to 87% of the height; the title block, the small league logo, the week line and the accent lines sit ABOVE it (top 35%), the footer line below it (bottom 10%)";
+      composition = opts.exactTable
+        ? [
+            `The BACKGROUND and title of a premium league STANDINGS graphic — like an official league / TV broadcast table. The table itself is placed afterwards, so this image has NO TABLE.`,
+            `A huge "${i.headline || "STANDINGS"}" title${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.competition ? ", the league / competition name" : ""}${i.champLogoUrl ? ", the league logo small beside the title" : ""}${i.date ? ", the matchday / week" : ""}.`,
+            `TABLE AREA — LEAVE IT EMPTY: ${areaText}. Draw NOTHING inside that area: no table, no rows, no lines, no boxes, no numbers, no crests, no text — only the background scene continuing through it, slightly darker and calmer (the real table goes on top). ${i.champLogoUrl ? "The league logo echoed GIANT and faded may run behind that area." : ""} NO people, players, faces or figures anywhere.`,
+            frame,
+            finish,
+          ].join(" ")
+        : [
         `A premium league STANDINGS table graphic — like an official league / TV broadcast table posted by a top competition's media team.`,
         `A huge "${i.headline || "STANDINGS"}" title at the top${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.competition ? ", the league / competition name and its logo" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted${zones.length ? `; ${zones.join(", and ")}, with a tiny legend under the table` : ", the bottom rows subtly marked"}. Every row the same height, every number lined up in its column, all text perfectly legible. NO people, players, faces or figures anywhere — the background is the scene plus ${i.champLogoUrl ? "the league / organization logo echoed GIANT and faded behind the table (clearly visible), with the same logo crisp beside the title" : "big graphic energy (light, texture, atmosphere) — no league logo was given, so NO logo beside the title and NO watermark: team crests stay small inside their rows"}.`,
         frame,
@@ -628,9 +643,9 @@ export function buildProPrompt(opts: {
       add("Accent line right UNDER the title (script or condensed style)", i.subtitle);
       add(i.champLogoUrl ? "League / organization name (small line beside its logo, under the title)" : "League / competition", i.competition);
       add("Matchday / week", i.date);
-      if (zones.length)
+      if (zones.length && !opts.exactTable)
         lines.push(`- Zone legend (tiny, under the table, one line): ${q(`● ${esLang ? `TOP ${up} AVANZAN` : `TOP ${up} ADVANCE`}`)} — the dot in the same accent colour as the marked rows`);
-      if (rows.length)
+      if (rows.length && !opts.exactTable)
         lines.push(`- Table rows, in this exact order (top to bottom) — keep every team name and number exactly; the labels P W D L GD PTS are the column headers (translate these short headers into the poster text language if it is not English, e.g. PJ G E P DG PTS in Spanish), show each number in its column. The "·" only separates the items — never draw a dot, bullet or separator after the team name:\n${rows.map((r) => `  ${q(r)}`).join("\n")}`);
       break;
     }
@@ -771,7 +786,9 @@ export function buildProPrompt(opts: {
     layout === "LINEUP" && !/PHOTOSHOP LOOK/.test(opts.instructions ?? "")
       ? `PHOTOREAL CINEMATIC LINEUP (always applies, whatever the style): it must look like a REAL photograph composited by a top club's design team — like a still from a cinematic stadium film shot on a full-frame cinema camera with an anamorphic lens — NOT a video-game render, NOT cartoon, NOT a generic AI image. Physically correct lighting: real stadium floodlights with volumetric beams through real haze, true shadows, natural falloff, wet grass/pitch with real reflections, shallow depth of field with creamy bokeh, subtle anamorphic flares, fine film grain, a restrained teal-and-team-colour grade, deep but detailed blacks. Real materials only: brushed and polished metal, glass, enamel, concrete, grass. Neon and glow kept subtle and believable (real light sources, not cartoon outlines). The team crest crisp and faithful as a premium physical emblem with real reflections and a soft contact shadow. The pitch photographic with depth and crisp real pitch lines. Players as refined, sleek markers: slim glossy glass-and-metal badges in the team colour with the shirt number big, the name underneath on a clean thin dark tag — smaller and more elegant than chunky game icons, every name perfectly legible and spelled exactly, all eleven in their rows. Title in heavy slanted sports type with real metal/print texture and a hard shadow (not cartoon outlines); formation in a bold brush-marker script; competition and date small and letter-spaced. NO people, players or faces — only the markers.`
       : "",
-    layout === "STANDINGS"
+    layout === "STANDINGS" && opts.exactTable
+      ? `STANDINGS RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere. Draw NO table, rows, numbers or team crests — the table area described above stays EMPTY (the real table with the real crests is placed there afterwards). ${i.champLogoUrl ? "The league / organization logo (reference image 1) appears crisp beside the title and giant, faded, behind everything." : ""}`
+      : layout === "STANDINGS"
       ? `STANDINGS RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere on the poster. ${i.champLogoUrl ? "The league / organization logo (its own reference image) MUST be on the poster twice: crisp and clearly visible beside the title (about 14% of the width), and as the background hero — GIANT, centred, at roughly 20–25% opacity behind the table, clearly readable through the rows. Team crests from the table are NOT the league logo: they stay small in their rows." : "No league / organization logo was given: draw NO logo beside the title and NO giant watermark — never promote a team's crest from the table to that role; team crests stay small inside their rows. The background is scene, light and texture only."} The table stays perfectly aligned and readable on top of it.`
       : "",
     layout === "TOTW"
@@ -850,6 +867,8 @@ export async function generateProForBanner(opts: {
   onePass?: boolean;
   /** OpenAI GPT Image only — no fal.ai steps at all (the admin's choice for the team of the week). */
   openaiOnly?: boolean;
+  /** Standings: the exact table KIXO draws on the finished background. */
+  tableOverlay?: import("./standings-table").TableSpec | null;
 }) {
   // Big sizes first so the poster keeps its detail; smaller ones are only used if the model rejects the size.
   const fmtSizes =
@@ -1088,6 +1107,10 @@ export async function generateProForBanner(opts: {
       }
     }
     await stage("finishing");
+    if (opts.tableOverlay) {
+      const { overlayStandingsTable } = await import("./standings-table");
+      poster = await overlayStandingsTable(poster, opts.tableOverlay);
+    }
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {
       const logos: { bytes: Buffer; corner: LogoSpot }[] = [];
