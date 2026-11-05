@@ -38,6 +38,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     const inputs: BannerInputs = body.inputs
       ? { ...EMPTY_INPUTS, ...body.inputs }
       : { ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) };
+    inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(banner.template.layout, inputs.aiLogo || undefined, user.role === "ADMIN");
     const info = seriesInfo(banner.design);
     const seriesUrl = info.seriesRootId ? await seriesRefUrl(user.id, info.seriesRootId) : null;
     try {

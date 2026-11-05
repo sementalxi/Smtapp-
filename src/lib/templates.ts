@@ -65,7 +65,7 @@ export interface BannerInputs {
   color1: string;
   color2: string;
   aiCopy: string; // "on" lets the AI add a couple of hype words
-  aiLogo: string; // "" / "exact" = the AI places the real crest faithfully (default); "on" = 3D remake; "off" = the file is pasted in a corner
+  aiLogo: string; // "both" = 3D remake + real file pasted (admins); "" / "exact" = the AI places the real crest faithfully (default); "on" = 3D remake; "off" = the file is pasted in a corner
   bgPose: string;
   bgScene: string; // background scene id, "" = surprise // player card: pose of the second, AI-made figure in the background
   // Typography (Pro AI)
@@ -3047,5 +3047,5 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
 export function crestModeLabel(inputs: { aiLogo?: string } | null | undefined, hasCrest: boolean): string {
   if (!hasCrest) return "🚫 No crest";
   const m = inputs?.aiLogo ?? "";
-  return m === "on" ? "✨ 3D remake (AI redraws it)" : m === "off" ? "📌 Real file pasted" : "✅ Exact, built in";
+  return m === "on" ? "✨ 3D remake (AI redraws it)" : m === "off" ? "📌 Real file pasted" : m === "both" ? "✨📌 3D remake + real file pasted" : "✅ Exact, built in";
 }

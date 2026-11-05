@@ -35,6 +35,7 @@ const Body = z.object({
   notice_color: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
   notice_effect: z.enum(["none", "marquee", "glow", "shine", "blink"]).optional(),
   discord_server: z.string().trim().max(300).refine((u) => !u || /^https:\/\/(discord\.gg|discord\.com\/invite)\/\S+$/.test(u), "Use a discord.gg invite link").optional(),
+  crest_modes: z.string().max(400).optional(),
   poster_model: z.enum(["mix", "mix3", "seedream-mix", "flux-mix", "flux", "nano-pro", "openai"]).optional(),
   openai_only_layouts: z.string().max(200).regex(/^[A-Z,]*$/).optional(),
   standings_exact_table: z.enum(["on", "off"]).optional(),

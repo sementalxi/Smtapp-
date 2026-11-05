@@ -82,6 +82,30 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
             ? "Pósters nuevos: el que elijas aquí. Las ediciones (“Editar este diseño”) siempre usan Nano Banana Pro porque mantiene la misma imagen. Nano Banana usa tu saldo de fal.ai."
             : "New posters: the one you pick here. Edits (“Edit this design”) always use Nano Banana Pro because it keeps the same image. Nano Banana uses your fal.ai balance."}
         </p>
+        <label className="label mt-4">🛡️ {es ? "Escudo en cada tipo de póster" : "Crest on each poster type"}</label>
+        <div className="grid gap-1.5 sm:grid-cols-2">
+          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"] as const).map((l) => {
+            let map: Record<string, string> = {};
+            try {
+              map = JSON.parse(v.crest_modes || "{}");
+            } catch {
+              map = {};
+            }
+            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Clasificación"], LOGO: ["Logos", "Logos"], EVENT: ["Events", "Eventos"] };
+            return (
+              <label key={l} className="flex items-center gap-2 text-xs">
+                <span className="w-32 shrink-0 font-bold">{names[l][es ? 1 : 0]}</span>
+                <select className="input !py-1.5 text-xs" value={map[l] || "exact"} onChange={(e) => setV({ ...v, crest_modes: JSON.stringify({ ...map, [l]: e.target.value }) })}>
+                  <option value="exact">{es ? "✅ Exacto, integrado" : "✅ Exact, built in"}</option>
+                  <option value="on">{es ? "✨ Versión 3D" : "✨ 3D remake"}</option>
+                  <option value="off">{es ? "📌 Pegar el archivo real" : "📌 Paste the real file"}</option>
+                  <option value="both">{es ? "✨📌 3D + archivo real" : "✨📌 3D remake + real file"}</option>
+                </select>
+              </label>
+            );
+          })}
+        </div>
+        <p className="mt-1 text-[11px] text-muted">{es ? "Los usuarios no eligen: su póster usa lo de aquí. Los admins pueden cambiarlo en cada póster (último paso del creador)." : "Users don't choose: their posters use this. Admins can change it on each poster (last step of the creator)."}</p>
         <label className="label mt-4">{es ? "Solo OpenAI (sin fal.ai) para estos tipos" : "OpenAI only (no fal.ai) for these types"}</label>
         <div className="flex flex-wrap gap-1.5">
           {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"] as const).map((l) => {

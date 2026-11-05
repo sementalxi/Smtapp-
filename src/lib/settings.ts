@@ -40,6 +40,7 @@ export const SETTING_DEFAULTS = {
   support_on: "1",
   poster_model: "mix3",
   openai_only_layouts: "TOTW,STANDINGS",
+  crest_modes: "", // JSON { LAYOUT: "" | "exact" | "on" | "off" | "both" } — how the crest is put on each poster type (users can't change it)
   standings_exact_table: "on", // "on" = KIXO draws the standings table itself (real crests, exact names and numbers) on the AI background // poster types made by OpenAI GPT Image alone (no fal.ai steps), whatever the poster generator is
   video_on: "1",
   video_model: "kling-std",
@@ -71,4 +72,17 @@ export async function getNumberSetting(key: SettingKey) {
   const s = await getSettings();
   const n = Number(s[key]);
   return Number.isFinite(n) ? n : Number(SETTING_DEFAULTS[key]);
+}
+
+/** The crest mode for a poster: admins pick their own ("" = the type's default); everyone else gets the type's default. */
+export async function resolveCrestMode(layout: string, asked: string | undefined, isAdmin: boolean): Promise<string> {
+  let map: Record<string, string> = {};
+  try {
+    map = JSON.parse((await getSettings()).crest_modes || "{}");
+  } catch {
+    map = {};
+  }
+  const def = ["exact", "on", "off", "both"].includes(map[layout]) ? map[layout] : "exact";
+  if (isAdmin && asked && ["exact", "on", "off", "both"].includes(asked)) return asked;
+  return def;
 }

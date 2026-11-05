@@ -21,6 +21,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
   const user = await requireUser();
   const { t } = await getT();
   const templates = await activeTemplates(user);
+  const settingsForCrest = await getSettings();
   const { type, match, team: teamMode, league } = await searchParams;
   // From "My leagues": the league is picked already (its saved standings load by themselves).
   const initialChamp = league
@@ -125,6 +126,14 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         season={season}
         seasonStart={seasonOn && !!season}
         typePics={await getTypePics()}
+        isAdmin={user.role === "ADMIN"}
+        crestModes={(() => {
+          try {
+            return JSON.parse(settingsForCrest.crest_modes || "{}") as Record<string, string>;
+          } catch {
+            return {};
+          }
+        })()}
         expectedSeconds={({ mix3: 190, "seedream-mix": 190, mix: 150, "flux-mix": 130, flux: 60, "nano-pro": 80, openai: 100 } as Record<string, number>)[(await getSettings()).poster_model] ?? 120}
       />
     </div>

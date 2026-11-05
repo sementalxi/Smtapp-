@@ -183,6 +183,8 @@ export function CreateWizard({
   seasonStart = false,
   typePics = {},
   expectedSeconds = 100,
+  isAdmin = false,
+  crestModes = {},
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -200,6 +202,9 @@ export function CreateWizard({
   typePics?: Record<string, string>;
   /** How long the chosen poster generator usually takes (for the progress bar). */
   expectedSeconds?: number;
+  /** Admins pick the crest mode on every poster; everyone else gets the type's default from Settings. */
+  isAdmin?: boolean;
+  crestModes?: Record<string, string>;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -1263,17 +1268,20 @@ export function CreateWizard({
 
       {step === 4 && (
         <div className="card space-y-4 p-5">
+          {isAdmin && (
           <div>
-            <span className="label">🛡️ {locale === "es" ? "Tu escudo en el póster" : "Your crest on the poster"}</span>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <span className="label">🛡️ {locale === "es" ? "Escudo en este póster (solo admin)" : "Crest on this poster (admins only)"}</span>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {[
-                { id: "", en: "✅ Exact, built in (recommended)", es: "✅ Exacto, integrado (recomendado)", enD: "The AI places your real crest in the design — same shapes, letters and colours, lit by the scene. Nothing added.", esD: "La IA coloca tu escudo real en el diseño — mismas formas, letras y colores, con la luz de la escena. Sin agregar nada." },
-                { id: "on", en: "✨ 3D remake", es: "✨ Versión 3D", enD: "The AI rebuilds it as a chrome 3D emblem — spectacular, but it can add or change details.", esD: "La IA lo rehace como emblema 3D cromado — espectacular, pero puede agregar o cambiar detalles." },
-                { id: "off", en: "📌 Paste the real file", es: "📌 Pegar el archivo real", enD: "Your logo file is placed pixel for pixel in a corner after the poster is made.", esD: "Tu archivo se coloca pixel por pixel en una esquina al terminar el póster." },
+                { id: "", en: "⚙️ Type default", es: "⚙️ Por defecto del tipo", enD: `From Settings: ${({ exact: "exact, built in", on: "3D remake", off: "real file pasted", both: "3D remake + real file" } as Record<string, string>)[crestModes[layout ?? ""] || "exact"] ?? "exact, built in"}.`, esD: `De Ajustes: ${({ exact: "exacto, integrado", on: "versión 3D", off: "archivo real pegado", both: "3D + archivo real" } as Record<string, string>)[crestModes[layout ?? ""] || "exact"] ?? "exacto, integrado"}.` },
+                { id: "exact", en: "✅ Exact, built in", es: "✅ Exacto, integrado", enD: "The real crest in the design — same shapes, letters and colours, nothing added.", esD: "El escudo real en el diseño — mismas formas, letras y colores, sin agregar nada." },
+                { id: "on", en: "✨ 3D remake", es: "✨ Versión 3D", enD: "The AI rebuilds it as a chrome 3D emblem — can add or change details.", esD: "La IA lo rehace como emblema 3D cromado — puede cambiar detalles." },
+                { id: "off", en: "📌 Paste the real file", es: "📌 Pegar el archivo real", enD: "The logo file pixel for pixel in a corner after the poster is made.", esD: "El archivo pixel por pixel en una esquina al terminar." },
+                { id: "both", en: "✨📌 3D remake + real file", es: "✨📌 3D + archivo real", enD: "The 3D emblem in the design AND the exact file pasted in a corner.", esD: "El emblema 3D en el diseño Y el archivo exacto pegado en una esquina." },
               ].map((m) => {
-                const on = (inp.aiLogo === "exact" ? "" : inp.aiLogo || "") === m.id;
+                const on = (inp.aiLogo || "") === m.id;
                 return (
-                  <button key={m.id} type="button" onClick={() => set("aiLogo", m.id as never)} className={`rounded-xl border p-3 text-left text-sm transition ${on ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}>
+                  <button key={m.id || "def"} type="button" onClick={() => set("aiLogo", m.id as never)} className={`rounded-xl border p-3 text-left text-sm transition ${on ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}>
                     <span className="block font-bold">{locale === "es" ? m.es : m.en}</span>
                     <span className="mt-0.5 block text-xs text-muted">{locale === "es" ? m.esD : m.enD}</span>
                   </button>
@@ -1281,6 +1289,7 @@ export function CreateWizard({
               })}
             </div>
           </div>
+          )}
           <div>
             <span className="label">{locale === "es" ? "Fondo" : "Background"}</span>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">

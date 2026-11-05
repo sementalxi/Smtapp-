@@ -58,7 +58,7 @@ export const InputsSchema = z.object({
   bgPose: str(40),
   bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("off"),
-  aiLogo: z.enum(["on", "off", "exact", ""]).default(""),
+  aiLogo: z.enum(["on", "off", "exact", "both", ""]).default(""),
   colorMode: z.enum(["surprise", "template", "custom", "team", ""]).default(""),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -263,9 +263,11 @@ export function collectProRefs(opts: {
   // Crest modes: "" / "exact" (default) = the AI places the real crest faithfully, built into the design but never redrawn;
   // "on" = the AI remakes it as a 3D chrome emblem (can add details); "off" = the exact file is pasted in a corner afterwards.
   const exact = i.aiLogo === "off";
-  const remake = i.aiLogo === "on";
-  const crest = (url: string, who: string, corner: LogoSpot = "tl") =>
-    exact
+  const remake = i.aiLogo === "on" || i.aiLogo === "both";
+  const crest = (url: string, who: string, corner: LogoSpot = "tl") => {
+    // "both" (admin): the AI's 3D remake in the design AND the real file pasted in a corner afterwards.
+    if (i.aiLogo === "both") refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner });
+    return exact
       ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
       : remake
         ? refs.push({
@@ -276,6 +278,7 @@ export function collectProRefs(opts: {
             url,
             label: `the crest/logo of ${who} — the ONLY crest for this poster (if the shirt in the photo shows another club's badge, ignore that badge; this reference is the team). Copy it EXACTLY as it is: the identical outline, shapes, letters, symbols, proportions and colours — as if the real crest file were placed into the design and lit by the scene (a soft cast shadow, a subtle sheen or a slight thickness at most). Do NOT redesign it in any way: no added shield, badge, circle, ring, rim, frame, banner, ribbon, laurel, stars, wings or sparks inside it, no extra words or letters, no recolouring, no 3D remake, nothing removed. If the logo image has a solid background square, ignore that square and use only the emblem itself. Place it large and prominent where this style puts the crest, built into the layout (not a pasted sticker); it may also appear huge and ghosted in the background — still the exact artwork.`,
           });
+  };
   if (layout === "LOGO") {
     if (opts.logoUrl)
       refs.push({
@@ -483,7 +486,8 @@ export function buildProPrompt(opts: {
   const styleUsesTeamName = /team name|team's name|nombre del equipo/i.test(opts.instructions ?? "");
   const teamNameInDesign = layout !== "PLAYER" && (hasTeamLogo ? styleUsesTeamName : true);
   const overlays = opts.refs.filter((r) => r.overlay);
-  const exactLogos = overlays.length > 0;
+  // "both": the pasted file sits in a corner while the AI still draws its 3D crest in the design.
+  const exactLogos = overlays.length > 0 && raw.aiLogo !== "both";
   const aiRefs = opts.refs.filter((r) => !r.overlay);
   const i: BannerInputs = {
     ...raw,
@@ -767,7 +771,9 @@ export function buildProPrompt(opts: {
     layout === "CHAMPIONS"
       ? `CHAMPIONS ENERGY (dense, maximalist, never sparse): a storm of confetti and streamers in the poster's colours filling the air, fireworks bursting behind, strong light beams/god-rays from above, a packed stadium crowd with phone lights and flags far behind, a glossy reflective floor, ${spots.includes("hero") ? "a raised glowing podium with 3–5 championship stars arching above the crest spot (the crest itself is added afterwards — keep that spot empty), " : ""}the title huge with deep 3D extrusion, bevel and texture${(i.roster.length || i.players.length) ? `. SQUAD NAMES: premium and clean — bold condensed sans-serif, uniform size, generous letter-spacing, in perfectly aligned columns near the bottom, no separators or chunky boxes, every name perfectly readable` : ""}. Fill the whole frame with layered detail — NO large empty dark areas.`
       : "";
-  const logoRule = exactLogos
+  const logoRule = overlays.length && raw.aiLogo === "both"
+    ? `LOGO SPACE: also leave ${spotText} — no text, faces or objects there — because the official crest FILE is placed there afterwards, in addition to the 3D crest emblem you build into the design.`
+    : exactLogos
     ? `LOGO SPACE: leave ${spotText} — no text, faces or objects there — because the official team crest${spots.length > 1 ? "s are" : " is"} placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
     : "";
 
