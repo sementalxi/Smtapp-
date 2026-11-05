@@ -5,6 +5,7 @@ import { DEFAULT_TEMPLATES } from "../src/lib/templates";
 import { SETTING_DEFAULTS } from "../src/lib/settings";
 import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS, stripSmallTeamName } from "../src/lib/style-presets";
 import { DEFAULT_PRICING } from "../src/lib/pricing";
+import { siteUrl } from "../src/lib/email-template";
 
 const db = new PrismaClient();
 
@@ -81,6 +82,10 @@ async function main() {
       if (slug.startsWith("event-")) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
     }
     await db.setting.create({ data: { key: "events_v5_dense", value: new Date().toISOString() } });
+  }
+  // The owner's own flyers (people cropped out) as the style reference of the four styles copied from them — unless the admin set one.
+  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro"]) {
+    await db.template.updateMany({ where: { slug, OR: [{ styleRefUrl: null }, { styleRefUrl: "" }] }, data: { styleRefUrl: `${siteUrl()}/refs/${slug}.jpg` } });
   }
   // One-time: the four styles copied from the owner's own flyers come first in the event list.
   if (!(await db.setting.findUnique({ where: { key: "events_v4_order" } }))) {
