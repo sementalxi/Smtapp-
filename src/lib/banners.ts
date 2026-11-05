@@ -49,6 +49,7 @@ export const InputsSchema = z.object({
   playerLogos: z.array(z.string().trim().max(500)).max(18).default([]),
   partnerLogos: z.array(z.string().trim().max(500)).max(4).default([]),
   partnerNames: z.array(z.string().trim().max(40)).max(4).default([]),
+  refImageUrl: str(500),
   trophy: str(60),
   bgPose: str(40),
   bgScene: str(40),
@@ -329,6 +330,13 @@ export function collectProRefs(opts: {
         url,
         label: `the logo of a COLLABORATOR / co-organizer of this event (${q(name)}). Reproduce it faithfully (same shape, letters, symbols and colours — never redesigned) as a clean glossy badge in the ROW OF PARTNER LOGOS: all ${partners.length} collaborator logo${partners.length > 1 ? "s" : ""} the same height, evenly spaced on one line (${i.champLogoUrl ? "below or beside the main organizer logo, smaller than it" : "near the bottom or beside the title"}), under a tiny letter-spaced label. If the logo image has a solid background square, ignore the square.`,
       });
+    });
+  }
+  if (i.refImageUrl) {
+    refs.push({
+      url: i.refImageUrl,
+      label:
+        "an INSPIRATION image from the user — a STYLE reference only. Match its overall look: composition and layering, lighting, colour grading, textures, effects, materials and typography feel, while keeping this poster's own layout rules and every listed element. Do NOT copy its people, faces, names, text, numbers, logos, badges, stickers or watermarks — none of them belong on this poster.",
     });
   }
   if (opts.seriesRefUrl) {
@@ -1180,7 +1188,7 @@ export async function generateProForBanner(opts: {
 
 /** All image URLs inside inputs must be ours. */
 export function assertInputUrls(i: BannerInputs) {
-  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? [])].forEach((u) => assertOwnUrl(u || null));
+  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? []), i.refImageUrl].forEach((u) => assertOwnUrl(u || null));
 }
 
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {

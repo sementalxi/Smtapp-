@@ -261,6 +261,7 @@ export function CreateWizard({
   const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English" });
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
   const [photo, setPhoto] = useState<string | null>(null);
+  const [refImg, setRefImg] = useState<string | null>(null); // inspiration image (style reference)
   const [team, setTeam] = useState<SavedItem | null>(null);
   const [home, setHome] = useState<SavedItem | null>(null);
   const [away, setAway] = useState<SavedItem | null>(null);
@@ -388,6 +389,7 @@ export function CreateWizard({
       players: (layout === "LINEUP" ? lineupPlayers : layout === "TOTW" ? totwPlayers : lines(playersText)).slice(0, 18),
       playerPhotos: layout === "TOTW" ? slotsToPhotos(totwFormation, slots).slice(0, 18) : [],
       playerLogos: layout === "TOTW" ? slotsToLogos(totwFormation, slots).slice(0, 18) : [],
+      refImageUrl: refImg ?? "",
       partnerLogos: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.logoUrl!).slice(0, 4) : [],
       partnerNames: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.name).slice(0, 4) : [],
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
@@ -1206,6 +1208,10 @@ export function CreateWizard({
           )}
 
           {field({ label: L.footer, k: "footer", max: 48 })}
+          <div className="rounded-xl border border-teal/40 bg-teal/5 p-3">
+            <ImageDrop kind="photo" label={locale === "es" ? "🖼️ Imagen de referencia (opcional) — un póster que te guste, para que la IA capte la idea" : "🖼️ Reference image (optional) — a poster you like, so the AI gets the idea"} value={refImg} onChange={setRefImg} searchQuery={locale === "es" ? "póster deportivo" : "sports poster design"} />
+            <p className="mt-1 text-[11px] text-muted">{locale === "es" ? "La IA copia el look (composición, luces, colores, tipografía) — no sus personas, textos ni logos. Describe en “Idea extra” qué te gusta de ella si quieres." : "The AI copies the look (composition, lighting, colours, typography) — not its people, text or logos. Say what you like about it in “Extra idea” if you want."}</p>
+          </div>
           <div className="rounded-xl border border-lime/40 bg-lime/5 p-4">
             <div className="flex flex-wrap items-center gap-2">
               <button type="button" className="btn-primary" disabled={aiBusy} onClick={improveText}>
