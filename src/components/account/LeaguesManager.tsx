@@ -196,12 +196,8 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                     <input className="input !py-2 text-sm" maxLength={30} placeholder={es ? "Jornada 7" : "Matchday 7"} value={d.date} onChange={(e) => setField(l, "date", e.target.value)} />
                   </label>
                   <label className="block">
-                    <span className="label">{es ? "✅ Cuántos avanzan (arriba)" : "✅ How many advance (top)"}</span>
+                    <span className="label">{es ? "⭐ Cuántos avanzan (arriba)" : "⭐ How many advance (top)"}</span>
                     <input className="input !py-2 text-sm" inputMode="numeric" maxLength={2} placeholder="0" value={d.qualify ?? ""} onChange={(e) => setField(l, "qualify", e.target.value.replace(/\D/g, ""))} />
-                  </label>
-                  <label className="block">
-                    <span className="label">{es ? "❌ Cuántos quedan fuera (abajo)" : "❌ How many are out (bottom)"}</span>
-                    <input className="input !py-2 text-sm" inputMode="numeric" maxLength={2} placeholder="0" value={d.relegate ?? ""} onChange={(e) => setField(l, "relegate", e.target.value.replace(/\D/g, ""))} />
                   </label>
                 </div>
                 <div className="overflow-x-auto rounded-xl border border-line">

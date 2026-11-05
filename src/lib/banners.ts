@@ -614,12 +614,9 @@ export function buildProPrompt(opts: {
     case "STANDINGS": {
       const rows = i.standings.filter(Boolean);
       const up = Math.min(rows.length, parseInt(i.qualify, 10) || 0);
-      const down = Math.min(Math.max(0, rows.length - up), parseInt(i.relegate, 10) || 0);
       const esLang = i.language === "Español";
-      const zones = [
-        up ? `the top ${up} row${up > 1 ? "s" : ""} (positions 1–${up}) marked as ADVANCING with a green accent edge and a faint green tint` : "",
-        down ? `the bottom ${down} row${down > 1 ? "s" : ""} (positions ${rows.length - down + 1}–${rows.length}) marked as OUT with a red accent edge and a faint red tint` : "",
-      ].filter(Boolean);
+      // Only the advancing rows are marked — in the poster's own accent colour, never green or red.
+      const zones = up ? [`the top ${up} row${up > 1 ? "s" : ""} (positions 1–${up}) marked as ADVANCING with a glowing edge and a faint tint in the poster's own accent colour (the same colour as the title's highlights — NOT green, NOT red); the other rows plain`] : [];
       composition = [
         `A premium league STANDINGS table graphic — like an official league / TV broadcast table posted by a top competition's media team.`,
         `A huge "${i.headline || "STANDINGS"}" title at the top${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.competition ? ", the league / competition name and its logo" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted${zones.length ? `; ${zones.join(", and ")}, with a tiny legend under the table` : ", the bottom rows subtly marked"}. Every row the same height, every number lined up in its column, all text perfectly legible. NO people, players, faces or figures anywhere — the background is the scene plus ${i.champLogoUrl ? "the league / organization logo echoed GIANT and faded behind the table (clearly visible), with the same logo crisp beside the title" : "big graphic energy (light, texture, atmosphere) — no league logo was given, so NO logo beside the title and NO watermark: team crests stay small inside their rows"}.`,
@@ -632,7 +629,7 @@ export function buildProPrompt(opts: {
       add(i.champLogoUrl ? "League / organization name (small line beside its logo, under the title)" : "League / competition", i.competition);
       add("Matchday / week", i.date);
       if (zones.length)
-        lines.push(`- Zone legend (tiny, under the table, one line): ${q([up ? `● ${esLang ? "AVANZAN" : "ADVANCE"}` : "", down ? `● ${esLang ? "ELIMINADOS" : "OUT"}` : ""].filter(Boolean).join("   "))} — the green dot before the first word, the red dot before the second`);
+        lines.push(`- Zone legend (tiny, under the table, one line): ${q(`● ${esLang ? `TOP ${up} AVANZAN` : `TOP ${up} ADVANCE`}`)} — the dot in the same accent colour as the marked rows`);
       if (rows.length)
         lines.push(`- Table rows, in this exact order (top to bottom) — keep every team name and number exactly; the labels P W D L GD PTS are the column headers (translate these short headers into the poster text language if it is not English, e.g. PJ G E P DG PTS in Spanish), show each number in its column. The "·" only separates the items — never draw a dot, bullet or separator after the team name:\n${rows.map((r) => `  ${q(r)}`).join("\n")}`);
       break;

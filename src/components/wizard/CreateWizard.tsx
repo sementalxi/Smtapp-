@@ -1080,15 +1080,11 @@ export function CreateWizard({
               )}
               <div className="grid grid-cols-2 gap-3">
                 <label className="block">
-                  <span className="label">{locale === "es" ? "✅ Cuántos avanzan (arriba)" : "✅ How many advance (top)"}</span>
+                  <span className="label">{locale === "es" ? "⭐ Cuántos avanzan (arriba)" : "⭐ How many advance (top)"}</span>
                   <input className="input" type="text" inputMode="numeric" pattern="[0-9]*" maxLength={2} placeholder="0" value={inp.qualify} onChange={(e) => set("qualify", e.target.value.replace(/\D/g, ""))} />
                 </label>
-                <label className="block">
-                  <span className="label">{locale === "es" ? "❌ Cuántos quedan fuera (abajo)" : "❌ How many are out (bottom)"}</span>
-                  <input className="input" type="text" inputMode="numeric" pattern="[0-9]*" maxLength={2} placeholder="0" value={inp.relegate} onChange={(e) => set("relegate", e.target.value.replace(/\D/g, ""))} />
-                </label>
+                <p className="self-end pb-2 text-[11px] text-muted">{locale === "es" ? "Esas filas se marcan con el color del póster, con una leyenda pequeña bajo la tabla." : "Those rows get marked in the poster's own colour, with a small legend under the table."}</p>
               </div>
-              <p className="-mt-1 text-[11px] text-muted">{locale === "es" ? "Las filas de arriba se marcan en verde y las de abajo en rojo, con una leyenda pequeña bajo la tabla." : "The top rows get a green mark and the bottom rows a red one, with a small legend under the table."}</p>
               <div>
                 <label className="label">
                   {locale === "es" ? "Tabla" : "Table"} <span className="text-lime">*</span>
