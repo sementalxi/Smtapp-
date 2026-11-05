@@ -301,6 +301,7 @@ export function CreateWizard({
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
   const [photo, setPhoto] = useState<string | null>(null);
   const [refImg, setRefImg] = useState<string | null>(null); // inspiration image (style reference)
+  const [photo2, setPhoto2] = useState<string | null>(null); // player card: second picture of the player
   const [team, setTeam] = useState<SavedItem | null>(null);
   const [home, setHome] = useState<SavedItem | null>(null);
   const [away, setAway] = useState<SavedItem | null>(null);
@@ -429,6 +430,7 @@ export function CreateWizard({
       playerPhotos: layout === "TOTW" ? slotsToPhotos(totwFormation, slots).slice(0, 18) : [],
       playerLogos: layout === "TOTW" ? slotsToLogos(totwFormation, slots).slice(0, 18) : [],
       refImageUrl: refImg ?? "",
+      photo2Url: layout === "PLAYER" ? photo2 ?? "" : "",
       partnerLogos: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.logoUrl!).slice(0, 4) : [],
       partnerNames: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.name).slice(0, 4) : [],
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
@@ -842,7 +844,8 @@ export function CreateWizard({
           {layout === "PLAYER" && (
             <>
               <ImageDrop kind="photo" label={`${L.photo} *`} value={photo} onChange={setPhoto} searchQuery={[inp.name, inp.team].filter(Boolean).join(" ")} />
-              <div>
+              <ImageDrop kind="photo" label={locale === "es" ? "🖼️ Segunda foto del jugador (opcional — se usa para la imagen de fondo)" : "🖼️ Second picture of the player (optional — used for the background image)"} value={photo2} onChange={setPhoto2} />
+              {!photo2 && <div>
                 <span className="label">{locale === "es" ? "Segunda imagen del jugador (fondo, creada por la IA)" : "Second player image (background, made by AI)"}</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {[
@@ -865,7 +868,7 @@ export function CreateWizard({
                     ? "La IA crea una pose nueva del mismo jugador para el fondo, en el mismo estilo del póster."
                     : "The AI creates a new pose of the same player for the background, in the same style as the poster."}
                 </p>
-              </div>
+              </div>}
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               {field({ label: L.name, k: "name", req: true })}
               <div className="grid grid-cols-2 gap-3">

@@ -80,6 +80,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (source) {
     const base: BannerInputs = { ...EMPTY_INPUTS, ...(source.inputs as unknown as Partial<BannerInputs>) };
     for (const k of PLAYER_FIELDS) base[k] = String(body.inputs[k] ?? "");
+    base.photo2Url = ""; // a teammate never gets the first player's second picture
     inputs = base;
     logoUrl = source.logoUrl;
     const info = seriesInfo(source.design);

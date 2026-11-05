@@ -58,6 +58,7 @@ export interface BannerInputs {
   playerLogos: string[]; // team of the week: club crest URL per player line ("" = none)
   partnerLogos: string[]; // event: collaborator / co-organizer logos (up to 4)
   partnerNames: string[]; // event: their names, same order
+  photo2Url: string; // PLAYER: a second photo of the same player, used for the background figure
   refImageUrl: string; // the user's inspiration image: a style reference only (look, not content)
   trophy: string; // champions trophy style
   colorMode: string; // "surprise" | "template" | "custom"
@@ -115,6 +116,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   partnerLogos: [],
   partnerNames: [],
   refImageUrl: "",
+  photo2Url: "",
   trophy: "",
   colorMode: "",
   color1: "",

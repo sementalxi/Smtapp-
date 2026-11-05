@@ -53,6 +53,7 @@ export const InputsSchema = z.object({
   partnerLogos: z.array(z.string().trim().max(500)).max(4).default([]),
   partnerNames: z.array(z.string().trim().max(40)).max(4).default([]),
   refImageUrl: str(500),
+  photo2Url: str(500),
   trophy: str(60),
   bgPose: str(40),
   bgScene: str(40),
@@ -250,6 +251,13 @@ export function collectProRefs(opts: {
         layout === "LINEUP" || layout === "RESULT" || layout === "MATCHDAY"
           ? "a player photo to feature as the hero image. Keep the face exactly recognisable — same person, not a lookalike."
           : "the main subject. Keep their face, hair, skin tone and body exactly recognisable — same person, not a lookalike. Keep their clothing/kit as in the photo (any badge, sponsor or words printed on it stay only on the kit — never reuse them anywhere else on the poster). Retouch it like a pro sports photographer: a clean full cut-out (no traces of the original background), relit to match the poster's lighting with a strong coloured rim light, sharper detail, rich contrast and a cinematic colour grade — even if the uploaded photo is a low-quality phone picture.",
+    });
+  }
+  if (opts.photoUrl && i.photo2Url && layout === "PLAYER") {
+    refs.push({
+      url: i.photo2Url,
+      label:
+        "a SECOND photo of the SAME person, uploaded by the user — use THIS picture for the second figure (the big portrait / background image of the player) instead of inventing a new pose. Keep it exactly recognisable, cut out cleanly and relit to match the poster; the first photo stays the main figure. Anything printed on its kit is not text for the poster.",
     });
   }
   // Default: the real logo is pasted onto the finished poster (the AI redraws logos inaccurately).
@@ -769,7 +777,8 @@ export function buildProPrompt(opts: {
     fontPrompt(i.fontSecondary) ? `- NAMES FONT: names, numbers and small text in ${fontPrompt(i.fontSecondary)}.` : "",
     i.language && i.language !== "English" ? `- LANGUAGE: generic words (titles, labels) written in ${i.language}; names stay exactly as typed.` : "",
     layout === "PLAYER" && i.bgPose && !["style", "none", ""].includes(i.bgPose) && bgPosePrompt(i.bgPose) ? `- SECOND FIGURE POSE: ${bgPosePrompt(i.bgPose)}.` : "",
-    layout === "PLAYER" && i.bgPose === "none" ? `- Show the player only ONCE (no second figure).` : "",
+    layout === "PLAYER" && i.bgPose === "none" && !i.photo2Url ? `- Show the player only ONCE (no second figure).` : "",
+    layout === "PLAYER" && i.photo2Url && opts.refs.some((r) => r.label.startsWith("a SECOND photo")) ? `- SECOND PICTURE: the second figure of the player (the portrait / background image) is the user's SECOND photo (its own reference image) — use that picture, do not invent a new pose for it.` : "",
     i.extraPrompt ? `- EXTRA IDEA: ${i.extraPrompt}.` : "",
     layout === "EVENT" && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",
     opts.cardLook
@@ -1205,7 +1214,7 @@ export async function generateProForBanner(opts: {
 
 /** All image URLs inside inputs must be ours. */
 export function assertInputUrls(i: BannerInputs) {
-  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? []), i.refImageUrl].forEach((u) => assertOwnUrl(u || null));
+  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? []), i.refImageUrl, i.photo2Url].forEach((u) => assertOwnUrl(u || null));
 }
 
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {
