@@ -31,6 +31,7 @@ export function HomeHero({
   bonus,
   heroBg,
   heroImgs = [],
+  featImgs = [],
   templates = [],
 }: {
   t: T;
@@ -39,6 +40,8 @@ export function HomeHero({
   heroImgs?: string[];
   heroBg?: { mode: string; video: string; opacity: number; effect?: string };
   templates?: ClientTemplate[];
+  /** Admin's pictures for the six feature tiles (empty = a style sample of that type). */
+  featImgs?: string[];
 }) {
   const tt = t as unknown as (k: string, v?: Record<string, string | number>) => string;
   // Three real sample posters for the hero (labelled styles first).
@@ -124,7 +127,7 @@ export function HomeHero({
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {feats.map(([icon, key, layout], n) => {
             const pool = withThumb.filter((x) => !layout || x.layout === layout);
-            const pic = (pool[n % Math.max(1, pool.length)] ?? withThumb[n % Math.max(1, withThumb.length)])?.thumbUrl;
+            const pic = featImgs?.[n] || (pool[n % Math.max(1, pool.length)] ?? withThumb[n % Math.max(1, withThumb.length)])?.thumbUrl;
             const teal = n % 2 === 1;
             return (
               <Link

@@ -163,6 +163,49 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
             : "The 3 big pictures on the home page. Empty = the first styles are shown. You can also send any poster here from its page. Then tap Save."}
         </p>
       </div>
+      <div className="rounded-xl border border-line bg-panel-2 p-4">
+        <label className="label">{es ? "Fotos de las 6 casillas “Gráficos de otro nivel”" : "Pictures of the 6 “Next-level sports graphics” tiles"}</label>
+        <div className="grid grid-cols-3 gap-2">
+          {(["feat_1", "feat_2", "feat_3", "feat_4", "feat_5", "feat_6"] as const).map((k, n) => (
+            <ImageDrop
+              key={k}
+              noSearch
+              kind="photo"
+              label={(es ? ["Tarjetas", "Partidos y torneos", "Alineaciones", "Banners y promos", "Plantillas", "Y mucho más"] : ["Player cards", "Match & tournament", "Lineups", "Banners & promos", "Squads & rosters", "And much more"])[n]}
+              value={v[k] || null}
+              onChange={(url) => setV({ ...v, [k]: url ?? "" })}
+            />
+          ))}
+        </div>
+        <p className="mt-1 text-xs text-muted">{es ? "Vacías = se usa una muestra de estilo de ese tipo. Luego toca Guardar." : "Empty = a style sample of that type is used. Then tap Save."}</p>
+      </div>
+      <div className="rounded-xl border border-pink-400/40 bg-panel-2 p-4">
+        <label className="label">📸 {es ? "Instagram en la página principal" : "Instagram on the home page"}</label>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={(v.instagram_on ?? "off") === "on"} onChange={(e) => setV({ ...v, instagram_on: e.target.checked ? "on" : "off" })} />
+          <span>{es ? "Mostrar mis últimas publicaciones de Instagram en la página principal" : "Show my latest Instagram posts on the home page"}</span>
+        </label>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Usuario de Instagram" : "Instagram username"}</span>
+            <input className="input" maxLength={40} placeholder="kixo.pro" value={v.instagram_user ?? ""} onChange={(e) => setV({ ...v, instagram_user: e.target.value.replace(/^@/, "") })} />
+          </div>
+          <div>
+            <span className="mb-1 block text-xs font-bold text-muted">{es ? "Token de acceso (de larga duración)" : "Access token (long-lived)"}</span>
+            <input className="input" type="password" autoComplete="off" maxLength={600} placeholder="IGAA…" value={v.instagram_token ?? ""} onChange={(e) => setV({ ...v, instagram_token: e.target.value.trim() })} />
+          </div>
+        </div>
+        <InstagramTest />
+        <details className="mt-3 text-xs text-muted">
+          <summary className="cursor-pointer font-bold text-white/80">{es ? "¿Cómo consigo el token? (5 minutos, gratis)" : "How do I get the token? (5 minutes, free)"}</summary>
+          <ol className="mt-2 list-decimal space-y-1 pl-5">
+            <li>{es ? "Entra en developers.facebook.com → Mis apps → Crear app → tipo “Otro” → “Empresa”." : "Go to developers.facebook.com → My Apps → Create App → “Other” → “Business”."}</li>
+            <li>{es ? "En la app agrega el producto “Instagram” → “API de Instagram con inicio de sesión de Instagram”." : "In the app add the “Instagram” product → “Instagram API with Instagram Login”."}</li>
+            <li>{es ? "En “Generar tokens de acceso” agrega tu cuenta de Instagram (profesional / creador) y toca “Generar token”." : "Under “Generate access tokens” add your Instagram account (professional / creator) and tap “Generate token”."}</li>
+            <li>{es ? "Pega el token aquí, escribe tu usuario, activa la casilla y toca Guardar. El token dura 60 días y KIXO lo renueva solo." : "Paste the token here, type your username, tick the box and tap Save. The token lasts 60 days and KIXO renews it by itself."}</li>
+          </ol>
+        </details>
+      </div>
       <div className="rounded-xl border border-lime/40 bg-panel-2 p-4">
         <label className="label">🔗 {es ? "Vista previa del enlace (Google, Discord, WhatsApp, iMessage…)" : "Link preview (Google, Discord, WhatsApp, iMessage…)"}</label>
         <div className="space-y-3">
@@ -265,5 +308,40 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         {msg && <span className="text-sm text-lime">{msg}</span>}
       </div>
     </form>
+  );
+}
+
+/** "Test" button for the Instagram section: fetches the latest posts with the SAVED token. */
+function InstagramTest() {
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [pics, setPics] = useState<string[]>([]);
+  async function test() {
+    setBusy(true);
+    setMsg("");
+    setPics([]);
+    const r = await fetch("/api/admin/instagram", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "test" }) }).catch(() => null);
+    const d = await r?.json().catch(() => ({}));
+    setBusy(false);
+    if (d?.ok) {
+      setMsg(`✅ @${d.username ?? "?"} · ${d.count} posts`);
+      setPics(d.thumbs ?? []);
+    } else setMsg(`❌ ${d?.error ?? "failed"}${d?.detail ? ` — ${d.detail}` : ""}`);
+  }
+  return (
+    <div className="mt-2">
+      <button type="button" className="btn-ghost px-3 py-1.5 text-xs" disabled={busy} onClick={test}>
+        {busy ? "…" : "🔌 Test (uses the saved token — save first)"}
+      </button>
+      {msg && <span className="ml-2 text-xs">{msg}</span>}
+      {pics.length > 0 && (
+        <div className="mt-2 flex gap-1.5">
+          {pics.map((p) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={p} src={p} alt="" className="h-12 w-12 rounded object-cover" />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

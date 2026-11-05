@@ -49,6 +49,32 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
   }
 
   const shown = items.filter((i) => i.kind === tab);
+  const [work, setWork] = useState<string | null>(null);
+  const [note, setNote] = useState<Record<string, string>>({});
+  const [editing, setEditing] = useState<string | null>(null);
+  async function cutout(i: Item) {
+    setWork(i.id);
+    setNote((n) => ({ ...n, [i.id]: "" }));
+    const r = await fetch(`/api/admin/library/${i.id}/cutout`, { method: "POST" }).catch(() => null);
+    const d = await r?.json().catch(() => ({}));
+    setWork(null);
+    if (d?.ok) {
+      setItems((list) => list.map((x) => (x.id === i.id ? { ...x, logoUrl: d.url } : x)));
+      setNote((n) => ({ ...n, [i.id]: es ? "✅ PNG sin fondo" : "✅ Transparent PNG" }));
+    } else
+      setNote((n) => ({
+        ...n,
+        [i.id]:
+          d?.error === "not_configured"
+            ? es ? "❌ Falta REPLICATE_API_TOKEN en Vercel (quitar fondos usa Replicate)." : "❌ REPLICATE_API_TOKEN is missing in Vercel (background removal runs on Replicate)."
+            : `❌ ${d?.detail ?? d?.error ?? "failed"}`,
+      }));
+  }
+  async function changeLogo(i: Item, url: string | null) {
+    await fetch(`/api/admin/library/${i.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ logoUrl: url }) }).catch(() => {});
+    setItems((list) => list.map((x) => (x.id === i.id ? { ...x, logoUrl: url } : x)));
+    setEditing(null);
+  }
   const kinds: [Item["kind"], string][] = [
     ["championship", es ? "🏆 Ligas / torneos" : "🏆 Leagues / competitions"],
     ["team", es ? "🛡️ Equipos" : "🛡️ Teams"],
@@ -116,9 +142,25 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
                   <div className="mx-auto grid h-20 w-20 place-items-center rounded-xl bg-panel-2 text-2xl font-bold">{i.name[0]}</div>
                 )}
                 <div className="mt-2 truncate text-sm font-bold">{i.name}</div>
-                <button type="button" onClick={() => remove(i.id)} className="mt-1 text-xs text-danger hover:underline">
-                  {es ? "Eliminar" : "Delete"}
-                </button>
+                <div className="mt-1 flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs">
+                  <button type="button" onClick={() => setEditing(editing === i.id ? null : i.id)} className="text-teal hover:underline">
+                    {es ? "Cambiar logo" : "Change logo"}
+                  </button>
+                  {i.logoUrl && (
+                    <button type="button" disabled={work === i.id} onClick={() => cutout(i)} className="text-lime hover:underline disabled:opacity-50">
+                      {work === i.id ? "…" : es ? "✂️ PNG sin fondo" : "✂️ Make PNG (no background)"}
+                    </button>
+                  )}
+                  <button type="button" onClick={() => remove(i.id)} className="text-danger hover:underline">
+                    {es ? "Eliminar" : "Delete"}
+                  </button>
+                </div>
+                {note[i.id] && <div className="mt-1 text-[11px] text-muted">{note[i.id]}</div>}
+                {editing === i.id && (
+                  <div className="mt-2 text-left">
+                    <ImageDrop kind="logo" label={es ? "Nuevo logo" : "New logo"} value={i.logoUrl} onChange={(u) => changeLogo(i, u)} searchQuery={i.name} />
+                  </div>
+                )}
               </div>
             ))}
           </div>

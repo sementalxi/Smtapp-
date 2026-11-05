@@ -16,6 +16,15 @@ export const SETTING_DEFAULTS = {
   hero_1: "",
   hero_2: "",
   hero_3: "",
+  feat_1: "", // home "Next-level sports graphics" tiles (admin pictures; empty = style samples)
+  feat_2: "",
+  feat_3: "",
+  feat_4: "",
+  feat_5: "",
+  feat_6: "",
+  instagram_on: "off", // home Instagram section
+  instagram_user: "",
+  instagram_token: "", // long-lived Instagram access token (Instagram API with Instagram Login)
   hero_video: "",
   hero_video_opacity: "70",
   hero_bg_mode: "image",

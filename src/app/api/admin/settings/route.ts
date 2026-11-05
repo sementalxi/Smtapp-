@@ -16,6 +16,15 @@ const Body = z.object({
   hero_1: z.string().max(500).optional(),
   hero_2: z.string().max(500).optional(),
   hero_3: z.string().max(500).optional(),
+  feat_1: z.string().max(500).optional(),
+  feat_2: z.string().max(500).optional(),
+  feat_3: z.string().max(500).optional(),
+  feat_4: z.string().max(500).optional(),
+  feat_5: z.string().max(500).optional(),
+  feat_6: z.string().max(500).optional(),
+  instagram_on: z.enum(["on", "off"]).optional(),
+  instagram_user: z.string().trim().max(40).regex(/^@?[A-Za-z0-9._]*$/).optional(),
+  instagram_token: z.string().trim().max(600).optional(),
   hero_video: z.string().trim().max(600).refine((u) => !u || /^https:\/\/\S+$/.test(u), "Use an https:// video link").optional(),
   hero_video_opacity: z.coerce.number().int().min(10).max(100).optional(),
   hero_effect: z.enum(["stadium", "smoke", "fire", "lightning", "rain", "speed", "grid", "stars", "aurora", "confetti", "none"]).optional(),
@@ -54,7 +63,7 @@ const Body = z.object({
 export const PUT = handle(async (req: NextRequest) => {
   await apiAdmin();
   const body = Body.parse(await req.json());
-  for (const k of ["hero_1", "hero_2", "hero_3", "share_image"] as const) if (body[k]) assertOwnUrl(body[k]);
+  for (const k of ["hero_1", "hero_2", "hero_3", "share_image", "feat_1", "feat_2", "feat_3", "feat_4", "feat_5", "feat_6"] as const) if (body[k]) assertOwnUrl(body[k]);
   for (const [key, value] of Object.entries(body)) {
     if (value === undefined) continue;
     await db.setting.upsert({ where: { key }, create: { key, value: String(value) }, update: { value: String(value) } });

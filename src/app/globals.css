@@ -167,6 +167,14 @@ a, button, [role="button"], input, select, textarea, summary, label { touch-acti
 .kixo-shine { position: relative; overflow: hidden; }
 .kixo-shine::after { content: ""; position: absolute; inset: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent); animation: kixo-btn-shine 3.2s ease-in-out infinite; pointer-events: none; }
 .kixo-marquee { animation: kixo-marquee 28s linear infinite; }
+/* "Trusted by" tiles: a slow float, a breathing glow and a light sweep */
+@keyframes kixo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes kixo-glow { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.8; } }
+@keyframes kixo-shine { 0% { transform: translateX(-130%) skewX(-18deg); } 60%, 100% { transform: translateX(230%) skewX(-18deg); } }
+.kixo-partner { animation: kixo-float 5s ease-in-out infinite; }
+.kixo-partner-glow { background: radial-gradient(circle at 50% 60%, rgba(255, 46, 136, 0.28), rgba(47, 216, 232, 0.12) 45%, transparent 70%); animation: kixo-glow 4s ease-in-out infinite; }
+.kixo-partner-shine { background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%); width: 60%; animation: kixo-shine 6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .kixo-partner, .kixo-partner-glow, .kixo-partner-shine { animation: none; } }
 .kixo-marquee:hover { animation-play-state: paused; }
 @keyframes kixo-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 .kixo-marquee-rev { animation: kixo-marquee-rev 34s linear infinite; }

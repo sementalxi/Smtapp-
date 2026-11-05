@@ -10,6 +10,7 @@ import { DealsSection, type PublicDeal } from "@/components/DealsSection";
 import { db } from "@/lib/db";
 import type { ClientTemplate } from "@/lib/samples";
 import { thumb } from "@/lib/thumb";
+import { InstagramSection } from "@/components/InstagramSection";
 
 export default async function Home() {
   const user = await getCurrentUser().catch(() => null);
@@ -17,6 +18,7 @@ export default async function Home() {
   let templates: ClientTemplate[] = [];
   let bonus = 3;
   let heroImgs: string[] = [];
+  let featImgs: string[] = [];
   let heroBg: { mode: string; video: string; opacity: number; effect?: string } = { mode: "image", video: "", opacity: 70, effect: "stadium" };
   let partners: { id: string; name: string; logoUrl: string | null }[] = [];
   let deals: PublicDeal[] = [];
@@ -30,6 +32,7 @@ export default async function Home() {
       db.libraryItem.findMany({ where: { kind: { in: ["championship", "partner"] } }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, name: true, logoUrl: true } }),
     ]);
     heroImgs = [st.hero_1, st.hero_2, st.hero_3];
+    featImgs = [st.feat_1, st.feat_2, st.feat_3, st.feat_4, st.feat_5, st.feat_6];
     heroBg = { mode: st.hero_bg_mode, video: st.hero_video, opacity: Number(st.hero_video_opacity) || 70, effect: st.hero_effect };
     templates = tpls;
     bonus = Number(st.signup_credits) || 0;
@@ -46,7 +49,7 @@ export default async function Home() {
   return (
     <div>
       <RevealOnScroll />
-      <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} templates={templates} heroBg={heroBg} />
+      <HomeHero t={t as never} user={!!user} bonus={bonus} heroImgs={heroImgs} featImgs={featImgs} templates={templates} heroBg={heroBg} />
 
       {/* How it works — numbered timeline */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
@@ -134,11 +137,13 @@ export default async function Home() {
             </div>
             {(() => {
               const tile = (p: (typeof partners)[number], k: string | number) => (
-                <div key={k} className="group flex w-[104px] shrink-0 flex-col items-center gap-2 sm:w-32">
-                  <div className="grid aspect-square w-full place-items-center overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-ink p-3 transition group-hover:-translate-y-1 group-hover:border-lime/60 group-hover:shadow-[0_16px_40px_-20px] group-hover:shadow-lime/60">
+                <div key={k} className="kixo-partner group flex w-[104px] shrink-0 flex-col items-center gap-2 sm:w-32" style={{ animationDelay: `${(typeof k === "number" ? k : 0) * 0.6}s` }}>
+                  <div className="kixo-partner-tile relative grid aspect-square w-full place-items-center overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-ink p-3 transition group-hover:-translate-y-1 group-hover:border-lime/60 group-hover:shadow-[0_16px_40px_-20px] group-hover:shadow-lime/60">
+                    <span aria-hidden className="kixo-partner-glow pointer-events-none absolute inset-0" />
+                    <span aria-hidden className="kixo-partner-shine pointer-events-none absolute inset-0" />
                     {p.logoUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="max-h-full max-w-full rounded-lg object-contain opacity-85 transition group-hover:scale-105 group-hover:opacity-100" />
+                      <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="relative max-h-full max-w-full object-contain transition group-hover:scale-110 [filter:drop-shadow(0_6px_14px_rgba(0,0,0,0.6))_drop-shadow(0_0_12px_rgba(255,46,136,0.35))]" />
                     ) : (
                       <span className="font-display text-3xl text-lime">{p.name[0]}</span>
                     )}
@@ -157,6 +162,7 @@ export default async function Home() {
           </div>
         </section>
       )}
+      <InstagramSection es={locale === "es"} />
     </div>
   );
 }
