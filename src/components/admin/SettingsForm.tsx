@@ -129,6 +129,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           <input type="checkbox" checked={(v.qualifiers_exact_table ?? "on") !== "off"} onChange={(e) => setV({ ...v, qualifiers_exact_table: e.target.checked ? "on" : "off" })} />
           <span>🌍 {es ? "Clasificatorios exactos: KIXO dibuja la tabla de regiones (banderas reales, nombres y números exactos) sobre el fondo de la IA" : "Exact qualifiers: KIXO draws the regions table itself (real flags, exact names and numbers) on the AI background"}</span>
         </label>
+        <label className="mt-3 block text-sm">
+          <span className="font-semibold">👋 {es ? "Banners de bienvenida con IA por día (Discord, 0 = apagado)" : "AI welcome banners per day (Discord, 0 = off)"}</span>
+          <input type="number" min={0} max={500} className="input mt-1 !w-28" value={v.welcome_ai_daily ?? "25"} onChange={(e) => setV({ ...v, welcome_ai_daily: e.target.value })} />
+        </label>
         <label className="mt-2 flex items-center gap-2 text-sm">
           <input type="checkbox" checked={(v.winners_exact_grid ?? "on") !== "off"} onChange={(e) => setV({ ...v, winners_exact_grid: e.target.checked ? "on" : "off" })} />
           <span>🏅 {es ? "Vitrina exacta: KIXO dibuja la pared de marcos (escudos reales, nombres exactos) sobre el fondo de la IA" : "Exact showcase: KIXO draws the wall of frames itself (real crests, exact names) on the AI background"}</span>
