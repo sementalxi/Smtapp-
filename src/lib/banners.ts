@@ -1455,7 +1455,20 @@ export async function generateProForBanner(opts: {
       where: { id: opts.bannerId },
       data: { status: "FAILED", error: msg },
     });
-    if (/moderation|safety|content_policy/i.test(msg)) throw Object.assign(new HttpError(400, "err_blocked"), { detail: msg });
+    if (/moderation|safety|content_policy/i.test(msg)) {
+      let detail = msg;
+      try {
+        const { explainModeration, moderationAdvice } = await import("./moderation-check");
+        const parts: { what: string; text?: string; image?: Buffer }[] = [{ what: "the brief", text: opts.prompt }];
+        const picRefs = opts.refs.filter((x) => !x.overlay);
+        for (const [n, r] of picRefs.entries()) parts.push({ what: `reference image ${n + 1} (${r.label.slice(0, 40)})`, image: await loadBytes(r.url).catch(() => undefined) });
+        detail = `${msg.slice(0, 160)} — ${moderationAdvice(await explainModeration(parts.filter((x) => x.text || x.image)))}`;
+        await db.banner.update({ where: { id: opts.bannerId }, data: { error: detail.slice(0, 500) } }).catch(() => {});
+      } catch {
+        /* keep OpenAI's message */
+      }
+      throw Object.assign(new HttpError(400, "err_blocked"), { detail });
+    }
     throw new HttpError(502, "generation_failed");
   }
 }

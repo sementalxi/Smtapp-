@@ -99,7 +99,18 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
     const value = JSON.stringify(list.slice(0, 24));
     await db.setting.upsert({ where: { key: "studio_recent" }, create: { key: "studio_recent", value }, update: { value } });
   } catch (e) {
-    const msg = String(e instanceof Error ? e.message : e).slice(0, 500);
+    let msg = String(e instanceof Error ? e.message : e).slice(0, 500);
+    if (/moderation_blocked|safety system/i.test(msg)) {
+      // Say WHICH input the filter objects to (the prompt, the text lines or a reference picture).
+      try {
+        const { explainModeration, moderationAdvice } = await import("@/lib/moderation-check");
+        const parts: { what: string; text?: string; image?: Buffer }[] = [{ what: "the prompt", text: b.prompt }, { what: "the text lines", text: b.texts }];
+        for (const [n, im] of b.images.entries()) parts.push({ what: `reference image ${n + 1}`, image: await loadBytes(im.url).catch(() => undefined) });
+        msg = `Blocked by OpenAI's safety filter. ${moderationAdvice(await explainModeration(parts.filter((x) => x.text || x.image)))}`;
+      } catch {
+        /* keep OpenAI's message */
+      }
+    }
     if (RETRY_ERR.test(msg) && tries < 1) {
       // Hand the job to a fresh function (a new window) — once.
       try {
