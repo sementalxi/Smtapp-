@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { savedChanged } from "../wizard/SavedPicker";
 import { ImageDrop } from "../ImageDrop";
 import { thumb } from "@/lib/thumb";
+import { randomTestTable, testCrest, testTableKey } from "@/lib/test-teams";
 
 export type Row = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
 export type League = { id: string; name: string; logoUrl: string | null; official: boolean; rows: Row[]; headline: string; date: string; qualify?: string; relegate?: string; savedAt: string | null };
@@ -35,6 +36,8 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
   // The organization's saved teams: pick a team from the list (its crest comes along on the poster), or type one.
   const [myTeams, setMyTeams] = useState<{ name: string; logoUrl: string | null }[]>([]);
   const [typing, setTyping] = useState<Record<string, boolean>>({}); // "leagueId:row" cells typing a team that isn't saved
+  // 🎲 Test: random teams, crests and points to try a style — never saved over the league's real table.
+  const [testing, setTesting] = useState<Record<string, boolean>>({});
   useEffect(() => {
     fetch("/api/saved?kind=team", { cache: "no-store" })
       .then((r) => r.json())
@@ -64,7 +67,23 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
   function sortByPoints(l: League) {
     setRows(l, sortRows(withRows(l)));
   }
+  function fillTest(l: League) {
+    const d = cur(l);
+    const count = Math.max(6, Math.min(12, d.rows.filter((r) => r.team.trim()).length || 10));
+    setDraft((dr) => ({ ...dr, [l.id]: { ...d, rows: randomTestTable(count), headline: d.headline || "STANDINGS", date: d.date || `WEEK ${1 + Math.floor(Math.random() * 9)}`, qualify: d.qualify || "4" } }));
+    setTesting((t) => ({ ...t, [l.id]: true }));
+    setMsg((m) => ({ ...m, [l.id]: "" }));
+  }
+  function endTest(l: League) {
+    setDraft((dr) => {
+      const c = { ...dr };
+      delete c[l.id];
+      return c;
+    });
+    setTesting((t) => ({ ...t, [l.id]: false }));
+  }
   async function save(l: League) {
+    if (testing[l.id]) return setMsg((m) => ({ ...m, [l.id]: es ? "🎲 Es una tabla de prueba — no se guarda. Pulsa “Volver a mi tabla”." : "🎲 This is a test table — it isn't saved. Press “Back to my table”." }));
     const d = cur(l);
     const rows = sortRows(withRows(l)).filter((r) => r.team.trim());
     setBusy(l.id);
@@ -82,6 +101,17 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
     return true;
   }
   async function saveAndGenerate(l: League) {
+    if (testing[l.id]) {
+      // The test table goes to the creator for one poster — the league's real table stays as it was.
+      const d = cur(l);
+      try {
+        sessionStorage.setItem(testTableKey(l.id), JSON.stringify({ rows: d.rows.filter((r) => r.team.trim()), headline: d.headline, date: d.date, qualify: d.qualify ?? "" }));
+      } catch {
+        /* the creator falls back to the saved table */
+      }
+      router.push(`/create?type=standings&league=${encodeURIComponent(l.id)}&test=1`);
+      return;
+    }
     if (dirty(l) || !l.savedAt) {
       const ok = await save(l);
       if (!ok) return;
@@ -214,6 +244,11 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                     <input className="input !py-2 text-sm" inputMode="numeric" maxLength={2} placeholder="0" value={d.qualify ?? ""} onChange={(e) => setField(l, "qualify", e.target.value.replace(/\D/g, ""))} />
                   </label>
                 </div>
+                {testing[l.id] && (
+                  <div className="rounded-xl border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-xs text-amber-200">
+                    🎲 {es ? "Tabla de PRUEBA con equipos, escudos y puntos al azar — no se guarda en tu liga. “Generar póster” hace un póster de prueba; tu tabla real sigue igual." : "TEST table with random teams, crests and points — it is not saved to your league. “Generate poster” makes a test poster; your real table stays as it was."}
+                  </div>
+                )}
                 <div className="overflow-x-auto rounded-xl border border-line">
                   <table className="w-full min-w-[640px] text-sm">
                     <thead>
@@ -237,7 +272,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                               {(() => {
                                 const k = `${l.id}:${i}`;
                                 const known = myTeams.some((t) => t.name.toLowerCase() === row.team.trim().toLowerCase());
-                                const logo = myTeams.find((t) => t.name.toLowerCase() === row.team.trim().toLowerCase())?.logoUrl;
+                                const logo = myTeams.find((t) => t.name.toLowerCase() === row.team.trim().toLowerCase())?.logoUrl || testCrest(row.team);
                                 const useSelect = myTeams.length > 0 && !typing[k] && (known || !row.team.trim());
                                 return (
                                   <div className="flex items-center gap-1.5">
@@ -303,6 +338,14 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                   <button type="button" className="chip" onClick={() => sortByPoints(l)}>
                     ↕ {es ? "Ordenar ahora" : "Sort now"}
                   </button>
+                  <button type="button" className="chip border-amber-400/50 text-amber-300" onClick={() => fillTest(l)}>
+                    🎲 {testing[l.id] ? (es ? "Otra prueba" : "New test") : es ? "Prueba (equipos al azar)" : "Test (random teams)"}
+                  </button>
+                  {testing[l.id] && (
+                    <button type="button" className="chip" onClick={() => endTest(l)}>
+                      ↩️ {es ? "Volver a mi tabla" : "Back to my table"}
+                    </button>
+                  )}
                   <span className="self-center text-muted">{es ? "La tabla se ordena sola por puntos (luego DG, luego G). G / E / P suma el partido y los puntos (3 · 1 · 0). Los equipos de “Mis equipos” llevan su escudo al póster." : "The table orders itself by points (then GD, then W). W / D / L adds the match and the points (3 · 1 · 0). Teams from “My teams” bring their crest to the poster."}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">

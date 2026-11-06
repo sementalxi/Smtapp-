@@ -17,12 +17,12 @@ export const metadata = { title: "Create" };
 
 const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS", "WINNERS"];
 
-export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string; league?: string; again?: string }> }) {
+export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string; league?: string; again?: string; test?: string }> }) {
   const user = await requireUser();
   const { t } = await getT();
   const templates = await activeTemplates(user);
   const settingsForCrest = await getSettings();
-  const { type, match, team: teamMode, league, again } = await searchParams;
+  const { type, match, team: teamMode, league, again, test } = await searchParams;
   // Admin: "Create another one" from a finished poster keeps its photo, team and texts — only the style changes.
   const prefill =
     again && isStaff(user.role)
@@ -140,6 +140,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         proEnabled={proConfigured()}
         initialLayout={prefill?.layout ?? initial}
         initialChamp={initialChamp}
+        testTable={test === "1"}
         prefill={prefill}
         categories={cats}
         season={season}

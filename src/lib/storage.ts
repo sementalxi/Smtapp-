@@ -153,6 +153,8 @@ export async function loadBytes(url: string): Promise<Buffer> {
     return f.data;
   }
   if (url.startsWith("/api/files/")) return readLocalFile(url.slice("/api/files/".length));
+  // Built-in pictures (style references, test crests) are served from our own site.
+  if (url.startsWith("/refs/")) url = siteUrl() + url;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`fetch ${url} → ${res.status}`);
   return Buffer.from(await res.arrayBuffer());

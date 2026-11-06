@@ -15,6 +15,7 @@ import { RecentWithStyle } from "./RecentWithStyle";
 import { allSlotsFor, overridesFrom, type SlotState, type TextSlot } from "@/lib/text-slots";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { WINNERS_BOX_OPTIONS } from "@/lib/winners-box";
+import { randomTestTable, testCrest, testTableKey } from "@/lib/test-teams";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
@@ -183,6 +184,7 @@ export function CreateWizard({
   proEnabled,
   initialLayout,
   initialChamp = null,
+  testTable = false,
   categories,
   season = null,
   seasonStart = false,
@@ -199,6 +201,8 @@ export function CreateWizard({
   initialLayout?: LayoutKind;
   /** League picked before opening the creator (from "My leagues"). */
   initialChamp?: SavedItem | null;
+  /** From "My leagues" → 🎲 Test: the random test table (sessionStorage) instead of the saved one — never saved back. */
+  testTable?: boolean;
   /** Visible categories in the admin's order. */
   categories?: LayoutKind[];
   /** Holiday/season the admin turned on (null = off). */
@@ -426,9 +430,34 @@ export function CreateWizard({
   }, [leagueTeams, myTeams]);
   // Each league keeps its own saved table: picking the league loads it, generating (or "Save") updates it.
   const [tableMsg, setTableMsg] = useState("");
+  // 🎲 Test mode: random teams / crests / points to try a style — the league's saved table is never overwritten.
+  const [testMode, setTestMode] = useState(false);
+  function fillTestTable() {
+    const count = Math.max(6, Math.min(12, tableRows.length || 10));
+    setTable(randomTestTable(count));
+    setInp((x) => ({ ...x, headline: x.headline || "STANDINGS", date: x.date || `WEEK ${1 + Math.floor(Math.random() * 9)}`, qualify: x.qualify || "4" }));
+    setTestMode(true);
+    setTableMsg(locale === "es" ? "🎲 Tabla de prueba (equipos al azar) — no se guarda en tu liga." : "🎲 Test table (random teams) — not saved to your league.");
+  }
   useEffect(() => {
     if (layout !== "STANDINGS" || !champ?.id) return;
     setTableMsg("");
+    setTestMode(false);
+    if (testTable) {
+      try {
+        const raw = sessionStorage.getItem(testTableKey(champ.id));
+        const t = raw ? (JSON.parse(raw) as { rows?: TRow[]; headline?: string; date?: string; qualify?: string }) : null;
+        if (t?.rows?.length) {
+          setTable(t.rows);
+          setInp((x) => ({ ...x, headline: t.headline || x.headline, date: t.date || x.date, qualify: t.qualify ?? x.qualify }));
+          setTestMode(true);
+          setTableMsg(locale === "es" ? "🎲 Tabla de prueba de Mis ligas — no se guarda en tu liga." : "🎲 Test table from My leagues — not saved to your league.");
+          return;
+        }
+      } catch {
+        /* load the saved table instead */
+      }
+    }
     fetch(`/api/standings?league=${encodeURIComponent(champ.id)}`, { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
@@ -443,7 +472,7 @@ export function CreateWizard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [champ?.id, layout]);
   function saveTable(quiet = false) {
-    if (layout !== "STANDINGS" || !champ?.id || !tableRows.length) return;
+    if (layout !== "STANDINGS" || !champ?.id || !tableRows.length || testMode) return;
     fetch("/api/standings", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ league: champ.id, rows: tableRows, headline: inp.headline, date: inp.date, qualify: inp.qualify, relegate: inp.relegate }) })
       .then((r) => {
         if (r.ok && !quiet) setTableMsg(locale === "es" ? `💾 Tabla guardada en ${champ.name}.` : `💾 Table saved to ${champ.name}.`);
@@ -451,7 +480,7 @@ export function CreateWizard({
       .catch(() => {});
   }
   /** The saved team whose name matches a typed line (the showcase and the table use its crest). */
-  const crestFor = (name: string) => myTeams.find((m) => m.name.toLowerCase() === name.trim().toLowerCase())?.logoUrl ?? "";
+  const crestFor = (name: string) => myTeams.find((m) => m.name.toLowerCase() === name.trim().toLowerCase())?.logoUrl || testCrest(name);
   const rowText = (t: TRow, n: number) =>
     [`${n + 1}. ${t.team.trim()}`, ...([["P", t.p], ["W", t.w], ["D", t.d], ["L", t.l], ["GD", t.gd], ["PTS", t.pts]] as const).filter(([, v]) => v.trim()).map(([k, v]) => `${k} ${v.trim()}`)].join(" · ");
   const [aiBusy, setAiBusy] = useState(false);
@@ -513,7 +542,7 @@ export function CreateWizard({
       winners: layout === "WINNERS" ? lines(winnersText).slice(0, 40) : [],
       winnerLogos: layout === "WINNERS" ? lines(winnersText).slice(0, 40).map((w) => crestFor(w)) : [],
       standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
-      tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 20).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl ?? "") : [],
+      tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 20).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl || testCrest(t.team)) : [],
     };
   }
 
@@ -1228,7 +1257,7 @@ export function CreateWizard({
                     <tbody>
                       {table.map((row, n) => {
                         const setCell = (k: keyof TRow, val: string) => setTable((t) => t.map((x, j) => (j === n ? { ...x, [k]: val } : x)));
-                        const logo = myTeams.find((m) => m.name.toLowerCase() === row.team.trim().toLowerCase())?.logoUrl;
+                        const logo = myTeams.find((m) => m.name.toLowerCase() === row.team.trim().toLowerCase())?.logoUrl || testCrest(row.team);
                         return (
                           <tr key={n} className={`border-t border-line ${n === 0 ? "bg-lime/5" : ""}`}>
                             <td className="px-1 text-center font-extrabold text-muted">{n + 1}</td>
@@ -1258,7 +1287,10 @@ export function CreateWizard({
                   </table>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  {champ?.id && tableRows.length > 0 && (
+                  <button type="button" className="rounded-lg border border-amber-400/50 bg-amber-400/10 px-3 py-1.5 text-xs font-bold text-amber-300" onClick={fillTestTable}>
+                    🎲 {testMode ? (locale === "es" ? "Otra prueba" : "New test") : locale === "es" ? "Prueba (equipos al azar)" : "Test (random teams)"}
+                  </button>
+                  {champ?.id && tableRows.length > 0 && !testMode && (
                     <button type="button" className="rounded-lg border border-lime/50 bg-lime/10 px-3 py-1.5 text-xs font-bold text-lime" onClick={() => saveTable()}>
                       💾 {locale === "es" ? `Guardar tabla en ${champ.name}` : `Save table to ${champ.name}`}
                     </button>
