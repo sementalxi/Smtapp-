@@ -122,7 +122,9 @@ export async function GET(req: NextRequest) {
 
   // Discord admin role → website admin (and back, when the role was taken away).
   await import("@/lib/discord-bot").then((m) => m.applyDiscordAdmin(user!.id, me.id!)).catch(() => {});
-  const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : isNew ? "/create" : "/dashboard";
+  const wanted = next && next.startsWith("/") && !next.startsWith("//") ? next : isNew ? "/create" : "/dashboard";
+  // New accounts give their phone number first (one account per number), then continue where they were going.
+  const dest = isNew && !user.phone ? `/register/phone?next=${encodeURIComponent(wanted)}` : wanted;
   const res = NextResponse.redirect(new URL(dest, req.url));
   res.cookies.set(SESSION_COOKIE, await signSession(user.id), sessionCookieOptions);
   res.cookies.delete(DISCORD_STATE_COOKIE);

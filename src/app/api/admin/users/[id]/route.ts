@@ -9,6 +9,8 @@ const Body = z.object({
   banned: z.boolean().optional(),
   isOrg: z.boolean().optional(),
   name: z.string().trim().min(1).max(60).optional(),
+  /** The phone number (one account per number) — only an admin changes it; "" clears it. */
+  phone: z.string().trim().max(30).optional(),
 });
 
 export const PATCH = handle(async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
@@ -18,7 +20,19 @@ export const PATCH = handle(async (req: NextRequest, { params }: { params: Promi
   if (id === admin.id && (body.role === "USER" || body.banned)) {
     throw new HttpError(400, "You can't demote or suspend yourself");
   }
-  const user = await db.user.update({ where: { id }, data: body }).catch(() => null);
+  const data: Record<string, unknown> = { ...body };
+  if (body.phone !== undefined) {
+    if (admin.role !== "ADMIN") throw new HttpError(403, "forbidden");
+    const { normalizePhone, phoneOwner } = await import("@/lib/phone");
+    const phone = body.phone ? normalizePhone(body.phone) : null;
+    if (body.phone && !phone) throw new HttpError(400, "That phone number isn't valid");
+    if (phone) {
+      const owner = await phoneOwner(phone, id);
+      if (owner) throw new HttpError(409, `That number already belongs to ${owner.email}`);
+    }
+    data.phone = phone;
+  }
+  const user = await db.user.update({ where: { id }, data }).catch(() => null);
   if (!user) throw new HttpError(404, "not_found");
   return json({ ok: true });
 });

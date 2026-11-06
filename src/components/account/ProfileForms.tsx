@@ -13,7 +13,7 @@ function Section({ title, children, danger }: { title: string; children: React.R
   );
 }
 
-export function ProfileForms({ name: initialName, email, isAdmin, showcase: initialShowcase = true }: { name: string; email: string; isAdmin: boolean; showcase?: boolean }) {
+export function ProfileForms({ name: initialName, email, phone, isAdmin, showcase: initialShowcase = true }: { name: string; email: string; phone?: string | null; isAdmin: boolean; showcase?: boolean }) {
   const [showcase, setShowcase] = useState(initialShowcase);
   const { locale } = useT();
   const es = locale === "es";
@@ -67,6 +67,13 @@ export function ProfileForms({ name: initialName, email, isAdmin, showcase: init
           <label className="label">Email</label>
           <input className="input opacity-60" value={email} disabled />
         </div>
+        {phone && (
+          <div>
+            <label className="label">{es ? "Teléfono" : "Phone"}</label>
+            <input className="input opacity-60" value={phone} disabled />
+            <p className="mt-1 text-[11px] text-muted">{es ? "No se puede cambiar. Si cambiaste de número, abre un ticket en Soporte en Discord." : "Can't be changed. If you have a new number, open a ticket in Support on Discord."}</p>
+          </div>
+        )}
         <div className="flex items-center gap-3">
           <button type="button" className="btn-primary px-5 py-2" disabled={busy === "name" || !name.trim() || name === initialName} onClick={saveName}>
             {busy === "name" ? "…" : es ? "Guardar cambios" : "Save changes"}

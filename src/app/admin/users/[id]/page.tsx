@@ -5,7 +5,7 @@ import { getT } from "@/i18n/server";
 import { requireAdmin } from "@/lib/auth";
 import { TxTable } from "@/components/TxTable";
 import { BannerGrid } from "@/components/BannerGrid";
-import { CreditAdjust, DeleteUser, GivePlan, ResetLink, UserFlags } from "@/components/admin/UserControls";
+import { CreditAdjust, DeleteUser, GivePlan, PhoneControl, ResetLink, UserFlags } from "@/components/admin/UserControls";
 import { loadPricing } from "@/lib/pricing";
 
 export default async function AdminUserPage({ params }: { params: Promise<{ id: string }> }) {
@@ -43,6 +43,7 @@ export default async function AdminUserPage({ params }: { params: Promise<{ id: 
           </p>
           <div className="mt-3">
             <UserFlags userId={user.id} role={user.role} banned={user.banned} self={user.id === me.id} isOrg={user.isOrg} es={locale === "es"} />
+            <PhoneControl userId={user.id} phone={user.phone} es={locale === "es"} canEdit={me.role === "ADMIN"} />
             <ResetLink userId={user.id} es={locale === "es"} />
             {user.id !== me.id && <DeleteUser userId={user.id} email={user.email} es={locale === "es"} />}
             <GivePlan

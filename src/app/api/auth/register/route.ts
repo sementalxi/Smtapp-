@@ -10,11 +10,13 @@ import { changeCredits } from "@/lib/credits";
 import { rateLimit } from "@/lib/ratelimit";
 import { REF_COOKIE } from "@/lib/referral";
 import { logSignup } from "@/lib/discord-logs";
+import { normalizePhone, phoneOwner } from "@/lib/phone";
 
 const Body = z.object({
   name: z.string().trim().min(1).max(60),
   email: z.string().trim().toLowerCase().email().max(200),
   password: z.string().min(8).max(200),
+  phone: z.string().trim().max(30),
 });
 
 export const POST = handle(async (req: NextRequest) => {
@@ -24,6 +26,10 @@ export const POST = handle(async (req: NextRequest) => {
   if (await db.user.findUnique({ where: { email: body.email } })) {
     return json({ error: "err_exists" }, 409);
   }
+  // One account per phone number — it can't be changed later by the player.
+  const phone = normalizePhone(body.phone);
+  if (!phone) return json({ error: "err_phone_invalid" }, 400);
+  if (await phoneOwner(phone)) return json({ error: "err_phone_used" }, 409);
 
   // Invited by a friend? (?ref=CODE link → cookie)
   const refCode = req.cookies.get(REF_COOKIE)?.value?.trim().toUpperCase();
@@ -38,6 +44,7 @@ export const POST = handle(async (req: NextRequest) => {
       role: isAdminEmail(body.email) || (await db.user.count({ where: { role: "ADMIN" } })) === 0 ? "ADMIN" : "USER",
       locale: req.cookies.get("bf_lang")?.value === "en" ? "en" : "es",
       referredById: referrer?.id ?? null,
+      phone,
     },
   });
 

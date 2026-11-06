@@ -34,10 +34,12 @@ export const getCurrentUser = cache(async () => {
 
 export type CurrentUser = NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>;
 
-/** For pages: redirect to login when signed out. */
+/** For pages: redirect to login when signed out — and to the phone step when a new account still has no number. */
 export async function requireUser() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
+  const { phoneMissing } = await import("./phone");
+  if (phoneMissing(user)) redirect("/register/phone");
   return user;
 }
 

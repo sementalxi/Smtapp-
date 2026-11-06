@@ -5,54 +5,43 @@ import { useState } from "react";
 import { useT } from "@/i18n/client";
 import type { DictKey } from "@/i18n/dict";
 
-const COUNTRIES = [
+export const COUNTRIES = [
   ["+1", "🇺🇸 +1"], ["+52", "🇲🇽 +52"], ["+34", "🇪🇸 +34"], ["+57", "🇨🇴 +57"], ["+54", "🇦🇷 +54"], ["+56", "🇨🇱 +56"], ["+51", "🇵🇪 +51"],
   ["+58", "🇻🇪 +58"], ["+593", "🇪🇨 +593"], ["+502", "🇬🇹 +502"], ["+503", "🇸🇻 +503"], ["+504", "🇭🇳 +504"], ["+505", "🇳🇮 +505"],
   ["+506", "🇨🇷 +506"], ["+507", "🇵🇦 +507"], ["+591", "🇧🇴 +591"], ["+595", "🇵🇾 +595"], ["+598", "🇺🇾 +598"], ["+55", "🇧🇷 +55"], ["+44", "🇬🇧 +44"],
 ] as const;
 
-export function AuthForm({ mode, next, phoneRequired, discord, err, discordBonus = 0 }: { mode: "login" | "register"; next?: string; phoneRequired?: boolean; discord?: boolean; err?: string; discordBonus?: number }) {
+/** The "this number already has an account" notice — log in with it, or open a support ticket on Discord. */
+export function PhoneUsedNotice({ es, discordServer }: { es: boolean; discordServer?: string }) {
+  return (
+    <span>
+      {es ? "Ya existe una cuenta con este número de teléfono. " : "There's already an account under this phone number. "}
+      <Link href="/login" className="font-bold text-lime underline">{es ? "Inicia sesión con esa cuenta" : "Log in with that account"}</Link>
+      {es ? " — si no puedes, abre un ticket en Soporte en nuestro " : " — if you can't, open a ticket in Support on our "}
+      {discordServer ? (
+        <a href={discordServer} target="_blank" rel="noopener noreferrer" className="font-bold text-lime underline">Discord</a>
+      ) : (
+        "Discord"
+      )}
+      .
+    </span>
+  );
+}
+
+export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordServer }: { mode: "login" | "register"; next?: string; discord?: boolean; err?: string; discordBonus?: number; discordServer?: string }) {
   const { t, locale } = useT();
   const es = locale === "es";
   const [cc, setCc] = useState("+1");
   const [num, setNum] = useState("");
-  const [code, setCode] = useState("");
-  const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [phoneMsg, setPhoneMsg] = useState("");
-  const phoneErr = (e: string) =>
-    e === "err_phone_used"
-      ? es ? "Este número ya tiene una cuenta. Inicia sesión." : "This number already has an account. Log in instead."
-      : e === "err_phone_invalid"
-        ? es ? "Número no válido." : "That phone number isn't valid."
-        : e === "err_code"
-          ? es ? "Código incorrecto o vencido." : "Wrong or expired code."
-          : e === "err_phone_send"
-            ? es ? "No pudimos enviar el SMS. Revisa el número." : "We couldn't send the text. Check the number."
-            : "";
-  async function sendSms() {
-    setSending(true);
-    setPhoneMsg("");
-    const r = await fetch("/api/auth/phone", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ phone: cc + num }) });
-    const d = await r.json().catch(() => ({}));
-    setSending(false);
-    if (r.ok) {
-      setSent(true);
-      setPhoneMsg(es ? "✅ Código enviado por SMS" : "✅ Code sent by text");
-    } else setPhoneMsg(phoneErr(d.error) || t("err_generic"));
-  }
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<React.ReactNode>("");
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
     setError("");
     const data: Record<string, unknown> = Object.fromEntries(new FormData(e.currentTarget));
-    if (mode === "register" && phoneRequired) {
-      data.phone = cc + num;
-      data.code = code;
-    }
+    if (mode === "register") data.phone = cc + num;
     const res = await fetch(`/api/auth/${mode}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -71,7 +60,13 @@ export function AuthForm({ mode, next, phoneRequired, discord, err, discordBonus
     }
     const body = await res.json().catch(() => ({}));
     const known: DictKey[] = ["err_invalid", "err_exists", "err_banned"];
-    setError(phoneErr(body.error) || t(known.includes(body.error) ? (body.error as DictKey) : "err_generic"));
+    setError(
+      body.error === "err_phone_used"
+        ? <PhoneUsedNotice es={es} discordServer={discordServer} />
+        : body.error === "err_phone_invalid"
+          ? es ? "Número de teléfono no válido." : "That phone number isn't valid."
+          : t(known.includes(body.error) ? (body.error as DictKey) : "err_generic"),
+    );
     setBusy(false);
   }
 
@@ -137,25 +132,18 @@ export function AuthForm({ mode, next, phoneRequired, discord, err, discordBonus
             placeholder={mode === "register" ? t("pw_hint") : ""}
           />
         </div>
-        {mode === "register" && phoneRequired && (
+        {mode === "register" && (
           <div className="space-y-2 rounded-xl border border-teal/30 bg-teal/5 p-3">
-            <label className="label">{es ? "Teléfono (verificación por SMS)" : "Phone (SMS verification)"}</label>
+            <label className="label" htmlFor="phone">{es ? "Teléfono" : "Phone number"}</label>
             <div className="flex gap-2">
-              <select className="input w-[6.5rem] shrink-0 px-2" value={cc} onChange={(e) => { setCc(e.target.value); setSent(false); }}>
+              <select className="input w-[6.5rem] shrink-0 px-2" value={cc} onChange={(e) => setCc(e.target.value)} aria-label={es ? "Código de país" : "Country code"}>
                 {COUNTRIES.map(([v, l]) => (
                   <option key={v + l} value={v}>{l}</option>
                 ))}
               </select>
-              <input className="input min-w-0 flex-1" type="tel" inputMode="tel" autoComplete="tel-national" placeholder="512 555 0100" value={num} onChange={(e) => { setNum(e.target.value); setSent(false); }} />
+              <input id="phone" className="input min-w-0 flex-1" type="tel" inputMode="tel" autoComplete="tel-national" required placeholder="512 555 0100" value={num} onChange={(e) => setNum(e.target.value)} />
             </div>
-            <button type="button" className="btn-ghost w-full py-2 text-sm" disabled={sending || num.replace(/\D/g, "").length < 7} onClick={sendSms}>
-              {sending ? "…" : sent ? (es ? "Reenviar código" : "Resend code") : es ? "📲 Enviar código" : "📲 Send code"}
-            </button>
-            {sent && (
-              <input className="input text-center text-lg tracking-[0.5em]" inputMode="numeric" autoComplete="one-time-code" maxLength={8} placeholder="••••••" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} />
-            )}
-            {phoneMsg && <p className="text-xs">{phoneMsg}</p>}
-            <p className="text-[11px] text-muted">{es ? "Una cuenta por número. También te enviaremos tus pósters por mensaje." : "One account per number. We'll also text you your posters."}</p>
+            <p className="text-[11px] text-muted">{es ? "Una cuenta por número. No se puede cambiar después." : "One account per number. It can't be changed later."}</p>
           </div>
         )}
         {mode === "login" && (
@@ -167,7 +155,7 @@ export function AuthForm({ mode, next, phoneRequired, discord, err, discordBonus
         {mode === "register" && (
           <p className="text-[11px] text-muted">{es ? "Podemos enviarte ofertas por correo de vez en cuando. Puedes darte de baja cuando quieras." : "We may email you offers now and then. You can unsubscribe anytime."}</p>
         )}
-        <button disabled={busy || (mode === "register" && phoneRequired && (!sent || code.length < 4))} className="btn-primary w-full">
+        <button disabled={busy || (mode === "register" && num.replace(/\D/g, "").length < 7)} className="btn-primary w-full">
           {busy ? "…" : t(mode === "login" ? "nav_login" : "nav_register")}
         </button>
       </form>

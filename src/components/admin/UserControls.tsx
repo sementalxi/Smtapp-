@@ -109,6 +109,46 @@ export function UserFlags({ userId, role, banned, self, isOrg = false, es = fals
 }
 
 /** Admin: make a one-time password reset link for this user. */
+/** Admin only: the account's phone number (players can't change theirs) — set it, fix it or clear it. */
+export function PhoneControl({ userId, phone, es, canEdit }: { userId: string; phone: string | null; es: boolean; canEdit: boolean }) {
+  const router = useRouter();
+  const [value, setValue] = useState(phone ?? "");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState("");
+  async function save(next: string) {
+    setBusy(true);
+    setMsg("");
+    const res = await fetch(`/api/admin/users/${userId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ phone: next }) });
+    setBusy(false);
+    if (res.ok) {
+      setValue(next);
+      setMsg(es ? "✅ Guardado" : "✅ Saved");
+      router.refresh();
+    } else setMsg(`❌ ${(await res.json().catch(() => ({}))).error ?? "error"}`);
+  }
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+      <span className="text-muted">📱 {es ? "Teléfono" : "Phone"}:</span>
+      {canEdit ? (
+        <>
+          <input className="input !w-44 py-1.5 text-xs" value={value} placeholder="+1 512 555 0100" onChange={(e) => setValue(e.target.value)} />
+          <button type="button" disabled={busy || value === (phone ?? "")} className="btn-primary px-3 py-1.5 text-xs" onClick={() => save(value)}>
+            {es ? "Guardar" : "Save"}
+          </button>
+          {phone && (
+            <button type="button" disabled={busy} className="btn-ghost px-3 py-1.5 text-xs" onClick={() => save("")}>
+              {es ? "Quitar" : "Clear"}
+            </button>
+          )}
+        </>
+      ) : (
+        <span className="font-mono">{phone || (es ? "— sin número" : "— none")}</span>
+      )}
+      {msg && <span>{msg}</span>}
+    </div>
+  );
+}
+
 export function ResetLink({ userId, es }: { userId: string; es: boolean }) {
   const [url, setUrl] = useState("");
   const [busy, setBusy] = useState(false);
