@@ -10,6 +10,7 @@ import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind, STYLE_BADGES, badgeLabel, parseBadges, type StyleBadge } from "@/lib/templates";
 import { StyleBadges } from "../StyleBadges";
+import type { TextSlot } from "@/lib/text-slots";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
@@ -259,6 +260,28 @@ export function CreateWizard({
   }, [templates]);
   const [tplId, setTplId] = useState<string | null>(null);
   const tpl = styles.find((t) => t.id === tplId) ?? null;
+  // Admin: boxes created from the flyer right here (saved on the style; shown at once, before the page re-syncs).
+  const [slotSync, setSlotSync] = useState<Record<string, TextSlot[]>>({});
+  const [slotSyncMsg, setSlotSyncMsg] = useState<string | null>(null);
+  const [slotSyncBusy, setSlotSyncBusy] = useState(false);
+  const tplSlots: TextSlot[] = tpl ? (slotSync[tpl.id] ?? tpl.textSlots ?? []) : [];
+  async function syncSlotsFromFlyer() {
+    if (!tpl) return;
+    setSlotSyncBusy(true);
+    setSlotSyncMsg(null);
+    try {
+      const r = await fetch(`/api/admin/templates/${tpl.id}/detect-slots`, { method: "POST" });
+      const d = (await r.json().catch(() => ({}))) as { slots?: TextSlot[]; added?: number; error?: string };
+      if (!r.ok || !d.slots) {
+        setSlotSyncMsg(d.error === "no_text_found" ? (locale === "es" ? "No encontré líneas de texto en el flyer." : "No text lines found on the flyer.") : d.error === "no_style_ref" ? (locale === "es" ? "Este estilo no tiene referencia de flyer." : "This style has no reference flyer.") : locale === "es" ? "No se pudo leer el flyer. Inténtalo de nuevo." : "Couldn't read the flyer. Try again.");
+        return;
+      }
+      setSlotSync((m) => ({ ...m, [tpl.id]: d.slots! }));
+      setSlotSyncMsg(locale === "es" ? `✅ ${d.added ?? d.slots.length} cajas creadas desde el flyer y guardadas en el estilo.` : `✅ ${d.added ?? d.slots.length} boxes created from the flyer and saved on the style.`);
+    } finally {
+      setSlotSyncBusy(false);
+    }
+  }
   // Team logo category: "create a new logo" styles vs "show off my logo" styles.
   const logoCreate = layout === "LOGO" && !!tpl && (tpl.logoCreate || /^logo-new-/.test(tpl.slug));
   // Team of the week: the cards borrow the look of one of the player-card styles.
@@ -898,27 +921,45 @@ export function CreateWizard({
                 {field({ label: L.position, k: "position", max: 24, ph: "ST · CAM | OM" })}
                 {field({ label: L.number, k: "number", max: 4 })}
               </div>
-              {tpl?.textSlots?.length ? (
+              {tplSlots.length || (isAdmin && tpl?.styleRefUrl) ? (
                 <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
-                  {isAdmin && tpl.styleRefUrl && (
-                    <div className="flex items-start gap-3 rounded-lg border border-pink/30 bg-ink/40 p-2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
-                      <p className="text-[11px] leading-snug text-muted">
-                        <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Referencia del estilo (solo admin)" : "Style reference (admin only)"}</span>
-                        <br />
-                        {locale === "es"
-                          ? "El flyer que copia este estilo. Las cajas de abajo son sus líneas de texto; el nombre / gamertag se escribe con su título 3D."
-                          : "The flyer this style copies. The boxes below are its text lines; the name / gamertag is lettered like its 3D title."}
-                      </p>
+                  {isAdmin && tpl?.styleRefUrl && (
+                    <div className="rounded-lg border border-pink/30 bg-ink/40 p-2">
+                      <div className="flex items-start gap-3">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
+                        <div className="text-[11px] leading-snug text-muted">
+                          <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Referencia del estilo (solo admin)" : "Style reference (admin only)"}</span>
+                          <br />
+                          {locale === "es"
+                            ? "El flyer que copia este estilo. Las cajas son sus líneas de texto; el nombre / gamertag se escribe con su título 3D."
+                            : "The flyer this style copies. The boxes are its text lines; the name / gamertag is lettered like its 3D title."}
+                          <button type="button" onClick={syncSlotsFromFlyer} disabled={slotSyncBusy} className="btn-primary mt-2 block text-xs">
+                            {slotSyncBusy
+                              ? locale === "es" ? "⏳ Leyendo el flyer…" : "⏳ Reading the flyer…"
+                              : tplSlots.length
+                                ? locale === "es" ? "🔄 Volver a crear las cajas desde el flyer" : "🔄 Re-create the boxes from the flyer"
+                                : locale === "es" ? "➕ Crear las cajas desde el flyer" : "➕ Create the boxes from the flyer"}
+                          </button>
+                          {slotSyncMsg && <span className="mt-1 block">{slotSyncMsg}</span>}
+                        </div>
+                      </div>
                     </div>
                   )}
-                  <p className="text-xs text-muted">
-                    {locale === "es"
-                      ? "Este estilo copia un flyer: cada caja es una línea de ese flyer. Deja vacías las que no quieras."
-                      : "This style copies a flyer: each box is one line of that flyer. Leave the ones you don't want empty."}
-                  </p>
-                  {tpl.textSlots.map((sl) => (
+                  {tplSlots.length > 0 && (
+                    <p className="text-xs text-muted">
+                      {locale === "es"
+                        ? "Este estilo copia un flyer: cada caja es una línea de ese flyer. Deja vacías las que no quieras."
+                        : "This style copies a flyer: each box is one line of that flyer. Leave the ones you don't want empty."}
+                    </p>
+                  )}
+                  {tplSlots.length === 0 && (
+                    <>
+                      {field({ label: L.tagline, k: "tagline", max: 30 })}
+                      {field({ label: L.subtitle, k: "subtitle" })}
+                    </>
+                  )}
+                  {tplSlots.map((sl) => (
                     <div key={sl.key}>
                       <label className="label">{locale === "es" ? sl.labelEs : sl.label}</label>
                       <input
@@ -1257,7 +1298,7 @@ export function CreateWizard({
             </>
           )}
 
-          {!tpl?.textSlots?.length && field({ label: L.footer, k: "footer", max: 48 })}
+          {!tplSlots.length && field({ label: L.footer, k: "footer", max: 48 })}
           <div className="rounded-xl border border-teal/40 bg-teal/5 p-3">
             <ImageDrop kind="photo" label={locale === "es" ? "🖼️ Imagen de referencia (opcional) — un póster que te guste, para que la IA capte la idea" : "🖼️ Reference image (optional) — a poster you like, so the AI gets the idea"} value={refImg} onChange={setRefImg} searchQuery={locale === "es" ? "póster deportivo" : "sports poster design"} />
             <p className="mt-1 text-[11px] text-muted">{locale === "es" ? "La IA copia el look (composición, luces, colores, tipografía) — no sus personas, textos ni logos. Describe en “Idea extra” qué te gusta de ella si quieres." : "The AI copies the look (composition, lighting, colours, typography) — not its people, text or logos. Say what you like about it in “Extra idea” if you want."}</p>
