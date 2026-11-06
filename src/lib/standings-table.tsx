@@ -132,12 +132,27 @@ function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
       const bar = (h: number, fill: string, op: number, filter?: string) =>
         `<rect x="${x0}" y="${(y0 + k * g.rowH - h / 2).toFixed(1)}" width="${x1 - x0}" height="${h.toFixed(1)}" rx="${(h / 2).toFixed(1)}" fill="${fill}" fill-opacity="${op}"${filter ? ` filter="url(#${filter})"` : ""}/>`;
       lines.push(bar(lineW * 9, accent, 0.95, "halo"), bar(lineW * 4, accent, 1, "halo2"), bar(lineW * 2.4, accent, 1, "neon"), bar(lineW, lighter, 1));
+      // flashes: two bright glints on every glowing line (a lens-flare streak and a four-point sparkle), spread along it
+      const yc = y0 + k * g.rowH;
+      const spots = [0.14 + ((k * 37) % 50) / 100 * 0.5, 0.62 + ((k * 53) % 30) / 100];
+      spots.forEach((f, j) => {
+        const cx = x0 + (x1 - x0) * f;
+        const rx = W * (0.05 + ((k * 11) % 3) * 0.012);
+        const ry = lineW * 3.2;
+        const s = lineW * (3.5 + ((k * 7) % 3));
+        lines.push(`<ellipse cx="${cx.toFixed(1)}" cy="${yc.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="url(#flash)"/>`);
+        // one small four-point sparkle per line, alternating left / right
+        if (j === k % 2)
+          lines.push(
+            `<path d="M${cx.toFixed(1)},${(yc - s).toFixed(1)} L${(cx + s * 0.18).toFixed(1)},${yc.toFixed(1)} L${cx.toFixed(1)},${(yc + s).toFixed(1)} L${(cx - s * 0.18).toFixed(1)},${yc.toFixed(1)} Z M${(cx - s * 2.2).toFixed(1)},${yc.toFixed(1)} L${cx.toFixed(1)},${(yc - s * 0.16).toFixed(1)} L${(cx + s * 2.2).toFixed(1)},${yc.toFixed(1)} L${cx.toFixed(1)},${(yc + s * 0.16).toFixed(1)} Z" fill="#ffffff" fill-opacity="0.95"/>`,
+          );
+      });
     } else {
       lines.push(`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${accent}" stroke-opacity="0.45" stroke-width="${Math.max(1, lineW * 0.55).toFixed(1)}"/>`);
     }
   }
   // thin column dividers through the stats
-  const divs = g.dividers.map((x) => `<line x1="${x.toFixed(1)}" y1="${y0}" x2="${x.toFixed(1)}" y2="${(y0 + g.rowH * g.n).toFixed(1)}" stroke="${light}" stroke-opacity="0.22" stroke-width="1"/>`).join("");
+  const divs = g.dividers.map((x) => `<line x1="${x.toFixed(1)}" y1="${y0}" x2="${x.toFixed(1)}" y2="${(y0 + g.rowH * g.n).toFixed(1)}" stroke="${accent}" stroke-opacity="0.5" stroke-width="${Math.max(1, lineW * 0.45).toFixed(1)}"/>`).join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${panelH}" viewBox="0 0 ${W} ${panelH}">
 <defs>
 <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset="0.5" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
@@ -145,6 +160,7 @@ function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
 <linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity="0.38"/><stop offset="1" stop-color="${accent}" stop-opacity="0.12"/></linearGradient>
 <linearGradient id="band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${accent}" stop-opacity="0.42"/><stop offset="0.5" stop-color="${accent}" stop-opacity="0.2"/><stop offset="1" stop-color="${accent}" stop-opacity="0.42"/></linearGradient>
 <filter id="glow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="${glow.toFixed(1)}"/></filter>
+<radialGradient id="flash" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffffff" stop-opacity="1"/><stop offset="0.3" stop-color="${lighter}" stop-opacity="0.9"/><stop offset="0.6" stop-color="${accent}" stop-opacity="0.45"/><stop offset="1" stop-color="${accent}" stop-opacity="0"/></radialGradient>
 <filter id="halo" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.016).toFixed(1)}"/></filter>
 <filter id="halo2" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.007).toFixed(1)}"/></filter>
 <filter id="neon" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.0045).toFixed(1)}"/></filter>

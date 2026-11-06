@@ -102,9 +102,23 @@ export async function referenceColourLine(url: string | null | undefined): Promi
  * back to the given accent when the picture has no vivid colour (black and white, silver).
  */
 export async function posterAccent(poster: Buffer, fallback: string): Promise<string> {
+  const GOLD = "#ffc83d";
   try {
-    const vivid = (await palette(poster)).find((c) => c.role === "vivid");
-    return vivid?.hex ?? fallback;
+    const vivid = (await palette(poster)).filter((c) => c.role === "vivid");
+    if (!vivid.length) return GOLD;
+    const hueOf = (hex: string) => {
+      const v = parseInt(hex.slice(1), 16);
+      return hsl((v >> 16) & 255, (v >> 8) & 255, v & 255).h;
+    };
+    const warm = (h: number) => h < 75 || h >= 300; // red, orange, gold, pink / magenta
+    const cold = (h: number) => h >= 170 && h < 265; // cyan, blue
+    const first = vivid[0];
+    const h0 = hueOf(first.hex);
+    // A blue poster glows in its warm accent (the gold of its sparks, script and frame), never in more blue;
+    // a second warm hue with real presence wins over a dominant cold one.
+    const second = vivid.slice(1).find((c) => warm(hueOf(c.hex)) && c.share >= Math.max(2, first.share * 0.2));
+    if (cold(h0)) return second?.hex ?? GOLD;
+    return first.hex;
   } catch {
     return fallback;
   }
