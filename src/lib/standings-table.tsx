@@ -98,7 +98,7 @@ const mix = (c: string, t: string, k: number) => {
 const oct = (x: number, y: number, w: number, h: number, c: number) =>
   `M${(x + c).toFixed(1)},${y.toFixed(1)} H${(x + w - c).toFixed(1)} L${(x + w).toFixed(1)},${(y + c).toFixed(1)} V${(y + h - c).toFixed(1)} L${(x + w - c).toFixed(1)},${(y + h).toFixed(1)} H${(x + c).toFixed(1)} L${x.toFixed(1)},${(y + h - c).toFixed(1)} V${(y + c).toFixed(1)} Z`;
 
-type Geo = { pad: number; headerH: number; rowH: number; n: number; qualify: number; dividers: number[]; rowPadL: number; rowPadR: number };
+type Geo = { pad: number; headerH: number; rowH: number; n: number; qualify: number; glow: number; dividers: number[]; rowPadL: number; rowPadR: number };
 
 /**
  * The panel itself, drawn as SVG under the text layer — the look of a broadcast table: a translucent dark body
@@ -121,19 +121,19 @@ function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
   const o = sw * 4;
   const orn = (x: number, y: number, dir: 1 | -1, vdir: 1 | -1) =>
     `<path d="M${x},${y} l${o * dir},0 l${(-o / 2) * dir},${(o / 2) * vdir} Z" fill="${light}"/><circle cx="${x + o * 1.7 * dir}" cy="${y + o * 0.8 * vdir}" r="${Math.max(2, sw * 0.7)}" fill="${accent}"/><path d="M${x + o * 2.4 * dir},${y + o * 0.8 * vdir} l${o * 1.6 * dir},0" stroke="${accent}" stroke-opacity="0.8" stroke-width="${Math.max(1.5, sw * 0.5)}"/>`;
-  // the advancing band: a tint between the top line and the line under the last advancing row
-  const band = g.qualify ? `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${g.rowH * g.qualify}" fill="url(#band)"/>` : "";
-  // separator lines: neon for the advancing rows (lines 0..qualify), dim for the rest
+  // the glowing band: a tint between the top line and the line under the last glowing row (the advancing rows, or the leader)
+  const band = g.glow ? `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${g.rowH * g.glow}" fill="url(#band)"/>` : "";
+  // separator lines: neon for the glowing rows (lines 0..glow), the style's colour, dimmer, for the rest
   const lineW = Math.max(2.5, W * 0.0032);
   const lines: string[] = [];
   for (let k = 0; k <= g.n; k++) {
     const y = (y0 + k * g.rowH).toFixed(1);
-    if (k <= g.qualify && g.qualify) {
+    if (k <= g.glow && g.glow) {
       const bar = (h: number, fill: string, op: number, filter?: string) =>
         `<rect x="${x0}" y="${(y0 + k * g.rowH - h / 2).toFixed(1)}" width="${x1 - x0}" height="${h.toFixed(1)}" rx="${(h / 2).toFixed(1)}" fill="${fill}" fill-opacity="${op}"${filter ? ` filter="url(#${filter})"` : ""}/>`;
       lines.push(bar(lineW * 5, accent, 0.75, "halo"), bar(lineW * 2.4, accent, 1, "neon"), bar(lineW, lighter, 1));
     } else {
-      lines.push(`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${light}" stroke-opacity="0.28" stroke-width="${Math.max(1, lineW * 0.5).toFixed(1)}"/>`);
+      lines.push(`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${accent}" stroke-opacity="0.45" stroke-width="${Math.max(1, lineW * 0.55).toFixed(1)}"/>`);
     }
   }
   // thin column dividers through the stats
@@ -150,6 +150,7 @@ function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
 </defs>
 <path d="${d}" fill="none" stroke="${accent}" stroke-opacity="0.5" stroke-width="${(sw * 2.5).toFixed(1)}" filter="url(#glow)"/>
 <path d="${d}" fill="url(#glass)"/>
+<rect x="${g.pad}" y="${g.pad}" width="${W - g.pad * 2}" height="${g.headerH}" rx="${Math.round(g.headerH * 0.22)}" fill="#05050c" fill-opacity="0.9"/>
 <rect x="${g.pad}" y="${g.pad}" width="${W - g.pad * 2}" height="${g.headerH}" rx="${Math.round(g.headerH * 0.22)}" fill="url(#head)"/>
 ${band}
 ${divs}
@@ -209,7 +210,8 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
   const fsName = Math.round(Math.max(rowH * 0.3, Math.min(rowH * 0.5, nameW / (longest * 0.5))));
   const fsHead = Math.round(Math.max(14, headerH * 0.4));
   const dividers = spec.columns.map((_, k) => width - pad - rowPadR - statW * (spec.columns.length - k));
-  const geo: Geo = { pad, headerH, rowH, n, qualify: spec.qualify, dividers, rowPadL, rowPadR };
+  const glow = spec.qualify || (n ? 1 : 0); // "how many advance" rows glow; with none given, the leader does
+  const geo: Geo = { pad, headerH, rowH, n, qualify: spec.qualify, glow, dividers, rowPadL, rowPadR };
   const shadow = "0 2px 5px rgba(0,0,0,0.85)";
   const el = (
     <div style={{ display: "flex", flexDirection: "column", width, height }}>
@@ -225,7 +227,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
         </div>
         {spec.rows.map((r, idx) => (
           <div key={r.pos} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
-            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: idx < spec.qualify ? accent : "rgba(255,255,255,0.9)", textShadow: shadow }}>{`${r.pos}.`}</div>
+            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: idx < glow ? accent : "rgba(255,255,255,0.9)", textShadow: shadow }}>{`${r.pos}.`}</div>
             {hasCrest ? (
               <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center", marginRight: 14 }}>
                 {crests[idx] ? <img src={crests[idx]!} width={crestBox} height={crestBox} style={{ objectFit: "contain" }} /> : null}
