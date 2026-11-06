@@ -29,6 +29,7 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
   const [imgs, setImgs] = useState<Img[]>([{ url: null, role: "" }]);
   const [stamp, setStamp] = useState(false);
   const [phase, setPhase] = useState<"idle" | "busy" | "done" | "error">("idle");
+  const [retrying, setRetrying] = useState(false); // OpenAI ran out the clock once — the job is running again in a fresh function
   const [err, setErr] = useState("");
   const [out, setOut] = useState<string | null>(null);
 
@@ -36,6 +37,7 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
 
   async function go() {
     setPhase("busy");
+    setRetrying(false);
     setErr("");
     setOut(null);
     const res = await fetch("/api/admin/studio", {
@@ -58,9 +60,10 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
       return;
     }
     const started = Date.now();
-    while (Date.now() - started < 360_000) {
+    while (Date.now() - started < 700_000) {
       await new Promise((r) => setTimeout(r, 3000));
       const s = await fetch(`/api/admin/studio?id=${data.id}`).then((r) => r.json()).catch(() => null);
+      if (s?.tries) setRetrying(true);
       if (s?.status === "READY") {
         setOut(s.url);
         setPhase("done");
@@ -173,7 +176,14 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
             // eslint-disable-next-line @next/next/no-img-element
             <img src={out} alt="" className="h-full w-full object-contain" />
           ) : phase === "busy" ? (
-            <GenerationProgress photo={imgs[0]?.url} expectedSeconds={quality === "high" ? 120 : 80} />
+            <div className="relative h-full w-full">
+              <GenerationProgress photo={imgs[0]?.url} expectedSeconds={retrying ? 240 : quality === "high" ? 120 : 80} />
+              {retrying && (
+                <div className="absolute inset-x-0 bottom-0 bg-ink/80 p-2 text-center text-xs text-amber-300">
+                  {es ? "⏳ OpenAI tardó demasiado — segundo intento en marcha (hasta 5 min más)" : "⏳ OpenAI ran out of time — second try running (up to 5 more min)"}
+                </div>
+              )}
+            </div>
           ) : (
             <div className="p-6 text-center text-sm text-muted">{phase === "error" ? <span className="text-danger">❌ {err}</span> : es ? "Tu diseño aparecerá aquí." : "Your design will appear here."}</div>
           )}
