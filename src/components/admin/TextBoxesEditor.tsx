@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { TEXT_SLOTS, parseSlotOverrides, type SlotOverride, type TextSlot } from "@/lib/text-slots";
 
 /** One editable row: the style's built-in box (if any) plus the admin's changes. */
@@ -42,9 +42,31 @@ function toOverrides(rows: Row[]): SlotOverride[] {
  * rename each box's title / subtitle (the example shown in the empty box), tell the AI where the line
  * goes, and add boxes of your own. Saved with the style (Template.textSlots).
  */
-export function TextBoxesEditor({ slug, value, onChange, es }: { slug: string; value: string | null | undefined; onChange: (json: string | null) => void; es: boolean }) {
+export function TextBoxesEditor({ slug, value, onChange, es, styleRefUrl }: { slug: string; value: string | null | undefined; onChange: (json: string | null) => void; es: boolean; styleRefUrl?: string | null }) {
   const rows = useMemo(() => rowsFor(slug, value), [slug, value]);
   const builtIn = (TEXT_SLOTS[slug] ?? []).length;
+  const [detecting, setDetecting] = useState(false);
+  const [detectMsg, setDetectMsg] = useState<string | null>(null);
+  /** One tap: the AI reads the reference flyer and creates one box per text line (replaces the admin-added boxes; built-in ones stay). */
+  async function detect() {
+    if (!styleRefUrl) return;
+    setDetecting(true);
+    setDetectMsg(null);
+    try {
+      const r = await fetch("/api/admin/templates/detect-slots", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ styleRefUrl }) });
+      const d = (await r.json().catch(() => ({}))) as { slots?: SlotOverride[]; error?: string };
+      if (!r.ok || !d.slots?.length) {
+        setDetectMsg(d.error === "no_text_found" ? (es ? "No encontré líneas de texto en el flyer." : "No text lines found on the flyer.") : es ? "No se pudo leer el flyer. Inténtalo de nuevo." : "Couldn't read the flyer. Try again.");
+        return;
+      }
+      const keep = rows.filter((r) => !r.custom);
+      const found: Row[] = d.slots.map((s) => ({ key: s.key, on: true, label: s.label ?? "", labelEs: s.labelEs ?? "", ph: s.ph ?? "", where: s.where ?? "", custom: true }));
+      commit([...keep, ...found.filter((f) => !keep.some((k) => k.key === f.key))]);
+      setDetectMsg(es ? `✅ ${found.length} cajas creadas desde el flyer — revisa y guarda.` : `✅ ${found.length} boxes created from the flyer — check them and save.`);
+    } finally {
+      setDetecting(false);
+    }
+  }
   const commit = (next: Row[]) => {
     const ov = toOverrides(next);
     onChange(ov.length ? JSON.stringify(ov) : null);
@@ -66,10 +88,21 @@ export function TextBoxesEditor({ slug, value, onChange, es }: { slug: string; v
               : `Tick the boxes the public sees, rename each box's title and subtitle (the grey example), tell the AI where the line goes, or add boxes of your own. ${shown} of ${rows.length} shown${builtIn ? "" : " · this style has no built-in flyer lines — add your own"}.`}
           </div>
         </div>
-        <button type="button" onClick={add} className="btn-ghost text-xs">
-          ➕ {es ? "Añadir caja" : "Add box"}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          {styleRefUrl && (
+            <button type="button" onClick={detect} disabled={detecting} className="btn-primary text-xs">
+              {detecting ? (es ? "⏳ Leyendo el flyer…" : "⏳ Reading the flyer…") : es ? "✨ Crear las cajas desde el flyer" : "✨ Create the boxes from the flyer"}
+            </button>
+          )}
+          <button type="button" onClick={add} className="btn-ghost text-xs">
+            ➕ {es ? "Añadir caja" : "Add box"}
+          </button>
+        </div>
       </div>
+      {!styleRefUrl && (
+        <p className="mt-2 text-[11px] text-muted">{es ? "Sube una referencia de estilo arriba y podrás crear las cajas automáticamente desde el flyer." : "Add a Pro AI style reference above and the boxes can be created automatically from the flyer."}</p>
+      )}
+      {detectMsg && <p className="mt-2 text-xs">{detectMsg}</p>}
       {rows.length > 0 && (
         <div className="mt-3 space-y-2">
           {rows.map((r) => (

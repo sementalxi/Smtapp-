@@ -3069,5 +3069,5 @@ export function badgeLabel(b: StyleBadge, es: boolean): string {
 export function crestModeLabel(inputs: { aiLogo?: string } | null | undefined, hasCrest: boolean): string {
   if (!hasCrest) return "🚫 No crest";
   const m = inputs?.aiLogo ?? "";
-  return m === "on" ? "✨ 3D remake (AI redraws it)" : m === "off" ? "📌 Real file pasted" : m === "both" ? "✨📌 3D remake + real file pasted" : "✅ Exact, built in";
+  return m === "on" ? "✨ 3D remake (AI redraws it)" : m === "off" ? "📌 Real file pasted" : m === "both" ? "✨📌 3D remake + real file pasted" : m === "exact3d" ? "💎 Real file, 3D finish (exact)" : "✅ Exact, built in";
 }

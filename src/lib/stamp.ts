@@ -129,7 +129,66 @@ export async function stampLogo(input: Buffer, avoid: StampSpot[] = []): Promise
  * small in a top corner, big as the hero (champions), or left/right of the VS (match day / result).
  * A coloured glow plus a soft shadow makes it look lit into the scene rather than stuck on.
  */
-export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: "tl" | "tr" | "hero" | "left" | "right" }[]): Promise<Buffer> {
+/** A saturated version of a colour (for a glow that matches the poster); near-grey falls back to a warm light. */
+function vivid(r: number, g: number, b: number): { r: number; g: number; b: number } {
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  if (max < 40 || max - min < 18) return { r: 255, g: 225, b: 180 };
+  const k = 255 / max;
+  const boost = (c: number) => Math.round(Math.min(255, Math.max(0, (c - min) * 1.35 + min) * k));
+  return { r: boost(r), g: boost(g), b: boost(b) };
+}
+
+/**
+ * The real crest file turned into a 3D emblem in code (so nothing of the logo is ever lost): a thick extrusion
+ * in the logo's own darkened colours, a bevel (light top-left / dark bottom-right edge), a glossy sheen,
+ * a glow in the poster's colour and a drop shadow. Returns a bigger PNG and how far it grew on each side.
+ */
+async function emboss3d(logo: Buffer, lw: number, lh: number, accent: { r: number; g: number; b: number }): Promise<{ png: Buffer; pad: number }> {
+  const depth = Math.max(5, Math.round(lw * 0.055));
+  const edge = Math.max(2, Math.round(lw * 0.012));
+  const pad = Math.round(lw * 0.3);
+  const cw = lw + pad * 2;
+  const ch = lh + pad * 2;
+  const none = { r: 0, g: 0, b: 0, alpha: 0 };
+  const blank = () => sharp({ create: { width: cw, height: ch, channels: 4, background: none } });
+  const silhouette = (r: number, g: number, b: number, a: number) =>
+    sharp({ create: { width: lw, height: lh, channels: 4, background: { r, g, b, alpha: a } } }).composite([{ input: logo, blend: "dest-in" }]).png().toBuffer();
+  const onCanvas = async (img: Buffer, dx = 0, dy = 0) => blank().composite([{ input: img, left: pad + dx, top: pad + dy }]).png().toBuffer();
+  const layers: { input: Buffer; left?: number; top?: number; blend?: "over" | "dest-in" | "dest-out" }[] = [];
+  // 1) glow in the poster's colour (twice, for strength) and a drop shadow
+  const glowSil = await sharp(await silhouette(accent.r, accent.g, accent.b, 0.9)).resize({ width: lw + edge * 6, height: lh + edge * 6, fit: "fill" }).png().toBuffer();
+  const glow = await sharp(await onCanvas(glowSil, -edge * 3, -edge * 3)).blur(Math.max(6, pad / 3)).png().toBuffer();
+  layers.push({ input: glow }, { input: glow });
+  const shadow = await sharp(await onCanvas(await silhouette(0, 0, 0, 0.75), Math.round(depth * 0.6), depth + edge * 2)).blur(Math.max(4, pad / 5)).png().toBuffer();
+  layers.push({ input: shadow });
+  // 2) the extrusion: the logo darkened, stacked down-right, farthest first
+  const dark = await sharp(logo).modulate({ brightness: 0.42, saturation: 1.15 }).png().toBuffer();
+  const darker = await sharp(logo).modulate({ brightness: 0.28, saturation: 1.1 }).png().toBuffer();
+  for (let n = depth; n >= 1; n--) layers.push({ input: n > depth * 0.5 ? darker : dark, left: pad + Math.round(n * 0.55), top: pad + n });
+  // 3) the logo itself, then the bevel edges and a glossy sheen clipped to it
+  layers.push({ input: logo, left: pad, top: pad });
+  const solid = await silhouette(0, 0, 0, 1);
+  const shiftDR = await sharp(await sharp(solid).extend({ top: edge, left: edge, bottom: 0, right: 0, background: none }).png().toBuffer()).extract({ left: 0, top: 0, width: lw, height: lh }).png().toBuffer();
+  const shiftUL = await sharp(await sharp(solid).extend({ top: 0, left: 0, bottom: edge, right: edge, background: none }).png().toBuffer()).extract({ left: edge, top: edge, width: lw, height: lh }).png().toBuffer();
+  const rimLight = await sharp(await silhouette(255, 255, 255, 0.7)).composite([{ input: shiftDR, blend: "dest-out" }]).png().toBuffer();
+  const rimDark = await sharp(await silhouette(0, 0, 0, 0.5)).composite([{ input: shiftUL, blend: "dest-out" }]).png().toBuffer();
+  const sheenSvg = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${lw}" height="${lh}"><defs><linearGradient id="g" x1="0" y1="0" x2="0.25" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.5"/><stop offset="0.42" stop-color="#fff" stop-opacity="0.08"/><stop offset="0.5" stop-color="#000" stop-opacity="0.12"/><stop offset="1" stop-color="#000" stop-opacity="0.3"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/></svg>`,
+  );
+  const sheen = await sharp(sheenSvg).composite([{ input: logo, blend: "dest-in" }]).png().toBuffer();
+  layers.push({ input: sheen, left: pad, top: pad }, { input: rimLight, left: pad, top: pad }, { input: rimDark, left: pad, top: pad });
+  // 4) a soft coloured rim light on the extrusion side
+  const rim = await sharp(await onCanvas(await silhouette(accent.r, accent.g, accent.b, 0.55), Math.round(depth * 0.55), depth)).blur(Math.max(2, edge * 1.5)).composite([{ input: await onCanvas(solid), blend: "dest-out" }]).png().toBuffer();
+  layers.push({ input: rim });
+  const png = await blank()
+    .composite(layers.map((x) => ({ input: x.input, left: x.left ?? 0, top: x.top ?? 0, blend: x.blend ?? "over" })))
+    .png()
+    .toBuffer();
+  return { png, pad };
+}
+
+export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: "tl" | "tr" | "tc" | "bc" | "hero" | "left" | "right"; fx?: "3d" }[]): Promise<Buffer> {
   try {
     const { width: W = 0, height: H = 0 } = await sharp(input).metadata();
     if (!W || !H) return input;
@@ -138,6 +197,8 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
       const spot = {
         tl: { size: 0.22, cx: 0.04 + 0.11, cy: null as number | null },
         tr: { size: 0.22, cx: 1 - 0.04 - 0.11, cy: null as number | null },
+        tc: { size: 0.24, cx: 0.5, cy: null as number | null },
+        bc: { size: 0.2, cx: 0.5, cy: 0.9 },
         hero: { size: 0.44, cx: 0.5, cy: 0.62 },
         left: { size: 0.3, cx: 0.25, cy: 0.4 },
         right: { size: 0.3, cx: 0.75, cy: 0.4 },
@@ -171,6 +232,24 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
           .toBuffer();
       const left = Math.round(W * spot.cx - lw / 2);
       const top = spot.cy === null ? Math.round(W * 0.04 + (box - lh) / 2) : Math.round(H * spot.cy - lh / 2);
+      if (l.fx === "3d") {
+        // The exact file as a 3D emblem, glowing in the colour of the poster around it.
+        let accent = { r: 255, g: 225, b: 180 };
+        try {
+          const rx = Math.max(0, Math.min(W - 1, left - pad));
+          const ry = Math.max(0, Math.min(H - 1, top - pad));
+          const st = await sharp(input).extract({ left: rx, top: ry, width: Math.min(W - rx, lw + pad * 2), height: Math.min(H - ry, lh + pad * 2) }).stats();
+          const [r, g, b] = st.channels.map((c) => c.mean);
+          accent = vivid(r, g, b);
+        } catch {}
+        try {
+          const { png, pad: p3 } = await emboss3d(logo, lw, lh, accent);
+          layers.push({ input: png, left: left - p3, top: top - p3 });
+          continue;
+        } catch (e) {
+          console.error("3D crest finish failed (flat crest placed instead)", e);
+        }
+      }
       // 1) dark shadow for contrast, 2) warm light glow so it sits "in" the light, 3) the logo itself.
       if (big) {
         // Bright halo: an enlarged, blurred light-coloured silhouette, stacked for strength.
@@ -213,8 +292,21 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
         console.error("logo finish failed (logo still placed)", e);
       }
     }
-    // Keep every layer inside the canvas.
-    const safe = layers.map((x) => ({ ...x, left: Math.max(0, x.left), top: Math.max(0, x.top) }));
+    // Keep every layer inside the canvas (crop what would hang over the edges).
+    const safe: { input: Buffer; left: number; top: number }[] = [];
+    for (const x of layers) {
+      if (x.left >= 0 && x.top >= 0) {
+        safe.push(x);
+        continue;
+      }
+      const m = await sharp(x.input).metadata();
+      const cl = Math.max(0, -x.left);
+      const ct = Math.max(0, -x.top);
+      const w = (m.width ?? 0) - cl;
+      const h = (m.height ?? 0) - ct;
+      if (w <= 0 || h <= 0) continue;
+      safe.push({ input: await sharp(x.input).extract({ left: cl, top: ct, width: w, height: h }).png().toBuffer(), left: x.left + cl, top: x.top + ct });
+    }
     return await sharp(input).composite(safe).png().toBuffer();
   } catch (e) {
     console.error("placeLogos failed", e);

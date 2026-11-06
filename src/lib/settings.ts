@@ -40,7 +40,7 @@ export const SETTING_DEFAULTS = {
   support_on: "1",
   poster_model: "mix3",
   openai_only_layouts: "TOTW,STANDINGS",
-  crest_modes: "", // JSON { LAYOUT: "" | "exact" | "on" | "off" | "both" } — how the crest is put on each poster type (users can't change it)
+  crest_modes: "", // JSON { LAYOUT: "" | "exact" | "on" | "off" | "both" | "exact3d" } — how the crest is put on each poster type (users can't change it)
   standings_exact_table: "on", // "on" = KIXO draws the standings table itself (real crests, exact names and numbers) on the AI background // poster types made by OpenAI GPT Image alone (no fal.ai steps), whatever the poster generator is
   video_on: "1",
   video_model: "kling-std",
@@ -82,10 +82,12 @@ export async function resolveCrestMode(layout: string, asked: string | undefined
   } catch {
     map = {};
   }
-  let def = ["exact", "on", "off", "both"].includes(map[layout]) ? map[layout] : "exact";
-  // A style can set its own default with a tag in its instructions: [CREST 3D] / [CREST BOTH] / [CREST PASTE] / [CREST EXACT].
-  const tag = /\[CREST (3D|BOTH|PASTE|EXACT)\]/i.exec(styleInstructions ?? "")?.[1]?.toUpperCase();
-  if (tag) def = { "3D": "on", BOTH: "both", PASTE: "off", EXACT: "exact" }[tag] ?? def;
-  if (isAdmin && asked && ["exact", "on", "off", "both"].includes(asked)) return asked;
+  const modes = ["exact", "on", "off", "both", "exact3d"];
+  let def = modes.includes(map[layout]) ? map[layout] : "exact";
+  // A style can set its own default with a tag in its instructions:
+  // [CREST 3D EXACT] (the real file with a code-made 3D finish) / [CREST 3D] (AI remake) / [CREST BOTH] / [CREST PASTE] / [CREST EXACT].
+  const tag = /\[CREST (3D EXACT|3D|BOTH|PASTE|EXACT)\]/i.exec(styleInstructions ?? "")?.[1]?.toUpperCase();
+  if (tag) def = { "3D EXACT": "exact3d", "3D": "on", BOTH: "both", PASTE: "off", EXACT: "exact" }[tag] ?? def;
+  if (isAdmin && asked && modes.includes(asked)) return asked;
   return def;
 }

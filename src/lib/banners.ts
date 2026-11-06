@@ -60,7 +60,7 @@ export const InputsSchema = z.object({
   bgPose: str(40),
   bgScene: str(40),
   aiCopy: z.enum(["on", "off", ""]).default("off"),
-  aiLogo: z.enum(["on", "off", "exact", "both", ""]).default(""),
+  aiLogo: z.enum(["on", "off", "exact", "both", "exact3d", ""]).default(""),
   colorMode: z.enum(["surprise", "template", "custom", "team", ""]).default(""),
   color1: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
   color2: z.string().regex(/^(#[0-9a-fA-F]{6})?$/).default(""),
@@ -222,13 +222,15 @@ const q = (s: string) => `"${s.replace(/"/g, "'")}"`;
 
 /** A reference image sent to the model, with what it is. */
 /** Where the real (uploaded) logo is pasted on the finished poster. */
-export type LogoSpot = "tl" | "tr" | "hero" | "left" | "right";
+export type LogoSpot = "tl" | "tr" | "tc" | "bc" | "hero" | "left" | "right";
 
 export interface ProRef {
   url: string;
   label: string;
   /** Exact-logo mode: not sent to the AI — pasted into this corner of the finished poster instead. */
   overlay?: LogoSpot;
+  /** "3d": the pasted file gets the code-made 3D emblem treatment (extrusion, bevel, gloss, glow). */
+  fx?: "3d";
 }
 
 /** Works out which reference images go to the model, in order, with instructions for each. */
@@ -244,6 +246,8 @@ export function collectProRefs(opts: {
   crestSheet?: { url: string; order: string[] } | null;
   /** Standings with the exact table: the crests are pasted by KIXO, so they are not sent to the AI. */
   skipTableCrests?: boolean;
+  /** The style's design instructions (for the [CREST SPOT …] tag of the exact-3D crest). */
+  instructions?: string | null;
 }): ProRef[] {
   const { inputs: i, layout } = opts;
   const refs: ProRef[] = [];
@@ -265,11 +269,15 @@ export function collectProRefs(opts: {
   }
   // Crest modes: "" / "exact" (default) = the AI places the real crest faithfully, built into the design but never redrawn;
   // "on" = the AI remakes it as a 3D chrome emblem (can add details); "off" = the exact file is pasted in a corner afterwards.
-  const exact = i.aiLogo === "off";
+  // "exact3d" = the exact file pasted afterwards WITH a code-made 3D emblem finish, at the style's crest spot (tag [CREST SPOT tl|tr|tc|bc], default top centre).
+  const exact = i.aiLogo === "off" || i.aiLogo === "exact3d";
   const remake = i.aiLogo === "on" || i.aiLogo === "both";
+  const spotTag = /\[CREST SPOT (tl|tr|tc|bc)\]/i.exec(opts.instructions ?? "")?.[1]?.toLowerCase() as LogoSpot | undefined;
   const crest = (url: string, who: string, corner: LogoSpot = "tl") => {
     // "both" (admin): the AI's 3D remake in the design AND the real file pasted in a corner afterwards.
     if (i.aiLogo === "both") refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner });
+    if (i.aiLogo === "exact3d" && (corner === "tl" || corner === "tr")) return refs.push({ url, label: `the crest/logo of ${who} (placed afterwards as a 3D emblem)`, overlay: spotTag ?? "tc", fx: "3d" });
+    if (i.aiLogo === "exact3d") return refs.push({ url, label: `the crest/logo of ${who} (placed afterwards as a 3D emblem)`, overlay: corner, fx: "3d" });
     return exact
       ? refs.push({ url, label: `the crest/logo of ${who} (placed afterwards)`, overlay: corner })
       : remake
@@ -791,7 +799,11 @@ export function buildProPrompt(opts: {
     ? "a large glowing circular spotlight / halo area in the lower-centre of the poster (about 48% of the poster width, centred, its middle at roughly 62% of the height) — make it the visual focal point — a glowing podium with light rays, glow and particles radiating around it, but the centre clean (just glowing light) — and keep the trophy to the right side and the squad names below it"
     : spots.includes("left")
       ? `two glowing circular spotlight areas at mid-height — one on the left (centred at ~25% width, ~40% height) and one on the right (~75% width, ~40% height), each about 32% of the poster width, with the "VS" between them; keep their centres clean (just glowing light)`
-      : `the top-left corner (a square about 26% of the poster width, plus margin) calm and empty`;
+      : spots.includes("tc")
+        ? `the TOP CENTRE (a square about 28% of the poster width, centred, just under the top edge) calm — a soft glowing light spot or halo there is welcome, but no text, faces, objects, crest or emblem`
+        : spots.includes("bc")
+          ? `the BOTTOM CENTRE (a square about 24% of the poster width, centred, just above the bottom edge) calm — a soft glowing light spot there is welcome, but no text, faces, objects, crest or emblem`
+          : `the top-left corner (a square about 26% of the poster width, plus margin) calm and empty`;
   // Champions posters need a lot of celebration energy — always added, even for admin-led styles.
   const champsEnergy =
     layout === "CHAMPIONS"
@@ -800,7 +812,7 @@ export function buildProPrompt(opts: {
   const logoRule = overlays.length && raw.aiLogo === "both"
     ? `LOGO SPACE: also leave ${spotText} — no text, faces or objects there — because the official crest FILE is placed there afterwards, in addition to the 3D crest emblem you build into the design.`
     : exactLogos
-    ? `LOGO SPACE: leave ${spotText} — no text, faces or objects there — because the official team crest${spots.length > 1 ? "s are" : " is"} placed there afterwards. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster.`
+    ? `LOGO SPACE: leave ${spotText} — no text, faces or objects there — because the official team crest${spots.length > 1 ? "s are" : " is"} placed there afterwards${overlays.some((o) => o.fx === "3d") ? " as a 3D emblem built from the real file" : ""}. Do NOT draw, invent or imitate any team crest, club badge or emblem anywhere on the poster — wherever the instructions above describe a crest or emblem, skip it and leave only the glowing light spot where it will go.`
     : "";
 
   // A style with admin design instructions: those describe the whole design; the built-in layout recipe is skipped.
@@ -1231,12 +1243,12 @@ export async function generateProForBanner(opts: {
     }
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {
-      const logos: { bytes: Buffer; corner: LogoSpot }[] = [];
-      for (const o of overlays) logos.push({ bytes: await loadBytes(o.url), corner: o.overlay! });
+      const logos: { bytes: Buffer; corner: LogoSpot; fx?: "3d" }[] = [];
+      for (const o of overlays) logos.push({ bytes: await loadBytes(o.url), corner: o.overlay!, fx: o.fx });
       poster = await placeLogos(poster, logos);
     }
     // The brand mark stays away from the pasted crests: top corners, and the bottom centre under a hero crest.
-    const avoid = overlays.flatMap((o): ("tl" | "tr" | "bc")[] => (o.overlay === "tl" || o.overlay === "tr" ? [o.overlay] : o.overlay === "hero" ? ["bc"] : []));
+    const avoid = overlays.flatMap((o): ("tl" | "tr" | "tc" | "bc")[] => (o.overlay === "tl" || o.overlay === "tr" || o.overlay === "tc" || o.overlay === "bc" ? [o.overlay] : o.overlay === "hero" ? ["bc"] : []));
     let out = await stampLogo(poster, avoid);
     // A 4K one-pass render is a 20+ MB PNG: keep it crisp but phone-friendly as a top-quality JPEG.
     let type = "image/png";

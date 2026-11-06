@@ -100,6 +100,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
                   <option value="on">{es ? "✨ Versión 3D" : "✨ 3D remake"}</option>
                   <option value="off">{es ? "📌 Pegar el archivo real" : "📌 Paste the real file"}</option>
                   <option value="both">{es ? "✨📌 3D + archivo real" : "✨📌 3D remake + real file"}</option>
+                  <option value="exact3d">{es ? "💎 Archivo real con acabado 3D (exacto)" : "💎 Real file, 3D finish (exact)"}</option>
                 </select>
               </label>
             );

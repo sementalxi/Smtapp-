@@ -56,6 +56,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         seriesRefUrl: seriesUrl,
         crestSheet: totw?.crestSheet,
         skipTableCrests: exactTable,
+        instructions: banner.template.proInstructions,
       });
       const prompt = buildProPrompt({
         layout: banner.template.layout,

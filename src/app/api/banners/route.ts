@@ -115,6 +115,7 @@ export const POST = handle(async (req: NextRequest) => {
     seriesRefUrl: series?.refUrl,
     crestSheet: totw?.crestSheet,
     skipTableCrests: exactTable,
+    instructions: template.proInstructions,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
   const sourceFmt = (source?.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;

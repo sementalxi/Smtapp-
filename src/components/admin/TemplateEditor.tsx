@@ -181,11 +181,11 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
           <p className="mt-1 text-xs text-muted">{es ? "Estas reemplazan las instrucciones de diseño por defecto. Déjalo vacío para usar las de siempre." : "These override the built-in layout instructions. Leave empty to use the defaults."}</p>
           <p className="mt-1 text-[11px] text-muted">
             {es
-              ? "Etiquetas opcionales en el texto: [CREST 3D] / [CREST BOTH] / [CREST PASTE] / [CREST EXACT] fijan cómo va el escudo en este estilo · [FIXED POSES] sin segunda figura sorpresa · [WIDE] banner 16:9 · [OWN LOOK] el estilo manda sobre las reglas genéricas de match day."
-              : "Optional tags in the text: [CREST 3D] / [CREST BOTH] / [CREST PASTE] / [CREST EXACT] set how the crest is made on this style · [FIXED POSES] no surprise second figure · [WIDE] 16:9 banner · [OWN LOOK] the style wins over the generic match-day rules."}
+              ? "Etiquetas opcionales en el texto: [CREST 3D EXACT] (archivo real con acabado 3D de KIXO) / [CREST 3D] (la IA lo rehace) / [CREST BOTH] / [CREST PASTE] / [CREST EXACT] fijan cómo va el escudo en este estilo · [CREST SPOT tc|bc|tl|tr] dónde se pega (centro arriba por defecto) · [FIXED POSES] sin segunda figura sorpresa · [WIDE] banner 16:9 · [OWN LOOK] el estilo manda sobre las reglas genéricas de match day."
+              : "Optional tags in the text: [CREST 3D EXACT] (real file with KIXO's 3D finish) / [CREST 3D] (AI remake) / [CREST BOTH] / [CREST PASTE] / [CREST EXACT] set how the crest is made on this style · [CREST SPOT tc|bc|tl|tr] where it is placed (top centre by default) · [FIXED POSES] no surprise second figure · [WIDE] 16:9 banner · [OWN LOOK] the style wins over the generic match-day rules."}
           </p>
         </div>
-        {tpl.layout === "PLAYER" && <TextBoxesEditor slug={tpl.slug} value={tpl.textSlots ?? null} onChange={(json) => set("textSlots", json)} es={es} />}
+        {tpl.layout === "PLAYER" && <TextBoxesEditor slug={tpl.slug} value={tpl.textSlots ?? null} onChange={(json) => set("textSlots", json)} es={es} styleRefUrl={tpl.styleRefUrl ?? null} />}
         <label className="flex items-start gap-2 text-sm">
           <input type="checkbox" className="mt-1" checked={tpl.randomize !== false} onChange={(e) => set("randomize", e.target.checked)} />
           <span>
