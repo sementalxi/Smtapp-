@@ -6,7 +6,9 @@ import { DEFAULT_DESIGN } from "@/lib/templates";
 import { thumb } from "@/lib/thumb";
 
 /** Live preview of a template with sample text and the procedural background. */
-export function TemplateThumb({ template, eager }: { template: ClientTemplate; eager?: boolean }) {
+export function TemplateThumb({ template, eager, isAdmin }: { template: ClientTemplate; eager?: boolean; isAdmin?: boolean }) {
+  // Admins: a style without a sample yet shows its Pro AI style reference instead, so they can see what it copies.
+  if (!template.thumbUrl && isAdmin && template.styleRefUrl) template = { ...template, thumbUrl: template.styleRefUrl };
   if (template.thumbUrl)
     return (
       // Shimmer behind the picture while it loads, then it fades in.

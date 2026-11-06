@@ -820,7 +820,10 @@ export function CreateWizard({
                 onClick={() => { setTplId(s.id); setTimeout(() => setStep(3), 180); }}
                 className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
-                <TemplateThumb template={s} eager={styles.indexOf(s) < 4} />
+                <TemplateThumb template={s} eager={styles.indexOf(s) < 4} isAdmin={isAdmin} />
+                {isAdmin && !s.thumbUrl && s.styleRefUrl && (
+                  <span className="absolute bottom-1.5 left-1.5 rounded-md bg-pink/90 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow backdrop-blur">🎨 {locale === "es" ? "Referencia (solo admin)" : "Style ref (admin only)"}</span>
+                )}
                 {s.wide && (
                   <span className="absolute top-1.5 right-1.5 rounded-md bg-ink/80 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow backdrop-blur">▭ Banner 16:9</span>
                 )}
