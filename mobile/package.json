@@ -1,0 +1,20 @@
+{
+  "name": "kixo-mobile",
+  "private": true,
+  "description": "KIXO for the App Store and Google Play — a native shell (Capacitor) around kixo.pro. Built by .github/workflows/mobile.yml.",
+  "scripts": {
+    "assets": "capacitor-assets generate --iconBackgroundColor '#0b0710' --splashBackgroundColor '#0b0710'",
+    "sync": "cap sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
+    "@capacitor/splash-screen": "^7.0.0",
+    "@capacitor/status-bar": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.0.0"
+  }
+}

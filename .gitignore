@@ -7,3 +7,7 @@ uploads
 next-env.d.ts
 # flags copied from flag-icons at build time
 /public/flags
+
+mobile/node_modules
+mobile/android
+mobile/ios
