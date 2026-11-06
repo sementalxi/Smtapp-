@@ -492,6 +492,8 @@ export function buildProPrompt(opts: {
   textSlotsJson?: string | null;
   /** What the crest contains (see collectProRefs.crestNote). */
   crestNote?: string | null;
+  /** The colours of the style's reference image (lib/ref-palette), when the user kept the style's own colours. */
+  refColours?: string | null;
 }) {
   // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
   const hasPhoto = opts.refs.some((r) => r.label.startsWith("the main subject"));
@@ -936,6 +938,9 @@ export function buildProPrompt(opts: {
       ? `TEXT INVENTORY (final check): the finished poster contains EXACTLY ${inventory.length === 1 ? "this one text item" : `these ${inventory.length} text items`}: ${inventory.map(q).join(", ")}${i.aiCopy === "on" ? " (plus the optional hype words)" : ""} — and NO other words, letters, numbers, labels, names, lines, hashtags, dates, prices, addresses, watermarks, team or league names anywhere: not the reference flyer's words, not labels like "HOSTED BY" or "MUSIC BY", not the letters of the crest written out. Before finishing, read every piece of text on the poster — anything not in this list must be removed.`
       : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
+    opts.refColours && (!i.colorMode || i.colorMode === "template")
+      ? `REFERENCE COLOURS (this style copies its reference image, and the user kept the style's own colours): ${opts.refColours} Keep the whole poster in this palette — background, lighting, lettering materials and effects — exactly as the reference shows it; do not drift to other colours.`
+      : "",
     layout === "LOGO"
       ? ""
       : `KIXO DESIGN STANDARD (always applies, whatever the style — in the style's own materials and mood): the poster must stand next to the work of the top esports / club design studios, never look like a simple AI image.

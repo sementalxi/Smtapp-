@@ -5,71 +5,11 @@ import { db } from "@/lib/db";
 import { apiAdmin, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { loadBytes, saveFile } from "@/lib/storage";
+import { palette } from "@/lib/ref-palette";
 
 export const maxDuration = 60;
 
 const Body = z.object({ bannerId: z.string().max(40), name: z.string().trim().min(1).max(40), nameEs: z.string().trim().max(40).optional() });
-
-function hsl(r: number, g: number, b: number) {
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  const l = (max + min) / 2 / 255;
-  const s = max === min ? 0 : (max - min) / 255 / (1 - Math.abs(2 * l - 1));
-  let h = 0;
-  if (max !== min) {
-    if (max === r) h = ((g - b) / (max - min)) % 6;
-    else if (max === g) h = (b - r) / (max - min) + 2;
-    else h = (r - g) / (max - min) + 4;
-    h = (h * 60 + 360) % 360;
-  }
-  return { h, s, l };
-}
-
-/** Rough colour name for the brief (so the AI reads "deep red", not a hex code it may ignore). */
-function colourName(r: number, g: number, b: number): string {
-  const { h, s, l } = hsl(r, g, b);
-  if (l < 0.12) return "black";
-  if (s < 0.15) return l > 0.85 ? "white" : l > 0.6 ? "light grey / silver" : l > 0.3 ? "grey" : "black";
-  const base = h < 15 || h >= 345 ? "red" : h < 33 ? "orange" : h < 65 ? "gold / yellow" : h < 160 ? "green" : h < 200 ? "teal / cyan" : h < 250 ? "blue" : h < 290 ? "purple / violet" : h < 330 ? "magenta / pink" : "pink-red";
-  return `${l < 0.3 ? "deep " : l > 0.7 ? "light " : ""}${base}`;
-}
-
-/** The poster's main colours: its dark base, its light, and its two strongest vivid hues. */
-async function palette(bytes: Buffer): Promise<{ hex: string; name: string; share: number; role: "dark" | "light" | "vivid" }[]> {
-  const { data } = await sharp(bytes).resize(120, 120, { fit: "inside" }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
-  const buckets = new Map<string, { n: number; r: number; g: number; b: number }>();
-  const total = data.length / 3;
-  for (let i = 0; i < data.length; i += 3) {
-    const r = data[i], g = data[i + 1], b = data[i + 2];
-    const key = `${r >> 4}-${g >> 4}-${b >> 4}`;
-    const e = buckets.get(key) ?? { n: 0, r: 0, g: 0, b: 0 };
-    e.n++; e.r += r; e.g += g; e.b += b;
-    buckets.set(key, e);
-  }
-  const all = [...buckets.values()]
-    .map((e) => {
-      const c = { n: e.n, r: Math.round(e.r / e.n), g: Math.round(e.g / e.n), b: Math.round(e.b / e.n) };
-      return { ...c, ...hsl(c.r, c.g, c.b) };
-    })
-    .sort((a, b) => b.n - a.n);
-  const out: { n: number; r: number; g: number; b: number; role: "dark" | "light" | "vivid" }[] = [];
-  const dark = all.find((c) => c.s < 0.25 && c.l < 0.35);
-  if (dark && dark.n / total > 0.04) out.push({ ...dark, role: "dark" });
-  const light = all.find((c) => c.l > 0.8 && c.s < 0.3);
-  if (light && light.n / total > 0.04) out.push({ ...light, role: "light" });
-  // Vivid colours: saturated buckets grouped by hue (30° bins), weighted by how much and how saturated.
-  const hues = new Map<number, { w: number; n: number; r: number; g: number; b: number }>();
-  for (const c of all) {
-    if (c.s < 0.35 || c.l < 0.12 || c.l > 0.92) continue;
-    const k = Math.round(c.h / 30) % 12;
-    const e = hues.get(k) ?? { w: 0, n: 0, r: 0, g: 0, b: 0 };
-    e.w += c.n * c.s; e.n += c.n; e.r += c.r * c.n; e.g += c.g * c.n; e.b += c.b * c.n;
-    hues.set(k, e);
-  }
-  for (const e of [...hues.values()].sort((a, b) => b.w - a.w).slice(0, 2)) {
-    if (e.n / total > 0.015) out.push({ n: e.n, r: Math.round(e.r / e.n), g: Math.round(e.g / e.n), b: Math.round(e.b / e.n), role: "vivid" });
-  }
-  return out.map((c) => ({ name: colourName(c.r, c.g, c.b), hex: `#${[c.r, c.g, c.b].map((x) => x.toString(16).padStart(2, "0")).join("")}`, share: Math.round((c.n / total) * 100), role: c.role }));
-}
 
 const REF_BLOCK = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this one. Change ONLY three things: the PERSON (the uploaded player stands where its person stands, in the same kind of pose and crop), the TEXTS (only the given texts, placed and styled like the reference's texts — never its words, names or numbers) and the CREST (only the given crest, where the reference has its crest — treated the same way). Never copy its name, words, numbers or face.`;
 

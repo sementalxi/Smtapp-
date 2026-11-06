@@ -108,6 +108,8 @@ export const POST = handle(async (req: NextRequest) => {
   const exactTable = pro && template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   // The AI rebuilds the crest as a 3D emblem: read what it contains first so no letter or symbol gets lost.
   const crestNote = pro && logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(logoUrl) : null;
+  // Styles copied from a reference image: its colours go into the brief so the poster stays in that palette.
+  const refColours = pro && template.styleRefUrl && (!inputs.colorMode || inputs.colorMode === "template") ? await (await import("@/lib/ref-palette")).referenceColourLine(template.styleRefUrl) : null;
   const refs = collectProRefs({
     layout: template.layout,
     inputs,
@@ -148,6 +150,7 @@ export const POST = handle(async (req: NextRequest) => {
       slug: template.slug,
       textSlotsJson: template.textSlots,
       crestNote,
+      refColours,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;

@@ -48,6 +48,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       const fmtNow = (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
       const exactTable = banner.template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const crestNote = banner.logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(banner.logoUrl) : null;
+      const refColours = banner.template.styleRefUrl && (!inputs.colorMode || inputs.colorMode === "template") ? await (await import("@/lib/ref-palette")).referenceColourLine(banner.template.styleRefUrl) : null;
       const refs = collectProRefs({
         layout: banner.template.layout,
         inputs,
@@ -82,6 +83,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
           return seasonPrompt(seasonByKey(s.key, s.custom));
         })(),
         crestNote,
+        refColours,
       });
       const cost = compare ? 0 : await getNumberSetting("pro_cost");
       if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
