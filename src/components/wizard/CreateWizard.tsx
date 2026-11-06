@@ -886,6 +886,19 @@ export function CreateWizard({
               </div>
               {tpl?.textSlots?.length ? (
                 <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
+                  {isAdmin && tpl.styleRefUrl && (
+                    <div className="flex items-start gap-3 rounded-lg border border-pink/30 bg-ink/40 p-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
+                      <p className="text-[11px] leading-snug text-muted">
+                        <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Referencia del estilo (solo admin)" : "Style reference (admin only)"}</span>
+                        <br />
+                        {locale === "es"
+                          ? "El flyer que copia este estilo. Las cajas de abajo son sus líneas de texto; el nombre / gamertag se escribe con su título 3D."
+                          : "The flyer this style copies. The boxes below are its text lines; the name / gamertag is lettered like its 3D title."}
+                      </p>
+                    </div>
+                  )}
                   <p className="text-xs text-muted">
                     {locale === "es"
                       ? "Este estilo copia un flyer: cada caja es una línea de ese flyer. Deja vacías las que no quieras."

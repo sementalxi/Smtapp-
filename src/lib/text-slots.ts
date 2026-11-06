@@ -176,6 +176,57 @@ export const TEXT_SLOTS: Record<string, TextSlot[]> = {
     s("script", "Script word beside the name", "Palabra script junto al nombre", "a black handwritten SCRIPT to the right under the name (the flyer's 'Zona Rosa')", "Zona Rosa", 24),
     s("footer", "Bottom lines (address / rsvp)", "Líneas de abajo (dirección / rsvp)", "small black caps lines centred at the bottom", "112 TRAVIS HOUSTON, TX 77002 · RSVP 832.970.5111", 90),
   ],
+  "player-chrome-blocks": [
+    s("banner", "Pink italic line under the name", "Línea rosa cursiva bajo el nombre", "bold pink-magenta italic capitals on a slanted white-highlighted strip under the title (the flyer's slanted pink line)", "THE DUO OF THE MOMENT", 36),
+    s("dateBlock", "Date block (right)", "Bloque de fecha (derecha)", "at the right: the day number big in white bold digits, a thin vertical bar, the month and weekday stacked small in white and magenta capitals", "06 MAY FRI", 16),
+    s("hostLabel", "Tiny label above the gold names", "Etiqueta pequeña sobre los nombres dorados", "a tiny letter-spaced white capitals label centred above the gold lines (the flyer's 'HOSTED BY')", "HOSTED BY", 20),
+    s("hosts", "Gold names (two lines)", "Nombres dorados (dos líneas)", "two lines of bold condensed gold-yellow capitals centred near the bottom", "DJ KILO · DJ ELOY", 50),
+    s("music", "Magenta strip line", "Línea en franja magenta", "a short letter-spaced white capitals line on a magenta strip (the flyer's 'MUSIC BY' strip)", "MUSIC BY: DJ YERRY", 40),
+    s("footer", "Bottom address line", "Línea de dirección abajo", "a tiny white letter-spaced capitals line along the very bottom", "AVENIDA INDEPENDENCIA · NAGUA", 90),
+    s("side", "Tiny vertical line (right edge)", "Línea vertical pequeña (borde derecho)", "a tiny white line running vertically up the right edge", "+18 DRINK RESPONSIBLY", 30),
+  ],
+  "player-red-glass": [
+    s("dateBlock", "Date (top left: number in a red box + month)", "Fecha (arriba izquierda: número en caja roja + mes)", "at the top-left, tilted with the title: the day number in white bold digits inside a red rounded square, the month in black condensed capitals beside it", "19 JUN", 12),
+    s("script", "Black script word over the name", "Palabra en script negro sobre el nombre", "a huge glossy black script with a liquid 3D extrusion and a thin red rim light, running across the lower half of the title", "Sensual", 20),
+    s("hostLabel", "Tiny label above the host lines", "Etiqueta pequeña sobre las líneas", "a tiny letter-spaced black capitals label at the lower left (the flyer's 'HOSTED BY')", "HOSTED BY", 20),
+    s("hosts", "Host lines (gold-red, two lines)", "Líneas (dorado-rojo, dos líneas)", "two lines of bold condensed capitals in a gold-to-red gradient at the lower left", "THE SQUAD · AND FRIENDS", 50),
+    s("footer", "Bottom address line", "Línea de dirección abajo", "a tiny black letter-spaced capitals line at the very bottom", "AVENIDA INDEPENDENCIA · NAGUA", 90),
+  ],
+  "player-candy-chrome": [
+    s("kicker1", "Tiny top line", "Línea pequeña superior", "a tiny letter-spaced white capitals line at the very top (the flyer's 'presents' line)", "KIXO PRESENTS", 40),
+    s("kicker2", "Pink bold line under it", "Línea rosa en negrita debajo", "a bold pink capitals line right under the top line (the flyer's 'PULL UP FRIDAYS')", "PULL UP FRIDAYS", 30),
+    s("preword", "Small script word before the name", "Palabra pequeña en script antes del nombre", "a small lighter-pink script word above the start of the name (the flyer's 'The')", "The", 12),
+    s("date", "Script date (right middle)", "Fecha en script (medio derecha)", "a pink-white italic script word with big script digits at the right middle (the flyer's 'Oct 07')", "Oct 07", 12),
+    s("djsLabel", "Tiny label above the names", "Etiqueta pequeña sobre los nombres", "a tiny letter-spaced capitals label above the DJ lines (the flyer's 'MUSIC BY')", "MUSIC BY", 20),
+    s("djs", "Names (two lines, + separators)", "Nombres (dos líneas, separados por +)", "two lines of bold condensed capitals in a pink-to-white gradient with + separators, centred in the lower part", "DJ KRAZED + DJ VENOM + DJ SKILLZ", 70),
+    s("footer", "Bottom address line", "Línea de dirección abajo", "a tiny white letter-spaced capitals line at the very bottom", "1 MILL ST, LAWRENCE MA", 60),
+  ],
+  "player-purple-glass": [
+    s("script", "Pink script word across the chest", "Palabra en script rosa sobre el pecho", "a thin pink handwritten script word glowing neon-pink under the title, across the player's chest (the flyer's 'Night')", "Night", 16),
+    s("musicLabel", "Small pink label", "Etiqueta rosa pequeña", "a small letter-spaced pink capitals line (the flyer's 'MUSIC BY:')", "MUSIC BY:", 20),
+    s("dj", "Big white line", "Línea blanca grande", "a big white bold condensed italic capitals line under the label (the flyer's DJ name)", "DJ EDDIE MIX", 24),
+    s("offer", "Pink bold line", "Línea rosa en negrita", "a bold pink capitals line under the big white line (the flyer's bottle offer)", "BOTTLES $99", 24),
+    s("info", "White bold line (under the dotted rule)", "Línea blanca en negrita (bajo la línea punteada)", "a bold white capitals line under a thin dotted rule (the flyer's 'RESERVATION' line)", "RESERVATION 915-613-8149", 36),
+    s("footer", "Tiny pink address line", "Línea rosa pequeña de dirección", "a tiny pink letter-spaced capitals line at the very bottom", "1441 N. ZARAGOZA", 50),
+  ],
+  "player-ice-chrome": [
+    s("dateBadge", "Round date badge (right)", "Insignia redonda de fecha (derecha)", "a round glossy dark-navy badge with a thin light ring at the right middle: the month small in white capitals, the number big in white bold digits", "NOV 26", 10),
+    s("djs", "Names (two lines, cyan chrome)", "Nombres (dos líneas, cromo cian)", "two lines of bold capitals in a cyan-to-blue chrome gradient centred in the lower part", "DJ PETE · DJ HANDLE IT", 50),
+    s("info", "Letter-spaced white line", "Línea blanca espaciada", "a letter-spaced white capitals line under the names (the flyer's 'DOORS OPEN AT 12 AM')", "DOORS OPEN AT 12 AM", 30),
+    s("footer", "Black bar line (bottom)", "Línea en barra negra (abajo)", "white letter-spaced capitals inside a black bar at the bottom (the flyer's 'ADDRESS DM' bar)", "ADDRESS DM @KIXO", 40),
+  ],
+  "player-white-block": [
+    s("kicker", "Red ribbon line above the name", "Línea en cinta roja sobre el nombre", "white letter-spaced capitals on a red angled ribbon above the title (the flyer's '#1 SUNDAY NIGHT PARTY' ribbon)", "THE #1 SUNDAY NIGHT PARTY IN HOUSTON", 44),
+    s("script", "Small red script word", "Palabra pequeña en script rojo", "a small red handwritten script word above the two white lines (the flyer's 'Free')", "Free", 14),
+    s("highlight", "Big white lines (two)", "Líneas blancas grandes (dos)", "two lines of big white condensed capitals centred under the script word (the flyer's 'COVER / ALL NIGHT')", "COVER ALL NIGHT", 30),
+    s("venue", "Thin letter-spaced word", "Palabra fina espaciada", "a thin elegant letter-spaced white word under the big lines (the flyer's thin logotype line)", "BLISS", 16),
+    s("info", "Bold line with gold digits", "Línea en negrita con dígitos dorados", "a bold white capitals line with its digits in gold (the flyer's 'RESERVATIONS' line)", "RESERVATIONS 832.643.1070", 36),
+    s("footer", "Tiny address line", "Línea pequeña de dirección", "a tiny white letter-spaced capitals line at the very bottom", "3105 MAIN ST HOUSTON TX 77002", 60),
+  ],
+  "player-liquid-script": [
+    s("info", "Bold line with pink digits", "Línea en negrita con dígitos rosas", "a bold white capitals line with its digits in magenta-pink centred near the bottom (the flyer's 'RESERVATIONS' line)", "RESERVATIONS 832-788-0062", 36),
+    s("footer", "Tiny address line", "Línea pequeña de dirección", "a tiny white letter-spaced capitals line under it", "11003 FUQUA ST. HOUSTON, TX 77089", 60),
+  ],
 };
 
 export function textSlotsFor(slug: string | null | undefined): TextSlot[] {
