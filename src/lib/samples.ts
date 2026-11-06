@@ -56,6 +56,8 @@ export interface ClientTemplate {
   badge?: string | null;
   /** Quality tier tag in the card's corner: "basic" | "mid" | "pro" */
   tier?: string | null;
+  /** The crest mode this style sets for itself with a [CREST …] tag ("on" | "exact" | "off" | "both" | "exact3d"), if any. */
+  crestDefault?: string | null;
   /** Wide (16:9 banner) style — always made in banner size. */
   wide?: boolean;
   /** Team logo category: this style creates a brand-new logo (square). */

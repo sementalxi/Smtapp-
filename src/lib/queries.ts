@@ -33,6 +33,10 @@ async function loadTemplates(aud: string[] | null): Promise<ClientTemplate[]> {
     hasInstructions: !!r.proInstructions?.trim(),
     badge: r.badge,
     tier: r.tier,
+    crestDefault: (() => {
+      const tag = /\[CREST (3D EXACT|3D|BOTH|PASTE|EXACT)\]/i.exec(r.proInstructions ?? "")?.[1]?.toUpperCase();
+      return tag ? ({ "3D EXACT": "exact3d", "3D": "on", BOTH: "both", PASTE: "off", EXACT: "exact" } as Record<string, string>)[tag] ?? null : null;
+    })(),
     wide: /\[WIDE\]/.test(r.proInstructions ?? ""),
     logoCreate: /\[LOGO CREATE\]/.test(r.proInstructions ?? ""),
     textSlots: textSlotsFor(r.slug, r.textSlots),
