@@ -66,9 +66,46 @@ export async function buildCrestSheet(inputs: BannerInputs): Promise<{ url: stri
   return { url: await saveFile("refs", sheet, "image/png"), order };
 }
 
+/** Standings: the table's crests on one sheet — one cell per distinct crest, named with the rows it belongs to. */
+export async function buildTableCrestSheet(inputs: BannerInputs): Promise<{ url: string; order: string[] } | null> {
+  const byUrl = new Map<string, string[]>();
+  inputs.standings.forEach((line, n) => {
+    const url = inputs.tableLogos?.[n];
+    if (!url || n >= 20) return;
+    const team = line.split("·")[0].replace(/^\d+\.\s*/, "").trim();
+    byUrl.set(url, [...(byUrl.get(url) ?? []), `row ${n + 1}${team ? ` (${team})` : ""}`]);
+  });
+  if (!byUrl.size) return null;
+  const list = [...byUrl.entries()].slice(0, 12);
+  const cell = 400;
+  const cols = Math.min(4, list.length);
+  const layers: { input: Buffer; left: number; top: number }[] = [];
+  const order: string[] = [];
+  for (const [url, rowsOf] of list) {
+    const i = order.length;
+    try {
+      const img = await sharp(await cutoutCached(url)).resize(cell - 60, cell - 60, { fit: "inside" }).png().toBuffer();
+      const meta = await sharp(img).metadata();
+      layers.push({ input: img, left: (i % cols) * cell + Math.round((cell - (meta.width ?? 0)) / 2), top: Math.floor(i / cols) * cell + Math.round((cell - (meta.height ?? 0)) / 2) });
+      order.push(rowsOf.join(" + "));
+    } catch {
+      /* a crest that can't be read is left out */
+    }
+  }
+  if (!order.length) return null;
+  const sheet = await sharp({ create: { width: cols * cell, height: Math.max(1, Math.ceil(order.length / cols)) * cell, channels: 4, background: { r: 18, g: 18, b: 22, alpha: 1 } } })
+    .composite(layers)
+    .png()
+    .toBuffer();
+  return { url: await saveFile("refs", sheet, "image/png"), order };
+}
+
 /** What a team-of-the-week brief needs on top of the usual inputs. */
 export async function totwExtras(inputs: BannerInputs, cardTemplateId: string | null | undefined, viewer: { role?: string; isOrg?: boolean }, layout: string = "TOTW") {
-  const [cardTemplate, sheet] = await Promise.all([pickCardTemplate(viewer, cardTemplateId), layout === "TOTW" ? buildCrestSheet(inputs).catch(() => null) : Promise.resolve(null)]);
+  const [cardTemplate, sheet] = await Promise.all([
+    pickCardTemplate(viewer, cardTemplateId),
+    layout === "TOTW" ? buildCrestSheet(inputs).catch(() => null) : layout === "STANDINGS" ? buildTableCrestSheet(inputs).catch(() => null) : Promise.resolve(null),
+  ]);
   return { cardTemplate, cardLook: cardLookFor(cardTemplate), crestSheet: sheet };
 }
 

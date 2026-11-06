@@ -40,6 +40,8 @@ const Body = z.object({
   openai_only_layouts: z.string().max(200).regex(/^[A-Z,]*$/).optional(),
   standings_exact_table: z.enum(["on", "off"]).optional(),
   qualifiers_exact_table: z.enum(["on", "off"]).optional(),
+  winners_exact_grid: z.enum(["on", "off"]).optional(),
+  welcome_ai_daily: z.coerce.number().int().min(0).max(500).optional(),
   video_on: z.enum(["0", "1"]).optional(),
   video_model: z.enum(["kling-std", "kling-pro"]).optional(),
   video_cost_5: z.coerce.number().int().min(0).max(500).optional(),
