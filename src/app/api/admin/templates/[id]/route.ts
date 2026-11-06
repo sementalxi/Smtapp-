@@ -17,9 +17,9 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
     const clash = await db.template.findFirst({ where: { slug: body.slug, NOT: { id } } });
     if (clash) return json({ error: "Slug already used" }, 409);
   }
-  const { style, ...rest } = body;
+  const { style, textSlots, ...rest } = body;
   await db.template
-    .update({ where: { id }, data: { ...rest, ...(style ? { style: toJson(style) } : {}) } })
+    .update({ where: { id }, data: { ...rest, ...(style ? { style: toJson(style) } : {}), ...(textSlots !== undefined ? { textSlots: textSlots?.length ? JSON.stringify(textSlots) : null } : {}) } })
     .catch(() => {
       throw new HttpError(404, "not_found");
     });

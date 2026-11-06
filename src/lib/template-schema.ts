@@ -28,4 +28,20 @@ export const TemplateSchema = z.object({
   thumbUrl: z.string().max(500).nullable().optional(),
   proInstructions: z.string().max(20000).nullable().optional(),
   randomize: z.boolean().optional(),
+  textSlots: z
+    .array(
+      z.object({
+        key: z.string().trim().regex(/^[a-zA-Z0-9_-]{1,32}$/),
+        on: z.boolean().optional(),
+        label: z.string().max(60).optional(),
+        labelEs: z.string().max(60).optional(),
+        ph: z.string().max(120).optional(),
+        where: z.string().max(400).optional(),
+        max: z.number().int().min(4).max(200).optional(),
+        custom: z.boolean().optional(),
+      }),
+    )
+    .max(40)
+    .nullable()
+    .optional(),
 });

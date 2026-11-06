@@ -17,7 +17,7 @@ export default async function AdminStyleTest() {
   const es = locale === "es";
   // Every style that exists in Admin → Styles (hidden ones too, marked), always fresh — same list, same order.
   const [tpls, settings, banners, run] = await Promise.all([
-    db.template.findMany({ where: { deletedAt: null }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, slug: true, name: true, layout: true, active: true, proInstructions: true } }),
+    db.template.findMany({ where: { deletedAt: null }, orderBy: [{ sort: "asc" }, { createdAt: "asc" }], select: { id: true, slug: true, name: true, layout: true, active: true, proInstructions: true, textSlots: true } }),
     getSettings(),
     db.banner.findMany({ where: { userId: admin.id }, orderBy: { createdAt: "desc" }, take: 400, include: { template: { select: { name: true, layout: true } } } }),
     getRun().catch(() => null),
@@ -56,6 +56,7 @@ export default async function AdminStyleTest() {
     id: t.id,
     name: t.name,
     slug: t.slug,
+    textSlots: t.textSlots,
     layout: t.layout,
     logoCreate: /\[LOGO CREATE\]/.test(t.proInstructions ?? ""),
     hasInstructions: !!t.proInstructions?.trim(),

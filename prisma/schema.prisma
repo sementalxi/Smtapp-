@@ -118,6 +118,8 @@ model Template {
   proInstructions String?
   // Random palette/concept/layout per poster (off = consistent look every time)
   randomize  Boolean  @default(true)
+  // Admin settings for this style's text boxes (flyer lines): JSON list of {key, on, label, labelEs, ph, where, custom} — see lib/text-slots
+  textSlots  String?
   // "recommended" | "fire" | null — label shown on the style in the Create page
   badge      String?
   // Who can see/use this style: "all" | "users" (regular accounts only) | "orgs" (organizations only)

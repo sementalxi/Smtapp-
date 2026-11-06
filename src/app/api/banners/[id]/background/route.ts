@@ -71,6 +71,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         cardLook: totw?.cardLook,
         exactTable,
         slug: banner.template.slug,
+        textSlotsJson: banner.template.textSlots,
         season: await (async () => {
           const s = (banner.design as unknown as { season?: { key: string; custom?: string } } | null)?.season;
           if (!s) return "";

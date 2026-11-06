@@ -34,7 +34,7 @@ async function loadTemplates(aud: string[] | null): Promise<ClientTemplate[]> {
     badge: r.badge,
     wide: /\[WIDE\]/.test(r.proInstructions ?? ""),
     logoCreate: /\[LOGO CREATE\]/.test(r.proInstructions ?? ""),
-    textSlots: textSlotsFor(r.slug),
+    textSlots: textSlotsFor(r.slug, r.textSlots),
     styleRefUrl: r.styleRefUrl,
   }));
 }

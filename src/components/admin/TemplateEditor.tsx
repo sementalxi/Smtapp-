@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import { LayoutKind, TemplateStyle } from "@/lib/templates";
 import { ImageDrop } from "../ImageDrop";
+import { TextBoxesEditor } from "./TextBoxesEditor";
+import { parseSlotOverrides } from "@/lib/text-slots";
 
 export interface AdminTemplate {
   id?: string;
@@ -21,6 +23,8 @@ export interface AdminTemplate {
   thumbUrl?: string | null;
   proInstructions?: string | null;
   randomize?: boolean;
+  /** Admin settings for the text boxes (JSON, see lib/text-slots) */
+  textSlots?: string | null;
   uses?: number;
 }
 
@@ -56,6 +60,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
     const auto = (tpl.name || tpl.nameEs || "style").toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30) || "style";
     const body = {
       ...tpl,
+      textSlots: tpl.textSlots ? parseSlotOverrides(tpl.textSlots) : null,
       style,
       slug: tpl.slug?.trim() || `${auto}-${Math.random().toString(36).slice(2, 6)}`,
       prompt: (tpl.prompt ?? "").trim().length >= 10 ? tpl.prompt : "premium sports social-media poster, dramatic lighting, detailed background",
@@ -180,6 +185,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
               : "Optional tags in the text: [CREST 3D] / [CREST BOTH] / [CREST PASTE] / [CREST EXACT] set how the crest is made on this style · [FIXED POSES] no surprise second figure · [WIDE] 16:9 banner · [OWN LOOK] the style wins over the generic match-day rules."}
           </p>
         </div>
+        {tpl.layout === "PLAYER" && <TextBoxesEditor slug={tpl.slug} value={tpl.textSlots ?? null} onChange={(json) => set("textSlots", json)} es={es} />}
         <label className="flex items-start gap-2 text-sm">
           <input type="checkbox" className="mt-1" checked={tpl.randomize !== false} onChange={(e) => set("randomize", e.target.checked)} />
           <span>

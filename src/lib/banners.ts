@@ -478,6 +478,8 @@ export function buildProPrompt(opts: {
   exactTable?: boolean;
   /** Style slug — flyer styles have their own text slots (lib/text-slots). */
   slug?: string | null;
+  /** The admin's box settings for this style (Template.textSlots JSON). */
+  textSlotsJson?: string | null;
 }) {
   // Older saved styles may still carry a "team name small and letter-spaced" line — the owner wants none on any poster.
   const hasPhoto = opts.refs.some((r) => r.label.startsWith("the main subject"));
@@ -526,7 +528,7 @@ export function buildProPrompt(opts: {
     lines.push(`- ${label}: ${q(v)}`);
     inventory.push(v);
   };
-  const flyerSlots = layout === "PLAYER" ? textSlotsFor(opts.slug) : [];
+  const flyerSlots = layout === "PLAYER" ? textSlotsFor(opts.slug, opts.textSlotsJson) : [];
   const finish = `BACKGROUND & FINISH (must be epic, never simple): build at least three layers of depth — 1) a detailed, dramatic environment far behind (stadium, sky, architecture or a themed scene, with bokeh and atmosphere), 2) big bold graphic energy in the middle (light beams, lightning, smoke, shattered shards, flowing liquid metal or fire — matching the theme), 3) sharp foreground particles and debris flying toward the camera. Dense layered effects (light streaks, sparks, embers, glitter dust, lens flares, fine grain, haze) and a rich, contrasty cinematic colour grade. A plain gradient, flat colour, soft blur or simple texture is NOT acceptable.`;
   const frame = `FULL-BLEED: the artwork runs edge to edge — no border, no frame lines, no corner marks, no crop marks, no decorative lines along the edges.`;
 

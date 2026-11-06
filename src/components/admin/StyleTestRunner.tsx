@@ -8,7 +8,7 @@ import { thumb } from "@/lib/thumb";
 import { DEFAULT_SAMPLE, inputsFor, type Run, type Sample, type SyncCard, type SyncLeague } from "@/lib/style-test-inputs";
 
 export type { Sample } from "@/lib/style-test-inputs";
-export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean; hidden?: boolean; slug?: string };
+export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean; hidden?: boolean; slug?: string; textSlots?: string | null };
 export type TestResult = {
   bannerId: string;
   templateId: string;
@@ -114,7 +114,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
     if (!list.length || busy) return;
     setBusy(true);
     setNote(null);
-    apply(await call({ action: "start", items: list.map((t) => ({ id: t.id, name: t.name, layout: t.layout, logoCreate: t.logoCreate, slug: t.slug })), sample }));
+    apply(await call({ action: "start", items: list.map((t) => ({ id: t.id, name: t.name, layout: t.layout, logoCreate: t.logoCreate, slug: t.slug, textSlots: t.textSlots })), sample }));
     setBusy(false);
   }
   async function control(action: "pause" | "resume" | "stop") {

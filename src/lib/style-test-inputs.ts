@@ -31,7 +31,7 @@ export type SyncLeague = { id: string; name: string; logoUrl: string; standings:
 /** One of the admin's finished player cards. */
 export type SyncCard = { id: string; label: string; thumb: string; photoUrl: string; logoUrl: string; inputs: Partial<Record<"name" | "team" | "position" | "number" | "tagline" | "subtitle" | "footer", string>> };
 
-export type RunItem = { id: string; name: string; layout: string; logoCreate: boolean; slug?: string };
+export type RunItem = { id: string; name: string; layout: string; logoCreate: boolean; slug?: string; textSlots?: string | null };
 export type Run = {
   id: string;
   userId: string;
@@ -70,7 +70,7 @@ const TOTW_PLAYERS = ["ALEX_GK · 61 PTS · GK", "BRUNO9 · 48 PTS · RB", "CARL
 const PLAYERS = ["1 Alex GK", "2 Bruno RB", "3 Carlos CB", "4 Diego CB", "5 Eli LB", "6 Fabio CM", "8 Gabo CM", "10 Hugo CAM", "7 Iker RW", "9 Javi ST", "11 Kevin LW"];
 
 /** Sample inputs for each kind of poster, from one shared sample. */
-export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?: string): Record<string, unknown> {
+export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?: string, textSlots?: string | null): Record<string, unknown> {
   const base = { language: "English", aiCopy: "off", colorMode: s.colorMode || "template", bgPose: "surprise" };
   switch (layout) {
     case "CHAMPIONS":
@@ -104,7 +104,7 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?:
       return logoCreate ? { ...base, team: s.team, subtitle: s.mascot, footer: s.footer } : { ...base, headline: s.tagline, footer: s.footer, team: s.team };
     default:
       // Flyer styles: fill every flyer line with its example text so the test shows the full layout.
-      return { ...base, name: s.name, team: s.team, position: s.position, number: s.number, tagline: s.tagline, subtitle: s.subtitle, footer: s.footer, slots: Object.fromEntries(textSlotsFor(slug).map((sl) => [sl.key, sl.ph ?? ""])) };
+      return { ...base, name: s.name, team: s.team, position: s.position, number: s.number, tagline: s.tagline, subtitle: s.subtitle, footer: s.footer, slots: Object.fromEntries(textSlotsFor(slug, textSlots).map((sl) => [sl.key, sl.ph ?? ""])) };
   }
 }
 
@@ -112,10 +112,10 @@ const PHOTO_LAYOUTS = ["PLAYER", "CHAMPIONS", "MATCHDAY", "RESULT"];
 const CREST_LAYOUTS = ["PLAYER", "CHAMPIONS", "LINEUP", "LOGO"];
 
 /** The request body for POST /api/banners for one style. */
-export function bannerBodyFor(t: { id: string; layout: string; logoCreate: boolean; slug?: string }, s: Sample, run: string) {
+export function bannerBodyFor(t: { id: string; layout: string; logoCreate: boolean; slug?: string; textSlots?: string | null }, s: Sample, run: string) {
   return {
     templateId: t.id,
-    inputs: inputsFor(t.layout, s, t.logoCreate, t.slug),
+    inputs: inputsFor(t.layout, s, t.logoCreate, t.slug, t.textSlots),
     // Only the kinds whose creator step takes them: a photo for player cards, champions and match posters;
     // a team crest where the creator has a team picker. Standings, team of the week, lineups and events get none.
     photoUrl: PHOTO_LAYOUTS.includes(t.layout) ? s.photoUrl || undefined : undefined,

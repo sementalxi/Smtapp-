@@ -229,6 +229,58 @@ export const TEXT_SLOTS: Record<string, TextSlot[]> = {
   ],
 };
 
-export function textSlotsFor(slug: string | null | undefined): TextSlot[] {
-  return (slug && TEXT_SLOTS[slug]) || [];
+/** An admin's change to one box of a style (stored as JSON in Template.textSlots). */
+export type SlotOverride = {
+  key: string;
+  /** false = hidden from the public creator (and never asked for in the prompt) */
+  on?: boolean;
+  label?: string;
+  labelEs?: string;
+  /** Example text shown in the empty box */
+  ph?: string;
+  /** For the AI: where this line sits and how it is lettered */
+  where?: string;
+  max?: number;
+  /** A box the admin added (not one of the style's built-in lines) */
+  custom?: boolean;
+};
+
+export function parseSlotOverrides(json: string | null | undefined): SlotOverride[] {
+  if (!json) return [];
+  try {
+    const v = JSON.parse(json);
+    return Array.isArray(v) ? v.filter((x) => x && typeof x.key === "string" && x.key) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * The boxes a style shows: its built-in lines (lib/text-slots) with the admin's changes applied —
+ * hidden boxes removed, titles / examples / placement edited, the admin's own boxes added at the end.
+ */
+export function textSlotsFor(slug: string | null | undefined, overridesJson?: string | null): TextSlot[] {
+  const base = (slug && TEXT_SLOTS[slug]) || [];
+  const ov = parseSlotOverrides(overridesJson);
+  if (!ov.length) return base;
+  const byKey = new Map(ov.map((o) => [o.key, o]));
+  const out: TextSlot[] = [];
+  for (const b of base) {
+    const o = byKey.get(b.key);
+    if (o?.on === false) continue;
+    out.push(o ? { ...b, label: o.label?.trim() || b.label, labelEs: o.labelEs?.trim() || b.labelEs, ph: o.ph?.trim() || b.ph, where: o.where?.trim() || b.where, max: o.max ?? b.max } : b);
+  }
+  for (const o of ov) {
+    if (!o.custom || o.on === false || base.some((b) => b.key === o.key)) continue;
+    const label = o.label?.trim() || o.labelEs?.trim() || "Text";
+    out.push({
+      key: o.key,
+      label,
+      labelEs: o.labelEs?.trim() || label,
+      ph: o.ph?.trim() || undefined,
+      max: o.max ?? 80,
+      where: o.where?.trim() || "placed and lettered where the style's own instructions put this line (a small clean line that fits the design)",
+    });
+  }
+  return out;
 }

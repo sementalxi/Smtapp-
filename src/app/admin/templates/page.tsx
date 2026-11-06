@@ -52,6 +52,7 @@ export default async function AdminTemplates() {
           thumbUrl: r.thumbUrl,
           proInstructions: r.proInstructions,
           randomize: r.randomize,
+          textSlots: r.textSlots,
           uses: r._count.banners,
         }))}
       />
