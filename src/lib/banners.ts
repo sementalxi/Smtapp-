@@ -519,7 +519,13 @@ export function buildProPrompt(opts: {
   if (hit) throw Object.assign(new HttpError(400, "err_blocked"), { detail: `Word filter matched "${hit[0]}"` });
 
   const lines: string[] = [];
-  const add = (label: string, v: string) => v && lines.push(`- ${label}: ${q(v)}`);
+  // Every plain text item (for the final "nothing else on the poster" check). Structured lists (lineups, tables) are not counted.
+  const inventory: string[] = [];
+  const add = (label: string, v: string) => {
+    if (!v) return;
+    lines.push(`- ${label}: ${q(v)}`);
+    inventory.push(v);
+  };
   const flyerSlots = layout === "PLAYER" ? textSlotsFor(opts.slug) : [];
   const finish = `BACKGROUND & FINISH (must be epic, never simple): build at least three layers of depth — 1) a detailed, dramatic environment far behind (stadium, sky, architecture or a themed scene, with bokeh and atmosphere), 2) big bold graphic energy in the middle (light beams, lightning, smoke, shattered shards, flowing liquid metal or fire — matching the theme), 3) sharp foreground particles and debris flying toward the camera. Dense layered effects (light streaks, sparks, embers, glitter dust, lens flares, fine grain, haze) and a rich, contrasty cinematic colour grade. A plain gradient, flat colour, soft blur or simple texture is NOT acceptable.`;
   const frame = `FULL-BLEED: the artwork runs edge to edge — no border, no frame lines, no corner marks, no crop marks, no decorative lines along the edges.`;
@@ -754,7 +760,10 @@ export function buildProPrompt(opts: {
         // Flyer styles: one line per slot of the reference flyer, each at that line's spot and in its lettering.
         for (const sl of flyerSlots) {
           const v = (i.slots?.[sl.key] ?? "").trim();
-          if (v) lines.push(`- ${sl.label} — ${sl.where}: ${q(v)}`);
+          if (v) {
+            lines.push(`- ${sl.label} — ${sl.where}: ${q(v)}`);
+            inventory.push(v);
+          }
         }
       } else {
         add("Small elegant word above the name", i.tagline);
@@ -896,7 +905,16 @@ export function buildProPrompt(opts: {
     layout === "LOGO" ? "" : `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
     flyerSlots.length ? `FLYER TEXT LINES (very important): this style copies a reference flyer, and each text item below names the flyer line it replaces and where that line sits. Put each text EXACTLY there and letter it EXACTLY like that line in the reference flyer — the SAME TYPEFACE STYLE (the same letterforms: heavy condensed caps, brush/handwritten script, serif, outlined, letter-spaced…), the SAME SIZE and alignment, the SAME COLOUR, and the SAME 3D TREATMENT and EFFECTS (chrome or gold extrusion with bevels, neon tube glow, outline, hard drop shadow, gradient faces, fading echo…). The player's NAME takes the flyer's big title lettering: the same font style and the same 3D/chrome/neon build, only the letters change. Look at the flyer line by line and reproduce its lettering craft for the matching text — never substitute a plain or different font. Flyer lines whose text is not given stay EMPTY (no placeholder, no invented words) — the layout simply closes up. These placements override any tagline / subtitle / footer mentions in the instructions above.` : "",
+    flyerSlots.length && flyerSlots.some((sl) => !(i.slots?.[sl.key] ?? "").trim())
+      ? `EMPTY FLYER LINES — these lines of the flyer have NO text this time, so draw NOTHING for them: no text, no placeholder, no label, no filler, not the flyer's own words — just the scene continuing there: ${flyerSlots
+          .filter((sl) => !(i.slots?.[sl.key] ?? "").trim())
+          .map((sl) => sl.label)
+          .join("; ")}.`
+      : "",
     lines.length ? `Text on the poster — spell EVERY item exactly as written, letter for letter, keep capitalisation and symbols like _ - | $:\n${lines.join("\n")}` : "",
+    lines.length && inventory.length === lines.length
+      ? `TEXT INVENTORY (final check): the finished poster contains EXACTLY ${inventory.length === 1 ? "this one text item" : `these ${inventory.length} text items`}: ${inventory.map(q).join(", ")}${i.aiCopy === "on" ? " (plus the optional hype words)" : ""} — and NO other words, letters, numbers, labels, names, lines, hashtags, dates, prices, addresses, watermarks, team or league names anywhere: not the reference flyer's words, not labels like "HOSTED BY" or "MUSIC BY", not the letters of the crest written out. Before finishing, read every piece of text on the poster — anything not in this list must be removed.`
+      : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     layout === "LOGO"
       ? ""
