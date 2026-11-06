@@ -1166,7 +1166,7 @@ export async function generateProForBanner(opts: {
             if (nanoDone) return resolve(null);
             hedgeStarted = true;
             try {
-              const sizes = fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : ["1632x2040", "1088x1360", "1024x1536"]);
+              const sizes = fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : ["1600x2000", "1088x1360", "1024x1536"]);
               const buf = await generatePoster(opts.prompt, images, "medium", sizes, left() - 5_000);
               resolve({ buf, model: "OpenAI GPT Image (backup — the 4K pass was slow)" });
             } catch (e) {
@@ -1232,7 +1232,7 @@ export async function generateProForBanner(opts: {
             await import("./activity").then((mm) => mm.logActivity("site", "mix3", "⏱️ FLUX.2 realism step skipped — not enough time left (the art step was slow)", "warn")).catch(() => {});
           }
           // The text model works at the poster's output size — send it the art at that size (faster upload, same detail).
-          const sizesForText = fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : ["1632x2040", "1088x1360", "1024x1536"]);
+          const sizesForText = fmtSizes ?? (isWide ? ["2304x1536", "1536x1024"] : ["1600x2000", "1088x1360", "1024x1536"]);
           const [tw, th] = sizesForText[0].split("x").map(Number);
           const art = await sharp(artRes.buf).resize({ width: tw, height: th, fit: "inside", withoutEnlargement: true }).png().toBuffer().catch(() => artRes.buf);
           const keep = opts.prompt

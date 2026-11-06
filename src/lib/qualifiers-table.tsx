@@ -7,6 +7,7 @@ import { siteUrl } from "./email-template";
 import { googleFont } from "./standings-table";
 import { qualTableBox } from "./qualifiers-box";
 import type { BannerInputs } from "./templates";
+import { legibleAccent } from "./legible";
 
 export type QualIcon = { kind: "flag"; cc: string } | { kind: "globe"; which: "africa" | "americas" | "asia" | "plain" } | null;
 export type QualRow = { icon: QualIcon; name: string; count: string };
@@ -75,7 +76,7 @@ export function qualTableSpecFrom(i: BannerInputs, accent: string, format: "post
   const rows = i.regions.map(parseQualRow).filter((r): r is QualRow => !!r).slice(0, 12);
   if (!rows.length) return null;
   const es = i.language === "Español";
-  return { rows, header: { region: es ? "REGIÓN" : "REGION", unit: (i.unit || "Managers").trim().toUpperCase() }, total: qualTotalText(i, rows), accent, format };
+  return { rows, header: { region: es ? "REGIÓN" : "REGION", unit: (i.unit || "Managers").trim().toUpperCase() }, total: qualTotalText(i, rows), accent: legibleAccent(accent), format };
 }
 
 const hex = (c: string) => {

@@ -4,6 +4,7 @@ import { ImageResponse } from "next/og";
 import sharp from "sharp";
 import { cutoutCached } from "./cutout";
 import type { BannerInputs } from "./templates";
+import { legibleAccent } from "./legible";
 
 export type TableRow = { pos: number; team: string; stats: Record<string, string>; crest: string | null };
 export type TableSpec = {
@@ -34,16 +35,19 @@ export function tableSpecFrom(i: BannerInputs, accent: string, wide: boolean): T
     if (!team) return;
     const stats: Record<string, string> = {};
     for (const p of parts.slice(1)) {
-      const m = p.match(/^([A-Z]+)\s+(-?\d+)$/);
-      if (m) stats[m[1]] = m[2];
+      // "GD +6", "GD -3", "GD −3" (phone minus / dash), "L 0" — the sign survives, the stat is kept as typed.
+      const m = p.match(/^([A-Za-z]+)\s*([+\-−–—]?)\s*(\d+)$/);
+      if (m) stats[m[1].toUpperCase()] = `${m[2] === "+" ? "+" : m[2] ? "-" : ""}${m[3]}`;
     }
     rows.push({ pos: rows.length + 1, team, stats, crest: i.tableLogos?.[n] || null });
   });
   if (!rows.length) return null;
   const es = i.language === "Español";
   const columns = KEYS.filter((k) => rows.some((r) => r.stats[k] !== undefined)).map((k) => ({ key: k, label: es ? ES[k] : k }));
+  // A stat left empty on a row whose column exists is a zero — a standings table never has holes.
+  for (const r of rows) for (const c of columns) if (r.stats[c.key] === undefined) r.stats[c.key] = "0";
   const qualify = Math.min(rows.length, parseInt(i.qualify, 10) || 0);
-  return { rows, columns, accent, qualify, legend: qualify ? (es ? `TOP ${qualify} AVANZAN` : `TOP ${qualify} ADVANCE`) : "", wide };
+  return { rows, columns, accent: legibleAccent(accent), qualify, legend: qualify ? (es ? `TOP ${qualify} AVANZAN` : `TOP ${qualify} ADVANCE`) : "", wide };
 }
 
 const fontCache = new Map<string, ArrayBuffer>();
@@ -109,7 +113,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
   const accent = spec.accent;
   const el = (
     <div style={{ display: "flex", flexDirection: "column", width, height }}>
-      <div style={{ display: "flex", flexDirection: "column", borderRadius: 26, border: `3px solid ${rgba(accent, 0.75)}`, background: "rgba(4,4,10,0.66)", overflow: "hidden", padding: panelPad }}>
+      <div style={{ display: "flex", flexDirection: "column", borderRadius: 26, border: `3px solid ${rgba(accent, 0.75)}`, background: "rgba(4,4,10,0.74)", overflow: "hidden", padding: panelPad }}>
         <div style={{ display: "flex", alignItems: "center", height: headerH, background: "rgba(255,255,255,0.07)", borderRadius: 18, paddingLeft: 18, paddingRight: 22 }}>
           <div style={{ display: "flex", width: posW + crestPx + 18 }} />
           <div style={{ display: "flex", flex: 1, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 4, color: "rgba(255,255,255,0.72)" }}>TEAM</div>
@@ -135,7 +139,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
                 paddingRight: 22,
               }}
             >
-              <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: top ? accent : "#ffffff" }}>{`${r.pos}.`}</div>
+              <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: "#ffffff" }}>{`${r.pos}.`}</div>
               <div style={{ display: "flex", width: crestPx, height: crestPx, alignItems: "center", justifyContent: "center", marginRight: 18 }}>
                 {crests[idx] ? <img src={crests[idx]!} width={crestPx} height={crestPx} style={{ objectFit: "contain" }} /> : null}
               </div>

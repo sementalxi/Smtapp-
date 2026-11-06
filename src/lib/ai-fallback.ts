@@ -157,7 +157,7 @@ export function hiSize(format?: string, wide?: boolean) {
   if (format === "banner") return { width: 2560, height: 1440 };
   if (format === "square") return { width: 2048, height: 2048 };
   if (wide) return { width: 2304, height: 1536 };
-  return { width: 1632, height: 2040 };
+  return { width: 1600, height: 2000 };
 }
 
 /** Output size for Seedream (needs ≥ 921,600 pixels). */
