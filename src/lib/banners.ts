@@ -6,6 +6,7 @@ import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generate
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { textSlotsFor } from "./text-slots";
 import { qualTableAreaText } from "./qualifiers-box";
+import { winnersAreaText, winnersGrid } from "./winners-box";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation, surprisePose } from "./pro-options";
@@ -38,6 +39,9 @@ export const InputsSchema = z.object({
   regions: z.array(z.string().trim().max(60)).max(12).default([]),
   unit: str(20),
   total: str(40),
+  winners: z.array(z.string().trim().max(40)).max(40).default([]),
+  winnerLogos: z.array(z.string().trim().max(500)).max(40).default([]),
+  boxes: z.string().trim().regex(/^\d{0,2}$/).default(""),
   extraPrompt: str(1500),
   homeTeam: str(40),
   awayTeam: str(40),
@@ -324,6 +328,14 @@ export function collectProRefs(opts: {
       byUrl.set(url, [...(byUrl.get(url) ?? []), `row ${n + 1} (${row.split(/\s+·\s+|\s+[—-]\s+|\s+P\s/)[0]})`]);
     });
     for (const [url, rows] of byUrl) refs.push({ url, label: `the crest of the TEAM in table ${rows.join(" and ")}. Show it SMALL next to that team's name in its row ONLY — never enlarged, never beside the title, never as a background watermark and never as the league / organization logo.` });
+  } else if (layout === "WINNERS") {
+    // KIXO places the real crests in the frames itself; the AI only gets them when it draws the wall (setting off).
+    if (!opts.skipTableCrests)
+      (i.winners ?? []).forEach((name, n) => {
+        const url = i.winnerLogos?.[n];
+        if (!url || !name.trim() || n >= 8) return;
+        refs.push({ url, label: `the crest of ${q(name.trim())} — the winner in frame ${n + 1}. Show it inside THAT frame only, centred above the name plate, faithful to the image (same shape, letters, symbols and colours) — never enlarged elsewhere, never as the league logo.` });
+      });
   } else if (layout === "MATCHDAY" || layout === "RESULT") {
     if (i.homeLogoUrl) crest(i.homeLogoUrl, "the home team", "left");
     if (i.awayLogoUrl) crest(i.awayLogoUrl, "the away team", "right");
@@ -348,6 +360,8 @@ export function collectProRefs(opts: {
             ? "the LEAGUE / ORGANIZATION logo — THIS image, reference image 1, and no other (the team crests that follow are NOT it) — it MUST appear, in TWO places: (1) crisp and clearly visible beside the title, about 14% of the poster width, as a glossy premium 3D emblem faithful to the reference (same shape, letters, symbols and colours — never redesigned); (2) echoed GIANT behind the table — about 90% of the poster width, centred — faded to roughly 20–25% opacity so it clearly reads through the table rows, blended into the light like a watermark carved in light. If the logo image has a solid background square, ignore the square."
           : layout === "TOTW"
             ? "the league / competition logo. Reproduce it faithfully (same shape, letters, symbols and colours — do not redesign it) as a clean glossy badge next to the title, at a size that reads clearly — never covering the cards. If the logo image has a solid background square, ignore the square."
+          : layout === "WINNERS"
+            ? "the LEAGUE / ORGANIZATION logo — THIS image and no other. Keep its exact shape, letters, symbols and colours (do not redesign it) and show it as a glossy premium 3D emblem with a polished rim at the LOWER RIGHT corner, beside the bottom title, about 12% of the poster width; it may also appear once more giant and faded behind everything. Never inside the grid of frames."
           : layout === "EVENT" || layout === "QUALIFIERS"
             ? "the league / event logo (the organiser of this tournament). Keep its exact shape, letters, symbols and colours — do not redesign it — and make it a HERO element: a large glossy premium 3D emblem with a polished rim, depth, reflections and a coloured glow, placed prominently near the top centre (if there is a trophy, it can sit just above it or be engraved on it as well), lit by the scene's lights with particles around it — never a flat sticker in a corner. Build the poster's colour palette from this logo's colours (unless the user picked colours). If the logo has a solid background square, ignore the square and use only the emblem."
             : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
@@ -598,7 +612,7 @@ export function buildProPrompt(opts: {
   const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.rule, i.ruleNote, i.entry,
-    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, i.unit, i.total, ...i.regions, ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
+    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, i.unit, i.total, ...i.regions, ...(i.winners ?? []), ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
   ].join(" ");
   const hit = allText.match(BLOCKED);
   if (hit) throw Object.assign(new HttpError(400, "err_blocked"), { detail: `Word filter matched "${hit[0]}"` });
@@ -825,6 +839,24 @@ export function buildProPrompt(opts: {
       add("Season / date line (small)", i.date);
       break;
     }
+    case "WINNERS": {
+      const esLang = i.language === "Español";
+      const winners = (i.winners ?? []).map((w) => w.trim()).filter(Boolean);
+      const grid = winnersGrid(opts.format ?? "post", Math.max(parseInt(i.boxes, 10) || 15, winners.length));
+      const bottomTitle = i.subtitle.trim() || (esLang ? "VITRINA DE CAMPEONES" : "CHAMPIONS SHOWCASE");
+      const emblem = i.champLogoUrl ? "the league logo as a glossy 3D emblem at the lower right corner beside the bottom title" : "";
+      composition = opts.exactTable
+        ? `The BACKGROUND and titles of a CHAMPIONS SHOWCASE graphic for a pro-clubs / esports league — a trophy-cabinet wall where every winning team gets its own display frame — like the official graphic of a top competition's media team. The wall of frames is placed afterwards by KIXO, so this image has NO FRAMES, NO BOXES, NO GRID and NO CRESTS: ${winnersAreaText(opts.format)} stays EMPTY — only the background continuing through it, darker and calmer, a soft spotlight glow falling from above. The headline huge across the top as a glossy 3D lettering piece in the poster's title materials${i.tagline ? ", a small letter-spaced word above it" : ""}; the bottom title "${bottomTitle}" as a smaller 3D lettering piece centred along the bottom with a small crown / laurel accent${emblem ? `; ${emblem}` : ""}; light streaks, rays and particles down both sides; the poster's scene behind. NO people, players, faces or figures anywhere. ${frame} ${finish}`
+        : `A CHAMPIONS SHOWCASE graphic for a pro-clubs / esports league — a trophy-cabinet wall where every winning team gets its own display frame — like the official graphic of a top competition's media team. The headline huge across the top as a glossy 3D lettering piece${i.tagline ? ", a small letter-spaced word above it" : ""}; in the middle a neat GRID of ${grid.cells} identical bevelled display frames (${grid.cols} across, ${grid.rows} down) in the poster's metal, each lit by a small spotlight from its top edge, with an empty name plate along its bottom; the first ${winners.length} frame${winners.length === 1 ? "" : "s"} (left to right, top to bottom) hold the winners — each one's crest (the reference images) above its name on the plate — and the other frames stay EMPTY (no crest, no name, no placeholder); the bottom title "${bottomTitle}" as a smaller 3D lettering piece centred along the bottom with a small crown / laurel accent${emblem ? `; ${emblem}` : ""}; light streaks, rays and particles down both sides. NO people, players, faces or figures anywhere. ${frame} ${finish}`;
+      add("Small letter-spaced word above the headline", i.tagline);
+      add("Headline (huge, glossy 3D, across the top)", i.headline || (esLang ? "CAMPEONES" : "CHAMPIONS"));
+      add("Bottom title (3D lettering, centred along the bottom)", bottomTitle);
+      add(i.champLogoUrl ? "League name (tiny, under the emblem — only if it is not already written on the logo)" : "League / competition name (small)", i.competition);
+      if (!opts.exactTable && winners.length)
+        lines.push(`- Winners, in this exact order — frame 1 first (left to right, top to bottom), each name on its frame's plate, spelled exactly; every other frame EMPTY:\n${winners.map((w, k) => `  ${k + 1}. ${q(w)}`).join("\n")}`);
+      add("Season / date line (small)", i.date);
+      break;
+    }
     case "EVENT": {
       const nPartners = (i.partnerLogos ?? []).filter(Boolean).length;
       composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}${i.rule ? ", a boxed rule line" + (i.ruleNote ? " with a small note under it" : "") : ""}${i.entry ? ", a boxed entry-fee line" : ""}${nPartners ? `, and a neat ROW OF ${nPartners} COLLABORATOR LOGO${nPartners > 1 ? "S" : ""} (the partner logos given as reference images — same height, evenly spaced, under a tiny letter-spaced label) that never covers the headline or the subject` : ""}. ${frame} ${finish}`;
@@ -915,7 +947,7 @@ export function buildProPrompt(opts: {
   const adminLed = !!opts.instructions?.trim();
   // A style with its own reference flyer or an explicit [OWN LOOK] tag keeps its look instead of the generic layout rules.
   const ownLook = adminLed && (opts.refs.some((r) => r.label.startsWith("a STYLE reference only")) || /\[OWN LOOK\]|STYLE REFERENCE/.test(opts.instructions ?? ""));
-  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", TOTW: "team of the week", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table", LOGO: "team logo", QUALIFIERS: "world cup qualifiers announcement" }[layout] ?? "sports";
+  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", TOTW: "team of the week", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table", LOGO: "team logo", QUALIFIERS: "world cup qualifiers announcement", WINNERS: "champions showcase wall" }[layout] ?? "sports";
   const directorBlock =
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
@@ -951,9 +983,12 @@ export function buildProPrompt(opts: {
     layout === "QUALIFIERS" && opts.exactTable
       ? `- TABLE AREA (overrides any table in the instructions above): KIXO places the regions table afterwards — leave ${qualTableAreaText(opts.format)} completely EMPTY: no panel, no frame, no rows, no names, no numbers, no flags, no text there, only the background scene continuing (slightly darker and calmer). The headline stays at the top, the league emblem at the upper left, the trophy on its podium at the lower left — all outside that area. Do not draw the regions table anywhere else either.`
       : "",
-    (layout === "EVENT" || layout === "QUALIFIERS") && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",
+    layout === "WINNERS" && opts.exactTable
+      ? `- GRID AREA (overrides any frames, boxes or grid in the instructions above): KIXO places the wall of frames with the real crests afterwards — leave ${winnersAreaText(opts.format)} completely EMPTY: no frames, no boxes, no panels, no crests, no names, no text there, only the background scene continuing (darker and calmer, a soft spotlight glow from above). The headline stays at the top, the bottom title and the league emblem along the bottom — all outside that area. Do not draw the frames anywhere else either.`
+      : "",
+    (layout === "EVENT" || layout === "QUALIFIERS" || layout === "WINNERS") && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",
     opts.cardLook
-      ? `- LOOK OF THE WHOLE POSTER: the "${opts.cardLook.name}" player-card look — ${opts.cardLook.text}. The background, atmosphere, lighting, effects, materials and title typography of the entire poster (not only the cards) use this look${opts.cardLook.colours ? ` and these colours: main ${opts.cardLook.colours.primary}, accent / glow ${opts.cardLook.colours.accent}, deep shadows ${opts.cardLook.colours.dark}` : ""}. Keep this style's LAYOUT (where the title block sits, ${layout === "STANDINGS" ? "the table and its rows" : layout === "EVENT" ? "the hero, the prize and the information lines" : "the pitch and the formation of the cards"}) but replace its own scene, materials and colours with this look.${layout === "STANDINGS" ? " Take ONLY the look's scene, lighting, effects, colours and typography — NOT its player: a standings poster has no people, players, faces or figures at all; the league logo giant and faded in the background is the hero instead." : layout === "EVENT" ? " The look's player treatment applies to the uploaded photo only (the person shown exactly as that card style shows its player); without a photo take ONLY the scene, lighting, effects, colours and typography — no people or faces." : ""}`
+      ? `- LOOK OF THE WHOLE POSTER: the "${opts.cardLook.name}" player-card look — ${opts.cardLook.text}. The background, atmosphere, lighting, effects, materials and title typography of the entire poster (not only the cards) use this look${opts.cardLook.colours ? ` and these colours: main ${opts.cardLook.colours.primary}, accent / glow ${opts.cardLook.colours.accent}, deep shadows ${opts.cardLook.colours.dark}` : ""}. Keep this style's LAYOUT (where the title block sits, ${layout === "STANDINGS" ? "the table and its rows" : layout === "EVENT" ? "the hero, the prize and the information lines" : layout === "WINNERS" ? "the wall of frames, the headline and the bottom title" : "the pitch and the formation of the cards"}) but replace its own scene, materials and colours with this look.${layout === "STANDINGS" ? " Take ONLY the look's scene, lighting, effects, colours and typography — NOT its player: a standings poster has no people, players, faces or figures at all; the league logo giant and faded in the background is the hero instead." : layout === "WINNERS" ? " Take ONLY the look's scene, lighting, effects, colours and typography — NOT its player: a champions showcase has no people, players, faces or figures at all; the headline and the wall of frames are the heroes instead." : layout === "EVENT" ? " The look's player treatment applies to the uploaded photo only (the person shown exactly as that card style shows its player); without a photo take ONLY the scene, lighting, effects, colours and typography — no people or faces." : ""}`
       : "",
   ].filter(Boolean);
   const userChoices = picks.length
@@ -996,6 +1031,9 @@ export function buildProPrompt(opts: {
     adminLed ? "" : champsEnergy,
     layout === "LINEUP" && !/PHOTOSHOP LOOK/.test(opts.instructions ?? "")
       ? `PHOTOREAL CINEMATIC LINEUP (always applies, whatever the style): it must look like a REAL photograph composited by a top club's design team — like a still from a cinematic stadium film shot on a full-frame cinema camera with an anamorphic lens — NOT a video-game render, NOT cartoon, NOT a generic AI image. Physically correct lighting: real stadium floodlights with volumetric beams through real haze, true shadows, natural falloff, wet grass/pitch with real reflections, shallow depth of field with creamy bokeh, subtle anamorphic flares, fine film grain, a restrained teal-and-team-colour grade, deep but detailed blacks. Real materials only: brushed and polished metal, glass, enamel, concrete, grass. Neon and glow kept subtle and believable (real light sources, not cartoon outlines). The team crest crisp and faithful as a premium physical emblem with real reflections and a soft contact shadow. The pitch photographic with depth and crisp real pitch lines. Players as refined, sleek markers: slim glossy glass-and-metal badges in the team colour with the shirt number big, the name underneath on a clean thin dark tag — smaller and more elegant than chunky game icons, every name perfectly legible and spelled exactly, all eleven in their rows. Title in heavy slanted sports type with real metal/print texture and a hard shadow (not cartoon outlines); formation in a bold brush-marker script; competition and date small and letter-spaced. NO people, players or faces — only the markers.`
+      : "",
+    layout === "WINNERS"
+      ? `CHAMPIONS SHOWCASE RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere. ${opts.exactTable ? "Draw NO frames, boxes, grid, crests or names — the grid area described above stays EMPTY (the real wall of frames with the real crests is placed there afterwards)." : "The grid of frames is neat and perfectly aligned — identical frames, equal gaps — and ONLY the listed winners appear in it, in order; every other frame is empty."} ${i.champLogoUrl ? "The league / organization logo (its own reference image) appears crisp as a 3D emblem at the lower right and may echo giant and faded behind everything." : ""}`
       : "",
     layout === "STANDINGS" && opts.exactTable
       ? `STANDINGS RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere. Draw NO table, rows, numbers or team crests — the table area described above stays EMPTY (the real table with the real crests is placed there afterwards). ${i.champLogoUrl ? "The league / organization logo (reference image 1) appears crisp beside the title and giant, faded, behind everything." : ""}`
@@ -1105,6 +1143,8 @@ export async function generateProForBanner(opts: {
   tableOverlay?: import("./standings-table").TableSpec | null;
   /** Qualifiers: KIXO draws the regions table (real flags, exact numbers) on the finished background. */
   qualOverlay?: import("./qualifiers-table").QualTableSpec | null;
+  /** Winners showcase: KIXO draws the wall of frames (real crests, exact names) on the finished background. */
+  winnersOverlay?: import("./winners-grid").WinnersSpec | null;
   /** Admin comparison: force one poster generator instead of the Settings choice. */
   modelOverride?: string;
 }) {
@@ -1357,6 +1397,14 @@ export async function generateProForBanner(opts: {
         console.error("qualifiers table overlay failed (poster kept without it)", e);
       }
     }
+    if (opts.winnersOverlay) {
+      try {
+        const { overlayWinnersGrid } = await import("./winners-grid");
+        poster = await overlayWinnersGrid(poster, opts.winnersOverlay);
+      } catch (e) {
+        console.error("winners grid overlay failed (poster kept without it)", e);
+      }
+    }
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {
       const logos: { bytes: Buffer; corner: LogoSpot; fx?: "3d" }[] = [];
@@ -1412,7 +1460,7 @@ export async function generateProForBanner(opts: {
 
 /** All image URLs inside inputs must be ours. */
 export function assertInputUrls(i: BannerInputs) {
-  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? []), i.refImageUrl, i.photo2Url].forEach((u) => assertOwnUrl(u || null));
+  [i.homeLogoUrl, i.awayLogoUrl, i.champLogoUrl, i.trophyUrl, ...(i.tableLogos ?? []), ...(i.winnerLogos ?? []), ...(i.playerPhotos ?? []), ...(i.playerLogos ?? []), ...(i.partnerLogos ?? []), i.refImageUrl, i.photo2Url].forEach((u) => assertOwnUrl(u || null));
 }
 
 function colourLine(i: BannerInputs, style: TemplateStyle, v: Variation, adminLed = false) {

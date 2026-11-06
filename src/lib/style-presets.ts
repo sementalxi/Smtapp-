@@ -25,6 +25,25 @@ TEXT RULES
 - Keep the bottom-right corner calm (brand mark goes there). No borders, frame lines around the poster or corner marks.
 - VARIETY: every poster keeps this style's scene, colours, hero treatment, typography and quality, but ARRANGES the elements differently each time (hero left or right, headline block on the other margin, logo and prize in a different corner, different pose).`;
 
+/** The showcase part of a brief, shared by every Winners-showcase style (the twins of the Photoshop player styles use it under their look). */
+export const WINNERS_BODY = `CHAMPIONS SHOWCASE LAYOUT (what this poster is — follow it inside the look above)
+- THE HEADLINE: the given headline huge across the top as the poster's main lettering piece — built with the SAME 3D construction, materials, bevels and glow as the reference's own title (the words change, the craft does not); one or two stacked lines; small lightning / laurel / star accents of the style around it.
+- THE WALL OF FRAMES: the middle of the poster is a trophy-cabinet wall — a neat grid of identical bevelled display frames in the poster's metal, each lit by a small spotlight from its top edge, with a name plate along its bottom; the winners' crests and names sit in the first frames, the rest wait empty. KIXO places this wall itself (the real crests, the exact names), so when the brief says the grid area stays EMPTY, draw NOTHING there — no frames, boxes, crests or names — only the background continuing, darker and calmer, with a soft glow falling from above.
+- THE BOTTOM TITLE: the given bottom title as a smaller 3D lettering piece centred along the bottom, in the same materials as the headline, with a small crown / laurel accent on top.
+- THE EMBLEM: the league logo (if provided) as a glossy 3D emblem at the lower right corner beside the bottom title — its exact shape, letters, symbols and colours kept; no other logos, no game logos, no sponsors.
+- BACKDROP: the style's own scene continuing behind everything, light streaks and rays down both sides, particles and sparks, a dark reflective floor; the footer and date lines small along the bottom.
+- NO PEOPLE: there are NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere — not even blurred, ghosted or in duotone in the background. Where the reference shows its person, the wall of frames takes the stage instead.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- Real materials and lighting: true chrome, gold, glass and enamel with physically correct reflections; real smoke, sparks and light beams; one cohesive colour grade; fine film grain; crisp micro-contrast. No plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — the headline and the bottom title are designed lettering pieces, never plain typed text on a gradient.
+- DENSITY: every area outside the wall carries something — the scene, light streaks, the emblem, particles — at least six visible layers front to back.
+
+TEXT RULES
+- Use ONLY the texts given (headline, bottom title, league name, the date and the footer), spelled letter for letter. Never invent words, names, numbers, dates, prices, hashtags, sponsors, watermarks, game logos or legal text. If an item is not given, leave its spot out.
+- The league logo appears only where this brief puts it; never redraw it as something else, never write its letters out as text elsewhere.
+- Ignore the placement hints in the text list below — follow this brief.`;
+
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
   "player-roster-banner": `[WIDE] ROSTER BANNER — a WIDE landscape (3:2) esports / pro-clubs roster banner, the kind a pro team posts to announce each player. Bold, clean, cinematic. Built so a whole roster can be made in the same design, one banner per player.
 
@@ -5111,6 +5130,16 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "win-golden-showcase": `[FIXED LAYOUT] GOLDEN SHOWCASE — a black, gold and electric-blue champions showcase wall: a chrome-and-gold 3D headline split by a lightning bolt, a gold bevelled frame around the whole poster, a dark trophy-cabinet wall in the middle, blue-and-gold light streaks down the sides, a gold-and-chrome bottom title with a crown. Like an official league graphic by a top design studio.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the graphic this style copies. Recreate THAT graphic as exactly as possible: the same layout and proportions, the same chrome-and-gold lettering build with the lightning bolt through the headline, the same gold bevelled frame around the poster with lightning-bolt corner ornaments, the same blue-and-gold light streaks and glow down both sides, the same bottom title with the small crown, the same density and finish — as if the same designer made this one. Its blurred middle is where the WALL OF FRAMES goes — KIXO draws the wall itself afterwards, so leave that whole area exactly as the reference shows it: empty, dark and calm, only the glow continuing. Change ONLY the TEXTS (only the given texts, placed and styled like the reference's texts — never its words) and the LOGO (the blurred spots are its removed logos: the given league logo goes at the lower right beside the bottom title; nothing at the top left or bottom left, no game logo).
+
+COLOURS: black and deep charcoal, rich metallic GOLD with chrome highlights, ELECTRIC BLUE glow and light streaks (or the league's own colours from the COLOURS line in place of blue); gold frames on black.
+
+BACKGROUND
+- A dark arena at night: a gold bevelled frame with lightning corner ornaments around the poster, blue-and-gold light streaks and rays fanning down both sides, floating sparks and particles, a dark reflective floor with gold reflections at the bottom.
+
+` + WINNERS_BODY,
   "qual-golden-road": `[FIXED LAYOUT] GOLDEN ROAD — a black-and-gold World Cup Qualifiers graphic: gold 3D headline with laurels and a crown, a giant gold globe trophy on a podium with a gold football, a bevelled gold-framed regions table, a faint gold world map on black, stadium floodlights, dark silk and gold ribbon. Like an official competition graphic by a top design studio.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the graphic this style copies. Recreate THAT graphic as exactly as possible: the same layout and proportions, the same gold lettering build, the same trophy and podium, the same framed table panel, the same background (black marble, faint gold map, floodlights, stands bokeh, dark silk and gold ribbon at the bottom), the same density and finish — as if the same designer made this one. Change ONLY the TEXTS (only the given texts, placed and styled like the reference's texts — never its words or numbers), the LOGO (only the given league logo, where the reference has its emblem — otherwise a gold laurel-and-crown emblem with no words) and the TROPHY (the trophy named in the brief, in the same gold finish). The blurred areas in the reference are its removed logos: put the given logo there and never reconstruct what was there.

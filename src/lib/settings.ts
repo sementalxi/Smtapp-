@@ -45,6 +45,7 @@ export const SETTING_DEFAULTS = {
   openai_only_layouts: "TOTW,STANDINGS",
   crest_modes: "", // JSON { LAYOUT: "" | "exact" | "on" | "off" | "both" | "exact3d" } — how the crest is put on each poster type (users can't change it)
   qualifiers_exact_table: "on", // "on" = KIXO draws the qualifiers regions table itself (real flags, exact names and numbers) on the AI background
+  winners_exact_grid: "on", // "on" = KIXO draws the winners-showcase wall of frames itself (real crests, exact names) on the AI background
   standings_exact_table: "on", // "on" = KIXO draws the standings table itself (real crests, exact names and numbers) on the AI background // poster types made by OpenAI GPT Image alone (no fal.ai steps), whatever the poster generator is
   video_on: "1",
   video_model: "kling-std",

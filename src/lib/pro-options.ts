@@ -69,6 +69,12 @@ export const ART_TYPES: ArtType[] = [
     en: { name: "Qualifiers", desc: "World Cup qualifiers: league emblem, trophy and a table of regions with how many are in." },
     es: { name: "Clasificatorios", desc: "Clasificatorios al mundial: escudo de la liga, trofeo y una tabla de regiones con cuántos participan." },
   },
+  {
+    layout: "WINNERS",
+    icon: "🏅",
+    en: { name: "Winners showcase", desc: "A wall of trophy frames: every week's winning team goes in a box with its crest — the rest wait empty." },
+    es: { name: "Vitrina de campeones", desc: "Una vitrina de marcos: cada equipo que gana entra en una caja con su escudo — las demás esperan vacías." },
+  },
 ];
 
 export interface FontStyle {

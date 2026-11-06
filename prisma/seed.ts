@@ -6,7 +6,7 @@ import { SETTING_DEFAULTS } from "../src/lib/settings";
 import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS, stripSmallTeamName } from "../src/lib/style-presets";
 import { DEFAULT_PRICING } from "../src/lib/pricing";
 import { siteUrl } from "../src/lib/email-template";
-import { syncQualifiersTwins } from "../src/lib/qualifiers-twins";
+import { syncAllTwins } from "../src/lib/qualifiers-twins";
 
 const db = new PrismaClient();
 
@@ -85,7 +85,7 @@ async function main() {
     await db.setting.create({ data: { key: "events_v5_dense", value: new Date().toISOString() } });
   }
   // The owner's own flyers (people cropped out) as the style reference of the four styles copied from them — unless the admin set one.
-  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro", "event-storm-plates", "event-golden-shield", "player-copa-final", "player-split-duotone", "player-white-gold", "player-orange-stripes", "player-chrome-lasers", "player-green-gothic-chrome", "player-purple-gold-chrome", "player-duotone-trio", "player-neon-club", "player-carnival", "player-red-echo-frames", "player-neon-palms", "player-neon-echo", "player-face-off", "player-neon-garden", "player-neon-flowers", "player-brush-wall", "player-inferno-neon", "player-gold-throne", "player-desert-chrome", "player-chrome-blocks", "player-red-glass", "player-candy-chrome", "player-purple-glass", "player-ice-chrome", "player-white-block", "player-liquid-script", "qual-golden-road"]) {
+  for (const slug of ["event-relampago", "event-golden-palace", "event-desert-plates", "event-spiky-pyro", "event-storm-plates", "event-golden-shield", "player-copa-final", "player-split-duotone", "player-white-gold", "player-orange-stripes", "player-chrome-lasers", "player-green-gothic-chrome", "player-purple-gold-chrome", "player-duotone-trio", "player-neon-club", "player-carnival", "player-red-echo-frames", "player-neon-palms", "player-neon-echo", "player-face-off", "player-neon-garden", "player-neon-flowers", "player-brush-wall", "player-inferno-neon", "player-gold-throne", "player-desert-chrome", "player-chrome-blocks", "player-red-glass", "player-candy-chrome", "player-purple-glass", "player-ice-chrome", "player-white-block", "player-liquid-script", "qual-golden-road", "win-golden-showcase"]) {
     await db.template.updateMany({ where: { slug, OR: [{ styleRefUrl: null }, { styleRefUrl: "" }] }, data: { styleRefUrl: `${siteUrl()}/refs/${slug}.jpg` } });
   }
   // One-time: the 20 flyer-based player styles get the exact-copy briefs (style reference + layout map).
@@ -180,12 +180,12 @@ async function main() {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
   }
   console.log(`Seeded ${DEFAULT_TEMPLATES.length} templates.`);
-  // Qualifiers: a twin of every Photoshop player style (same look, qualifiers layout).
+  // Qualifiers + Winners showcase: a twin of every Photoshop player style (same look, that layout).
   try {
-    const r = await syncQualifiersTwins(db);
-    console.log(`Qualifiers twins: ${r.created} created, ${r.updated} updated (${r.sources} sources).`);
+    const r = await syncAllTwins(db);
+    console.log(`Qualifiers twins: ${r.qualifiers.created} created, ${r.qualifiers.updated} updated · Winners twins: ${r.winners.created} created, ${r.winners.updated} updated (${r.qualifiers.sources} sources).`);
   } catch (e) {
-    console.error("qualifiers twins failed", e);
+    console.error("twins failed", e);
   }
 }
 

@@ -14,6 +14,7 @@ import { StyleBadges } from "../StyleBadges";
 import { RecentWithStyle } from "./RecentWithStyle";
 import { allSlotsFor, overridesFrom, type SlotState, type TextSlot } from "@/lib/text-slots";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
+import { WINNERS_BOX_OPTIONS } from "@/lib/winners-box";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
@@ -384,6 +385,7 @@ export function CreateWizard({
   const [squadText, setSquadText] = useState((pre?.roster ?? []).filter(Boolean).join("\n"));
   const [scorersText, setScorersText] = useState((pre?.scorers ?? []).filter(Boolean).join("\n"));
   const [regionsText, setRegionsText] = useState((pre?.regions ?? []).filter(Boolean).join("\n")); // qualifiers: one region per line
+  const [winnersText, setWinnersText] = useState((pre?.winners ?? []).filter(Boolean).join("\n")); // winners showcase: one winning team per line
   const [barDone, setBarDone] = useState(false);
   const [genStage, setGenStage] = useState<string | null>(null);
   // Standings table rows
@@ -392,7 +394,7 @@ export function CreateWizard({
   const [table, setTable] = useState<TRow[]>(() => Array.from({ length: 6 }, blankRow));
   const [myTeams, setMyTeams] = useState<{ name: string; logoUrl: string | null }[]>([]);
   useEffect(() => {
-    if ((layout !== "STANDINGS" && layout !== "TOTW") || myTeams.length) return;
+    if ((layout !== "STANDINGS" && layout !== "TOTW" && layout !== "WINNERS") || myTeams.length) return;
     fetch("/api/saved?kind=team", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => Array.isArray(d?.items) && setMyTeams(d.items))
@@ -448,6 +450,8 @@ export function CreateWizard({
       })
       .catch(() => {});
   }
+  /** The saved team whose name matches a typed line (the showcase and the table use its crest). */
+  const crestFor = (name: string) => myTeams.find((m) => m.name.toLowerCase() === name.trim().toLowerCase())?.logoUrl ?? "";
   const rowText = (t: TRow, n: number) =>
     [`${n + 1}. ${t.team.trim()}`, ...([["P", t.p], ["W", t.w], ["D", t.d], ["L", t.l], ["GD", t.gd], ["PTS", t.pts]] as const).filter(([, v]) => v.trim()).map(([k, v]) => `${k} ${v.trim()}`)].join(" · ");
   const [aiBusy, setAiBusy] = useState(false);
@@ -506,6 +510,8 @@ export function CreateWizard({
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
       regions: layout === "QUALIFIERS" ? lines(regionsText).slice(0, 12) : [],
+      winners: layout === "WINNERS" ? lines(winnersText).slice(0, 40) : [],
+      winnerLogos: layout === "WINNERS" ? lines(winnersText).slice(0, 40).map((w) => crestFor(w)) : [],
       standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
       tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 20).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl ?? "") : [],
     };
@@ -528,6 +534,8 @@ export function CreateWizard({
         return !!inp.headline.trim();
       case "QUALIFIERS":
         return !!inp.headline.trim() && lines(regionsText).length > 0;
+      case "WINNERS":
+        return !!inp.headline.trim();
       case "STANDINGS":
         return tableRows.length >= 2;
       case "LOGO":
@@ -1358,6 +1366,59 @@ export function CreateWizard({
               </div>
               <ImageDrop kind="logo" label={L.trophyUpload} value={inp.trophyUrl || null} onChange={(u) => set("trophyUrl", u ?? "")} />
               <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
+              {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para todo el póster — fondo, luces, tipografía)" : "Poster look (a player-card style for the whole poster — background, lights, typography)")}
+            </>
+          )}
+
+          {layout === "WINNERS" && (
+            <>
+              {field({ label: locale === "es" ? "Titular (arriba, letras 3D)" : "Headline (top, 3D lettering)", k: "headline", req: true, max: 40, ph: locale === "es" ? "RELÁMPAGOS LPL" : "WEEKLY CHAMPIONS" })}
+              {field({ label: locale === "es" ? "Título de abajo" : "Bottom title", k: "subtitle", max: 40, ph: locale === "es" ? "VITRINA DE CAMPEONES" : "CHAMPIONS SHOWCASE" })}
+              <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              <div>
+                <label className="label">🏆 {locale === "es" ? "Equipos ganadores — uno por línea, en orden (el primero va en la caja 1)" : "Winning teams — one per line, in order (the first goes in box 1)"}</label>
+                <textarea className="input min-h-32" value={winnersText} onChange={(e) => setWinnersText(e.target.value)} placeholder={"Ackerman\nBlytzzen\nBlack Eyes X"} />
+                <p className="mt-1 text-xs text-muted">
+                  {locale === "es"
+                    ? "Escribe el nombre tal como está en Mis equipos y su escudo entra solo en la caja. Las cajas que sobran quedan vacías para los próximos ganadores."
+                    : "Type the name as it is in My teams and its crest goes into the box by itself. The boxes left over stay empty for the next winners."}
+                </p>
+                {lines(winnersText).length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {lines(winnersText).slice(0, 40).map((w, k) => {
+                      const crest = crestFor(w);
+                      return (
+                        <span key={k} className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] ${crest ? "border-lime/50 text-lime" : "border-amber-400/50 text-amber-300"}`}>
+                          {crest ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={crest} alt="" className="h-4 w-4 object-contain" loading="lazy" decoding="async" />
+                          ) : (
+                            "⚠️"
+                          )}
+                          {k + 1}. {w}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+                {lines(winnersText).some((w) => !crestFor(w)) && (
+                  <p className="mt-1 text-[11px] text-amber-300">{locale === "es" ? "⚠️ Sin escudo guardado: esa caja lleva un trofeo con el nombre. Guarda el equipo en Mis equipos para que salga su escudo." : "⚠️ No saved crest: that box gets a trophy with the name. Save the team in My teams for its crest to show."}</p>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="label">{locale === "es" ? "Cajas en la vitrina" : "Boxes on the wall"}</label>
+                  <select className="input" value={inp.boxes || "15"} onChange={(e) => set("boxes", e.target.value)}>
+                    {WINNERS_BOX_OPTIONS.map((n) => (
+                      <option key={n} value={String(n)}>
+                        {n} {n < lines(winnersText).length ? (locale === "es" ? "(se amplía)" : "(grows to fit)") : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {field({ label: locale === "es" ? "Temporada / fecha" : "Season / date", k: "date", max: 30, ph: "Season 2026" })}
+              </div>
+              {field({ label: L.infoLine, k: "footer", max: 110, ph: L.infoPh })}
               {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para todo el póster — fondo, luces, tipografía)" : "Poster look (a player-card style for the whole poster — background, lights, typography)")}
             </>
           )}

@@ -42,6 +42,7 @@ enum Layout {
   LOGO
   TOTW
   QUALIFIERS
+  WINNERS
 }
 
 model User {

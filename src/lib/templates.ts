@@ -1,6 +1,6 @@
 // Shared (client + server) definitions for banner templates and inputs.
 
-export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS" | "LOGO" | "TOTW" | "QUALIFIERS";
+export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS" | "LOGO" | "TOTW" | "QUALIFIERS" | "WINNERS";
 
 export type FontKey = "anton" | "bebas" | "gothic" | "brush" | "sans";
 export type Particles = "sparks" | "embers" | "snow" | "none";
@@ -41,6 +41,9 @@ export interface BannerInputs {
   regions: string[]; // QUALIFIERS: one row per region — "🇪🇺 Europe · 24"
   unit: string; // QUALIFIERS: what the numbers count ("Managers", "Teams")
   total: string; // QUALIFIERS: the total bar (empty = computed from the rows)
+  winners: string[]; // WINNERS: the winning teams in order — one per box ("Ackerman")
+  winnerLogos: string[]; // WINNERS: crest per winner (matched from the saved teams; "" = none)
+  boxes: string; // WINNERS: how many frames the showcase has ("15")
   extraPrompt: string; // added to the AI background prompt
   // Match day / lineup / result
   homeTeam: string;
@@ -103,6 +106,9 @@ export const EMPTY_INPUTS: BannerInputs = {
   regions: [],
   unit: "",
   total: "",
+  winners: [],
+  winnerLogos: [],
+  boxes: "",
   extraPrompt: "",
   homeTeam: "",
   awayTeam: "",
@@ -181,6 +187,7 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   LOGO: ["team", "subtitle", "headline", "footer"],
   TOTW: ["headline", "competition", "formation", "players", "date", "footer"],
   QUALIFIERS: ["headline", "subtitle", "competition", "unit", "regions", "total", "date", "footer"],
+  WINNERS: ["headline", "subtitle", "competition", "winners", "boxes", "date", "footer"],
 };
 
 export const CANVAS_W = 1080;
@@ -3014,6 +3021,9 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     ["qual-golden-road", "Golden Road", "Camino Dorado", "QUALIFIERS", 1, "black-and-gold world cup qualifiers graphic: a faint gold world map on black marble, stadium floodlights, a giant gold globe trophy on a podium with a gold football, gold laurels and a crown, a bevelled gold-framed regions table, dark silk and gold ribbon at the bottom", "#d4a64a", "#f7e7b0", "#0a0906", "anton", "sparks"],
     ["qual-electric-road", "Electric Road", "Camino Eléctrico", "QUALIFIERS", 2, "electric-blue esports qualifiers graphic: a glowing wireframe globe and map lines on a dark arena, LED screens and light beams, a chrome-and-blue trophy on a glass podium, a holographic glass regions panel with cyan edges, particles and lens flares", "#2fd0ff", "#7a3cff", "#040a1a", "anton", "sparks"],
     ["qual-crimson-road", "Crimson Road", "Camino Carmesí", "QUALIFIERS", 3, "crimson-and-black qualifiers graphic: a red-lit stadium with smoke and embers, a dark marble floor, a silver-and-red trophy on a stone podium, red light rays, a dark bevelled regions panel with red glowing edges, torn red banners", "#e3121b", "#ff9a1f", "#120305", "anton", "embers"],
+    ["win-golden-showcase", "Golden Showcase", "Vitrina Dorada", "WINNERS", 1, "black, gold and electric-blue champions showcase wall: a chrome-and-gold 3D headline with lightning bolts, a dark trophy-cabinet wall of gold bevelled frames lit from above, light streaks and blue glow down the sides, a gold-and-chrome bottom title with a crown, the league emblem at the lower right", "#d4a64a", "#2f7bff", "#0a0906", "anton", "sparks"],
+    ["win-electric-showcase", "Electric Showcase", "Vitrina Eléctrica", "WINNERS", 2, "electric-blue esports champions showcase wall: a white-and-cyan chrome 3D headline, a dark arena with LED screens and light beams, a trophy-cabinet wall of glass frames with cyan glowing edges, particles and lens flares, a chrome bottom title", "#2fd0ff", "#7a3cff", "#040a1a", "anton", "sparks"],
+    ["win-crimson-showcase", "Crimson Showcase", "Vitrina Carmesí", "WINNERS", 3, "crimson-and-black champions showcase wall: a silver-and-red 3D headline, a red-lit stadium with smoke and embers, a trophy-cabinet wall of dark bevelled frames with red glowing edges, torn red banners, a silver bottom title", "#e3121b", "#ff9a1f", "#120305", "anton", "embers"],
     ["event-storm-plates", "Storm Plates", "Placas de Tormenta", "EVENT", 1, "rain-soaked night stadium flyer: lightning, floodlights, blue haze and a wet reflective floor, the texts on angled dark-steel plates with electric-blue edges and calendar / clock icons, wet brushed-chrome and electric-blue 3D lettering", "#1e6cff", "#9fd3ff", "#03070f", "anton", "sparks"],
     ["event-golden-shield", "Golden Shield", "Escudo Dorado", "EVENT", 2, "golden arena flyer: a packed arena glow, spotlights and confetti, a big blue-and-gold bevelled shield badge with laurel wreaths and a small gold trophy on top holding the headline, blue plates with gold frames and calendar / clock icons, glossy reflective floor", "#d4a64a", "#1e6cff", "#06091a", "anton", "sparks"],
     ["event-relampago", "Relámpago", "Relámpago", "EVENT", 3, "electric-blue lightning flyer: giant white echo lettering of the headline across the whole width, ice and glass shards, LED dot grids, lightning bolts, the organizer logo set into the face of a giant gold-and-chrome trophy, two-column lock-up split by a lightning bolt, a glowing time bar", "#1e6cff", "#8fe3ff", "#03081a", "anton", "sparks"],

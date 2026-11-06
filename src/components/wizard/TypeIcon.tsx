@@ -60,6 +60,21 @@ const P: Record<string, React.ReactNode> = {
       <path d="m9 9.6.9 1.7 1.9.3-1.4 1.3.3 1.9L9 13.9l-1.7.9.3-1.9-1.4-1.3 1.9-.3z" />
     </>
   ),
+  QUALIFIERS: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c3.2 3 3.2 14 0 17M12 3.5c-3.2 3-3.2 14 0 17" />
+    </>
+  ),
+  WINNERS: (
+    <>
+      <rect x="3.5" y="4" width="7.5" height="6.5" rx="1.2" />
+      <rect x="13" y="4" width="7.5" height="6.5" rx="1.2" />
+      <rect x="3.5" y="13.5" width="7.5" height="6.5" rx="1.2" />
+      <rect x="13" y="13.5" width="7.5" height="6.5" rx="1.2" />
+      <path d="m7.25 5.6.7 1.4 1.5.2-1.1 1 .3 1.5-1.4-.7-1.4.7.3-1.5-1.1-1 1.5-.2z" fill="currentColor" />
+    </>
+  ),
   TEAM: (
     <>
       <rect x="3" y="6" width="9" height="13" rx="1.8" />

@@ -76,6 +76,7 @@ const LAYOUT_NAMES: Record<string, string> = {
   LOGO: "Team logo",
   EVENT: "Tournament / event",
   QUALIFIERS: "Qualifiers",
+  WINNERS: "Winners showcase",
 };
 
 /** 🎬 Logs a finished (or failed) AI video to Discord, with the video attached when it fits. Never throws. */

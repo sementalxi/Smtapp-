@@ -84,14 +84,14 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         </p>
         <label className="label mt-4">🛡️ {es ? "Escudo en cada tipo de póster" : "Crest on each poster type"}</label>
         <div className="grid gap-1.5 sm:grid-cols-2">
-          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS"] as const).map((l) => {
+          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS", "WINNERS"] as const).map((l) => {
             let map: Record<string, string> = {};
             try {
               map = JSON.parse(v.crest_modes || "{}");
             } catch {
               map = {};
             }
-            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Clasificación"], LOGO: ["Logos", "Logos"], EVENT: ["Events", "Eventos"], QUALIFIERS: ["Qualifiers", "Clasificatorios"] };
+            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Clasificación"], LOGO: ["Logos", "Logos"], EVENT: ["Events", "Eventos"], QUALIFIERS: ["Qualifiers", "Clasificatorios"], WINNERS: ["Winners showcase", "Vitrina de campeones"] };
             return (
               <label key={l} className="flex items-center gap-2 text-xs">
                 <span className="w-32 shrink-0 font-bold">{names[l][es ? 1 : 0]}</span>
@@ -109,10 +109,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <p className="mt-1 text-[11px] text-muted">{es ? "Los usuarios no eligen: su póster usa lo de aquí. Los admins pueden cambiarlo en cada póster (último paso del creador)." : "Users don't choose: their posters use this. Admins can change it on each poster (last step of the creator)."}</p>
         <label className="label mt-4">{es ? "Solo OpenAI (sin fal.ai) para estos tipos" : "OpenAI only (no fal.ai) for these types"}</label>
         <div className="flex flex-wrap gap-1.5">
-          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS"] as const).map((l) => {
+          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS", "WINNERS"] as const).map((l) => {
             const list = (v.openai_only_layouts ?? "TOTW,STANDINGS").split(",").filter(Boolean);
             const on = list.includes(l);
-            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Tablas"], LOGO: ["Team logos", "Logos"], EVENT: ["Tournaments", "Torneos"] };
+            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Tablas"], LOGO: ["Team logos", "Logos"], EVENT: ["Tournaments", "Torneos"], QUALIFIERS: ["Qualifiers", "Clasificatorios"], WINNERS: ["Winners showcase", "Vitrina"] };
             return (
               <button key={l} type="button" onClick={() => setV({ ...v, openai_only_layouts: (on ? list.filter((x) => x !== l) : [...list, l]).join(",") })} className={`rounded-full border px-3 py-1 text-xs font-bold ${on ? "border-lime bg-lime/15 text-lime" : "border-line text-muted"}`}>
                 {names[l][es ? 1 : 0]}
@@ -128,6 +128,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <label className="mt-2 flex items-center gap-2 text-sm">
           <input type="checkbox" checked={(v.qualifiers_exact_table ?? "on") !== "off"} onChange={(e) => setV({ ...v, qualifiers_exact_table: e.target.checked ? "on" : "off" })} />
           <span>🌍 {es ? "Clasificatorios exactos: KIXO dibuja la tabla de regiones (banderas reales, nombres y números exactos) sobre el fondo de la IA" : "Exact qualifiers: KIXO draws the regions table itself (real flags, exact names and numbers) on the AI background"}</span>
+        </label>
+        <label className="mt-2 flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={(v.winners_exact_grid ?? "on") !== "off"} onChange={(e) => setV({ ...v, winners_exact_grid: e.target.checked ? "on" : "off" })} />
+          <span>🏅 {es ? "Vitrina exacta: KIXO dibuja la pared de marcos (escudos reales, nombres exactos) sobre el fondo de la IA" : "Exact showcase: KIXO draws the wall of frames itself (real crests, exact names) on the AI background"}</span>
         </label>
       </div>
       <div className="rounded-xl border border-fuchsia-400/40 bg-panel-2 p-4">

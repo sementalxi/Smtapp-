@@ -101,6 +101,23 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?:
         trophy: "globe",
         ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}),
       };
+    case "WINNERS": {
+      // The winners: the first teams of the synced league's table (with their crests), else the sample's teams.
+      const fromTable = (s.standings ?? []).map((line, n) => ({ name: line.replace(/^\d+\.\s*/, "").split("·")[0].trim(), logo: s.tableLogos?.[n] ?? "" })).filter((t) => t.name).slice(0, 4);
+      const winners = fromTable.length ? fromTable : [{ name: s.team, logo: s.logoUrl }, { name: s.rival, logo: "" }, { name: "Lions", logo: "" }];
+      return {
+        ...base,
+        headline: s.competition ? `${s.competition.toUpperCase()} CHAMPIONS` : "WEEKLY CHAMPIONS",
+        subtitle: "CHAMPIONS SHOWCASE",
+        competition: s.competition,
+        winners: winners.map((w) => w.name),
+        winnerLogos: winners.map((w) => w.logo),
+        boxes: "15",
+        date: s.date,
+        footer: s.footer,
+        ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}),
+      };
+    }
     case "EVENT":
       return { ...base, headline: "TOURNAMENT", name: s.competition, subtitle: s.tagline, date: s.date, details: "8:00 PM · Online", prize: "$500", ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}) };
     case "STANDINGS":
