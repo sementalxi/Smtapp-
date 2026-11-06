@@ -26,5 +26,5 @@ export const POST = handle(async (_req: NextRequest, { params }: Ctx) => {
   const jsonText = JSON.stringify(merged);
   await db.template.update({ where: { id }, data: { textSlots: jsonText } });
   await (await import("@/lib/rev")).bumpRev();
-  return json({ slots: textSlotsFor(t.slug, jsonText), added: found.length });
+  return json({ slots: textSlotsFor(t.slug, jsonText), json: jsonText, added: found.length });
 });

@@ -75,7 +75,7 @@ export async function detectSlotsFromImage(styleRefUrl: string): Promise<SlotOve
       slots.push({
         key,
         custom: true,
-        on: true,
+        on: false,
         label,
         labelEs: String(r.labelEs ?? label).trim().slice(0, 60) || label,
         ph: String(r.ph ?? "").trim().slice(0, 120),

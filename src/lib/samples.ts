@@ -60,6 +60,8 @@ export interface ClientTemplate {
   logoCreate?: boolean;
   /** Pro AI style reference image (admins see it as the sample when the style has no sample yet). */
   styleRefUrl?: string | null;
-  /** Flyer styles: one text box per line of the reference flyer. */
+  /** Flyer styles: the boxes the admin added for the public (lib/text-slots). */
   textSlots?: import("./text-slots").TextSlot[];
+  /** The admin's box settings as stored (JSON) — edited from the creator by admins. */
+  textSlotsJson?: string | null;
 }

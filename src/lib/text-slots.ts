@@ -255,32 +255,64 @@ export function parseSlotOverrides(json: string | null | undefined): SlotOverrid
   }
 }
 
+/** A box with its admin state: whether it was ADDED to the public form, and whether it is the admin's own. */
+export type SlotState = TextSlot & { on: boolean; custom: boolean; base?: TextSlot };
+
+const FALLBACK_WHERE = "placed and lettered where the style's own instructions put this line (a small clean line that fits the design)";
+
 /**
- * The boxes a style shows: its built-in lines (lib/text-slots) with the admin's changes applied —
- * hidden boxes removed, titles / examples / placement edited, the admin's own boxes added at the end.
+ * Every box a style could show — its built-in flyer lines plus the admin's own — with the admin's edits applied.
+ * A box reaches the public form only once the admin ADDED it (on === true); the rest stay candidates in the admin view.
  */
-export function textSlotsFor(slug: string | null | undefined, overridesJson?: string | null): TextSlot[] {
+export function allSlotsFor(slug: string | null | undefined, overridesJson?: string | null): SlotState[] {
   const base = (slug && TEXT_SLOTS[slug]) || [];
   const ov = parseSlotOverrides(overridesJson);
-  if (!ov.length) return base;
   const byKey = new Map(ov.map((o) => [o.key, o]));
-  const out: TextSlot[] = [];
-  for (const b of base) {
+  const out: SlotState[] = base.map((b) => {
     const o = byKey.get(b.key);
-    if (o?.on === false) continue;
-    out.push(o ? { ...b, label: o.label?.trim() || b.label, labelEs: o.labelEs?.trim() || b.labelEs, ph: o.ph?.trim() || b.ph, where: o.where?.trim() || b.where, max: o.max ?? b.max } : b);
-  }
+    return {
+      ...b,
+      label: o?.label?.trim() || b.label,
+      labelEs: o?.labelEs?.trim() || b.labelEs,
+      ph: o?.ph?.trim() || b.ph,
+      where: o?.where?.trim() || b.where,
+      max: o?.max ?? b.max,
+      on: o?.on === true,
+      custom: false,
+      base: b,
+    };
+  });
   for (const o of ov) {
-    if (!o.custom || o.on === false || base.some((b) => b.key === o.key)) continue;
+    if (!o.custom || base.some((b) => b.key === o.key)) continue;
     const label = o.label?.trim() || o.labelEs?.trim() || "Text";
-    out.push({
-      key: o.key,
-      label,
-      labelEs: o.labelEs?.trim() || label,
-      ph: o.ph?.trim() || undefined,
-      max: o.max ?? 80,
-      where: o.where?.trim() || "placed and lettered where the style's own instructions put this line (a small clean line that fits the design)",
-    });
+    out.push({ key: o.key, label, labelEs: o.labelEs?.trim() || label, ph: o.ph?.trim() || undefined, max: o.max ?? 80, where: o.where?.trim() || FALLBACK_WHERE, on: o.on === true, custom: true });
+  }
+  return out;
+}
+
+/** The boxes the public sees (and the AI is asked for): only the ones the admin added. */
+export function textSlotsFor(slug: string | null | undefined, overridesJson?: string | null): TextSlot[] {
+  return allSlotsFor(slug, overridesJson)
+    .filter((s) => s.on)
+    .map(({ key, label, labelEs, ph, max, where }) => ({ key, label, labelEs, ph, max, where }));
+}
+
+/** Back to the stored form: the admin's own boxes in full, built-in boxes only where something differs. */
+export function overridesFrom(states: SlotState[]): SlotOverride[] {
+  const out: SlotOverride[] = [];
+  for (const s of states) {
+    if (s.custom) {
+      out.push({ key: s.key, custom: true, on: s.on, label: s.label, labelEs: s.labelEs, ph: s.ph ?? "", where: s.where === FALLBACK_WHERE ? "" : s.where, max: s.max });
+      continue;
+    }
+    const b = s.base!;
+    const o: SlotOverride = { key: s.key };
+    if (s.on) o.on = true;
+    if (s.label.trim() && s.label !== b.label) o.label = s.label.trim();
+    if (s.labelEs.trim() && s.labelEs !== b.labelEs) o.labelEs = s.labelEs.trim();
+    if ((s.ph ?? "") !== (b.ph ?? "")) o.ph = s.ph ?? "";
+    if (s.where !== b.where) o.where = s.where;
+    if (Object.keys(o).length > 1) out.push(o);
   }
   return out;
 }

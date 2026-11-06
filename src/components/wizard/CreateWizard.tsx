@@ -10,7 +10,7 @@ import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind, STYLE_BADGES, badgeLabel, parseBadges, type StyleBadge } from "@/lib/templates";
 import { StyleBadges } from "../StyleBadges";
-import type { TextSlot } from "@/lib/text-slots";
+import { allSlotsFor, overridesFrom, type SlotState, type TextSlot } from "@/lib/text-slots";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
@@ -260,26 +260,51 @@ export function CreateWizard({
   }, [templates]);
   const [tplId, setTplId] = useState<string | null>(null);
   const tpl = styles.find((t) => t.id === tplId) ?? null;
-  // Admin: boxes created from the flyer right here (saved on the style; shown at once, before the page re-syncs).
-  const [slotSync, setSlotSync] = useState<Record<string, TextSlot[]>>({});
-  const [slotSyncMsg, setSlotSyncMsg] = useState<string | null>(null);
-  const [slotSyncBusy, setSlotSyncBusy] = useState(false);
-  const tplSlots: TextSlot[] = tpl ? (slotSync[tpl.id] ?? tpl.textSlots ?? []) : [];
+  // The style's text boxes. Admins curate them right here: ➕ adds a box to the main form (for everyone), ✏️ edits it;
+  // the settings are saved on the style and shown at once (before the page re-syncs).
+  const [slotJson, setSlotJson] = useState<Record<string, string | null>>({});
+  const [slotMsg, setSlotMsg] = useState<string | null>(null);
+  const [slotBusy, setSlotBusy] = useState(false);
+  const [slotEdit, setSlotEdit] = useState<string | null>(null);
+  const curSlotJson = tpl ? (tpl.id in slotJson ? slotJson[tpl.id] : tpl.textSlotsJson ?? null) : null;
+  const allSlots: SlotState[] = tpl ? allSlotsFor(tpl.slug, curSlotJson) : [];
+  const tplSlots: TextSlot[] = isAdmin ? allSlots.filter((s) => s.on) : (tpl?.textSlots ?? []);
+  async function saveSlots(next: SlotState[]) {
+    if (!tpl) return;
+    const ov = overridesFrom(next);
+    const json = ov.length ? JSON.stringify(ov) : null;
+    setSlotJson((m) => ({ ...m, [tpl.id]: json }));
+    setSlotBusy(true);
+    try {
+      const r = await fetch(`/api/admin/templates/${tpl.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ textSlots: ov.length ? ov : null }) });
+      setSlotMsg(r.ok ? (locale === "es" ? "✅ Guardado en el estilo." : "✅ Saved on the style.") : locale === "es" ? "No se pudo guardar." : "Couldn't save.");
+    } finally {
+      setSlotBusy(false);
+    }
+  }
+  const toggleSlot = (key: string) => saveSlots(allSlots.map((s) => (s.key === key ? { ...s, on: !s.on } : s)));
+  const patchSlot = (key: string, p: Partial<SlotState>) => saveSlots(allSlots.map((s) => (s.key === key ? { ...s, ...p } : s)));
+  const removeSlot = (key: string) => saveSlots(allSlots.filter((s) => s.key !== key));
+  const addOwnSlot = () => {
+    const key = `c${Date.now().toString(36)}`;
+    saveSlots([...allSlots, { key, on: true, label: locale === "es" ? "Nueva línea" : "New line", labelEs: "Nueva línea", ph: "", where: "", max: 80, custom: true }]);
+    setSlotEdit(key);
+  };
   async function syncSlotsFromFlyer() {
     if (!tpl) return;
-    setSlotSyncBusy(true);
-    setSlotSyncMsg(null);
+    setSlotBusy(true);
+    setSlotMsg(null);
     try {
       const r = await fetch(`/api/admin/templates/${tpl.id}/detect-slots`, { method: "POST" });
-      const d = (await r.json().catch(() => ({}))) as { slots?: TextSlot[]; added?: number; error?: string };
-      if (!r.ok || !d.slots) {
-        setSlotSyncMsg(d.error === "no_text_found" ? (locale === "es" ? "No encontré líneas de texto en el flyer." : "No text lines found on the flyer.") : d.error === "no_style_ref" ? (locale === "es" ? "Este estilo no tiene referencia de flyer." : "This style has no reference flyer.") : locale === "es" ? "No se pudo leer el flyer. Inténtalo de nuevo." : "Couldn't read the flyer. Try again.");
+      const d = (await r.json().catch(() => ({}))) as { json?: string; added?: number; error?: string };
+      if (!r.ok || d.json === undefined) {
+        setSlotMsg(d.error === "no_text_found" ? (locale === "es" ? "No encontré líneas de texto en el flyer." : "No text lines found on the flyer.") : d.error === "no_style_ref" ? (locale === "es" ? "Este estilo no tiene referencia de flyer." : "This style has no reference flyer.") : locale === "es" ? "No se pudo leer el flyer. Inténtalo de nuevo." : "Couldn't read the flyer. Try again.");
         return;
       }
-      setSlotSync((m) => ({ ...m, [tpl.id]: d.slots! }));
-      setSlotSyncMsg(locale === "es" ? `✅ ${d.added ?? d.slots.length} cajas creadas desde el flyer y guardadas en el estilo.` : `✅ ${d.added ?? d.slots.length} boxes created from the flyer and saved on the style.`);
+      setSlotJson((m) => ({ ...m, [tpl.id]: d.json ?? null }));
+      setSlotMsg(locale === "es" ? `✅ ${d.added ?? 0} cajas leídas del flyer — pulsa ➕ en las que quieras en el formulario.` : `✅ ${d.added ?? 0} boxes read from the flyer — press ➕ on the ones you want in the form.`);
     } finally {
-      setSlotSyncBusy(false);
+      setSlotBusy(false);
     }
   }
   // Team logo category: "create a new logo" styles vs "show off my logo" styles.
@@ -921,62 +946,86 @@ export function CreateWizard({
                 {field({ label: L.position, k: "position", max: 24, ph: "ST · CAM | OM" })}
                 {field({ label: L.number, k: "number", max: 4 })}
               </div>
-              {tplSlots.length || (isAdmin && tpl?.styleRefUrl) ? (
-                <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
-                  {isAdmin && tpl?.styleRefUrl && (
-                    <div className="rounded-lg border border-pink/30 bg-ink/40 p-2">
-                      <div className="flex items-start gap-3">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
-                        <div className="text-[11px] leading-snug text-muted">
-                          <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Referencia del estilo (solo admin)" : "Style reference (admin only)"}</span>
-                          <br />
-                          {locale === "es"
-                            ? "El flyer que copia este estilo. Las cajas son sus líneas de texto; el nombre / gamertag se escribe con su título 3D."
-                            : "The flyer this style copies. The boxes are its text lines; the name / gamertag is lettered like its 3D title."}
-                          <button type="button" onClick={syncSlotsFromFlyer} disabled={slotSyncBusy} className="btn-primary mt-2 block text-xs">
-                            {slotSyncBusy
-                              ? locale === "es" ? "⏳ Leyendo el flyer…" : "⏳ Reading the flyer…"
-                              : tplSlots.length
-                                ? locale === "es" ? "🔄 Volver a crear las cajas desde el flyer" : "🔄 Re-create the boxes from the flyer"
-                                : locale === "es" ? "➕ Crear las cajas desde el flyer" : "➕ Create the boxes from the flyer"}
-                          </button>
-                          {slotSyncMsg && <span className="mt-1 block">{slotSyncMsg}</span>}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {tplSlots.length > 0 && (
-                    <p className="text-xs text-muted">
-                      {locale === "es"
-                        ? "Este estilo copia un flyer: cada caja es una línea de ese flyer. Deja vacías las que no quieras."
-                        : "This style copies a flyer: each box is one line of that flyer. Leave the ones you don't want empty."}
-                    </p>
-                  )}
-                  {tplSlots.length === 0 && (
-                    <>
-                      {field({ label: L.tagline, k: "tagline", max: 30 })}
-                      {field({ label: L.subtitle, k: "subtitle" })}
-                    </>
-                  )}
-                  {tplSlots.map((sl) => (
-                    <div key={sl.key}>
-                      <label className="label">{locale === "es" ? sl.labelEs : sl.label}</label>
-                      <input
-                        className="input"
-                        maxLength={sl.max ?? 60}
-                        placeholder={sl.ph}
-                        value={inp.slots?.[sl.key] ?? ""}
-                        onChange={(e) => set("slots", { ...(inp.slots ?? {}), [sl.key]: e.target.value })}
-                      />
-                    </div>
-                  ))}
+              {/* The boxes the admin ADDED for this style: part of the main form, for everyone. */}
+              {tplSlots.map((sl) => (
+                <div key={sl.key}>
+                  <label className="label">{locale === "es" ? sl.labelEs : sl.label}</label>
+                  <input
+                    className="input"
+                    maxLength={sl.max ?? 60}
+                    placeholder={sl.ph}
+                    value={inp.slots?.[sl.key] ?? ""}
+                    onChange={(e) => set("slots", { ...(inp.slots ?? {}), [sl.key]: e.target.value })}
+                  />
                 </div>
-              ) : (
+              ))}
+              {!tplSlots.length && (
                 <>
                   {field({ label: L.tagline, k: "tagline", max: 30 })}
                   {field({ label: L.subtitle, k: "subtitle" })}
                 </>
+              )}
+              {isAdmin && tpl && (tpl.styleRefUrl || allSlots.length > 0) && (
+                <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
+                  <div className="rounded-lg border border-pink/30 bg-ink/40 p-2">
+                    <div className="flex items-start gap-3">
+                      {tpl.styleRefUrl && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
+                      )}
+                      <div className="text-[11px] leading-snug text-muted">
+                        <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Cajas del estilo (solo admin)" : "Style boxes (admin only)"}</span>
+                        <br />
+                        {locale === "es"
+                          ? "Las líneas de texto de este flyer. Pulsa ➕ para añadir una caja al formulario principal (la ve todo el mundo), ✏️ para cambiar su título, subtítulo o dónde va. El nombre / gamertag se escribe con el título 3D del flyer."
+                          : "This flyer's text lines. Press ➕ to add a box to the main form (everyone sees it), ✏️ to change its title, subtitle or where it goes. The name / gamertag is lettered like the flyer's 3D title."}
+                        <span className="mt-2 flex flex-wrap gap-1.5">
+                          {tpl.styleRefUrl && (
+                            <button type="button" onClick={syncSlotsFromFlyer} disabled={slotBusy} className="btn-primary text-xs">
+                              {slotBusy ? (locale === "es" ? "⏳…" : "⏳…") : allSlots.length ? (locale === "es" ? "🔄 Leer el flyer otra vez" : "🔄 Read the flyer again") : locale === "es" ? "✨ Leer las líneas del flyer" : "✨ Read the flyer's lines"}
+                            </button>
+                          )}
+                          <button type="button" onClick={addOwnSlot} disabled={slotBusy} className="btn-ghost text-xs">
+                            ➕ {locale === "es" ? "Caja propia" : "My own box"}
+                          </button>
+                        </span>
+                        {slotMsg && <span className="mt-1 block">{slotMsg}</span>}
+                      </div>
+                    </div>
+                  </div>
+                  {allSlots.map((sl) => (
+                    <div key={sl.key} className={`rounded-lg border p-2 ${sl.on ? "border-lime/40 bg-panel/60" : "border-line/60 bg-panel/30"}`}>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-bold">{locale === "es" ? sl.labelEs : sl.label}</div>
+                          <div className="truncate text-[11px] text-muted">{sl.ph || (locale === "es" ? "sin ejemplo" : "no example")}{sl.on ? (locale === "es" ? " · ✅ en el formulario" : " · ✅ in the form") : ""}</div>
+                        </div>
+                        <div className="flex shrink-0 gap-1">
+                          <button type="button" onClick={() => toggleSlot(sl.key)} disabled={slotBusy} className={`rounded-md border px-2 py-1 text-[11px] font-bold ${sl.on ? "border-lime/60 bg-lime/15 text-lime" : "border-pink/60 bg-pink/15 text-pink"}`}>
+                            {sl.on ? (locale === "es" ? "✅ Añadida · quitar" : "✅ Added · remove") : locale === "es" ? "➕ Añadir" : "➕ Add"}
+                          </button>
+                          <button type="button" onClick={() => setSlotEdit(slotEdit === sl.key ? null : sl.key)} className="rounded-md border border-line px-2 py-1 text-[11px] font-bold text-muted">
+                            ✏️ {locale === "es" ? "Editar" : "Edit"}
+                          </button>
+                          {sl.custom && (
+                            <button type="button" onClick={() => removeSlot(sl.key)} disabled={slotBusy} className="rounded-md border border-red-500/40 px-2 py-1 text-[11px] text-red-300">
+                              🗑
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      {slotEdit === sl.key && (
+                        <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
+                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Título (EN)" : "Title (EN)"} defaultValue={sl.label} maxLength={60} onBlur={(e) => e.target.value.trim() !== sl.label && patchSlot(sl.key, { label: e.target.value.trim() || sl.label })} />
+                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Título (ES)" : "Title (ES)"} defaultValue={sl.labelEs} maxLength={60} onBlur={(e) => e.target.value.trim() !== sl.labelEs && patchSlot(sl.key, { labelEs: e.target.value.trim() || sl.labelEs })} />
+                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Subtítulo / ejemplo (gris)" : "Subtitle / example (grey)"} defaultValue={sl.ph ?? ""} maxLength={120} onBlur={(e) => e.target.value.trim() !== (sl.ph ?? "") && patchSlot(sl.key, { ph: e.target.value.trim() })} />
+                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Para la IA — dónde va y cómo se escribe" : "For the AI — where it goes and how it's lettered"} defaultValue={sl.where} maxLength={400} onBlur={(e) => e.target.value.trim() !== sl.where && patchSlot(sl.key, { where: e.target.value.trim() || sl.where })} />
+                          <p className="text-[10px] text-muted sm:col-span-2">{locale === "es" ? "Se guarda al salir de cada campo." : "Saved when you leave each field."}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
             </>
           )}
