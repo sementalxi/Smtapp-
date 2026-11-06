@@ -1,16 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 /**
- * The poster image with a tap-to-open full-screen viewer: pinch to zoom, drag to pan, double-tap to zoom,
- * mouse wheel on desktop. The page itself never zooms, so the layout stays put.
+ * The poster image with a tap-to-open full-screen viewer: pinch to zoom, drag to pan, double-tap to zoom;
+ * on a computer: wheel to zoom, drag to pan, double-click to zoom, click / Esc to close. The page itself never
+ * zooms, so the layout stays put. The viewer is rendered on <body> (a portal), so no sticky header, toolbar or
+ * transformed parent on the page can sit on top of it or cut it.
  */
 export function PosterZoom({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   const [open, setOpen] = useState(false);
   const [tf, setTf] = useState({ s: 1, x: 0, y: 0 });
   const ref = useRef<HTMLDivElement>(null);
   const gesture = useRef<{ d: number; s: number; x: number; y: number; cx: number; cy: number; moved: boolean; lastTap: number } | null>(null);
+  const drag = useRef<{ x: number; y: number; sx: number; sy: number; moved: boolean } | null>(null);
+  const [touch, setTouch] = useState(false);
+  useEffect(() => setTouch(typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches), []);
 
   useEffect(() => {
     if (!open) return;
@@ -73,15 +79,33 @@ export function PosterZoom({ src, alt, className = "" }: { src: string; alt: str
   function onWheel(e: React.WheelEvent) {
     setTf((v) => clamp({ s: v.s * (e.deltaY < 0 ? 1.15 : 0.87), x: v.x, y: v.y }));
   }
+  // Mouse: drag to pan when zoomed, double-click to zoom in around the cursor (or back out).
+  function onMouseDown(e: React.MouseEvent) {
+    if (e.button !== 0) return;
+    drag.current = { x: tf.x, y: tf.y, sx: e.clientX, sy: e.clientY, moved: false };
+  }
+  function onMouseMove(e: React.MouseEvent) {
+    const d = drag.current;
+    if (!d || tf.s === 1) return;
+    if (Math.abs(e.clientX - d.sx) + Math.abs(e.clientY - d.sy) > 3) d.moved = true;
+    setTf(clamp({ s: tf.s, x: d.x + (e.clientX - d.sx), y: d.y + (e.clientY - d.sy) }));
+  }
+  function onMouseUp() {
+    setTimeout(() => (drag.current = null), 0);
+  }
+  function onDoubleClick(e: React.MouseEvent) {
+    e.stopPropagation();
+    setTf((v) => (v.s > 1 ? { s: 1, x: 0, y: 0 } : clamp({ s: 2.5, x: (window.innerWidth / 2 - e.clientX) * 1.5, y: (window.innerHeight / 2 - e.clientY) * 1.5 })));
+  }
 
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={alt} className={`${className} cursor-zoom-in`} onClick={() => setOpen(true)} />
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
           ref={ref}
-          className="fixed inset-0 z-[90] overflow-hidden bg-black/95 [touch-action:none]"
+          className={`fixed inset-0 z-[1000] overflow-hidden bg-black/95 [touch-action:none] ${tf.s > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-out"}`}
           role="dialog"
           aria-modal="true"
           aria-label={alt}
@@ -89,7 +113,12 @@ export function PosterZoom({ src, alt, className = "" }: { src: string; alt: str
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
           onWheel={onWheel}
-          onClick={() => tf.s === 1 && setOpen(false)}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+          onDoubleClick={onDoubleClick}
+          onClick={() => !drag.current?.moved && tf.s === 1 && setOpen(false)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -97,7 +126,7 @@ export function PosterZoom({ src, alt, className = "" }: { src: string; alt: str
             alt={alt}
             draggable={false}
             className="absolute inset-0 m-auto max-h-full max-w-full select-none object-contain"
-            style={{ transform: `translate(${tf.x}px, ${tf.y}px) scale(${tf.s})`, transition: gesture.current?.moved ? "none" : "transform 0.2s ease-out" }}
+            style={{ transform: `translate(${tf.x}px, ${tf.y}px) scale(${tf.s})`, transition: gesture.current?.moved || drag.current?.moved ? "none" : "transform 0.2s ease-out" }}
             onClick={(e) => e.stopPropagation()}
           />
           <button
@@ -112,8 +141,9 @@ export function PosterZoom({ src, alt, className = "" }: { src: string; alt: str
           >
             ×
           </button>
-          <div className="pointer-events-none absolute inset-x-0 bottom-6 text-center text-[11px] font-semibold text-white/50">{tf.s > 1 ? `${tf.s.toFixed(1)}×` : "pinch · double-tap"}</div>
-        </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-6 text-center text-[11px] font-semibold text-white/50">{tf.s > 1 ? `${tf.s.toFixed(1)}×` : touch ? "pinch · double-tap" : "scroll or double-click to zoom · click to close"}</div>
+        </div>,
+        document.body,
       )}
     </>
   );
