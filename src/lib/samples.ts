@@ -54,6 +54,8 @@ export interface ClientTemplate {
   hasInstructions?: boolean;
   /** "recommended" | "fire" */
   badge?: string | null;
+  /** Quality tier tag in the card's corner: "basic" | "mid" | "pro" */
+  tier?: string | null;
   /** Wide (16:9 banner) style — always made in banner size. */
   wide?: boolean;
   /** Team logo category: this style creates a brand-new logo (square). */

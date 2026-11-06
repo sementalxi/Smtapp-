@@ -32,6 +32,7 @@ async function loadTemplates(aud: string[] | null): Promise<ClientTemplate[]> {
     thumbUrl: r.thumbUrl,
     hasInstructions: !!r.proInstructions?.trim(),
     badge: r.badge,
+    tier: r.tier,
     wide: /\[WIDE\]/.test(r.proInstructions ?? ""),
     logoCreate: /\[LOGO CREATE\]/.test(r.proInstructions ?? ""),
     textSlots: textSlotsFor(r.slug, r.textSlots),

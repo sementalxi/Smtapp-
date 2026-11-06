@@ -3066,6 +3066,12 @@ export function badgeLabel(b: StyleBadge, es: boolean): string {
   return b === "recommended" ? (es ? "⭐ Recomendado" : "⭐ Recommended") : b === "fire" ? (es ? "🔥 Lo más fire" : "🔥 Fire") : b === "photoshop" ? "🎨 Photoshop" : es ? "✨ Nuevo" : "✨ New";
 }
 
+export const STYLE_TIERS = ["basic", "mid", "pro"] as const;
+export type StyleTier = (typeof STYLE_TIERS)[number];
+export function tierLabel(t: string | null | undefined, es: boolean): string {
+  return t === "pro" ? "PRO" : t === "mid" ? (es ? "MEDIO" : "MID") : t === "basic" ? (es ? "BÁSICO" : "BASIC") : "";
+}
+
 export function crestModeLabel(inputs: { aiLogo?: string } | null | undefined, hasCrest: boolean): string {
   if (!hasCrest) return "🚫 No crest";
   const m = inputs?.aiLogo ?? "";

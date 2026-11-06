@@ -28,6 +28,8 @@ export const TemplateSchema = z.object({
   thumbUrl: z.string().max(500).nullable().optional(),
   proInstructions: z.string().max(20000).nullable().optional(),
   randomize: z.boolean().optional(),
+  badge: z.string().max(80).nullable().optional(),
+  tier: z.enum(["basic", "mid", "pro"]).nullable().optional(),
   textSlots: z
     .array(
       z.object({

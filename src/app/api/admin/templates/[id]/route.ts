@@ -18,6 +18,10 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
     if (clash) return json({ error: "Slug already used" }, 409);
   }
   const { style, textSlots, ...rest } = body;
+  if (rest.badge !== undefined) {
+    const list = (rest.badge ?? "").split(",").map((x) => x.trim()).filter((x) => ["recommended", "fire", "photoshop", "new"].includes(x));
+    rest.badge = list.length ? [...new Set(list)].join(",") : null;
+  }
   await db.template
     .update({ where: { id }, data: { ...rest, ...(style ? { style: toJson(style) } : {}), ...(textSlots !== undefined ? { textSlots: textSlots?.length ? JSON.stringify(textSlots) : null } : {}) } })
     .catch(() => {

@@ -120,8 +120,10 @@ model Template {
   randomize  Boolean  @default(true)
   // Admin settings for this style's text boxes (flyer lines): JSON list of {key, on, label, labelEs, ph, where, custom} — see lib/text-slots
   textSlots  String?
-  // "recommended" | "fire" | null — label shown on the style in the Create page
+  // Labels shown on the style in the Create page, comma-separated: "recommended,fire,photoshop,new"
   badge      String?
+  // Quality tier tag shown in the card's bottom-right corner: "basic" | "mid" | "pro" | null
+  tier       String?
   // Who can see/use this style: "all" | "users" (regular accounts only) | "orgs" (organizations only)
   audience   String   @default("all")
   active     Boolean  @default(true)

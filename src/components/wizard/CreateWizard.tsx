@@ -8,7 +8,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
-import { BannerInputs, EMPTY_INPUTS, LayoutKind, STYLE_BADGES, badgeLabel, parseBadges, type StyleBadge } from "@/lib/templates";
+import { BannerInputs, EMPTY_INPUTS, LayoutKind, STYLE_BADGES, badgeLabel, parseBadges, tierLabel, type StyleBadge } from "@/lib/templates";
+import { StyleAdminBar } from "./StyleAdminBar";
 import { StyleBadges } from "../StyleBadges";
 import { RecentWithStyle } from "./RecentWithStyle";
 import { allSlotsFor, overridesFrom, type SlotState, type TextSlot } from "@/lib/text-slots";
@@ -240,10 +241,13 @@ export function CreateWizard({
     return m;
   }, [templates, typePics]);
   const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
+  // Admin edits to labels / tier made right on the cards (kept here until the page re-syncs).
+  const [metaEdits, setMetaEdits] = useState<Record<string, { badge?: string | null; tier?: string | null }>>({});
+  const meta = (t: ClientTemplate) => ({ badge: metaEdits[t.id]?.badge !== undefined ? metaEdits[t.id].badge : t.badge, tier: metaEdits[t.id]?.tier !== undefined ? metaEdits[t.id].tier : t.tier });
   // Filter row in the style picker: one chip per label an admin used on this type (⭐ 🔥 🎨 ✨).
-  const badgeKinds = useMemo(() => STYLE_BADGES.filter((b) => styles.some((s) => parseBadges(s.badge).includes(b))), [styles]);
+  const badgeKinds = useMemo(() => STYLE_BADGES.filter((b) => styles.some((s) => parseBadges(metaEdits[s.id]?.badge !== undefined ? metaEdits[s.id].badge : s.badge).includes(b))), [styles, metaEdits]);
   const [badgeFilter, setBadgeFilter] = useState<"" | StyleBadge>("");
-  const shownStyles = useMemo(() => (badgeFilter ? styles.filter((s) => parseBadges(s.badge).includes(badgeFilter)) : styles), [styles, badgeFilter]);
+  const shownStyles = useMemo(() => (badgeFilter ? styles.filter((s) => parseBadges(metaEdits[s.id]?.badge !== undefined ? metaEdits[s.id].badge : s.badge).includes(badgeFilter)) : styles), [styles, badgeFilter, metaEdits]);
   // Warm the style previews in the background so step 2 shows them instantly.
   useEffect(() => {
     const urls = templates.filter((t) => t.thumbUrl).map((t) => thumb(t.thumbUrl!, 420));
@@ -887,11 +891,12 @@ export function CreateWizard({
           )}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {shownStyles.map((s) => (
+              <div key={`cell-${s.id}`} className="min-w-0">
               <button
                 key={s.id}
                 type="button"
                 onClick={() => { setTplId(s.id); setTimeout(() => setStep(3), 180); }}
-                className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
+                className={`relative w-full overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
                 <TemplateThumb template={s} eager={shownStyles.indexOf(s) < 4} isAdmin={isAdmin} />
                 {isAdmin && !s.thumbUrl && s.styleRefUrl && (
@@ -900,9 +905,16 @@ export function CreateWizard({
                 {s.wide && (
                   <span className="absolute top-1.5 right-1.5 rounded-md bg-ink/80 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow backdrop-blur">▭ Banner 16:9</span>
                 )}
-                <StyleBadges badge={s.badge} es={locale === "es"} />
+                <StyleBadges badge={meta(s).badge} es={locale === "es"} />
+                {meta(s).tier && (
+                  <span className={`absolute bottom-8 right-1.5 rounded-md px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider shadow ${meta(s).tier === "pro" ? "bg-gradient-to-r from-amber-300 to-yellow-500 text-ink" : meta(s).tier === "mid" ? "bg-gradient-to-r from-sky-400 to-blue-500 text-white" : "bg-slate-600/90 text-white"}`}>
+                    {tierLabel(meta(s).tier, locale === "es")}
+                  </span>
+                )}
                 <div className="bg-panel-2 px-2 py-1.5 text-xs font-bold">{locale === "es" ? s.nameEs : s.name}</div>
               </button>
+              {isAdmin && <StyleAdminBar templateId={s.id} badge={meta(s).badge} tier={meta(s).tier} es={locale === "es"} onChange={(p) => setMetaEdits((m) => ({ ...m, [s.id]: { ...m[s.id], ...p } }))} />}
+              </div>
             ))}
           </div>
           {styles.length === 0 && <p className="text-sm text-muted">{locale === "es" ? "Aún no hay estilos para este tipo." : "No styles for this type yet."}</p>}
