@@ -100,7 +100,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
   assertInputUrls(inputs);
-  inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(template.layout, source ? (inputs.aiLogo || undefined) : body.inputs.aiLogo, user.role === "ADMIN");
+  inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(template.layout, source ? (inputs.aiLogo || undefined) : body.inputs.aiLogo, user.role === "ADMIN", template.proInstructions);
   let proPrompt = "";
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
   const totw = pro && ["TOTW", "STANDINGS", "EVENT"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;

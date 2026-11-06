@@ -75,14 +75,17 @@ export async function getNumberSetting(key: SettingKey) {
 }
 
 /** The crest mode for a poster: admins pick their own ("" = the type's default); everyone else gets the type's default. */
-export async function resolveCrestMode(layout: string, asked: string | undefined, isAdmin: boolean): Promise<string> {
+export async function resolveCrestMode(layout: string, asked: string | undefined, isAdmin: boolean, styleInstructions?: string | null): Promise<string> {
   let map: Record<string, string> = {};
   try {
     map = JSON.parse((await getSettings()).crest_modes || "{}");
   } catch {
     map = {};
   }
-  const def = ["exact", "on", "off", "both"].includes(map[layout]) ? map[layout] : "exact";
+  let def = ["exact", "on", "off", "both"].includes(map[layout]) ? map[layout] : "exact";
+  // A style can set its own default with a tag in its instructions: [CREST 3D] / [CREST BOTH] / [CREST PASTE] / [CREST EXACT].
+  const tag = /\[CREST (3D|BOTH|PASTE|EXACT)\]/i.exec(styleInstructions ?? "")?.[1]?.toUpperCase();
+  if (tag) def = { "3D": "on", BOTH: "both", PASTE: "off", EXACT: "exact" }[tag] ?? def;
   if (isAdmin && asked && ["exact", "on", "off", "both"].includes(asked)) return asked;
   return def;
 }
