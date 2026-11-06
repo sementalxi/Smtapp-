@@ -24,8 +24,18 @@ export async function postToDiscord(payload: Record<string, unknown>, image?: { 
   };
   try {
     let res = await send(!!image);
+    // Discord rate limit (bursts of posts): wait what it asks for and try again, same post, picture included — nothing gets lost.
+    for (let tries = 0; res.status === 429 && tries < 4; tries++) {
+      let wait = 3000;
+      try {
+        const j = JSON.parse(await res.clone().text()) as { retry_after?: number };
+        if (typeof j.retry_after === "number") wait = Math.min(20_000, Math.ceil(j.retry_after * 1000) + 250);
+      } catch {}
+      await new Promise((r) => setTimeout(r, wait));
+      res = await send(!!image);
+    }
     // Too big / slow image → still log it, just without the picture.
-    if (!res.ok && image && res.status !== 404 && res.status !== 401) res = await send(false);
+    if (!res.ok && image && res.status !== 404 && res.status !== 401 && res.status !== 429) res = await send(false);
     if (res.ok) lastDiscordError = "";
     return res.ok;
   } catch (e) {
@@ -35,6 +45,24 @@ export async function postToDiscord(payload: Record<string, unknown>, image?: { 
     }
     return false;
   }
+}
+
+/**
+ * Spaces posts to one webhook at least `gapMs` apart (across all server instances, via a slot kept in the
+ * database) so a batch of posters does not land in Discord as one burst that hides half of them. Waits at
+ * most `maxWaitMs`. Never throws.
+ */
+export async function paceWebhook(webhook: string, gapMs = 5000, maxWaitMs = 45_000) {
+  try {
+    const { createHash } = await import("crypto");
+    const key = `discord_slot:${createHash("sha1").update(webhook).digest("hex").slice(0, 20)}`;
+    const now = Date.now();
+    const row = await db.setting.findUnique({ where: { key }, select: { value: true } });
+    const next = Math.max(now, Number(row?.value) || 0);
+    const slot = Math.min(next, now + maxWaitMs);
+    await db.setting.upsert({ where: { key }, create: { key, value: String(slot + gapMs) }, update: { value: String(slot + gapMs) } });
+    if (slot > now) await new Promise((r) => setTimeout(r, slot - now));
+  } catch {}
 }
 
 const LAYOUT_NAMES: Record<string, string> = {
@@ -121,6 +149,7 @@ export async function logGeneration(opts: {
       const model = /^\[Made with: ([^\]]+)\]/.exec(banner?.prompt ?? "")?.[1] ?? "";
       const isPng = opts.image ? opts.image[0] === 0x89 : true;
       const name = `kixo-test-${opts.bannerId}.${isPng ? "png" : "jpg"}`;
+      await paceWebhook(testUrl, 5000); // one test post every 5 s, so none gets lost in a burst
       await postToDiscord(
         {
           username: "KIXO · Style test",
