@@ -7,6 +7,7 @@ import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./sto
 import { textSlotsFor } from "./text-slots";
 import { qualTableAreaText } from "./qualifiers-box";
 import { winnersAreaText, winnersGrid } from "./winners-box";
+import { tableAreaText } from "./standings-box";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation, surprisePose } from "./pro-options";
@@ -775,9 +776,7 @@ export function buildProPrompt(opts: {
       const esLang = i.language === "Español";
       // Only the advancing rows are marked — in the poster's own accent colour, never green or red.
       const zones = up ? [`the top ${up} row${up > 1 ? "s" : ""} (positions 1–${up}) marked as ADVANCING with a glowing edge and a faint tint in the poster's own accent colour (the same colour as the title's highlights — NOT green, NOT red); the other rows plain`] : [];
-      const areaText = opts.format === "banner"
-        ? "the rectangle from 40% to 96% of the width and from 10% to 90% of the height (the right side); the title block, the small league logo, the week line and the accent lines sit on the LEFT 36% of the width"
-        : "the rectangle from 6% to 94% of the width and from 37% to 87% of the height; the title block, the small league logo, the week line and the accent lines sit ABOVE it (top 35%), the footer line below it (bottom 10%)";
+      const areaText = tableAreaText(opts.format === "banner");
       composition = opts.exactTable
         ? [
             `The BACKGROUND and title of a premium league STANDINGS graphic — like an official league / TV broadcast table. The table itself is placed afterwards, so this image has NO TABLE.`,
@@ -1036,7 +1035,7 @@ export function buildProPrompt(opts: {
       ? `CHAMPIONS SHOWCASE RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere. ${opts.exactTable ? "Draw NO frames, boxes, grid, crests or names — the grid area described above stays EMPTY (the real wall of frames with the real crests is placed there afterwards)." : "The grid of frames is neat and perfectly aligned — identical frames, equal gaps — and ONLY the listed winners appear in it, in order; every other frame is empty."} ${i.champLogoUrl ? "The league / organization logo (its own reference image) appears crisp as a 3D emblem at the lower right and may echo giant and faded behind everything." : ""}`
       : "",
     layout === "STANDINGS" && opts.exactTable
-      ? `STANDINGS RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere. Draw NO table, rows, numbers or team crests — the table area described above stays EMPTY (the real table with the real crests is placed there afterwards). ${i.champLogoUrl ? "The league / organization logo (reference image 1) appears crisp beside the title and giant, faded, behind everything." : ""}`
+      ? `STANDINGS RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere. Draw NO table, rows, numbers or team crests — the table area described above stays EMPTY (the real table with the real crests is placed there afterwards). The whole title block — the title, the league line and the week / date line — sits in the band ABOVE the table area and ENDS above it (make the title smaller if it must): nothing written inside that area, nothing written below it except the footer line along the very bottom. ${i.champLogoUrl ? "The league / organization logo (reference image 1) appears crisp beside the title and giant, faded, behind everything." : ""}`
       : layout === "STANDINGS"
       ? `STANDINGS RULE (always applies, whatever the style or look): NO people, players, faces, silhouettes or figures anywhere on the poster. ${i.champLogoUrl ? "The league / organization logo (its own reference image) MUST be on the poster twice: crisp and clearly visible beside the title (about 14% of the width), and as the background hero — GIANT, centred, at roughly 20–25% opacity behind the table, clearly readable through the rows. Team crests from the table are NOT the league logo: they stay small in their rows." : "No league / organization logo was given: draw NO logo beside the title and NO giant watermark — never promote a team's crest from the table to that role; team crests stay small inside their rows. The background is scene, light and texture only."} The table stays perfectly aligned and readable on top of it.`
       : "",

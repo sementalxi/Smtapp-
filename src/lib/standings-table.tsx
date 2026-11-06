@@ -5,6 +5,7 @@ import sharp from "sharp";
 import { cutoutCached } from "./cutout";
 import type { BannerInputs } from "./templates";
 import { legibleAccent } from "./legible";
+import { tableBox } from "./standings-box";
 
 export type TableRow = { pos: number; team: string; stats: Record<string, string>; crest: string | null };
 export type TableSpec = {
@@ -17,10 +18,7 @@ export type TableSpec = {
   wide: boolean;
 };
 
-/** Where the table goes on the poster (fractions of width / height). */
-export function tableBox(wide: boolean) {
-  return wide ? { x: 0.4, y: 0.1, w: 0.56, h: 0.8 } : { x: 0.06, y: 0.37, w: 0.88, h: 0.5 };
-}
+export { tableBox } from "./standings-box";
 
 const KEYS = ["P", "W", "D", "L", "GD", "PTS"] as const;
 const ES: Record<string, string> = { P: "PJ", W: "G", D: "E", L: "P", GD: "DG", PTS: "PTS" };
@@ -105,17 +103,22 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
   const rowH = Math.min(150, Math.floor((height - legendH - headerH - panelPad * 2 - 6) / n));
   const crestPx = Math.round(rowH * 0.8);
   const crests = await Promise.all(spec.rows.map((r) => (r.crest ? crestData(r.crest, Math.max(64, crestPx * 2)) : Promise.resolve(null))));
-  const statW = Math.round(Math.min(width * 0.1, rowH * 1.6));
-  const posW = Math.round(rowH * 1.05);
+  const hasCrest = crests.some(Boolean); // the crest column exists only when a row has one
+  const crestCol = hasCrest ? crestPx + 18 : 0;
+  const statW = Math.round(Math.min(width * 0.085, rowH * 1.3));
+  const posW = Math.round(rowH * 0.9);
   const fsNum = Math.round(rowH * 0.5);
-  const fsName = Math.round(rowH * 0.44);
+  // The name column takes what is left; the name font shrinks (a little) so the longest name fits without "…".
+  const nameW = width - panelPad * 2 - 10 - 22 - 8 - posW - crestCol - statW * spec.columns.length;
+  const longest = Math.max(4, ...spec.rows.map((r) => r.team.slice(0, 26).length));
+  const fsName = Math.round(Math.max(rowH * 0.26, Math.min(rowH * 0.44, nameW / (longest * 0.66))));
   const fsHead = Math.round(Math.max(14, headerH * 0.36));
   const accent = spec.accent;
   const el = (
     <div style={{ display: "flex", flexDirection: "column", width, height }}>
-      <div style={{ display: "flex", flexDirection: "column", borderRadius: 26, border: `3px solid ${rgba(accent, 0.75)}`, background: "rgba(4,4,10,0.74)", overflow: "hidden", padding: panelPad }}>
+      <div style={{ display: "flex", flexDirection: "column", borderRadius: 26, border: `3px solid ${rgba(accent, 0.75)}`, background: "rgba(4,4,10,0.8)", overflow: "hidden", padding: panelPad }}>
         <div style={{ display: "flex", alignItems: "center", height: headerH, background: "rgba(255,255,255,0.07)", borderRadius: 18, paddingLeft: 18, paddingRight: 22 }}>
-          <div style={{ display: "flex", width: posW + crestPx + 18 }} />
+          <div style={{ display: "flex", width: posW + crestCol }} />
           <div style={{ display: "flex", flex: 1, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 4, color: "rgba(255,255,255,0.72)" }}>TEAM</div>
           {spec.columns.map((c) => (
             <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 2, color: c.key === "PTS" ? accent : "rgba(255,255,255,0.72)" }}>
@@ -140,9 +143,11 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
               }}
             >
               <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: "#ffffff" }}>{`${r.pos}.`}</div>
-              <div style={{ display: "flex", width: crestPx, height: crestPx, alignItems: "center", justifyContent: "center", marginRight: 18 }}>
-                {crests[idx] ? <img src={crests[idx]!} width={crestPx} height={crestPx} style={{ objectFit: "contain" }} /> : null}
-              </div>
+              {hasCrest ? (
+                <div style={{ display: "flex", width: crestPx, height: crestPx, alignItems: "center", justifyContent: "center", marginRight: 18 }}>
+                  {crests[idx] ? <img src={crests[idx]!} width={crestPx} height={crestPx} style={{ objectFit: "contain" }} /> : null}
+                </div>
+              ) : null}
               <div style={{ display: "flex", flex: 1, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsName, color: "#ffffff", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{r.team.slice(0, 26)}</div>
               {spec.columns.map((c) => (
                 <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Montserrat", fontWeight: c.key === "PTS" ? 800 : 600, fontSize: c.key === "PTS" ? fsNum : Math.round(fsNum * 0.9), color: c.key === "PTS" ? accent : "#ffffff" }}>
