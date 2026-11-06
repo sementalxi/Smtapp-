@@ -39,6 +39,7 @@ const Body = z.object({
   poster_model: z.enum(["mix", "mix3", "seedream-mix", "flux-mix", "flux", "nano-pro", "openai"]).optional(),
   openai_only_layouts: z.string().max(200).regex(/^[A-Z,]*$/).optional(),
   standings_exact_table: z.enum(["on", "off"]).optional(),
+  qualifiers_exact_table: z.enum(["on", "off"]).optional(),
   video_on: z.enum(["0", "1"]).optional(),
   video_model: z.enum(["kling-std", "kling-pro"]).optional(),
   video_cost_5: z.coerce.number().int().min(0).max(500).optional(),

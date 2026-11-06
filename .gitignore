@@ -5,3 +5,5 @@ node_modules
 uploads
 *.tsbuildinfo
 next-env.d.ts
+# flags copied from flag-icons at build time
+/public/flags

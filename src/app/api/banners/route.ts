@@ -106,6 +106,8 @@ export const POST = handle(async (req: NextRequest) => {
   const totw = pro && ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
   const exactTable = pro && template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
+  // Qualifiers: KIXO draws the regions table (real flags, exact numbers) when the setting is on and the fonts load.
+  const exactQual = pro && template.layout === "QUALIFIERS" && (await getSettings()).qualifiers_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   // The AI rebuilds the crest as a 3D emblem: read what it contains first so no letter or symbol gets lost.
   const crestNote = pro && logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(logoUrl) : null;
   // Styles copied from a reference image: its colours go into the brief so the poster stays in that palette.
@@ -146,7 +148,7 @@ export const POST = handle(async (req: NextRequest) => {
       season: seasonPrompt(seasonDef),
       format: fmt,
       cardLook: totw?.cardLook,
-      exactTable,
+      exactTable: exactTable || exactQual,
       slug: template.slug,
       textSlotsJson: template.textSlots,
       crestNote,
@@ -177,9 +179,10 @@ export const POST = handle(async (req: NextRequest) => {
   if (pro) {
     const accent = totw?.cardLook?.colours?.accent ?? (template.style as unknown as { accent?: string } | null)?.accent ?? "#ffc83d";
     const tableOverlay = exactTable ? await import("@/lib/standings-table").then((m) => m.tableSpecFrom(inputs, accent, fmt === "banner")) : null;
+    const qualOverlay = exactQual ? await import("@/lib/qualifiers-table").then((m) => m.qualTableSpecFrom(inputs, accent, fmt)) : null;
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout), tableOverlay });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, qualOverlay, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout), tableOverlay });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

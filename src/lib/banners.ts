@@ -5,6 +5,7 @@ import { HttpError } from "./auth";
 import { backgroundProvider, BLOCKED, buildPrompt, canRemoveBackground, generatePoster, generateBackground, removeBackground } from "./ai";
 import { deleteFile, isStorageUrl, loadBytes, saveFile, sniffImage } from "./storage";
 import { textSlotsFor } from "./text-slots";
+import { qualTableAreaText } from "./qualifiers-box";
 import { changeCredits } from "./credits";
 import { BannerInputs, DEFAULT_DESIGN, EMPTY_INPUTS, LayoutKind, TemplateStyle } from "./templates";
 import { bgPosePrompt, bgScenePrompt, createVariation, fontPrompt, trophyPrompt, type Variation, surprisePose } from "./pro-options";
@@ -502,7 +503,7 @@ export function parseRegionRow(line: string): { icon: string; name: string; coun
 }
 
 /** Qualifiers posters: where the table, the trophy and the emblem sit — a different arrangement per poster. */
-function qualifiersDirection(seed: number, fixedLayout: boolean, hasPhoto: boolean, hasLogo: boolean) {
+function qualifiersDirection(seed: number, fixedLayout: boolean, hasPhoto: boolean, hasLogo: boolean, exactArea?: string) {
   const person = hasPhoto ? " The person from the uploaded photo appears once, cut out and rim-lit, beside the centrepiece." : " NO people, players, athletes, faces, hands, crowds or silhouettes anywhere — the stands far behind are only lights and bokeh.";
   const emblem = hasLogo ? "the league logo as a BIG glossy 3D emblem (reference image), with a crown or laurel accent" : "a big glossy 3D laurel-and-crown emblem (no words on it)";
   const layouts = [
@@ -511,6 +512,16 @@ function qualifiersDirection(seed: number, fixedLayout: boolean, hasPhoto: boole
     `SPLIT: ${emblem} big at the upper centre under the headline; the REGIONS TABLE as a tall panel on the LEFT half; the giant trophy on the RIGHT half standing on a podium with light rays behind, slightly cropped by the edge; the TOTAL bar under the panel; the footer along the bottom.`,
   ];
   const n = Math.abs(seed);
+  if (exactArea) {
+    // KIXO draws the table afterwards: one arrangement (table at the right), and that area stays empty.
+    const empty = `TABLE AREA — LEAVE IT EMPTY: ${exactArea}. Draw NOTHING inside that area: no panel, no frame, no rows, no names, no numbers, no flags, no text — only the background scene continuing through it, slightly darker and calmer, so the table KIXO places there afterwards sits on it. The headline stays at the top, the league emblem at the upper left, the trophy on its podium at the lower left — all outside that area.`;
+    if (fixedLayout) return `QUALITY BAR: like the official graphic of a top competition's media team — follow the art director's FIXED LAYOUT, except the table: ${empty}${person}`;
+    return [
+      `QUALIFIERS POSTER — LAYOUT FOR THIS POSTER: the headline huge across the top; ${emblem} at the upper left under it; a giant trophy on a round lit podium at the lower left with a football beside it and laurels at its base, light rays behind; the footer line along the bottom. ${empty}`,
+      `BACKDROP: a faint world map or globe lines etched into the background behind everything (no country names), stadium floodlights and a packed-stand bokeh far behind, light beams, particles, smoke at the floor, dark silk or banners in the poster's colours at the bottom corners.${person}`,
+      `QUALITY BAR: like a flyer from a top esports / tournament design studio. Real photographic lighting and materials, deep layering (environment → faint map → centrepiece → lettering → foreground particles), rich textures, a cinematic colour grade — never flat.`,
+    ].join("\n");
+  }
   const table = `THE REGIONS TABLE is a DESIGNED panel in the poster's materials (a bevelled metal / glass frame with a glowing inner edge, a darker translucent body, a header bar, thin divider lines): one row per region in the given order — a small glossy FLAG or globe icon at the left, the region name in clean capitals, the NUMBER big and bold at the right in the accent metal; the header bar has the two small labels; the TOTAL bar is a wider plate in the accent metal under the last row. Numbers and names spelled EXACTLY as given — nothing added, no extra rows.`;
   if (fixedLayout) return `QUALITY BAR: like the official graphic of a top competition's media team — follow the art director's FIXED LAYOUT exactly. ${table}${person}`;
   return [
@@ -799,14 +810,18 @@ export function buildProPrompt(opts: {
       const nums = rows.map((r) => Number(String(r.count).replace(/[^\d.]/g, "")));
       const sum = rows.length && nums.every((n) => Number.isFinite(n) && String(rows[0].count) !== "") ? nums.reduce((a, b) => a + b, 0) : null;
       const totalText = i.total.trim() || (sum !== null && sum > 0 ? `${esLang ? "TOTAL" : "TOTAL"} — ${sum} ${unit.toUpperCase()}` : "");
-      composition = `A WORLD CUP QUALIFIERS announcement poster for a pro-clubs / esports league — like the official graphic of a top competition's media team. The headline huge at the top as a glossy 3D lettering piece${i.subtitle ? ", a ribbon line under it" : ""}; ${i.champLogoUrl ? "the league logo as a big hero 3D emblem; " : ""}a giant polished trophy (${i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a tall gold world-cup style trophy with a globe on top"}) as the centrepiece on a podium with a football; the REGIONS TABLE panel with one row per region (icon, name, number), a TOTAL bar; a faint world map behind; stadium lights, laurels, particles. ${frame} ${finish}`;
+      composition = opts.exactTable
+        ? `The BACKGROUND, headline, emblem and trophy of a WORLD CUP QUALIFIERS announcement poster for a pro-clubs / esports league — like the official graphic of a top competition's media team. The regions table is placed afterwards by KIXO, so this image has NO TABLE: ${qualTableAreaText(opts.format)} stays EMPTY (only the background continuing, slightly darker and calmer). The headline huge at the top as a glossy 3D lettering piece${i.subtitle ? ", a ribbon line under it" : ""}; ${i.champLogoUrl ? "the league logo as a big hero 3D emblem at the upper left; " : ""}a giant polished trophy (${i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a tall gold world-cup style trophy with a globe on top"}) on a podium with a football at the lower left; a faint world map behind; stadium lights, laurels, particles. ${frame} ${finish}`
+        : `A WORLD CUP QUALIFIERS announcement poster for a pro-clubs / esports league — like the official graphic of a top competition's media team. The headline huge at the top as a glossy 3D lettering piece${i.subtitle ? ", a ribbon line under it" : ""}; ${i.champLogoUrl ? "the league logo as a big hero 3D emblem; " : ""}a giant polished trophy (${i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a tall gold world-cup style trophy with a globe on top"}) as the centrepiece on a podium with a football; the REGIONS TABLE panel with one row per region (icon, name, number), a TOTAL bar; a faint world map behind; stadium lights, laurels, particles. ${frame} ${finish}`;
       add("Headline (huge, glossy 3D, at the top)", i.headline || "QUALIFIERS");
       add("Ribbon line under the headline", i.subtitle);
       add(i.champLogoUrl ? "League name (small, beside the emblem — only if it is not already written on the logo)" : "League / competition name", i.competition);
-      lines.push(`- Table header (two small labels on the panel's top bar): ${q(esLang ? "Región" : "Region")} at the left and ${q(unit)} at the right`);
-      if (rows.length)
-        lines.push(`- Table rows, in this exact order (one per line — the icon, then the name, then the number at the right): \n${rows.map((r) => `  • ${r.icon ? `[${r.icon}] ` : "[a small globe icon] "}${q(r.name)}${r.count ? ` … ${q(r.count)}` : ""}`).join("\n")}`);
-      if (totalText) add("TOTAL bar under the rows (wider plate, bold)", totalText);
+      if (!opts.exactTable) {
+        lines.push(`- Table header (two small labels on the panel's top bar): ${q(esLang ? "Región" : "Region")} at the left and ${q(unit)} at the right`);
+        if (rows.length)
+          lines.push(`- Table rows, in this exact order (one per line — the icon, then the name, then the number at the right): \n${rows.map((r) => `  • ${r.icon ? `[${r.icon}] ` : "[a small globe icon] "}${q(r.name)}${r.count ? ` … ${q(r.count)}` : ""}`).join("\n")}`);
+        if (totalText) add("TOTAL bar under the rows (wider plate, bold)", totalText);
+      }
       add("Season / date line (small)", i.date);
       break;
     }
@@ -933,6 +948,9 @@ export function buildProPrompt(opts: {
     layout === "MATCHDAY" || layout === "RESULT"
       ? `- PEOPLE RULE (always applies, overrides the style): ${matchPhoto ? "the ONLY person on this poster is the one from the uploaded photo, once, in the centre foreground." : "no player photo was uploaded, so there are NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere — not even blurred, ghosted or duotone in the background. Leave the centre foreground OPEN (just the scene and lighting continuing through it, as if a player could be dropped in later)."} Wherever this style would put a player, portrait or figure${matchPhoto ? " other than the uploaded person" : ""} — especially the big duotone / ghosted portraits in the back halves — put the TEAM CRESTS instead: the home crest huge and faded (ghosted, 15–30% opacity, tinted into that half's colour) on the LEFT half and the away crest the same on the RIGHT half, behind everything, plus the two crests normal-size where the style places them. Never invent a player.`
       : "",
+    layout === "QUALIFIERS" && opts.exactTable
+      ? `- TABLE AREA (overrides any table in the instructions above): KIXO places the regions table afterwards — leave ${qualTableAreaText(opts.format)} completely EMPTY: no panel, no frame, no rows, no names, no numbers, no flags, no text there, only the background scene continuing (slightly darker and calmer). The headline stays at the top, the league emblem at the upper left, the trophy on its podium at the lower left — all outside that area. Do not draw the regions table anywhere else either.`
+      : "",
     (layout === "EVENT" || layout === "QUALIFIERS") && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",
     opts.cardLook
       ? `- LOOK OF THE WHOLE POSTER: the "${opts.cardLook.name}" player-card look — ${opts.cardLook.text}. The background, atmosphere, lighting, effects, materials and title typography of the entire poster (not only the cards) use this look${opts.cardLook.colours ? ` and these colours: main ${opts.cardLook.colours.primary}, accent / glow ${opts.cardLook.colours.accent}, deep shadows ${opts.cardLook.colours.dark}` : ""}. Keep this style's LAYOUT (where the title block sits, ${layout === "STANDINGS" ? "the table and its rows" : layout === "EVENT" ? "the hero, the prize and the information lines" : "the pitch and the formation of the cards"}) but replace its own scene, materials and colours with this look.${layout === "STANDINGS" ? " Take ONLY the look's scene, lighting, effects, colours and typography — NOT its player: a standings poster has no people, players, faces or figures at all; the league logo giant and faded in the background is the hero instead." : layout === "EVENT" ? " The look's player treatment applies to the uploaded photo only (the person shown exactly as that card style shows its player); without a photo take ONLY the scene, lighting, effects, colours and typography — no people or faces." : ""}`
@@ -999,7 +1017,7 @@ export function buildProPrompt(opts: {
       : layout === "MATCHDAY" || layout === "RESULT"
       ? `SPORTS DESIGN LOOK (always applies): it must look made by a pro sports graphic designer, not a generic AI image — bold, graphic and clean like official club / EA FC / Nike match graphics: diagonal shapes and stripes, solid colour blocks, halftone and grunge print textures, film grain, a real photographic stadium (slightly desaturated, high contrast). Restraint: no glowing fog everywhere, no neon haze, no excessive sparks or lightning, no plastic chrome on everything; deep blacks and crisp edges. Crests crisp and faithful with a clean drop shadow. TYPOGRAPHY: heavy slanted sports type with solid fills, a thick outline, a short hard 3D extrusion and a hard offset shadow with a grain texture; the title's second word in a bold brush-marker script crossing the first. Match info at the bottom with no bar or box: the time big in the same sports type (left half home colour, right half away colour), the date above in bold wide letter-spaced white caps, the venue below. Never rewrite text that appears inside a logo; write each text item only once.`
       : "",
-    layout === "QUALIFIERS" ? qualifiersDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl) : "",
+    layout === "QUALIFIERS" ? qualifiersDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl, opts.exactTable ? qualTableAreaText(opts.format) : undefined) : "",
     layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     layout === "LOGO" ? "" : `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
@@ -1085,6 +1103,8 @@ export async function generateProForBanner(opts: {
   openaiOnly?: boolean;
   /** Standings: the exact table KIXO draws on the finished background. */
   tableOverlay?: import("./standings-table").TableSpec | null;
+  /** Qualifiers: KIXO draws the regions table (real flags, exact numbers) on the finished background. */
+  qualOverlay?: import("./qualifiers-table").QualTableSpec | null;
   /** Admin comparison: force one poster generator instead of the Settings choice. */
   modelOverride?: string;
 }) {
@@ -1328,6 +1348,14 @@ export async function generateProForBanner(opts: {
     if (opts.tableOverlay) {
       const { overlayStandingsTable } = await import("./standings-table");
       poster = await overlayStandingsTable(poster, opts.tableOverlay);
+    }
+    if (opts.qualOverlay) {
+      try {
+        const { overlayQualTable } = await import("./qualifiers-table");
+        poster = await overlayQualTable(poster, opts.qualOverlay);
+      } catch (e) {
+        console.error("qualifiers table overlay failed (poster kept without it)", e);
+      }
     }
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {

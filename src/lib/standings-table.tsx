@@ -48,7 +48,7 @@ export function tableSpecFrom(i: BannerInputs, accent: string, wide: boolean): T
 
 const fontCache = new Map<string, ArrayBuffer>();
 /** A Google Font as TTF (Google serves TrueType to a non-browser client). */
-async function googleFont(family: string, weight: number): Promise<ArrayBuffer> {
+export async function googleFont(family: string, weight: number): Promise<ArrayBuffer> {
   const key = `${family}:${weight}`;
   const hit = fontCache.get(key);
   if (hit) return hit;
