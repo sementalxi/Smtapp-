@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useT } from "@/i18n/client";
 import { ImageDrop } from "../ImageDrop";
 import { thumb } from "@/lib/thumb";
+import { randomTestTable, testCrest } from "@/lib/test-teams";
 import { DEFAULT_SAMPLE, inputsFor, type Run, type Sample, type SyncCard, type SyncLeague } from "@/lib/style-test-inputs";
 
 export type { Sample } from "@/lib/style-test-inputs";
@@ -67,6 +68,21 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
   const [filter, setFilter] = useState<"all" | "READY" | "FAILED">("all");
   const [note, setNote] = useState<string | null>(null);
   const ticking = useRef(false);
+  // 🎲 Random test league: fictional teams with crests and a believable table (Standings, Team of the week, Winners).
+  const [randPick, setRandPick] = useState("");
+  function randomLeague(n: number) {
+    const rows = randomTestTable(n);
+    const keys = [["P", "p"], ["W", "w"], ["D", "d"], ["L", "l"], ["GD", "gd"], ["PTS", "pts"]] as const;
+    setSample((s) => ({
+      ...s,
+      competition: s.competition || "Pro Clubs League",
+      standings: rows.map((r, i) => [`${i + 1}. ${r.team}`, ...keys.map(([k, f]) => `${k} ${r[f]}`)].join(" · ")),
+      tableLogos: rows.map((r) => testCrest(r.team)),
+      qualify: String(Math.min(n, n >= 16 ? 8 : 4)),
+      team: rows[0]?.team || s.team,
+      rival: rows[1]?.team || s.rival,
+    }));
+  }
   const set = (k: keyof Sample) => (e: React.ChangeEvent<HTMLInputElement>) => setSample({ ...sample, [k]: e.target.value });
 
   const queue = templates.filter((t) => picked.includes(t.layout));
@@ -170,7 +186,8 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
       {/* Sample */}
       <div className="card p-4 sm:p-5">
         <div className="mb-3 text-[11px] font-bold uppercase tracking-widest text-muted">1 · {es ? "Muestra (foto, escudo y textos para todos los estilos)" : "Sample (photo, crest and texts used for every style)"}</div>
-        {(cards.length > 0 || leagues.length > 0) && (
+        {(
+
           <div className="mb-3 grid gap-2 rounded-xl border border-teal/40 bg-teal/5 p-3 sm:grid-cols-2">
             <div className="sm:col-span-2 text-[11px] font-bold uppercase tracking-wider text-teal">🔄 {es ? "Sincronizar con mis datos" : "Sync from my data"}</div>
             {cards.length > 0 && (
@@ -191,13 +208,18 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                 </select>
               </label>
             )}
-            {leagues.length > 0 && (
+            {(
               <label className="block">
                 <span className="mb-0.5 block text-[10px] font-bold uppercase tracking-wider text-muted">{es ? "Mi liga (tabla y escudos)" : "My league (table and crests)"}</span>
                 <select
                   className="input !py-2 text-sm"
-                  value={leagues.find((l) => l.standings.join("|") === (sample.standings ?? []).join("|"))?.id ?? ""}
+                  value={randPick || (leagues.find((l) => l.standings.join("|") === (sample.standings ?? []).join("|"))?.id ?? "")}
                   onChange={(e) => {
+                    if (e.target.value.startsWith("rand:")) {
+                      setRandPick(e.target.value);
+                      return randomLeague(Number(e.target.value.slice(5)));
+                    }
+                    setRandPick("");
                     const l = leagues.find((x) => x.id === e.target.value);
                     setSample((s) =>
                       l
@@ -207,10 +229,18 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                   }}
                 >
                   <option value="">{es ? "— Ninguna (tabla de ejemplo) —" : "— None (sample table) —"}</option>
+                  {[8, 12, 16, 20, 32].map((n) => (
+                    <option key={n} value={`rand:${n}`}>🎲 {es ? `Equipos de prueba al azar · ${n}` : `Random test teams · ${n}`}</option>
+                  ))}
                   {leagues.map((l) => (
                     <option key={l.id} value={l.id}>{l.name} · {l.standings.length} {es ? "equipos" : "teams"}</option>
                   ))}
                 </select>
+                {randPick && (
+                  <button type="button" className="mt-1 text-[11px] font-bold text-amber-300" onClick={() => randomLeague(Number(randPick.slice(5)))}>
+                    🎲 {es ? "Otra tabla al azar" : "Shuffle again"} · {(sample.standings ?? []).length} {es ? "equipos" : "teams"}
+                  </button>
+                )}
               </label>
             )}
             <p className="sm:col-span-2 text-[11px] text-muted">
