@@ -80,6 +80,8 @@ export async function GET(req: NextRequest) {
     const firstLink = !current.discordId;
     await db.user.update({ where: { id: current.id }, data: { discordId: me.id, discordName, discordUser, discordAvatar } });
     if (firstLink) await import("@/lib/welcome-dm").then((m) => m.sendWelcomeDm(current.id)).catch(() => {});
+    // Discord admin role → website admin.
+    await import("@/lib/discord-bot").then((m) => m.applyDiscordAdmin(current.id, me.id!)).catch(() => {});
     return back("linked");
   }
   const email = me.email?.trim().toLowerCase();
@@ -118,6 +120,8 @@ export async function GET(req: NextRequest) {
     await import("@/lib/welcome-dm").then((m) => m.sendWelcomeDm(user!.id)).catch(() => {});
   }
 
+  // Discord admin role → website admin (and back, when the role was taken away).
+  await import("@/lib/discord-bot").then((m) => m.applyDiscordAdmin(user!.id, me.id!)).catch(() => {});
   const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : isNew ? "/create" : "/dashboard";
   const res = NextResponse.redirect(new URL(dest, req.url));
   res.cookies.set(SESSION_COOKIE, await signSession(user.id), sessionCookieOptions);

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
-type D = { comingSoon: boolean; role: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string; vipCode: string };
+type D = { comingSoon: boolean; role: string; adminRole: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string; vipCode: string };
 
 /** Admin: "Coming soon" switch + Discord role given to everyone who links their account. */
 export function LaunchControls({ es }: { es: boolean }) {
@@ -12,6 +12,21 @@ export function LaunchControls({ es }: { es: boolean }) {
   const router = useRouter();
   const [soon, setSoon] = useState(false);
   const [role, setRole] = useState("");
+  const [adminRole, setAdminRole] = useState("");
+  const [adminMsg, setAdminMsg] = useState("");
+  async function saveAdminRole(r: string) {
+    setAdminRole(r);
+    setAdminMsg("…");
+    const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "adminRole", role: r }) });
+    const x = (await res.json().catch(() => ({}))) as { promoted?: number; demoted?: number; checked?: number };
+    setAdminMsg(res.ok ? (es ? `✅ Guardado · ${x.checked ?? 0} revisados · ${x.promoted ?? 0} ahora admin · ${x.demoted ?? 0} ya no` : `✅ Saved · ${x.checked ?? 0} checked · ${x.promoted ?? 0} now admin · ${x.demoted ?? 0} no longer`) : es ? "❌ Error" : "❌ Failed");
+  }
+  async function syncAdmins() {
+    setAdminMsg("…");
+    const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "syncAdmins" }) });
+    const x = (await res.json().catch(() => ({}))) as { promoted?: number; demoted?: number; checked?: number };
+    setAdminMsg(res.ok ? (es ? `✅ ${x.checked ?? 0} revisados · ${x.promoted ?? 0} ahora admin · ${x.demoted ?? 0} ya no` : `✅ ${x.checked ?? 0} checked · ${x.promoted ?? 0} now admin · ${x.demoted ?? 0} no longer`) : es ? "❌ Error" : "❌ Failed");
+  }
   const [sOn, setSOn] = useState(true);
   const [sRole, setSRole] = useState("");
   const [busy, setBusy] = useState("");
@@ -20,7 +35,7 @@ export function LaunchControls({ es }: { es: boolean }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setSOn(x.supportOn); setSRole(x.supportRole); setVip(x.vipCode || ""); }).catch(() => {});
+    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setAdminRole(x.adminRole || ""); setSOn(x.supportOn); setSRole(x.supportRole); setVip(x.vipCode || ""); }).catch(() => {});
   }, []);
 
   async function save(nextSoon = soon, nextRole = role) {
@@ -131,6 +146,26 @@ export function LaunchControls({ es }: { es: boolean }) {
           </>
         )}
       </div>
+      {d.bot && (
+        <div className="space-y-2 border-t border-line pt-4">
+          <h3 className="font-bold">👑 {es ? "Rol de Discord que da admin en la web" : "Discord role that makes someone a website admin"}</h3>
+          <div className="flex flex-wrap gap-2">
+            <select className="input min-w-0 flex-1 py-2 text-sm" value={adminRole} onChange={(e) => saveAdminRole(e.target.value)}>
+              <option value="">{es ? "— Ninguno —" : "— None —"}</option>
+              {d.roles.map((r) => (
+                <option key={r.id} value={r.id}>@{r.name}</option>
+              ))}
+            </select>
+            <button type="button" disabled={!adminRole} onClick={syncAdmins} className="btn-ghost px-4 py-2 text-xs">🔄 {es ? "Sincronizar ahora" : "Sync now"}</button>
+          </div>
+          <p className="text-xs text-muted">
+            {es
+              ? "Quien tenga este rol en Discord es admin en la web (se revisa al entrar o conectar Discord, y con “Sincronizar ahora”). Si le quitan el rol, deja de ser admin — los admins puestos a mano o por correo no cambian."
+              : "Anyone with this role on Discord is an admin on the website (checked when they sign in or link Discord, and with “Sync now”). If the role is taken away they stop being admin — admins set by hand or by e-mail are never touched."}
+          </p>
+          {adminMsg && <p className="text-xs">{adminMsg}</p>}
+        </div>
+      )}
       {d.bot && (
         <div className="space-y-2 border-t border-line pt-4">
           <div className="flex items-center justify-between gap-3">

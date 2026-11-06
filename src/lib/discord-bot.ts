@@ -205,3 +205,63 @@ export async function listTextChannels(): Promise<{ id: string; name: string }[]
   const all = (await r.json()) as { id: string; name: string; type: number }[];
   return all.filter((c) => c.type === 0 || c.type === 5).map((c) => ({ id: c.id, name: c.name }));
 }
+
+/** The role ids a member has in your server (null when not a member / bot not ready). */
+export async function memberRoles(discordId: string): Promise<string[] | null> {
+  const g = guildId();
+  if (!botReady() || !g) return null;
+  const r = await call(`/guilds/${g}/members/${discordId}`, { method: "GET" }).catch(() => null);
+  if (!r?.ok) return null;
+  const m = (await r.json()) as { roles?: string[] };
+  return m.roles ?? [];
+}
+
+/**
+ * Discord admin role → website admin. Members with the role become ADMIN (marked adminVia "discord");
+ * users who got ADMIN that way lose it when the role is gone. Admins made by hand or by e-mail are never touched.
+ * Returns what happened. Never throws.
+ */
+export async function applyDiscordAdmin(userId: string, discordId: string, rolesKnown?: string[] | null): Promise<"promoted" | "demoted" | "kept" | "skipped"> {
+  try {
+    const { getSettings } = await import("./settings");
+    const adminRole = (await getSettings()).discord_admin_role?.trim();
+    if (!adminRole) return "skipped";
+    const roles = rolesKnown === undefined ? await memberRoles(discordId) : rolesKnown;
+    const { db } = await import("./db");
+    const u = await db.user.findUnique({ where: { id: userId }, select: { role: true, adminVia: true, email: true } });
+    if (!u) return "skipped";
+    const { isAdminEmail } = await import("./auth");
+    const has = !!roles?.includes(adminRole);
+    if (has && u.role !== "ADMIN") {
+      await db.user.update({ where: { id: userId }, data: { role: "ADMIN", adminVia: "discord" } });
+      return "promoted";
+    }
+    if (has && u.role === "ADMIN" && !u.adminVia && !isAdminEmail(u.email)) {
+      await db.user.update({ where: { id: userId }, data: { adminVia: "discord" } });
+      return "kept";
+    }
+    if (!has && roles !== null && u.role === "ADMIN" && u.adminVia === "discord" && !isAdminEmail(u.email)) {
+      await db.user.update({ where: { id: userId }, data: { role: "USER", adminVia: null } });
+      return "demoted";
+    }
+    return "kept";
+  } catch (e) {
+    console.error("applyDiscordAdmin failed", e);
+    return "skipped";
+  }
+}
+
+/** Checks every linked user against the Discord admin role. */
+export async function syncDiscordAdmins(): Promise<{ promoted: number; demoted: number; checked: number }> {
+  const { db } = await import("./db");
+  const users = await db.user.findMany({ where: { discordId: { not: null } }, select: { id: true, discordId: true }, take: 2000 });
+  let promoted = 0, demoted = 0, checked = 0;
+  for (const u of users) {
+    const r = await applyDiscordAdmin(u.id, u.discordId!);
+    checked++;
+    if (r === "promoted") promoted++;
+    if (r === "demoted") demoted++;
+    await new Promise((res) => setTimeout(res, 120)); // stay under Discord's rate limit
+  }
+  return { promoted, demoted, checked };
+}

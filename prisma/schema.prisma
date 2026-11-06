@@ -47,6 +47,8 @@ model User {
   name               String
   passwordHash       String
   role               Role                @default(USER)
+  // "discord" when the ADMIN role came from the Discord admin role (removed again when the role goes); null = set by hand
+  adminVia           String?
   credits            Int                 @default(0)
   banned             Boolean             @default(false)
   locale             String              @default("es")

@@ -54,6 +54,7 @@ const Body = z.object({
   daily_text_es: z.string().trim().max(240).optional(),
   share_image: z.string().trim().max(500).optional(),
   discord_link_role: z.string().trim().regex(/^(\d{15,22})?$/).optional(),
+  discord_admin_role: z.string().trim().regex(/^(\d{15,22})?$/).optional(),
   discord_webhook: z
     .string()
     .trim()
