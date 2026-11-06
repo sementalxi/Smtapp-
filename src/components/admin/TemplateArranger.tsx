@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import { ART_TYPES } from "@/lib/pro-options";
-import type { LayoutKind } from "@/lib/templates";
+import { STYLE_BADGES, badgeLabel, parseBadges, type LayoutKind } from "@/lib/templates";
 
 export type ArrangeItem = { id: string; name: string; nameEs: string; layout: LayoutKind; active: boolean; thumbUrl: string | null; uses: number; badge: string | null; audience: string };
 
@@ -158,12 +158,26 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
                           <div className="min-w-0 truncate text-sm font-bold">{es ? t.nameEs || t.name : t.name}</div>
                           <Switch on={t.active} es={es} onChange={(v) => patch(t.id, { active: v })} />
                         </div>
-                        <div className="flex flex-wrap gap-1">
-                          {([["", es ? "Sin etiqueta" : "No label"], ["recommended", es ? "⭐ Recomendado" : "⭐ Recommended"], ["fire", "🔥 Fire"]] as const).map(([v, lbl]) => (
-                            <button key={v} type="button" onClick={() => patch(t.id, { badge: v || null })} className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${(t.badge ?? "") === v ? (v === "fire" ? "border-orange-400 bg-orange-500/20 text-orange-300" : "border-lime bg-lime/15 text-lime") : "border-line text-muted"}`}>
-                              {lbl}
-                            </button>
-                          ))}
+                        <div className="flex flex-wrap gap-1" title={es ? "Etiquetas del estilo (varias a la vez): se ven con brillo en el creador" : "Style labels (several at once): shown with a glow in the creator"}>
+                          <button type="button" onClick={() => patch(t.id, { badge: null })} className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${!parseBadges(t.badge).length ? "border-lime bg-lime/15 text-lime" : "border-line text-muted"}`}>
+                            {es ? "Sin etiqueta" : "No label"}
+                          </button>
+                          {STYLE_BADGES.map((v) => {
+                            const cur = parseBadges(t.badge);
+                            const on = cur.includes(v);
+                            const colour = v === "fire" ? "border-orange-400 bg-orange-500/20 text-orange-300" : v === "photoshop" ? "border-violet-400 bg-violet-500/20 text-violet-200" : v === "new" ? "border-cyan-400 bg-cyan-500/20 text-cyan-200" : "border-lime bg-lime/15 text-lime";
+                            return (
+                              <button
+                                key={v}
+                                type="button"
+                                title={es ? "Se pueden poner varias" : "Several can be on at once"}
+                                onClick={() => patch(t.id, { badge: (on ? cur.filter((x) => x !== v) : [...cur, v]).join(",") || null })}
+                                className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[10px] font-bold ${on ? colour : "border-line text-muted"}`}
+                              >
+                                {badgeLabel(v, es)}
+                              </button>
+                            );
+                          })}
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {([["all", es ? "👥 Todos" : "👥 Everyone"], ["users", es ? "🙋 Usuarios" : "🙋 Users"], ["orgs", es ? "🏢 Orgs" : "🏢 Orgs"]] as const).map(([v, lbl]) => (

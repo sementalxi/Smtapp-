@@ -8,7 +8,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
-import { BannerInputs, EMPTY_INPUTS, LayoutKind } from "@/lib/templates";
+import { BannerInputs, EMPTY_INPUTS, LayoutKind, STYLE_BADGES, badgeLabel, parseBadges, type StyleBadge } from "@/lib/templates";
+import { StyleBadges } from "../StyleBadges";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
@@ -234,6 +235,10 @@ export function CreateWizard({
     return m;
   }, [templates, typePics]);
   const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
+  // Filter row in the style picker: one chip per label an admin used on this type (⭐ 🔥 🎨 ✨).
+  const badgeKinds = useMemo(() => STYLE_BADGES.filter((b) => styles.some((s) => parseBadges(s.badge).includes(b))), [styles]);
+  const [badgeFilter, setBadgeFilter] = useState<"" | StyleBadge>("");
+  const shownStyles = useMemo(() => (badgeFilter ? styles.filter((s) => parseBadges(s.badge).includes(badgeFilter)) : styles), [styles, badgeFilter]);
   // Warm the style previews in the background so step 2 shows them instantly.
   useEffect(() => {
     const urls = templates.filter((t) => t.thumbUrl).map((t) => thumb(t.thumbUrl!, 420));
@@ -812,27 +817,36 @@ export function CreateWizard({
 
       {step === 2 && (
         <div className="card p-5">
+          {badgeKinds.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-1.5">
+              {(["", ...badgeKinds] as const).map((b) => (
+                <button
+                  key={b || "all"}
+                  type="button"
+                  onClick={() => setBadgeFilter(b)}
+                  className={`rounded-full border px-2.5 py-1 text-[11px] font-bold transition ${badgeFilter === b ? "border-pink bg-pink/20 text-white" : "border-line text-muted hover:text-white"}`}
+                >
+                  {b ? badgeLabel(b, locale === "es") : locale === "es" ? "Todos" : "All"}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {styles.map((s) => (
+            {shownStyles.map((s) => (
               <button
                 key={s.id}
                 type="button"
                 onClick={() => { setTplId(s.id); setTimeout(() => setStep(3), 180); }}
                 className={`relative overflow-hidden rounded-xl border-2 text-left transition ${s.id === tplId ? "border-lime" : "border-transparent opacity-80 hover:opacity-100"}`}
               >
-                <TemplateThumb template={s} eager={styles.indexOf(s) < 4} isAdmin={isAdmin} />
+                <TemplateThumb template={s} eager={shownStyles.indexOf(s) < 4} isAdmin={isAdmin} />
                 {isAdmin && !s.thumbUrl && s.styleRefUrl && (
                   <span className="absolute bottom-1.5 left-1.5 rounded-md bg-pink/90 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow backdrop-blur">🎨 {locale === "es" ? "Referencia (solo admin)" : "Style ref (admin only)"}</span>
                 )}
                 {s.wide && (
                   <span className="absolute top-1.5 right-1.5 rounded-md bg-ink/80 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow backdrop-blur">▭ Banner 16:9</span>
                 )}
-                {s.badge === "recommended" && (
-                  <span className="absolute top-1.5 left-1.5 rounded-md bg-lime px-1.5 py-0.5 text-[10px] font-black uppercase text-ink shadow">⭐ {locale === "es" ? "Recomendado" : "Recommended"}</span>
-                )}
-                {s.badge === "fire" && (
-                  <span className="absolute top-1.5 left-1.5 rounded-md bg-gradient-to-r from-orange-500 to-red-500 px-1.5 py-0.5 text-[10px] font-black uppercase text-white shadow">🔥 {locale === "es" ? "Lo más fire" : "Fire"}</span>
-                )}
+                <StyleBadges badge={s.badge} es={locale === "es"} />
                 <div className="bg-panel-2 px-2 py-1.5 text-xs font-bold">{locale === "es" ? s.nameEs : s.name}</div>
               </button>
             ))}

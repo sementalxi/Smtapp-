@@ -339,6 +339,23 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 @keyframes deal-shine { 0%, 50% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
 @media (prefers-reduced-motion: reduce) { .deal-hot, .deal-hot-badge, .deal-hot-shine { animation: none; } }
 
+/* Style labels (⭐ 🔥 🎨 ✨) on the style cards: a pulsing glow in the label's colour and a shine sweep. */
+.style-badge {
+  position: relative; overflow: hidden; display: inline-block; padding: 3px 7px; border-radius: 6px;
+  font-size: 10px; font-weight: 900; line-height: 1.2; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
+  color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 2px 10px var(--glow), 0 0 18px var(--glow);
+  animation: style-badge-glow 2.4s ease-in-out infinite;
+}
+.style-badge-shine { pointer-events: none; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%); background-size: 250% 100%; animation: style-badge-shine 3s ease-in-out infinite; }
+.style-badge-recommended { --glow: rgba(200, 255, 60, 0.75); background: linear-gradient(90deg, #b9ff2e, #7ee80f); color: #0b1200; text-shadow: none; }
+.style-badge-fire { --glow: rgba(255, 90, 40, 0.8); background: linear-gradient(90deg, #ff7a18, #ff2d55); animation-duration: 1.6s; }
+.style-badge-photoshop { --glow: rgba(120, 90, 255, 0.85); background: linear-gradient(90deg, #31a8ff, #7b3cff 55%, #ff3ec8); }
+.style-badge-new { --glow: rgba(60, 220, 255, 0.75); background: linear-gradient(90deg, #22d3ee, #3b82f6); }
+@keyframes style-badge-glow { 0%, 100% { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 2px 8px var(--glow), 0 0 10px var(--glow); transform: scale(1); } 50% { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset, 0 2px 14px var(--glow), 0 0 26px var(--glow); transform: scale(1.04); } }
+@keyframes style-badge-shine { 0%, 55% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@media (prefers-reduced-motion: reduce) { .style-badge, .style-badge-shine { animation: none; } }
+
 /* iPhone Safari zooms into any text box under 16px — keep all inputs at 16px on phones (pinch-zoom still works). */
 @media (max-width: 767px) {
   input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),

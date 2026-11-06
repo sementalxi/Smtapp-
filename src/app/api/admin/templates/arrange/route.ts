@@ -8,7 +8,7 @@ import { handle, json } from "@/lib/api";
 const Layout = z.enum(["PLAYER", "CHAMPIONS", "EVENT", "MATCHDAY", "LINEUP", "RESULT", "STANDINGS", "LOGO", "TOTW"]);
 const Schema = z.object({
   categories: z.object({ order: z.array(Layout).max(10), hidden: z.array(Layout).max(10) }),
-  templates: z.array(z.object({ id: z.string().min(1), layout: Layout, sort: z.number().int().min(-1000).max(100000), active: z.boolean(), badge: z.enum(["recommended", "fire"]).nullable().default(null), audience: z.enum(["all", "users", "orgs"]).default("all") })).max(500),
+  templates: z.array(z.object({ id: z.string().min(1), layout: Layout, sort: z.number().int().min(-1000).max(100000), active: z.boolean(), badge: z.string().max(80).nullable().default(null).transform((v) => { const list = (v ?? "").split(",").map((x) => x.trim()).filter((x) => ["recommended", "fire", "photoshop", "new"].includes(x)); return list.length ? [...new Set(list)].join(",") : null; }), audience: z.enum(["all", "users", "orgs"]).default("all") })).max(500),
 });
 
 /** Admin: save category order/visibility and each style's category, order and on/off. */

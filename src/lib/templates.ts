@@ -3053,6 +3053,19 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
 ];
 
 /** How the crest was put on a poster, for admins (Discord logs, poster page, style test). */
+/** Labels an admin can put on a style. Stored comma-separated in Template.badge ("recommended,photoshop"). */
+export const STYLE_BADGES = ["recommended", "fire", "photoshop", "new"] as const;
+export type StyleBadge = (typeof STYLE_BADGES)[number];
+export function parseBadges(v: string | null | undefined): StyleBadge[] {
+  return (v ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s): s is StyleBadge => (STYLE_BADGES as readonly string[]).includes(s));
+}
+export function badgeLabel(b: StyleBadge, es: boolean): string {
+  return b === "recommended" ? (es ? "⭐ Recomendado" : "⭐ Recommended") : b === "fire" ? (es ? "🔥 Lo más fire" : "🔥 Fire") : b === "photoshop" ? "🎨 Photoshop" : es ? "✨ Nuevo" : "✨ New";
+}
+
 export function crestModeLabel(inputs: { aiLogo?: string } | null | undefined, hasCrest: boolean): string {
   if (!hasCrest) return "🚫 No crest";
   const m = inputs?.aiLogo ?? "";
