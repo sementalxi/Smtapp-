@@ -44,7 +44,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     try {
       assertInputUrls(inputs);
       const design = (banner.design ?? {}) as { look?: { templateId?: string }; totw?: { cardTemplateId?: string } };
-      const totw = ["TOTW", "STANDINGS", "EVENT"].includes(banner.template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? design.look?.templateId ?? design.totw?.cardTemplateId, user, banner.template.layout)) : null;
+      const totw = ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS"].includes(banner.template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? design.look?.templateId ?? design.totw?.cardTemplateId, user, banner.template.layout)) : null;
       const fmtNow = (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
       const exactTable = banner.template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const crestNote = banner.logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(banner.logoUrl) : null;

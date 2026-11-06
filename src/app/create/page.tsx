@@ -15,7 +15,7 @@ import { getTypePics } from "@/lib/type-pics";
 
 export const metadata = { title: "Create" };
 
-const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"];
+const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS"];
 
 export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string; league?: string; again?: string }> }) {
   const user = await requireUser();

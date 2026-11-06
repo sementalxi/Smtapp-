@@ -73,4 +73,4 @@ export async function totwExtras(inputs: BannerInputs, cardTemplateId: string | 
 }
 
 /** Layouts whose whole poster can take a player-card style's look. */
-export const LOOK_LAYOUTS = ["TOTW", "STANDINGS", "EVENT"];
+export const LOOK_LAYOUTS = ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS"];

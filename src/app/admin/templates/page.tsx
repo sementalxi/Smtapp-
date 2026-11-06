@@ -9,6 +9,7 @@ import { SeasonPicker } from "@/components/admin/SeasonPicker";
 import { SEASONS, getSeasonState } from "@/lib/seasons";
 import { TypePics } from "@/components/admin/TypePics";
 import { DeletedStyles } from "@/components/admin/DeletedStyles";
+import { QualifiersSync } from "@/components/admin/QualifiersSync";
 import { StyleGroups } from "@/components/admin/StyleGroups";
 import { getTypePics } from "@/lib/type-pics";
 
@@ -29,6 +30,7 @@ export default async function AdminTemplates() {
       <h1 className="font-display text-4xl">{t("admin_templates")}</h1>
       <TypePics initial={await getTypePics()} es={locale === "es"} />
       <SeasonPicker seasons={SEASONS.map(({ key, emoji, en, es }) => ({ key, emoji, en, es }))} initial={season} es={locale === "es"} />
+      <QualifiersSync es={locale === "es"} />
       <TemplateArranger
         categories={categories}
         initial={rows.map((r) => ({ id: r.id, name: r.name, nameEs: r.nameEs, layout: r.layout, active: r.active, thumbUrl: r.thumbUrl, uses: r._count.banners, badge: r.badge, audience: r.audience }))}

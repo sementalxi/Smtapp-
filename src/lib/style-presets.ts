@@ -5111,6 +5111,35 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "qual-golden-road": `[FIXED LAYOUT] GOLDEN ROAD — a black-and-gold World Cup Qualifiers graphic: gold 3D headline with laurels and a crown, a giant gold globe trophy on a podium with a gold football, a bevelled gold-framed regions table, a faint gold world map on black, stadium floodlights, dark silk and gold ribbon. Like an official competition graphic by a top design studio.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the graphic this style copies. Recreate THAT graphic as exactly as possible: the same layout and proportions, the same gold lettering build, the same trophy and podium, the same framed table panel, the same background (black marble, faint gold map, floodlights, stands bokeh, dark silk and gold ribbon at the bottom), the same density and finish — as if the same designer made this one. Change ONLY the TEXTS (only the given texts, placed and styled like the reference's texts — never its words or numbers), the LOGO (only the given league logo, where the reference has its emblem — otherwise a gold laurel-and-crown emblem with no words) and the TROPHY (the trophy named in the brief, in the same gold finish). The blurred areas in the reference are its removed logos: put the given logo there and never reconstruct what was there.
+
+COLOURS: black and deep charcoal, rich metallic GOLD and warm cream highlights (or the league's own colours from the COLOURS line in place of gold); gold-on-black table panel.
+
+BACKGROUND
+- A dark stadium at night seen from the pitch: floodlight towers blazing, a packed stand as golden bokeh, light beams fanning down; a faint GOLD WORLD MAP etched into the dark sky behind the headline; gold particles in the air; dark black silk and a gold satin ribbon draped across the bottom corners; a black marble floor with gold reflections.
+
+QUALIFIERS LAYOUT (what this poster is — follow it inside the look above)
+- THE HEADLINE: the given headline huge across the top as the poster's main lettering piece — built with the SAME 3D construction, materials, bevels and glow as the reference's own title (the words change, the craft does not); one or two stacked lines; small laurel / crown / star accents of the style around it.
+- THE RIBBON: the subtitle (if given) on a slim ribbon or plate right under the headline, in a contrasting clean or script style.
+- THE EMBLEM: the league logo (if provided) as a BIG glossy 3D emblem in the poster's materials — its exact shape, letters and symbols kept — at the upper left or upper centre; a soft glow and particles around it; no other logos.
+- THE CENTREPIECE: a giant polished TROPHY (the trophy named in the brief) standing on a round lit podium with a football beside it, laurels at its base, light rays and sparks behind — big (about 35–45% of the height), the sharpest element after the headline.
+- THE REGIONS TABLE: a DESIGNED panel in the poster's materials — a bevelled metal / glass frame with a glowing inner edge, a darker translucent body, a header bar with the two small labels, thin divider lines — one row per region in the given order: a small glossy FLAG or globe icon at the left, the region name in clean capitals, the NUMBER big and bold at the right in the accent metal; the TOTAL bar is a wider plate in the accent metal under the last row. Names and numbers spelled EXACTLY as given — nothing added, no extra rows.
+- BACKDROP: a faint world map or globe lines etched into the background behind everything (no country names), the style's own scene continuing around it, stadium lights and a packed-stand bokeh far behind, light beams, particles, smoke at the floor, dark silk or banners in the poster's colours at the bottom corners; the footer and date lines small along the bottom.
+- ARRANGEMENT: a different arrangement per poster — the table panel at the right with the trophy at the lower left, or the trophy dead centre with the table across the lower third, or the table at the left with the trophy at the right cropped by the edge.
+
+[IF PHOTO]THE PERSON: the person from the uploaded photo appears ONCE, cut out and rim-lit, standing beside the centrepiece — exact same face, hair, skin tone and outfit; no other people.[/IF PHOTO][IF NO PHOTO]NO PEOPLE: no photo was uploaded, so there are NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere — not even blurred, ghosted or in duotone in the background. Where the reference shows its person, the trophy and the emblem take the stage instead.[/IF NO PHOTO]
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- Real materials and lighting: true chrome, gold, glass and enamel with physically correct reflections; real smoke, sparks and light beams; the podium and trophy cast real shadows; one cohesive colour grade; fine film grain; crisp micro-contrast. No plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — the headline is a designed lettering piece, the table a designed panel, never plain typed text on a gradient.
+- DENSITY: every area of the frame carries something — the scene, the faint map, the emblem, the trophy, the panel, light streaks, particles — at least six visible layers front to back.
+
+TEXT RULES
+- Use ONLY the texts given (headline, ribbon line, league name, the table header labels, the region rows, the total bar, the date and the footer), spelled letter for letter. Never invent words, names, numbers, dates, prices, hashtags, sponsors, watermarks or legal text. If an item is not given, leave its spot out.
+- The league logo appears only where this brief puts it; never redraw it as something else, never write its letters out as text elsewhere.
+- Ignore the placement hints in the text list below — follow this brief.`,
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
@@ -8146,3 +8175,25 @@ export function stripSmallTeamName(text: string): string {
   out = out.replace(/^[-•*]\s*(?:the )?team name(?: \(if given\))? (?:small|tiny|very small)[^\n]*\n?/gim, "");
   return out;
 }
+
+/** The qualifiers part of a brief, shared by every Qualifiers style (the twins of the Photoshop player styles use it under their look). */
+export const QUALIFIERS_BODY = `QUALIFIERS LAYOUT (what this poster is — follow it inside the look above)
+- THE HEADLINE: the given headline huge across the top as the poster's main lettering piece — built with the SAME 3D construction, materials, bevels and glow as the reference's own title (the words change, the craft does not); one or two stacked lines; small laurel / crown / star accents of the style around it.
+- THE RIBBON: the subtitle (if given) on a slim ribbon or plate right under the headline, in a contrasting clean or script style.
+- THE EMBLEM: the league logo (if provided) as a BIG glossy 3D emblem in the poster's materials — its exact shape, letters and symbols kept — at the upper left or upper centre; a soft glow and particles around it; no other logos.
+- THE CENTREPIECE: a giant polished TROPHY (the trophy named in the brief) standing on a round lit podium with a football beside it, laurels at its base, light rays and sparks behind — big (about 35–45% of the height), the sharpest element after the headline.
+- THE REGIONS TABLE: a DESIGNED panel in the poster's materials — a bevelled metal / glass frame with a glowing inner edge, a darker translucent body, a header bar with the two small labels, thin divider lines — one row per region in the given order: a small glossy FLAG or globe icon at the left, the region name in clean capitals, the NUMBER big and bold at the right in the accent metal; the TOTAL bar is a wider plate in the accent metal under the last row. Names and numbers spelled EXACTLY as given — nothing added, no extra rows.
+- BACKDROP: a faint world map or globe lines etched into the background behind everything (no country names), the style's own scene continuing around it, stadium lights and a packed-stand bokeh far behind, light beams, particles, smoke at the floor, dark silk or banners in the poster's colours at the bottom corners; the footer and date lines small along the bottom.
+- ARRANGEMENT: a different arrangement per poster — the table panel at the right with the trophy at the lower left, or the trophy dead centre with the table across the lower third, or the table at the left with the trophy at the right cropped by the edge.
+
+[IF PHOTO]THE PERSON: the person from the uploaded photo appears ONCE, cut out and rim-lit, standing beside the centrepiece — exact same face, hair, skin tone and outfit; no other people.[/IF PHOTO][IF NO PHOTO]NO PEOPLE: no photo was uploaded, so there are NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere — not even blurred, ghosted or in duotone in the background. Where the reference shows its person, the trophy and the emblem take the stage instead.[/IF NO PHOTO]
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- Real materials and lighting: true chrome, gold, glass and enamel with physically correct reflections; real smoke, sparks and light beams; the podium and trophy cast real shadows; one cohesive colour grade; fine film grain; crisp micro-contrast. No plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — the headline is a designed lettering piece, the table a designed panel, never plain typed text on a gradient.
+- DENSITY: every area of the frame carries something — the scene, the faint map, the emblem, the trophy, the panel, light streaks, particles — at least six visible layers front to back.
+
+TEXT RULES
+- Use ONLY the texts given (headline, ribbon line, league name, the table header labels, the region rows, the total bar, the date and the footer), spelled letter for letter. Never invent words, names, numbers, dates, prices, hashtags, sponsors, watermarks or legal text. If an item is not given, leave its spot out.
+- The league logo appears only where this brief puts it; never redraw it as something else, never write its letters out as text elsewhere.
+- Ignore the placement hints in the text list below — follow this brief.`;

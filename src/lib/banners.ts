@@ -25,7 +25,7 @@ export const InputsSchema = z.object({
   tagline: str(30),
   subtitle: str(40),
   footer: str(120),
-  headline: str(30),
+  headline: str(40),
   eventName: str(48),
   roster: z.array(z.string().trim().max(30)).max(30).default([]),
   prize: str(24),
@@ -34,6 +34,9 @@ export const InputsSchema = z.object({
   rule: str(30),
   ruleNote: str(60),
   entry: str(24),
+  regions: z.array(z.string().trim().max(60)).max(12).default([]),
+  unit: str(20),
+  total: str(40),
   extraPrompt: str(1500),
   homeTeam: str(40),
   awayTeam: str(40),
@@ -344,7 +347,7 @@ export function collectProRefs(opts: {
             ? "the LEAGUE / ORGANIZATION logo — THIS image, reference image 1, and no other (the team crests that follow are NOT it) — it MUST appear, in TWO places: (1) crisp and clearly visible beside the title, about 14% of the poster width, as a glossy premium 3D emblem faithful to the reference (same shape, letters, symbols and colours — never redesigned); (2) echoed GIANT behind the table — about 90% of the poster width, centred — faded to roughly 20–25% opacity so it clearly reads through the table rows, blended into the light like a watermark carved in light. If the logo image has a solid background square, ignore the square."
           : layout === "TOTW"
             ? "the league / competition logo. Reproduce it faithfully (same shape, letters, symbols and colours — do not redesign it) as a clean glossy badge next to the title, at a size that reads clearly — never covering the cards. If the logo image has a solid background square, ignore the square."
-          : layout === "EVENT"
+          : layout === "EVENT" || layout === "QUALIFIERS"
             ? "the league / event logo (the organiser of this tournament). Keep its exact shape, letters, symbols and colours — do not redesign it — and make it a HERO element: a large glossy premium 3D emblem with a polished rim, depth, reflections and a coloured glow, placed prominently near the top centre (if there is a trophy, it can sit just above it or be engraved on it as well), lit by the scene's lights with particles around it — never a flat sticker in a corner. Build the poster's colour palette from this logo's colours (unless the user picked colours). If the logo has a solid background square, ignore the square and use only the emblem."
             : "the competition/championship logo. Place it as a smaller badge; reproduce it faithfully as a glossy 3D badge.",
     };
@@ -463,6 +466,61 @@ function eventDirection(seed: number, fixedLayout: boolean, hasPhoto: boolean, h
   ].join("\n");
 }
 
+/** Flag emojis the regions rows may start with → what to draw. */
+const FLAGS: Record<string, string> = {
+  "🇪🇺": "the European Union flag", "🇺🇸": "the USA flag", "🇲🇽": "the Mexico flag", "🇧🇷": "the Brazil flag", "🇦🇷": "the Argentina flag", "🇨🇴": "the Colombia flag", "🇨🇱": "the Chile flag", "🇵🇪": "the Peru flag",
+  "🇪🇸": "the Spain flag", "🇫🇷": "the France flag", "🇩🇪": "the Germany flag", "🇮🇹": "the Italy flag", "🇵🇹": "the Portugal flag", "🇬🇧": "the UK flag", "🏴󠁧󠁢󠁥󠁮󠁧󠁿": "the England flag", "🇳🇱": "the Netherlands flag",
+  "🇿🇦": "the South Africa flag", "🇳🇬": "the Nigeria flag", "🇪🇬": "the Egypt flag", "🇲🇦": "the Morocco flag", "🇸🇦": "the Saudi Arabia flag", "🇯🇵": "the Japan flag", "🇰🇷": "the South Korea flag", "🇨🇳": "the China flag",
+  "🇮🇳": "the India flag", "🇦🇺": "the Australia flag", "🇳🇿": "the New Zealand flag", "🇨🇦": "the Canada flag", "🇩🇴": "the Dominican Republic flag", "🇻🇪": "the Venezuela flag", "🇺🇾": "the Uruguay flag", "🇪🇨": "the Ecuador flag",
+  "🇭🇳": "the Honduras flag", "🇬🇹": "the Guatemala flag", "🇸🇻": "the El Salvador flag", "🇨🇷": "the Costa Rica flag", "🇵🇦": "the Panama flag", "🇨🇺": "the Cuba flag", "🇵🇷": "the Puerto Rico flag", "🇹🇷": "the Türkiye flag",
+  "🌍": "a globe showing Africa and Europe", "🌎": "a globe showing the Americas", "🌏": "a globe showing Asia and Oceania", "🌐": "a globe icon", "🏆": "a small trophy icon", "⚽": "a small football icon",
+};
+const EMOJI_RE = /^(?:\p{Regional_Indicator}{2}|[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}](?:\uFE0F)?(?:[\u{E0020}-\u{E007F}]+)?)/u;
+
+/** "🇪🇺 Europe · 24" → { icon: "the European Union flag", name: "Europe", count: "24" }. */
+export function parseRegionRow(line: string): { icon: string; name: string; count: string } {
+  let s = line.trim();
+  let icon = "";
+  const m = EMOJI_RE.exec(s);
+  if (m) {
+    icon = FLAGS[m[0]] ?? "a small flag";
+    s = s.slice(m[0].length).trim();
+  }
+  const parts = s.split(/\s*[·|:\-–—]\s*|\s{2,}/).map((x) => x.trim()).filter(Boolean);
+  let name = s, count = "";
+  if (parts.length >= 2 && /^[\d.,]+\+?$/.test(parts[parts.length - 1])) {
+    count = parts[parts.length - 1];
+    name = parts.slice(0, -1).join(" ");
+  } else {
+    const t = s.match(/^(.*?)[\s·:]+([\d.,]+\+?)$/);
+    if (t) {
+      name = t[1].trim();
+      count = t[2];
+    }
+  }
+  return { icon, name, count };
+}
+
+/** Qualifiers posters: where the table, the trophy and the emblem sit — a different arrangement per poster. */
+function qualifiersDirection(seed: number, fixedLayout: boolean, hasPhoto: boolean, hasLogo: boolean) {
+  const person = hasPhoto ? " The person from the uploaded photo appears once, cut out and rim-lit, beside the centrepiece." : " NO people, players, athletes, faces, hands, crowds or silhouettes anywhere — the stands far behind are only lights and bokeh.";
+  const emblem = hasLogo ? "the league logo as a BIG glossy 3D emblem (reference image), with a crown or laurel accent" : "a big glossy 3D laurel-and-crown emblem (no words on it)";
+  const layouts = [
+    `PODIUM & PANEL: the headline huge across the top; ${emblem} at the upper left; a giant trophy on a round podium at the lower left with a football beside it; the REGIONS TABLE as a tall framed panel on the RIGHT half (top ~30% to ~72%), the TOTAL bar at its foot; the footer line along the bottom.`,
+    `CENTRE STAGE: the headline huge across the top; the giant trophy dead centre on a lit podium with ${emblem} floating above it; the REGIONS TABLE as a wide framed panel across the LOWER third (two columns of rows if more than six), the TOTAL bar under it; the footer along the bottom.`,
+    `SPLIT: ${emblem} big at the upper centre under the headline; the REGIONS TABLE as a tall panel on the LEFT half; the giant trophy on the RIGHT half standing on a podium with light rays behind, slightly cropped by the edge; the TOTAL bar under the panel; the footer along the bottom.`,
+  ];
+  const n = Math.abs(seed);
+  const table = `THE REGIONS TABLE is a DESIGNED panel in the poster's materials (a bevelled metal / glass frame with a glowing inner edge, a darker translucent body, a header bar, thin divider lines): one row per region in the given order — a small glossy FLAG or globe icon at the left, the region name in clean capitals, the NUMBER big and bold at the right in the accent metal; the header bar has the two small labels; the TOTAL bar is a wider plate in the accent metal under the last row. Numbers and names spelled EXACTLY as given — nothing added, no extra rows.`;
+  if (fixedLayout) return `QUALITY BAR: like the official graphic of a top competition's media team — follow the art director's FIXED LAYOUT exactly. ${table}${person}`;
+  return [
+    `QUALIFIERS POSTER — LAYOUT FOR THIS POSTER (follow it unless the art director's instructions above define a different layout): ${layouts[n % layouts.length]}`,
+    table,
+    `BACKDROP: a faint world map or globe lines etched into the background behind everything (no country names), stadium floodlights and a packed-stand bokeh far behind, light beams, particles, smoke at the floor, dark silk or banners in the poster's colours at the bottom corners.${person}`,
+    `QUALITY BAR: like a flyer from a top esports / tournament design studio. Real photographic lighting and materials, deep layering (environment → faint map → centrepiece → lettering → table panel → foreground particles), rich textures, a cinematic colour grade — never flat, never plain text on a gradient.`,
+  ].join("\n");
+}
+
 /** Turns the template + the user's text into a detailed design brief for the image model. */
 export function buildProPrompt(opts: {
   layout: LayoutKind;
@@ -529,7 +587,7 @@ export function buildProPrompt(opts: {
   const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.rule, i.ruleNote, i.entry,
-    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
+    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, i.unit, i.total, ...i.regions, ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
   ].join(" ");
   const hit = allText.match(BLOCKED);
   if (hit) throw Object.assign(new HttpError(400, "err_blocked"), { detail: `Word filter matched "${hit[0]}"` });
@@ -734,6 +792,24 @@ export function buildProPrompt(opts: {
       if (i.scorers.length) lines.push(`- Goal scorers: ${q(i.scorers.filter(Boolean).join(" | "))}`);
       add("Competition", i.competition);
       break;
+    case "QUALIFIERS": {
+      const rows = i.regions.map(parseRegionRow).filter((r) => r.name);
+      const esLang = i.language === "Español";
+      const unit = (i.unit || (esLang ? "Managers" : "Managers")).trim();
+      const nums = rows.map((r) => Number(String(r.count).replace(/[^\d.]/g, "")));
+      const sum = rows.length && nums.every((n) => Number.isFinite(n) && String(rows[0].count) !== "") ? nums.reduce((a, b) => a + b, 0) : null;
+      const totalText = i.total.trim() || (sum !== null && sum > 0 ? `${esLang ? "TOTAL" : "TOTAL"} — ${sum} ${unit.toUpperCase()}` : "");
+      composition = `A WORLD CUP QUALIFIERS announcement poster for a pro-clubs / esports league — like the official graphic of a top competition's media team. The headline huge at the top as a glossy 3D lettering piece${i.subtitle ? ", a ribbon line under it" : ""}; ${i.champLogoUrl ? "the league logo as a big hero 3D emblem; " : ""}a giant polished trophy (${i.trophyUrl ? "the provided trophy" : trophyPrompt(i.trophy) || "a tall gold world-cup style trophy with a globe on top"}) as the centrepiece on a podium with a football; the REGIONS TABLE panel with one row per region (icon, name, number), a TOTAL bar; a faint world map behind; stadium lights, laurels, particles. ${frame} ${finish}`;
+      add("Headline (huge, glossy 3D, at the top)", i.headline || "QUALIFIERS");
+      add("Ribbon line under the headline", i.subtitle);
+      add(i.champLogoUrl ? "League name (small, beside the emblem — only if it is not already written on the logo)" : "League / competition name", i.competition);
+      lines.push(`- Table header (two small labels on the panel's top bar): ${q(esLang ? "Región" : "Region")} at the left and ${q(unit)} at the right`);
+      if (rows.length)
+        lines.push(`- Table rows, in this exact order (one per line — the icon, then the name, then the number at the right): \n${rows.map((r) => `  • ${r.icon ? `[${r.icon}] ` : "[a small globe icon] "}${q(r.name)}${r.count ? ` … ${q(r.count)}` : ""}`).join("\n")}`);
+      if (totalText) add("TOTAL bar under the rows (wider plate, bold)", totalText);
+      add("Season / date line (small)", i.date);
+      break;
+    }
     case "EVENT": {
       const nPartners = (i.partnerLogos ?? []).filter(Boolean).length;
       composition = `A tournament / event announcement poster. One or two dynamic shots of the subject, a huge glossy 3D headline in the middle${i.name ? ", a bold event title under it" : ""}${i.subtitle ? ", a script-font accent line" : ""}${i.date || i.details ? ", and the date and times on a sleek integrated ribbon or glowing light bar (not a flat app-style box)" : ""}${i.prize ? ", a prize badge" : ""}${i.rule ? ", a boxed rule line" + (i.ruleNote ? " with a small note under it" : "") : ""}${i.entry ? ", a boxed entry-fee line" : ""}${nPartners ? `, and a neat ROW OF ${nPartners} COLLABORATOR LOGO${nPartners > 1 ? "S" : ""} (the partner logos given as reference images — same height, evenly spaced, under a tiny letter-spaced label) that never covers the headline or the subject` : ""}. ${frame} ${finish}`;
@@ -824,7 +900,7 @@ export function buildProPrompt(opts: {
   const adminLed = !!opts.instructions?.trim();
   // A style with its own reference flyer or an explicit [OWN LOOK] tag keeps its look instead of the generic layout rules.
   const ownLook = adminLed && (opts.refs.some((r) => r.label.startsWith("a STYLE reference only")) || /\[OWN LOOK\]|STYLE REFERENCE/.test(opts.instructions ?? ""));
-  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", TOTW: "team of the week", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table", LOGO: "team logo" }[layout] ?? "sports";
+  const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", TOTW: "team of the week", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table", LOGO: "team logo", QUALIFIERS: "world cup qualifiers announcement" }[layout] ?? "sports";
   const directorBlock =
     opts.instructions?.trim()
       ? `DESIGN INSTRUCTIONS FROM THE ART DIRECTOR — ${adminLed ? "these define the whole design; follow them exactly. Where they conflict with anything else in this brief, they win, EXCEPT the text rules, logo space and safety rules below, which always apply" : "follow these closely; where they conflict with anything above, these win"}:\n${opts.instructions.trim().slice(0, 20000)}`
@@ -857,7 +933,7 @@ export function buildProPrompt(opts: {
     layout === "MATCHDAY" || layout === "RESULT"
       ? `- PEOPLE RULE (always applies, overrides the style): ${matchPhoto ? "the ONLY person on this poster is the one from the uploaded photo, once, in the centre foreground." : "no player photo was uploaded, so there are NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere — not even blurred, ghosted or duotone in the background. Leave the centre foreground OPEN (just the scene and lighting continuing through it, as if a player could be dropped in later)."} Wherever this style would put a player, portrait or figure${matchPhoto ? " other than the uploaded person" : ""} — especially the big duotone / ghosted portraits in the back halves — put the TEAM CRESTS instead: the home crest huge and faded (ghosted, 15–30% opacity, tinted into that half's colour) on the LEFT half and the away crest the same on the RIGHT half, behind everything, plus the two crests normal-size where the style places them. Never invent a player.`
       : "",
-    layout === "EVENT" && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",
+    (layout === "EVENT" || layout === "QUALIFIERS") && !hasPhoto ? `- NO PEOPLE: no photo was uploaded — this announcement has NO people, players, athletes, faces, bodies, hands, crowds or silhouettes anywhere, not even blurred in the background. The hero spot is taken by a big photoreal centrepiece (a giant trophy or the organizer logo as a 3D emblem, or the style's own centrepiece), dramatically lit, and the poster stays dense and layered like a top studio flyer — never a plain text stack.` : "",
     opts.cardLook
       ? `- LOOK OF THE WHOLE POSTER: the "${opts.cardLook.name}" player-card look — ${opts.cardLook.text}. The background, atmosphere, lighting, effects, materials and title typography of the entire poster (not only the cards) use this look${opts.cardLook.colours ? ` and these colours: main ${opts.cardLook.colours.primary}, accent / glow ${opts.cardLook.colours.accent}, deep shadows ${opts.cardLook.colours.dark}` : ""}. Keep this style's LAYOUT (where the title block sits, ${layout === "STANDINGS" ? "the table and its rows" : layout === "EVENT" ? "the hero, the prize and the information lines" : "the pitch and the formation of the cards"}) but replace its own scene, materials and colours with this look.${layout === "STANDINGS" ? " Take ONLY the look's scene, lighting, effects, colours and typography — NOT its player: a standings poster has no people, players, faces or figures at all; the league logo giant and faded in the background is the hero instead." : layout === "EVENT" ? " The look's player treatment applies to the uploaded photo only (the person shown exactly as that card style shows its player); without a photo take ONLY the scene, lighting, effects, colours and typography — no people or faces." : ""}`
       : "",
@@ -923,6 +999,7 @@ export function buildProPrompt(opts: {
       : layout === "MATCHDAY" || layout === "RESULT"
       ? `SPORTS DESIGN LOOK (always applies): it must look made by a pro sports graphic designer, not a generic AI image — bold, graphic and clean like official club / EA FC / Nike match graphics: diagonal shapes and stripes, solid colour blocks, halftone and grunge print textures, film grain, a real photographic stadium (slightly desaturated, high contrast). Restraint: no glowing fog everywhere, no neon haze, no excessive sparks or lightning, no plastic chrome on everything; deep blacks and crisp edges. Crests crisp and faithful with a clean drop shadow. TYPOGRAPHY: heavy slanted sports type with solid fills, a thick outline, a short hard 3D extrusion and a hard offset shadow with a grain texture; the title's second word in a bold brush-marker script crossing the first. Match info at the bottom with no bar or box: the time big in the same sports type (left half home colour, right half away colour), the date above in bold wide letter-spaced white caps, the venue below. Never rewrite text that appears inside a logo; write each text item only once.`
       : "",
+    layout === "QUALIFIERS" ? qualifiersDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl) : "",
     layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     layout === "LOGO" ? "" : `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,

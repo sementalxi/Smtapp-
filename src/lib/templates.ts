@@ -1,6 +1,6 @@
 // Shared (client + server) definitions for banner templates and inputs.
 
-export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS" | "LOGO" | "TOTW";
+export type LayoutKind = "PLAYER" | "CHAMPIONS" | "EVENT" | "MATCHDAY" | "LINEUP" | "RESULT" | "STANDINGS" | "LOGO" | "TOTW" | "QUALIFIERS";
 
 export type FontKey = "anton" | "bebas" | "gothic" | "brush" | "sans";
 export type Particles = "sparks" | "embers" | "snow" | "none";
@@ -38,6 +38,9 @@ export interface BannerInputs {
   rule: string; // EVENT: a rule / requirement in its own box ("GIANTS ONLY")
   ruleNote: string; // EVENT: the small line under the rule ("MUST BE MAX HEIGHT AND MAX WEIGHT")
   entry: string; // EVENT: the entry fee box ("$10 ENTRY", "FREE ENTRY")
+  regions: string[]; // QUALIFIERS: one row per region — "🇪🇺 Europe · 24"
+  unit: string; // QUALIFIERS: what the numbers count ("Managers", "Teams")
+  total: string; // QUALIFIERS: the total bar (empty = computed from the rows)
   extraPrompt: string; // added to the AI background prompt
   // Match day / lineup / result
   homeTeam: string;
@@ -97,6 +100,9 @@ export const EMPTY_INPUTS: BannerInputs = {
   rule: "",
   ruleNote: "",
   entry: "",
+  regions: [],
+  unit: "",
+  total: "",
   extraPrompt: "",
   homeTeam: "",
   awayTeam: "",
@@ -174,6 +180,7 @@ export const LAYOUT_FIELDS: Record<LayoutKind, (keyof BannerInputs)[]> = {
   STANDINGS: ["headline", "tagline", "subtitle", "competition", "standings", "qualify", "date", "footer"],
   LOGO: ["team", "subtitle", "headline", "footer"],
   TOTW: ["headline", "competition", "formation", "players", "date", "footer"],
+  QUALIFIERS: ["headline", "subtitle", "competition", "unit", "regions", "total", "date", "footer"],
 };
 
 export const CANVAS_W = 1080;
@@ -3004,6 +3011,9 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     ["player-ice-chrome", "Ice Chrome", "Cromo Hielo", "PLAYER", -1, "bright white futuristic room with a purple orb, chrome and cyan crystal shards in the corners, a giant white-and-cyan chrome 3D italic name, a round navy date badge", "#2fd0ff", "#7a3cff", "#eef1f5", "anton", "snow"],
     ["player-white-block", "White Block", "Bloque Blanco", "PLAYER", -1, "dark red club ceiling with red light rays and lightning, molten red chrome frames, a giant white deep-extruded 3D block name angled in perspective, tattoo roses around the player", "#e3121b", "#ffffff", "#140305", "anton", "embers"],
     ["player-liquid-script", "Liquid Script", "Script Líquido", "PLAYER", -1, "violet room with a glowing diamond of light, pink-purple smoke and sparks, liquid chrome frames, a giant brush-script name in pearl-white 3D chrome with a deep blue-red extrusion", "#7a3cff", "#ff3ec8", "#0d0418", "brush", "sparks"],
+    ["qual-golden-road", "Golden Road", "Camino Dorado", "QUALIFIERS", 1, "black-and-gold world cup qualifiers graphic: a faint gold world map on black marble, stadium floodlights, a giant gold globe trophy on a podium with a gold football, gold laurels and a crown, a bevelled gold-framed regions table, dark silk and gold ribbon at the bottom", "#d4a64a", "#f7e7b0", "#0a0906", "anton", "sparks"],
+    ["qual-electric-road", "Electric Road", "Camino Eléctrico", "QUALIFIERS", 2, "electric-blue esports qualifiers graphic: a glowing wireframe globe and map lines on a dark arena, LED screens and light beams, a chrome-and-blue trophy on a glass podium, a holographic glass regions panel with cyan edges, particles and lens flares", "#2fd0ff", "#7a3cff", "#040a1a", "anton", "sparks"],
+    ["qual-crimson-road", "Crimson Road", "Camino Carmesí", "QUALIFIERS", 3, "crimson-and-black qualifiers graphic: a red-lit stadium with smoke and embers, a dark marble floor, a silver-and-red trophy on a stone podium, red light rays, a dark bevelled regions panel with red glowing edges, torn red banners", "#e3121b", "#ff9a1f", "#120305", "anton", "embers"],
     ["event-storm-plates", "Storm Plates", "Placas de Tormenta", "EVENT", 1, "rain-soaked night stadium flyer: lightning, floodlights, blue haze and a wet reflective floor, the texts on angled dark-steel plates with electric-blue edges and calendar / clock icons, wet brushed-chrome and electric-blue 3D lettering", "#1e6cff", "#9fd3ff", "#03070f", "anton", "sparks"],
     ["event-golden-shield", "Golden Shield", "Escudo Dorado", "EVENT", 2, "golden arena flyer: a packed arena glow, spotlights and confetti, a big blue-and-gold bevelled shield badge with laurel wreaths and a small gold trophy on top holding the headline, blue plates with gold frames and calendar / clock icons, glossy reflective floor", "#d4a64a", "#1e6cff", "#06091a", "anton", "sparks"],
     ["event-relampago", "Relámpago", "Relámpago", "EVENT", 3, "electric-blue lightning flyer: giant white echo lettering of the headline across the whole width, ice and glass shards, LED dot grids, lightning bolts, the organizer logo set into the face of a giant gold-and-chrome trophy, two-column lock-up split by a lightning bolt, a glowing time bar", "#1e6cff", "#8fe3ff", "#03081a", "anton", "sparks"],

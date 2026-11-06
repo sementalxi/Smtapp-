@@ -84,14 +84,14 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         </p>
         <label className="label mt-4">🛡️ {es ? "Escudo en cada tipo de póster" : "Crest on each poster type"}</label>
         <div className="grid gap-1.5 sm:grid-cols-2">
-          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"] as const).map((l) => {
+          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS"] as const).map((l) => {
             let map: Record<string, string> = {};
             try {
               map = JSON.parse(v.crest_modes || "{}");
             } catch {
               map = {};
             }
-            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Clasificación"], LOGO: ["Logos", "Logos"], EVENT: ["Events", "Eventos"] };
+            const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Clasificación"], LOGO: ["Logos", "Logos"], EVENT: ["Events", "Eventos"], QUALIFIERS: ["Qualifiers", "Clasificatorios"] };
             return (
               <label key={l} className="flex items-center gap-2 text-xs">
                 <span className="w-32 shrink-0 font-bold">{names[l][es ? 1 : 0]}</span>
@@ -109,7 +109,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <p className="mt-1 text-[11px] text-muted">{es ? "Los usuarios no eligen: su póster usa lo de aquí. Los admins pueden cambiarlo en cada póster (último paso del creador)." : "Users don't choose: their posters use this. Admins can change it on each poster (last step of the creator)."}</p>
         <label className="label mt-4">{es ? "Solo OpenAI (sin fal.ai) para estos tipos" : "OpenAI only (no fal.ai) for these types"}</label>
         <div className="flex flex-wrap gap-1.5">
-          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"] as const).map((l) => {
+          {(["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT", "QUALIFIERS"] as const).map((l) => {
             const list = (v.openai_only_layouts ?? "TOTW,STANDINGS").split(",").filter(Boolean);
             const on = list.includes(l);
             const names: Record<string, [string, string]> = { PLAYER: ["Player cards", "Tarjetas"], CHAMPIONS: ["Champions", "Campeones"], MATCHDAY: ["Match day", "Día de partido"], LINEUP: ["Lineups", "Alineaciones"], TOTW: ["Team of the week", "Equipo de la semana"], RESULT: ["Results", "Resultados"], STANDINGS: ["Standings", "Tablas"], LOGO: ["Team logos", "Logos"], EVENT: ["Tournaments", "Torneos"] };

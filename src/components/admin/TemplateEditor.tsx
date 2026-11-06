@@ -140,6 +140,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
               <option value="PLAYER">PLAYER</option>
               <option value="CHAMPIONS">CHAMPIONS</option>
               <option value="EVENT">EVENT</option>
+              <option value="QUALIFIERS">QUALIFIERS</option>
               <option value="MATCHDAY">MATCHDAY</option>
               <option value="LINEUP">LINEUP</option>
               <option value="RESULT">RESULT</option>

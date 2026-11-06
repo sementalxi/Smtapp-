@@ -103,7 +103,7 @@ export const POST = handle(async (req: NextRequest) => {
   inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(template.layout, source ? (inputs.aiLogo || undefined) : body.inputs.aiLogo, isStaff(user.role), template.proInstructions);
   let proPrompt = "";
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
-  const totw = pro && ["TOTW", "STANDINGS", "EVENT"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
+  const totw = pro && ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
   const exactTable = pro && template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   // The AI rebuilds the crest as a 3D emblem: read what it contains first so no letter or symbol gets lost.

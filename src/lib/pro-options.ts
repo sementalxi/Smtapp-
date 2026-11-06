@@ -63,6 +63,12 @@ export const ART_TYPES: ArtType[] = [
     en: { name: "Tournament / event", desc: "Announce a tournament: prize, entry, date and times." },
     es: { name: "Torneo / evento", desc: "Anuncia un torneo: premio, inscripción, fecha y horarios." },
   },
+  {
+    layout: "QUALIFIERS",
+    icon: "🌍",
+    en: { name: "Qualifiers", desc: "World Cup qualifiers: league emblem, trophy and a table of regions with how many are in." },
+    es: { name: "Clasificatorios", desc: "Clasificatorios al mundial: escudo de la liga, trofeo y una tabla de regiones con cuántos participan." },
+  },
 ];
 
 export interface FontStyle {

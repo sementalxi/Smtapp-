@@ -88,6 +88,19 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?:
       return { ...base, headline: "MATCH DAY", homeTeam: s.team, awayTeam: s.rival, competition: s.competition, date: s.date, time: "8:00 PM", venue: s.venue };
     case "RESULT":
       return { ...base, headline: "FULL TIME", homeTeam: s.team, awayTeam: s.rival, homeScore: "3", awayScore: "1", scorers: [`${s.name} 23'`, `${s.name} 67'`, "Rival 80'"], competition: s.competition };
+    case "QUALIFIERS":
+      return {
+        ...base,
+        headline: "WORLD CUP QUALIFIERS",
+        subtitle: `Road to the ${s.competition || "World Cup"}`,
+        competition: s.competition,
+        unit: "Managers",
+        regions: ["🇪🇺 Europe · 24", "🌍 Africa · 16", "🌏 Asia · 16", "🇧🇷 South America · 10", "🇺🇸 North America · 12", "🇦🇺 Oceania · 8"],
+        date: s.date,
+        footer: s.footer,
+        trophy: "globe",
+        ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}),
+      };
     case "EVENT":
       return { ...base, headline: "TOURNAMENT", name: s.competition, subtitle: s.tagline, date: s.date, details: "8:00 PM · Online", prize: "$500", ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}) };
     case "STANDINGS":

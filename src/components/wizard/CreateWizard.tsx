@@ -383,6 +383,7 @@ export function CreateWizard({
   const totwPlayers = slotsToTotwLines(totwFormation, slots);
   const [squadText, setSquadText] = useState((pre?.roster ?? []).filter(Boolean).join("\n"));
   const [scorersText, setScorersText] = useState((pre?.scorers ?? []).filter(Boolean).join("\n"));
+  const [regionsText, setRegionsText] = useState((pre?.regions ?? []).filter(Boolean).join("\n")); // qualifiers: one region per line
   const [barDone, setBarDone] = useState(false);
   const [genStage, setGenStage] = useState<string | null>(null);
   // Standings table rows
@@ -481,6 +482,7 @@ export function CreateWizard({
     return {
       ...inp,
       bgPose: inp.bgPose || "style",
+      ...(layout === "QUALIFIERS" && !inp.trophy ? { trophy: "globe" } : {}),
       // Player cards: the style's own colours unless the user picked otherwise (the crest's colours or a fresh palette).
       ...(layout === "PLAYER" && !inp.colorMode ? { colorMode: "template" as const } : {}),
       color1: inp.colorMode === "custom" ? inp.color1 || "#1d5bff" : inp.color1,
@@ -503,6 +505,7 @@ export function CreateWizard({
       partnerNames: layout === "EVENT" ? collabs.filter((c): c is SavedItem => !!c?.logoUrl).map((c) => c.name).slice(0, 4) : [],
       roster: (lines(squadText).length ? lines(squadText) : layout === "CHAMPIONS" && team && !team.official ? (team.players ?? []).map((p) => p.name) : []).slice(0, 30),
       scorers: lines(scorersText).slice(0, 12),
+      regions: layout === "QUALIFIERS" ? lines(regionsText).slice(0, 12) : [],
       standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
       tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 20).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl ?? "") : [],
     };
@@ -523,6 +526,8 @@ export function CreateWizard({
         return totwPlayers.length > 0;
       case "EVENT":
         return !!inp.headline.trim();
+      case "QUALIFIERS":
+        return !!inp.headline.trim() && lines(regionsText).length > 0;
       case "STANDINGS":
         return tableRows.length >= 2;
       case "LOGO":
@@ -627,7 +632,7 @@ export function CreateWizard({
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
         ...(format !== "post" ? { format } : {}),
-        ...((layout === "TOTW" || layout === "STANDINGS" || layout === "EVENT") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
+        ...((layout === "TOTW" || layout === "STANDINGS" || layout === "EVENT" || layout === "QUALIFIERS") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -1306,6 +1311,54 @@ export function CreateWizard({
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
               {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para todo el póster — fondo, luces, tipografía)" : "Poster look (a player-card style for the whole poster — background, lighting, typography)")}
+            </>
+          )}
+
+          {layout === "QUALIFIERS" && (
+            <>
+              {field({ label: L.headline, k: "headline", req: true, max: 40, ph: "DPL WORLD CUP QUALIFIERS" })}
+              {field({ label: locale === "es" ? "Línea en cinta (bajo el titular)" : "Ribbon line (under the headline)", k: "subtitle", max: 40, ph: "Road to the DPL World Cup" })}
+              <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
+              <div>
+                <label className="label">
+                  🌍 {locale === "es" ? "Regiones — una por línea" : "Regions — one per line"} <span className="text-lime">*</span>
+                </label>
+                <textarea
+                  className="input min-h-36"
+                  value={regionsText}
+                  onChange={(e) => setRegionsText(e.target.value)}
+                  placeholder={"🇪🇺 Europe · 24\n🌍 Africa · 16\n🌏 Asia · 16\n🇧🇷 South America · 10\n🇺🇸 North America · 12\n🇦🇺 Oceania · 8"}
+                />
+                <p className="mt-1 text-xs text-muted">
+                  {locale === "es" ? "Región · número. Un emoji de bandera al inicio se dibuja como bandera. Hasta 12 filas." : "Region · number. A flag emoji at the start is drawn as a flag. Up to 12 rows."}
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: locale === "es" ? "Qué cuentan los números" : "What the numbers count", k: "unit", max: 20, ph: "Managers" })}
+                {field({ label: locale === "es" ? "Barra de total (vacío = se suma solo)" : "Total bar (empty = added up for you)", k: "total", max: 40, ph: "TOTAL — 86 MANAGERS" })}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {field({ label: locale === "es" ? "Temporada / fecha" : "Season / date", k: "date", max: 30, ph: "Season 2026" })}
+                {field({ label: L.infoLine, k: "footer", max: 110, ph: L.infoPh })}
+              </div>
+              <div>
+                <span className="label">{L.trophy}</span>
+                <div className="grid grid-cols-2 gap-2">
+                  {TROPHY_STYLES.map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => set("trophy", t.id)}
+                      className={`rounded-lg border px-3 py-2.5 text-left text-sm ${t.id === "surprise" ? "col-span-full border-dashed font-bold " : ""}${(inp.trophy || "globe") === t.id && !inp.trophyUrl ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                    >
+                      {t.id === "surprise" ? (locale === "es" ? "🎲 Sorpréndeme (trofeo diferente cada vez)" : "🎲 Surprise me (a different cup every time)") : `🏆 ${t.label}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <ImageDrop kind="logo" label={L.trophyUpload} value={inp.trophyUrl || null} onChange={(u) => set("trophyUrl", u ?? "")} />
+              <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
+              {lookPicker(locale === "es" ? "Look del póster (un estilo de tarjeta de jugador para todo el póster — fondo, luces, tipografía)" : "Poster look (a player-card style for the whole poster — background, lights, typography)")}
             </>
           )}
 
