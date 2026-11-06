@@ -103,8 +103,7 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?:
     case "LOGO":
       return logoCreate ? { ...base, team: s.team, subtitle: s.mascot, footer: s.footer } : { ...base, headline: s.tagline, footer: s.footer, team: s.team };
     default:
-      // Flyer styles: fill every flyer line with its example text so the test shows the full layout.
-      return { ...base, name: s.name, team: s.team, position: s.position, number: s.number, tagline: s.tagline, subtitle: s.subtitle, footer: s.footer, slots: Object.fromEntries(textSlotsFor(slug, textSlots).map((sl) => [sl.key, sl.ph ?? ""])) };
+      return { ...base, name: s.name, team: s.team, position: s.position, number: s.number, tagline: s.tagline, subtitle: s.subtitle, footer: s.footer };
   }
 }
 
@@ -115,7 +114,8 @@ const CREST_LAYOUTS = ["PLAYER", "CHAMPIONS", "LINEUP", "LOGO"];
 export function bannerBodyFor(t: { id: string; layout: string; logoCreate: boolean; slug?: string; textSlots?: string | null }, s: Sample, run: string) {
   return {
     templateId: t.id,
-    inputs: inputsFor(t.layout, s, t.logoCreate, t.slug, t.textSlots),
+    // The style's added boxes (any poster type) get their example text so the test shows the full layout.
+    inputs: { ...inputsFor(t.layout, s, t.logoCreate, t.slug, t.textSlots), slots: Object.fromEntries(textSlotsFor(t.slug, t.textSlots).map((sl) => [sl.key, sl.ph ?? ""])) },
     // Only the kinds whose creator step takes them: a photo for player cards, champions and match posters;
     // a team crest where the creator has a team picker. Standings, team of the week, lineups and events get none.
     photoUrl: PHOTO_LAYOUTS.includes(t.layout) ? s.photoUrl || undefined : undefined,

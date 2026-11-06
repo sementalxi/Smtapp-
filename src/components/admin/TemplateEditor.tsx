@@ -185,7 +185,7 @@ export function TemplateEditor({ initial, isNew }: { initial: AdminTemplate; isN
               : "Optional tags in the text: [CREST 3D EXACT] (real file with KIXO's 3D finish) / [CREST 3D] (AI remake) / [CREST BOTH] / [CREST PASTE] / [CREST EXACT] set how the crest is made on this style · [CREST SPOT tc|bc|tl|tr] where it is placed (top centre by default) · [FIXED POSES] no surprise second figure · [WIDE] 16:9 banner · [OWN LOOK] the style wins over the generic match-day rules."}
           </p>
         </div>
-        {tpl.layout === "PLAYER" && <TextBoxesEditor slug={tpl.slug} value={tpl.textSlots ?? null} onChange={(json) => set("textSlots", json)} es={es} styleRefUrl={tpl.styleRefUrl ?? null} />}
+        <TextBoxesEditor slug={tpl.slug} value={tpl.textSlots ?? null} onChange={(json) => set("textSlots", json)} es={es} styleRefUrl={tpl.styleRefUrl ?? null} />
         <label className="flex items-start gap-2 text-sm">
           <input type="checkbox" className="mt-1" checked={tpl.randomize !== false} onChange={(e) => set("randomize", e.target.checked)} />
           <span>

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, after } from "next/server";
 import { db } from "@/lib/db";
 import { apiAdmin, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
@@ -23,6 +23,8 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
     .catch(() => {
       throw new HttpError(404, "not_found");
     });
+  // A reference flyer was set on a style without boxes: read its text lines in the background so they are ready to add.
+  if (body.styleRefUrl) after(async () => (await import("@/lib/detect-slots")).autoDetectSlotsForTemplate(id));
   return json({ ok: true });
 });
 

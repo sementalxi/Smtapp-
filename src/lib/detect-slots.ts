@@ -1,4 +1,6 @@
 import { HttpError } from "./auth";
+import { db } from "./db";
+import { TEXT_SLOTS } from "./text-slots";
 import { isStorageUrl, loadBytes, sniffImage } from "./storage";
 import type { SlotOverride } from "./text-slots";
 
@@ -89,4 +91,22 @@ export async function detectSlotsFromImage(styleRefUrl: string): Promise<SlotOve
   }
   console.error("detect-slots failed", lastErr);
   throw new HttpError(502, "ai_failed");
+}
+
+/**
+ * A style that just got a reference flyer and has no boxes yet: read the flyer's lines and store them as
+ * candidate boxes (not yet added), so the admin only has to press ➕ in the creator. Never throws.
+ */
+export async function autoDetectSlotsForTemplate(id: string): Promise<void> {
+  try {
+    const t = await db.template.findUnique({ where: { id }, select: { slug: true, styleRefUrl: true, textSlots: true } });
+    if (!t?.styleRefUrl || t.textSlots || (TEXT_SLOTS[t.slug] ?? []).length) return;
+    const found = await detectSlotsFromImage(t.styleRefUrl);
+    const again = await db.template.findUnique({ where: { id }, select: { textSlots: true } });
+    if (again?.textSlots) return; // the admin got there first
+    await db.template.update({ where: { id }, data: { textSlots: JSON.stringify(found) } });
+    await (await import("./rev")).bumpRev();
+  } catch (e) {
+    console.error("autoDetectSlotsForTemplate failed", e);
+  }
 }

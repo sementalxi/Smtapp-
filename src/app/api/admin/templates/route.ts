@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, after } from "next/server";
 import { db } from "@/lib/db";
 import { apiAdmin } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
@@ -23,5 +23,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (exists) return json({ error: "Slug already used" }, 409);
   const { textSlots, ...rest } = body;
   const t = await db.template.create({ data: { ...rest, style: toJson(body.style), textSlots: textSlots?.length ? JSON.stringify(textSlots) : null } });
+  // A new style with a reference flyer: read its text lines in the background so the boxes are ready to add.
+  if (body.styleRefUrl && !textSlots?.length) after(async () => (await import("@/lib/detect-slots")).autoDetectSlotsForTemplate(t.id));
   return json({ id: t.id });
 });

@@ -946,86 +946,11 @@ export function CreateWizard({
                 {field({ label: L.position, k: "position", max: 24, ph: "ST · CAM | OM" })}
                 {field({ label: L.number, k: "number", max: 4 })}
               </div>
-              {/* The boxes the admin ADDED for this style: part of the main form, for everyone. */}
-              {tplSlots.map((sl) => (
-                <div key={sl.key}>
-                  <label className="label">{locale === "es" ? sl.labelEs : sl.label}</label>
-                  <input
-                    className="input"
-                    maxLength={sl.max ?? 60}
-                    placeholder={sl.ph}
-                    value={inp.slots?.[sl.key] ?? ""}
-                    onChange={(e) => set("slots", { ...(inp.slots ?? {}), [sl.key]: e.target.value })}
-                  />
-                </div>
-              ))}
               {!tplSlots.length && (
                 <>
                   {field({ label: L.tagline, k: "tagline", max: 30 })}
                   {field({ label: L.subtitle, k: "subtitle" })}
                 </>
-              )}
-              {isAdmin && tpl && (tpl.styleRefUrl || allSlots.length > 0) && (
-                <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
-                  <div className="rounded-lg border border-pink/30 bg-ink/40 p-2">
-                    <div className="flex items-start gap-3">
-                      {tpl.styleRefUrl && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
-                      )}
-                      <div className="text-[11px] leading-snug text-muted">
-                        <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Cajas del estilo (solo admin)" : "Style boxes (admin only)"}</span>
-                        <br />
-                        {locale === "es"
-                          ? "Las líneas de texto de este flyer. Pulsa ➕ para añadir una caja al formulario principal (la ve todo el mundo), ✏️ para cambiar su título, subtítulo o dónde va. El nombre / gamertag se escribe con el título 3D del flyer."
-                          : "This flyer's text lines. Press ➕ to add a box to the main form (everyone sees it), ✏️ to change its title, subtitle or where it goes. The name / gamertag is lettered like the flyer's 3D title."}
-                        <span className="mt-2 flex flex-wrap gap-1.5">
-                          {tpl.styleRefUrl && (
-                            <button type="button" onClick={syncSlotsFromFlyer} disabled={slotBusy} className="btn-primary text-xs">
-                              {slotBusy ? (locale === "es" ? "⏳…" : "⏳…") : allSlots.length ? (locale === "es" ? "🔄 Leer el flyer otra vez" : "🔄 Read the flyer again") : locale === "es" ? "✨ Leer las líneas del flyer" : "✨ Read the flyer's lines"}
-                            </button>
-                          )}
-                          <button type="button" onClick={addOwnSlot} disabled={slotBusy} className="btn-ghost text-xs">
-                            ➕ {locale === "es" ? "Caja propia" : "My own box"}
-                          </button>
-                        </span>
-                        {slotMsg && <span className="mt-1 block">{slotMsg}</span>}
-                      </div>
-                    </div>
-                  </div>
-                  {allSlots.map((sl) => (
-                    <div key={sl.key} className={`rounded-lg border p-2 ${sl.on ? "border-lime/40 bg-panel/60" : "border-line/60 bg-panel/30"}`}>
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="min-w-0">
-                          <div className="truncate text-sm font-bold">{locale === "es" ? sl.labelEs : sl.label}</div>
-                          <div className="truncate text-[11px] text-muted">{sl.ph || (locale === "es" ? "sin ejemplo" : "no example")}{sl.on ? (locale === "es" ? " · ✅ en el formulario" : " · ✅ in the form") : ""}</div>
-                        </div>
-                        <div className="flex shrink-0 gap-1">
-                          <button type="button" onClick={() => toggleSlot(sl.key)} disabled={slotBusy} className={`rounded-md border px-2 py-1 text-[11px] font-bold ${sl.on ? "border-lime/60 bg-lime/15 text-lime" : "border-pink/60 bg-pink/15 text-pink"}`}>
-                            {sl.on ? (locale === "es" ? "✅ Añadida · quitar" : "✅ Added · remove") : locale === "es" ? "➕ Añadir" : "➕ Add"}
-                          </button>
-                          <button type="button" onClick={() => setSlotEdit(slotEdit === sl.key ? null : sl.key)} className="rounded-md border border-line px-2 py-1 text-[11px] font-bold text-muted">
-                            ✏️ {locale === "es" ? "Editar" : "Edit"}
-                          </button>
-                          {sl.custom && (
-                            <button type="button" onClick={() => removeSlot(sl.key)} disabled={slotBusy} className="rounded-md border border-red-500/40 px-2 py-1 text-[11px] text-red-300">
-                              🗑
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      {slotEdit === sl.key && (
-                        <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
-                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Título (EN)" : "Title (EN)"} defaultValue={sl.label} maxLength={60} onBlur={(e) => e.target.value.trim() !== sl.label && patchSlot(sl.key, { label: e.target.value.trim() || sl.label })} />
-                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Título (ES)" : "Title (ES)"} defaultValue={sl.labelEs} maxLength={60} onBlur={(e) => e.target.value.trim() !== sl.labelEs && patchSlot(sl.key, { labelEs: e.target.value.trim() || sl.labelEs })} />
-                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Subtítulo / ejemplo (gris)" : "Subtitle / example (grey)"} defaultValue={sl.ph ?? ""} maxLength={120} onBlur={(e) => e.target.value.trim() !== (sl.ph ?? "") && patchSlot(sl.key, { ph: e.target.value.trim() })} />
-                          <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Para la IA — dónde va y cómo se escribe" : "For the AI — where it goes and how it's lettered"} defaultValue={sl.where} maxLength={400} onBlur={(e) => e.target.value.trim() !== sl.where && patchSlot(sl.key, { where: e.target.value.trim() || sl.where })} />
-                          <p className="text-[10px] text-muted sm:col-span-2">{locale === "es" ? "Se guarda al salir de cada campo." : "Saved when you leave each field."}</p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
               )}
             </>
           )}
@@ -1347,6 +1272,81 @@ export function CreateWizard({
             </>
           )}
 
+          {/* The boxes the admin ADDED for this style: part of the main form, for everyone. */}
+          {tplSlots.map((sl) => (
+            <div key={sl.key}>
+              <label className="label">{locale === "es" ? sl.labelEs : sl.label}</label>
+              <input
+                className="input"
+                maxLength={sl.max ?? 60}
+                placeholder={sl.ph}
+                value={inp.slots?.[sl.key] ?? ""}
+                onChange={(e) => set("slots", { ...(inp.slots ?? {}), [sl.key]: e.target.value })}
+              />
+            </div>
+          ))}
+              {isAdmin && tpl && (tpl.styleRefUrl || allSlots.length > 0) && (
+            <div className="rounded-xl border border-pink/40 bg-pink/5 p-3 space-y-3">
+              <div className="rounded-lg border border-pink/30 bg-ink/40 p-2">
+                <div className="flex items-start gap-3">
+                  {tpl.styleRefUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={tpl.styleRefUrl} alt="" className="h-40 w-auto rounded-md object-contain" loading="lazy" decoding="async" />
+                  )}
+                  <div className="text-[11px] leading-snug text-muted">
+                    <span className="font-black uppercase text-pink">🎨 {locale === "es" ? "Cajas del estilo (solo admin)" : "Style boxes (admin only)"}</span>
+                    <br />
+                    {locale === "es"
+                      ? "Las líneas de texto de este flyer. Pulsa ➕ para añadir una caja al formulario principal (la ve todo el mundo), ✏️ para cambiar su título, subtítulo o dónde va. El nombre / gamertag se escribe con el título 3D del flyer."
+                      : "This flyer's text lines. Press ➕ to add a box to the main form (everyone sees it), ✏️ to change its title, subtitle or where it goes. The name / gamertag is lettered like the flyer's 3D title."}
+                    <span className="mt-2 flex flex-wrap gap-1.5">
+                      {tpl.styleRefUrl && (
+                        <button type="button" onClick={syncSlotsFromFlyer} disabled={slotBusy} className="btn-primary text-xs">
+                          {slotBusy ? (locale === "es" ? "⏳…" : "⏳…") : allSlots.length ? (locale === "es" ? "🔄 Leer el flyer otra vez" : "🔄 Read the flyer again") : locale === "es" ? "✨ Leer las líneas del flyer" : "✨ Read the flyer's lines"}
+                        </button>
+                      )}
+                      <button type="button" onClick={addOwnSlot} disabled={slotBusy} className="btn-ghost text-xs">
+                        ➕ {locale === "es" ? "Caja propia" : "My own box"}
+                      </button>
+                    </span>
+                    {slotMsg && <span className="mt-1 block">{slotMsg}</span>}
+                  </div>
+                </div>
+              </div>
+              {allSlots.map((sl) => (
+                <div key={sl.key} className={`rounded-lg border p-2 ${sl.on ? "border-lime/40 bg-panel/60" : "border-line/60 bg-panel/30"}`}>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-bold">{locale === "es" ? sl.labelEs : sl.label}</div>
+                      <div className="truncate text-[11px] text-muted">{sl.ph || (locale === "es" ? "sin ejemplo" : "no example")}{sl.on ? (locale === "es" ? " · ✅ en el formulario" : " · ✅ in the form") : ""}</div>
+                    </div>
+                    <div className="flex shrink-0 gap-1">
+                      <button type="button" onClick={() => toggleSlot(sl.key)} disabled={slotBusy} className={`rounded-md border px-2 py-1 text-[11px] font-bold ${sl.on ? "border-lime/60 bg-lime/15 text-lime" : "border-pink/60 bg-pink/15 text-pink"}`}>
+                        {sl.on ? (locale === "es" ? "✅ Añadida · quitar" : "✅ Added · remove") : locale === "es" ? "➕ Añadir" : "➕ Add"}
+                      </button>
+                      <button type="button" onClick={() => setSlotEdit(slotEdit === sl.key ? null : sl.key)} className="rounded-md border border-line px-2 py-1 text-[11px] font-bold text-muted">
+                        ✏️ {locale === "es" ? "Editar" : "Edit"}
+                      </button>
+                      {sl.custom && (
+                        <button type="button" onClick={() => removeSlot(sl.key)} disabled={slotBusy} className="rounded-md border border-red-500/40 px-2 py-1 text-[11px] text-red-300">
+                          🗑
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  {slotEdit === sl.key && (
+                    <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
+                      <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Título (EN)" : "Title (EN)"} defaultValue={sl.label} maxLength={60} onBlur={(e) => e.target.value.trim() !== sl.label && patchSlot(sl.key, { label: e.target.value.trim() || sl.label })} />
+                      <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Título (ES)" : "Title (ES)"} defaultValue={sl.labelEs} maxLength={60} onBlur={(e) => e.target.value.trim() !== sl.labelEs && patchSlot(sl.key, { labelEs: e.target.value.trim() || sl.labelEs })} />
+                      <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Subtítulo / ejemplo (gris)" : "Subtitle / example (grey)"} defaultValue={sl.ph ?? ""} maxLength={120} onBlur={(e) => e.target.value.trim() !== (sl.ph ?? "") && patchSlot(sl.key, { ph: e.target.value.trim() })} />
+                      <input className="input !py-1.5 text-xs" placeholder={locale === "es" ? "Para la IA — dónde va y cómo se escribe" : "For the AI — where it goes and how it's lettered"} defaultValue={sl.where} maxLength={400} onBlur={(e) => e.target.value.trim() !== sl.where && patchSlot(sl.key, { where: e.target.value.trim() || sl.where })} />
+                      <p className="text-[10px] text-muted sm:col-span-2">{locale === "es" ? "Se guarda al salir de cada campo." : "Saved when you leave each field."}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
           {!tplSlots.length && field({ label: L.footer, k: "footer", max: 48 })}
           <div className="rounded-xl border border-teal/40 bg-teal/5 p-3">
             <ImageDrop kind="photo" label={locale === "es" ? "🖼️ Imagen de referencia (opcional) — un póster que te guste, para que la IA capte la idea" : "🖼️ Reference image (optional) — a poster you like, so the AI gets the idea"} value={refImg} onChange={setRefImg} searchQuery={locale === "es" ? "póster deportivo" : "sports poster design"} />

@@ -540,7 +540,7 @@ export function buildProPrompt(opts: {
     lines.push(`- ${label}: ${q(v)}`);
     inventory.push(v);
   };
-  const flyerSlots = layout === "PLAYER" ? textSlotsFor(opts.slug, opts.textSlotsJson) : [];
+  const flyerSlots = textSlotsFor(opts.slug, opts.textSlotsJson);
   const finish = `BACKGROUND & FINISH (must be epic, never simple): build at least three layers of depth — 1) a detailed, dramatic environment far behind (stadium, sky, architecture or a themed scene, with bokeh and atmosphere), 2) big bold graphic energy in the middle (light beams, lightning, smoke, shattered shards, flowing liquid metal or fire — matching the theme), 3) sharp foreground particles and debris flying toward the camera. Dense layered effects (light streaks, sparks, embers, glitter dust, lens flares, fine grain, haze) and a rich, contrasty cinematic colour grade. A plain gradient, flat colour, soft blur or simple texture is NOT acceptable.`;
   const frame = `FULL-BLEED: the artwork runs edge to edge — no border, no frame lines, no corner marks, no crop marks, no decorative lines along the edges.`;
 
@@ -770,19 +770,18 @@ export function buildProPrompt(opts: {
       add("Player name (huge, bottom left)", i.name);
       add("Position tag box", i.position);
       add("Jersey number (large outlined, right side)", i.number);
-      if (flyerSlots.length) {
-        // Flyer styles: one line per slot of the reference flyer, each at that line's spot and in its lettering.
-        for (const sl of flyerSlots) {
-          const v = (i.slots?.[sl.key] ?? "").trim();
-          if (v) {
-            lines.push(`- ${sl.label} — ${sl.where}: ${q(v)}`);
-            inventory.push(v);
-          }
-        }
-      } else {
+      if (!flyerSlots.length) {
         add("Small elegant word above the name", i.tagline);
         add("Script-font line under the name", i.subtitle);
       }
+  }
+  // The style's added boxes (any poster type): one line per box, each at that line's spot and in its lettering.
+  for (const sl of flyerSlots) {
+    const v = (i.slots?.[sl.key] ?? "").trim();
+    if (v) {
+      lines.push(`- ${sl.label} — ${sl.where}: ${q(v)}`);
+      inventory.push(v);
+    }
   }
   if (!flyerSlots.length) add("Letter-spaced footer line at the very bottom", i.footer);
 
