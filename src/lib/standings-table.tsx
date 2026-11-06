@@ -116,19 +116,30 @@ function panelSvg(W: number, panelH: number, headerH: number, pad: number, rowTo
   const o = sw * 4;
   const orn = (x: number, y: number, dir: 1 | -1, vdir: 1 | -1) =>
     `<path d="M${x},${y} l${o * dir},0 l${(-o / 2) * dir},${(o / 2) * vdir} Z" fill="${light}"/><circle cx="${x + o * 1.7 * dir}" cy="${y + o * 0.8 * vdir}" r="${Math.max(2, sw * 0.7)}" fill="${accent}"/><path d="M${x + o * 2.4 * dir},${y + o * 0.8 * vdir} l${o * 1.6 * dir},0" stroke="${accent}" stroke-opacity="0.8" stroke-width="${Math.max(1.5, sw * 0.5)}"/>`;
+  // The rows that advance GLOW in the style's colour: a blurred halo behind a bright rim, a tint inside, an inner light edge.
   const rows = rowTops
-    .map(({ y, h, top }) =>
-      top
-        ? `<rect x="${pad + 2}" y="${y}" width="${W - pad * 2 - 4}" height="${h}" rx="${Math.round(h * 0.18)}" fill="${accent}" fill-opacity="0.14" stroke="${accent}" stroke-opacity="0.8" stroke-width="${Math.max(1.5, sw * 0.5)}"/>`
-        : `<rect x="${pad + 2}" y="${y}" width="${W - pad * 2 - 4}" height="${h}" rx="${Math.round(h * 0.18)}" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>`,
-    )
+    .map(({ y, h, top }) => {
+      const rx = Math.round(h * 0.18);
+      const x = pad + 3;
+      const w = W - pad * 2 - 6;
+      if (!top) return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.09" stroke-width="1"/>`;
+      return [
+        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="none" stroke="${accent}" stroke-opacity="0.8" stroke-width="${(sw * 2).toFixed(1)}" filter="url(#rowglow)"/>`,
+        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="url(#rowfill)"/>`,
+        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="none" stroke="${light}" stroke-opacity="1" stroke-width="${Math.max(2, sw * 0.9).toFixed(1)}"/>`,
+        `<rect x="${x + sw}" y="${y + sw}" width="${w - sw * 2}" height="${h - sw * 2}" rx="${Math.max(2, rx - sw)}" fill="none" stroke="${accent}" stroke-opacity="0.55" stroke-width="${Math.max(1.5, sw * 0.6).toFixed(1)}" filter="url(#rowsoft)"/>`,
+      ].join("");
+    })
     .join("\n");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${panelH}" viewBox="0 0 ${W} ${panelH}">
 <defs>
 <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset="0.5" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
-<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1a26" stop-opacity="0.86"/><stop offset="0.25" stop-color="#07070f" stop-opacity="0.86"/><stop offset="1" stop-color="#030308" stop-opacity="0.9"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1a26" stop-opacity="0.94"/><stop offset="0.25" stop-color="#07070f" stop-opacity="0.9"/><stop offset="1" stop-color="#030308" stop-opacity="0.92"/></linearGradient>
 <linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity="0.34"/><stop offset="1" stop-color="${accent}" stop-opacity="0.1"/></linearGradient>
+<linearGradient id="rowfill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${accent}" stop-opacity="0.3"/><stop offset="0.5" stop-color="${accent}" stop-opacity="0.16"/><stop offset="1" stop-color="${accent}" stop-opacity="0.3"/></linearGradient>
 <filter id="glow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="${glow.toFixed(1)}"/></filter>
+<filter id="rowglow" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="${Math.max(3, sw * 1.3).toFixed(1)}"/></filter>
+<filter id="rowsoft" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="${Math.max(1, sw * 0.5).toFixed(1)}"/></filter>
 </defs>
 <path d="${d}" fill="none" stroke="${accent}" stroke-opacity="0.5" stroke-width="${(sw * 2.5).toFixed(1)}" filter="url(#glow)"/>
 <path d="${d}" fill="url(#glass)"/>
