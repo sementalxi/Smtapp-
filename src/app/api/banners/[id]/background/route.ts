@@ -47,6 +47,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       const totw = ["TOTW", "STANDINGS", "EVENT"].includes(banner.template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? design.look?.templateId ?? design.totw?.cardTemplateId, user, banner.template.layout)) : null;
       const fmtNow = (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
       const exactTable = banner.template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
+      const crestNote = banner.logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(banner.logoUrl) : null;
       const refs = collectProRefs({
         layout: banner.template.layout,
         inputs,
@@ -57,6 +58,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         crestSheet: totw?.crestSheet,
         skipTableCrests: exactTable,
         instructions: banner.template.proInstructions,
+        crestNote,
       });
       const prompt = buildProPrompt({
         layout: banner.template.layout,
@@ -79,6 +81,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
           const { seasonByKey, seasonPrompt } = await import("@/lib/seasons");
           return seasonPrompt(seasonByKey(s.key, s.custom));
         })(),
+        crestNote,
       });
       const cost = compare ? 0 : await getNumberSetting("pro_cost");
       if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);

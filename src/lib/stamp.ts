@@ -129,6 +129,51 @@ export async function stampLogo(input: Buffer, avoid: StampSpot[] = []): Promise
  * small in a top corner, big as the hero (champions), or left/right of the VS (match day / result).
  * A coloured glow plus a soft shadow makes it look lit into the scene rather than stuck on.
  */
+/**
+ * Logo files often come on a flat solid square (black, white…). Makes that square transparent: every pixel
+ * connected to the corners whose colour is close to the corner colour becomes see-through. Logos that
+ * already have a transparent background, or whose corners differ, are returned untouched.
+ */
+async function removeSolidBackground(logo: Buffer): Promise<Buffer> {
+  try {
+    const { data, info } = await sharp(logo).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const { width: w, height: h } = info;
+    if (w < 8 || h < 8) return logo;
+    const px = (x: number, y: number) => (y * w + x) * 4;
+    const corners = [px(0, 0), px(w - 1, 0), px(0, h - 1), px(w - 1, h - 1)];
+    // Already transparent at the corners → nothing to do.
+    if (corners.every((o) => data[o + 3] < 20)) return logo;
+    const ref = corners.map((o) => [data[o], data[o + 1], data[o + 2]]);
+    const close = (a: number[], b: number[], t: number) => Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]) <= t;
+    // The four corners must agree on one colour, or it is not a flat background.
+    if (!ref.every((c) => close(c, ref[0], 36))) return logo;
+    const bg = ref[0];
+    const seen = new Uint8Array(w * h);
+    const stack: number[] = [0, w - 1, (h - 1) * w, h * w - 1];
+    let cleared = 0;
+    while (stack.length) {
+      const i = stack.pop()!;
+      if (seen[i]) continue;
+      seen[i] = 1;
+      const o = i * 4;
+      if (data[o + 3] < 20 || !close([data[o], data[o + 1], data[o + 2]], bg, 60)) continue;
+      data[o + 3] = 0;
+      cleared++;
+      const x = i % w;
+      const y = (i - x) / w;
+      if (x > 0) stack.push(i - 1);
+      if (x < w - 1) stack.push(i + 1);
+      if (y > 0) stack.push(i - w);
+      if (y < h - 1) stack.push(i + w);
+    }
+    // A flat background covers a good share of the file; a tiny cleared area means it was not one.
+    if (cleared < w * h * 0.08) return logo;
+    return await sharp(data, { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
+  } catch {
+    return logo;
+  }
+}
+
 /** A saturated version of a colour (for a glow that matches the poster); near-grey falls back to a warm light. */
 function vivid(r: number, g: number, b: number): { r: number; g: number; b: number } {
   const max = Math.max(r, g, b);
@@ -204,14 +249,14 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
         right: { size: 0.3, cx: 0.75, cy: 0.4 },
       }[l.corner];
       const box = Math.round(W * spot.size);
-      const logo = await sharp(l.bytes)
-        .rotate()
+      const cleaned = await removeSolidBackground(await sharp(l.bytes).rotate().png().toBuffer().catch(() => l.bytes));
+      const logo = await sharp(cleaned)
         .trim({ threshold: 12 })
         .resize({ width: box, height: box, fit: "inside" })
         .ensureAlpha()
         .png()
         .toBuffer()
-        .catch(() => sharp(l.bytes).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer());
+        .catch(() => sharp(cleaned).resize({ width: box, height: box, fit: "inside" }).ensureAlpha().png().toBuffer());
       const { width: lw = box, height: lh = box } = await sharp(logo).metadata();
       const big = l.corner === "hero" || l.corner === "left" || l.corner === "right";
       const pad = Math.round(box * (big ? 0.35 : 0.18));

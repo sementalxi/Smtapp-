@@ -106,6 +106,8 @@ export const POST = handle(async (req: NextRequest) => {
   const totw = pro && ["TOTW", "STANDINGS", "EVENT"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
   const exactTable = pro && template.layout === "STANDINGS" && (await getSettings()).standings_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
+  // The AI rebuilds the crest as a 3D emblem: read what it contains first so no letter or symbol gets lost.
+  const crestNote = pro && logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(logoUrl) : null;
   const refs = collectProRefs({
     layout: template.layout,
     inputs,
@@ -116,6 +118,7 @@ export const POST = handle(async (req: NextRequest) => {
     crestSheet: totw?.crestSheet,
     skipTableCrests: exactTable,
     instructions: template.proInstructions,
+    crestNote,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
   const sourceFmt = (source?.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
@@ -144,6 +147,7 @@ export const POST = handle(async (req: NextRequest) => {
       exactTable,
       slug: template.slug,
       textSlotsJson: template.textSlots,
+      crestNote,
     }); // throws err_blocked before anything is charged
     } catch (e) {
       const detail = (e as { detail?: string }).detail;
