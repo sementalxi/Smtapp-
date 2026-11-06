@@ -17,12 +17,30 @@ export const metadata = { title: "Create" };
 
 const TYPES: LayoutKind[] = ["PLAYER", "CHAMPIONS", "MATCHDAY", "LINEUP", "TOTW", "RESULT", "STANDINGS", "LOGO", "EVENT"];
 
-export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string; league?: string }> }) {
+export default async function CreatePage({ searchParams }: { searchParams: Promise<{ type?: string; match?: string; team?: string; league?: string; again?: string }> }) {
   const user = await requireUser();
   const { t } = await getT();
   const templates = await activeTemplates(user);
   const settingsForCrest = await getSettings();
-  const { type, match, team: teamMode, league } = await searchParams;
+  const { type, match, team: teamMode, league, again } = await searchParams;
+  // Admin: "Create another one" from a finished poster keeps its photo, team and texts — only the style changes.
+  const prefill =
+    again && user.role === "ADMIN"
+      ? await (async () => {
+          const src = await db.banner.findFirst({ where: { id: again, userId: user.id }, select: { inputs: true, photoUrl: true, logoUrl: true, template: { select: { layout: true } } } });
+          if (!src) return null;
+          const inputs = (src.inputs ?? {}) as Record<string, unknown>;
+          const teamName = typeof inputs.team === "string" ? inputs.team : "";
+          const savedTeam = teamName ? await db.savedItem.findFirst({ where: { userId: user.id, kind: "team", name: teamName }, select: { id: true, name: true, logoUrl: true } }) : null;
+          return {
+            layout: src.template.layout,
+            inputs,
+            photoUrl: src.photoUrl,
+            logoUrl: src.logoUrl,
+            team: src.logoUrl || teamName ? { id: savedTeam?.id ?? `again-${again}`, name: savedTeam?.name ?? teamName, logoUrl: src.logoUrl ?? savedTeam?.logoUrl ?? null } : null,
+          };
+        })()
+      : null;
   // From "My leagues": the league is picked already (its saved standings load by themselves).
   const initialChamp = league
     ? await (async () => {
@@ -120,8 +138,9 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         credits={user.credits}
         cost={await getNumberSetting("pro_cost")}
         proEnabled={proConfigured()}
-        initialLayout={initial}
+        initialLayout={prefill?.layout ?? initial}
         initialChamp={initialChamp}
+        prefill={prefill}
         categories={cats}
         season={season}
         seasonStart={seasonOn && !!season}

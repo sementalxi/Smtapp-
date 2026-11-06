@@ -171,9 +171,14 @@ export function ProBannerView({
         </details>
         {admin && url && <UpscaleTest bannerId={id} original={url} />}
         {admin && url && <CompareModels bannerId={id} inputs={inputs} />}
-        <Link href={`/create?type=${layout.toLowerCase()}`} className="btn-primary w-full py-3.5 text-base">
+        <Link href={`/create?type=${layout.toLowerCase()}${admin ? `&again=${id}` : ""}`} className="btn-primary w-full py-3.5 text-base">
           ＋ {locale === "es" ? "Crear otro" : "Create another one"}
         </Link>
+        {admin && (
+          <p className="text-center text-xs text-muted">
+            {locale === "es" ? "Admin: la foto, el equipo y los textos de este póster se mantienen — solo eliges otro estilo." : "Admin: this poster's photo, team and texts carry over — just pick another style."}
+          </p>
+        )}
       </div>
     </div>
   );

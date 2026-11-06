@@ -187,6 +187,7 @@ export function CreateWizard({
   expectedSeconds = 100,
   isAdmin = false,
   crestModes = {},
+  prefill = null,
 }: {
   templates: ClientTemplate[];
   credits: number;
@@ -207,6 +208,8 @@ export function CreateWizard({
   /** Admins pick the crest mode on every poster; everyone else gets the type's default from Settings. */
   isAdmin?: boolean;
   crestModes?: Record<string, string>;
+  /** Admin "Create another one": the finished poster's texts, photo and team, so only the style changes. */
+  prefill?: { layout: LayoutKind; inputs: Record<string, unknown>; photoUrl: string | null; logoUrl: string | null; team: SavedItem | null } | null;
 }) {
   const { locale } = useT();
   const L = TXT[locale === "es" ? "es" : "en"];
@@ -355,25 +358,26 @@ export function CreateWizard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tplId]);
 
-  const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English" });
+  const pre = prefill?.inputs as Partial<BannerInputs> | undefined;
+  const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English", ...(pre ?? {}) });
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [refImg, setRefImg] = useState<string | null>(null); // inspiration image (style reference)
-  const [photo2, setPhoto2] = useState<string | null>(null); // player card: second picture of the player
-  const [team, setTeam] = useState<SavedItem | null>(null);
-  const [home, setHome] = useState<SavedItem | null>(null);
-  const [away, setAway] = useState<SavedItem | null>(null);
+  const [photo, setPhoto] = useState<string | null>(prefill?.photoUrl ?? null);
+  const [refImg, setRefImg] = useState<string | null>(pre?.refImageUrl || null); // inspiration image (style reference)
+  const [photo2, setPhoto2] = useState<string | null>(pre?.photo2Url || null); // player card: second picture of the player
+  const [team, setTeam] = useState<SavedItem | null>(prefill?.team ?? null);
+  const [home, setHome] = useState<SavedItem | null>(pre?.homeTeam || pre?.homeLogoUrl ? { id: "again-home", name: pre.homeTeam ?? "", logoUrl: pre.homeLogoUrl || null } : null);
+  const [away, setAway] = useState<SavedItem | null>(pre?.awayTeam || pre?.awayLogoUrl ? { id: "again-away", name: pre.awayTeam ?? "", logoUrl: pre.awayLogoUrl || null } : null);
   const [champ, setChamp] = useState<SavedItem | null>(initialChamp);
   // Events: collaborating organizations (their logos go in a row on the poster).
   const [collabs, setCollabs] = useState<(SavedItem | null)[]>([]);
-  const [playersText, setPlayersText] = useState("");
+  const [playersText, setPlayersText] = useState((pre?.players ?? []).filter(Boolean).join("\n"));
   const [slots, setSlots] = useState<Slot[]>([]);
   const lineupPlayers = inp.formation ? slotsToLines(inp.formation, slots) : lines(playersText);
   // Team of the week: always built on the pitch (4-3-3 unless another formation is picked).
   const totwFormation = inp.formation || "4-3-3";
   const totwPlayers = slotsToTotwLines(totwFormation, slots);
-  const [squadText, setSquadText] = useState("");
-  const [scorersText, setScorersText] = useState("");
+  const [squadText, setSquadText] = useState((pre?.roster ?? []).filter(Boolean).join("\n"));
+  const [scorersText, setScorersText] = useState((pre?.scorers ?? []).filter(Boolean).join("\n"));
   const [barDone, setBarDone] = useState(false);
   const [genStage, setGenStage] = useState<string | null>(null);
   // Standings table rows
