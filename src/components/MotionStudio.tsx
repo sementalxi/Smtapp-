@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useT } from "@/i18n/client";
+import { isPhone } from "@/lib/is-phone";
 
 /**
  * Turns a finished poster into a short vertical video (9:16) for TikTok, Reels and
@@ -303,7 +304,7 @@ export function MotionStudio({ src, baseName, onClose }: { src: string; baseName
   async function share() {
     if (!file) return;
     const nav = navigator as Navigator & { canShare?: (d: { files: File[] }) => boolean };
-    if (nav.canShare?.({ files: [file] })) {
+    if (isPhone() && nav.canShare?.({ files: [file] })) {
       try {
         await nav.share({ files: [file], title: "KIXO" });
         return;

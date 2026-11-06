@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useT } from "@/i18n/client";
+import { isPhone } from "@/lib/is-phone";
 
 type Size = { id: string; w: number; h: number; en: string; es: string; sub: string };
 
@@ -84,13 +85,13 @@ export function DownloadSizes({
   const ready = useRef<File | null>(null);
 
   // Phones that can share files (iPhone, Android) get "Save to Photos". The image is prepared ahead of time
-  // so the share sheet opens instantly when tapped.
+  // so the share sheet opens instantly when tapped. Computers always get a plain download.
   useEffect(() => {
     let alive = true;
     (async () => {
       try {
         const test = new File([new Blob(["x"], { type: "image/png" })], "t.png", { type: "image/png" });
-        if (!navigator.canShare?.({ files: [test] })) return;
+        if (!isPhone() || !navigator.canShare?.({ files: [test] })) return;
         setCanShare(true);
         const url = typeof src === "string" ? src : await src();
         if (!url || !alive) return;

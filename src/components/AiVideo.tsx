@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 import { sfx } from "@/lib/sfx";
 import { GenerationProgress } from "./GenerationProgress";
+import { isPhone } from "@/lib/is-phone";
 
 type Job = { id: string; status: string; videoUrl: string | null; seconds?: number; error: string | null };
 const MOTIONS: [string, string, string, string][] = [
@@ -76,7 +77,7 @@ export function AiVideo({ bannerId, title, image }: { bannerId: string; title: s
     try {
       const blob = await fetch(url).then((r) => r.blob());
       const f = new File([blob], `${title.replace(/[^\w-]+/g, "_") || "kixo"}.mp4`, { type: "video/mp4" });
-      if (navigator.canShare?.({ files: [f] })) return void (await navigator.share({ files: [f] }));
+      if (isPhone() && navigator.canShare?.({ files: [f] })) return void (await navigator.share({ files: [f] }));
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = f.name;
