@@ -71,14 +71,14 @@ export async function buildTableCrestSheet(inputs: BannerInputs): Promise<{ url:
   const byUrl = new Map<string, string[]>();
   inputs.standings.forEach((line, n) => {
     const url = inputs.tableLogos?.[n];
-    if (!url || n >= 20) return;
+    if (!url || n >= 32) return;
     const team = line.split("·")[0].replace(/^\d+\.\s*/, "").trim();
     byUrl.set(url, [...(byUrl.get(url) ?? []), `row ${n + 1}${team ? ` (${team})` : ""}`]);
   });
   if (!byUrl.size) return null;
-  const list = [...byUrl.entries()].slice(0, 12);
-  const cell = 400;
-  const cols = Math.min(4, list.length);
+  const list = [...byUrl.entries()].slice(0, 32);
+  const cell = list.length > 12 ? 256 : 400;
+  const cols = Math.min(list.length > 16 ? 6 : 4, list.length);
   const layers: { input: Buffer; left: number; top: number }[] = [];
   const order: string[] = [];
   for (const [url, rowsOf] of list) {

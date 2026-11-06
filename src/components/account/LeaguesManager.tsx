@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { savedChanged } from "../wizard/SavedPicker";
 import { ImageDrop } from "../ImageDrop";
 import { thumb } from "@/lib/thumb";
-import { randomTestTable, testCrest, testTableKey } from "@/lib/test-teams";
+import { TEST_COUNTS, randomTestTable, testCrest, testTableKey } from "@/lib/test-teams";
 
 export type Row = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
 export type League = { id: string; name: string; logoUrl: string | null; official: boolean; rows: Row[]; headline: string; date: string; qualify?: string; relegate?: string; savedAt: string | null };
@@ -38,6 +38,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
   const [typing, setTyping] = useState<Record<string, boolean>>({}); // "leagueId:row" cells typing a team that isn't saved
   // 🎲 Test: random teams, crests and points to try a style — never saved over the league's real table.
   const [testing, setTesting] = useState<Record<string, boolean>>({});
+  const [testCount, setTestCount] = useState(10);
   useEffect(() => {
     fetch("/api/saved?kind=team", { cache: "no-store" })
       .then((r) => r.json())
@@ -69,8 +70,7 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
   }
   function fillTest(l: League) {
     const d = cur(l);
-    const count = Math.max(6, Math.min(12, d.rows.filter((r) => r.team.trim()).length || 10));
-    setDraft((dr) => ({ ...dr, [l.id]: { ...d, rows: randomTestTable(count), headline: d.headline || "STANDINGS", date: d.date || `WEEK ${1 + Math.floor(Math.random() * 9)}`, qualify: d.qualify || "4" } }));
+    setDraft((dr) => ({ ...dr, [l.id]: { ...d, rows: randomTestTable(testCount), headline: d.headline || "STANDINGS", date: d.date || `WEEK ${1 + Math.floor(Math.random() * 9)}`, qualify: d.qualify || "4" } }));
     setTesting((t) => ({ ...t, [l.id]: true }));
     setMsg((m) => ({ ...m, [l.id]: "" }));
   }
@@ -338,9 +338,16 @@ export function LeaguesManager({ initial, es, officialChoices }: { initial: Leag
                   <button type="button" className="chip" onClick={() => sortByPoints(l)}>
                     ↕ {es ? "Ordenar ahora" : "Sort now"}
                   </button>
-                  <button type="button" className="chip border-amber-400/50 text-amber-300" onClick={() => fillTest(l)}>
-                    🎲 {testing[l.id] ? (es ? "Otra prueba" : "New test") : es ? "Prueba (equipos al azar)" : "Test (random teams)"}
-                  </button>
+                  <span className="inline-flex items-center overflow-hidden rounded-full border border-amber-400/50">
+                    <button type="button" className="px-3 py-1 font-bold text-amber-300" onClick={() => fillTest(l)}>
+                      🎲 {testing[l.id] ? (es ? "Otra prueba" : "New test") : es ? "Prueba (equipos al azar)" : "Test (random teams)"}
+                    </button>
+                    <select aria-label={es ? "Equipos" : "Teams"} className="border-l border-amber-400/40 bg-transparent px-1.5 py-1 font-bold text-amber-300" value={testCount} onChange={(e) => setTestCount(Number(e.target.value))}>
+                      {TEST_COUNTS.map((c) => (
+                        <option key={c} value={c} className="bg-ink text-white">{c} {es ? "equipos" : "teams"}</option>
+                      ))}
+                    </select>
+                  </span>
                   {testing[l.id] && (
                     <button type="button" className="chip" onClick={() => endTest(l)}>
                       ↩️ {es ? "Volver a mi tabla" : "Back to my table"}

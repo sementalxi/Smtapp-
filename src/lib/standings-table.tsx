@@ -16,6 +16,10 @@ export type TableSpec = {
   qualify: number;
   legend: string;
   wide: boolean;
+  /** Two-column tables: the right column keeps the legend's height free (same panel height) without drawing it. */
+  reserveLegend?: boolean;
+  /** With no "how many advance", the leader's row glows — not in the right column of a two-column table. */
+  leaderGlow?: boolean;
 };
 
 export { tableBox } from "./standings-box";
@@ -205,7 +209,7 @@ async function crestGlow(data: string, px: number, accent: string): Promise<stri
 export async function renderStandingsTable(spec: TableSpec, width: number, height: number): Promise<Buffer> {
   const [anton, mont800] = await Promise.all([googleFont("Anton", 400), googleFont("Montserrat", 800)]);
   const n = spec.rows.length;
-  const legendH = spec.legend ? Math.round(Math.min(90, height * 0.07)) : 0;
+  const legendH = spec.legend || spec.reserveLegend ? Math.round(Math.min(90, height * 0.07)) : 0;
   const panelH = height - legendH;
   const pad = Math.round(Math.max(12, width * 0.014));
   const headerH = Math.round(Math.min(72, (panelH - pad * 2) / (n + 1.4)));
@@ -227,7 +231,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
   const fsName = Math.round(Math.max(rowH * 0.3, Math.min(rowH * 0.5, nameW / (longest * 0.5))));
   const fsHead = Math.round(Math.max(14, headerH * 0.4));
   const dividers = spec.columns.map((_, k) => width - pad - rowPadR - statW * (spec.columns.length - k));
-  const glow = spec.qualify || (n ? 1 : 0); // "how many advance" rows glow; with none given, the leader does
+  const glow = spec.qualify || (n && spec.leaderGlow !== false ? 1 : 0); // "how many advance" rows glow; with none given, the leader does
   const geo: Geo = { pad, headerH, rowH, n, qualify: spec.qualify, glow, dividers, rowPadL, rowPadR };
   const shadow = "0 2px 5px rgba(0,0,0,0.85)";
   const el = (
@@ -299,6 +303,22 @@ export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Pr
   const y = Math.round(H * box.y);
   const w = Math.round(W * box.w);
   const h = Math.round(H * box.h);
+  // Big leagues (17–32 teams): two columns side by side, so the rows stay tall enough to read.
+  if (spec.rows.length > 16) {
+    const half = Math.ceil(spec.rows.length / 2);
+    const gap = Math.round(w * 0.025);
+    const cw = Math.floor((w - gap) / 2);
+    const left: TableSpec = { ...spec, rows: spec.rows.slice(0, half), qualify: Math.min(spec.qualify, half) };
+    const right: TableSpec = { ...spec, rows: spec.rows.slice(half), qualify: Math.max(0, spec.qualify - half), legend: "", reserveLegend: !!spec.legend, leaderGlow: false };
+    const [a, b] = await Promise.all([renderStandingsTable(left, cw, h), renderStandingsTable(right, cw, h)]);
+    return sharp(poster)
+      .composite([
+        { input: a, left: x, top: y },
+        { input: b, left: x + cw + gap, top: y },
+      ])
+      .png()
+      .toBuffer();
+  }
   const table = await renderStandingsTable(spec, w, h);
   return sharp(poster).composite([{ input: table, left: x, top: y }]).png().toBuffer();
 }

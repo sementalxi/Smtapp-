@@ -1,4 +1,4 @@
-// Test data for standings posters: 16 fictional teams with their own crests (public/refs/test-crests) and a random,
+// Test data for standings posters: 32 fictional teams with their own crests (public/refs/test-crests) and a random,
 // believable table — so a style can be tried without typing a league. Used by "My leagues" and the creator.
 
 export type TestRow = { team: string; p: string; w: string; d: string; l: string; gd: string; pts: string };
@@ -20,7 +20,27 @@ export const TEST_TEAMS: { name: string; logoUrl: string }[] = [
   ["venom-city", "Venom City"],
   ["lunar-knights", "Lunar Knights"],
   ["vortex-esports", "Vortex Esports"],
+  ["atlas-fc", "Atlas FC"],
+  ["red-dragons", "Red Dragons"],
+  ["ocean-kraken", "Ocean Kraken"],
+  ["desert-hawks", "Desert Hawks"],
+  ["solar-strikers", "Solar Strikers"],
+  ["black-panthers", "Black Panthers"],
+  ["emerald-city", "Emerald City"],
+  ["titanium-xi", "Titanium XI"],
+  ["wild-mustangs", "Wild Mustangs"],
+  ["polar-bears", "Polar Bears"],
+  ["midnight-riders", "Midnight Riders"],
+  ["harbor-united", "Harbor United"],
+  ["scarlet-phoenix", "Scarlet Phoenix"],
+  ["cobra-squad", "Cobra Squad"],
+  ["galaxy-stars", "Galaxy Stars"],
+  ["steel-hammers", "Steel Hammers"],
 ].map(([slug, name]) => ({ name, logoUrl: `/refs/test-crests/${slug}.png` }));
+
+/** How many teams the 🎲 test can fill (a standings table holds up to 32). */
+export const TEST_COUNTS = [4, 6, 8, 10, 12, 16, 20, 24, 28, 32];
+export const MAX_TABLE_ROWS = 32;
 
 /** The crest of a test team (by name), or "" for any other team. */
 export function testCrest(name: string): string {

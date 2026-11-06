@@ -8,7 +8,7 @@ import { handle, json } from "@/lib/api";
 
 const key = (userId: string, league: string) => `standings:${userId}:${league}`;
 const Row = z.object({ team: z.string().max(30), p: z.string().max(4), w: z.string().max(4), d: z.string().max(4), l: z.string().max(4), gd: z.string().max(5), pts: z.string().max(5) });
-const Body = z.object({ league: z.string().min(1).max(40), rows: z.array(Row).max(20), headline: z.string().max(30).optional(), date: z.string().max(30).optional(), qualify: z.string().regex(/^\d{0,2}$/).optional(), relegate: z.string().regex(/^\d{0,2}$/).optional() });
+const Body = z.object({ league: z.string().min(1).max(40), rows: z.array(Row).max(32), headline: z.string().max(30).optional(), date: z.string().max(30).optional(), qualify: z.string().regex(/^\d{0,2}$/).optional(), relegate: z.string().regex(/^\d{0,2}$/).optional() });
 
 export const GET = handle(async (req: NextRequest) => {
   const user = await apiUser();

@@ -15,7 +15,7 @@ import { RecentWithStyle } from "./RecentWithStyle";
 import { allSlotsFor, overridesFrom, type SlotState, type TextSlot } from "@/lib/text-slots";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { WINNERS_BOX_OPTIONS } from "@/lib/winners-box";
-import { randomTestTable, testCrest, testTableKey } from "@/lib/test-teams";
+import { TEST_COUNTS, randomTestTable, testCrest, testTableKey } from "@/lib/test-teams";
 import { TemplateThumb } from "../TemplateThumb";
 import { ImageDrop } from "../ImageDrop";
 import { SavedPicker, updateSavedCache, type SavedItem } from "./SavedPicker";
@@ -432,9 +432,9 @@ export function CreateWizard({
   const [tableMsg, setTableMsg] = useState("");
   // 🎲 Test mode: random teams / crests / points to try a style — the league's saved table is never overwritten.
   const [testMode, setTestMode] = useState(false);
+  const [testCount, setTestCount] = useState(10);
   function fillTestTable() {
-    const count = Math.max(6, Math.min(12, tableRows.length || 10));
-    setTable(randomTestTable(count));
+    setTable(randomTestTable(testCount));
     setInp((x) => ({ ...x, headline: x.headline || "STANDINGS", date: x.date || `WEEK ${1 + Math.floor(Math.random() * 9)}`, qualify: x.qualify || "4" }));
     setTestMode(true);
     setTableMsg(locale === "es" ? "🎲 Tabla de prueba (equipos al azar) — no se guarda en tu liga." : "🎲 Test table (random teams) — not saved to your league.");
@@ -541,8 +541,8 @@ export function CreateWizard({
       regions: layout === "QUALIFIERS" ? lines(regionsText).slice(0, 12) : [],
       winners: layout === "WINNERS" ? lines(winnersText).slice(0, 40) : [],
       winnerLogos: layout === "WINNERS" ? lines(winnersText).slice(0, 40).map((w) => crestFor(w)) : [],
-      standings: layout === "STANDINGS" ? tableRows.slice(0, 20).map(rowText) : [],
-      tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 20).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl || testCrest(t.team)) : [],
+      standings: layout === "STANDINGS" ? tableRows.slice(0, 32).map(rowText) : [],
+      tableLogos: layout === "STANDINGS" ? tableRows.slice(0, 32).map((t) => myTeams.find((m) => m.name.toLowerCase() === t.team.trim().toLowerCase())?.logoUrl || testCrest(t.team)) : [],
     };
   }
 
@@ -1287,15 +1287,22 @@ export function CreateWizard({
                   </table>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <button type="button" className="rounded-lg border border-amber-400/50 bg-amber-400/10 px-3 py-1.5 text-xs font-bold text-amber-300" onClick={fillTestTable}>
-                    🎲 {testMode ? (locale === "es" ? "Otra prueba" : "New test") : locale === "es" ? "Prueba (equipos al azar)" : "Test (random teams)"}
-                  </button>
+                  <span className="inline-flex items-center overflow-hidden rounded-lg border border-amber-400/50 bg-amber-400/10">
+                    <button type="button" className="px-3 py-1.5 text-xs font-bold text-amber-300" onClick={fillTestTable}>
+                      🎲 {testMode ? (locale === "es" ? "Otra prueba" : "New test") : locale === "es" ? "Prueba (equipos al azar)" : "Test (random teams)"}
+                    </button>
+                    <select aria-label={locale === "es" ? "Equipos" : "Teams"} className="border-l border-amber-400/40 bg-transparent px-1.5 py-1.5 text-xs font-bold text-amber-300" value={testCount} onChange={(e) => setTestCount(Number(e.target.value))}>
+                      {TEST_COUNTS.map((c) => (
+                        <option key={c} value={c} className="bg-ink text-white">{c} {locale === "es" ? "equipos" : "teams"}</option>
+                      ))}
+                    </select>
+                  </span>
                   {champ?.id && tableRows.length > 0 && !testMode && (
                     <button type="button" className="rounded-lg border border-lime/50 bg-lime/10 px-3 py-1.5 text-xs font-bold text-lime" onClick={() => saveTable()}>
                       💾 {locale === "es" ? `Guardar tabla en ${champ.name}` : `Save table to ${champ.name}`}
                     </button>
                   )}
-                  {table.length < 20 && (
+                  {table.length < 32 && (
                     <button type="button" className="rounded-lg border border-line px-3 py-1.5 text-xs font-bold hover:border-lime" onClick={() => setTable((t) => [...t, blankRow()])}>
                       + {locale === "es" ? "Agregar equipo" : "Add team"}
                     </button>
