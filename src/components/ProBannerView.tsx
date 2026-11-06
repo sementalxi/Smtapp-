@@ -105,6 +105,7 @@ export function ProBannerView({
           </div>
         )}
         {admin && url && <SampleSetter bannerId={id} admin={admin} />}
+        {admin && url && <StyleFromPoster bannerId={id} styleName={admin.templates.find((x) => x.id === admin.templateId)?.name ?? ""} />}
         {admin && (
           <details className="mt-3 rounded-xl border border-dashed border-line p-3 text-xs">
             <summary className="cursor-pointer font-bold uppercase tracking-wider text-muted">
@@ -228,6 +229,45 @@ function SampleSetter({ bannerId, admin }: { bannerId: string; admin: { template
           }}
         >
           {es ? "Usar" : "Set"}
+        </button>
+      </div>
+      {msg && <p className="mt-1 text-xs">{msg}</p>}
+    </div>
+  );
+}
+
+/** Admin only: a poster the admin likes becomes a new style — the poster is its reference (copied exactly for the next players) and its cover. */
+function StyleFromPoster({ bannerId, styleName }: { bannerId: string; styleName: string }) {
+  const { locale } = useT();
+  const es = locale === "es";
+  const [name, setName] = useState(styleName ? `${styleName} 2` : "");
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+  return (
+    <div className="mt-3 rounded-xl border border-dashed border-pink/50 p-3">
+      <div className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">✨ {es ? "Admin · nuevo estilo con lo que hizo la IA" : "Admin · new style from what the AI did"}</div>
+      <p className="mb-2 text-[11px] text-muted">
+        {es
+          ? "Este póster se vuelve la referencia del nuevo estilo (la IA lo copia tal cual para los próximos jugadores) y su portada en el selector. Textos, cajas, colores y escudo se heredan del estilo usado."
+          : "This poster becomes the new style's reference (the AI copies it as is for the next players) and its cover in the style picker. Texts, boxes, colours and crest settings come from the style it was made with."}
+      </p>
+      <div className="flex gap-2">
+        <input className="input py-2 text-xs" value={name} onChange={(e) => setName(e.target.value)} placeholder={es ? "Nombre del nuevo estilo" : "New style name"} maxLength={40} />
+        <button
+          type="button"
+          disabled={busy || !name.trim()}
+          className="btn-primary shrink-0 px-3 py-2 text-xs"
+          onClick={async () => {
+            setBusy(true);
+            setMsg("…");
+            const res = await fetch("/api/admin/templates/from-banner", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bannerId, name: name.trim() }) });
+            const d = (await res.json().catch(() => ({}))) as { slug?: string };
+            setBusy(false);
+            setMsg(res.ok ? (es ? `✅ Estilo "${name.trim()}" creado — ya está en el creador.` : `✅ Style "${name.trim()}" created — it's in the creator now.`) : es ? "❌ Error" : "❌ Failed");
+            void d;
+          }}
+        >
+          {busy ? "…" : es ? "Crear estilo" : "Create style"}
         </button>
       </div>
       {msg && <p className="mt-1 text-xs">{msg}</p>}
