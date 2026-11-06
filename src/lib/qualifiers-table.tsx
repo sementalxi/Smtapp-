@@ -232,6 +232,8 @@ export async function renderQualTable(spec: QualTableSpec, width: number, height
 
 /** Places the exact regions table on the finished background. */
 export async function overlayQualTable(poster: Buffer, spec: QualTableSpec): Promise<Buffer> {
+  const { posterAccent } = await import("./ref-palette");
+  spec = { ...spec, accent: legibleAccent(await posterAccent(poster, spec.accent)) };
   const meta = await sharp(poster).metadata();
   const W = meta.width ?? 1632;
   const H = meta.height ?? 2040;

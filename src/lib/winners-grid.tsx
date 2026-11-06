@@ -289,6 +289,8 @@ async function calmBand(poster: Buffer, W: number, H: number, box: Box): Promise
 
 /** Places the wall of frames, the crests and the names on the finished background. */
 export async function overlayWinnersGrid(poster: Buffer, spec: WinnersSpec): Promise<Buffer> {
+  const { posterAccent } = await import("./ref-palette");
+  spec = { ...spec, accent: await posterAccent(poster, spec.accent) }; // the frames take the poster's own colour
   const meta = await sharp(poster).metadata();
   const W = meta.width ?? 1600;
   const H = meta.height ?? 2000;

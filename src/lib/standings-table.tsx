@@ -131,7 +131,7 @@ function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
     if (k <= g.glow && g.glow) {
       const bar = (h: number, fill: string, op: number, filter?: string) =>
         `<rect x="${x0}" y="${(y0 + k * g.rowH - h / 2).toFixed(1)}" width="${x1 - x0}" height="${h.toFixed(1)}" rx="${(h / 2).toFixed(1)}" fill="${fill}" fill-opacity="${op}"${filter ? ` filter="url(#${filter})"` : ""}/>`;
-      lines.push(bar(lineW * 5, accent, 0.75, "halo"), bar(lineW * 2.4, accent, 1, "neon"), bar(lineW, lighter, 1));
+      lines.push(bar(lineW * 9, accent, 0.95, "halo"), bar(lineW * 4, accent, 1, "halo2"), bar(lineW * 2.4, accent, 1, "neon"), bar(lineW, lighter, 1));
     } else {
       lines.push(`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${accent}" stroke-opacity="0.45" stroke-width="${Math.max(1, lineW * 0.55).toFixed(1)}"/>`);
     }
@@ -143,9 +143,10 @@ function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
 <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset="0.5" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
 <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101018" stop-opacity="0.72"/><stop offset="0.3" stop-color="#05050c" stop-opacity="0.6"/><stop offset="1" stop-color="#03030a" stop-opacity="0.72"/></linearGradient>
 <linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity="0.38"/><stop offset="1" stop-color="${accent}" stop-opacity="0.12"/></linearGradient>
-<linearGradient id="band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${accent}" stop-opacity="0.3"/><stop offset="0.5" stop-color="${accent}" stop-opacity="0.14"/><stop offset="1" stop-color="${accent}" stop-opacity="0.3"/></linearGradient>
+<linearGradient id="band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${accent}" stop-opacity="0.42"/><stop offset="0.5" stop-color="${accent}" stop-opacity="0.2"/><stop offset="1" stop-color="${accent}" stop-opacity="0.42"/></linearGradient>
 <filter id="glow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="${glow.toFixed(1)}"/></filter>
-<filter id="halo" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.011).toFixed(1)}"/></filter>
+<filter id="halo" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.016).toFixed(1)}"/></filter>
+<filter id="halo2" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.007).toFixed(1)}"/></filter>
 <filter id="neon" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.0045).toFixed(1)}"/></filter>
 </defs>
 <path d="${d}" fill="none" stroke="${accent}" stroke-opacity="0.5" stroke-width="${(sw * 2.5).toFixed(1)}" filter="url(#glow)"/>
@@ -227,7 +228,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
         </div>
         {spec.rows.map((r, idx) => (
           <div key={r.pos} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
-            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: idx < glow ? accent : "rgba(255,255,255,0.9)", textShadow: shadow }}>{`${r.pos}.`}</div>
+            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: idx < glow ? accent : "rgba(255,255,255,0.9)", textShadow: idx < glow ? `0 0 14px ${accent}, ${shadow}` : shadow }}>{`${r.pos}.`}</div>
             {hasCrest ? (
               <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center", marginRight: 14 }}>
                 {crests[idx] ? <img src={crests[idx]!} width={crestBox} height={crestBox} style={{ objectFit: "contain" }} /> : null}
@@ -235,7 +236,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
             ) : null}
             <div style={{ display: "flex", flex: 1, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", letterSpacing: 1, textShadow: shadow }}>{r.team.slice(0, 26)}</div>
             {spec.columns.map((c) => (
-              <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Anton", fontSize: c.key === "PTS" ? fsNum : Math.round(fsNum * 0.92), color: c.key === "PTS" ? accent : "#ffffff", textShadow: shadow }}>
+              <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Anton", fontSize: c.key === "PTS" ? fsNum : Math.round(fsNum * 0.92), color: c.key === "PTS" ? accent : "#ffffff", textShadow: c.key === "PTS" ? `0 0 14px ${accent}, ${shadow}` : shadow }}>
                 {r.stats[c.key] ?? ""}
               </div>
             ))}
@@ -271,6 +272,9 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
 
 /** Places the exact table on the finished background. */
 export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Promise<Buffer> {
+  // The glow takes the poster's own colour (what the AI actually painted), lifted if it is too dark for text.
+  const { posterAccent } = await import("./ref-palette");
+  spec = { ...spec, accent: legibleAccent(await posterAccent(poster, spec.accent)) };
   const meta = await sharp(poster).metadata();
   const W = meta.width ?? 1632;
   const H = meta.height ?? 2040;

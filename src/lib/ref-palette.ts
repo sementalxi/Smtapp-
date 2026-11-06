@@ -95,3 +95,17 @@ export async function referenceColourLine(url: string | null | undefined): Promi
   } catch {}
   return line;
 }
+
+/**
+ * The colour KIXO's overlays (standings table, qualifiers table, winners wall) glow in: the finished poster's own
+ * strongest vivid hue, so the glow matches the flyer as it came out — not the style's configured accent. Falls
+ * back to the given accent when the picture has no vivid colour (black and white, silver).
+ */
+export async function posterAccent(poster: Buffer, fallback: string): Promise<string> {
+  try {
+    const vivid = (await palette(poster)).find((c) => c.role === "vivid");
+    return vivid?.hex ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
