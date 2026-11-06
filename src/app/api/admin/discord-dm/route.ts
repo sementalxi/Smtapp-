@@ -44,19 +44,26 @@ export const POST = handle(async (req: NextRequest) => {
     return json({ sent: r === "ok" ? 1 : 0, closed: r === "closed" ? 1 : 0, failed: r === "error" ? 1 : 0, detail: r === "ok" ? "" : lastDmError, inServer });
   }
 
-  const users = await db.user.findMany({ where: { banned: false, discordId: { not: null } }, select: { discordId: true } });
+  const users = await db.user.findMany({ where: { banned: false, discordId: { not: null } }, select: { id: true, name: true, email: true, discordId: true, discordName: true, discordUser: true } });
   let sent = 0, closed = 0, failed = 0;
+  // Who got it and who did not — kept with the send so the admin can see it later.
+  const people: { id: string; name: string; discord: string; r: "ok" | "closed" | "error" | "skipped"; why?: string }[] = [];
   const started = Date.now();
   for (const u of users) {
-    if (Date.now() - started > 280_000) break; // stay inside the time limit
+    const who = { id: u.id, name: (u.name || u.email || "").slice(0, 40), discord: (u.discordUser ? `@${u.discordUser}` : u.discordName || "").slice(0, 40) };
+    if (Date.now() - started > 280_000) {
+      people.push({ ...who, r: "skipped", why: "time limit" });
+      continue;
+    }
     const r = await dmUser(u.discordId!, msg);
     if (r === "ok") sent++;
     else if (r === "closed") closed++;
     else failed++;
+    people.push({ ...who, r, ...(r === "error" && lastDmError ? { why: lastDmError.slice(0, 80) } : {}) });
     await new Promise((r2) => setTimeout(r2, 350)); // gentle pace (Discord rate limits)
   }
   const hist = await db.setting.findUnique({ where: { key: "discord_dm_history" } });
-  const list = [{ at: new Date().toISOString(), preview: b.content.slice(0, 80), sent, closed, failed, total: users.length }, ...(hist ? JSON.parse(hist.value) : [])].slice(0, 20);
+  const list = [{ at: new Date().toISOString(), preview: b.content.slice(0, 80), sent, closed, failed, total: users.length, people }, ...(hist ? JSON.parse(hist.value) : [])].slice(0, 20);
   await db.setting.upsert({ where: { key: "discord_dm_history" }, create: { key: "discord_dm_history", value: JSON.stringify(list) }, update: { value: JSON.stringify(list) } });
   return json({ sent, closed, failed, total: users.length });
 });

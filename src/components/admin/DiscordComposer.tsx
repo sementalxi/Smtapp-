@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { shrink } from "../ImageDrop";
 
-type Info = { ready: boolean; bot: { ok: boolean; name?: string; error?: string }; guild: boolean; linked: number; history: { at: string; preview: string; sent: number; closed: number; failed: number; total: number }[] };
+type Person = { id: string; name: string; discord: string; r: "ok" | "closed" | "error" | "skipped"; why?: string };
+type Info = { ready: boolean; bot: { ok: boolean; name?: string; error?: string }; guild: boolean; linked: number; history: { at: string; preview: string; sent: number; closed: number; failed: number; total: number; people?: Person[] }[] };
 
 export function DiscordComposer({ es }: { es: boolean }) {
   const [info, setInfo] = useState<Info | null>(null);
@@ -177,9 +178,34 @@ export function DiscordComposer({ es }: { es: boolean }) {
           <ul className="space-y-1.5 text-xs text-muted">
             {info.history.map((h) => (
               <li key={h.at}>
-                {new Date(h.at).toLocaleString()} — “{h.preview}” · ✅ {h.sent}/{h.total}
-                {h.closed ? ` · 🔒 ${h.closed}` : ""}
-                {h.failed ? ` · ❌ ${h.failed}` : ""}
+                {h.people?.length ? (
+                  <details>
+                    <summary className="cursor-pointer">
+                      {new Date(h.at).toLocaleString()} — “{h.preview}” · ✅ {h.sent}/{h.total}
+                      {h.closed ? ` · 🔒 ${h.closed}` : ""}
+                      {h.failed ? ` · ❌ ${h.failed}` : ""}
+                      <span className="ml-1 text-lime">{es ? "ver quiénes ▾" : "see who ▾"}</span>
+                    </summary>
+                    <ul className="mt-1.5 space-y-1 border-l border-line pl-3">
+                      {h.people.map((p) => (
+                        <li key={p.id} className={p.r === "ok" ? "text-white/80" : p.r === "closed" ? "text-amber-300" : "text-red-300"}>
+                          {p.r === "ok" ? "✅" : p.r === "closed" ? "🔒" : p.r === "skipped" ? "⏭️" : "❌"} <a href={`/admin/users?q=${encodeURIComponent(p.name)}`} className="underline-offset-2 hover:underline">{p.name}</a>
+                          {p.discord ? <span className="text-muted"> · {p.discord}</span> : null}
+                          {p.r === "closed" ? <span className="text-muted"> — {es ? "DMs cerrados o no está en el servidor" : "DMs closed or not in the server"}</span> : null}
+                          {p.r === "skipped" ? <span className="text-muted"> — {es ? "no enviado (límite de tiempo)" : "not sent (time limit)"}</span> : null}
+                          {p.why && p.r === "error" ? <span className="text-muted"> — {p.why}</span> : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                ) : (
+                  <>
+                    {new Date(h.at).toLocaleString()} — “{h.preview}” · ✅ {h.sent}/{h.total}
+                    {h.closed ? ` · 🔒 ${h.closed}` : ""}
+                    {h.failed ? ` · ❌ ${h.failed}` : ""}
+                    <span className="ml-1 text-muted">({es ? "envío anterior a esta función — sin lista" : "sent before this feature — no list"})</span>
+                  </>
+                )}
               </li>
             ))}
           </ul>
