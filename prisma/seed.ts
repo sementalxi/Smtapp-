@@ -180,6 +180,11 @@ async function main() {
     await db.setting.upsert({ where: { key }, create: { key, value }, update: {} });
   }
   console.log(`Seeded ${DEFAULT_TEMPLATES.length} templates.`);
+  // One-time (owner's request): standings tables painted by the AI like the style covers (KIXO's exact table off).
+  if (!(await db.setting.findUnique({ where: { key: "standings_ai_table_v1" } }))) {
+    await db.setting.upsert({ where: { key: "standings_exact_table" }, create: { key: "standings_exact_table", value: "off" }, update: { value: "off" } });
+    await db.setting.create({ data: { key: "standings_ai_table_v1", value: new Date().toISOString() } });
+  }
   // Qualifiers + Winners showcase: a twin of every Photoshop player style (same look, that layout).
   try {
     const r = await syncAllTwins(db);
