@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError } from "@/lib/auth";
+import { apiUser, HttpError, isStaff } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import { assertInputUrls, buildProPrompt, collectProRefs, seriesInfo, seriesRefUrl, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
@@ -26,7 +26,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   const user = await apiUser();
   const { id } = await params;
   const body = Body.parse(await req.json().catch(() => ({})));
-  const compare = user.role === "ADMIN" ? body.compareModel : undefined;
+  const compare = isStaff(user.role) ? body.compareModel : undefined;
   if (!compare) rateLimit(req, "generate", 30, 60 * 60_000, user.id);
 
   const banner = await db.banner.findUnique({ where: { id }, include: { template: true } });
@@ -38,7 +38,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     const inputs: BannerInputs = body.inputs
       ? { ...EMPTY_INPUTS, ...body.inputs }
       : { ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) };
-    inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(banner.template.layout, inputs.aiLogo || undefined, user.role === "ADMIN", banner.template.proInstructions);
+    inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(banner.template.layout, inputs.aiLogo || undefined, isStaff(user.role), banner.template.proInstructions);
     const info = seriesInfo(banner.design);
     const seriesUrl = info.seriesRootId ? await seriesRefUrl(user.id, info.seriesRootId) : null;
     try {

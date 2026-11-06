@@ -97,9 +97,12 @@ export function UserQuick({
       )}
       {!self && (
         <div className="flex gap-2 text-xs">
-          <button disabled={busy} onClick={() => patch({ role: role === "ADMIN" ? "USER" : "ADMIN" })} className="text-muted underline-offset-2 hover:text-white hover:underline">
-            {role === "ADMIN" ? (es ? "Quitar admin" : "Remove admin") : es ? "Hacer admin" : "Make admin"}
-          </button>
+          <select disabled={busy} value={role} onChange={(e) => patch({ role: e.target.value })} className="input !w-auto !py-0.5 text-[11px]">
+            <option value="USER">👤 User</option>
+            <option value="STAFF">🎨 Staff</option>
+            <option value="SUPPORT">🎧 Support</option>
+            <option value="ADMIN">👑 Admin</option>
+          </select>
           <span className="text-line">|</span>
           <button disabled={busy} onClick={() => patch({ banned: !banned })} className={`underline-offset-2 hover:underline ${banned ? "text-lime" : "text-danger"}`}>
             {banned ? (es ? "Reactivar" : "Unsuspend") : es ? "Suspender" : "Suspend"}

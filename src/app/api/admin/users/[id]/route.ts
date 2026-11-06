@@ -5,7 +5,7 @@ import { apiAdmin, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 
 const Body = z.object({
-  role: z.enum(["USER", "ADMIN"]).optional(),
+  role: z.enum(["USER", "ADMIN", "STAFF", "SUPPORT"]).optional(),
   banned: z.boolean().optional(),
   isOrg: z.boolean().optional(),
   name: z.string().trim().min(1).max(60).optional(),

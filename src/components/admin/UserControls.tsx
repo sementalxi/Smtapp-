@@ -83,13 +83,12 @@ export function UserFlags({ userId, role, banned, self, isOrg = false, es = fals
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <button
-        disabled={busy || self}
-        onClick={() => patch({ role: role === "ADMIN" ? "USER" : "ADMIN" })}
-        className="btn-ghost px-3 py-1.5 text-xs"
-      >
-        {role === "ADMIN" ? t("remove_admin") : t("make_admin")}
-      </button>
+      <select disabled={busy || self} value={role} onChange={(e) => patch({ role: e.target.value as "USER" | "ADMIN" | "STAFF" | "SUPPORT" })} className="input !w-auto py-1.5 text-xs">
+        <option value="USER">👤 User</option>
+        <option value="STAFF">🎨 Staff</option>
+        <option value="SUPPORT">🎧 Support</option>
+        <option value="ADMIN">👑 Admin</option>
+      </select>
       <button
         disabled={busy || self}
         onClick={() => patch({ banned: !banned })}

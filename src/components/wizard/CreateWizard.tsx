@@ -808,7 +808,13 @@ export function CreateWizard({
                     <span className={`grid h-11 w-11 place-items-center rounded-xl border backdrop-blur ${sel ? "border-lime/60 bg-lime text-ink" : "border-lime/40 bg-ink/60 text-lime"}`}>
                       <TypeIcon layout={a.layout} />
                     </span>
-                    <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {cost}</span>
+                    <span className="flex flex-col items-end gap-1">
+                      <span className="rounded-full border border-line bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-white/80 backdrop-blur">⚡ {cost}</span>
+                      {(() => {
+                        const n = templates.filter((t) => t.layout === a.layout).length;
+                        return n > 0 ? <span className="rounded-full border border-lime/40 bg-ink/70 px-2 py-0.5 text-[10px] font-bold text-lime backdrop-blur">🖼️ {n} {locale === "es" ? (n === 1 ? "diseño" : "diseños") : n === 1 ? "design" : "designs"}</span> : null;
+                      })()}
+                    </span>
                   </span>
                   <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
                   <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
@@ -875,6 +881,10 @@ export function CreateWizard({
 
       {step === 2 && (
         <div className="card p-5">
+          <p className="mb-3 text-xs text-muted">
+            🖼️ {styles.length} {locale === "es" ? `diseños en ${(ART_TYPES.find((a) => a.layout === layout)?.es.name ?? "").toLowerCase()}` : `designs in ${(ART_TYPES.find((a) => a.layout === layout)?.en.name ?? "").toLowerCase()}`}
+            {badgeFilter ? ` · ${shownStyles.length} ${locale === "es" ? "con esta etiqueta" : "with this label"}` : ""}
+          </p>
           {badgeKinds.length > 0 && (
             <div className="mb-3 flex flex-wrap gap-1.5">
               {(["", ...badgeKinds] as const).map((b) => (

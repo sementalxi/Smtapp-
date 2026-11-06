@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isAnyStaff } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { LangSwitch } from "./LangSwitch";
 import { NavLinks } from "./NavLinks";
@@ -20,7 +20,7 @@ export async function Header() {
           { href: "/dashboard", label: t("nav_dashboard"), icon: "home" as const },
         ]
       : []),
-    ...(user?.role === "ADMIN" ? [{ href: "/admin", label: t("nav_admin"), icon: "admin" as const, admin: true }] : []),
+    ...(isAnyStaff(user?.role) ? [{ href: "/admin", label: t("nav_admin"), icon: "admin" as const, admin: true }] : []),
   ];
 
   const es = locale === "es";
@@ -41,7 +41,7 @@ export async function Header() {
         { href: "/profile", label: es ? "Perfil" : "Profile", icon: "profile" },
         { href: "#support", label: es ? "Soporte" : "Support", icon: "support", badge: es ? "En vivo" : "Live" },
         ...discordItem,
-        ...(user.role === "ADMIN" ? [{ href: "/admin", label: "Admin", icon: "admin" as const, badge: es ? "Abrir" : "Open", badgeStyle: "button" as const }] : []),
+        ...(isAnyStaff(user.role) ? [{ href: "/admin", label: "Admin", icon: "admin" as const, badge: es ? "Abrir" : "Open", badgeStyle: "button" as const }] : []),
       ]
     : [
         { href: "/register", label: es ? "Crear" : "Create", icon: "create", primary: true },

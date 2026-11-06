@@ -30,6 +30,7 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Every page (not API calls or static files) — needed for the domain redirect.
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  // Every page (not API calls or static files) — needed for the domain redirect — plus the admin API
+  // routes, which read the x-kixo-path header to let staff / support into their own areas only.
+  matcher: ["/((?!api|_next|.*\\..*).*)", "/api/admin/:path*"],
 };

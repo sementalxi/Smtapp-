@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requireUser, isStaff } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
 import { proConfigured } from "@/lib/ai";
@@ -25,7 +25,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
   const { type, match, team: teamMode, league, again } = await searchParams;
   // Admin: "Create another one" from a finished poster keeps its photo, team and texts — only the style changes.
   const prefill =
-    again && user.role === "ADMIN"
+    again && isStaff(user.role)
       ? await (async () => {
           const src = await db.banner.findFirst({ where: { id: again, userId: user.id }, select: { inputs: true, photoUrl: true, logoUrl: true, template: { select: { layout: true } } } });
           if (!src) return null;
@@ -145,7 +145,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         season={season}
         seasonStart={seasonOn && !!season}
         typePics={await getTypePics()}
-        isAdmin={user.role === "ADMIN"}
+        isAdmin={isStaff(user.role)}
         crestModes={(() => {
           try {
             return JSON.parse(settingsForCrest.crest_modes || "{}") as Record<string, string>;

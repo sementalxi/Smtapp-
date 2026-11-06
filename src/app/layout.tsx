@@ -17,7 +17,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { NoticeBar } from "@/components/NoticeBar";
 import { DailyReward } from "@/components/DailyReward";
 import { ZoomReset } from "@/components/ZoomReset";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isAnyStaff } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getTextOverrides } from "@/i18n/overrides";
 
@@ -69,7 +69,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       const me = await getCurrentUser().catch(() => null);
       // Early-access link: browsers that opened /vip/<code> see the full site as if it were launched.
       const vip = !!st.vip_code && (await cookies()).get("kixo_vip")?.value === st.vip_code;
-      soon = !open && !vip && me?.role !== "ADMIN";
+      soon = !open && !vip && !isAnyStaff(me?.role);
     }
   } catch {
     /* DB not ready yet */

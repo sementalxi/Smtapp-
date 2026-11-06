@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
-type D = { comingSoon: boolean; role: string; adminRole: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string; vipCode: string };
+type D = { comingSoon: boolean; role: string; adminRole: string; staffRole: string; supportRole2: string; roles: { id: string; name: string }[]; bot: boolean; linked: number; supportOn: boolean; supportRole: string; vipCode: string };
 
 /** Admin: "Coming soon" switch + Discord role given to everyone who links their account. */
 export function LaunchControls({ es }: { es: boolean }) {
@@ -13,11 +13,13 @@ export function LaunchControls({ es }: { es: boolean }) {
   const [soon, setSoon] = useState(false);
   const [role, setRole] = useState("");
   const [adminRole, setAdminRole] = useState("");
+  const [staffRole, setStaffRole] = useState("");
+  const [supportRole2, setSupportRole2] = useState("");
   const [adminMsg, setAdminMsg] = useState("");
-  async function saveAdminRole(r: string) {
-    setAdminRole(r);
+  async function saveAdminRole(r: string, kind: "admin" | "staff" | "support" = "admin") {
+    (kind === "admin" ? setAdminRole : kind === "staff" ? setStaffRole : setSupportRole2)(r);
     setAdminMsg("…");
-    const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "adminRole", role: r }) });
+    const res = await fetch("/api/admin/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "adminRole", role: r, kind }) });
     const x = (await res.json().catch(() => ({}))) as { promoted?: number; demoted?: number; checked?: number };
     setAdminMsg(res.ok ? (es ? `✅ Guardado · ${x.checked ?? 0} revisados · ${x.promoted ?? 0} ahora admin · ${x.demoted ?? 0} ya no` : `✅ Saved · ${x.checked ?? 0} checked · ${x.promoted ?? 0} now admin · ${x.demoted ?? 0} no longer`) : es ? "❌ Error" : "❌ Failed");
   }
@@ -35,7 +37,7 @@ export function LaunchControls({ es }: { es: boolean }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setAdminRole(x.adminRole || ""); setSOn(x.supportOn); setSRole(x.supportRole); setVip(x.vipCode || ""); }).catch(() => {});
+    fetch("/api/admin/launch").then((r) => r.json()).then((x: D) => { setD(x); setSoon(x.comingSoon); setRole(x.role); setAdminRole(x.adminRole || ""); setStaffRole(x.staffRole || ""); setSupportRole2(x.supportRole2 || ""); setSOn(x.supportOn); setSRole(x.supportRole); setVip(x.vipCode || ""); }).catch(() => {});
   }, []);
 
   async function save(nextSoon = soon, nextRole = role) {
@@ -148,20 +150,29 @@ export function LaunchControls({ es }: { es: boolean }) {
       </div>
       {d.bot && (
         <div className="space-y-2 border-t border-line pt-4">
-          <h3 className="font-bold">👑 {es ? "Rol de Discord que da admin en la web" : "Discord role that makes someone a website admin"}</h3>
-          <div className="flex flex-wrap gap-2">
-            <select className="input min-w-0 flex-1 py-2 text-sm" value={adminRole} onChange={(e) => saveAdminRole(e.target.value)}>
-              <option value="">{es ? "— Ninguno —" : "— None —"}</option>
-              {d.roles.map((r) => (
-                <option key={r.id} value={r.id}>@{r.name}</option>
-              ))}
-            </select>
-            <button type="button" disabled={!adminRole} onClick={syncAdmins} className="btn-ghost px-4 py-2 text-xs">🔄 {es ? "Sincronizar ahora" : "Sync now"}</button>
-          </div>
+          <h3 className="font-bold">👑 {es ? "Roles de Discord → roles en la web" : "Discord roles → website roles"}</h3>
+          {(
+            [
+              ["admin", adminRole, es ? "👑 Admin (todo)" : "👑 Admin (everything)"],
+              ["staff", staffRole, es ? "🎨 Staff (creador + Crear y contenido)" : "🎨 Staff (creator tools + Create & content)"],
+              ["support", supportRole2, es ? "🎧 Soporte (Usuarios y Dinero)" : "🎧 Support (People & Money)"],
+            ] as const
+          ).map(([kind, value, label]) => (
+            <div key={kind} className="flex flex-wrap items-center gap-2">
+              <span className="w-full text-xs font-bold sm:w-72">{label}</span>
+              <select className="input min-w-0 flex-1 py-2 text-sm" value={value} onChange={(e) => saveAdminRole(e.target.value, kind)}>
+                <option value="">{es ? "— Ninguno —" : "— None —"}</option>
+                {d.roles.map((r) => (
+                  <option key={r.id} value={r.id}>@{r.name}</option>
+                ))}
+              </select>
+            </div>
+          ))}
+          <button type="button" disabled={!adminRole && !staffRole && !supportRole2} onClick={syncAdmins} className="btn-ghost px-4 py-2 text-xs">🔄 {es ? "Sincronizar ahora" : "Sync now"}</button>
           <p className="text-xs text-muted">
             {es
-              ? "Quien tenga este rol en Discord es admin en la web (se revisa al entrar o conectar Discord, y con “Sincronizar ahora”). Si le quitan el rol, deja de ser admin — los admins puestos a mano o por correo no cambian."
-              : "Anyone with this role on Discord is an admin on the website (checked when they sign in or link Discord, and with “Sync now”). If the role is taken away they stop being admin — admins set by hand or by e-mail are never touched."}
+              ? "Quien tenga el rol en Discord recibe ese rol en la web (el más alto gana): se revisa al entrar o conectar Discord y con “Sincronizar ahora”. Si le quitan el rol en Discord, vuelve a usuario normal. Los roles puestos a mano en Usuarios o por correo de admin no cambian."
+              : "Whoever has the Discord role gets that role on the website (the highest wins): checked when they sign in or link Discord and with “Sync now”. If the Discord role is taken away they go back to a normal user. Roles set by hand in Users or by admin e-mail are never touched."}
           </p>
           {adminMsg && <p className="text-xs">{adminMsg}</p>}
         </div>

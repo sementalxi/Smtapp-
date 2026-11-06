@@ -217,30 +217,37 @@ export async function memberRoles(discordId: string): Promise<string[] | null> {
 }
 
 /**
- * Discord admin role → website admin. Members with the role become ADMIN (marked adminVia "discord");
- * users who got ADMIN that way lose it when the role is gone. Admins made by hand or by e-mail are never touched.
- * Returns what happened. Never throws.
+ * Discord roles → website roles. The admin / staff / support roles chosen in Admin → Launch give ADMIN / STAFF /
+ * SUPPORT on the website (marked adminVia "discord"); the highest one wins. A user who got a role that way
+ * loses it when the Discord role is gone. Roles set by hand (or by admin e-mail) are never touched.
  */
 export async function applyDiscordAdmin(userId: string, discordId: string, rolesKnown?: string[] | null): Promise<"promoted" | "demoted" | "kept" | "skipped"> {
   try {
     const { getSettings } = await import("./settings");
-    const adminRole = (await getSettings()).discord_admin_role?.trim();
-    if (!adminRole) return "skipped";
+    const st = await getSettings();
+    const map: [string, "ADMIN" | "STAFF" | "SUPPORT"][] = [
+      [st.discord_admin_role?.trim() ?? "", "ADMIN"],
+      [st.discord_staff_role?.trim() ?? "", "STAFF"],
+      [st.discord_support_role?.trim() ?? "", "SUPPORT"],
+    ].filter(([id]) => !!id) as [string, "ADMIN" | "STAFF" | "SUPPORT"][];
+    if (!map.length) return "skipped";
     const roles = rolesKnown === undefined ? await memberRoles(discordId) : rolesKnown;
     const { db } = await import("./db");
     const u = await db.user.findUnique({ where: { id: userId }, select: { role: true, adminVia: true, email: true } });
     if (!u) return "skipped";
     const { isAdminEmail } = await import("./auth");
-    const has = !!roles?.includes(adminRole);
-    if (has && u.role !== "ADMIN") {
-      await db.user.update({ where: { id: userId }, data: { role: "ADMIN", adminVia: "discord" } });
+    if (isAdminEmail(u.email)) return "kept";
+    const want = roles ? (map.find(([id]) => roles.includes(id))?.[1] ?? null) : null;
+    const fromDiscord = u.adminVia === "discord";
+    if (want && u.role !== want && (u.role === "USER" || fromDiscord)) {
+      await db.user.update({ where: { id: userId }, data: { role: want, adminVia: "discord" } });
       return "promoted";
     }
-    if (has && u.role === "ADMIN" && !u.adminVia && !isAdminEmail(u.email)) {
+    if (want && u.role === want && !u.adminVia) {
       await db.user.update({ where: { id: userId }, data: { adminVia: "discord" } });
       return "kept";
     }
-    if (!has && roles !== null && u.role === "ADMIN" && u.adminVia === "discord" && !isAdminEmail(u.email)) {
+    if (!want && roles !== null && fromDiscord && u.role !== "USER") {
       await db.user.update({ where: { id: userId }, data: { role: "USER", adminVia: null } });
       return "demoted";
     }

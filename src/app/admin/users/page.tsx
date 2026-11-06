@@ -162,6 +162,8 @@ export default async function AdminUsers({
                     <div className="truncate text-xs text-muted">{u.email}</div>
                     <div className="mt-1 flex flex-wrap gap-1">
                       {u.role === "ADMIN" && <span className="chip border-lime/50 py-0 text-[10px] text-lime">ADMIN</span>}
+                      {u.role === "STAFF" && <span className="chip border-violet-400/50 py-0 text-[10px] text-violet-200">STAFF</span>}
+                      {u.role === "SUPPORT" && <span className="chip border-sky-400/50 py-0 text-[10px] text-sky-200">SUPPORT</span>}
                       {subbed && <span className="chip border-amber-300/50 py-0 text-[10px] text-amber-200">{(u.planId ?? "plan").toUpperCase()}</span>}
                       {u.banned && <span className="chip border-danger/50 py-0 text-[10px] text-danger">{es ? "SUSPENDIDO" : "SUSPENDED"}</span>}
                       {u.createdAt >= week && <span className="chip border-sky-300/40 py-0 text-[10px] text-sky-200">{es ? "NUEVO" : "NEW"}</span>}

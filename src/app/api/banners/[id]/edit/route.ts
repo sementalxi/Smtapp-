@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError } from "@/lib/auth";
+import { apiUser, HttpError, isStaff } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import { proConfigured, BLOCKED } from "@/lib/ai";
@@ -41,7 +41,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   const { id } = await params;
   const body = Body.parse(await req.json());
   if (!proConfigured()) throw new HttpError(400, "pro_not_configured");
-  const isAdmin = user.role === "ADMIN";
+  const isAdmin = isStaff(user.role);
   const src = await db.banner.findFirst({ where: { id, ...(isAdmin ? {} : { userId: user.id }), mode: "PRO", status: "READY" }, include: { template: true } });
   if (!src?.finalUrl) throw new HttpError(404, "not_found");
   assertOwnUrl(body.photoUrl);

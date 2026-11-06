@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError } from "@/lib/auth";
+import { apiUser, HttpError, isStaff } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import {
@@ -52,7 +52,7 @@ const PLAYER_FIELDS = ["name", "position", "number", "tagline", "subtitle"] as c
 export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
   const body = Body.parse(await req.json());
-  const adminTest = !!body.test && user.role === "ADMIN";
+  const adminTest = !!body.test && isStaff(user.role);
   if (!adminTest) rateLimit(req, "generate", 30, 60 * 60_000, user.id);
   assertOwnUrl(body.photoUrl);
   assertOwnUrl(body.logoUrl);
@@ -100,7 +100,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
   assertInputUrls(inputs);
-  inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(template.layout, source ? (inputs.aiLogo || undefined) : body.inputs.aiLogo, user.role === "ADMIN", template.proInstructions);
+  inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(template.layout, source ? (inputs.aiLogo || undefined) : body.inputs.aiLogo, isStaff(user.role), template.proInstructions);
   let proPrompt = "";
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
   const totw = pro && ["TOTW", "STANDINGS", "EVENT"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;

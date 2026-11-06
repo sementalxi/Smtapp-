@@ -1,7 +1,7 @@
 import { crestModeLabel } from "@/lib/templates";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requireUser, isStaff } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { aiConfigured } from "@/lib/banners";
@@ -18,7 +18,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
   const { t } = await getT();
   const { id } = await params;
   const banner = await db.banner.findUnique({ where: { id }, include: { template: true } });
-  const isAdmin = user.role === "ADMIN";
+  const isAdmin = isStaff(user.role);
   if (!banner || (banner.userId !== user.id && !isAdmin)) notFound();
   const owner = banner.userId !== user.id ? await db.user.findUnique({ where: { id: banner.userId }, select: { email: true } }) : null;
 

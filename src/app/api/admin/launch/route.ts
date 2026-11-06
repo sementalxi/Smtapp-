@@ -13,7 +13,7 @@ export const GET = handle(async () => {
   await apiAdmin(); await (await import("@/lib/rev")).bumpRev();
   const st = await getSettings();
   const linked = await db.user.count({ where: { discordId: { not: null } } });
-  return json({ comingSoon: st.coming_soon === "1", role: st.discord_link_role || "", adminRole: st.discord_admin_role || "", roles: await listRoles(), bot: botReady(), linked, supportOn: st.support_on !== "0", supportRole: st.support_role || "", vipCode: st.vip_code || "" });
+  return json({ comingSoon: st.coming_soon === "1", role: st.discord_link_role || "", adminRole: st.discord_admin_role || "", staffRole: st.discord_staff_role || "", supportRole2: st.discord_support_role || "", roles: await listRoles(), bot: botReady(), linked, supportOn: st.support_on !== "0", supportRole: st.support_role || "", vipCode: st.vip_code || "" });
 });
 
 const Body = z.discriminatedUnion("action", [
@@ -21,7 +21,7 @@ const Body = z.discriminatedUnion("action", [
   z.object({ action: z.literal("giveAll") }),
   z.object({ action: z.literal("vip"), mode: z.enum(["new", "off"]) }),
   z.object({ action: z.literal("support"), on: z.boolean(), role: z.string().regex(/^(\d{15,22})?$/) }),
-  z.object({ action: z.literal("adminRole"), role: z.string().regex(/^(\d{15,22})?$/) }),
+  z.object({ action: z.literal("adminRole"), role: z.string().regex(/^(\d{15,22})?$/), kind: z.enum(["admin", "staff", "support"]).default("admin") }),
   z.object({ action: z.literal("syncAdmins") }),
 ]);
 
@@ -35,8 +35,9 @@ export const POST = handle(async (req: NextRequest) => {
     return json({ ok: true, vipCode: value });
   }
   if (b.action === "adminRole") {
-    await db.setting.upsert({ where: { key: "discord_admin_role" }, create: { key: "discord_admin_role", value: b.role }, update: { value: b.role } });
-    const r = b.role ? await syncDiscordAdmins() : { promoted: 0, demoted: 0, checked: 0 };
+    const key = b.kind === "staff" ? "discord_staff_role" : b.kind === "support" ? "discord_support_role" : "discord_admin_role";
+    await db.setting.upsert({ where: { key }, create: { key, value: b.role }, update: { value: b.role } });
+    const r = await syncDiscordAdmins();
     return json({ ok: true, ...r });
   }
   if (b.action === "syncAdmins") return json({ ok: true, ...(await syncDiscordAdmins()) });

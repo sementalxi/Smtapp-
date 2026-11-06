@@ -41,10 +41,47 @@ export async function requireUser() {
   return user;
 }
 
-/** For pages: redirect non-admins away. */
+/**
+ * Website roles: ADMIN does everything. STAFF (content staff) gets the creator's admin tools and the
+ * "Create & content" part of the admin panel. SUPPORT gets the "People" and "Money" parts (users, posters
+ * made, e-mail, transactions, payments). Settings, Discord, bot and daily reward stay ADMIN only.
+ */
+export type Role = "USER" | "ADMIN" | "STAFF" | "SUPPORT";
+/** Content staff: the creator's admin-only tools, free tests, styles / style test / texts. */
+export const isStaff = (role: string | null | undefined) => role === "ADMIN" || role === "STAFF";
+/** Support staff: users, posters made, transactions, payments, e-mail. */
+export const isSupport = (role: string | null | undefined) => role === "ADMIN" || role === "SUPPORT";
+/** Any role that may open the admin panel. */
+export const isAnyStaff = (role: string | null | undefined) => role === "ADMIN" || role === "STAFF" || role === "SUPPORT";
+
+/** Which roles may use an admin page / API path. Unknown admin paths stay ADMIN only. */
+export function rolesForAdminPath(path: string): Role[] {
+  const p = path.replace(/\/+$/, "") || "/";
+  const content = ["/admin/studio", "/admin/templates", "/admin/style-test", "/admin/leagues", "/admin/deals", "/admin/texts", "/api/admin/templates", "/api/admin/style-test", "/api/admin/texts", "/api/admin/hero", "/api/admin/hero-video", "/api/admin/type-pics", "/api/admin/studio", "/api/admin/library", "/api/admin/deals", "/api/admin/season", "/api/admin/leagues"];
+  const people = ["/admin/users", "/admin/banners", "/admin/email", "/admin/transactions", "/admin/payments", "/api/admin/users", "/api/admin/email", "/api/admin/discord-dm", "/api/admin/welcome-dm", "/api/admin/banners", "/api/admin/transactions", "/api/admin/payments"];
+  const everyone = ["/admin", "/admin/logs", "/api/admin/logs"];
+  const hit = (list: string[]) => list.some((x) => p === x || p.startsWith(`${x}/`));
+  if (p === "/admin" || hit(everyone)) return ["ADMIN", "STAFF", "SUPPORT"];
+  if (hit(content)) return ["ADMIN", "STAFF"];
+  if (hit(people)) return ["ADMIN", "SUPPORT"];
+  return ["ADMIN"];
+}
+
+async function currentPath(): Promise<string> {
+  try {
+    const { headers } = await import("next/headers");
+    return (await headers()).get("x-kixo-path") ?? "";
+  } catch {
+    return "";
+  }
+}
+
+/** For pages: redirect away everyone who may not open this admin page (staff see only their areas). */
 export async function requireAdmin() {
   const user = await requireUser();
-  if (user.role !== "ADMIN") redirect("/dashboard");
+  if (user.role === "ADMIN") return user;
+  const path = await currentPath();
+  if (!isAnyStaff(user.role) || !rolesForAdminPath(path).includes(user.role as Role)) redirect("/dashboard");
   return user;
 }
 
@@ -61,9 +98,12 @@ export async function apiUser() {
   return user;
 }
 
+/** For admin API routes: ADMIN always; STAFF / SUPPORT only on the routes of their area. */
 export async function apiAdmin() {
   const user = await apiUser();
-  if (user.role !== "ADMIN") throw new HttpError(403, "forbidden");
+  if (user.role === "ADMIN") return user;
+  const path = await currentPath();
+  if (!isAnyStaff(user.role) || !rolesForAdminPath(path).includes(user.role as Role)) throw new HttpError(403, "forbidden");
   return user;
 }
 

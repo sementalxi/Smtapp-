@@ -34,6 +34,8 @@ export const SETTING_DEFAULTS = {
   vip_code: "", // secret part of the early-access link (/vip/<code>) that opens the full site during "coming soon"
   discord_link_role: "",
   discord_admin_role: "", // Discord role id: members with it are admins on the website too (checked at Discord sign-in / link and with "Sync now")
+  discord_staff_role: "", // Discord role id → STAFF on the website (creator admin tools + Create & content panel)
+  discord_support_role: "", // Discord role id → SUPPORT on the website (People & Money panel)
   site_title: "",
   site_description: "",
   share_image: "",

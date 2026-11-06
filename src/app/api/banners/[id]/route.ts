@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError } from "@/lib/auth";
+import { apiUser, HttpError, isAnyStaff, isStaff } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { DesignSchema, InputsSchema, titleFor, toJson, reapStale } from "@/lib/banners";
 import { deleteFile } from "@/lib/storage";
@@ -19,11 +19,11 @@ async function ownBanner(id: string, userId: string, isAdmin: boolean) {
 export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
   const user = await apiUser();
   const { id } = await params;
-  let b = await ownBanner(id, user.id, user.role === "ADMIN");
+  let b = await ownBanner(id, user.id, isAnyStaff(user.role));
   // Still "generating" after 8 minutes = the job died → fail it and refund now (don't make the user wait).
   if (b.status === "PROCESSING" && Date.now() - b.createdAt.getTime() > 8 * 60_000) {
     await reapStale(b.userId).catch(() => {});
-    b = await ownBanner(id, user.id, user.role === "ADMIN");
+    b = await ownBanner(id, user.id, isAnyStaff(user.role));
   }
   const err = b.error ?? "";
   const error = !err
@@ -42,8 +42,8 @@ export const GET = handle(async (_req: NextRequest, { params }: Ctx) => {
     stage: b.stage ?? null,
     finalUrl: b.finalUrl,
     error,
-    ...(user.role === "ADMIN" && err ? { detail: err } : {}),
-    ...(user.role === "ADMIN" ? { madeWith: b.prompt?.match(/^\[Made with: ([^\]]+)\]/)?.[1] ?? null } : {}),
+    ...(isStaff(user.role) && err ? { detail: err } : {}),
+    ...(isStaff(user.role) ? { madeWith: b.prompt?.match(/^\[Made with: ([^\]]+)\]/)?.[1] ?? null } : {}),
   });
 });
 
@@ -72,7 +72,7 @@ export const PATCH = handle(async (req: NextRequest, { params }: Ctx) => {
 export const DELETE = handle(async (_req: NextRequest, { params }: Ctx) => {
   const user = await apiUser();
   const { id } = await params;
-  const b = await ownBanner(id, user.id, user.role === "ADMIN");
+  const b = await ownBanner(id, user.id, isAnyStaff(user.role));
   await db.banner.delete({ where: { id } });
   await (await import("@/lib/rev")).bumpRev();
   // Photos/logos may be reused by other banners, so only remove generated files.

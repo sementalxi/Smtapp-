@@ -5,7 +5,7 @@ import type { TemplateStyle } from "./templates";
 
 /** Which styles this viewer may see: admins see all; organizations see "all"+"orgs"; everyone else "all"+"users". */
 export function audienceFor(viewer?: { role?: string; isOrg?: boolean } | null): string[] | null {
-  if (viewer?.role === "ADMIN") return null;
+  if (viewer?.role === "ADMIN" || viewer?.role === "STAFF") return null;
   return viewer?.isOrg ? ["all", "orgs"] : ["all", "users"];
 }
 export function canUseTemplate(t: { audience?: string | null }, viewer?: { role?: string; isOrg?: boolean } | null) {
