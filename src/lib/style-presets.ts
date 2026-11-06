@@ -4877,13 +4877,314 @@ OTHER TEXT & GRAPHICS (each only if its text is given)
 - dateBlock: at the top-left, the day number in white bold digits inside a RED rounded square, the month in black condensed capitals beside it, tilted with the title.
 - hostLabel: a tiny letter-spaced black capitals label; hosts: two lines of bold condensed capitals in a GOLD-to-RED gradient at the lower left.
 - footer: a tiny black letter-spaced capitals line at the very bottom.
-- The team crest (if provided) at the top centre (the flyer's venue logo spot) as a 3D EMBLEM built like the title: a red-tinted glass face with silver-chrome bevels and the layered black / silver / red extrusion, fire and orange reflections on it, a soft glow — the crest's exact shape and colours kept, floating directly on the pale background; the POSITION in small black capitals and the jersey NUMBER in bold black digits beside the host lines.
+- The team crest (if provided) at the top centre (the flyer's venue logo spot) as a 3D EMBLEM built like the title: a red-tinted glass face with silver-chrome bevels and the layered black / silver / red extrusion, fire and orange reflections on it, a soft glow — the crest's exact shape, letters and symbols kept, its colours replaced by this emblem's materials and the poster's palette, floating directly on the pale background; the POSITION in small black capitals and the jersey NUMBER in bold black digits beside the host lines.
 
 LAYOUT MAP (match the reference flyer)
 - 2–12%: the crest (if given) centred at the top.
 - 10–20% LEFT: the date block; 12–40%: the NAME title tilted across the full width with the black script over its lower part.
 - 25–90%: the player centred over the orange disc and the fire ring; 60–100% RIGHT: the giant cropped 3D block fragment.
 - 80–94% LEFT: the host label and the gold-red host lines, the position and number beside them; 95–99%: the footer.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "player-candy-chrome": `[FIXED POSES] [CREST 3D] CANDY CHROME — a pink-chrome club player card: a dark club tunnel with honeycomb LED walls glowing magenta, pink fire and smoke, a giant retro groovy script title in glossy pink chrome. Sweet, glossy, high-end nightlife.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: hot PINK / magenta, deep purple-black and silver chrome (or the team colour in place of pink); white small text, pink-to-white gradients.
+
+BACKGROUND
+- A dark club corridor in perspective: both side walls covered in HEXAGONAL honeycomb LED panels glowing hot pink and magenta, converging towards the centre; a dark ceiling with light strips.
+- Pink and red FIRE and smoke clouds billowing around the player's head and the title, bright pink haze, sparks, soft bloom; purple-black shadows.
+- Fine grain, rich contrast.
+
+THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, chest-up or waist-up, large, looking at the camera, in front of the lower part of the title; full colour, a pink key light and a white-pink rim light, a sharp cut-out with natural hair edges. No props (the flyer's lollipop is not copied).
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME in a giant RETRO GROOVY SCRIPT: fat, bouncy, 1970s disco/funk display lettering with big rounded loops and connected letters, on one or two overlapping lines tilted slightly up to the right, spanning the full width above the player; with two words the second word sits lower right and partly behind the head.
+- The letters are 3D PINK CHROME: glossy pink-magenta metallic faces with soft white highlights and reflections, a thick SILVER-CHROME extrusion with pink reflections, a thin dark outline, a soft pink glow behind.
+- A small lighter PINK script word sits above the start of the name: the "preword" text if given, otherwise nothing.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- kicker1: a tiny letter-spaced WHITE capitals line at the very top; kicker2: a bold PINK capitals line right under it.
+- date: at the right middle, a pink-white italic SCRIPT word with big script digits, glossy.
+- djsLabel: a tiny letter-spaced capitals label; djs: two lines of bold condensed capitals in a PINK-to-WHITE gradient with "+" separators, centred in the lower part.
+- footer: a tiny white letter-spaced capitals line at the very bottom.
+- The team crest (if provided) at the bottom centre above the footer (the flyer's venue logo spot) as a 3D EMBLEM built like the title: glossy pink chrome faces with white highlights, a silver-chrome extrusion and a pink glow, the LED light reflected on it — the crest's exact shape, letters and symbols kept, its colours replaced by this emblem's materials and the poster's palette, floating directly on the scene; the POSITION small and the jersey NUMBER in bold pink-white digits beside the date.
+
+LAYOUT MAP (match the reference flyer)
+- 2–9%: the kicker lines centred; 10–42%: the NAME in the pink chrome groovy script, tilted, with the small preword above it.
+- 38–85%: the player centred, pink fire around the head; 50–62% RIGHT: the script date, the position and number under it.
+- 74–86%: the djs label and the two DJ lines; 88–94%: the crest (if given) centred; 95–99%: the footer.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "player-purple-glass": `[FIXED POSES] [CREST 3D] PURPLE GLASS — a purple-candy club player card: a dark magenta club with LED pillars, white-pink lightning arcs, a giant twisted purple-glass 3D word with chrome bevels, huge glossy purple letter shards framing the sides, a pink handwritten script. Electric, glossy, premium.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: VIOLET-purple glossy candy, hot pink/magenta and dark red-black (or the team colour in place of purple); white and pink small text.
+
+BACKGROUND
+- A dark club interior in deep magenta-red: vertical LED light pillars and door frames glowing pink in perspective, pink haze and smoke, a subtle halftone dot texture in the shadows.
+- WHITE-PINK LIGHTNING: electric arcs and plasma bolts crackling around the player's shoulders and across the title, bright and sharp.
+- Both sides framed by HUGE glossy PURPLE 3D LETTER SHARDS: giant chrome-purple letter fragments, mirror-polished with bright highlights and dark reflections, cropped at the left and right edges and the bottom corners.
+
+THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up, large, turned slightly with a look over the shoulder or straight at the camera, in front of the title; full colour, a magenta key light and a white rim light, a sharp cut-out.
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME as ONE giant word (or stacked words) spanning the full width behind the head, in a futuristic heavy ANGULAR display face: sharp diagonal cuts, wide letters, some letters tilted and twisted in different directions as if each is a separate 3D object seen from its own angle.
+- The letters are glossy PURPLE GLASS / candy: translucent violet-purple faces with a smooth gradient, bright white specular highlights, silver-CHROME bevelled edges and a deep dark-purple extrusion, pink reflections from the lightning; the word overlaps itself where letters twist.
+- Under the title, across the player's chest, a thin PINK handwritten SCRIPT word glowing neon-pink: the "script" text if given, otherwise nothing.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- musicLabel: a small letter-spaced PINK capitals line; dj: a big WHITE bold condensed italic capitals line under it; offer: a bold PINK capitals line; then a thin dotted white rule; info: a bold WHITE capitals line; footer: a tiny pink letter-spaced capitals line.
+- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: glossy purple glass / candy faces with silver-chrome bevels, a deep dark-purple extrusion and pink lightning reflections, a violet glow — the crest's exact shape, letters and symbols kept, its colours replaced by this emblem's materials and the poster's palette, floating directly on the scene; the POSITION small in pink capitals and the jersey NUMBER in bold white digits at the lower right.
+
+LAYOUT MAP (match the reference flyer)
+- 3–14%: the crest (if given) centred at the top.
+- 14–40%: the NAME word in purple glass, full width, letters twisted; 55–66%: the pink script word across the chest.
+- 28–82%: the player centred with lightning around; purple shards at both edges; 70–78% RIGHT: the position and number.
+- 78–82%: musicLabel; 82–87%: the dj line; 87–90%: the offer line; 90%: the dotted rule; 91–94%: the info line; 95–98%: the footer.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "player-ice-chrome": `[FIXED POSES] [CREST 3D] ICE CHROME — a white-silver futuristic player card: a bright white glossy room, a purple orb behind the player, chrome and cyan crystal shards framing the corners, a giant white-and-cyan chrome 3D italic title, a round navy date badge. Clean, cold, luxurious.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: WHITE and SILVER chrome with CYAN-teal and VIOLET-purple accents (or the team's two colours in place of cyan and purple); dark navy small graphics.
+
+BACKGROUND
+- A bright WHITE futuristic room: smooth glossy white curved panels and ridges with soft grey shading and reflections, like the inside of a white sci-fi helmet; subtle light-grey gradients.
+- A big glossy PURPLE ORB / disc behind the player (violet gradient, soft glow, a faint ghost of the title inside it).
+- The corners and edges framed by sharp CHROME SHARDS: mirror-silver, cyan-teal and violet crystal spikes and blades pointing inward from the top and bottom corners, glossy with strong reflections, cropped by the frame.
+
+THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up or three-quarter, in front of the purple orb and the second title line; full colour, a cool white key light and cyan-violet rim lights, a sharp cut-out.
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME on one line (or two stacked lines for two words) in a futuristic heavy ITALIC display face with sharp angular cuts and slashes, tilted up to the right, spanning the full width in the upper third.
+- The letters are 3D CHROME: WHITE-silver faces with a cool cyan-to-violet gradient bevel and bright specular highlights, a deep extrusion in VIOLET-BLUE chrome with dark edges; crisp, cold, mirror-like; the player's head overlaps the second line.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- dateBadge: a round glossy DARK NAVY badge with a thin light ring at the right middle: the month small in white capitals, the number big in white bold digits.
+- djs: two lines of bold capitals in a CYAN-to-BLUE chrome gradient, centred in the lower part.
+- info: a letter-spaced WHITE capitals line under the DJ lines (with a soft dark shadow so it reads on white).
+- footer: a BLACK bar at the bottom with white letter-spaced capitals.
+- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: white-silver chrome faces with cyan-to-violet bevels and a violet-blue chrome extrusion, cold specular highlights, a soft cyan glow — the crest's exact shape, letters and symbols kept, its colours replaced by this emblem's materials and the poster's palette, floating directly on the white room; the POSITION small in navy capitals and the jersey NUMBER in bold cyan-chrome digits under the date badge.
+
+LAYOUT MAP (match the reference flyer)
+- 3–13%: the crest (if given) centred at the top; chrome shards in the top corners.
+- 13–40%: the NAME, tilted chrome lines across the full width; 38–52% RIGHT: the round date badge, the position and number under it.
+- 28–90%: the player centred over the purple orb.
+- 82–89%: the two DJ lines in cyan-blue chrome; 90–93%: the info line; 94–98%: the black footer bar.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "player-white-block": `[CREST 3D] WHITE BLOCK — a red-and-white club player card: a dark red club ceiling with red light rays and lightning, molten red chrome framing the edges, a giant WHITE deep-extruded 3D block word angled in perspective, tattoo roses around the player, a red ribbon kicker. Bold, loud, premium.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: deep RED and black with WHITE (or the team colour in place of red); gold digits.
+
+BACKGROUND
+- A dark red-black club ceiling seen from below: dark beams and panels converging in perspective, RED light rays and laser lines fanning from the top, red lightning arcs, red haze, glowing particles.
+- Both sides framed by MOLTEN RED-HOT CHROME: liquid-metal organic shapes glowing red-orange with bright highlights, cropped at the left and right edges (top and bottom corners).
+- Around the player's head: colourful TATTOO-STYLE ROSES and ornamental leaves (red roses, teal-green leaves, baroque flourishes) flanking the face on both sides, blended with the red light.
+
+THE PLAYER — shown THREE times, all the SAME person from the photo (exact same face, features, hair, skin tone, outfit and natural eyes — no glowing eyes):
+1. BEHIND (upper half): TWO extra pictures of the player, BOTH NEWLY GENERATED from the photo's identity and BOTH DIFFERENT from the photo and from each other — never a copy, duplicate, mirror or re-crop of the uploaded photo:
+   (a) an UP-CLOSE portrait at one side: a tight head-and-shoulders crop, the face large, a different angle and expression from the photo (turned three-quarter, chin up, eyes to the camera or looking off), hair and skin detailed;
+   (b) at the other side, a different POSE (the pose given in the SECOND FIGURE POSE line, or the uploaded second photo if one is given): a wider crop, the body turned differently, arms doing something else.
+   Both are rendered as big RED-black DUOTONE figures blended into the red rays and the dark ceiling — softer, slightly translucent, lit from behind, partly covered by the title, the roses and the front figure. If a figure would end up looking like the photo again, change its angle, crop and expression until it does not.
+2. IN FRONT (centre): the photo's own pose, chest-up or waist-up, large, in front of the lower half of the title; full colour with a red key light and a white rim light, a sharp cut-out with natural hair edges.
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME as ONE giant word (or stacked words) in heavy CONDENSED sans capitals, WHITE, built as very deep 3D BLOCKS: glossy white faces with soft grey shading, extremely thick extruded sides in light grey-white with subtle red reflections, every letter a solid slab.
+- The whole word is ANGLED in perspective — tilted up to the right and seen slightly from below so the extrusions show strongly; it spans beyond the frame and is cropped at the right; the player's head sits in front of its lower half.
+- Above the title, a RED angled RIBBON / banner with white letter-spaced capitals: the "kicker" text if given, otherwise no ribbon.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- script: a small RED handwritten script word; highlight: two lines of big WHITE condensed capitals under it, centred.
+- venue: a thin elegant letter-spaced white word (the flyer's thin logotype line).
+- info: a bold white capitals line with its digits in GOLD; footer: a tiny white letter-spaced capitals line.
+- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title — glossy WHITE faces with a deep white-grey extrusion and red reflections, the crest's exact shape, letters and symbols kept, its colours replaced by this emblem's materials and the poster's palette, floating directly on the red background with a soft red glow; the POSITION small in white capitals and the jersey NUMBER in bold white block digits at the lower right.
+
+LAYOUT MAP (match the reference flyer)
+- 3–16%: the crest (if given) centred at the top as the white 3D emblem; 5–50%: the two extra figures of the player (an up-close portrait at one side, a different pose at the other, red duotone) behind the title and the roses.
+- 22–27%: the red ribbon kicker, angled; 24–52%: the NAME in giant white 3D blocks, angled, cropped at the right.
+- 40–78%: the player centred with the roses around the head; 70–78% RIGHT: the position and number.
+- 76–84%: the red script word and the two white highlight lines; 85–89%: the venue line; 90–94%: the info line; 95–98%: the footer.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "player-liquid-script": `[CREST 3D] LIQUID SCRIPT — a violet liquid-chrome player card: a dark purple room with a glowing diamond of light behind the player, pink-purple smoke and sparks, liquid chrome frames melting in from the sides, a giant brush-script title in pearl-white 3D chrome with a deep blue-red extrusion. Flashy, premium, electric.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: deep VIOLET-purple, MAGENTA-pink and electric BLUE with pearl-white chrome (or the team's two colours in place of purple and pink); white small text with pink digits.
+
+BACKGROUND
+- A dark purple-black room with a huge glowing DIAMOND (rhombus) outline of light behind the player — thin bright edges with a violet glow, repeated as fainter inner diamonds.
+- Pink-purple SMOKE and flames billowing around the player's head and shoulders, bright sparks and particles, lens flares, light streaks.
+- Both sides framed by LIQUID CHROME: melted-metal organic shapes in purple, blue and magenta with glossy highlights and dark reflections, dripping in from the left and right edges and the corners.
+
+THE PLAYER — shown THREE times, all the SAME person from the photo (exact same face, features, hair, skin tone and outfit):
+1. BEHIND (upper half): TWO extra pictures of the player, BOTH NEWLY GENERATED from the photo's identity and BOTH DIFFERENT from the photo and from each other — never a copy, duplicate, mirror or re-crop of the uploaded photo:
+   (a) an UP-CLOSE portrait at one side: a tight head-and-shoulders crop, the face large, a different angle and expression from the photo (turned three-quarter, chin up, eyes to the camera or looking off), hair and skin detailed;
+   (b) at the other side, a different POSE (the pose given in the SECOND FIGURE POSE line, or the uploaded second photo if one is given): a wider crop, the body turned differently, arms doing something else.
+   Both are rendered as big violet-magenta DUOTONE figures blended into the diamond of light and the smoke — softer, slightly translucent, lit from behind, partly covered by the title and the front figure. If a figure would end up looking like the photo again, change its angle, crop and expression until it does not.
+2. IN FRONT (centre): the photo's own pose, chest-up or waist-up, large, straight at the camera, in front of the second title line; full colour with a magenta key light and a blue rim light, a sharp cut-out with natural hair edges.
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME in a giant handwritten BRUSH SCRIPT: fast, confident marker strokes, connected letters, a huge sweeping first letter whose tail crosses the whole width; one line, or two stacked lines for two words, tilted up to the right in the upper third.
+- The letters are LIQUID 3D CHROME: pearl-WHITE glossy faces with pink and blue reflections and bright highlights, and a very DEEP extrusion in a BLUE-to-PURPLE-to-RED chrome gradient stacked like layered metal, with dark shadows between the strokes; the second line overlaps the first and the player's head overlaps the second line.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- info: a bold WHITE capitals line with its digits in MAGENTA-pink, centred near the bottom; footer: a tiny white letter-spaced capitals line under it.
+- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM in this style's liquid chrome — pearl-white and purple-blue chrome, glossy, with the same reflections as the title — the crest's exact shape, letters and symbols kept, its colours replaced by this emblem's materials and the poster's palette, floating directly on the background; the POSITION small in white capitals and the jersey NUMBER in bold pearl-chrome digits at the lower right.
+
+LAYOUT MAP (match the reference flyer)
+- 3–10%: the crest (if given) centred at the top as the liquid-chrome 3D emblem.
+- 12–42%: the NAME in the pearl-chrome brush script, tilted, full width, the big first-letter flourish sweeping left.
+- 8–55%: the two extra figures of the player (an up-close portrait at one side, a different pose at the other, violet duotone) behind the title and the diamond; 35–90%: the player in front, centred, with the smoke around; liquid chrome at both edges; 80–88% RIGHT: the position and number.
+- 91–94%: the info line; 95–98%: the footer.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+};
+
+/** Earlier versions — replaced automatically if the admin never edited them. */
+export const PRESET_PREVIOUS: Record<string, string> = {
+  "player-ice-chrome": `[FIXED POSES] [CREST 3D] ICE CHROME — a white-silver futuristic player card: a bright white glossy room, a purple orb behind the player, chrome and cyan crystal shards framing the corners, a giant white-and-cyan chrome 3D italic title, a round navy date badge. Clean, cold, luxurious.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: WHITE and SILVER chrome with CYAN-teal and VIOLET-purple accents (or the team's two colours in place of cyan and purple); dark navy small graphics.
+
+BACKGROUND
+- A bright WHITE futuristic room: smooth glossy white curved panels and ridges with soft grey shading and reflections, like the inside of a white sci-fi helmet; subtle light-grey gradients.
+- A big glossy PURPLE ORB / disc behind the player (violet gradient, soft glow, a faint ghost of the title inside it).
+- The corners and edges framed by sharp CHROME SHARDS: mirror-silver, cyan-teal and violet crystal spikes and blades pointing inward from the top and bottom corners, glossy with strong reflections, cropped by the frame.
+
+THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up or three-quarter, in front of the purple orb and the second title line; full colour, a cool white key light and cyan-violet rim lights, a sharp cut-out.
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME on one line (or two stacked lines for two words) in a futuristic heavy ITALIC display face with sharp angular cuts and slashes, tilted up to the right, spanning the full width in the upper third.
+- The letters are 3D CHROME: WHITE-silver faces with a cool cyan-to-violet gradient bevel and bright specular highlights, a deep extrusion in VIOLET-BLUE chrome with dark edges; crisp, cold, mirror-like; the player's head overlaps the second line.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- dateBadge: a round glossy DARK NAVY badge with a thin light ring at the right middle: the month small in white capitals, the number big in white bold digits.
+- djs: two lines of bold capitals in a CYAN-to-BLUE chrome gradient, centred in the lower part.
+- info: a letter-spaced WHITE capitals line under the DJ lines (with a soft dark shadow so it reads on white).
+- footer: a BLACK bar at the bottom with white letter-spaced capitals.
+- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: white-silver chrome faces with cyan-to-violet bevels and a violet-blue chrome extrusion, cold specular highlights, a soft cyan glow — the crest's exact shape and colours kept, floating directly on the white room; the POSITION small in navy capitals and the jersey NUMBER in bold cyan-chrome digits under the date badge.
+
+LAYOUT MAP (match the reference flyer)
+- 3–13%: the crest (if given) centred at the top; chrome shards in the top corners.
+- 13–40%: the NAME, tilted chrome lines across the full width; 38–52% RIGHT: the round date badge, the position and number under it.
+- 28–90%: the player centred over the purple orb.
+- 82–89%: the two DJ lines in cyan-blue chrome; 90–93%: the info line; 94–98%: the black footer bar.
+
+PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
+- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
+- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
+- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
+- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
+- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
+- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
+- Ignore the placement hints in the text list below — follow this style and its layout map.`,
+  "player-purple-glass": `[FIXED POSES] [CREST 3D] PURPLE GLASS — a purple-candy club player card: a dark magenta club with LED pillars, white-pink lightning arcs, a giant twisted purple-glass 3D word with chrome bevels, huge glossy purple letter shards framing the sides, a pink handwritten script. Electric, glossy, premium.
+
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
+
+COLOURS: VIOLET-purple glossy candy, hot pink/magenta and dark red-black (or the team colour in place of purple); white and pink small text.
+
+BACKGROUND
+- A dark club interior in deep magenta-red: vertical LED light pillars and door frames glowing pink in perspective, pink haze and smoke, a subtle halftone dot texture in the shadows.
+- WHITE-PINK LIGHTNING: electric arcs and plasma bolts crackling around the player's shoulders and across the title, bright and sharp.
+- Both sides framed by HUGE glossy PURPLE 3D LETTER SHARDS: giant chrome-purple letter fragments, mirror-polished with bright highlights and dark reflections, cropped at the left and right edges and the bottom corners.
+
+THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up, large, turned slightly with a look over the shoulder or straight at the camera, in front of the title; full colour, a magenta key light and a white rim light, a sharp cut-out.
+
+MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
+- The NAME as ONE giant word (or stacked words) spanning the full width behind the head, in a futuristic heavy ANGULAR display face: sharp diagonal cuts, wide letters, some letters tilted and twisted in different directions as if each is a separate 3D object seen from its own angle.
+- The letters are glossy PURPLE GLASS / candy: translucent violet-purple faces with a smooth gradient, bright white specular highlights, silver-CHROME bevelled edges and a deep dark-purple extrusion, pink reflections from the lightning; the word overlaps itself where letters twist.
+- Under the title, across the player's chest, a thin PINK handwritten SCRIPT word glowing neon-pink: the "script" text if given, otherwise nothing.
+- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
+
+OTHER TEXT & GRAPHICS (each only if its text is given)
+- musicLabel: a small letter-spaced PINK capitals line; dj: a big WHITE bold condensed italic capitals line under it; offer: a bold PINK capitals line; then a thin dotted white rule; info: a bold WHITE capitals line; footer: a tiny pink letter-spaced capitals line.
+- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: glossy purple glass / candy faces with silver-chrome bevels, a deep dark-purple extrusion and pink lightning reflections, a violet glow — the crest's exact shape and colours kept, floating directly on the scene; the POSITION small in pink capitals and the jersey NUMBER in bold white digits at the lower right.
+
+LAYOUT MAP (match the reference flyer)
+- 3–14%: the crest (if given) centred at the top.
+- 14–40%: the NAME word in purple glass, full width, letters twisted; 55–66%: the pink script word across the chest.
+- 28–82%: the player centred with lightning around; purple shards at both edges; 70–78% RIGHT: the position and number.
+- 78–82%: musicLabel; 82–87%: the dj line; 87–90%: the offer line; 90%: the dotted rule; 91–94%: the info line; 95–98%: the footer.
 
 PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
 - The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
@@ -4938,308 +5239,7 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-purple-glass": `[FIXED POSES] [CREST 3D] PURPLE GLASS — a purple-candy club player card: a dark magenta club with LED pillars, white-pink lightning arcs, a giant twisted purple-glass 3D word with chrome bevels, huge glossy purple letter shards framing the sides, a pink handwritten script. Electric, glossy, premium.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: VIOLET-purple glossy candy, hot pink/magenta and dark red-black (or the team colour in place of purple); white and pink small text.
-
-BACKGROUND
-- A dark club interior in deep magenta-red: vertical LED light pillars and door frames glowing pink in perspective, pink haze and smoke, a subtle halftone dot texture in the shadows.
-- WHITE-PINK LIGHTNING: electric arcs and plasma bolts crackling around the player's shoulders and across the title, bright and sharp.
-- Both sides framed by HUGE glossy PURPLE 3D LETTER SHARDS: giant chrome-purple letter fragments, mirror-polished with bright highlights and dark reflections, cropped at the left and right edges and the bottom corners.
-
-THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up, large, turned slightly with a look over the shoulder or straight at the camera, in front of the title; full colour, a magenta key light and a white rim light, a sharp cut-out.
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME as ONE giant word (or stacked words) spanning the full width behind the head, in a futuristic heavy ANGULAR display face: sharp diagonal cuts, wide letters, some letters tilted and twisted in different directions as if each is a separate 3D object seen from its own angle.
-- The letters are glossy PURPLE GLASS / candy: translucent violet-purple faces with a smooth gradient, bright white specular highlights, silver-CHROME bevelled edges and a deep dark-purple extrusion, pink reflections from the lightning; the word overlaps itself where letters twist.
-- Under the title, across the player's chest, a thin PINK handwritten SCRIPT word glowing neon-pink: the "script" text if given, otherwise nothing.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- musicLabel: a small letter-spaced PINK capitals line; dj: a big WHITE bold condensed italic capitals line under it; offer: a bold PINK capitals line; then a thin dotted white rule; info: a bold WHITE capitals line; footer: a tiny pink letter-spaced capitals line.
-- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: glossy purple glass / candy faces with silver-chrome bevels, a deep dark-purple extrusion and pink lightning reflections, a violet glow — the crest's exact shape and colours kept, floating directly on the scene; the POSITION small in pink capitals and the jersey NUMBER in bold white digits at the lower right.
-
-LAYOUT MAP (match the reference flyer)
-- 3–14%: the crest (if given) centred at the top.
-- 14–40%: the NAME word in purple glass, full width, letters twisted; 55–66%: the pink script word across the chest.
-- 28–82%: the player centred with lightning around; purple shards at both edges; 70–78% RIGHT: the position and number.
-- 78–82%: musicLabel; 82–87%: the dj line; 87–90%: the offer line; 90%: the dotted rule; 91–94%: the info line; 95–98%: the footer.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-ice-chrome": `[FIXED POSES] [CREST 3D] ICE CHROME — a white-silver futuristic player card: a bright white glossy room, a purple orb behind the player, chrome and cyan crystal shards framing the corners, a giant white-and-cyan chrome 3D italic title, a round navy date badge. Clean, cold, luxurious.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: WHITE and SILVER chrome with CYAN-teal and VIOLET-purple accents (or the team's two colours in place of cyan and purple); dark navy small graphics.
-
-BACKGROUND
-- A bright WHITE futuristic room: smooth glossy white curved panels and ridges with soft grey shading and reflections, like the inside of a white sci-fi helmet; subtle light-grey gradients.
-- A big glossy PURPLE ORB / disc behind the player (violet gradient, soft glow, a faint ghost of the title inside it).
-- The corners and edges framed by sharp CHROME SHARDS: mirror-silver, cyan-teal and violet crystal spikes and blades pointing inward from the top and bottom corners, glossy with strong reflections, cropped by the frame.
-
-THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up or three-quarter, in front of the purple orb and the second title line; full colour, a cool white key light and cyan-violet rim lights, a sharp cut-out.
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME on one line (or two stacked lines for two words) in a futuristic heavy ITALIC display face with sharp angular cuts and slashes, tilted up to the right, spanning the full width in the upper third.
-- The letters are 3D CHROME: WHITE-silver faces with a cool cyan-to-violet gradient bevel and bright specular highlights, a deep extrusion in VIOLET-BLUE chrome with dark edges; crisp, cold, mirror-like; the player's head overlaps the second line.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- dateBadge: a round glossy DARK NAVY badge with a thin light ring at the right middle: the month small in white capitals, the number big in white bold digits.
-- djs: two lines of bold capitals in a CYAN-to-BLUE chrome gradient, centred in the lower part.
-- info: a letter-spaced WHITE capitals line under the DJ lines (with a soft dark shadow so it reads on white).
-- footer: a BLACK bar at the bottom with white letter-spaced capitals.
-- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: white-silver chrome faces with cyan-to-violet bevels and a violet-blue chrome extrusion, cold specular highlights, a soft cyan glow — the crest's exact shape and colours kept, floating directly on the white room; the POSITION small in navy capitals and the jersey NUMBER in bold cyan-chrome digits under the date badge.
-
-LAYOUT MAP (match the reference flyer)
-- 3–13%: the crest (if given) centred at the top; chrome shards in the top corners.
-- 13–40%: the NAME, tilted chrome lines across the full width; 38–52% RIGHT: the round date badge, the position and number under it.
-- 28–90%: the player centred over the purple orb.
-- 82–89%: the two DJ lines in cyan-blue chrome; 90–93%: the info line; 94–98%: the black footer bar.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-white-block": `[CREST 3D] WHITE BLOCK — a red-and-white club player card: a dark red club ceiling with red light rays and lightning, molten red chrome framing the edges, a giant WHITE deep-extruded 3D block word angled in perspective, tattoo roses around the player, a red ribbon kicker. Bold, loud, premium.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: deep RED and black with WHITE (or the team colour in place of red); gold digits.
-
-BACKGROUND
-- A dark red-black club ceiling seen from below: dark beams and panels converging in perspective, RED light rays and laser lines fanning from the top, red lightning arcs, red haze, glowing particles.
-- Both sides framed by MOLTEN RED-HOT CHROME: liquid-metal organic shapes glowing red-orange with bright highlights, cropped at the left and right edges (top and bottom corners).
-- Around the player's head: colourful TATTOO-STYLE ROSES and ornamental leaves (red roses, teal-green leaves, baroque flourishes) flanking the face on both sides, blended with the red light.
-
-THE PLAYER — shown THREE times, all the SAME person from the photo (exact same face, features, hair, skin tone, outfit and natural eyes — no glowing eyes):
-1. BEHIND (upper half): TWO extra pictures of the player, BOTH NEWLY GENERATED from the photo's identity and BOTH DIFFERENT from the photo and from each other — never a copy, duplicate, mirror or re-crop of the uploaded photo:
-   (a) an UP-CLOSE portrait at one side: a tight head-and-shoulders crop, the face large, a different angle and expression from the photo (turned three-quarter, chin up, eyes to the camera or looking off), hair and skin detailed;
-   (b) at the other side, a different POSE (the pose given in the SECOND FIGURE POSE line, or the uploaded second photo if one is given): a wider crop, the body turned differently, arms doing something else.
-   Both are rendered as big RED-black DUOTONE figures blended into the red rays and the dark ceiling — softer, slightly translucent, lit from behind, partly covered by the title, the roses and the front figure. If a figure would end up looking like the photo again, change its angle, crop and expression until it does not.
-2. IN FRONT (centre): the photo's own pose, chest-up or waist-up, large, in front of the lower half of the title; full colour with a red key light and a white rim light, a sharp cut-out with natural hair edges.
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME as ONE giant word (or stacked words) in heavy CONDENSED sans capitals, WHITE, built as very deep 3D BLOCKS: glossy white faces with soft grey shading, extremely thick extruded sides in light grey-white with subtle red reflections, every letter a solid slab.
-- The whole word is ANGLED in perspective — tilted up to the right and seen slightly from below so the extrusions show strongly; it spans beyond the frame and is cropped at the right; the player's head sits in front of its lower half.
-- Above the title, a RED angled RIBBON / banner with white letter-spaced capitals: the "kicker" text if given, otherwise no ribbon.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- script: a small RED handwritten script word; highlight: two lines of big WHITE condensed capitals under it, centred.
-- venue: a thin elegant letter-spaced white word (the flyer's thin logotype line).
-- info: a bold white capitals line with its digits in GOLD; footer: a tiny white letter-spaced capitals line.
-- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title — glossy WHITE faces with a deep white-grey extrusion and red reflections, the crest's exact shape and colours kept, floating directly on the red background with a soft red glow; the POSITION small in white capitals and the jersey NUMBER in bold white block digits at the lower right.
-
-LAYOUT MAP (match the reference flyer)
-- 3–16%: the crest (if given) centred at the top as the white 3D emblem; 5–50%: the two extra figures of the player (an up-close portrait at one side, a different pose at the other, red duotone) behind the title and the roses.
-- 22–27%: the red ribbon kicker, angled; 24–52%: the NAME in giant white 3D blocks, angled, cropped at the right.
-- 40–78%: the player centred with the roses around the head; 70–78% RIGHT: the position and number.
-- 76–84%: the red script word and the two white highlight lines; 85–89%: the venue line; 90–94%: the info line; 95–98%: the footer.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-liquid-script": `[CREST 3D] LIQUID SCRIPT — a violet liquid-chrome player card: a dark purple room with a glowing diamond of light behind the player, pink-purple smoke and sparks, liquid chrome frames melting in from the sides, a giant brush-script title in pearl-white 3D chrome with a deep blue-red extrusion. Flashy, premium, electric.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: deep VIOLET-purple, MAGENTA-pink and electric BLUE with pearl-white chrome (or the team's two colours in place of purple and pink); white small text with pink digits.
-
-BACKGROUND
-- A dark purple-black room with a huge glowing DIAMOND (rhombus) outline of light behind the player — thin bright edges with a violet glow, repeated as fainter inner diamonds.
-- Pink-purple SMOKE and flames billowing around the player's head and shoulders, bright sparks and particles, lens flares, light streaks.
-- Both sides framed by LIQUID CHROME: melted-metal organic shapes in purple, blue and magenta with glossy highlights and dark reflections, dripping in from the left and right edges and the corners.
-
-THE PLAYER — shown THREE times, all the SAME person from the photo (exact same face, features, hair, skin tone and outfit):
-1. BEHIND (upper half): TWO extra pictures of the player, BOTH NEWLY GENERATED from the photo's identity and BOTH DIFFERENT from the photo and from each other — never a copy, duplicate, mirror or re-crop of the uploaded photo:
-   (a) an UP-CLOSE portrait at one side: a tight head-and-shoulders crop, the face large, a different angle and expression from the photo (turned three-quarter, chin up, eyes to the camera or looking off), hair and skin detailed;
-   (b) at the other side, a different POSE (the pose given in the SECOND FIGURE POSE line, or the uploaded second photo if one is given): a wider crop, the body turned differently, arms doing something else.
-   Both are rendered as big violet-magenta DUOTONE figures blended into the diamond of light and the smoke — softer, slightly translucent, lit from behind, partly covered by the title and the front figure. If a figure would end up looking like the photo again, change its angle, crop and expression until it does not.
-2. IN FRONT (centre): the photo's own pose, chest-up or waist-up, large, straight at the camera, in front of the second title line; full colour with a magenta key light and a blue rim light, a sharp cut-out with natural hair edges.
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME in a giant handwritten BRUSH SCRIPT: fast, confident marker strokes, connected letters, a huge sweeping first letter whose tail crosses the whole width; one line, or two stacked lines for two words, tilted up to the right in the upper third.
-- The letters are LIQUID 3D CHROME: pearl-WHITE glossy faces with pink and blue reflections and bright highlights, and a very DEEP extrusion in a BLUE-to-PURPLE-to-RED chrome gradient stacked like layered metal, with dark shadows between the strokes; the second line overlaps the first and the player's head overlaps the second line.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- info: a bold WHITE capitals line with its digits in MAGENTA-pink, centred near the bottom; footer: a tiny white letter-spaced capitals line under it.
-- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM in this style's liquid chrome — pearl-white and purple-blue chrome, glossy, with the same reflections as the title — the crest's exact shape and colours kept, floating directly on the background; the POSITION small in white capitals and the jersey NUMBER in bold pearl-chrome digits at the lower right.
-
-LAYOUT MAP (match the reference flyer)
-- 3–10%: the crest (if given) centred at the top as the liquid-chrome 3D emblem.
-- 12–42%: the NAME in the pearl-chrome brush script, tilted, full width, the big first-letter flourish sweeping left.
-- 8–55%: the two extra figures of the player (an up-close portrait at one side, a different pose at the other, violet duotone) behind the title and the diamond; 35–90%: the player in front, centred, with the smoke around; liquid chrome at both edges; 80–88% RIGHT: the position and number.
-- 91–94%: the info line; 95–98%: the footer.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-};
-
-/** Earlier versions — replaced automatically if the admin never edited them. */
-export const PRESET_PREVIOUS: Record<string, string> = {
-  "player-ice-chrome": `[FIXED POSES] [CREST 3D EXACT] ICE CHROME — a white-silver futuristic player card: a bright white glossy room, a purple orb behind the player, chrome and cyan crystal shards framing the corners, a giant white-and-cyan chrome 3D italic title, a round navy date badge. Clean, cold, luxurious.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: WHITE and SILVER chrome with CYAN-teal and VIOLET-purple accents (or the team's two colours in place of cyan and purple); dark navy small graphics.
-
-BACKGROUND
-- A bright WHITE futuristic room: smooth glossy white curved panels and ridges with soft grey shading and reflections, like the inside of a white sci-fi helmet; subtle light-grey gradients.
-- A big glossy PURPLE ORB / disc behind the player (violet gradient, soft glow, a faint ghost of the title inside it).
-- The corners and edges framed by sharp CHROME SHARDS: mirror-silver, cyan-teal and violet crystal spikes and blades pointing inward from the top and bottom corners, glossy with strong reflections, cropped by the frame.
-
-THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up or three-quarter, in front of the purple orb and the second title line; full colour, a cool white key light and cyan-violet rim lights, a sharp cut-out.
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME on one line (or two stacked lines for two words) in a futuristic heavy ITALIC display face with sharp angular cuts and slashes, tilted up to the right, spanning the full width in the upper third.
-- The letters are 3D CHROME: WHITE-silver faces with a cool cyan-to-violet gradient bevel and bright specular highlights, a deep extrusion in VIOLET-BLUE chrome with dark edges; crisp, cold, mirror-like; the player's head overlaps the second line.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- dateBadge: a round glossy DARK NAVY badge with a thin light ring at the right middle: the month small in white capitals, the number big in white bold digits.
-- djs: two lines of bold capitals in a CYAN-to-BLUE chrome gradient, centred in the lower part.
-- info: a letter-spaced WHITE capitals line under the DJ lines (with a soft dark shadow so it reads on white).
-- footer: a BLACK bar at the bottom with white letter-spaced capitals.
-- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: white-silver chrome faces with cyan-to-violet bevels and a violet-blue chrome extrusion, cold specular highlights, a soft cyan glow — the crest's exact shape and colours kept, floating directly on the white room; the POSITION small in navy capitals and the jersey NUMBER in bold cyan-chrome digits under the date badge.
-
-LAYOUT MAP (match the reference flyer)
-- 3–13%: the crest (if given) centred at the top; chrome shards in the top corners.
-- 13–40%: the NAME, tilted chrome lines across the full width; 38–52% RIGHT: the round date badge, the position and number under it.
-- 28–90%: the player centred over the purple orb.
-- 82–89%: the two DJ lines in cyan-blue chrome; 90–93%: the info line; 94–98%: the black footer bar.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-purple-glass": `[FIXED POSES] [CREST 3D EXACT] PURPLE GLASS — a purple-candy club player card: a dark magenta club with LED pillars, white-pink lightning arcs, a giant twisted purple-glass 3D word with chrome bevels, huge glossy purple letter shards framing the sides, a pink handwritten script. Electric, glossy, premium.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: VIOLET-purple glossy candy, hot pink/magenta and dark red-black (or the team colour in place of purple); white and pink small text.
-
-BACKGROUND
-- A dark club interior in deep magenta-red: vertical LED light pillars and door frames glowing pink in perspective, pink haze and smoke, a subtle halftone dot texture in the shadows.
-- WHITE-PINK LIGHTNING: electric arcs and plasma bolts crackling around the player's shoulders and across the title, bright and sharp.
-- Both sides framed by HUGE glossy PURPLE 3D LETTER SHARDS: giant chrome-purple letter fragments, mirror-polished with bright highlights and dark reflections, cropped at the left and right edges and the bottom corners.
-
-THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, waist-up, large, turned slightly with a look over the shoulder or straight at the camera, in front of the title; full colour, a magenta key light and a white rim light, a sharp cut-out.
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME as ONE giant word (or stacked words) spanning the full width behind the head, in a futuristic heavy ANGULAR display face: sharp diagonal cuts, wide letters, some letters tilted and twisted in different directions as if each is a separate 3D object seen from its own angle.
-- The letters are glossy PURPLE GLASS / candy: translucent violet-purple faces with a smooth gradient, bright white specular highlights, silver-CHROME bevelled edges and a deep dark-purple extrusion, pink reflections from the lightning; the word overlaps itself where letters twist.
-- Under the title, across the player's chest, a thin PINK handwritten SCRIPT word glowing neon-pink: the "script" text if given, otherwise nothing.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- musicLabel: a small letter-spaced PINK capitals line; dj: a big WHITE bold condensed italic capitals line under it; offer: a bold PINK capitals line; then a thin dotted white rule; info: a bold WHITE capitals line; footer: a tiny pink letter-spaced capitals line.
-- The team crest (if provided) at the top centre (the flyer's logo spot) as a 3D EMBLEM built like the title: glossy purple glass / candy faces with silver-chrome bevels, a deep dark-purple extrusion and pink lightning reflections, a violet glow — the crest's exact shape and colours kept, floating directly on the scene; the POSITION small in pink capitals and the jersey NUMBER in bold white digits at the lower right.
-
-LAYOUT MAP (match the reference flyer)
-- 3–14%: the crest (if given) centred at the top.
-- 14–40%: the NAME word in purple glass, full width, letters twisted; 55–66%: the pink script word across the chest.
-- 28–82%: the player centred with lightning around; purple shards at both edges; 70–78% RIGHT: the position and number.
-- 78–82%: musicLabel; 82–87%: the dj line; 87–90%: the offer line; 90%: the dotted rule; 91–94%: the info line; 95–98%: the footer.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-candy-chrome": `[FIXED POSES] [CREST 3D EXACT] [CREST SPOT bc] CANDY CHROME — a pink-chrome club player card: a dark club tunnel with honeycomb LED walls glowing magenta, pink fire and smoke, a giant retro groovy script title in glossy pink chrome. Sweet, glossy, high-end nightlife.
-
-STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
-
-COLOURS: hot PINK / magenta, deep purple-black and silver chrome (or the team colour in place of pink); white small text, pink-to-white gradients.
-
-BACKGROUND
-- A dark club corridor in perspective: both side walls covered in HEXAGONAL honeycomb LED panels glowing hot pink and magenta, converging towards the centre; a dark ceiling with light strips.
-- Pink and red FIRE and smoke clouds billowing around the player's head and the title, bright pink haze, sparks, soft bloom; purple-black shadows.
-- Fine grain, rich contrast.
-
-THE PLAYER — shown ONCE (exact face, hair, skin tone and outfit from the photo): centred, chest-up or waist-up, large, looking at the camera, in front of the lower part of the title; full colour, a pink key light and a white-pink rim light, a sharp cut-out with natural hair edges. No props (the flyer's lollipop is not copied).
-
-MAIN TITLE = THE PLAYER'S NAME / GAMERTAG (most important — exactly like the flyer's title)
-- The NAME in a giant RETRO GROOVY SCRIPT: fat, bouncy, 1970s disco/funk display lettering with big rounded loops and connected letters, on one or two overlapping lines tilted slightly up to the right, spanning the full width above the player; with two words the second word sits lower right and partly behind the head.
-- The letters are 3D PINK CHROME: glossy pink-magenta metallic faces with soft white highlights and reflections, a thick SILVER-CHROME extrusion with pink reflections, a thin dark outline, a soft pink glow behind.
-- A small lighter PINK script word sits above the start of the name: the "preword" text if given, otherwise nothing.
-- TITLE LETTERING RULE: the gamertag / name is typed by the user — it may be one word or several, any length. Letter it EXACTLY in the flyer's title build described here (the same font style, the same 3D construction, the same materials, bevels, extrusion colours, highlights and glow), only the letters change. One word → one huge line; two or more words → stacked lines like the flyer. Never swap in a plain or different font, never flatten the 3D, never shrink it to a small label — it is THE poster's main title.
-
-OTHER TEXT & GRAPHICS (each only if its text is given)
-- kicker1: a tiny letter-spaced WHITE capitals line at the very top; kicker2: a bold PINK capitals line right under it.
-- date: at the right middle, a pink-white italic SCRIPT word with big script digits, glossy.
-- djsLabel: a tiny letter-spaced capitals label; djs: two lines of bold condensed capitals in a PINK-to-WHITE gradient with "+" separators, centred in the lower part.
-- footer: a tiny white letter-spaced capitals line at the very bottom.
-- The team crest (if provided) at the bottom centre above the footer (the flyer's venue logo spot) as a 3D EMBLEM built like the title: glossy pink chrome faces with white highlights, a silver-chrome extrusion and a pink glow, the LED light reflected on it — the crest's exact shape and colours kept, floating directly on the scene; the POSITION small and the jersey NUMBER in bold pink-white digits beside the date.
-
-LAYOUT MAP (match the reference flyer)
-- 2–9%: the kicker lines centred; 10–42%: the NAME in the pink chrome groovy script, tilted, with the small preword above it.
-- 38–85%: the player centred, pink fire around the head; 50–62% RIGHT: the script date, the position and number under it.
-- 74–86%: the djs label and the two DJ lines; 88–94%: the crest (if given) centred; 95–99%: the footer.
-
-PRO PHOTOSHOP FINISH (it must look like a top designer's work, NOT AI)
-- The player looks like a real high-end photo shoot: real skin texture and pores, sharp eyes with catchlights, real hair strands, real fabric weave and folds, correct hands — razor-sharp cut-outs with natural hair edges, relit to match the scene with a strong rim light and real contact shadows.
-- Hand-made craft: real scanned textures (satin, paper, grunge, halftone), believable shadows between layers, one cohesive colour grade, fine film grain, crisp micro-contrast. Effects are purposeful and physically real — no plastic CGI, no cartoon, no melted shapes, no HDR halos.
-- Typography crafted like a pro: perfect kerning, sharp edges, clean alignment, a strong size hierarchy — titles are designed lettering pieces, not typed text; the 3D lettering has real depth, consistent light direction and clean reflections.
-- Faces calm and confident or smiling — never screaming. Never the finger-on-lips pose.
-
-TEXT RULES
-- Use ONLY the texts given (name, number, position and the flyer text lines listed below), spelled letter for letter. Never invent words, ratings, sponsors, brand names, drinks, prices, venues, addresses, phone numbers, hashtags, dates, stickers, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out — the layout closes up. No team-name text anywhere — the crest represents the team.
-- THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
-- No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
-- Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-red-glass": `[FIXED POSES] [CREST 3D EXACT] RED GLASS — a white-city player card: a washed-out black-and-white city street and bridge, a big orange disc and a ring of fire behind the player, a giant red-glass-and-chrome 3D block title with a glossy black script, a red date box. Clean, bright, high impact.
+  "player-red-glass": `[FIXED POSES] [CREST 3D] RED GLASS — a white-city player card: a washed-out black-and-white city street and bridge, a big orange disc and a ring of fire behind the player, a giant red-glass-and-chrome 3D block title with a glossy black script, a red date box. Clean, bright, high impact.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
@@ -6152,7 +6152,7 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-white-block": `[CREST 3D EXACT] WHITE BLOCK — a red-and-white club player card: a dark red club ceiling with red light rays and lightning, molten red chrome framing the edges, a giant WHITE deep-extruded 3D block word angled in perspective, tattoo roses around the player, a red ribbon kicker. Bold, loud, premium.
+  "player-white-block": `[CREST 3D] WHITE BLOCK — a red-and-white club player card: a dark red club ceiling with red light rays and lightning, molten red chrome framing the edges, a giant WHITE deep-extruded 3D block word angled in perspective, tattoo roses around the player, a red ribbon kicker. Bold, loud, premium.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
@@ -6199,7 +6199,7 @@ TEXT RULES
 - THE CREST: ONLY the crest given as its own reference image, copied faithfully (never redrawn, never "improved"). If no crest reference image is given, draw NO crest at all — leave its spot empty. The badge on the player's shirt is NEVER the crest (the person may be a known footballer in another club's kit — ignore that club completely): it stays on the shirt at its natural size and is never enlarged, redrawn or echoed.
 - No brand logos, car badges, bottles, product labels, animals, aliens, masks or mascots anywhere.
 - Ignore the placement hints in the text list below — follow this style and its layout map.`,
-  "player-liquid-script": `[CREST 3D EXACT] LIQUID SCRIPT — a violet liquid-chrome player card: a dark purple room with a glowing diamond of light behind the player, pink-purple smoke and sparks, liquid chrome frames melting in from the sides, a giant brush-script title in pearl-white 3D chrome with a deep blue-red extrusion. Flashy, premium, electric.
+  "player-liquid-script": `[CREST 3D] LIQUID SCRIPT — a violet liquid-chrome player card: a dark purple room with a glowing diamond of light behind the player, pink-purple smoke and sparks, liquid chrome frames melting in from the sides, a giant brush-script title in pearl-white 3D chrome with a deep blue-red extrusion. Flashy, premium, electric.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this card. Change ONLY three things: the PERSON (the uploaded player stands where its people stand), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (only the given crest, where the flyer has its logos — otherwise nothing there). The blurred areas in the reference are its removed people, logos and products: put the player and the crest in those spots and never reconstruct what was there. Never copy its names, words, numbers, faces, bottles, car badges or logos.
 
