@@ -10,6 +10,7 @@ import { useT } from "@/i18n/client";
 import type { ClientTemplate } from "@/lib/samples";
 import { BannerInputs, EMPTY_INPUTS, LayoutKind, STYLE_BADGES, badgeLabel, parseBadges, type StyleBadge } from "@/lib/templates";
 import { StyleBadges } from "../StyleBadges";
+import { RecentWithStyle } from "./RecentWithStyle";
 import { allSlotsFor, overridesFrom, type SlotState, type TextSlot } from "@/lib/text-slots";
 import { ART_TYPES, BG_POSES, BG_SCENES, PALETTES, LANGUAGES, TROPHY_STYLES } from "@/lib/pro-options";
 import { TemplateThumb } from "../TemplateThumb";
@@ -916,6 +917,7 @@ export function CreateWizard({
 
       {step === 3 && (
         <div className="card space-y-4 p-5">
+          {isAdmin && tpl && <RecentWithStyle templateId={tpl.id} styleName={locale === "es" ? tpl.nameEs : tpl.name} />}
           {layout === "PLAYER" && (
             <>
               <ImageDrop kind="photo" label={`${L.photo} *`} value={photo} onChange={setPhoto} searchQuery={[inp.name, inp.team].filter(Boolean).join(" ")} />
