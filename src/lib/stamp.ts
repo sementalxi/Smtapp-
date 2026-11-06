@@ -189,7 +189,8 @@ function vivid(r: number, g: number, b: number): { r: number; g: number; b: numb
  * in the logo's own darkened colours, a bevel (light top-left / dark bottom-right edge), a glossy sheen,
  * a glow in the poster's colour and a drop shadow. Returns a bigger PNG and how far it grew on each side.
  */
-async function emboss3d(logo: Buffer, lw: number, lh: number, accent: { r: number; g: number; b: number }): Promise<{ png: Buffer; pad: number }> {
+/** The exact crest as a 3D emblem: glow, drop shadow, extrusion, bevel rims and a glossy sheen. `logo` must be a PNG of exactly lw × lh. */
+export async function emboss3d(logo: Buffer, lw: number, lh: number, accent: { r: number; g: number; b: number }): Promise<{ png: Buffer; pad: number }> {
   const depth = Math.max(5, Math.round(lw * 0.055));
   const edge = Math.max(2, Math.round(lw * 0.012));
   const pad = Math.round(lw * 0.3);
