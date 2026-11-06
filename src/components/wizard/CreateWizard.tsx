@@ -701,7 +701,14 @@ export function CreateWizard({
       </div>
       <div className="mt-3 text-center">
         <div className="font-bold">{L.steps[step - 1]}</div>
-        <div className="text-xs text-muted">{L.stepSub[step - 1]}</div>
+        <div className="text-xs text-muted">
+          {L.stepSub[step - 1]}
+          {step === 2 && styles.length > 0 && (
+            <span className="ml-1 rounded-full border border-lime/40 bg-lime/10 px-2 py-0.5 text-[11px] font-bold text-lime">
+              🖼️ {styles.length} {locale === "es" ? "diseños" : "designs"}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -895,6 +902,7 @@ export function CreateWizard({
                   className={`rounded-full border px-2.5 py-1 text-[11px] font-bold transition ${badgeFilter === b ? "border-pink bg-pink/20 text-white" : "border-line text-muted hover:text-white"}`}
                 >
                   {b ? badgeLabel(b, locale === "es") : locale === "es" ? "Todos" : "All"}
+                  <span className="ml-1 opacity-70">{b ? styles.filter((s) => parseBadges(metaEdits[s.id]?.badge !== undefined ? metaEdits[s.id].badge : s.badge).includes(b)).length : styles.length}</span>
                 </button>
               ))}
             </div>
