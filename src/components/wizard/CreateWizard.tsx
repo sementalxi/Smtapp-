@@ -476,7 +476,8 @@ export function CreateWizard({
     return {
       ...inp,
       bgPose: inp.bgPose || "style",
-      ...(layout === "PLAYER" ? { colorMode: "surprise" as const } : {}),
+      // Player cards: the style's own colours unless the user picked otherwise (the crest's colours or a fresh palette).
+      ...(layout === "PLAYER" && !inp.colorMode ? { colorMode: "template" as const } : {}),
       color1: inp.colorMode === "custom" ? inp.color1 || "#1d5bff" : inp.color1,
       color2: inp.colorMode === "custom" ? inp.color2 || "#ffd35a" : inp.color2,
       team: team?.name ?? inp.team,
@@ -1468,31 +1469,28 @@ export function CreateWizard({
             </select>
             <p className="mt-1 text-xs text-muted">{L.langHint}</p>
           </div>
-          {layout === "PLAYER" ? (
-            <p className="rounded-lg border border-line bg-panel-2 px-3 py-2.5 text-xs text-muted">
-              🎲 {locale === "es" ? "Colores únicos: cada tarjeta de jugador sale con una paleta nueva." : "Unique colors: every player card gets a fresh palette."}
-            </p>
-          ) : (
+          {(
           <div>
             <span className="label">{locale === "es" ? "Colores" : "Colors"}</span>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className={`grid grid-cols-2 gap-2 ${layout === "PLAYER" ? "sm:grid-cols-3" : "sm:grid-cols-4"}`}>
               {([
-                ["team", locale === "es" ? "🛡️ Del equipo" : "🛡️ Team colors", locale === "es" ? "Colores del logo del equipo" : "Taken from the team logo"],
-                ["surprise", locale === "es" ? "🎲 Únicos" : "🎲 Unique", locale === "es" ? "Paleta nueva en cada póster" : "New palette every poster"],
                 ["template", locale === "es" ? "🎨 Del estilo" : "🎨 Style's own", locale === "es" ? "Colores del estilo elegido" : "Colors of the chosen style"],
-                ["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Elige tus colores" : "Pick your own"],
-              ] as const).map(([id, label, sub]) => (
+                ["team", locale === "es" ? "🛡️ Del escudo" : "🛡️ From the crest", locale === "es" ? "Colores del escudo del equipo" : "Taken from the team crest"],
+                ["surprise", locale === "es" ? "🎲 Únicos" : "🎲 Unique", locale === "es" ? "Paleta nueva en cada póster" : "New palette every poster"],
+                ...(layout === "PLAYER" ? [] : [["custom", locale === "es" ? "✏️ Los míos" : "✏️ My colors", locale === "es" ? "Elige tus colores" : "Pick your own"] as const]),
+              ] as readonly (readonly [string, string, string])[]).map(([id, label, sub]) => (
                 <button
                   key={id}
                   type="button"
-                  onClick={() => set("colorMode", id)}
-                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || (team?.logoUrl || home?.logoUrl ? "team" : "surprise")) === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
+                  onClick={() => set("colorMode", id as BannerInputs["colorMode"])}
+                  className={`rounded-lg border px-3 py-2.5 text-left ${(inp.colorMode || (layout === "PLAYER" ? "template" : team?.logoUrl || home?.logoUrl ? "team" : "surprise")) === id ? "border-lime bg-lime/5" : "border-line bg-panel-2"}`}
                 >
                   <span className="block text-sm font-bold">{label}</span>
                   <span className="block text-[11px] text-muted">{sub}</span>
                 </button>
               ))}
             </div>
+            {layout !== "PLAYER" && (
             <div className="mt-3">
               <span className="text-xs text-muted">{locale === "es" ? "Paletas listas — toca una:" : "Ready palettes — tap one:"}</span>
               <div className="mt-1.5 grid grid-cols-4 gap-2 sm:grid-cols-8">
@@ -1511,6 +1509,7 @@ export function CreateWizard({
                 })}
               </div>
             </div>
+            )}
             {inp.colorMode === "custom" && (
               <div className="mt-4 space-y-3">
                 {(["color1", "color2"] as const).map((k, n) => {
