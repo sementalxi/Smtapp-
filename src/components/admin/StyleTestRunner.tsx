@@ -55,7 +55,9 @@ const STAGE_LABEL: Record<string, [string, string]> = {
 export function StyleTestRunner({ templates, initialSample, initialResults, initialRun, cards = [], leagues = [] }: { templates: TestTemplate[]; initialSample: Sample | null; initialResults: TestResult[]; initialRun: Run | null; cards?: SyncCard[]; leagues?: SyncLeague[] }) {
   const { locale } = useT();
   const es = locale === "es";
-  const [sample, setSample] = useState<Sample>({ ...DEFAULT_SAMPLE, ...(initialSample ?? {}) });
+  // The texts, photo and crest of the last test are remembered; the colours always start on "Style's own",
+  // so a test shows each style as it really is unless another colour mode is picked for this run.
+  const [sample, setSample] = useState<Sample>({ ...DEFAULT_SAMPLE, ...(initialSample ?? {}), colorMode: "template" });
   const layouts = useMemo(() => [...new Set(templates.map((t) => t.layout))], [templates]);
   const [picked, setPicked] = useState<string[]>(layouts);
   const [results, setResults] = useState<TestResult[]>(initialResults);
