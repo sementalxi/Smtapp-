@@ -811,7 +811,7 @@ export function buildProPrompt(opts: {
     i.language && i.language !== "English" ? `- LANGUAGE: generic words (titles, labels) written in ${i.language}; names stay exactly as typed.` : "",
     layout === "PLAYER" && i.bgPose && !["style", "none", "surprise", ""].includes(i.bgPose) && bgPosePrompt(i.bgPose) ? `- SECOND FIGURE POSE: ${bgPosePrompt(i.bgPose)}.` : "",
     layout === "PLAYER" && (!i.bgPose || i.bgPose === "surprise") && !i.photo2Url && !/\[FIXED POSES\]/.test(opts.instructions ?? "")
-      ? `- SECOND FIGURE POSE (surprise #${v.seed % 1000}): the background / portrait figure of the player is NOT a straight-on portrait this time — it is ${surprisePose(v.seed)}. Same person, same face, hair, skin tone and outfit as the photo, newly created in this pose and rendered in the style's treatment (its duotone, grade, blend and placement). The main figure in front keeps the photo's own pose.`
+      ? `- SECOND FIGURE POSE (surprise #${v.seed % 1000}): the background / portrait figure of the player is NOT a straight-on portrait this time — it is ${surprisePose(v.seed)}. Same person, same face, hair, skin tone and outfit as the photo, NEWLY CREATED in this pose (a different angle, crop and expression — never a copy, duplicate, mirror or re-crop of the uploaded photo) and rendered in the style's treatment (its duotone, grade, blend and placement). Where the style asks for an up-close portrait too, that portrait is also newly generated: a tight crop of the face at a different angle. The main figure in front keeps the photo's own pose.`
       : "",
     layout === "PLAYER" && i.bgPose === "none" && !i.photo2Url ? `- Show the player only ONCE (no second figure).` : "",
     !exactLogos && hasTeamLogo
