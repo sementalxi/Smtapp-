@@ -55,8 +55,10 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
       .join("\n\n");
     const sizes = [...STUDIO_SIZES[b.size as StudioSize].sizes];
     let out: Buffer | null = null;
-    // Same top generator as the posters (Admin → Settings → Poster generator). The retry goes straight to OpenAI.
+    // Same top generator as the posters (Admin → Settings → Poster generator). The retry goes straight to OpenAI,
+    // at medium quality: a "high" render that ran out the 300 s clock once would most likely do it again.
     const model = tries ? "openai" : (await getSettings()).poster_model;
+    const quality = tries && b.quality === "high" ? "medium" : b.quality;
     const fb = await import("@/lib/ai-fallback");
     const t0 = Date.now();
     if (["mix", "mix3", "flux-mix", "seedream-mix"].includes(model) && fb.fallbackReady()) {
@@ -75,7 +77,7 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
                 `TEXT ON THE DESIGN (spell exactly, nothing else):\n${b.texts}`,
               ].join("\n\n"),
               [{ bytes: art.buf, type: sniffImage(art.buf) ?? "image/png" }],
-              b.quality,
+              quality,
               sizes,
               280_000 - (Date.now() - t0),
             )
@@ -84,7 +86,7 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
         out = null; // fall back to OpenAI alone (with whatever time is left)
       }
     }
-    if (!out) out = await generatePoster(prompt, refs, b.quality, sizes, 280_000 - (Date.now() - t0));
+    if (!out) out = await generatePoster(prompt, refs, quality, sizes, 280_000 - (Date.now() - t0));
     if (b.stamp) out = await stampLogo(out);
     const url = await saveFile("studio", out, "image/png");
     await save(id, { status: "READY", url, at: Date.now(), prompt });
