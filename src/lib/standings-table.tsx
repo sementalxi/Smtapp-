@@ -98,54 +98,62 @@ const mix = (c: string, t: string, k: number) => {
 const oct = (x: number, y: number, w: number, h: number, c: number) =>
   `M${(x + c).toFixed(1)},${y.toFixed(1)} H${(x + w - c).toFixed(1)} L${(x + w).toFixed(1)},${(y + c).toFixed(1)} V${(y + h - c).toFixed(1)} L${(x + w - c).toFixed(1)},${(y + h).toFixed(1)} H${(x + c).toFixed(1)} L${x.toFixed(1)},${(y + h - c).toFixed(1)} V${(y + c).toFixed(1)} Z`;
 
+type Geo = { pad: number; headerH: number; rowH: number; n: number; qualify: number; dividers: number[]; rowPadL: number; rowPadR: number };
+
 /**
- * The panel itself — a DESIGNED frame in the style's accent (like a broadcast graphic): dark glass body with a
- * lighter top, a bevelled metallic rim with cut corners and corner ornaments, an outer glow, a header strip
- * and the top-N rows outlined. Drawn as SVG under the text layer.
+ * The panel itself, drawn as SVG under the text layer — the look of a broadcast table: a translucent dark body
+ * (the poster's faded crest shows through), a bevelled metallic rim with cut corners and corner ornaments, a
+ * header strip, thin column dividers, and NEON separator lines in the style's colour — the advancing rows sit
+ * between bright glowing lines on a tinted band, the rest between dim lines.
  */
-function panelSvg(W: number, panelH: number, headerH: number, pad: number, rowTops: { y: number; h: number; top: boolean }[], accent: string) {
+function panelSvg(W: number, panelH: number, g: Geo, accent: string) {
   const light = mix(accent, "#ffffff", 0.6);
+  const lighter = mix(accent, "#ffffff", 0.82);
   const dark = mix(accent, "#000000", 0.5);
   const c = Math.round(Math.min(W, panelH) * 0.028);
   const sw = Math.max(3, Math.round(W * 0.0035));
   const glow = Math.max(6, W * 0.012);
   const d = oct(sw, sw, W - sw * 2, panelH - sw * 2, c);
   const inner = oct(sw * 3.2, sw * 3.2, W - sw * 6.4, panelH - sw * 6.4, c * 0.8);
-  const headY = pad;
-  const headH = headerH;
+  const x0 = g.pad + 2;
+  const x1 = W - g.pad - 2;
+  const y0 = g.pad + g.headerH; // the line under the header = the top of row 1
   const o = sw * 4;
   const orn = (x: number, y: number, dir: 1 | -1, vdir: 1 | -1) =>
     `<path d="M${x},${y} l${o * dir},0 l${(-o / 2) * dir},${(o / 2) * vdir} Z" fill="${light}"/><circle cx="${x + o * 1.7 * dir}" cy="${y + o * 0.8 * vdir}" r="${Math.max(2, sw * 0.7)}" fill="${accent}"/><path d="M${x + o * 2.4 * dir},${y + o * 0.8 * vdir} l${o * 1.6 * dir},0" stroke="${accent}" stroke-opacity="0.8" stroke-width="${Math.max(1.5, sw * 0.5)}"/>`;
-  // The rows that advance GLOW in the style's colour: a blurred halo behind a bright rim, a tint inside, an inner light edge.
-  const rows = rowTops
-    .map(({ y, h, top }) => {
-      const rx = Math.round(h * 0.18);
-      const x = pad + 3;
-      const w = W - pad * 2 - 6;
-      if (!top) return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.09" stroke-width="1"/>`;
-      return [
-        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="none" stroke="${accent}" stroke-opacity="0.8" stroke-width="${(sw * 2).toFixed(1)}" filter="url(#rowglow)"/>`,
-        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="url(#rowfill)"/>`,
-        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="none" stroke="${light}" stroke-opacity="1" stroke-width="${Math.max(2, sw * 0.9).toFixed(1)}"/>`,
-        `<rect x="${x + sw}" y="${y + sw}" width="${w - sw * 2}" height="${h - sw * 2}" rx="${Math.max(2, rx - sw)}" fill="none" stroke="${accent}" stroke-opacity="0.55" stroke-width="${Math.max(1.5, sw * 0.6).toFixed(1)}" filter="url(#rowsoft)"/>`,
-      ].join("");
-    })
-    .join("\n");
+  // the advancing band: a tint between the top line and the line under the last advancing row
+  const band = g.qualify ? `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${g.rowH * g.qualify}" fill="url(#band)"/>` : "";
+  // separator lines: neon for the advancing rows (lines 0..qualify), dim for the rest
+  const lineW = Math.max(2.5, W * 0.0032);
+  const lines: string[] = [];
+  for (let k = 0; k <= g.n; k++) {
+    const y = (y0 + k * g.rowH).toFixed(1);
+    if (k <= g.qualify && g.qualify) {
+      const bar = (h: number, fill: string, op: number, filter?: string) =>
+        `<rect x="${x0}" y="${(y0 + k * g.rowH - h / 2).toFixed(1)}" width="${x1 - x0}" height="${h.toFixed(1)}" rx="${(h / 2).toFixed(1)}" fill="${fill}" fill-opacity="${op}"${filter ? ` filter="url(#${filter})"` : ""}/>`;
+      lines.push(bar(lineW * 5, accent, 0.75, "halo"), bar(lineW * 2.4, accent, 1, "neon"), bar(lineW, lighter, 1));
+    } else {
+      lines.push(`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${light}" stroke-opacity="0.28" stroke-width="${Math.max(1, lineW * 0.5).toFixed(1)}"/>`);
+    }
+  }
+  // thin column dividers through the stats
+  const divs = g.dividers.map((x) => `<line x1="${x.toFixed(1)}" y1="${y0}" x2="${x.toFixed(1)}" y2="${(y0 + g.rowH * g.n).toFixed(1)}" stroke="${light}" stroke-opacity="0.22" stroke-width="1"/>`).join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${panelH}" viewBox="0 0 ${W} ${panelH}">
 <defs>
 <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset="0.5" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
-<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1a26" stop-opacity="0.94"/><stop offset="0.25" stop-color="#07070f" stop-opacity="0.9"/><stop offset="1" stop-color="#030308" stop-opacity="0.92"/></linearGradient>
-<linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity="0.34"/><stop offset="1" stop-color="${accent}" stop-opacity="0.1"/></linearGradient>
-<linearGradient id="rowfill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${accent}" stop-opacity="0.3"/><stop offset="0.5" stop-color="${accent}" stop-opacity="0.16"/><stop offset="1" stop-color="${accent}" stop-opacity="0.3"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101018" stop-opacity="0.72"/><stop offset="0.3" stop-color="#05050c" stop-opacity="0.6"/><stop offset="1" stop-color="#03030a" stop-opacity="0.72"/></linearGradient>
+<linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${accent}" stop-opacity="0.38"/><stop offset="1" stop-color="${accent}" stop-opacity="0.12"/></linearGradient>
+<linearGradient id="band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${accent}" stop-opacity="0.3"/><stop offset="0.5" stop-color="${accent}" stop-opacity="0.14"/><stop offset="1" stop-color="${accent}" stop-opacity="0.3"/></linearGradient>
 <filter id="glow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="${glow.toFixed(1)}"/></filter>
-<filter id="rowglow" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="${Math.max(3, sw * 1.3).toFixed(1)}"/></filter>
-<filter id="rowsoft" x="-5%" y="-40%" width="110%" height="180%"><feGaussianBlur stdDeviation="${Math.max(1, sw * 0.5).toFixed(1)}"/></filter>
+<filter id="halo" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.011).toFixed(1)}"/></filter>
+<filter id="neon" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${panelH}"><feGaussianBlur stdDeviation="${(W * 0.0045).toFixed(1)}"/></filter>
 </defs>
 <path d="${d}" fill="none" stroke="${accent}" stroke-opacity="0.5" stroke-width="${(sw * 2.5).toFixed(1)}" filter="url(#glow)"/>
 <path d="${d}" fill="url(#glass)"/>
-<rect x="${pad}" y="${headY}" width="${W - pad * 2}" height="${headH}" rx="${Math.round(headH * 0.22)}" fill="url(#head)"/>
-<line x1="${pad + 6}" y1="${headY + headH + 1}" x2="${W - pad - 6}" y2="${headY + headH + 1}" stroke="${accent}" stroke-opacity="0.7" stroke-width="${Math.max(1.5, sw * 0.5)}"/>
-${rows}
+<rect x="${g.pad}" y="${g.pad}" width="${W - g.pad * 2}" height="${g.headerH}" rx="${Math.round(g.headerH * 0.22)}" fill="url(#head)"/>
+${band}
+${divs}
+${lines.join("\n")}
 <path d="${inner}" fill="none" stroke="${dark}" stroke-opacity="0.9" stroke-width="${Math.max(1.5, sw * 0.5)}"/>
 <path d="${d}" fill="none" stroke="url(#rim)" stroke-width="${(sw * 1.6).toFixed(1)}"/>
 <path d="${oct(sw * 2.4, sw * 2.4, W - sw * 4.8, panelH - sw * 4.8, c * 0.9)}" fill="none" stroke="${light}" stroke-opacity="0.35" stroke-width="1"/>
@@ -153,55 +161,79 @@ ${orn(c + sw * 2, sw * 2.2, 1, 1)}${orn(W - c - sw * 2, sw * 2.2, -1, 1)}${orn(c
 </svg>`;
 }
 
+/** A crest with a soft glow in the style's colour behind it (data URL for the text layer). */
+async function crestGlow(data: string, px: number, accent: string): Promise<string> {
+  try {
+    const bytes = Buffer.from(data.split(",")[1], "base64");
+    const m = await sharp(bytes).metadata();
+    const w = m.width ?? px;
+    const h = m.height ?? px;
+    const pad = Math.round(Math.max(w, h) * 0.18);
+    const { r, g, b } = hex(accent);
+    const sil = await sharp({ create: { width: w, height: h, channels: 4, background: { r, g, b, alpha: 0.85 } } }).composite([{ input: bytes, blend: "dest-in" }]).png().toBuffer();
+    const glow = await sharp({ create: { width: w + pad * 2, height: h + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } }).composite([{ input: sil, left: pad, top: pad }]).blur(pad * 0.45).png().toBuffer();
+    const shadow = await sharp({ create: { width: w + pad * 2, height: h + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } }).composite([{ input: await sharp({ create: { width: w, height: h, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0.8 } } }).composite([{ input: bytes, blend: "dest-in" }]).png().toBuffer(), left: pad, top: pad + Math.round(pad * 0.3) }]).blur(pad * 0.3).png().toBuffer();
+    const out = await sharp({ create: { width: w + pad * 2, height: h + pad * 2, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+      .composite([{ input: shadow }, { input: glow }, { input: bytes, left: pad, top: pad }])
+      .png()
+      .toBuffer();
+    return `data:image/png;base64,${out.toString("base64")}`;
+  } catch {
+    return data;
+  }
+}
+
 /** Renders the table (designed frame + crests + exact text) as a transparent PNG of the given size. */
 export async function renderStandingsTable(spec: TableSpec, width: number, height: number): Promise<Buffer> {
-  const [anton, mont800, mont600] = await Promise.all([googleFont("Anton", 400), googleFont("Montserrat", 800), googleFont("Montserrat", 600)]);
+  const [anton, mont800] = await Promise.all([googleFont("Anton", 400), googleFont("Montserrat", 800)]);
   const n = spec.rows.length;
   const legendH = spec.legend ? Math.round(Math.min(90, height * 0.07)) : 0;
   const panelH = height - legendH;
-  const pad = Math.round(Math.max(10, width * 0.012));
-  const gap = 4;
+  const pad = Math.round(Math.max(12, width * 0.014));
   const headerH = Math.round(Math.min(72, (panelH - pad * 2) / (n + 1.4)));
-  const rowH = Math.min(150, Math.floor((panelH - pad * 2 - headerH - gap * (n + 1)) / n));
-  const crestPx = Math.round(rowH * 0.78);
-  const crests = await Promise.all(spec.rows.map((r) => (r.crest ? crestData(r.crest, Math.max(64, crestPx * 2)) : Promise.resolve(null))));
+  const rowH = Math.min(150, Math.floor((panelH - pad * 2 - headerH) / n));
+  const crestPx = Math.round(rowH * 0.84);
+  const accent = spec.accent;
+  const crests = await Promise.all(spec.rows.map(async (r) => (r.crest ? crestGlow((await crestData(r.crest, Math.max(64, crestPx * 2))) ?? "", crestPx, accent) : null)));
   const hasCrest = crests.some(Boolean); // the crest column exists only when a row has one
-  const crestCol = hasCrest ? crestPx + 18 : 0;
+  const crestBox = Math.round(crestPx * 1.36); // the glow needs room around the crest
+  const crestCol = hasCrest ? crestBox + 14 : 0;
   const statW = Math.round(Math.min(width * 0.085, rowH * 1.3));
   const posW = Math.round(rowH * 0.95);
-  const fsNum = Math.round(rowH * 0.5);
-  const rowPadL = 16;
-  const rowPadR = 24;
-  // The name column takes what is left; the name font shrinks (a little) so the longest name fits without "…".
+  const fsNum = Math.round(rowH * 0.56);
+  const rowPadL = 18;
+  const rowPadR = 10;
+  // The name column takes what is left; Anton is condensed, so the name font shrinks only for very long names.
   const nameW = width - pad * 2 - rowPadL - rowPadR - posW - crestCol - statW * spec.columns.length;
   const longest = Math.max(4, ...spec.rows.map((r) => r.team.slice(0, 26).length));
-  const fsName = Math.round(Math.max(rowH * 0.26, Math.min(rowH * 0.44, nameW / (longest * 0.66))));
-  const fsHead = Math.round(Math.max(14, headerH * 0.36));
-  const accent = spec.accent;
-  const rowTops = spec.rows.map((_, idx) => ({ y: pad + headerH + gap + idx * (rowH + gap), h: rowH, top: idx < spec.qualify }));
+  const fsName = Math.round(Math.max(rowH * 0.3, Math.min(rowH * 0.5, nameW / (longest * 0.5))));
+  const fsHead = Math.round(Math.max(14, headerH * 0.4));
+  const dividers = spec.columns.map((_, k) => width - pad - rowPadR - statW * (spec.columns.length - k));
+  const geo: Geo = { pad, headerH, rowH, n, qualify: spec.qualify, dividers, rowPadL, rowPadR };
+  const shadow = "0 2px 5px rgba(0,0,0,0.85)";
   const el = (
     <div style={{ display: "flex", flexDirection: "column", width, height }}>
       <div style={{ display: "flex", flexDirection: "column", width, height: panelH, padding: pad }}>
         <div style={{ display: "flex", alignItems: "center", height: headerH, paddingLeft: rowPadL + 4, paddingRight: rowPadR }}>
           <div style={{ display: "flex", width: posW + crestCol }} />
-          <div style={{ display: "flex", flex: 1, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 4, color: "rgba(255,255,255,0.8)" }}>TEAM</div>
+          <div style={{ display: "flex", flex: 1, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 4, color: "rgba(255,255,255,0.85)", textShadow: shadow }}>TEAM</div>
           {spec.columns.map((c) => (
-            <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 2, color: c.key === "PTS" ? accent : "rgba(255,255,255,0.8)" }}>
+            <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 2, color: c.key === "PTS" ? accent : "rgba(255,255,255,0.85)", textShadow: shadow }}>
               {c.label}
             </div>
           ))}
         </div>
         {spec.rows.map((r, idx) => (
-          <div key={r.pos} style={{ display: "flex", alignItems: "center", height: rowH, marginTop: gap, paddingLeft: rowPadL, paddingRight: rowPadR }}>
-            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: accent, textShadow: "0 2px 4px rgba(0,0,0,0.7)" }}>{`${r.pos}.`}</div>
+          <div key={r.pos} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
+            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: idx < spec.qualify ? accent : "rgba(255,255,255,0.9)", textShadow: shadow }}>{`${r.pos}.`}</div>
             {hasCrest ? (
-              <div style={{ display: "flex", width: crestPx, height: crestPx, alignItems: "center", justifyContent: "center", marginRight: 18 }}>
-                {crests[idx] ? <img src={crests[idx]!} width={crestPx} height={crestPx} style={{ objectFit: "contain" }} /> : null}
+              <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center", marginRight: 14 }}>
+                {crests[idx] ? <img src={crests[idx]!} width={crestBox} height={crestBox} style={{ objectFit: "contain" }} /> : null}
               </div>
             ) : null}
-            <div style={{ display: "flex", flex: 1, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsName, color: "#ffffff", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", textShadow: "0 2px 4px rgba(0,0,0,0.7)" }}>{r.team.slice(0, 26)}</div>
+            <div style={{ display: "flex", flex: 1, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", letterSpacing: 1, textShadow: shadow }}>{r.team.slice(0, 26)}</div>
             {spec.columns.map((c) => (
-              <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Montserrat", fontWeight: c.key === "PTS" ? 800 : 600, fontSize: c.key === "PTS" ? fsNum : Math.round(fsNum * 0.9), color: c.key === "PTS" ? accent : "#ffffff", textShadow: "0 2px 4px rgba(0,0,0,0.7)" }}>
+              <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Anton", fontSize: c.key === "PTS" ? fsNum : Math.round(fsNum * 0.92), color: c.key === "PTS" ? accent : "#ffffff", textShadow: shadow }}>
                 {r.stats[c.key] ?? ""}
               </div>
             ))}
@@ -210,8 +242,8 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
       </div>
       {spec.legend ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: legendH }}>
-          <div style={{ display: "flex", width: Math.round(legendH * 0.22), height: Math.round(legendH * 0.22), borderRadius: 999, background: accent, marginRight: 14 }} />
-          <div style={{ display: "flex", fontFamily: "Montserrat", fontWeight: 800, fontSize: Math.round(Math.max(16, legendH * 0.36)), letterSpacing: 4, color: accent, textShadow: "0 2px 6px rgba(0,0,0,0.8)" }}>{spec.legend}</div>
+          <div style={{ display: "flex", width: Math.round(legendH * 0.22), height: Math.round(legendH * 0.22), borderRadius: 999, background: accent, marginRight: 14, boxShadow: `0 0 12px ${accent}` }} />
+          <div style={{ display: "flex", fontFamily: "Montserrat", fontWeight: 800, fontSize: Math.round(Math.max(16, legendH * 0.36)), letterSpacing: 4, color: accent, textShadow: `0 0 14px ${accent}, 0 2px 6px rgba(0,0,0,0.8)` }}>{spec.legend}</div>
         </div>
       ) : null}
     </div>
@@ -222,11 +254,10 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
     fonts: [
       { name: "Anton", data: anton, weight: 400, style: "normal" },
       { name: "Montserrat", data: mont800, weight: 800, style: "normal" },
-      { name: "Montserrat", data: mont600, weight: 600, style: "normal" },
     ],
   });
   const text = Buffer.from(await res.arrayBuffer());
-  const frame = await sharp(Buffer.from(panelSvg(width, panelH, headerH, pad, rowTops, accent))).png().toBuffer();
+  const frame = await sharp(Buffer.from(panelSvg(width, panelH, geo, accent))).png().toBuffer();
   return sharp({ create: { width, height, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
     .composite([
       { input: frame, left: 0, top: 0 },
