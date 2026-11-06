@@ -178,7 +178,7 @@ export async function generatePoster(prompt: string, refs: { bytes: Buffer; type
   const sizes = sizesOverride?.length ? sizesOverride : ["1600x2000", process.env.PRO_IMAGE_SIZE || "1088x1360", "1024x1536"];
   // OpenAI's image prompt limit is 32,000 characters.
   if (prompt.length > 31_900) prompt = prompt.slice(0, 31_900);
-  const deadline = Date.now() + Math.min(270_000, budgetMs); // stay under the 300 s function limit so failures can be refunded
+  const deadline = Date.now() + budgetMs; // the caller keeps this under its function limit, so failures can be refunded
 
   let lastErr = "";
   let sizeIdx = 0;

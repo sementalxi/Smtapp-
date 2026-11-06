@@ -12,7 +12,9 @@ import { stampLogo } from "@/lib/stamp";
 import { STUDIO_KINDS, STUDIO_SIZES, type StudioKind, type StudioSize } from "@/lib/studio";
 import { siteUrl } from "@/lib/email-template";
 
-export const maxDuration = 300;
+// Fluid compute lets this function run up to 800 s: a High render with reference photos can take OpenAI 4–8 minutes.
+export const maxDuration = 800;
+const LIMIT_MS = 800_000;
 
 const Schema = z.object({
   kind: z.enum(Object.keys(STUDIO_KINDS) as [keyof typeof STUDIO_KINDS]),
@@ -29,7 +31,7 @@ type Job = { status: "PENDING" | "READY" | "FAILED"; url?: string; error?: strin
 const key = (id: string) => `studio_job_${id}`;
 const save = (id: string, j: Job) => db.setting.upsert({ where: { key: key(id) }, create: { key: key(id), value: JSON.stringify(j) }, update: { value: JSON.stringify(j) } });
 
-/** A job may re-run itself ONCE in a fresh function when OpenAI ran out the clock (the 300 s function limit). */
+/** A job may re-run itself ONCE in a fresh function when OpenAI ran out the clock (the function limit). */
 const RETRY_ERR = /abort|timeout|timed out|socket|ECONNRESET|fetch failed|terminated/i;
 const jobToken = (id: string) => createHmac("sha256", process.env.AUTH_SECRET || process.env.OPENAI_API_KEY || "kixo").update(`studio:${id}`).digest("hex");
 
@@ -56,7 +58,7 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
     const sizes = [...STUDIO_SIZES[b.size as StudioSize].sizes];
     let out: Buffer | null = null;
     // Same top generator as the posters (Admin → Settings → Poster generator). The retry goes straight to OpenAI,
-    // at medium quality: a "high" render that ran out the 300 s clock once would most likely do it again.
+    // at medium quality: a "high" render that ran out the clock once would most likely do it again.
     const model = tries ? "openai" : (await getSettings()).poster_model;
     const quality = tries && b.quality === "high" ? "medium" : b.quality;
     const fb = await import("@/lib/ai-fallback");
@@ -79,14 +81,14 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
               [{ bytes: art.buf, type: sniffImage(art.buf) ?? "image/png" }],
               quality,
               sizes,
-              280_000 - (Date.now() - t0),
+              LIMIT_MS - 25_000 - (Date.now() - t0),
             )
           : art.buf;
       } catch {
         out = null; // fall back to OpenAI alone (with whatever time is left)
       }
     }
-    if (!out) out = await generatePoster(prompt, refs, quality, sizes, 280_000 - (Date.now() - t0));
+    if (!out) out = await generatePoster(prompt, refs, quality, sizes, LIMIT_MS - 25_000 - (Date.now() - t0));
     if (b.stamp) out = await stampLogo(out);
     const url = await saveFile("studio", out, "image/png");
     await save(id, { status: "READY", url, at: Date.now(), prompt });
@@ -99,7 +101,7 @@ async function runJob(id: string, b: Body, by: string, tries: number) {
   } catch (e) {
     const msg = String(e instanceof Error ? e.message : e).slice(0, 500);
     if (RETRY_ERR.test(msg) && tries < 1) {
-      // Hand the job to a fresh function (a new 300 s window) — once.
+      // Hand the job to a fresh function (a new window) — once.
       try {
         await save(id, { status: "PENDING", at: Date.now(), tries: tries + 1, body: b, by });
         const r = await fetch(`${siteUrl()}/api/admin/studio`, { method: "PUT", headers: { "Content-Type": "application/json", "x-kixo-job": jobToken(id) }, body: JSON.stringify({ id }), signal: AbortSignal.timeout(10_000) });
@@ -152,6 +154,6 @@ export const GET = handle(async (req: NextRequest) => {
   const row = await db.setting.findUnique({ where: { key: key(id) } });
   if (!row) throw new HttpError(404, "not_found");
   const job = JSON.parse(row.value) as Job;
-  if (job.status === "PENDING" && Date.now() - job.at > 330_000) return json({ status: "FAILED", error: "Timed out — try again" });
+  if (job.status === "PENDING" && Date.now() - job.at > LIMIT_MS + 30_000) return json({ status: "FAILED", error: "Timed out — try again" });
   return json({ status: job.status, url: job.url, error: job.error, at: job.at, tries: job.tries ?? 0 });
 });

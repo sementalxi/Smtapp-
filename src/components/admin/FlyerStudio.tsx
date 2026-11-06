@@ -60,7 +60,7 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
       return;
     }
     const started = Date.now();
-    while (Date.now() - started < 700_000) {
+    while (Date.now() - started < 1_500_000) {
       await new Promise((r) => setTimeout(r, 3000));
       const s = await fetch(`/api/admin/studio?id=${data.id}`).then((r) => r.json()).catch(() => null);
       if (s?.tries) setRetrying(true);
@@ -76,7 +76,7 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
         return;
       }
     }
-    setErr(es ? "Tardó demasiado — inténtalo otra vez" : "Took too long — try again");
+    setErr(es ? "Sigue trabajando en segundo plano — mira en Recientes en unos minutos" : "Still working in the background — check Recent in a few minutes");
     setPhase("error");
   }
 
@@ -177,7 +177,7 @@ export function FlyerStudio({ recent }: { recent: { url: string; at: number; kin
             <img src={out} alt="" className="h-full w-full object-contain" />
           ) : phase === "busy" ? (
             <div className="relative h-full w-full">
-              <GenerationProgress photo={imgs[0]?.url} expectedSeconds={retrying ? 240 : quality === "high" ? 120 : 80} />
+              <GenerationProgress photo={imgs[0]?.url} expectedSeconds={retrying ? 300 : quality === "high" ? 180 : 90} />
               {retrying && (
                 <div className="absolute inset-x-0 bottom-0 bg-ink/80 p-2 text-center text-xs text-amber-300">
                   {es ? "⏳ OpenAI tardó demasiado — segundo intento en marcha (hasta 5 min más)" : "⏳ OpenAI ran out of time — second try running (up to 5 more min)"}
