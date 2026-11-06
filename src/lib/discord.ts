@@ -107,12 +107,44 @@ export async function logGeneration(opts: {
   try {
     const [user, banner] = await Promise.all([
       db.user.findUnique({ where: { id: opts.userId }, select: { name: true, email: true, credits: true } }),
-      db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, design: true, inputs: true, logoUrl: true, template: { select: { name: true, layout: true } } } }),
+      db.banner.findUnique({ where: { id: opts.bannerId }, select: { title: true, design: true, inputs: true, logoUrl: true, prompt: true, template: { select: { name: true, layout: true } } } }),
     ]);
-    // Admin style-test runs stay out of Discord (they would flood the channels).
-    if ((banner?.design as unknown as { styleTest?: string } | null)?.styleTest) return;
+    const { hookFor, getLogHooks } = await import("./discord-logs");
+    // Admin style-test runs go to their own "style tests" channel (only when that webhook is set — they would flood the others).
+    const styleTest = (banner?.design as unknown as { styleTest?: string } | null)?.styleTest;
+    if (styleTest) {
+      const hooks = await getLogHooks();
+      const testUrl = (hooks as Record<string, string>).styletest;
+      if (!testUrl) return;
+      const model = /^\[Made with: ([^\]]+)\]/.exec(banner?.prompt ?? "")?.[1] ?? "";
+      const isPng = opts.image ? opts.image[0] === 0x89 : true;
+      const name = `kixo-test-${opts.bannerId}.${isPng ? "png" : "jpg"}`;
+      await postToDiscord(
+        {
+          username: "KIXO · Style test",
+          embeds: [
+            {
+              title: opts.ok ? `🧪 ${banner?.template.name || "Style"}` : `❌ Failed: ${banner?.template.name || "style"}`,
+              url: `${appUrl()}/admin/style-test`,
+              color: opts.ok ? 0x2fd0ff : 0xff4d5e,
+              fields: [
+                { name: "Type", value: (LAYOUT_NAMES[banner?.template.layout ?? ""] ?? "Poster").slice(0, 100), inline: true },
+                { name: "Crest", value: crestModeLabel(banner?.inputs as { aiLogo?: string } | null, !!banner?.logoUrl), inline: true },
+                ...(model ? [{ name: "Generator", value: model.slice(0, 100), inline: true }] : []),
+                { name: "Run", value: String(styleTest).slice(0, 12), inline: true },
+                ...(opts.error ? [{ name: "Error", value: opts.error.slice(0, 1000) }] : []),
+              ],
+              timestamp: new Date().toISOString(),
+              ...(opts.ok && opts.image ? { image: { url: `attachment://${name}` } } : {}),
+            },
+          ],
+        },
+        opts.ok && opts.image && opts.image.length < 9.5 * 1024 * 1024 ? { bytes: opts.image, name, type: isPng ? "image/png" : "image/jpeg" } : undefined,
+        testUrl,
+      );
+      return;
+    }
     // Each flyer type goes to its own channel (falls back to the main webhook).
-    const { hookFor } = await import("./discord-logs");
     const url = await hookFor(banner?.template.layout ?? "");
     if (!url) return;
     const teamSet = !!(banner?.design as unknown as { seriesRootId?: string } | null)?.seriesRootId;
