@@ -241,9 +241,30 @@ async function rings({ W, H, cx, cy, R, accent }: Geo, avatar: Buffer): Promise<
  * AI already painted the name there, so the blur stays out of the bright lettering (it goes around the letters,
  * never over them) and keeps the name sharp.
  */
-async function right({ W, H }: Geo, avatar: Buffer, base: Buffer): Promise<Layer[]> {
+async function right({ W, H, accent }: Geo, avatar: Buffer, base: Buffer, cutout?: Buffer | null): Promise<Layer[]> {
   const x0 = Math.round(W * 0.36), w = W - x0;
-  const { data: pic } = await sharp(avatar).resize(w, H, { fit: "cover" }).modulate({ saturation: 1.35, brightness: 0.8 }).blur(34).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  // the picture to show: the member cut out (no background) when we have it, otherwise the whole picture blurred
+  let pic: Buffer, picA: Buffer | null = null, glowA: Buffer | null = null;
+  if (cutout) {
+    const t = await sharp(cutout).trim({ threshold: 5 }).png().toBuffer().catch(() => cutout);
+    const ph = Math.round(H * 1.02);
+    const sized = await sharp(t).resize({ height: ph, width: Math.round(w * 0.95), fit: "inside" }).png().toBuffer();
+    const sm = await sharp(sized).metadata();
+    const sw = sm.width ?? 0, sh = sm.height ?? 0;
+    // stand it on the bottom edge, centred on the name area
+    const left = Math.round(w * 0.52 - sw / 2), top = H - sh + Math.round(H * 0.04);
+    const pl = await place(sized, left, top, w, H);
+    const canvas = sharp({ create: { width: w, height: H, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } });
+    const layer = await canvas.composite(pl ? [pl] : []).png().toBuffer();
+    const raw = await sharp(layer).modulate({ brightness: 0.9, saturation: 1.15 }).blur(1.2).raw().toBuffer();
+    pic = Buffer.alloc(w * H * 3);
+    picA = Buffer.alloc(w * H);
+    for (let i = 0; i < w * H; i++) { pic[i * 3] = raw[i * 4]; pic[i * 3 + 1] = raw[i * 4 + 1]; pic[i * 3 + 2] = raw[i * 4 + 2]; picA[i] = raw[i * 4 + 3]; }
+    // a soft glow of its outline in the banner colour
+    glowA = await sharp(picA, { raw: { width: w, height: H, channels: 1 } }).blur(26).raw().toBuffer();
+  } else {
+    pic = await sharp(avatar).resize(w, H, { fit: "cover" }).modulate({ saturation: 1.35, brightness: 0.8 }).blur(34).removeAlpha().raw().toBuffer();
+  }
   const { data: art } = await sharp(base).extract({ left: x0, top: 0, width: w, height: H }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   // where the lettering is: bright pixels, grown and softened so whole letters (and their glow edges) are kept
   const lum = Buffer.alloc(w * H);
@@ -253,24 +274,35 @@ async function right({ W, H }: Geo, avatar: Buffer, base: Buffer): Promise<Layer
   }
   const km = await sharp(lum, { raw: { width: w, height: H, channels: 1 } }).dilate(4).blur(6).raw().toBuffer({ resolveWithObject: true });
   const kc = km.info.channels;
-  const keep = (i: number) => km.data[i * kc];
+  const gc = glowA ? glowA.length / (w * H) : 1;
+  const tint = rgbOf(accent);
   const out = Buffer.alloc(w * H * 4);
   for (let y = 0; y < H; y++) for (let x = 0; x < w; x++) {
     const i = y * w + x;
     const fadeIn = Math.min(1, x / (w * 0.22)); // soft start in the middle of the banner
-    const edge = Math.min(1, (H - Math.abs(y * 2 - H)) / (H * 0.35)); // softer at the very top and bottom
-    const a = 0.72 * fadeIn * (0.6 + 0.4 * edge) * (1 - keep(i) / 255);
-    out[i * 4] = pic[i * 3]; out[i * 4 + 1] = pic[i * 3 + 1]; out[i * 4 + 2] = pic[i * 3 + 2];
-    out[i * 4 + 3] = Math.round(a * 255);
+    const free = 1 - km.data[i * kc] / 255;
+    let r = pic[i * 3], g = pic[i * 3 + 1], b = pic[i * 3 + 2], a: number;
+    if (picA) {
+      const pa = picA[i] / 255, ga = glowA ? (glowA[i * gc] / 255) * 0.55 : 0;
+      // person over its own glow
+      a = pa * 0.68 + ga * (1 - pa);
+      if (a > 0) { const k = (pa * 0.68) / a; r = r * k + tint.r * (1 - k); g = g * k + tint.g * (1 - k); b = b * k + tint.b * (1 - k); }
+      a *= fadeIn * free;
+    } else {
+      const edge = Math.min(1, (H - Math.abs(y * 2 - H)) / (H * 0.35));
+      a = 0.72 * fadeIn * (0.6 + 0.4 * edge) * free;
+    }
+    out[i * 4] = r; out[i * 4 + 1] = g; out[i * 4 + 2] = b;
+    out[i * 4 + 3] = Math.round(Math.min(1, a) * 255);
   }
   return [{ input: await sharp(out, { raw: { width: w, height: H, channels: 4 } }).png().toBuffer(), left: x0, top: 0 }];
 }
 
 /** The background layers for the chosen effect ([] for none, or when anything goes wrong — the banner is kept). */
-export async function welcomeFxLayers(fx: string, geo: Geo, avatar: Buffer | null, base?: Buffer): Promise<Layer[]> {
+export async function welcomeFxLayers(fx: string, geo: Geo, avatar: Buffer | null, base?: Buffer, cutout?: Buffer | null): Promise<Layer[]> {
   if (!avatar || fx === "none") return [];
   try {
-    if (fx === "right" && base) return await right(geo, avatar, base);
+    if (fx === "right" && base) return await right(geo, avatar, base, cutout);
     if (fx === "blur") return await blur(geo, avatar);
     if (fx === "cards") return await cards(geo, avatar);
     if (fx === "halftone") return await halftone(geo, avatar);

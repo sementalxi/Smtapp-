@@ -151,7 +151,7 @@ export async function fetchAvatar(url: string | null | undefined): Promise<Buffe
 }
 
 /** KIXO's exact parts on top of the AI art: the picture in a glowing ring, the member number, the KIXO logo. */
-export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberNumber: number, accentIn: string, fx = "none"): Promise<Buffer> {
+export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberNumber: number, accentIn: string, fx = "none", cutout: Buffer | null = null): Promise<Buffer> {
   const W = WELCOME_W;
   const H = WELCOME_H;
   const base = await sharp(art).resize(W, H, { fit: "cover", position: "centre" }).png().toBuffer();
@@ -178,7 +178,7 @@ export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberN
 </svg>`;
   const layers: { input: Buffer; left: number; top: number; blend?: "over" }[] = [];
   // The member's picture worked into the background (Admin → Settings picks how; KIXO blends the real picture).
-  layers.push(...(await welcomeFxLayers(fx, { W, H, cx, cy, R, accent }, avatar, base)));
+  layers.push(...(await welcomeFxLayers(fx, { W, H, cx, cy, R, accent }, avatar, base, cutout)));
   layers.push({ input: await sharp(Buffer.from(ringSvg)).png().toBuffer(), left: 0, top: 0 });
   // the picture, cut to a circle (the KIXO logo on dark when the member has none)
   const size = R * 2 - 4;
@@ -245,6 +245,19 @@ export async function readWelcomeJob(id: string): Promise<WelcomeJob | null> {
   }
 }
 
+/** The member without the background of their picture (null when it can't be separated — the blurred picture is used). */
+async function memberCutout(avatar: Buffer): Promise<Buffer | null> {
+  try {
+    const { cutoutLogo } = await import("./cutout");
+    const big = await sharp(avatar).resize(1024, 1024, { fit: "inside", withoutEnlargement: false }).png().toBuffer();
+    const r = await cutoutLogo(big, "image/png");
+    if (r.method === "none" || r.method === "alpha") return r.method === "alpha" ? r.png : null;
+    return r.png;
+  } catch {
+    return null;
+  }
+}
+
 /** Makes one banner (in the background) and records the result for the bot to pick up. */
 export async function runWelcomeJob(id: string, p: { discordId: string; name: string | null; number: number; avatarUrl?: string }) {
   try {
@@ -255,9 +268,13 @@ export async function runWelcomeJob(id: string, p: { discordId: string; name: st
     const look = lookForAvatar(col.hue, last);
     await db.setting.upsert({ where: { key: "welcome_ai_last_look" }, create: { key: "welcome_ai_last_look", value: look.key }, update: { value: look.key } });
     const name = p.name ?? "NEW MEMBER";
-    const art = await generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000);
     const fx = (await db.setting.findUnique({ where: { key: "welcome_ai_fx" } }))?.value ?? "right";
-    const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent, fx);
+    // "right": the member cut out of their picture (background removed — not redrawn), made while the AI paints
+    const [art, cutout] = await Promise.all([
+      generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000),
+      fx === "right" && avatar ? memberCutout(avatar) : Promise.resolve(null),
+    ]);
+    const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent, fx, cutout);
     const url = await saveFile("welcome", png, "image/png");
     await saveWelcomeJob(id, { status: "READY", url, at: Date.now() });
     await db.setting.upsert({ where: { key: `welcome_ai_member:${p.discordId}` }, create: { key: `welcome_ai_member:${p.discordId}`, value: JSON.stringify({ url, at: Date.now() }) }, update: { value: JSON.stringify({ url, at: Date.now() }) } });
