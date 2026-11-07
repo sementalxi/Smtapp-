@@ -589,6 +589,13 @@ export function buildProPrompt(opts: {
   const hasPhoto = opts.refs.some((r) => r.label.startsWith("the main subject"));
   const matchPhoto = opts.refs.some((r) => r.label.startsWith("a player photo"));
   if (opts.instructions) opts = { ...opts, instructions: resolveConditionals(stripSmallTeamName(opts.instructions), { photo: hasPhoto }) };
+  // A style copied from another one can still say "gold" in its text while its own reference is red (or silver):
+  // the text would win and the poster turns gold. When the user keeps the style's own colours, gold words in the
+  // text follow the reference instead.
+  if (opts.instructions && opts.refColours && (!opts.inputs.colorMode || opts.inputs.colorMode === "template") && !/gold|yellow/i.test(opts.refColours)) {
+    const main = /The main colour is ([^.]+)\./.exec(opts.refColours)?.[1]?.replace(/^(deep|light) /, "").split(" / ")[0] ?? "silver";
+    opts = { ...opts, instructions: opts.instructions.replace(/\b(rose[- ])?gold(en)?\b|\bdorad[oa]s?\b|\boro\b/gi, (_m, rose) => (rose ? `${main}` : main)) };
+  }
   const { inputs: raw, style, layout } = opts;
   // The team name is typed to save the team (and its crest) — it is NOT a caption for the poster.
   // Player cards never print it: the crest shows the team, and any giant background lettering spells the
@@ -1080,7 +1087,7 @@ export function buildProPrompt(opts: {
       : "",
     `REALISM${adminLed ? " (unless the art director's instructions ask for a different look)" : ""}: photorealistic premium sports-advertising quality, like a top designer composited real photography with real 3D renders. Real photographic lighting, real materials (true chrome, polished gold, glass, smoke, wet concrete, stadium floodlights), physically correct reflections and shadows, natural skin texture, shallow depth of field, razor-sharp 4K detail and crisp, perfectly formed lettering. It must NOT look like a cartoon, an illustration or a generic AI image: no plastic skin, no mushy or melted text, no over-smoothed textures, no random symbols, no warped faces or hands.`,
     opts.refColours && (!i.colorMode || i.colorMode === "template")
-      ? `REFERENCE COLOURS (this style copies its reference image, and the user kept the style's own colours): ${opts.refColours} Keep the whole poster in this palette — background, lighting, lettering materials and effects — exactly as the reference shows it; do not drift to other colours.`
+      ? `REFERENCE COLOURS (this style copies its reference image, and the user kept the style's own colours): ${opts.refColours} Keep the whole poster in this palette — background, lighting, lettering materials and effects — exactly as the reference shows it; do not drift to other colours — these colours beat any colour word anywhere else in this brief (no gold unless the reference is gold).`
       : "",
     layout === "LOGO"
       ? ""
