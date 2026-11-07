@@ -31,6 +31,62 @@ export const WELCOME_LOOKS: Look[] = [
   { key: "rose-gold", scene: "flowing champagne and rose-gold silk, soft bokeh lights, floating sparkles and a warm luxury glow", letters: "rose-gold chrome with soft pink reflections and fine bevels", accent: "#ff9db8" },
 ];
 
+const hexOf = (r: number, g: number, b: number) => `#${[r, g, b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`;
+function hsv(r: number, g: number, b: number) {
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+  let h = 0;
+  if (d) h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return { h: (h * 60 + 360) % 360, s: mx ? d / mx : 0, v: mx / 255 };
+}
+const hueGap = (a: number, b: number) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+
+/**
+ * The profile picture's colours (only measured here — the picture itself never goes to the AI): its one or two
+ * strongest colours, or [] for a black / white / grey picture.
+ */
+export async function avatarColours(avatar: Buffer | null): Promise<{ hex: string[]; hue: number | null }> {
+  if (!avatar) return { hex: [], hue: null };
+  try {
+    const { data } = await sharp(avatar).resize(40, 40, { fit: "cover" }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+    const bins = Array.from({ length: 12 }, () => ({ w: 0, r: 0, g: 0, b: 0 }));
+    let strong = 0;
+    for (let i = 0; i < data.length; i += 3) {
+      const { h, s, v } = hsv(data[i], data[i + 1], data[i + 2]);
+      if (s < 0.35 || v < 0.25) continue;
+      strong++;
+      const bin = bins[Math.floor(h / 30) % 12], w = s * v;
+      bin.w += w; bin.r += data[i] * w; bin.g += data[i + 1] * w; bin.b += data[i + 2] * w;
+    }
+    if (strong < (data.length / 3) * 0.12) return { hex: [], hue: null };
+    const top = bins.map((b, k) => ({ ...b, k })).filter((b) => b.w > 0).sort((a, b) => b.w - a.w);
+    const pick = top.filter((b, i) => i === 0 || (b.w > top[0].w * 0.3 && Math.abs(b.k - top[0].k) % 12 > 1 && Math.abs(b.k - top[0].k) % 12 < 11)).slice(0, 2);
+    const hex = pick.map((b) => {
+      // brightened so the glow reads as light, not mud
+      const r = b.r / b.w, g = b.g / b.w, bl = b.b / b.w, mx = Math.max(r, g, bl, 1), f = Math.min(2.2, 235 / mx);
+      return hexOf(r * f, g * f, bl * f);
+    });
+    const c = pick[0];
+    return { hex, hue: hsv(c.r / c.w, c.g / c.w, c.b / c.w).h };
+  } catch {
+    return { hex: [], hue: null };
+  }
+}
+
+/** The look that suits the profile picture best (closest colour; a neutral picture gets a chrome-style look). */
+export function lookForAvatar(hue: number | null, last: string): Look {
+  const pool = WELCOME_LOOKS.filter((l) => l.key !== last);
+  if (hue === null) {
+    const mono = pool.filter((l) => ["ice", "electric", "pink-chrome", "gold-luxury"].includes(l.key));
+    return mono[Math.floor(Math.random() * mono.length)] ?? pool[0];
+  }
+  const ranked = pool
+    .filter((l) => l.key !== "street") // multicolour: never "the" colour of a picture
+    .map((l) => { const a = l.accent.replace("#", ""); return { l, gap: hueGap(hsv(parseInt(a.slice(0, 2), 16), parseInt(a.slice(2, 4), 16), parseInt(a.slice(4, 6), 16)).h, hue) }; })
+    .sort((a, b) => a.gap - b.gap);
+  const close = ranked.filter((x) => x.gap <= ranked[0].gap + 20);
+  return close[Math.floor(Math.random() * close.length)].l;
+}
+
 /** A name the AI can letter: emoji, fancy unicode fonts and symbols removed; null when nothing usable is left. */
 export function cleanWelcomeName(...names: (string | null | undefined)[]): string | null {
   for (const n of names) {
@@ -49,11 +105,12 @@ export function cleanWelcomeName(...names: (string | null | undefined)[]): strin
 }
 
 /** The brief for one banner. */
-export function welcomePrompt(name: string, look: Look): string {
+export function welcomePrompt(name: string, look: Look, colours?: string[]): string {
   const spell = (t: string) => t.split(/\s+/).map((w) => (w.length >= 4 ? `${w} (${[...w].join("-")})` : w)).join(" ");
   return [
     `A premium Discord WELCOME BANNER (wide 2:1) for the KIXO GFX studio community — like the welcome graphic of a top esports / GFX design studio: a finished Photoshop composite with real lighting, depth and effects, never flat, never clip-art.`,
     `THE LOOK FOR THIS BANNER: ${look.scene}. The scene fills the WHOLE frame edge to edge, with depth: background → light streaks and particles → the lettering → foreground sparks slightly out of focus.`,
+    ...(colours?.length ? [`COLOURS — made for this member: the banner's lights, glow, particles and the lettering's highlights follow their profile picture's colours: ${colours.join(" and ")} (keep the look above, tinted toward these colours, rich and bright, never muddy).`] : []),
     `LAYOUT (exact — the picture is finished by KIXO afterwards):`,
     `- LEFT ZONE — from 4% to 43% of the width, the full height: keep it calm — only the scene continuing there, a little darker, with a soft ROUND GLOW of light centred at 23% of the width and 45% of the height. NOTHING else in this zone: no text, no circle, no ring, no frame, no badge, no shield, no figure, no object — the member's round profile picture and the member number are placed there afterwards.`,
     `- TOP-RIGHT CORNER — the top 15% of the height over the right 24% of the width stays clean (only the scene): the KIXO logo is placed there afterwards.`,
@@ -188,12 +245,14 @@ export async function readWelcomeJob(id: string): Promise<WelcomeJob | null> {
 export async function runWelcomeJob(id: string, p: { discordId: string; name: string | null; number: number; avatarUrl?: string }) {
   try {
     const last = (await db.setting.findUnique({ where: { key: "welcome_ai_last_look" } }))?.value ?? "";
-    const pool = WELCOME_LOOKS.filter((l) => l.key !== last);
-    const look = pool[Math.floor(Math.random() * pool.length)];
+    // The member's picture decides the colours: measured here, never sent to the AI.
+    const avatar = await fetchAvatar(p.avatarUrl);
+    const col = await avatarColours(avatar);
+    const look = lookForAvatar(col.hue, last);
     await db.setting.upsert({ where: { key: "welcome_ai_last_look" }, create: { key: "welcome_ai_last_look", value: look.key }, update: { value: look.key } });
     const name = p.name ?? "NEW MEMBER";
-    const [art, avatar] = await Promise.all([generatePoster(welcomePrompt(name, look), [], "medium", ["2048x1024", "1536x1024"], 230_000), fetchAvatar(p.avatarUrl)]);
-    const png = await composeWelcome(art, avatar, p.number, look.accent);
+    const art = await generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000);
+    const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent);
     const url = await saveFile("welcome", png, "image/png");
     await saveWelcomeJob(id, { status: "READY", url, at: Date.now() });
     await db.setting.upsert({ where: { key: `welcome_ai_member:${p.discordId}` }, create: { key: `welcome_ai_member:${p.discordId}`, value: JSON.stringify({ url, at: Date.now() }) }, update: { value: JSON.stringify({ url, at: Date.now() }) } });
