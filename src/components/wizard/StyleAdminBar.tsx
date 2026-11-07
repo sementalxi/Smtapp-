@@ -7,7 +7,7 @@ import { STYLE_BADGES, STYLE_TIERS, badgeLabel, parseBadges, tierLabel, type Sty
  * Admin only, under each style card in the creator: tap the labels (several at once — ⭐ 🔥 🎨 ✨) and the
  * tier (Basic / Mid / Pro, shown in the card's bottom-right corner). Every tap saves on the style.
  */
-export function StyleAdminBar({ templateId, badge, tier, es, onChange }: { templateId: string; badge: string | null | undefined; tier: string | null | undefined; es: boolean; onChange: (p: { badge?: string | null; tier?: string | null }) => void }) {
+export function StyleAdminBar({ templateId, badge, tier, es, onChange, onRemoved }: { templateId: string; badge: string | null | undefined; tier: string | null | undefined; es: boolean; onChange: (p: { badge?: string | null; tier?: string | null }) => void; onRemoved?: () => void }) {
   const [busy, setBusy] = useState(false);
   const cur = parseBadges(badge);
   async function save(p: { badge?: string | null; tier?: string | null }) {
@@ -15,6 +15,20 @@ export function StyleAdminBar({ templateId, badge, tier, es, onChange }: { templ
     setBusy(true);
     try {
       await fetch(`/api/admin/templates/${templateId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) });
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function remove(kind: "hide" | "delete") {
+    const ask = kind === "hide"
+      ? (es ? "¿Ocultar este estilo? Deja de aparecer para todos (puedes volver a mostrarlo desde Admin → Estilos)." : "Hide this style? It stops showing for everyone (you can show it again from Admin → Styles).")
+      : (es ? "¿Borrar este estilo? Si ya se hicieron pósters con él, va a la papelera y se puede restaurar." : "Delete this style? If posters were already made with it, it goes to the bin and can be restored.");
+    if (!window.confirm(ask)) return;
+    setBusy(true);
+    try {
+      const res = await fetch(`/api/admin/templates/${templateId}`, kind === "hide" ? { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ active: false }) } : { method: "DELETE" });
+      if (res.ok) onRemoved?.();
+      else window.alert(es ? "No se pudo — inténtalo otra vez." : "Couldn't do it — try again.");
     } finally {
       setBusy(false);
     }
@@ -43,6 +57,14 @@ export function StyleAdminBar({ templateId, badge, tier, es, onChange }: { templ
             </button>
           );
         })}
+      </div>
+      <div className="flex gap-1">
+        <button type="button" disabled={busy} onClick={() => remove("hide")} className="flex-1 rounded border border-line px-1 py-0.5 text-[9px] font-bold text-muted hover:border-amber-400 hover:text-amber-200">
+          🙈 {es ? "Ocultar" : "Hide"}
+        </button>
+        <button type="button" disabled={busy} onClick={() => remove("delete")} className="flex-1 rounded border border-line px-1 py-0.5 text-[9px] font-bold text-muted hover:border-red-400 hover:text-red-300">
+          🗑️ {es ? "Borrar" : "Delete"}
+        </button>
       </div>
     </div>
   );

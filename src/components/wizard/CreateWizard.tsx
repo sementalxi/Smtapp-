@@ -245,7 +245,8 @@ export function CreateWizard({
     m.TEAMSET = m.TEAMSET || m.PLAYER;
     return m;
   }, [templates, typePics]);
-  const styles = useMemo(() => templates.filter((t) => t.layout === layout), [templates, layout]);
+  const [removedStyles, setRemovedStyles] = useState<string[]>([]);
+  const styles = useMemo(() => templates.filter((t) => t.layout === layout && !removedStyles.includes(t.id)), [templates, layout, removedStyles]);
   // Admin edits to labels / tier made right on the cards (kept here until the page re-syncs).
   const [metaEdits, setMetaEdits] = useState<Record<string, { badge?: string | null; tier?: string | null }>>({});
   const meta = (t: ClientTemplate) => ({ badge: metaEdits[t.id]?.badge !== undefined ? metaEdits[t.id].badge : t.badge, tier: metaEdits[t.id]?.tier !== undefined ? metaEdits[t.id].tier : t.tier });
@@ -973,7 +974,7 @@ export function CreateWizard({
                 )}
                 <div className="bg-panel-2 px-2 py-1.5 text-xs font-bold">{locale === "es" ? s.nameEs : s.name}</div>
               </button>
-              {isAdmin && <StyleAdminBar templateId={s.id} badge={meta(s).badge} tier={meta(s).tier} es={locale === "es"} onChange={(p) => setMetaEdits((m) => ({ ...m, [s.id]: { ...m[s.id], ...p } }))} />}
+              {isAdmin && <StyleAdminBar templateId={s.id} badge={meta(s).badge} tier={meta(s).tier} es={locale === "es"} onChange={(p) => setMetaEdits((m) => ({ ...m, [s.id]: { ...m[s.id], ...p } }))} onRemoved={() => setRemovedStyles((r) => [...r, s.id])} />}
               </div>
             ))}
           </div>
