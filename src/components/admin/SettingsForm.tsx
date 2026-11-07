@@ -133,6 +133,17 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           <span className="font-semibold">👋 {es ? "Banners de bienvenida con IA por día (Discord, 0 = apagado)" : "AI welcome banners per day (Discord, 0 = off)"}</span>
           <input type="number" min={0} max={500} className="input mt-1 !w-28" value={v.welcome_ai_daily ?? "25"} onChange={(e) => setV({ ...v, welcome_ai_daily: e.target.value })} />
         </label>
+        <label className="mt-3 block text-sm">
+          <span className="font-semibold">🖼️ {es ? "Foto de perfil en el fondo del banner de bienvenida" : "Profile picture in the welcome banner's background"}</span>
+          <select className="input mt-1 !w-64" value={v.welcome_ai_fx ?? "none"} onChange={(e) => setV({ ...v, welcome_ai_fx: e.target.value })}>
+            <option value="none">{es ? "Nada (solo el círculo)" : "Nothing (just the circle)"}</option>
+            <option value="blur">{es ? "1 · Brillo difuminado" : "1 · Blur glow"}</option>
+            <option value="cards">{es ? "2 · Tarjetas de foto" : "2 · Photo cards"}</option>
+            <option value="halftone">{es ? "3 · Puntos pop-art" : "3 · Halftone dots"}</option>
+            <option value="shards">{es ? "4 · Vidrio roto" : "4 · Glass shards"}</option>
+            <option value="echo">{es ? "Fantasma brillante" : "Glowing ghost"}</option>
+          </select>
+        </label>
         <label className="mt-2 flex items-center gap-2 text-sm">
           <input type="checkbox" checked={(v.winners_exact_grid ?? "on") !== "off"} onChange={(e) => setV({ ...v, winners_exact_grid: e.target.checked ? "on" : "off" })} />
           <span>🏅 {es ? "Vitrina exacta: KIXO dibuja la pared de marcos (escudos reales, nombres exactos) sobre el fondo de la IA" : "Exact showcase: KIXO draws the wall of frames itself (real crests, exact names) on the AI background"}</span>

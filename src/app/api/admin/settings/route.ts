@@ -41,6 +41,7 @@ const Body = z.object({
   standings_exact_table: z.enum(["on", "off"]).optional(),
   qualifiers_exact_table: z.enum(["on", "off"]).optional(),
   winners_exact_grid: z.enum(["on", "off"]).optional(),
+  welcome_ai_fx: z.enum(["none", "blur", "cards", "halftone", "shards", "echo"]).optional(),
   welcome_ai_daily: z.coerce.number().int().min(0).max(500).optional(),
   video_on: z.enum(["0", "1"]).optional(),
   video_model: z.enum(["kling-std", "kling-pro"]).optional(),

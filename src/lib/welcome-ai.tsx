@@ -9,6 +9,7 @@ import { BRAND_LOGO_PNG_BASE64 } from "./brand-logo";
 import { db } from "./db";
 import { googleFont } from "./standings-table";
 import { saveFile } from "./storage";
+import { welcomeFxLayers } from "./welcome-fx";
 
 export const WELCOME_W = 2048;
 export const WELCOME_H = 1024;
@@ -150,65 +151,7 @@ export async function fetchAvatar(url: string | null | undefined): Promise<Buffe
 }
 
 /** KIXO's exact parts on top of the AI art: the picture in a glowing ring, the member number, the KIXO logo. */
-/**
- * A full-banner layer (for a "screen" blend): the profile picture blown up behind the ring, tinted to the banner's
- * colour, softly blurred, with light streaks of itself sliding to the right, all fading out into the scene before
- * the name.
- */
-async function avatarEcho(avatar: Buffer, W: number, H: number, cx: number, cy: number, R: number, accent: string): Promise<Buffer> {
-  const hex = accent.replace("#", "");
-  const tint = { r: parseInt(hex.slice(0, 2), 16), g: parseInt(hex.slice(2, 4), 16), b: parseInt(hex.slice(4, 6), 16) };
-  const G = Math.round(H * 1.25);
-  // duotone: the picture's light and shade, coloured in the accent (black stays black, so "screen" leaves it out)
-  const { data: grey } = await sharp(avatar).resize(G, G, { fit: "cover" }).greyscale().normalise().blur(3).raw().toBuffer({ resolveWithObject: true });
-  const ch = grey.length / (G * G);
-  const rgb = Buffer.alloc(G * G * 3);
-  for (let i = 0; i < G * G; i++) {
-    const v = grey[i * ch] / 255;
-    const hi = Math.max(0, v - 0.9) * 1.2; // the brightest parts go toward white-hot
-    rgb[i * 3] = Math.min(255, tint.r * v + 255 * hi);
-    rgb[i * 3 + 1] = Math.min(255, tint.g * v + 255 * hi);
-    rgb[i * 3 + 2] = Math.min(255, tint.b * v + 255 * hi);
-  }
-  const big = await sharp(rgb, { raw: { width: G, height: G, channels: 3 } }).png().toBuffer();
-  // place it centred on the ring, on a canvas the size of the banner (cropping what falls outside)
-  const placeOn = async (img: Buffer, size: number, x: number, y: number) => {
-    const left = Math.round(x - size / 2), top = Math.round(y - size / 2);
-    const sx = Math.max(0, -left), sy = Math.max(0, -top);
-    const w = Math.min(size - sx, W - Math.max(0, left)), h = Math.min(size - sy, H - Math.max(0, top));
-    const part = await sharp(img).extract({ left: sx, top: sy, width: w, height: h }).png().toBuffer();
-    return { input: part, left: Math.max(0, left), top: Math.max(0, top) };
-  };
-  // motion echoes: fainter, wider copies drifting right like a speed trail
-  const trail = await Promise.all([1, 2, 3].map(async (k) => {
-    const sz = Math.round(G * (1 + k * 0.06));
-    const img = await sharp(big).resize(sz, sz).blur(6 + k * 6).linear(1 - k * 0.22, 0).png().toBuffer();
-    return placeOn(img, sz, cx + R * 0.75 - R * 0.45 * k, cy); // trail drifting back behind the ring
-  }));
-  const main = await placeOn(big, G, cx + R * 0.75, cy); // peeks out to the right of the ring
-  const fade = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><defs>
-<radialGradient id="r" cx="${Math.round(cx + R * 0.5)}" cy="${cy}" r="${Math.round(H * 0.72)}" gradientUnits="userSpaceOnUse"><stop offset="0.25" stop-color="#fff" stop-opacity="0.7"/><stop offset="0.65" stop-color="#fff" stop-opacity="0.32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-<linearGradient id="l" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="0.38" stop-color="#fff"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/></linearGradient>
-<mask id="k"><rect width="${W}" height="${H}" fill="url(#l)"/></mask></defs>
-<rect width="${W}" height="${H}" fill="url(#r)" mask="url(#k)"/></svg>`);
-  const lightRaw = await sharp({ create: { width: W, height: H, channels: 3, background: { r: 0, g: 0, b: 0 } } })
-    .composite([...trail.reverse().map((t) => ({ ...t, blend: "lighten" as const })), { ...main, blend: "lighten" as const }])
-    .removeAlpha()
-    .raw()
-    .toBuffer();
-  const maskRaw = await sharp(fade).ensureAlpha().raw().toBuffer();
-  // light only: how bright a pixel is decides how much of it shows (dark parts of the picture vanish into the scene)
-  const out = Buffer.alloc(W * H * 4);
-  for (let i = 0; i < W * H; i++) {
-    const r = lightRaw[i * 3], g = lightRaw[i * 3 + 1], b = lightRaw[i * 3 + 2];
-    const lum = Math.max(r, g, b);
-    out[i * 4] = r; out[i * 4 + 1] = g; out[i * 4 + 2] = b;
-    out[i * 4 + 3] = Math.round(Math.pow(lum / 255, 1.4) * maskRaw[i * 4 + 3]);
-  }
-  return sharp(out, { raw: { width: W, height: H, channels: 4 } }).png().toBuffer();
-}
-
-export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberNumber: number, accentIn: string): Promise<Buffer> {
+export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberNumber: number, accentIn: string, fx = "none"): Promise<Buffer> {
   const W = WELCOME_W;
   const H = WELCOME_H;
   const base = await sharp(art).resize(W, H, { fit: "cover", position: "centre" }).png().toBuffer();
@@ -234,15 +177,8 @@ export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberN
 <circle cx="${cx}" cy="${cy}" r="${R - 1}" fill="none" stroke="#000000" stroke-opacity="0.7" stroke-width="3"/>
 </svg>`;
   const layers: { input: Buffer; left: number; top: number; blend?: "over" }[] = [];
-  // The member's picture worked into the background: a huge, glowing echo of it in the banner's colour behind the
-  // ring, fading into the scene (KIXO's own blend of the real picture — nothing redrawn by the AI).
-  if (avatar) {
-    try {
-      layers.push({ input: await avatarEcho(avatar, W, H, cx, cy, R, accent), left: 0, top: 0 });
-    } catch (e) {
-      console.error("welcome avatar echo failed (banner kept without it)", e);
-    }
-  }
+  // The member's picture worked into the background (Admin → Settings picks how; KIXO blends the real picture).
+  layers.push(...(await welcomeFxLayers(fx, { W, H, cx, cy, R, accent }, avatar)));
   layers.push({ input: await sharp(Buffer.from(ringSvg)).png().toBuffer(), left: 0, top: 0 });
   // the picture, cut to a circle (the KIXO logo on dark when the member has none)
   const size = R * 2 - 4;
@@ -320,7 +256,8 @@ export async function runWelcomeJob(id: string, p: { discordId: string; name: st
     await db.setting.upsert({ where: { key: "welcome_ai_last_look" }, create: { key: "welcome_ai_last_look", value: look.key }, update: { value: look.key } });
     const name = p.name ?? "NEW MEMBER";
     const art = await generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000);
-    const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent);
+    const fx = (await db.setting.findUnique({ where: { key: "welcome_ai_fx" } }))?.value ?? "none";
+    const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent, fx);
     const url = await saveFile("welcome", png, "image/png");
     await saveWelcomeJob(id, { status: "READY", url, at: Date.now() });
     await db.setting.upsert({ where: { key: `welcome_ai_member:${p.discordId}` }, create: { key: `welcome_ai_member:${p.discordId}`, value: JSON.stringify({ url, at: Date.now() }) }, update: { value: JSON.stringify({ url, at: Date.now() }) } });
