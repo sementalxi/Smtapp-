@@ -178,7 +178,7 @@ export async function composeWelcome(art: Buffer, avatar: Buffer | null, memberN
 </svg>`;
   const layers: { input: Buffer; left: number; top: number; blend?: "over" }[] = [];
   // The member's picture worked into the background (Admin → Settings picks how; KIXO blends the real picture).
-  layers.push(...(await welcomeFxLayers(fx, { W, H, cx, cy, R, accent }, avatar)));
+  layers.push(...(await welcomeFxLayers(fx, { W, H, cx, cy, R, accent }, avatar, base)));
   layers.push({ input: await sharp(Buffer.from(ringSvg)).png().toBuffer(), left: 0, top: 0 });
   // the picture, cut to a circle (the KIXO logo on dark when the member has none)
   const size = R * 2 - 4;
@@ -256,7 +256,7 @@ export async function runWelcomeJob(id: string, p: { discordId: string; name: st
     await db.setting.upsert({ where: { key: "welcome_ai_last_look" }, create: { key: "welcome_ai_last_look", value: look.key }, update: { value: look.key } });
     const name = p.name ?? "NEW MEMBER";
     const art = await generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000);
-    const fx = (await db.setting.findUnique({ where: { key: "welcome_ai_fx" } }))?.value ?? "none";
+    const fx = (await db.setting.findUnique({ where: { key: "welcome_ai_fx" } }))?.value ?? "right";
     const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent, fx);
     const url = await saveFile("welcome", png, "image/png");
     await saveWelcomeJob(id, { status: "READY", url, at: Date.now() });

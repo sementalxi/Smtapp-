@@ -135,8 +135,9 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         </label>
         <label className="mt-3 block text-sm">
           <span className="font-semibold">🖼️ {es ? "Foto de perfil en el fondo del banner de bienvenida" : "Profile picture in the welcome banner's background"}</span>
-          <select className="input mt-1 !w-64" value={v.welcome_ai_fx ?? "none"} onChange={(e) => setV({ ...v, welcome_ai_fx: e.target.value })}>
+          <select className="input mt-1 !w-64" value={v.welcome_ai_fx ?? "right"} onChange={(e) => setV({ ...v, welcome_ai_fx: e.target.value })}>
             <option value="none">{es ? "Nada (solo el círculo)" : "Nothing (just the circle)"}</option>
+            <option value="right">{es ? "⭐ Difuminada detrás del nombre (derecha)" : "⭐ Blurred behind the name (right side)"}</option>
             <option value="blur">{es ? "1 · Brillo difuminado" : "1 · Blur glow"}</option>
             <option value="cards">{es ? "2 · Tarjetas de foto" : "2 · Photo cards"}</option>
             <option value="halftone">{es ? "3 · Puntos pop-art" : "3 · Halftone dots"}</option>

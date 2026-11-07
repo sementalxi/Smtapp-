@@ -45,7 +45,7 @@ export const SETTING_DEFAULTS = {
   openai_only_layouts: "TOTW,STANDINGS",
   crest_modes: "", // JSON { LAYOUT: "" | "exact" | "on" | "off" | "both" | "exact3d" } — how the crest is put on each poster type (users can't change it)
   qualifiers_exact_table: "on", // "on" = KIXO draws the qualifiers regions table itself (real flags, exact names and numbers) on the AI background
-  welcome_ai_fx: "none", // how the member's profile picture is worked into the AI welcome banner's background — lib/welcome-fx (none | blur | cards | halftone | shards | echo)
+  welcome_ai_fx: "right", // how the member's profile picture is worked into the AI welcome banner's background — lib/welcome-fx (none | blur | cards | halftone | shards | echo)
   welcome_ai_daily: "25", // AI welcome banners the Discord bot may make per day (0 = off) — see lib/welcome-ai
   winners_exact_grid: "on", // "on" = KIXO draws the winners-showcase wall of frames itself (real crests, exact names) on the AI background
   standings_exact_table: "off", // "on" = KIXO draws the standings table itself (real crests, exact names and numbers) on the AI background; "off" (default) = the AI paints the whole table in the poster's own materials, like the style covers // poster types made by OpenAI GPT Image alone (no fal.ai steps), whatever the poster generator is

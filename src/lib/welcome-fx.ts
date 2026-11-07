@@ -2,7 +2,7 @@
 // the ring). All done by KIXO with the real picture — nothing is sent to or redrawn by the AI.
 import sharp from "sharp";
 
-export const WELCOME_FX = ["none", "blur", "cards", "halftone", "shards", "mosaic", "honeycomb", "film", "duotone", "zoom", "rings", "echo"] as const;
+export const WELCOME_FX = ["none", "blur", "cards", "halftone", "shards", "mosaic", "honeycomb", "film", "duotone", "zoom", "rings", "echo", "right"] as const;
 export type WelcomeFx = (typeof WELCOME_FX)[number];
 
 type Geo = { W: number; H: number; cx: number; cy: number; R: number; accent: string };
@@ -236,10 +236,41 @@ async function rings({ W, H, cx, cy, R, accent }: Geo, avatar: Buffer): Promise<
   return [{ input: await withMask(flat, leftFade(W, H, 0.38, 0.48)), left: 0, top: 0 }];
 }
 
+/**
+ * 11 · Blurred behind the name: the picture fills the right side, heavily blurred, fading in from the middle. The
+ * AI already painted the name there, so the blur stays out of the bright lettering (it goes around the letters,
+ * never over them) and keeps the name sharp.
+ */
+async function right({ W, H }: Geo, avatar: Buffer, base: Buffer): Promise<Layer[]> {
+  const x0 = Math.round(W * 0.36), w = W - x0;
+  const { data: pic } = await sharp(avatar).resize(w, H, { fit: "cover" }).modulate({ saturation: 1.35, brightness: 0.8 }).blur(34).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { data: art } = await sharp(base).extract({ left: x0, top: 0, width: w, height: H }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  // where the lettering is: bright pixels, grown and softened so whole letters (and their glow edges) are kept
+  const lum = Buffer.alloc(w * H);
+  for (let i = 0; i < w * H; i++) {
+    const l = (art[i * 3] * 0.3 + art[i * 3 + 1] * 0.59 + art[i * 3 + 2] * 0.11) / 255;
+    lum[i] = Math.round(Math.min(1, Math.max(0, (l - 0.3) / 0.3)) * 255);
+  }
+  const km = await sharp(lum, { raw: { width: w, height: H, channels: 1 } }).dilate(4).blur(6).raw().toBuffer({ resolveWithObject: true });
+  const kc = km.info.channels;
+  const keep = (i: number) => km.data[i * kc];
+  const out = Buffer.alloc(w * H * 4);
+  for (let y = 0; y < H; y++) for (let x = 0; x < w; x++) {
+    const i = y * w + x;
+    const fadeIn = Math.min(1, x / (w * 0.22)); // soft start in the middle of the banner
+    const edge = Math.min(1, (H - Math.abs(y * 2 - H)) / (H * 0.35)); // softer at the very top and bottom
+    const a = 0.72 * fadeIn * (0.6 + 0.4 * edge) * (1 - keep(i) / 255);
+    out[i * 4] = pic[i * 3]; out[i * 4 + 1] = pic[i * 3 + 1]; out[i * 4 + 2] = pic[i * 3 + 2];
+    out[i * 4 + 3] = Math.round(a * 255);
+  }
+  return [{ input: await sharp(out, { raw: { width: w, height: H, channels: 4 } }).png().toBuffer(), left: x0, top: 0 }];
+}
+
 /** The background layers for the chosen effect ([] for none, or when anything goes wrong — the banner is kept). */
-export async function welcomeFxLayers(fx: string, geo: Geo, avatar: Buffer | null): Promise<Layer[]> {
+export async function welcomeFxLayers(fx: string, geo: Geo, avatar: Buffer | null, base?: Buffer): Promise<Layer[]> {
   if (!avatar || fx === "none") return [];
   try {
+    if (fx === "right" && base) return await right(geo, avatar, base);
     if (fx === "blur") return await blur(geo, avatar);
     if (fx === "cards") return await cards(geo, avatar);
     if (fx === "halftone") return await halftone(geo, avatar);
