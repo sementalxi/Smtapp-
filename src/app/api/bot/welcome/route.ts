@@ -20,6 +20,8 @@ const Body = z.object({
   number: z.coerce.number().int().min(0).max(10_000_000).default(0),
   avatarUrl: z.string().max(600).optional(),
   test: z.boolean().optional(),
+  /** /welcome-ai redo: always make a new banner (never hand back the one made earlier). */
+  fresh: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -29,7 +31,7 @@ export async function POST(req: NextRequest) {
   if (!b.success) return j({ error: "bad_request" }, 400);
   const p = b.data;
   // Someone who left and joined again within a week gets the banner already made (no new AI cost).
-  if (!p.test) {
+  if (!p.test && !p.fresh) {
     const seen = await db.setting.findUnique({ where: { key: `welcome_ai_member:${p.discordId}` } });
     try {
       const prev = seen ? (JSON.parse(seen.value) as { url?: string; at?: number }) : null;
