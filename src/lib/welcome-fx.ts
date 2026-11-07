@@ -2,7 +2,7 @@
 // the ring). All done by KIXO with the real picture — nothing is sent to or redrawn by the AI.
 import sharp from "sharp";
 
-export const WELCOME_FX = ["none", "blur", "cards", "halftone", "shards", "echo"] as const;
+export const WELCOME_FX = ["none", "blur", "cards", "halftone", "shards", "mosaic", "honeycomb", "film", "duotone", "zoom", "rings", "echo"] as const;
 export type WelcomeFx = (typeof WELCOME_FX)[number];
 
 type Geo = { W: number; H: number; cx: number; cy: number; R: number; accent: string };
@@ -129,6 +129,113 @@ async function echo({ W, H, cx, cy, R, accent }: Geo, avatar: Buffer): Promise<L
   return [{ input: await withMask(flat, leftFade(W, H, 0.36, 0.5)), left: 0, top: 0 }];
 }
 
+const blank = (W: number, H: number) => sharp({ create: { width: W, height: H, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } });
+
+/** 5 · Photo wall: the picture repeated in a grid of small rounded tiles across the left side, fading out. */
+async function mosaic({ W, H, accent }: Geo, avatar: Buffer): Promise<Layer[]> {
+  const t = Math.round(H / 5.2), gap = Math.round(t * 0.08), rad = Math.round(t * 0.12);
+  const mask = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${t}" height="${t}"><rect width="${t}" height="${t}" rx="${rad}" fill="#fff"/></svg>`);
+  const edge = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${t}" height="${t}"><rect x="1.5" y="1.5" width="${t - 3}" height="${t - 3}" rx="${rad}" fill="none" stroke="${accent}" stroke-opacity="0.8" stroke-width="3"/></svg>`);
+  const tiles = await Promise.all([0.35, 0.5, 0.65].map(async (b) => sharp(avatar).resize(t, t, { fit: "cover" }).modulate({ brightness: b }).ensureAlpha().composite([{ input: mask, blend: "dest-in" }, { input: edge }]).png().toBuffer()));
+  const out: Layer[] = [];
+  for (let y = -1, row = 0; y * (t + gap) < H; y++, row++) for (let x = 0; x * (t + gap) < W * 0.5; x++) {
+    const left = x * (t + gap) - (row % 2 ? t / 2 : 0), top = y * (t + gap) + Math.round(t * 0.3);
+    const l = await place(tiles[(x * 7 + row * 3) % 3], left, top, W, H);
+    if (l) out.push(l);
+  }
+  const flat = await blank(W, H).composite(out).png().toBuffer();
+  return [{ input: await withMask(flat, leftFade(W, H, 0.28, 0.47, 0.75)), left: 0, top: 0 }];
+}
+
+/** 6 · Honeycomb: the picture seen through glowing hexagon cells around the ring. */
+async function honeycomb({ W, H, cx, cy, R, accent }: Geo, avatar: Buffer): Promise<Layer[]> {
+  const w = Math.round(W * 0.52);
+  const img = await sharp(avatar).resize(w, H, { fit: "cover" }).modulate({ brightness: 0.75, saturation: 1.3 }).ensureAlpha().png().toBuffer();
+  const r = Math.round(H / 9), hw = r * Math.sqrt(3);
+  let cells = "", lines = "";
+  for (let row = -1; row * r * 1.5 < H + r; row++) for (let col = -1; col * hw < w + hw; col++) {
+    const x = col * hw + (row % 2 ? hw / 2 : 0), y = row * r * 1.5;
+    const d = Math.hypot(x - cx, y - cy) / (R * 3.2);
+    const op = Math.max(0, 1 - d) * (0.55 + ((row * 5 + col * 3) % 4) * 0.12);
+    if (op < 0.04) continue;
+    const pts = Array.from({ length: 6 }, (_, k) => { const a = Math.PI / 6 + (k * Math.PI) / 3; return `${(x + (r - 4) * Math.cos(a)).toFixed(1)},${(y + (r - 4) * Math.sin(a)).toFixed(1)}`; }).join(" ");
+    cells += `<polygon points="${pts}" fill="#fff" fill-opacity="${op.toFixed(2)}"/>`;
+    lines += `<polygon points="${pts}" fill="none" stroke="${accent}" stroke-opacity="${Math.min(1, op * 1.4).toFixed(2)}" stroke-width="3"/>`;
+  }
+  const masked = await withMask(img, `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${H}">${cells}</svg>`);
+  const glow = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${H}"><defs><filter id="g"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g filter="url(#g)">${lines}</g></svg>`);
+  const flat = await blank(W, H).composite([{ input: await sharp(masked).composite([{ input: glow }]).png().toBuffer(), left: 0, top: 0 }]).png().toBuffer();
+  return [{ input: await withMask(flat, leftFade(W, H, 0.34, 0.46)), left: 0, top: 0 }];
+}
+
+/** 7 · Film strip: a slanted strip of film running behind the ring, with the picture in every frame. */
+async function film({ W, H, cx, cy, accent }: Geo, avatar: Buffer): Promise<Layer[]> {
+  const fh = Math.round(H * 0.3), fw = Math.round(fh * 1.0), n = 7, pad = Math.round(fh * 0.16);
+  const SW = n * (fw + 14) + 14, SH = fh + pad * 2;
+  const frames: { input: Buffer; left: number; top: number }[] = [];
+  for (let k = 0; k < n; k++) frames.push({ input: await sharp(avatar).resize(fw, fh, { fit: "cover" }).modulate({ brightness: k % 2 ? 0.6 : 0.8 }).png().toBuffer(), left: 14 + k * (fw + 14), top: pad });
+  let holes = "";
+  for (let x = 10; x < SW - 10; x += 34) holes += `<rect x="${x}" y="${pad * 0.3}" width="18" height="${pad * 0.4}" rx="3" fill="#000"/><rect x="${x}" y="${SH - pad * 0.7}" width="18" height="${pad * 0.4}" rx="3" fill="#000"/>`;
+  const strip = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SW}" height="${SH}"><rect width="${SW}" height="${SH}" fill="#0a0a0c"/>${holes}<rect x="1" y="1" width="${SW - 2}" height="${SH - 2}" fill="none" stroke="${accent}" stroke-width="3"/></svg>`);
+  const one = await sharp(strip).composite(frames).png().toBuffer();
+  const rot = await sharp(one).rotate(-18, { background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+  const m = await sharp(rot).metadata();
+  const l = await place(rot, cx - (m.width ?? 0) * 0.55, cy - (m.height ?? 0) / 2, W, H);
+  if (!l) return [];
+  const flat = await blank(W, H).composite([l]).png().toBuffer();
+  return [{ input: await withMask(flat, leftFade(W, H, 0.34, 0.46, 0.85)), left: 0, top: 0 }];
+}
+
+/** 8 · Duotone poster: the left side becomes the picture in two colours — deep shadow and the banner's accent. */
+async function duotone({ W, H, accent }: Geo, avatar: Buffer): Promise<Layer[]> {
+  const w = Math.round(W * 0.55);
+  const t = rgbOf(accent);
+  const { data } = await sharp(avatar).resize(w, H, { fit: "cover" }).greyscale().normalise().linear(1.25, -20).raw().toBuffer({ resolveWithObject: true });
+  const ch = data.length / (w * H);
+  const px = Buffer.alloc(w * H * 3);
+  const lo = { r: 8, g: 6, b: 14 };
+  for (let i = 0; i < w * H; i++) {
+    const v = data[i * ch] / 255;
+    px[i * 3] = lo.r + (t.r - lo.r) * v; px[i * 3 + 1] = lo.g + (t.g - lo.g) * v; px[i * 3 + 2] = lo.b + (t.b - lo.b) * v;
+  }
+  const img = await sharp(px, { raw: { width: w, height: H, channels: 3 } }).ensureAlpha().png().toBuffer();
+  const fade = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${H}"><defs><linearGradient id="l" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0.9"/><stop offset="0.6" stop-color="#fff" stop-opacity="0.85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><rect width="${w}" height="${H}" fill="url(#l)"/></svg>`;
+  return [{ input: await withMask(img, fade), left: 0, top: 0 }];
+}
+
+/** 9 · Zoom burst: the picture exploding outward from the ring in streaks of light, like a speed zoom. */
+async function zoom({ W, H, cx, cy, R }: Geo, avatar: Buffer): Promise<Layer[]> {
+  const out: Layer[] = [];
+  const base = await sharp(avatar).resize(512, 512, { fit: "cover" }).modulate({ saturation: 1.4 }).png().toBuffer();
+  for (let k = 0; k < 9; k++) {
+    const sz = Math.round(R * 2 * (1.15 + k * 0.22));
+    const a = 0.5 * Math.pow(0.8, k);
+    const img = await sharp(base).resize(sz, sz).blur(2 + k * 3).ensureAlpha().linear([1, 1, 1, a], [0, 0, 0, 0]).png().toBuffer();
+    const circ = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}"><defs><radialGradient id="r"><stop offset="0.6" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><circle cx="${sz / 2}" cy="${sz / 2}" r="${sz / 2}" fill="url(#r)"/></svg>`);
+    const c = await sharp(img).composite([{ input: circ, blend: "dest-in" }]).png().toBuffer();
+    const l = await place(c, cx - sz / 2, cy - sz / 2, W, H);
+    if (l) out.unshift(l);
+  }
+  const flat = await blank(W, H).composite(out).png().toBuffer();
+  return [{ input: await withMask(flat, leftFade(W, H, 0.36, 0.47)), left: 0, top: 0 }];
+}
+
+/** 10 · Echo rings: wider rings around the ring, each filled with a fainter copy of the picture. */
+async function rings({ W, H, cx, cy, R, accent }: Geo, avatar: Buffer): Promise<Layer[]> {
+  const out: Layer[] = [];
+  for (let k = 3; k >= 1; k--) {
+    const rr = Math.round(R * (1 + k * 0.32)), sz = rr * 2;
+    const img = await sharp(avatar).resize(sz, sz, { fit: "cover" }).modulate({ brightness: 0.85 - k * 0.15 }).blur(k * 2).ensureAlpha().png().toBuffer();
+    const ringMask = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}"><circle cx="${rr}" cy="${rr}" r="${rr}" fill="#fff" fill-opacity="${(0.75 - k * 0.15).toFixed(2)}"/></svg>`);
+    const edge = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}"><circle cx="${rr}" cy="${rr}" r="${rr - 3}" fill="none" stroke="${accent}" stroke-opacity="${(0.95 - k * 0.2).toFixed(2)}" stroke-width="4"/></svg>`);
+    const c = await sharp(img).composite([{ input: ringMask, blend: "dest-in" }, { input: edge }]).png().toBuffer();
+    const l = await place(c, cx - rr, cy - rr, W, H);
+    if (l) out.push(l);
+  }
+  const flat = await blank(W, H).composite(out).png().toBuffer();
+  return [{ input: await withMask(flat, leftFade(W, H, 0.38, 0.48)), left: 0, top: 0 }];
+}
+
 /** The background layers for the chosen effect ([] for none, or when anything goes wrong — the banner is kept). */
 export async function welcomeFxLayers(fx: string, geo: Geo, avatar: Buffer | null): Promise<Layer[]> {
   if (!avatar || fx === "none") return [];
@@ -138,6 +245,12 @@ export async function welcomeFxLayers(fx: string, geo: Geo, avatar: Buffer | nul
     if (fx === "halftone") return await halftone(geo, avatar);
     if (fx === "shards") return await shards(geo, avatar);
     if (fx === "echo") return await echo(geo, avatar);
+    if (fx === "mosaic") return await mosaic(geo, avatar);
+    if (fx === "honeycomb") return await honeycomb(geo, avatar);
+    if (fx === "film") return await film(geo, avatar);
+    if (fx === "duotone") return await duotone(geo, avatar);
+    if (fx === "zoom") return await zoom(geo, avatar);
+    if (fx === "rings") return await rings(geo, avatar);
   } catch (e) {
     console.error("welcome fx failed (banner kept without it)", fx, e);
   }

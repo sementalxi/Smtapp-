@@ -141,6 +141,12 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
             <option value="cards">{es ? "2 · Tarjetas de foto" : "2 · Photo cards"}</option>
             <option value="halftone">{es ? "3 · Puntos pop-art" : "3 · Halftone dots"}</option>
             <option value="shards">{es ? "4 · Vidrio roto" : "4 · Glass shards"}</option>
+            <option value="mosaic">{es ? "5 · Pared de fotos" : "5 · Photo wall"}</option>
+            <option value="honeycomb">{es ? "6 · Panal" : "6 · Honeycomb"}</option>
+            <option value="film">{es ? "7 · Tira de película" : "7 · Film strip"}</option>
+            <option value="duotone">{es ? "8 · Póster duotono" : "8 · Duotone poster"}</option>
+            <option value="zoom">{es ? "9 · Zoom explosivo" : "9 · Zoom burst"}</option>
+            <option value="rings">{es ? "10 · Anillos eco" : "10 · Echo rings"}</option>
             <option value="echo">{es ? "Fantasma brillante" : "Glowing ghost"}</option>
           </select>
         </label>
