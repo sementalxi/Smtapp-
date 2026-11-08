@@ -35,6 +35,8 @@ const LAYOUT_NAMES: Record<string, [string, string]> = {
   EVENT: ["Tournament / event", "Torneo / evento"],
   STANDINGS: ["Standings", "Tabla"],
   LOGO: ["Team logo", "Logo del equipo"],
+  QUALIFIERS: ["Qualifiers", "Eliminatorias"],
+  WINNERS: ["Winners showcase", "Vitrina de campeones"],
 };
 
 type ServerState = { run: Run | null; results: TestResult[]; did?: string };
@@ -165,6 +167,29 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
       return s.length ? Math.round(s.reduce((a, b) => a + (b.seconds ?? 0), 0) / s.length) : 0;
     })(),
   };
+  // Which sample boxes the picked categories really use — read from the same code that fills the test posters
+  // (each field gets a marker, and we look for the marker in what each category's styles receive).
+  const used = useMemo(() => {
+    const keys = ["photoUrl", "logoUrl", "name", "team", "position", "number", "tagline", "subtitle", "footer", "competition", "rival", "date", "venue", "mascot"] as const;
+    const marked = { ...sample, ...Object.fromEntries(keys.map((k) => [k, `§${k}§`])) } as Sample;
+    const by: Record<string, string[]> = {};
+    for (const t of templates.filter((x) => picked.includes(x.layout))) {
+      let out = "";
+      try {
+        out = JSON.stringify(inputsFor(t.layout, marked, t.logoCreate, t.slug, t.textSlots));
+      } catch {
+        continue;
+      }
+      for (const k of keys) if (out.includes(`§${k}§`)) (by[k] ??= []).includes(t.layout) || by[k].push(t.layout);
+      // the photo and crest travel beside the texts, not inside them
+      if (["PLAYER", "CHAMPIONS", "EVENT"].includes(t.layout)) (by.photoUrl ??= []).includes(t.layout) || by.photoUrl.push(t.layout);
+      if (!(t.layout === "LOGO" && t.logoCreate)) (by.logoUrl ??= []).includes(t.layout) || by.logoUrl.push(t.layout);
+    }
+    return by;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templates, picked]);
+  const showAll = picked.length === 0;
+  const uses = (k: string) => showAll || !!used[k]?.length;
   const lname = (l: string) => (LAYOUT_NAMES[l] ? LAYOUT_NAMES[l][es ? 1 : 0] : l);
 
   // Progress of the server run.
@@ -250,9 +275,15 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
             </p>
           </div>
         )}
+        {!showAll && (
+          <div className="mb-3 rounded-xl border border-lime/30 bg-lime/5 p-2.5 text-xs">
+            <b>{es ? "Cajas para:" : "Boxes for:"}</b> {picked.map(lname).join(" · ")}
+            <span className="text-muted"> — {es ? "solo se muestran las que usan esas categorías (elige en el paso 2)." : "only the ones those categories use are shown (pick them in step 2)."}</span>
+          </div>
+        )}
         <div className="grid gap-3 sm:grid-cols-2">
-          <ImageDrop kind="photo" label={es ? "🧍 Foto de prueba" : "🧍 Test photo"} value={sample.photoUrl || null} onChange={(u) => setSample({ ...sample, photoUrl: u ?? "" })} searchQuery={sample.name} />
-          <ImageDrop kind="logo" label={es ? "🛡️ Escudo de prueba" : "🛡️ Test crest"} value={sample.logoUrl || null} onChange={(u) => setSample({ ...sample, logoUrl: u ?? "" })} searchQuery={sample.team} />
+          {uses("photoUrl") && <ImageDrop kind="photo" label={es ? "🧍 Foto de prueba" : "🧍 Test photo"} value={sample.photoUrl || null} onChange={(u) => setSample({ ...sample, photoUrl: u ?? "" })} searchQuery={sample.name} />}
+          {uses("logoUrl") && <ImageDrop kind="logo" label={es ? "🛡️ Escudo de prueba" : "🛡️ Test crest"} value={sample.logoUrl || null} onChange={(u) => setSample({ ...sample, logoUrl: u ?? "" })} searchQuery={sample.team} />}
         </div>
         <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
           {(
@@ -270,10 +301,11 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
               ["venue", "Venue"],
               ["mascot", "Logo idea (new logos)"],
             ] as [keyof Sample, string][]
-          ).map(([k, label]) => (
+          ).filter(([k]) => uses(k)).map(([k, label]) => (
             <label key={k} className="block">
               <span className="mb-0.5 block text-[10px] font-bold uppercase tracking-wider text-muted">{label}</span>
-              <input className="input !py-2 text-sm" value={sample[k]} onChange={set(k)} />
+              <input className="input !py-2 text-sm" value={sample[k] as string} onChange={set(k)} />
+              {!showAll && used[k] && picked.length > 1 && <span className="mt-0.5 block truncate text-[9px] text-muted">{used[k].map(lname).join(", ")}</span>}
             </label>
           ))}
         </div>
