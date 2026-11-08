@@ -36,7 +36,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
         ) : (
           <>
             {done && <p className="text-sm text-amber-200">{es ? "Estamos confirmando tu pago… recarga en unos segundos." : "Confirming your payment… refresh in a few seconds."}</p>}
-            <PayLinkButton id={link.id} label={`${es ? "Pagar" : "Pay"} ${money(link.amountCents)}`} es={es} />
+            <PayLinkButton id={link.id} label={`${es ? "Pagar" : "Pay"} ${money(link.amountCents)}`} title={link.title} price={money(link.amountCents)} es={es} />
             <p className="text-xs text-muted">{es ? "Pago seguro con tarjeta, Apple Pay o Google Pay. No necesitas cuenta." : "Secure checkout by card, Apple Pay or Google Pay. No account needed."}</p>
           </>
         )}

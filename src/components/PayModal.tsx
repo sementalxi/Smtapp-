@@ -38,7 +38,7 @@ const cfgCache = new Map<string, Promise<Cfg>>();
 const cfgTime = new Map<string, number>(); // prices can change — never reuse a config older than 30 s
 const getCfg = (kind: string, id: string) => {
   const k = `${kind}:${id}`;
-  if (!cfgCache.has(k) || Date.now() - (cfgTime.get(k) ?? 0) > 30_000) cfgTime.set(k, Date.now()), cfgCache.set(k, fetch(`/api/square/config?kind=${kind}&id=${encodeURIComponent(id)}`, { cache: "no-store" }).then((r) => r.json()).catch(() => ({ inline: false })));
+  if (!cfgCache.has(k) || Date.now() - (cfgTime.get(k) ?? 0) > 30_000) cfgTime.set(k, Date.now()), cfgCache.set(k, fetch(kind === "link" ? `/api/pay/${encodeURIComponent(id)}/config` : `/api/square/config?kind=${kind}&id=${encodeURIComponent(id)}`, { cache: "no-store" }).then((r) => r.json()).catch(() => ({ inline: false })));
   return cfgCache.get(k)!;
 };
 let preloaded = false;
@@ -77,7 +77,8 @@ export function PayModal({
 }: {
   open: boolean;
   onClose: () => void;
-  kind: "pack" | "plan" | "deal";
+  /** "link": a custom order payment link (Admin → Payment links) — no account, no credits. */
+  kind: "pack" | "plan" | "deal" | "link";
   id: string;
   title: string;
   price: string;
@@ -139,7 +140,7 @@ export function PayModal({
           }),
           req ? payments.applePay(req) : no,
           req ? payments.googlePay(req) : no,
-          req ? payments.cashAppPay(req, { redirectURL: window.location.href, referenceId: `${kind}-${id}`.slice(0, 40) }) : no,
+          req && kind !== "link" ? payments.cashAppPay(req, { redirectURL: window.location.href, referenceId: `${kind}-${id}`.slice(0, 40) }) : no,
         ]);
         if (!alive) return;
         if (c.status === "rejected") throw c.reason;
@@ -263,7 +264,9 @@ export function PayModal({
     if (!already) setBusy(true);
     setErr("");
     try {
-      const r = await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token, wallet }) });
+      const r = kind === "link"
+        ? await fetch(`/api/pay/${encodeURIComponent(id)}/charge`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sourceId: token }) })
+        : await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token, wallet }) });
       const d = await r.json().catch(() => ({}));
       try {
         sessionStorage.removeItem("kixo_pay");
@@ -272,11 +275,14 @@ export function PayModal({
       }
       if (r.ok && d.ok) {
         setDone({ credits: d.credits, pending: d.pending, renews: d.renews });
-        setTimeout(() => window.location.assign("/credits"), d.pending ? 4500 : 2200);
+        if (kind === "link") setTimeout(() => window.location.reload(), 2200);
+        else setTimeout(() => window.location.assign("/credits"), d.pending ? 4500 : 2200);
       } else {
         setErr(
           d.error === "declined"
             ? (es ? "La tarjeta fue rechazada. Prueba con otra." : "The card was declined. Try another one.") + (d.detail ? ` (${d.detail})` : "")
+            : d.error === "already_paid"
+              ? es ? "Este pedido ya está pagado." : "This order is already paid."
             : d.error === "already_subscribed"
               ? es ? "Ya tienes una suscripción activa." : "You already have an active subscription."
               : (es ? "No se pudo completar el pago" : "Payment couldn't be completed") + (d.detail ? ` — ${d.detail}` : ""),
@@ -298,7 +304,9 @@ export function PayModal({
             <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-lime text-3xl text-ink shadow-[0_0_40px_rgba(255,46,136,0.6)]">✓</div>
             <div className="font-display mt-4 text-3xl">{es ? "¡Pago completado!" : "Payment complete!"}</div>
             <p className="mt-1 text-sm text-muted">
-              {done.pending
+              {kind === "link"
+                ? es ? "¡Gracias! Ya estamos con tu pedido." : "Thank you! We're on your order."
+                : done.pending
                 ? es ? `Tu plan está activo. Tus ${done.credits} créditos llegan en unos segundos…` : `Your plan is active. Your ${done.credits} credits arrive in a few seconds…`
                 : es ? `+${done.credits} créditos agregados a tu cuenta` : `+${done.credits} credits added to your account`}
               {done.renews === false && (
