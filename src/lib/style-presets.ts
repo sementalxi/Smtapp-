@@ -45,6 +45,146 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this brief.`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "champ-kit-cup": `[OWN LOOK] KIT & CUP — a fiery championship graphic built around the team's shirt and the cup.
+
+SCENE
+- A dark background burning in the team's main colour: fire, glowing embers, heat haze, thick smoke and fast light streaks crossing diagonally; dark stadium structures barely visible behind.
+- At the TOP CENTRE: the team's football SHIRT hanging flat and straight (photographed, real fabric folds and stitching) in the team colours, the crest on the chest and the TEAM NAME printed across the chest in bold collegiate capitals. No brand logos on the shirt.
+- In the CENTRE, overlapping the bottom of the shirt: a giant polished SILVER CUP (classic FA-cup shape with big handles and a lid), real mirror reflections of the fire, the team crest engraved / mounted on its body.
+- Two long vertical RIBBONS in the team colour hang down both sides of the cup with the COMPETITION name printed vertically in condensed capitals (if a competition is given; otherwise plain ribbons).
+- Below the cup: the TEAM CREST large as a bevelled 3D metal-and-enamel emblem standing on the cup's base.
+[IF PHOTO]- THE PLAYER from the photo stands just behind the cup, chest-up, lifting one hand to it — same face, rim-lit in the fire colour; the shirt above becomes smaller.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. Shirt at the top centre, small corner crest top-left.
+2. SQUAD (if given): the names split into TWO COLUMNS, left and right of the cup — each name on its own short, dark, slightly angled plate with a thin team-colour edge, bold condensed white capitals, uniform size, perfectly aligned, about 6–8 plates per side.
+3. Cup + ribbons + crest in the middle.
+4. The TITLE ("CHAMPIONS") enormous across the bottom: tall ultra-condensed capitals in distressed brushed chrome / steel with a hard bevel, scratches and a red-hot inner glow, filling the full width.
+5. Under it: the COMPETITION name in letter-spaced team-colour capitals, then the date small between two thin lines.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded echo → the centrepiece → the lettering pieces → the information lock-ups → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+  "champ-celebration-party": `[OWN LOOK] CELEBRATION PARTY — a loud, bright championship celebration flyer.
+
+SCENE
+- A BRIGHT background: off-white paper with bold diagonal SUNBURST RAYS and big angular shards in the team's main colour, a fine grid / graph-paper texture inside the colour areas, lots of glossy GOLD CONFETTI strips flying at all depths (some big and blurred in the foreground).
+- On the RIGHT half: a GIANT trophy (two-handled cup) rendered as a high-contrast black-and-white HALFTONE / photocopy print with grain and torn edges, rising from the bottom to the top edge, partly cut off.
+[IF PHOTO]- THE PLAYER from the photo at the bottom right in front of the trophy, waist-up, arms raised celebrating, full colour, rim-lit — same face; a few more blurred celebrating teammates silhouetted beside him in the team colour.[/IF PHOTO]
+
+LETTERING
+- TOP: the COMPETITION name (if given) as a huge stacked 3D block-lettering piece, black faces with deep team-colour extrusions and white highlights, tilted in perspective.
+- TITLE ("CHAMPIONS"): big bold 3D capitals with a team-colour-to-gold gradient face and a white outline.
+- Under it: the TEAM CREST centred inside a hexagon or shield, flanked by two small bevelled team-colour plates holding the date / year (if given).
+- Team name (if given) in heavy black geometric capitals under the crest.
+
+LAYOUT (portrait)
+- Lettering column on the left two-thirds, trophy on the right, confetti everywhere.
+- SQUAD (if given): bold condensed black capitals in a tight block at the lower left, uniform size.
+- A thin black bar along the very bottom edge (no text inside unless given).
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded echo → the centrepiece → the lettering pieces → the information lock-ups → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+  "champ-stadium-bold": `[OWN LOOK] STADIUM BOLD — a clean, bold editorial champions graphic.
+
+SCENE
+- Background: a real STADIUM (empty stands, roof, floodlights) photographed and washed in the team's main colour — strong duotone (team colour + black), motion-blurred and slightly out of focus, with big translucent outlined letters of the team name drifting behind.
+- GIANT cropped capitals of the TEAM NAME in solid white, so big that only parts of the letters fit, running across the middle third behind the crest (a graphic texture, not readable text).
+[IF PHOTO]- THE PLAYER from the photo stands behind the crest's right edge, waist-up, in full colour, looking proud — same face — with a soft dark shadow separating him from the giant letters.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. A small line at the top: the COMPETITION and the TEAM NAME in condensed white capitals separated by " - " (if given).
+2. The TITLE ("CHAMPIONS") enormous: pure white ultra-condensed heavy sans-serif, flat (no 3D), razor sharp, filling the width.
+3. The TEAM NAME (if given) written over the lower part of the title in a thin, elegant handwritten SCRIPT in the team colour.
+4. The TEAM CREST huge in the centre (about 45% of the width), crisp and faithful, with a clean drop shadow — the hero.
+5. Two small square tiles in the team colour at the lower left, the crest inside one.
+6. SQUAD (if given): the names in white ultra-condensed capitals, uniform size, in 2–3 centred rows separated by thin " | " bars.
+7. A solid black band along the bottom with the crest small at the left; nothing else written there.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded echo → the centrepiece → the lettering pieces → the information lock-ups → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+  "champ-gold-crest-trophy": `[OWN LOOK] GOLD CREST & TROPHY — a luxurious navy-and-gold champions graphic.
+
+SCENE
+- A deep NAVY night background full of GOLD DUST, glitter, sparkles and soft gold light streaks swirling around the centre, faint stadium lights and a big faded circular emblem pattern behind.
+- LEFT: the TEAM CREST as a big 3D emblem (about 45% of the width) — faithful to its artwork, in real metal, enamel and gold, with deep bevels, reflections and a warm rim light.
+- RIGHT: a tall glossy BLACK-AND-GOLD trophy (black lacquer body, gold handles, base and a gold crown on top), the team's initials in gold on its body, real reflections.
+[IF PHOTO]- THE PLAYER from the photo between the crest and the trophy, chest-up, one hand on the trophy — same face — lit warm gold from the side.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. Very top corners: the date (left) and the team name (right) small, letter-spaced, white (only if given).
+2. A small italic white line: the COMPETITION and the TEAM NAME separated by " - " (if given).
+3. The TITLE ("CHAMPIONS") enormous across the top third: tall condensed capitals with a textured hammered GOLD-FOIL face, subtle bevel and a soft glow; the crest and trophy overlap its lower part.
+4. Crest (left) + trophy (right) in the middle.
+5. SQUAD (if given): white geometric capitals, uniform size, in 3–4 centred rows separated by GOLD " | " bars; a role tag after a name (like "- MVP" or "- DT") in gold if it is written in the list.
+6. A thin footer line along the bottom with the crest small in the centre; nothing else written.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded echo → the centrepiece → the lettering pieces → the information lock-ups → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+  "champ-mascot-graffiti": `[OWN LOOK] MASCOT GRAFFITI — an urban esports champions graphic.
+
+SCENE
+- A dark PURPLE neon arena: glowing purple light bars and lightning, LED frame lines, purple smoke, hard reflections on a dark floor, thin HUD / tech frame lines and small icons in the corners.
+- In the CENTRE: the TEAM CREST blown up huge (about 75% of the width) as an illustrated esports badge — faithful to its artwork — with thick outlines, bevelled metal rims and TOXIC-GREEN paint drips and slime splashes running off its edges; two spray-paint cans and small skulls tucked behind it.
+[IF PHOTO]- THE PLAYER from the photo rising out from behind the crest, chest-up, confident pose — same face — drawn in the same bold illustrated / cel-shaded esports style as the badge.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. A small italic line: the COMPETITION and the TEAM NAME separated by " - " (if given).
+2. The TITLE ("CHAMPIONS") huge: white heavy condensed italic capitals with a faint grunge texture, overlapping the top of the crest.
+3. The crest hero in the middle.
+4. SQUAD (if given): clean white monospace / geometric names, uniform size, in 4–5 centred rows separated by neon-green " | " bars.
+5. Neon-green HUD lines and a glowing frame along the bottom edge; the date small in a top corner (if given).
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded echo → the centrepiece → the lettering pieces → the information lock-ups → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+  "champ-player-hero": `[OWN LOOK] CHAMPION HERO — a KIXO player-card style champions graphic (best with a photo).
+
+SCENE
+- A dark background in the team's main colour: angular frames and nested rectangles, red / team-colour smoke and embers, a blurred stadium, sharp diagonal light shards; a giant vertical TEAM NAME in outlined grey capitals running up the left edge.
+- Small design details scattered like a pro studio poster: thin crosshair marks, tiny letter-spaced text blocks of the team name, a barcode on a torn white paper sticker at the lower right, a few line icons — no real brands.
+- The TEAM CREST top right as a crisp 3D emblem with a glow.
+[IF PHOTO]- THE PLAYER from the photo, TWICE (same person, same face):
+  1. a GIANT black-and-white portrait (head and shoulders), high-contrast and grainy, filling the upper-left half behind everything;
+  2. the player in FULL COLOUR, full body, running toward the camera celebrating — smiling, fist on the chest — sharp and rim-lit, on the right half, overlapping the title.[/IF PHOTO]
+[IF NO PHOTO]- No people: a giant polished trophy takes the hero's place on the right, and a giant black-and-white close-up of the trophy fills the upper left.[/IF NO PHOTO]
+
+LAYOUT (portrait)
+- The TITLE ("CHAMPIONS") huge across the middle: heavy condensed italic capitals in the accent colour (gold / yellow), slanted, with a strong horizontal MOTION BLUR trail, partly behind the player.
+- Under the title, left: the COMPETITION (if given) in bold capitals, the TEAM NAME (if given) big in condensed grey-silver capitals, a thin row of team-colour slashes.
+- SQUAD (if given): small bold white capitals in one or two lines at the bottom, separated by " | ".
+- The date small in a bottom corner (if given).
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded echo → the centrepiece → the lettering pieces → the information lock-ups → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
   "player-roster-banner": `[WIDE] ROSTER BANNER — a WIDE landscape (3:2) esports / pro-clubs roster banner, the kind a pro team posts to announce each player. Bold, clean, cinematic. Built so a whole roster can be made in the same design, one banner per player.
 
 COMPOSITION (left to right)
