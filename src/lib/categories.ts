@@ -19,7 +19,13 @@ export async function getCategoryConfig(): Promise<CategoryConfig> {
 }
 
 /** Visible categories in the admin's order. */
-export async function visibleCategories(): Promise<LayoutKind[]> {
+export async function visibleCategories(viewer?: { role?: string | null }): Promise<LayoutKind[]> {
   const c = await getCategoryConfig();
-  return c.order.filter((l) => !c.hidden.includes(l));
+  const shown = c.order.filter((l) => !c.hidden.includes(l));
+  // "Coming soon" categories stay out of sight for players until they open (staff still see them to test).
+  if (viewer && !["ADMIN", "STAFF", "SUPPORT"].includes(viewer.role ?? "")) {
+    const soon = await import("./coming-soon").then((m) => m.comingSoonList());
+    return shown.filter((l) => !soon.includes(l));
+  }
+  return shown;
 }

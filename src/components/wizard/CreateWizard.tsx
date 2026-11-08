@@ -880,7 +880,7 @@ export function CreateWizard({
             {([
                 { key: "LOGO_MAKER", href: "/logo", icon: "🛡️", en: ["Logo maker", "5 original logos to pick from — download a transparent PNG"], es: ["Creador de logos", "5 logos originales para elegir — descarga PNG sin fondo"] },
                 { key: "STREAM_KIT", href: "/stream", icon: "🎥", en: ["Streamer kit", "TikTok LIVE banners and transparent overlays, all matching"], es: ["Kit de streamer", "Banners y overlays transparentes para TikTok LIVE, a juego"] },
-              ] as const).map((x) => {
+              ] as const).filter((x) => isAdmin || !comingSoon.includes(x.key)).map((x) => {
                 const soon = comingSoon.includes(x.key);
                 return (
                 <Link

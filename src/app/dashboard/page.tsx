@@ -29,7 +29,7 @@ export default async function DashboardPage() {
     }),
     db.banner.count({ where: { userId: user.id, status: "READY" } }),
     getNumberSetting("pro_cost"),
-    visibleCategories(),
+    visibleCategories(user),
     dailyStatus(user.id, locale).catch(() => null),
   ]);
   const first = user.name.split(" ")[0];

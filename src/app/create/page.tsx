@@ -126,7 +126,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
 
   const initial = TYPES.find((x) => x === type?.toUpperCase());
 
-  const cats = await visibleCategories();
+  const cats = await visibleCategories(user);
   const ss = await activeSeason();
   const season = ss ? { key: ss.key, emoji: ss.emoji, en: ss.en, es: ss.es } : null;
   const seasonOn = (await searchParams as { season?: string }).season === "1";
