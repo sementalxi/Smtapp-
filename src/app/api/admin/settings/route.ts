@@ -11,6 +11,7 @@ const Body = z.object({
   referral_reward: z.coerce.number().int().min(0).max(10000).optional(),
   pro_cost: z.coerce.number().int().min(0).max(100).optional(),
   logo_set_cost: z.coerce.number().int().min(0).max(500).optional(),
+  stream_piece_cost: z.coerce.number().int().min(0).max(100).optional(),
   pro_quality: z.enum(["low", "medium", "high"]).optional(),
   max_upload_mb: z.coerce.number().int().min(1).max(50).optional(),
   maintenance_message: z.string().max(300).optional(),

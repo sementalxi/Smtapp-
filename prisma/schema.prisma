@@ -350,3 +350,17 @@ model LogoSet {
 
   @@index([userId, createdAt])
 }
+
+/// Streamer kit: a matching set of TikTok LIVE pieces (promo, starting soon, BRB, ending, cam overlay…).
+model StreamKit {
+  id        String   @id @default(cuid())
+  userId    String
+  inputs    Json
+  /// [{ kind, status: "queued" | "making" | "ready" | "failed", url, error }]
+  items     Json     @default("[]")
+  status    String   @default("PROCESSING") // PROCESSING | DONE
+  cost      Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
