@@ -871,6 +871,26 @@ export function CreateWizard({
                 </button>
               );
             })}
+            {!categories &&
+              ([
+                { href: "/logo", icon: "🛡️", en: ["Logo maker", "5 original logos to pick from — download a transparent PNG"], es: ["Creador de logos", "5 logos originales para elegir — descarga PNG sin fondo"] },
+                { href: "/stream", icon: "🎥", en: ["Streamer kit", "TikTok LIVE banners and transparent overlays, all matching"], es: ["Kit de streamer", "Banners y overlays transparentes para TikTok LIVE, a juego"] },
+              ] as const).map((x) => (
+                <Link
+                  key={x.href}
+                  href={x.href}
+                  data-sfx="select"
+                  className="group relative flex min-h-[9.5rem] flex-col overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-panel-2 to-panel p-3.5 text-left transition hover:border-lime/40 active:scale-[0.98] sm:p-4"
+                >
+                  <span aria-hidden className="pointer-events-none absolute -top-10 -right-10 h-28 w-28 rounded-full bg-lime/10 blur-2xl transition group-hover:bg-lime/20" />
+                  <span className="relative flex items-start justify-between gap-2">
+                    <span className="grid h-11 w-11 place-items-center rounded-xl border border-lime/40 bg-ink/60 text-xl">{x.icon}</span>
+                    <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-black text-ink">{locale === "es" ? "NUEVO" : "NEW"}</span>
+                  </span>
+                  <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight sm:text-base">{locale === "es" ? x.es[0] : x.en[0]}</span>
+                  <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? x.es[1] : x.en[1]}</span>
+                </Link>
+              ))}
             <Link
               href="/create/roster"
               className="group relative isolate col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-lime/40 bg-gradient-to-r from-lime/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-lime/70 active:scale-[0.99] sm:p-4"
