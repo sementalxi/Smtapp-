@@ -40,6 +40,8 @@ export async function GET(req: NextRequest) {
   await import("@/lib/banners").then((m) => m.reapStale()).catch(() => {});
   // Admin style test: keep the queue moving even when the admin closed the page.
   await import("@/lib/style-test").then((m) => m.advanceStyleTest()).catch(() => {});
+  // New built-in styles get a real preview poster made automatically (once).
+  await import("@/lib/auto-previews").then((m) => m.autoPreviewsTick()).catch((e) => console.error("auto previews", e));
   // Discord showcase: every poster type on the site has its channel (checked a few times a day; missing ones get created).
   await import("@/lib/showcase-sync").then((m) => m.syncShowcaseIfDue()).catch(() => {});
   // Finish AI videos in the background.
