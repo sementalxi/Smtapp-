@@ -3,7 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { getNumberSetting } from "@/lib/settings";
 import { isComingSoon } from "@/lib/coming-soon";
-import { ComingSoon } from "@/components/ComingSoon";
+import { SoonCard } from "@/components/SoonCard";
 import { LogoMaker } from "@/components/LogoMaker";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +18,7 @@ export default async function LogoPage({ searchParams }: { searchParams: Promise
     const es = locale === "es";
     return (
       <div className="px-4 py-12">
-        <ComingSoon es={es} title={es ? "Creador de logos" : "Logo maker"} icon="🛡️" />
+        <SoonCard es={es} title={es ? "Creador de logos" : "Logo maker"} icon="🛡️" />
       </div>
     );
   }
