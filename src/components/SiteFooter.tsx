@@ -47,6 +47,9 @@ export async function SiteFooter({ site }: { site: string }) {
             <Link key={l.href + l.label} href={l.href} className="hover:text-lime">{l.label}</Link>
           ),
         )}
+        <Link href="/terms" className="hover:text-lime">{es ? "Términos" : "Terms"}</Link>
+        <Link href="/privacy" className="hover:text-lime">{es ? "Privacidad" : "Privacy"}</Link>
+        <Link href="/refunds" className="hover:text-lime">{es ? "Reembolsos" : "Refunds"}</Link>
       </div>
     </footer>
   );

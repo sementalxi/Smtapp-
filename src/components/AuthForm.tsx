@@ -155,6 +155,14 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
         {mode === "register" && (
           <p className="text-[11px] text-muted">{es ? "Podemos enviarte ofertas por correo de vez en cuando. Puedes darte de baja cuando quieras." : "We may email you offers now and then. You can unsubscribe anytime."}</p>
         )}
+        {mode === "register" && (
+          <p className="text-[11px] text-muted">
+            {es ? "Al crear tu cuenta aceptas los " : "By creating an account you agree to the "}
+            <Link href="/terms" className="underline">{es ? "Términos" : "Terms"}</Link>
+            {es ? " y la " : " and "}
+            <Link href="/privacy" className="underline">{es ? "Política de privacidad" : "Privacy Policy"}</Link>.
+          </p>
+        )}
         <button disabled={busy || (mode === "register" && num.replace(/\D/g, "").length < 7)} className="btn-primary w-full">
           {busy ? "…" : t(mode === "login" ? "nav_login" : "nav_register")}
         </button>
