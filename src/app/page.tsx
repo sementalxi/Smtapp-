@@ -135,29 +135,24 @@ export default async function Home() {
               <span className="h-px flex-1 bg-gradient-to-l from-transparent to-lime/60" />
             </div>
             {(() => {
-              const tile = (p: (typeof partners)[number], k: string | number) => (
-                <div key={k} className="kixo-partner group flex w-[104px] shrink-0 flex-col items-center gap-2 sm:w-32" style={{ animationDelay: `${(typeof k === "number" ? k : 0) * 0.6}s` }}>
-                  <div className="kixo-partner-tile relative grid aspect-square w-full place-items-center overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-panel-2 to-ink p-3 transition group-hover:-translate-y-1 group-hover:border-lime/60 group-hover:shadow-[0_16px_40px_-20px] group-hover:shadow-lime/60">
-                    <span aria-hidden className="kixo-partner-glow pointer-events-none absolute inset-0" />
-                    <span aria-hidden className="kixo-partner-shine pointer-events-none absolute inset-0" />
-                    {p.logoUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="relative max-h-full max-w-full object-contain transition group-hover:scale-110 [filter:drop-shadow(0_6px_14px_rgba(0,0,0,0.6))_drop-shadow(0_0_12px_rgba(255,46,136,0.35))]" />
-                    ) : (
-                      <span className="font-display text-3xl text-lime">{p.name[0]}</span>
-                    )}
-                  </div>
-                  <span className="truncate text-[11px] font-bold uppercase tracking-wider text-muted group-hover:text-white">{p.name}</span>
+              // Just the logos, floating in one slow row — no boxes. Repeated so the row always fills the screen.
+              const reps = Math.max(2, Math.ceil(12 / partners.length));
+              const row = Array.from({ length: reps }, () => partners).flat();
+              const logo = (p: (typeof partners)[number], k: string, n: number) => (
+                <div key={k} className="kixo-logo-float flex h-20 w-28 shrink-0 items-center justify-center sm:h-24 sm:w-36" style={{ animationDelay: `${(n % 6) * 0.7}s` }} title={p.name}>
+                  {p.logoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="kixo-logo-glow max-h-full max-w-full object-contain" />
+                  ) : (
+                    <span className="font-display text-2xl tracking-wider text-white/80">{p.name}</span>
+                  )}
                 </div>
               );
-              return partners.length >= 5 ? (
-                <div className="relative mt-8 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
-                  <div className="kixo-marquee flex w-max gap-4 sm:gap-6">{[...partners, ...partners].map((p, k) => tile(p, `${p.id}-${k}`))}</div>
+              return (
+                <div className="relative mt-10 overflow-hidden py-3 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
+                  <div className="kixo-marquee-slow flex w-max items-center gap-10 sm:gap-16">{[...row, ...row].map((p, k) => logo(p, `${p.id}-${k}`, k))}</div>
                 </div>
-              ) : (
-                <div data-reveal className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-6">{partners.map((p) => tile(p, p.id))}</div>
               );
-            })()}
           </div>
         </section>
       )}

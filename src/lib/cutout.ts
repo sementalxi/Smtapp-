@@ -18,52 +18,87 @@ const dist = (a: number[], b: number[]) => Math.sqrt((a[0] - b[0]) ** 2 + (a[1] 
  */
 function stickerCutout(src: Buffer, W: number, H: number): Buffer | null {
   const data = Buffer.from(src);
+  const N = W * H;
   const rgb = (i: number) => [data[i * 4], data[i * 4 + 1], data[i * 4 + 2]];
-  const isClear = (i: number) => data[i * 4 + 3] < 16;
-  // The ring: solid pixels right next to the transparent area.
-  const ring: number[][] = [];
-  for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
-    const i = y * W + x;
-    if (data[i * 4 + 3] < 160) continue;
-    if (isClear(i - 1) || isClear(i + 1) || isClear(i - W) || isClear(i + W)) ring.push(rgb(i));
+  const sat = (c: number[]) => Math.max(...c) - Math.min(...c);
+  // Distance (in steps) of every pixel from the transparent area — multi-source BFS.
+  const dT = new Int32Array(N).fill(1e9);
+  let q: number[] = [];
+  for (let i = 0; i < N; i++) if (data[i * 4 + 3] < 16) { dT[i] = 0; q.push(i); }
+  if (!q.length) return null;
+  const nb = (i: number) => {
+    const x = i % W, y = (i - x) / W;
+    return [x > 0 ? i - 1 : -1, x < W - 1 ? i + 1 : -1, y > 0 ? i - W : -1, y < H - 1 ? i + W : -1];
+  };
+  for (let h = 0; h < q.length; h++) {
+    const i = q[h];
+    if (dT[i] >= 12) continue;
+    for (const n of nb(i)) if (n >= 0 && dT[n] > dT[i] + 1) { dT[n] = dT[i] + 1; q.push(n); }
   }
-  if (ring.length < 40) return null;
-  const med = [0, 1, 2].map((k) => ring.map((c) => c[k]).sort((a, b) => a - b)[ring.length >> 1]);
-  const agree = ring.filter((c) => dist(c, med) < 40).length / ring.length;
-  if (agree < 0.7) return null; // the logo itself touches the edge: nothing to peel off
-  const tol = 46;
-  const seen = new Uint8Array(W * H);
-  const stack: number[] = [];
-  for (let i = 0; i < W * H; i++) if (isClear(i)) { seen[i] = 1; stack.push(i); }
-  const clearStart = stack.length;
-  let opaque = W * H - clearStart;
-  let filled = 0;
-  while (stack.length) {
-    const idx = stack.pop()!;
-    const x = idx % W;
-    const y = (idx - x) / W;
-    for (const n of [x > 0 ? idx - 1 : -1, x < W - 1 ? idx + 1 : -1, y > 0 ? idx - W : -1, y < H - 1 ? idx + W : -1]) {
-      if (n < 0 || seen[n]) continue;
-      if (dist(rgb(n), med) > tol) continue;
-      seen[n] = 1;
-      data[n * 4 + 3] = 0;
-      filled++;
-      stack.push(n);
+  // The outer band (a few px inside the edge, past any soft shadow): what colour dominates there?
+  const bins = new Map<number, { n: number; r: number; g: number; b: number }>();
+  let band = 0;
+  for (let i = 0; i < N; i++) {
+    if (dT[i] < 3 || dT[i] > 9 || data[i * 4 + 3] < 200) continue;
+    band++;
+    const c = rgb(i);
+    const k = ((c[0] >> 5) << 6) | ((c[1] >> 5) << 3) | (c[2] >> 5);
+    const e = bins.get(k) ?? { n: 0, r: 0, g: 0, b: 0 };
+    e.n++; e.r += c[0]; e.g += c[1]; e.b += c[2];
+    bins.set(k, e);
+  }
+  if (band < 60) return null;
+  const top = [...bins.values()].sort((x, y) => y.n - x.n)[0];
+  if (!top || top.n / band < 0.3) return null; // the logo itself reaches the edge: nothing to peel off
+  const bg = [top.r / top.n, top.g / top.n, top.b / top.n];
+  const tol = 30;
+  // Flood the backdrop colour inwards from the band (passing over the soft shadow / fringe at the edge).
+  const removed = new Uint8Array(N);
+  q = [];
+  for (let i = 0; i < N; i++) if (dT[i] >= 1 && dT[i] <= 9 && data[i * 4 + 3] >= 16 && dist(rgb(i), bg) <= tol) { removed[i] = 1; q.push(i); }
+  for (let h = 0; h < q.length; h++) {
+    for (const n of nb(q[h])) {
+      if (n < 0 || removed[n] || data[n * 4 + 3] < 16) continue;
+      if (dist(rgb(n), bg) > tol) continue;
+      removed[n] = 1;
+      q.push(n);
     }
   }
-  if (filled < opaque * 0.05 || filled > opaque * 0.9) return null; // tiny speck, or it would eat the whole logo
-  // Soft edge: pixels next to the removed backdrop that are still close to its colour fade out.
-  const fade = new Uint8Array(W * H);
-  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-    const i = y * W + x;
-    if (seen[i]) continue;
-    const near = (x > 0 && seen[i - 1]) || (x < W - 1 && seen[i + 1]) || (y > 0 && seen[i - W]) || (y < H - 1 && seen[i + W]);
-    if (!near) continue;
-    const d = dist(rgb(i), med);
-    if (d < tol * 1.8) fade[i] = Math.round(Math.min(255, (d / (tol * 1.8)) * data[i * 4 + 3]));
-    else fade[i] = 255;
+  let opaque = 0, filled = 0;
+  for (let i = 0; i < N; i++) if (data[i * 4 + 3] >= 16) { opaque++; if (removed[i]) filled++; }
+  if (filled < opaque * 0.05 || filled > opaque * 0.9) return null;
+  for (let i = 0; i < N; i++) if (removed[i]) data[i * 4 + 3] = 0;
+  // Leftover rim: grey, unsaturated shadow / paper-edge pixels sitting between the old edge and the removed backdrop.
+  for (let pass = 0; pass < 3; pass++) {
+    const kill: number[] = [];
+    for (let i = 0; i < N; i++) {
+      if (data[i * 4 + 3] < 16 || dT[i] > 6) continue;
+      const touches = nb(i).some((n) => n >= 0 && data[n * 4 + 3] < 16);
+      if (!touches) continue;
+      const c = rgb(i);
+      const lum = (c[0] + c[1] + c[2]) / 3;
+      if ((sat(c) < 30 && lum < 150) || dist(c, bg) < tol * 1.4) kill.push(i); // dark grey shadow, or backdrop-coloured fringe
+    }
+    for (const i of kill) data[i * 4 + 3] = 0;
   }
-  for (let i = 0; i < W * H; i++) if (fade[i] && fade[i] < 255) data[i * 4 + 3] = Math.min(data[i * 4 + 3], fade[i]);
+  // Soft edge: pixels next to the cut that are still close to the backdrop colour fade out.
+  for (let i = 0; i < N; i++) {
+    if (data[i * 4 + 3] < 16) continue;
+    if (!nb(i).some((n) => n >= 0 && data[n * 4 + 3] < 16)) continue;
+    const d = dist(rgb(i), bg);
+    if (d < tol * 2) data[i * 4 + 3] = Math.min(data[i * 4 + 3], Math.round((d / (tol * 2)) * 255));
+  }
+  // Crumbs: tiny islands left from the torn paper edge are removed.
+  const seen = new Uint8Array(N);
+  const minKeep = 10;
+  for (let i = 0; i < N; i++) {
+    if (seen[i] || data[i * 4 + 3] < 16) continue;
+    const comp = [i];
+    seen[i] = 1;
+    for (let h = 0; h < comp.length; h++) for (const m of nb(comp[h])) if (m >= 0 && !seen[m] && data[m * 4 + 3] >= 16) { seen[m] = 1; comp.push(m); }
+    // only crumbs along the old outer edge (letters and details inside the logo are never touched)
+    if (comp.length < minKeep && comp.every((j) => dT[j] <= 5) && comp.every((j) => { const c = rgb(j); return Math.max(...c) - Math.min(...c) < 35; })) for (const j of comp) data[j * 4 + 3] = 0;
+  }
   return data;
 }
 
