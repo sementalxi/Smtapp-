@@ -331,3 +331,22 @@ model PayLink {
 
   @@index([createdAt])
 }
+
+/// Logo maker: one request → 5 logo options. Players see watermarked previews; only the one they pick is unlocked.
+model LogoSet {
+  id        String   @id @default(cuid())
+  userId    String
+  inputs    Json
+  status    String   @default("PROCESSING") // PROCESSING | READY | FAILED
+  /// [{ preview, full } | null] — full-size URLs never leave the server until picked
+  options   Json     @default("[]")
+  picked    Int      @default(-1)
+  pickedUrl String   @default("")
+  pngUrl    String   @default("")
+  bannerId  String   @default("")
+  cost      Int      @default(0)
+  error     String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

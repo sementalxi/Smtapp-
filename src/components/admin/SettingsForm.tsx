@@ -51,6 +51,8 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
       <div>
         <label className="label">{t("pro_cost_label")}</label>
         <input type="number" min={0} className="input" value={v.pro_cost} onChange={(e) => setV({ ...v, pro_cost: e.target.value })} />
+        <label className="label mt-3">{es ? "Creador de logos: créditos por 5 opciones" : "Logo maker: credits for a set of 5 options"}</label>
+        <input type="number" min={0} className="input" value={v.logo_set_cost ?? "12"} onChange={(e) => setV({ ...v, logo_set_cost: e.target.value })} />
       </div>
 
       <div>

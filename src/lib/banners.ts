@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cleanLogoName } from "./logo-maker";
 import { Prisma } from "@prisma/client";
 import { db } from "./db";
 import { HttpError } from "./auth";
@@ -736,6 +737,11 @@ export function buildProPrompt(opts: {
       break;
     case "LOGO": {
       const create = /\[LOGO CREATE\]/.test(opts.instructions ?? "");
+      // people type "make me a logo SACREDZ X" into the name — only the name goes on the logo, and no extra lines
+      if (create) {
+        i.team = cleanLogoName(i.team) || i.team;
+        i.footer = "";
+      }
       composition = create
         ? `A brand-new, professional TEAM LOGO (crest / emblem) for a team called ${q(i.team || "the team")}${i.subtitle ? `, built around this mascot / idea: ${q(i.subtitle)}` : ""}. One centred emblem on a clean dark background with generous margin, bold and readable at small sizes, crisp edges, balanced symmetry, strong silhouette — like the logo of a top esports org or football club. The team name lettered as part of the emblem.`
         : `A premium LOGO SHOWCASE poster: the team's own logo (reference image) is the hero, big in the centre, faithfully reproduced, in an epic scene${i.headline ? `, with the short headline` : ""}. No people or players.`;

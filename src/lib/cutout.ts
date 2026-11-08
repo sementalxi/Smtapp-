@@ -68,8 +68,8 @@ function stickerCutout(src: Buffer, W: number, H: number): Buffer | null {
 }
 
 /** Flood-fills the outside background (if it is one solid colour) to transparent. */
-async function floodCutout(bytes: Buffer): Promise<{ png: Buffer; method: Method }> {
-  const img = sharp(bytes).ensureAlpha().resize(640, 640, { fit: "inside", withoutEnlargement: true });
+async function floodCutout(bytes: Buffer, max = 640): Promise<{ png: Buffer; method: Method }> {
+  const img = sharp(bytes).ensureAlpha().resize(max, max, { fit: "inside", withoutEnlargement: true });
   const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
   const { width: W, height: H } = info;
   const px = (x: number, y: number) => {
@@ -140,8 +140,8 @@ async function floodCutout(bytes: Buffer): Promise<{ png: Buffer; method: Method
 }
 
 /** The crest as a transparent PNG (trimmed). Solid backgrounds are removed locally; others by the AI remover when available. */
-export async function cutoutLogo(bytes: Buffer, contentType = "image/png"): Promise<{ png: Buffer; method: Method }> {
-  let r = await floodCutout(bytes).catch(() => ({ png: bytes, method: "none" as Method }));
+export async function cutoutLogo(bytes: Buffer, contentType = "image/png", max = 640): Promise<{ png: Buffer; method: Method }> {
+  let r = await floodCutout(bytes, max).catch(() => ({ png: bytes, method: "none" as Method }));
   if (r.method === "none" && canRemoveBackground()) {
     try {
       r = { png: await removeBackground(bytes, contentType), method: "ai" };

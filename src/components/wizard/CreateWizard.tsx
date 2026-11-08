@@ -1189,6 +1189,10 @@ export function CreateWizard({
           {layout === "LOGO" && (
             logoCreate ? (
               <>
+                <a href="/logo" className="block rounded-2xl border border-lime/50 bg-gradient-to-r from-lime/20 to-transparent p-4">
+                  <span className="block text-base font-extrabold">✨ {locale === "es" ? "Nuevo: Creador de logos" : "New: Logo maker"} →</span>
+                  <span className="block text-xs text-white/80">{locale === "es" ? "5 logos para elegir, sube un logo de inspiración y descarga PNG sin fondo." : "5 logos to pick from, upload an inspiration logo, download a transparent PNG."}</span>
+                </a>
                 <p className="rounded-xl border border-lime/30 bg-lime/5 p-3 text-xs text-white/80">
                   🛡️ {locale === "es" ? "La IA diseña un logo NUEVO para tu equipo (cuadrado, listo para redes y Discord)." : "The AI designs a brand-NEW logo for your team (square, ready for socials and Discord)."}
                 </p>
