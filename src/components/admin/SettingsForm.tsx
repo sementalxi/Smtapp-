@@ -188,10 +188,10 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
               ["EVENT", "Tournaments", "Torneos"], ["QUALIFIERS", "Qualifiers", "Clasificatorios"], ["WINNERS", "Winners showcase", "Vitrina"], ["LOGO_MAKER", "Logo maker", "Creador de logos"], ["STREAM_KIT", "Streamer kit", "Kit de streamer"],
             ] as const
           ).map(([k, en, esn]) => {
-            const list = (v.coming_soon ?? "").split(",").filter(Boolean);
+            const list = (v.soon_categories ?? "").split(",").filter(Boolean);
             const on = list.includes(k);
             return (
-              <button key={k} type="button" onClick={() => setV({ ...v, coming_soon: (on ? list.filter((x) => x !== k) : [...list, k]).join(",") })} className={`flex items-center justify-between rounded-xl border px-3 py-2 text-left text-sm font-semibold ${on ? "border-amber-300/70 bg-amber-300/10" : "border-line"}`}>
+              <button key={k} type="button" onClick={() => setV({ ...v, soon_categories: (on ? list.filter((x) => x !== k) : [...list, k]).join(",") })} className={`flex items-center justify-between rounded-xl border px-3 py-2 text-left text-sm font-semibold ${on ? "border-amber-300/70 bg-amber-300/10" : "border-line"}`}>
                 <span>{es ? esn : en}</span>
                 <span className={`text-[10px] font-black ${on ? "text-amber-200" : "text-muted"}`}>{on ? (es ? "⏳ PRÓXIMAMENTE" : "⏳ COMING SOON") : es ? "✅ ACTIVO" : "✅ LIVE"}</span>
               </button>

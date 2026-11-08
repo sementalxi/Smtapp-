@@ -5,7 +5,7 @@ import { getSettings } from "./settings";
 export const EXTRA_CATEGORIES = ["LOGO_MAKER", "STREAM_KIT"] as const;
 
 export async function comingSoonList(): Promise<string[]> {
-  return ((await getSettings()).coming_soon ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  return ((await getSettings()).soon_categories ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 }
 
 export async function isComingSoon(key: string): Promise<boolean> {
