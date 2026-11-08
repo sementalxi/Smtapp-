@@ -153,6 +153,7 @@ export default async function Home() {
                   <div className="kixo-marquee-slow flex w-max items-center gap-10 sm:gap-16">{[...row, ...row].map((p, k) => logo(p, `${p.id}-${k}`, k))}</div>
                 </div>
               );
+            })()}
           </div>
         </section>
       )}
