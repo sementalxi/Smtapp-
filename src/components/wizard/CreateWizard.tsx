@@ -191,6 +191,7 @@ export function CreateWizard({
   typePics = {},
   expectedSeconds = 100,
   isAdmin = false,
+  comingSoon = [],
   crestModes = {},
   prefill = null,
 }: {
@@ -214,6 +215,8 @@ export function CreateWizard({
   expectedSeconds?: number;
   /** Admins pick the crest mode on every poster; everyone else gets the type's default from Settings. */
   isAdmin?: boolean;
+  /** Categories the admin marked "Coming soon" (players see them but can't open them). */
+  comingSoon?: string[];
   crestModes?: Record<string, string>;
   /** Admin "Create another one": the finished poster's texts, photo and team, so only the style changes. */
   prefill?: { layout: LayoutKind; inputs: Record<string, unknown>; photoUrl: string | null; logoUrl: string | null; team: SavedItem | null } | null;
@@ -833,11 +836,13 @@ export function CreateWizard({
           <div className="grid grid-cols-2 gap-3">
             {(categories ? categories.map((l) => ART_TYPES.find((a) => a.layout === l)!).filter(Boolean) : ART_TYPES).map((a) => {
               const sel = a.layout === layout;
+              const soon = comingSoon.includes(a.layout);
               return (
                 <button
                   key={a.layout}
                   type="button"
                   data-sfx="select"
+                  disabled={soon && !isAdmin}
                   onClick={() => { setLayout(a.layout); setStep(2); }}
                   className={`group relative flex min-h-[9.5rem] flex-col overflow-hidden rounded-2xl border p-3.5 text-left transition active:scale-[0.98] sm:p-4 ${
                     sel
@@ -866,19 +871,23 @@ export function CreateWizard({
                       })()}
                     </span>
                   </span>
+                  {soon && <span className="absolute inset-0 z-10 grid place-items-center bg-ink/55 backdrop-blur-[1px]"><span className="rounded-full border border-amber-300/60 bg-ink/80 px-3 py-1 text-[11px] font-black tracking-wider text-amber-200">⏳ {locale === "es" ? "PRÓXIMAMENTE" : "COMING SOON"}{isAdmin ? (locale === "es" ? " · solo admin" : " · admin only") : ""}</span></span>}
                   <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-base">{locale === "es" ? a.es.name : a.en.name}</span>
                   <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? a.es.desc : a.en.desc}</span>
                 </button>
               );
             })}
-            {!categories &&
-              ([
-                { href: "/logo", icon: "🛡️", en: ["Logo maker", "5 original logos to pick from — download a transparent PNG"], es: ["Creador de logos", "5 logos originales para elegir — descarga PNG sin fondo"] },
-                { href: "/stream", icon: "🎥", en: ["Streamer kit", "TikTok LIVE banners and transparent overlays, all matching"], es: ["Kit de streamer", "Banners y overlays transparentes para TikTok LIVE, a juego"] },
-              ] as const).map((x) => (
+            {([
+                { key: "LOGO_MAKER", href: "/logo", icon: "🛡️", en: ["Logo maker", "5 original logos to pick from — download a transparent PNG"], es: ["Creador de logos", "5 logos originales para elegir — descarga PNG sin fondo"] },
+                { key: "STREAM_KIT", href: "/stream", icon: "🎥", en: ["Streamer kit", "TikTok LIVE banners and transparent overlays, all matching"], es: ["Kit de streamer", "Banners y overlays transparentes para TikTok LIVE, a juego"] },
+              ] as const).map((x) => {
+                const soon = comingSoon.includes(x.key);
+                return (
                 <Link
                   key={x.href}
-                  href={x.href}
+                  href={soon && !isAdmin ? "#" : x.href}
+                  onClick={(e) => soon && !isAdmin && e.preventDefault()}
+                  aria-disabled={soon && !isAdmin}
                   data-sfx="select"
                   className="group relative flex min-h-[9.5rem] flex-col overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-panel-2 to-panel p-3.5 text-left transition hover:border-lime/40 active:scale-[0.98] sm:p-4"
                 >
@@ -887,10 +896,12 @@ export function CreateWizard({
                     <span className="grid h-11 w-11 place-items-center rounded-xl border border-lime/40 bg-ink/60 text-xl">{x.icon}</span>
                     <span className="rounded-full bg-lime px-2 py-0.5 text-[10px] font-black text-ink">{locale === "es" ? "NUEVO" : "NEW"}</span>
                   </span>
+                  {soon && <span className="absolute inset-0 z-10 grid place-items-center bg-ink/55 backdrop-blur-[1px]"><span className="rounded-full border border-amber-300/60 bg-ink/80 px-3 py-1 text-[11px] font-black tracking-wider text-amber-200">⏳ {locale === "es" ? "PRÓXIMAMENTE" : "COMING SOON"}{isAdmin ? (locale === "es" ? " · solo admin" : " · admin only") : ""}</span></span>}
                   <span className="relative mt-auto block pt-3 text-[15px] font-extrabold leading-tight sm:text-base">{locale === "es" ? x.es[0] : x.en[0]}</span>
                   <span className="relative mt-1 line-clamp-2 block text-[11px] leading-snug text-white/70 sm:text-xs">{locale === "es" ? x.es[1] : x.en[1]}</span>
                 </Link>
-              ))}
+                );
+              })}
             <Link
               href="/create/roster"
               className="group relative isolate col-span-2 flex items-center gap-3.5 overflow-hidden rounded-2xl border border-lime/40 bg-gradient-to-r from-lime/10 via-panel-2 to-panel p-3.5 text-left transition hover:border-lime/70 active:scale-[0.99] sm:p-4"

@@ -147,6 +147,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
         seasonStart={seasonOn && !!season}
         typePics={await getTypePics()}
         isAdmin={isStaff(user.role)}
+        comingSoon={await import("@/lib/coming-soon").then((m) => m.comingSoonList())}
         crestModes={(() => {
           try {
             return JSON.parse(settingsForCrest.crest_modes || "{}") as Record<string, string>;

@@ -28,6 +28,7 @@ export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
   rateLimit(req, "stream_kit", 8, 60 * 60_000, user.id);
   if (!proConfigured()) throw new HttpError(400, "pro_not_configured");
+  if (!isStaff(user.role) && (await import("@/lib/coming-soon").then((m) => m.isComingSoon("STREAM_KIT")))) return json({ error: "coming_soon" }, 403);
   const b = Body.parse(await req.json());
   if (b.logoUrl) assertOwnUrl(b.logoUrl);
   if (`${b.name} ${b.content} ${b.socials} ${b.schedule}`.match(BLOCKED)) return json({ error: "err_blocked" }, 400);

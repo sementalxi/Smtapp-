@@ -92,6 +92,7 @@ export const POST = handle(async (req: NextRequest) => {
         : (await db.banner.findFirst({ where: { id: rootId, userId: user.id, status: "READY" }, select: { finalUrl: true } }))?.finalUrl;
     series = { seriesRootId: rootId, variation: info.variation, refUrl: rootUrl ?? source.finalUrl ?? "" };
   }
+  if (!isStaff(user.role) && (await import("@/lib/coming-soon").then((m) => m.isComingSoon(template.layout)))) return json({ error: "coming_soon" }, 403);
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
   if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");

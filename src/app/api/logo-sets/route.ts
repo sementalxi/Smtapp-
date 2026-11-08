@@ -26,6 +26,7 @@ export const POST = handle(async (req: NextRequest) => {
   const user = await apiUser();
   rateLimit(req, "logo_set", 12, 60 * 60_000, user.id);
   if (!proConfigured()) throw new HttpError(400, "pro_not_configured");
+  if (!isStaff(user.role) && (await import("@/lib/coming-soon").then((m) => m.isComingSoon("LOGO_MAKER")))) return json({ error: "coming_soon" }, 403);
   const b = Body.parse(await req.json());
   if (b.refUrl) assertOwnUrl(b.refUrl);
   const name = cleanLogoName(b.name);

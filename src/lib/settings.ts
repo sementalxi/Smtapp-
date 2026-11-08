@@ -7,6 +7,7 @@ export const SETTING_DEFAULTS = {
   referral_reward: "20",
   pro_cost: "4",
   logo_set_cost: "12",
+  coming_soon: "", // categories shown as "Coming soon" (not usable for players yet): layouts and LOGO_MAKER / STREAM_KIT, comma-separated
   stream_piece_cost: "4", // Streamer kit: credits per piece (promo, starting soon, BRB, ending, overlays) // Logo maker: credits for one set of 5 logo options (the picked one is included)
   pro_quality: "high",
   max_upload_mb: "10",

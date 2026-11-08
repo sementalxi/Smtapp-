@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { requireUser } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { getNumberSetting } from "@/lib/settings";
+import { isComingSoon } from "@/lib/coming-soon";
+import { ComingSoon } from "@/components/ComingSoon";
 import { StreamKitMaker } from "@/components/StreamKitMaker";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +14,14 @@ export default async function StreamPage({ searchParams }: { searchParams: Promi
   const { locale } = await getT();
   const { kit } = await searchParams;
   const staff = user.role === "ADMIN" || user.role === "STAFF";
+  if (!staff && (await isComingSoon("STREAM_KIT"))) {
+    const es = locale === "es";
+    return (
+      <div className="px-4 py-12">
+        <ComingSoon es={es} title={es ? "Kit de streamer" : "Streamer kit"} icon="🎥" />
+      </div>
+    );
+  }
   const perPiece = staff ? 0 : await getNumberSetting("stream_piece_cost");
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">

@@ -32,15 +32,12 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
 
   return (
     <form onSubmit={save} className="max-w-xl space-y-3">
-      <AdminSection icon="⚡" title={es ? "Créditos e IA" : "Credits & AI"} sub={es ? "Créditos al registrarse, precio del póster, calidad IA, video IA" : "Sign-up credits, poster price, AI quality, AI video"} open>
+      <AdminSection icon="💰" title={es ? "Créditos y precios" : "Credits & prices"} sub={es ? "Créditos al registrarse e invitar, precios de póster, logo y streamer, recompensa diaria" : "Sign-up and invite credits, poster, logo and streamer prices, daily reward"} open>
       <div>
         <label className="label">{t("signup_credits")}</label>
         <input type="number" min={0} className="input" value={v.signup_credits} onChange={(e) => setV({ ...v, signup_credits: e.target.value })} />
       </div>
       <div>
-        <label className="label">🔗 {es ? "Enlace de invitación a tu servidor de Discord" : "Your Discord server invite link"}</label>
-        <input className="input" placeholder="https://discord.gg/xxxxx" value={v.discord_server ?? ""} onChange={(e) => setV({ ...v, discord_server: e.target.value })} />
-        <p className="mb-4 mt-1 text-xs text-muted">{es ? "Aparece en el pie de página y en el menú para que la gente se una a tu comunidad." : "Shown in the footer and the menu so people can join your community."}</p>
         <label className="label">{es ? "Créditos extra al registrarse con Discord" : "Extra credits for signing up with Discord"}</label>
         <input type="number" min={0} className="input" value={v.discord_bonus} onChange={(e) => setV({ ...v, discord_bonus: e.target.value })} />
       </div>
@@ -56,7 +53,16 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <label className="label mt-3">{es ? "Kit de streamer: créditos por pieza" : "Streamer kit: credits per piece"}</label>
         <input type="number" min={0} className="input" value={v.stream_piece_cost ?? "4"} onChange={(e) => setV({ ...v, stream_piece_cost: e.target.value })} />
       </div>
-
+      <a href="/admin/daily" className="flex items-center gap-3 rounded-2xl border border-line bg-panel/70 p-4 transition hover:border-lime/50">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime/15 text-xl">🎁</span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-bold">{es ? "Recompensa diaria" : "Daily reward"}</span>
+          <span className="block truncate text-xs text-muted">{es ? "Créditos gratis cada día, bono por racha y textos — tiene su propia página" : "Free credits every day, streak bonus and texts — has its own page"}</span>
+        </span>
+        <span className="text-muted">›</span>
+      </a>
+      </AdminSection>
+      <AdminSection icon="🎨" title={es ? "Pósters e IA" : "Posters & AI"} sub={es ? "Generador, calidad, escudos, tablas exactas, video IA" : "Generator, quality, crests, exact tables, AI video"}>
       <div>
         <label className="label">{es ? "Calidad IA Pro (usuarios sin suscripción)" : "Pro AI quality (users without a subscription)"}</label>
         <select className="input" value={v.pro_quality} onChange={(e) => setV({ ...v, pro_quality: e.target.value })}>
@@ -133,28 +139,6 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
           <input type="checkbox" checked={(v.qualifiers_exact_table ?? "on") !== "off"} onChange={(e) => setV({ ...v, qualifiers_exact_table: e.target.checked ? "on" : "off" })} />
           <span>🌍 {es ? "Clasificatorios exactos: KIXO dibuja la tabla de regiones (banderas reales, nombres y números exactos) sobre el fondo de la IA" : "Exact qualifiers: KIXO draws the regions table itself (real flags, exact names and numbers) on the AI background"}</span>
         </label>
-        <label className="mt-3 block text-sm">
-          <span className="font-semibold">👋 {es ? "Banners de bienvenida con IA por día (Discord, 0 = apagado)" : "AI welcome banners per day (Discord, 0 = off)"}</span>
-          <input type="number" min={0} max={500} className="input mt-1 !w-28" value={v.welcome_ai_daily ?? "25"} onChange={(e) => setV({ ...v, welcome_ai_daily: e.target.value })} />
-        </label>
-        <label className="mt-3 block text-sm">
-          <span className="font-semibold">🖼️ {es ? "Foto de perfil en el fondo del banner de bienvenida" : "Profile picture in the welcome banner's background"}</span>
-          <select className="input mt-1 !w-64" value={v.welcome_ai_fx ?? "right"} onChange={(e) => setV({ ...v, welcome_ai_fx: e.target.value })}>
-            <option value="none">{es ? "Nada (solo el círculo)" : "Nothing (just the circle)"}</option>
-            <option value="right">{es ? "⭐ Difuminada detrás del nombre (derecha)" : "⭐ Blurred behind the name (right side)"}</option>
-            <option value="blur">{es ? "1 · Brillo difuminado" : "1 · Blur glow"}</option>
-            <option value="cards">{es ? "2 · Tarjetas de foto" : "2 · Photo cards"}</option>
-            <option value="halftone">{es ? "3 · Puntos pop-art" : "3 · Halftone dots"}</option>
-            <option value="shards">{es ? "4 · Vidrio roto" : "4 · Glass shards"}</option>
-            <option value="mosaic">{es ? "5 · Pared de fotos" : "5 · Photo wall"}</option>
-            <option value="honeycomb">{es ? "6 · Panal" : "6 · Honeycomb"}</option>
-            <option value="film">{es ? "7 · Tira de película" : "7 · Film strip"}</option>
-            <option value="duotone">{es ? "8 · Póster duotono" : "8 · Duotone poster"}</option>
-            <option value="zoom">{es ? "9 · Zoom explosivo" : "9 · Zoom burst"}</option>
-            <option value="rings">{es ? "10 · Anillos eco" : "10 · Echo rings"}</option>
-            <option value="echo">{es ? "Fantasma brillante" : "Glowing ghost"}</option>
-          </select>
-        </label>
         <label className="mt-2 flex items-center gap-2 text-sm">
           <input type="checkbox" checked={(v.winners_exact_grid ?? "on") !== "off"} onChange={(e) => setV({ ...v, winners_exact_grid: e.target.checked ? "on" : "off" })} />
           <span>🏅 {es ? "Vitrina exacta: KIXO dibuja la pared de marcos (escudos reales, nombres exactos) sobre el fondo de la IA" : "Exact showcase: KIXO draws the wall of frames itself (real crests, exact names) on the AI background"}</span>
@@ -193,14 +177,93 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         <p className="mt-2 text-xs text-muted">{es ? "Necesita FAL_KEY en Vercel (fal.ai → API Keys). Los videos fallidos se reembolsan solos." : "Needs FAL_KEY on Vercel (fal.ai → API Keys). Failed videos are refunded automatically."}</p>
       </div>
       </AdminSection>
-      <a href="/admin/daily" className="flex items-center gap-3 rounded-2xl border border-line bg-panel/70 p-4 transition hover:border-lime/50">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime/15 text-xl">🎁</span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-bold">{es ? "Recompensa diaria" : "Daily reward"}</span>
-          <span className="block truncate text-xs text-muted">{es ? "Créditos gratis cada día, bono por racha y textos — tiene su propia página" : "Free credits every day, streak bonus and texts — has its own page"}</span>
-        </span>
-        <span className="text-muted">›</span>
-      </a>
+      <AdminSection icon="🚀" title={es ? "Categorías y próximamente" : "Categories & coming soon"} sub={es ? "Marca categorías como “Próximamente” hasta que estén listas" : "Mark categories as “Coming soon” until they're ready"}>
+      <div>
+        <p className="mb-2 text-xs text-muted">{es ? "Marca lo que todavía no está listo: los jugadores lo ven con “Próximamente” pero no pueden usarlo. Tú (admin) sí puedes entrar para probarlo." : "Mark what isn't ready yet: players see it with “Coming soon” but can't use it. You (admin) can still open it to test."}</p>
+        <div className="grid gap-1.5 sm:grid-cols-2">
+          {(
+            [
+              ["PLAYER", "Player cards", "Tarjetas"], ["CHAMPIONS", "Champions", "Campeones"], ["MATCHDAY", "Match day", "Día de partido"], ["LINEUP", "Lineups", "Alineaciones"],
+              ["TOTW", "Team of the week", "Equipo de la semana"], ["RESULT", "Results", "Resultados"], ["STANDINGS", "Standings", "Tablas"], ["LOGO", "Team logos", "Logos"],
+              ["EVENT", "Tournaments", "Torneos"], ["QUALIFIERS", "Qualifiers", "Clasificatorios"], ["WINNERS", "Winners showcase", "Vitrina"], ["LOGO_MAKER", "Logo maker", "Creador de logos"], ["STREAM_KIT", "Streamer kit", "Kit de streamer"],
+            ] as const
+          ).map(([k, en, esn]) => {
+            const list = (v.coming_soon ?? "").split(",").filter(Boolean);
+            const on = list.includes(k);
+            return (
+              <button key={k} type="button" onClick={() => setV({ ...v, coming_soon: (on ? list.filter((x) => x !== k) : [...list, k]).join(",") })} className={`flex items-center justify-between rounded-xl border px-3 py-2 text-left text-sm font-semibold ${on ? "border-amber-300/70 bg-amber-300/10" : "border-line"}`}>
+                <span>{es ? esn : en}</span>
+                <span className={`text-[10px] font-black ${on ? "text-amber-200" : "text-muted"}`}>{on ? (es ? "⏳ PRÓXIMAMENTE" : "⏳ COMING SOON") : es ? "✅ ACTIVO" : "✅ LIVE"}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      </AdminSection>
+      <AdminSection icon="💬" title={es ? "Discord" : "Discord"} sub={es ? "Enlace del servidor, banners de bienvenida con IA, webhook de pósters" : "Server invite link, AI welcome banners, poster log webhook"}>
+      <div>
+        <label className="label">🔗 {es ? "Enlace de invitación a tu servidor de Discord" : "Your Discord server invite link"}</label>
+        <input className="input" placeholder="https://discord.gg/xxxxx" value={v.discord_server ?? ""} onChange={(e) => setV({ ...v, discord_server: e.target.value })} />
+        <p className="mb-4 mt-1 text-xs text-muted">{es ? "Aparece en el pie de página y en el menú para que la gente se una a tu comunidad." : "Shown in the footer and the menu so people can join your community."}</p>
+      </div>
+      <div className="rounded-xl border border-line bg-panel-2 p-4">
+        <label className="mt-3 block text-sm">
+          <span className="font-semibold">👋 {es ? "Banners de bienvenida con IA por día (Discord, 0 = apagado)" : "AI welcome banners per day (Discord, 0 = off)"}</span>
+          <input type="number" min={0} max={500} className="input mt-1 !w-28" value={v.welcome_ai_daily ?? "25"} onChange={(e) => setV({ ...v, welcome_ai_daily: e.target.value })} />
+        </label>
+        <label className="mt-3 block text-sm">
+          <span className="font-semibold">🖼️ {es ? "Foto de perfil en el fondo del banner de bienvenida" : "Profile picture in the welcome banner's background"}</span>
+          <select className="input mt-1 !w-64" value={v.welcome_ai_fx ?? "right"} onChange={(e) => setV({ ...v, welcome_ai_fx: e.target.value })}>
+            <option value="none">{es ? "Nada (solo el círculo)" : "Nothing (just the circle)"}</option>
+            <option value="right">{es ? "⭐ Difuminada detrás del nombre (derecha)" : "⭐ Blurred behind the name (right side)"}</option>
+            <option value="blur">{es ? "1 · Brillo difuminado" : "1 · Blur glow"}</option>
+            <option value="cards">{es ? "2 · Tarjetas de foto" : "2 · Photo cards"}</option>
+            <option value="halftone">{es ? "3 · Puntos pop-art" : "3 · Halftone dots"}</option>
+            <option value="shards">{es ? "4 · Vidrio roto" : "4 · Glass shards"}</option>
+            <option value="mosaic">{es ? "5 · Pared de fotos" : "5 · Photo wall"}</option>
+            <option value="honeycomb">{es ? "6 · Panal" : "6 · Honeycomb"}</option>
+            <option value="film">{es ? "7 · Tira de película" : "7 · Film strip"}</option>
+            <option value="duotone">{es ? "8 · Póster duotono" : "8 · Duotone poster"}</option>
+            <option value="zoom">{es ? "9 · Zoom explosivo" : "9 · Zoom burst"}</option>
+            <option value="rings">{es ? "10 · Anillos eco" : "10 · Echo rings"}</option>
+            <option value="echo">{es ? "Fantasma brillante" : "Glowing ghost"}</option>
+          </select>
+        </label>
+      </div>
+      <div className="rounded-xl border border-line bg-panel-2 p-4">
+        <label className="label">{es ? "Registro en Discord (webhook)" : "Discord log (webhook)"}</label>
+        <input
+          className="input"
+          placeholder="https://discord.com/api/webhooks/…"
+          value={v.discord_webhook ?? ""}
+          onChange={(e) => setV({ ...v, discord_webhook: e.target.value })}
+        />
+        <p className="mt-1 text-xs text-muted">
+          {es
+            ? "Cada póster creado (y cada error) se publica en tu canal de Discord con la imagen, quién lo hizo y los créditos. En Discord: Ajustes del canal → Integraciones → Webhooks → Nuevo webhook → Copiar URL."
+            : "Every poster made (and every failure) is posted to your Discord channel with the image, who made it and the credits. In Discord: Channel settings → Integrations → Webhooks → New Webhook → Copy Webhook URL."}
+        </p>
+        <div className="mt-2 flex items-center gap-3">
+          <button
+            type="button"
+            className="btn-ghost px-3 py-2 text-xs"
+            disabled={!v.discord_webhook}
+            onClick={async () => {
+              setTest("…");
+              const res = await fetch("/api/admin/discord-test", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: v.discord_webhook }),
+              });
+              setTest(res.ok ? (es ? "✅ Mensaje enviado — revisa Discord" : "✅ Sent — check Discord") : es ? "❌ No funcionó — revisa la URL" : "❌ Didn't work — check the URL");
+            }}
+          >
+            {es ? "Enviar prueba" : "Send test"}
+          </button>
+          {test && <span className="text-xs">{test}</span>}
+        </div>
+      </div>
+      </AdminSection>
       <AdminSection icon="🏠" title={es ? "Página principal y vista previa" : "Home page & link preview"} sub={es ? "Imágenes, título del sitio, descripción, imagen al compartir" : "Home images, site title, description, share picture"}>
       <div className="rounded-xl border border-line bg-panel-2 p-4">
         <label className="label">{es ? "Imágenes de la página principal" : "Home page images"}</label>
@@ -270,7 +333,7 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
         </div>
       </div>
       </AdminSection>
-      <AdminSection icon="🔔" title={es ? "Aviso y registro de Discord" : "Notice bar & Discord log"} sub={es ? "Mensaje arriba en todas las páginas, webhook de pósters" : "Message at the top of every page, poster log webhook"}>
+      <AdminSection icon="🔔" title={es ? "Barra de aviso" : "Notice bar"} sub={es ? "Mensaje arriba en todas las páginas" : "Message at the top of every page"}>
       <div>
         <label className="label">{t("maintenance_message")}</label>
         <input className="input" maxLength={300} value={v.maintenance_message} onChange={(e) => setV({ ...v, maintenance_message: e.target.value })} />
@@ -300,39 +363,6 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
             <NoticeBar text={v.maintenance_message} color={v.notice_color ?? "#ff2e88"} effect={v.notice_effect ?? "none"} />
           </div>
         )}
-      </div>
-      <div className="rounded-xl border border-line bg-panel-2 p-4">
-        <label className="label">{es ? "Registro en Discord (webhook)" : "Discord log (webhook)"}</label>
-        <input
-          className="input"
-          placeholder="https://discord.com/api/webhooks/…"
-          value={v.discord_webhook ?? ""}
-          onChange={(e) => setV({ ...v, discord_webhook: e.target.value })}
-        />
-        <p className="mt-1 text-xs text-muted">
-          {es
-            ? "Cada póster creado (y cada error) se publica en tu canal de Discord con la imagen, quién lo hizo y los créditos. En Discord: Ajustes del canal → Integraciones → Webhooks → Nuevo webhook → Copiar URL."
-            : "Every poster made (and every failure) is posted to your Discord channel with the image, who made it and the credits. In Discord: Channel settings → Integrations → Webhooks → New Webhook → Copy Webhook URL."}
-        </p>
-        <div className="mt-2 flex items-center gap-3">
-          <button
-            type="button"
-            className="btn-ghost px-3 py-2 text-xs"
-            disabled={!v.discord_webhook}
-            onClick={async () => {
-              setTest("…");
-              const res = await fetch("/api/admin/discord-test", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ url: v.discord_webhook }),
-              });
-              setTest(res.ok ? (es ? "✅ Mensaje enviado — revisa Discord" : "✅ Sent — check Discord") : es ? "❌ No funcionó — revisa la URL" : "❌ Didn't work — check the URL");
-            }}
-          >
-            {es ? "Enviar prueba" : "Send test"}
-          </button>
-          {test && <span className="text-xs">{test}</span>}
-        </div>
       </div>
       </AdminSection>
       <div className="sticky bottom-3 z-10 flex items-center gap-3 rounded-2xl border border-line bg-panel/95 p-3 shadow-2xl backdrop-blur">
