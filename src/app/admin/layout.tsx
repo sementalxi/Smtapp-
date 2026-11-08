@@ -33,6 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       title: es ? "Dinero" : "Money",
       links: [
         { href: "/admin/payments", label: es ? "Pagos" : "Payments", icon: "💳" },
+        { href: "/admin/paylinks", label: es ? "Enlaces de pago" : "Payment links", icon: "🔗" },
         { href: "/admin/transactions", label: t("admin_tx"), icon: "📜" },
         { href: "/admin/daily", label: es ? "Recompensa diaria" : "Daily reward", icon: "🎁" },
       ],

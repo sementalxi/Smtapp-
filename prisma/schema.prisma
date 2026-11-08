@@ -312,3 +312,22 @@ model ActivityLog {
 
   @@index([createdAt])
 }
+
+/// Custom order payment links: the admin makes one (title + price), sends kixo.pro/pay/<id>, the customer pays.
+model PayLink {
+  id          String    @id
+  title       String
+  description String    @default("")
+  amountCents Int
+  customer    String    @default("") // who it's for (name / Discord) — shown on the page
+  note        String    @default("") // private note for the admin
+  status      String    @default("open") // "open" | "paid" | "canceled"
+  provider    String    @default("")
+  providerRef String    @default("") // last checkout (Square order id / Stripe session id)
+  paidRef     String    @default("")
+  paidAt      DateTime?
+  createdById String    @default("")
+  createdAt   DateTime  @default(now())
+
+  @@index([createdAt])
+}

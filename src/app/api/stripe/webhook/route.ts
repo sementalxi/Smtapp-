@@ -56,6 +56,11 @@ const idOf = (v: unknown): string | null =>
   typeof v === "string" ? v : v && typeof v === "object" && "id" in v ? String((v as { id: string }).id) : null;
 
 async function onCheckoutCompleted(s: Stripe.Checkout.Session) {
+  if (s.metadata?.kind === "custom" && s.metadata.payLinkId) {
+    // Admin → Payment links: a custom order was paid
+    if (s.payment_status === "paid") await (await import("@/lib/paylinks")).markPayLinkPaid(s.metadata.payLinkId, `st_${s.id}`, s.amount_total ?? undefined);
+    return;
+  }
   const userId = await userIdFor(idOf(s.customer), s.metadata?.userId);
   if (!userId) return;
 

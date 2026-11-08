@@ -49,6 +49,11 @@ async function onPayment(p: SqPayment | undefined) {
   if (!p?.order_id || p.status !== "COMPLETED") return;
   const co = await db.squareCheckout.findUnique({ where: { orderId: p.order_id } });
   if (!co) return; // not one of our checkout links
+  if (co.kind === "custom") {
+    // Admin → Payment links: a custom order was paid
+    await (await import("@/lib/paylinks")).markPayLinkPaid(co.productId, `sq_${p.id}`, p.total_money?.amount ?? p.amount_money?.amount);
+    return;
+  }
   const amountCents = p.total_money?.amount ?? p.amount_money?.amount ?? 0;
 
   if (co.kind === "pack") {

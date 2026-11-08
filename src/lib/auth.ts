@@ -60,7 +60,7 @@ export const isAnyStaff = (role: string | null | undefined) => role === "ADMIN" 
 export function rolesForAdminPath(path: string): Role[] {
   const p = path.replace(/\/+$/, "") || "/";
   const content = ["/admin/studio", "/admin/templates", "/admin/style-test", "/admin/leagues", "/admin/deals", "/admin/texts", "/api/admin/templates", "/api/admin/style-test", "/api/admin/texts", "/api/admin/hero", "/api/admin/hero-video", "/api/admin/type-pics", "/api/admin/studio", "/api/admin/library", "/api/admin/deals", "/api/admin/season", "/api/admin/leagues"];
-  const people = ["/admin/users", "/admin/banners", "/admin/email", "/admin/transactions", "/admin/payments", "/api/admin/users", "/api/admin/email", "/api/admin/discord-dm", "/api/admin/welcome-dm", "/api/admin/banners", "/api/admin/transactions", "/api/admin/payments"];
+  const people = ["/admin/users", "/admin/banners", "/admin/email", "/admin/transactions", "/admin/payments", "/admin/paylinks", "/api/admin/paylinks", "/api/admin/users", "/api/admin/email", "/api/admin/discord-dm", "/api/admin/welcome-dm", "/api/admin/banners", "/api/admin/transactions", "/api/admin/payments"];
   const everyone = ["/admin", "/admin/logs", "/api/admin/logs"];
   const hit = (list: string[]) => list.some((x) => p === x || p.startsWith(`${x}/`));
   if (p === "/admin" || hit(everyone)) return ["ADMIN", "STAFF", "SUPPORT"];
