@@ -72,6 +72,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
   const ticking = useRef(false);
   // 🎲 Random test league: fictional teams with crests and a believable table (Standings, Team of the week, Winners).
   const [randPick, setRandPick] = useState("");
+  const [thumbDone, setThumbDone] = useState<Record<string, boolean>>({});
   function randomLeague(n: number) {
     const rows = randomTestTable(n);
     const keys = [["P", "p"], ["W", "w"], ["D", "d"], ["L", "l"], ["GD", "gd"], ["PTS", "pts"]] as const;
@@ -486,6 +487,18 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                     <div className="mt-1 line-clamp-2 text-[10px] text-danger" title={r.error}>
                       {r.error}
                     </div>
+                  )}
+                  {r?.status === "READY" && (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const res = await fetch(`/api/admin/templates/${t.id}/thumb`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bannerId: r.bannerId }) });
+                        setThumbDone((m) => ({ ...m, [t.id]: res.ok }));
+                      }}
+                      className="mt-2 w-full rounded-lg border border-line py-1 text-[11px] font-bold hover:border-lime"
+                    >
+                      {thumbDone[t.id] ? (es ? "✅ Es la vista previa del estilo" : "✅ Now the style's preview") : es ? "🖼️ Usar como vista previa" : "🖼️ Use as the style's preview"}
+                    </button>
                   )}
                   <div className="mt-2 flex items-center gap-2">
                     <button type="button" onClick={() => setOpen(open === t.id ? null : t.id)} className="text-[11px] font-bold text-muted hover:text-white">
