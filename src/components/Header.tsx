@@ -35,7 +35,6 @@ export async function Header() {
         { href: "/dashboard", label: es ? "Inicio" : "Home", icon: "home" },
         { href: "/teams", label: es ? "Mis equipos" : "My teams", icon: "shield" },
         ...(runsLeague ? [{ href: "/leagues", label: es ? "Mis ligas" : "My leagues", icon: "leagues" as const, badge: es ? "Organizaciones" : "Organizations", badgeStyle: "teal" as const }] : []),
-        { href: "/create?team=1", label: es ? "Tarjetas del equipo" : "Team cards", icon: "team" },
         { href: "/history", label: es ? "Historial" : "History", icon: "history" },
         { href: "/invite", label: es ? "Invita y gana" : "Invite & earn", icon: "invite", ...(reward > 0 ? { badge: `+${reward}`, badgeStyle: "teal" as const } : {}) },
         { href: "/profile", label: es ? "Perfil" : "Profile", icon: "profile" },
