@@ -180,13 +180,14 @@ a, button, [role="button"], input, select, textarea, summary, label { touch-acti
 .kixo-marquee-rev { animation: kixo-marquee-rev 34s linear infinite; }
 .kixo-marquee-rev:hover { animation-play-state: paused; }
 /* "Trusted by": logos alone in one slow row, floating with a soft breathing glow */
-.kixo-marquee-slow { animation: kixo-marquee 70s linear infinite; }
+.kixo-marquee-slow { animation: kixo-marquee 70s linear infinite; will-change: transform; }
 .kixo-marquee-slow:hover { animation-play-state: paused; }
-@keyframes kixo-logo-glow { 0%, 100% { filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 6px rgba(255, 46, 136, 0.25)); } 50% { filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 18px rgba(255, 46, 136, 0.6)) drop-shadow(0 0 30px rgba(47, 216, 232, 0.25)); } }
-.kixo-logo-float { animation: kixo-float 5s ease-in-out infinite; }
-.kixo-logo-glow { animation: kixo-logo-glow 4s ease-in-out infinite; transition: transform 0.4s ease; }
-.kixo-logo-float:hover .kixo-logo-glow { transform: scale(1.12); }
-@media (prefers-reduced-motion: reduce) { .kixo-marquee-slow, .kixo-logo-float, .kixo-logo-glow { animation: none !important; } }
+/* iPhone-safe: only transform / opacity animate (animated filters crashed Safari) */
+.kixo-tl-float { position: relative; animation: kixo-float 5s ease-in-out infinite; }
+.kixo-tl-float::before { content: ""; position: absolute; inset: 10%; border-radius: 9999px; background: radial-gradient(circle, rgba(255, 46, 136, 0.35), rgba(47, 216, 232, 0.12) 50%, transparent 70%); animation: kixo-glow 4s ease-in-out infinite; pointer-events: none; }
+.kixo-tl-glow { position: relative; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55)); transition: transform 0.4s ease; }
+.kixo-tl-float:hover .kixo-tl-glow { transform: scale(1.1); }
+@media (prefers-reduced-motion: reduce) { .kixo-marquee-slow, .kixo-tl-float, .kixo-tl-float::before { animation: none !important; } }
 
 /* Scroll reveal (only active once the script runs, so content never stays hidden) */
 html.kixo-reveal [data-reveal] { opacity: 0; transform: translateY(28px) scale(0.985); filter: blur(10px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.9s ease; }

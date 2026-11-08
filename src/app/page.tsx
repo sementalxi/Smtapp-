@@ -136,13 +136,13 @@ export default async function Home() {
             </div>
             {(() => {
               // Just the logos, floating in one slow row — no boxes. Repeated so the row always fills the screen.
-              const reps = Math.max(2, Math.ceil(12 / partners.length));
+              const reps = Math.max(1, Math.ceil(7 / partners.length));
               const row = Array.from({ length: reps }, () => partners).flat();
               const logo = (p: (typeof partners)[number], k: string, n: number) => (
-                <div key={k} className="kixo-logo-float flex h-20 w-28 shrink-0 items-center justify-center sm:h-24 sm:w-36" style={{ animationDelay: `${(n % 6) * 0.7}s` }} title={p.name}>
+                <div key={k} className="kixo-tl-float flex h-20 w-28 shrink-0 items-center justify-center sm:h-24 sm:w-36" style={{ animationDelay: `${(n % 6) * 0.7}s` }} title={p.name}>
                   {p.logoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="kixo-logo-glow max-h-full max-w-full object-contain" />
+                    <img src={thumb(p.logoUrl, 240)} alt={p.name} loading="lazy" decoding="async" className="kixo-tl-glow max-h-full max-w-full object-contain" />
                   ) : (
                     <span className="font-display text-2xl tracking-wider text-white/80">{p.name}</span>
                   )}
