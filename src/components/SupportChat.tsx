@@ -82,9 +82,17 @@ export function SupportChat() {
   useEffect(() => { load(); }, [load]);
 
   useEffect(() => {
-    const h = () => { setOpen(true); setClosed(false); load(); };
+    const h = (e: Event) => {
+      setOpen(true);
+      setClosed(false);
+      load();
+      // e.g. "Run a league?": opens support with the topic picked and a ready-to-send message
+      const d = (e as CustomEvent<{ text?: string; topic?: "support" | "custom" }>).detail;
+      if (d?.topic) setTopic(d.topic);
+      if (d?.text) setText((t) => t || d.text!);
+    };
     window.addEventListener("kixo:support", h);
-    if (new URLSearchParams(location.search).get("support") === "1") h();
+    if (new URLSearchParams(location.search).get("support") === "1") h(new Event("kixo:support"));
     return () => window.removeEventListener("kixo:support", h);
   }, [load]);
 

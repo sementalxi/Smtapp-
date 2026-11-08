@@ -7,6 +7,7 @@ import { reapStale } from "@/lib/banners";
 import { getNumberSetting } from "@/lib/settings";
 import { ART_TYPES } from "@/lib/pro-options";
 import { visibleCategories } from "@/lib/categories";
+import { ClaimLeagueButton } from "@/components/ClaimLeagueButton";
 import { dailyStatus } from "@/lib/daily";
 import { AccountShell } from "@/components/account/AccountShell";
 import { TypeIcon } from "@/components/wizard/TypeIcon";
@@ -144,14 +145,25 @@ export default async function DashboardPage() {
         </section>
 
         {/* Organizations / league admins: standings kept on the site */}
-        <Link href="/leagues" className="flex items-center gap-3 rounded-2xl border border-line bg-panel px-4 py-3 transition hover:border-teal/60">
-          <span className="text-xl">🏟️</span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm font-bold">{es ? "¿Organizas una liga?" : "Run a league?"}</span>
-            <span className="block truncate text-xs text-muted">{es ? "Guarda tu tabla aquí: toca G / E / P tras cada jornada y genera el póster." : "Keep your standings here: tap W / D / L after each matchday and generate the poster."}</span>
-          </span>
-          <span className="shrink-0 text-xs font-bold text-teal">{es ? "Mis ligas ›" : "My leagues ›"}</span>
-        </Link>
+        {user.isOrg || user.role === "ADMIN" || user.role === "STAFF" || (await db.savedItem.count({ where: { userId: user.id, kind: "championship" } }).catch(() => 0)) > 0 ? (
+          <Link href="/leagues" className="flex items-center gap-3 rounded-2xl border border-line bg-panel px-4 py-3 transition hover:border-teal/60">
+            <span className="text-xl">🏟️</span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold">{es ? "Tus ligas" : "Your leagues"}</span>
+              <span className="block truncate text-xs text-muted">{es ? "Guarda tu tabla aquí: toca G / E / P tras cada jornada y genera el póster." : "Keep your standings here: tap W / D / L after each matchday and generate the poster."}</span>
+            </span>
+            <span className="shrink-0 text-xs font-bold text-teal">{es ? "Mis ligas ›" : "My leagues ›"}</span>
+          </Link>
+        ) : (
+          <ClaimLeagueButton es={es} className="flex w-full items-center gap-3 rounded-2xl border border-line bg-panel px-4 py-3 text-left transition hover:border-teal/60">
+            <span className="text-xl">🏟️</span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold">{es ? "¿Organizas una liga?" : "Run a league?"}</span>
+              <span className="block truncate text-xs text-muted">{es ? "Pide el rol de liga en soporte y desbloquea tablas, ligas y pósters de liga." : "Claim the league role in support to unlock standings, leagues and league posters."}</span>
+            </span>
+            <span className="shrink-0 text-xs font-bold text-teal">{es ? "Reclamar rol ›" : "Claim role ›"}</span>
+          </ClaimLeagueButton>
+        )}
 
         {/* Recent posters */}
         <section>
