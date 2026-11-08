@@ -46,6 +46,13 @@ async function main() {
     where: { slug: "royal-violet", prompt: "royal purple baroque ornaments, violet lightning storm, golden light flare, stadium spotlights, purple clouds and mist, luxurious dark atmosphere" },
     data: { prompt: "epic royal throne-room arena in deep purple and gold: towering baroque gold ornaments and pillars, a violent violet lightning storm cracking across a dark sky, golden light beams and lens flares, floating gold particles and shattered amethyst crystal shards flying toward the camera, swirling purple smoke, stadium floodlights far behind, luxurious, powerful, dramatic" },
   });
+  // One-time: the 6 new Champions styles — briefs reloaded (no stand-in letters like "V N", no dummy squad names).
+  if (!(await db.setting.findUnique({ where: { key: "champs_new6_v2" } }))) {
+    for (const slug of ["champ-kit-cup", "champ-celebration-party", "champ-stadium-bold", "champ-gold-crest-trophy", "champ-mascot-graffiti", "champ-player-hero"]) {
+      if (PRESET_INSTRUCTIONS[slug]) await db.template.updateMany({ where: { slug }, data: { proInstructions: PRESET_INSTRUCTIONS[slug] } });
+    }
+    await db.setting.create({ data: { key: "champs_new6_v2", value: new Date().toISOString() } });
+  }
   // Ready-made design instructions — only where the admin hasn't written any.
   for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
     const prev = PRESET_PREVIOUS[slug];

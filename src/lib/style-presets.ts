@@ -68,7 +68,7 @@ QUALITY (most important — this is what makes it pro)
 - The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or repeated words (e.g. no "V N", no "KIXO KIXO KIXO").`,
   "champ-celebration-party": `[OWN LOOK] CELEBRATION PARTY — a loud, bright championship celebration flyer.
 
 SCENE
@@ -79,12 +79,12 @@ SCENE
 LETTERING
 - TOP: the COMPETITION name (if given) as a huge stacked 3D block-lettering piece, black faces with deep team-colour extrusions and white highlights, tilted in perspective.
 - TITLE ("CHAMPIONS"): big bold 3D capitals with a team-colour-to-gold gradient face and a white outline.
-- Under it: the TEAM CREST centred inside a hexagon or shield, flanked by two small bevelled team-colour plates holding the date / year (if given).
+- Under it: the TEAM CREST centred inside a hexagon or shield. ONLY if a date is given: two small bevelled team-colour plates either side of the crest holding that date split in two (e.g. "20" and "26"). With no date: NO plates and NO letters beside the crest — nothing between the crest and the title.
 - Team name (if given) in heavy black geometric capitals under the crest.
 
 LAYOUT (portrait)
 - Lettering column on the left two-thirds, trophy on the right, confetti everywhere.
-- SQUAD (if given): bold condensed black capitals in a tight block at the lower left, uniform size.
+- SQUAD: ONLY if squad names are given — bold condensed black capitals in a tight block at the lower left, uniform size. With no squad names: no names, no placeholder words, no repeated words anywhere — the confetti and rays continue there.
 - A thin black bar along the very bottom edge (no text inside unless given).
 
 QUALITY (most important — this is what makes it pro)
@@ -93,7 +93,7 @@ QUALITY (most important — this is what makes it pro)
 - The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or repeated words (e.g. no "V N", no "KIXO KIXO KIXO").`,
   "champ-stadium-bold": `[OWN LOOK] STADIUM BOLD — a clean, bold editorial champions graphic.
 
 SCENE
@@ -116,7 +116,7 @@ QUALITY (most important — this is what makes it pro)
 - The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or repeated words (e.g. no "V N", no "KIXO KIXO KIXO").`,
   "champ-gold-crest-trophy": `[OWN LOOK] GOLD CREST & TROPHY — a luxurious navy-and-gold champions graphic.
 
 SCENE
@@ -139,7 +139,7 @@ QUALITY (most important — this is what makes it pro)
 - The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or repeated words (e.g. no "V N", no "KIXO KIXO KIXO").`,
   "champ-mascot-graffiti": `[OWN LOOK] MASCOT GRAFFITI — an urban esports champions graphic.
 
 SCENE
@@ -160,7 +160,7 @@ QUALITY (most important — this is what makes it pro)
 - The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or repeated words (e.g. no "V N", no "KIXO KIXO KIXO").`,
   "champ-player-hero": `[OWN LOOK] CHAMPION HERO — a KIXO player-card style champions graphic (best with a photo).
 
 SCENE
@@ -184,7 +184,7 @@ QUALITY (most important — this is what makes it pro)
 - The team crest stays faithful to its artwork (same shape, letters and colours) — never redrawn wrong, never replaced.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests.`,
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly; use ONLY the texts given, each once; never invent words, sponsors, handles, websites, years or labels. No watermarks, no brand marks, no game or league logos except the given crests. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or repeated words (e.g. no "V N", no "KIXO KIXO KIXO").`,
   "player-roster-banner": `[WIDE] ROSTER BANNER — a WIDE landscape (3:2) esports / pro-clubs roster banner, the kind a pro team posts to announce each player. Bold, clean, cinematic. Built so a whole roster can be made in the same design, one banner per player.
 
 COMPOSITION (left to right)
