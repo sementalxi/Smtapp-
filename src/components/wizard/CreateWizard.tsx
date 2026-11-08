@@ -670,7 +670,7 @@ export function CreateWizard({
         mode: "PRO",
         ...(seasonMode && season ? { season: true } : {}),
         ...(format !== "post" ? { format } : {}),
-        ...((layout === "TOTW" || layout === "STANDINGS" || layout === "EVENT" || layout === "QUALIFIERS") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
+        ...((layout === "TOTW" || layout === "STANDINGS" || layout === "EVENT" || layout === "QUALIFIERS" || layout === "CHAMPIONS") && cardTpl ? { cardTemplateId: cardTpl.id } : {}),
       }),
     });
     let data = await res.json().catch(() => ({}));
@@ -1037,6 +1037,8 @@ export function CreateWizard({
 
           {layout === "CHAMPIONS" && (
             <>
+              {lookPicker(locale === "es" ? "Look del póster — elige un estilo de tarjeta de jugador para hacer el póster de campeones con esa misma calidad" : "Poster look — pick a player-card style to make the champions poster in that same quality")}
+              <ImageDrop kind="photo" label={locale === "es" ? "🏆 Foto del campeón (recomendada — sale levantando el trofeo, como en las tarjetas de jugador)" : "🏆 Champion photo (recommended — they lift the trophy, like on the player cards)"} value={photo} onChange={setPhoto} searchQuery={[inp.team].filter(Boolean).join(" ")} />
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} required />
               <SavedPicker kind="championship" label={L.champ} value={champ} onChange={setChamp} />
               {field({ label: L.date, k: "date", max: 30, ph: "Nov 2026" })}
@@ -1069,7 +1071,6 @@ export function CreateWizard({
                 <textarea className="input min-h-28" placeholder={L.squadPh} value={squadText} onChange={(e) => setSquadText(e.target.value)} />
               </div>
               {field({ label: L.prize, k: "prize", max: 24, ph: "$200 PRIZE" })}
-              <ImageDrop kind="photo" label={L.photoOpt} value={photo} onChange={setPhoto} />
             </>
           )}
 
@@ -1770,7 +1771,7 @@ export function CreateWizard({
                     <span className="chip border-lime/40 text-lime">
                       {effCost} {locale === "es" ? "créditos" : "credits"}
                     </span>
-                    {(layout === "TOTW" || layout === "STANDINGS") && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? `look ${cardTpl.nameEs}` : `${cardTpl.name} look`}</span>}
+                    {(layout === "TOTW" || layout === "STANDINGS" || layout === "CHAMPIONS") && cardTpl && <span className="chip text-muted">🃏 {locale === "es" ? `look ${cardTpl.nameEs}` : `${cardTpl.name} look`}</span>}
                   </div>
                   {/* Size: the AI makes the poster directly in this shape (fills the whole frame). */}
                   {logoCreate ? (

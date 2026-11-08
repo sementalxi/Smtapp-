@@ -111,3 +111,23 @@ export async function totwExtras(inputs: BannerInputs, cardTemplateId: string | 
 
 /** Layouts whose whole poster can take a player-card style's look. */
 export const LOOK_LAYOUTS = ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS", "WINNERS"];
+
+/**
+ * Champions in a player-card style: the WHOLE player-card style (its art direction and its style reference image —
+ * everything that gives player cards their quality) is borrowed and adapted to a title celebration.
+ */
+export async function champCardStyle(viewer: { role?: string; isOrg?: boolean }, id?: string | null): Promise<{ id: string; name: string; instructions: string; styleRefUrl: string | null } | null> {
+  if (!id) return null;
+  const { canUseTemplate } = await import("./queries");
+  const t = await db.template.findFirst({ where: { id, active: true, layout: "PLAYER" } });
+  if (!t || !canUseTemplate(t, viewer)) return null;
+  const header = `CHAMPIONS VERSION OF THE "${t.name}" PLAYER-CARD STYLE (read first — it changes how the instructions below are used):
+This poster is a CHAMPIONS title-celebration poster made in EXACTLY the look, quality, layout, typography, materials, lighting, effects and palette of the "${t.name}" player-card design described below${t.styleRefUrl ? " and shown in its STYLE reference image" : ""}. Recreate that design faithfully, with these swaps:
+- THE PLAYER: if a player photo is given, that person is the hero exactly where the design puts the player, now celebrating the title — lifting or holding the trophy, roaring, arms up — in the same treatment; any second figure / portrait the design describes is the same person as a calm, intense champion portrait. With NO photo: the TROPHY takes the player's place as the hero (same size, same lighting, same treatment).
+- THE BIG NAME TITLE becomes the champions title (e.g. "CHAMPIONS") in the design's exact title lettering, 3D treatment and effects; the team name takes the design's secondary line.
+- THE NUMBER / POSITION elements become the trophy, the competition and the date where they fit; anything the design labels that has no text here is left out.
+- THE CREST stays where the design puts the crest.
+- ADD title-celebration energy inside the design's own look: confetti or streamers in its colours, sparks, light beams — never changing its style.
+`;
+  return { id: t.id, name: t.name, instructions: `${header}\n${t.proInstructions ?? t.prompt}`, styleRefUrl: t.styleRefUrl ?? null };
+}

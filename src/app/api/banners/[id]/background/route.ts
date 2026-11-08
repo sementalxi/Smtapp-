@@ -46,22 +46,26 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       assertInputUrls(inputs);
       const design = (banner.design ?? {}) as { look?: { templateId?: string }; totw?: { cardTemplateId?: string } };
       const totw = ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS", "WINNERS"].includes(banner.template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId ?? design.look?.templateId ?? design.totw?.cardTemplateId, user, banner.template.layout)) : null;
+      // Champions made in a player-card style keep that style on every redo.
+      const champStyle = banner.template.layout === "CHAMPIONS" ? await import("@/lib/totw").then((m) => m.champCardStyle(user, body.cardTemplateId ?? design.look?.templateId)) : null;
+      const tplInstructions = champStyle ? champStyle.instructions : banner.template.proInstructions;
+      const tplStyleRef = champStyle ? champStyle.styleRefUrl : banner.template.styleRefUrl;
       const fmtNow = (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
       const exactTable = banner.template.layout === "STANDINGS" && ((await getSettings()).standings_exact_table !== "off" || inputs.standings.filter(Boolean).length > 16) && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const exactQual = banner.template.layout === "QUALIFIERS" && (await getSettings()).qualifiers_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const exactWin = banner.template.layout === "WINNERS" && (await getSettings()).winners_exact_grid !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const crestNote = banner.logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(banner.logoUrl) : null;
-      const refColours = banner.template.styleRefUrl && (!inputs.colorMode || inputs.colorMode === "template") ? await (await import("@/lib/ref-palette")).referenceColourLine(banner.template.styleRefUrl) : null;
+      const refColours = tplStyleRef && (!inputs.colorMode || inputs.colorMode === "template") ? await (await import("@/lib/ref-palette")).referenceColourLine(tplStyleRef) : null;
       const refs = collectProRefs({
         layout: banner.template.layout,
         inputs,
         photoUrl: banner.photoUrl,
         logoUrl: banner.logoUrl,
-        styleRefUrl: banner.template.styleRefUrl,
+        styleRefUrl: tplStyleRef,
         seriesRefUrl: seriesUrl,
         crestSheet: totw?.crestSheet,
         skipTableCrests: exactTable || exactWin,
-        instructions: banner.template.proInstructions,
+        instructions: tplInstructions,
         crestNote,
       });
       const prompt = buildProPrompt({
@@ -70,7 +74,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         style: banner.template.style as unknown as TemplateStyle,
         inputs,
         refs,
-        instructions: banner.template.proInstructions,
+        instructions: tplInstructions,
         randomize: banner.template.randomize,
         variation: seriesUrl ? info.variation : undefined,
         series: !!seriesUrl,
@@ -110,7 +114,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       const winnersOverlay = exactWin ? await import("@/lib/winners-grid").then((m) => m.winnersSpecFrom(inputs, accent, fmtNow ?? "post")) : null;
       after(async () => {
         try {
-          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, qualOverlay, winnersOverlay, ...(compare ? { modelOverride: compare } : {}), instructions: banner.template.proInstructions, format: fmtNow, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(banner.template.layout), tableOverlay });
+          await generateProForBanner({ bannerId: copy.id, userId: user.id, cost, prompt, refs, regenerate: true, qualOverlay, winnersOverlay, ...(compare ? { modelOverride: compare } : {}), instructions: tplInstructions, format: fmtNow, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(banner.template.layout), tableOverlay });
         } catch (e) {
           // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
           if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;

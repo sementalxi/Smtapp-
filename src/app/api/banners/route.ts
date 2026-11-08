@@ -103,6 +103,10 @@ export const POST = handle(async (req: NextRequest) => {
   inputs.aiLogo = await (await import("@/lib/settings")).resolveCrestMode(template.layout, source ? (inputs.aiLogo || undefined) : body.inputs.aiLogo, isStaff(user.role), template.proInstructions);
   if (template.layout === "WINNERS") Object.assign(inputs, await (await import("@/lib/winners-crests")).fillWinnerCrests(user.id, inputs));
   let proPrompt = "";
+  // Champions in a player-card style: that style's whole art direction and reference image are used.
+  const champStyle = pro && template.layout === "CHAMPIONS" ? await import("@/lib/totw").then((m) => m.champCardStyle(user, body.cardTemplateId)) : null;
+  const tplInstructions = champStyle ? champStyle.instructions : template.proInstructions;
+  const tplStyleRef = champStyle ? champStyle.styleRefUrl : template.styleRefUrl;
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
   const totw = pro && ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS", "WINNERS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
@@ -114,17 +118,17 @@ export const POST = handle(async (req: NextRequest) => {
   // The AI rebuilds the crest as a 3D emblem: read what it contains first so no letter or symbol gets lost.
   const crestNote = pro && logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(logoUrl) : null;
   // Styles copied from a reference image: its colours go into the brief so the poster stays in that palette.
-  const refColours = pro && template.styleRefUrl && (!inputs.colorMode || inputs.colorMode === "template") ? await (await import("@/lib/ref-palette")).referenceColourLine(template.styleRefUrl) : null;
+  const refColours = pro && tplStyleRef && (!inputs.colorMode || inputs.colorMode === "template") ? await (await import("@/lib/ref-palette")).referenceColourLine(tplStyleRef) : null;
   const refs = collectProRefs({
     layout: template.layout,
     inputs,
     photoUrl: body.photoUrl,
     logoUrl,
-    styleRefUrl: template.styleRefUrl,
+    styleRefUrl: tplStyleRef,
     seriesRefUrl: series?.refUrl,
     crestSheet: totw?.crestSheet,
     skipTableCrests: exactTable || exactWin,
-    instructions: template.proInstructions,
+    instructions: tplInstructions,
     crestNote,
   });
   // Saved with the card so a team set can reuse the exact same creative direction.
@@ -144,7 +148,7 @@ export const POST = handle(async (req: NextRequest) => {
       style: template.style as unknown as TemplateStyle,
       inputs,
       refs,
-      instructions: template.proInstructions,
+      instructions: tplInstructions,
       randomize: template.randomize,
       variation,
       series: !!series,
@@ -169,7 +173,7 @@ export const POST = handle(async (req: NextRequest) => {
       templateId: template.id,
       title: titleFor(inputs),
       inputs: toJson(inputs),
-      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}), ...(totw?.cardTemplate ? { look: { templateId: totw.cardTemplate.id } } : {}) }),
+      design: toJson({ ...defaultDesign(), variation, ...(series ? { seriesRootId: series.seriesRootId } : {}), ...(seasonDef ? { season: { key: seasonDef.key, custom: seasonDef.custom } } : {}), ...(fmt !== "post" ? { format: fmt } : {}), ...(adminTest ? { styleTest: body.testRun ?? "test" } : {}), ...(totw?.cardTemplate ? { look: { templateId: totw.cardTemplate.id } } : champStyle ? { look: { templateId: champStyle.id } } : {}) }),
       photoUrl: body.photoUrl ?? null,
       logoUrl,
       mode: body.mode,
@@ -186,7 +190,7 @@ export const POST = handle(async (req: NextRequest) => {
     const winnersOverlay = exactWin ? await import("@/lib/winners-grid").then((m) => m.winnersSpecFrom(inputs, accent, fmt)) : null;
     after(async () => {
       try {
-        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: template.proInstructions, qualOverlay, winnersOverlay, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout), tableOverlay });
+        await generateProForBanner({ bannerId: banner.id, userId: user.id, cost, prompt: proPrompt, refs, format: fmt, instructions: tplInstructions, qualOverlay, winnersOverlay, openaiOnly: ((await getSettings()).openai_only_layouts ?? "").split(",").includes(template.layout), tableOverlay });
       } catch (e) {
         // generateProForBanner already saved the real reason for AI failures — don't overwrite it.
         if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
