@@ -140,7 +140,7 @@ export function PayModal({
           }),
           req ? payments.applePay(req) : no,
           req ? payments.googlePay(req) : no,
-          req && kind !== "link" ? payments.cashAppPay(req, { redirectURL: window.location.href, referenceId: `${kind}-${id}`.slice(0, 40) }) : no,
+          req ? payments.cashAppPay(req, { redirectURL: window.location.href, referenceId: `${kind}-${id}`.slice(0, 40) }) : no,
         ]);
         if (!alive) return;
         if (c.status === "rejected") throw c.reason;
@@ -187,19 +187,23 @@ export function PayModal({
               const btn = window.paypal.Buttons({
                 style: { layout: "horizontal", color: "gold", shape: "rect", height: 48, tagline: false, label: "paypal" },
                 createOrder: async () => {
-                  const r = await fetch("/api/paypal/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id }) });
+                  const r = kind === "link"
+                    ? await fetch(`/api/pay/${encodeURIComponent(id)}/paypal`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ step: "order" }) })
+                    : await fetch("/api/paypal/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id }) });
                   const d = await r.json();
                   if (!d.id) throw new Error(d.detail || d.error || "order failed");
                   return d.id;
                 },
                 onApprove: async (data: { orderID: string }) => {
                   setBusy(true);
-                  const r = await fetch("/api/paypal/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID }) });
+                  const r = kind === "link"
+                    ? await fetch(`/api/pay/${encodeURIComponent(id)}/paypal`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ step: "capture", orderId: data.orderID }) })
+                    : await fetch("/api/paypal/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID }) });
                   const d = await r.json().catch(() => ({}));
                   setBusy(false);
                   if (r.ok && d.ok) {
                     setDone({ credits: d.credits });
-                    setTimeout(() => window.location.assign("/credits"), 2200);
+                    setTimeout(() => (kind === "link" ? window.location.reload() : window.location.assign("/credits")), 2200);
                   } else setErr((es ? "PayPal no completó el pago" : "PayPal didn't complete the payment") + (d.detail ? ` — ${d.detail}` : ""));
                 },
                 onError: (e: unknown) => setErr(`PayPal: ${e instanceof Error ? e.message : String(e)}`),

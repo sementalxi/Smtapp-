@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PayModal } from "./PayModal";
 
 /** Pay a custom order right on the KIXO page (Square card form / Apple Pay / Google Pay); Square's page only as a fallback. */
@@ -7,6 +7,15 @@ export function PayLinkButton({ id, label, title, price, es }: { id: string; lab
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  // Back from the Cash App on a phone: reopen the payment window so Square can finish the payment.
+  useEffect(() => {
+    try {
+      const p = JSON.parse(sessionStorage.getItem("kixo_pay") || "null");
+      if (p && p.kind === "link" && p.id === id && Date.now() - p.at < 15 * 60_000) setOpen(true);
+    } catch {
+      /* ignore */
+    }
+  }, [id]);
   // Fallback (on-page form not available, e.g. only Stripe is set up): the provider's checkout page.
   async function hosted() {
     setOpen(false);
