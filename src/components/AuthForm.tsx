@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { XboxSearch, type XboxPick } from "./XboxSearch";
 import { useState } from "react";
 import { useT } from "@/i18n/client";
 import type { DictKey } from "@/i18n/dict";
@@ -35,6 +36,7 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
   const [num, setNum] = useState("");
   const [plat, setPlat] = useState<"" | "xbox" | "psn" | "ea">("");
   const [tag, setTag] = useState("");
+  const [xbox, setXbox] = useState<XboxPick | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<React.ReactNode>("");
 
@@ -47,6 +49,7 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
       data.phone = cc + num;
       data.gamePlatform = tag.trim() ? plat : "";
       data.gamertag = tag.trim();
+      if (plat === "xbox" && xbox) { data.xboxXuid = xbox.xuid; data.gamerPic = xbox.pic; }
     }
     const res = await fetch(`/api/auth/${mode}`, {
       method: "POST",
@@ -162,12 +165,13 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
                 </button>
               ))}
             </div>
-            {plat && (
+            {plat === "xbox" && <XboxSearch es={es} value={tag} onText={setTag} picked={xbox} onPick={setXbox} />}
+            {plat && plat !== "xbox" && (
               <input
                 className="input"
                 maxLength={32}
                 autoComplete="off"
-                placeholder={plat === "xbox" ? (es ? "Tu gamertag de Xbox" : "Your Xbox gamertag") : plat === "psn" ? (es ? "Tu ID de PSN" : "Your PSN ID") : es ? "Tu EA ID" : "Your EA ID"}
+                placeholder={plat === "psn" ? (es ? "Tu ID de PSN" : "Your PSN ID") : es ? "Tu EA ID" : "Your EA ID"}
                 value={tag}
                 onChange={(e) => setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, ""))}
               />

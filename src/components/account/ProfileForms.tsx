@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { XboxSearch, type XboxPick } from "@/components/XboxSearch";
 import { useRouter } from "next/navigation";
 import { useT } from "@/i18n/client";
 
@@ -21,6 +22,7 @@ export function ProfileForms({ name: initialName, email, phone, isAdmin, showcas
   const [name, setName] = useState(initialName);
   const [tag, setTag] = useState(initialTag ?? "");
   const [plat, setPlat] = useState(initialPlat ?? "");
+  const [xbox, setXbox] = useState<XboxPick | null>(null);
   const [nameMsg, setNameMsg] = useState("");
   const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
   const [pwMsg, setPwMsg] = useState("");
@@ -30,7 +32,7 @@ export function ProfileForms({ name: initialName, email, phone, isAdmin, showcas
 
   async function saveName() {
     setBusy("name");
-    const r = await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, gamertag: tag.trim(), gamePlatform: tag.trim() ? plat : "" }) });
+    const r = await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, gamertag: tag.trim(), gamePlatform: tag.trim() ? plat : "", ...(plat === "xbox" && xbox ? { xboxXuid: xbox.xuid, gamerPic: xbox.pic } : {}) }) });
     setBusy("");
     setNameMsg(r.ok ? (es ? "✅ Guardado" : "✅ Saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
     if (r.ok) router.refresh();
@@ -85,11 +87,11 @@ export function ProfileForms({ name: initialName, email, phone, isAdmin, showcas
               <option value="psn">PlayStation</option>
               <option value="ea">EA / PC</option>
             </select>
-            <input className="input min-w-0" maxLength={32} placeholder={es ? "Gamertag / PSN ID / EA ID" : "Gamertag / PSN ID / EA ID"} value={tag} onChange={(e) => { setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, "")); setNameMsg(""); }} />
+            {plat === "xbox" ? <XboxSearch es={es} value={tag} onText={(v) => { setTag(v); setNameMsg(""); }} picked={xbox} onPick={setXbox} /> : <input className="input min-w-0" maxLength={32} placeholder={es ? "Gamertag / PSN ID / EA ID" : "Gamertag / PSN ID / EA ID"} value={tag} onChange={(e) => { setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, "")); setNameMsg(""); }} />}
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button type="button" className="btn-primary px-5 py-2" disabled={busy === "name" || !name.trim() || (name === initialName && tag === (initialTag ?? "") && plat === (initialPlat ?? ""))} onClick={saveName}>
+          <button type="button" className="btn-primary px-5 py-2" disabled={busy === "name" || !name.trim() || (name === initialName && tag === (initialTag ?? "") && plat === (initialPlat ?? "") && !xbox)} onClick={saveName}>
             {busy === "name" ? "…" : es ? "Guardar cambios" : "Save changes"}
           </button>
           {nameMsg && <span className="text-sm">{nameMsg}</span>}

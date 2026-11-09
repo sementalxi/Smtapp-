@@ -59,7 +59,7 @@ export async function Header() {
           items={menu}
           footer={
             user
-              ? { loggedIn: true, title: "", text: "", cta: es ? "⚡ Conseguir créditos" : "⚡ Get credits", ctaHref: "/pricing", credits: user.credits, name: user.name, email: user.email, avatar: user.discordAvatar }
+              ? { loggedIn: true, title: "", text: "", cta: es ? "⚡ Conseguir créditos" : "⚡ Get credits", ctaHref: "/pricing", credits: user.credits, name: user.name, email: user.email, avatar: user.discordAvatar ?? user.gamerPic }
               : {
                   loggedIn: false,
                   title: es ? "Dale vida a tus ideas" : "Bring your ideas to life",

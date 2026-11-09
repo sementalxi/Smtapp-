@@ -6,12 +6,13 @@ import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { SESSION_COOKIE } from "@/lib/session";
 import { gamertagSchema, platformSchema } from "@/lib/gamertag";
+import { isXboxPic } from "@/lib/xbox";
 
 /** Update profile (name, showcase sharing). */
 export const PATCH = handle(async (req: NextRequest) => {
   const user = await apiUser();
   const b = z
-    .object({ name: z.string().trim().min(1).max(60).optional(), showcaseOptOut: z.boolean().optional(), gamertag: gamertagSchema.optional(), gamePlatform: platformSchema.optional().or(z.literal("")) })
+    .object({ name: z.string().trim().min(1).max(60).optional(), showcaseOptOut: z.boolean().optional(), gamertag: gamertagSchema.optional(), gamePlatform: platformSchema.optional().or(z.literal("")), xboxXuid: z.string().regex(/^\d{6,20}$/).optional(), gamerPic: z.string().max(600).optional() })
     .parse(await req.json());
   await db.user.update({
     where: { id: user.id },
@@ -20,6 +21,8 @@ export const PATCH = handle(async (req: NextRequest) => {
       ...(b.showcaseOptOut !== undefined ? { showcaseOptOut: b.showcaseOptOut } : {}),
       ...(b.gamertag !== undefined ? { gamertag: b.gamertag || null } : {}),
       ...(b.gamePlatform !== undefined ? { gamePlatform: b.gamePlatform || null } : {}),
+      // picked from the Xbox search: keep the account id and gamerpic; any other change clears them
+      ...(b.xboxXuid ? { xboxXuid: b.xboxXuid, gamerPic: b.gamerPic && isXboxPic(b.gamerPic) ? b.gamerPic : null } : b.gamertag !== undefined && (b.gamertag || null) !== (await db.user.findUnique({ where: { id: user.id }, select: { gamertag: true } }))?.gamertag ? { xboxXuid: null, gamerPic: null } : {}),
     },
   });
   return json({ ok: true });

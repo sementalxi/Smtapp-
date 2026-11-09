@@ -12,6 +12,7 @@ import { REF_COOKIE } from "@/lib/referral";
 import { logSignup } from "@/lib/discord-logs";
 import { normalizePhone, phoneOwner } from "@/lib/phone";
 import { gamertagSchema, platformSchema } from "@/lib/gamertag";
+import { isXboxPic } from "@/lib/xbox";
 
 const Body = z.object({
   name: z.string().trim().min(1).max(60),
@@ -20,6 +21,8 @@ const Body = z.object({
   phone: z.string().trim().max(30),
   gamePlatform: platformSchema.optional().or(z.literal("")),
   gamertag: gamertagSchema.optional(),
+  xboxXuid: z.string().regex(/^\d{6,20}$/).optional(),
+  gamerPic: z.string().max(600).optional(),
 });
 
 export const POST = handle(async (req: NextRequest) => {
@@ -49,6 +52,7 @@ export const POST = handle(async (req: NextRequest) => {
       referredById: referrer?.id ?? null,
       phone,
       ...(body.gamertag ? { gamertag: body.gamertag, gamePlatform: body.gamePlatform || null } : {}),
+      ...(body.gamertag && body.gamePlatform === "xbox" && body.xboxXuid ? { xboxXuid: body.xboxXuid, gamerPic: body.gamerPic && isXboxPic(body.gamerPic) ? body.gamerPic : null } : {}),
     },
   });
 

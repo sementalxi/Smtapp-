@@ -10,5 +10,5 @@ export const gamertagSchema = z
   .string()
   .trim()
   .max(32)
-  .regex(/^[\p{L}\p{N} _.\-]*$/u, "gamertag");
+  .regex(/^[\p{L}\p{N} _.\-#]*$/u, "gamertag");
 export const platformSchema = z.enum(GAME_PLATFORMS);
