@@ -115,8 +115,8 @@ export const backgroundProvider = () =>
       ? "replicate"
       : null;
 
-/** Background removal needs Replicate; without it the photo is used as-is. */
-export const canRemoveBackground = () => !!process.env.REPLICATE_API_TOKEN;
+/** Background removal: Replicate, or fal.ai (the same FAL_KEY as AI video); without either the photo is used as-is. */
+export const canRemoveBackground = () => !!process.env.REPLICATE_API_TOKEN || !!process.env.FAL_KEY?.trim();
 
 export async function generateBackground(prompt: string): Promise<Buffer> {
   if (backgroundProvider() === "openai") {
@@ -152,6 +152,18 @@ export async function generateBackground(prompt: string): Promise<Buffer> {
 
 /** Removes the background of a person photo. Returns transparent PNG bytes. */
 export async function removeBackground(photo: Buffer, contentType: string): Promise<Buffer> {
+  if (!process.env.REPLICATE_API_TOKEN && process.env.FAL_KEY?.trim()) {
+    // fal.ai BiRefNet: high-quality cut-out (people and logos), image sent inline
+    const r = await fetch("https://fal.run/fal-ai/birefnet/v2", {
+      method: "POST",
+      headers: { Authorization: `Key ${process.env.FAL_KEY.trim()}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ image_url: `data:${contentType || "image/png"};base64,${photo.toString("base64")}`, model: "General Use (Heavy)", operating_resolution: "2048x2048", output_format: "png", refine_foreground: true }),
+      signal: AbortSignal.timeout(120_000),
+    });
+    const d = (await r.json().catch(() => ({}))) as { image?: { url?: string }; detail?: unknown };
+    if (!r.ok || !d.image?.url) throw new Error(`fal background removal failed: ${r.status} ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
+    return download(d.image.url);
+  }
   const url = await replicateUpload(photo, contentType);
   const output = await replicateRun(process.env.REPLICATE_REMBG_MODEL || "851-labs/background-remover", {
     image: url,

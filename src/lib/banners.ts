@@ -161,8 +161,13 @@ export async function generateForBanner(opts: {
       } else {
         cutTask = (async () => {
           const bytes = await loadBytes(opts.photoUrl!);
-          const out = await removeBackground(bytes, sniffImage(bytes) ?? "image/jpeg");
-          return saveFile("cutouts", out, "image/png");
+          try {
+            const out = await removeBackground(bytes, sniffImage(bytes) ?? "image/jpeg");
+            return saveFile("cutouts", out, "image/png");
+          } catch (e) {
+            console.error("background removal failed — using the photo as-is", e);
+            return opts.photoUrl!;
+          }
         })();
       }
     }
