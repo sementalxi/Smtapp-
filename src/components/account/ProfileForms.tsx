@@ -78,14 +78,14 @@ export function ProfileForms({ name: initialName, email, phone, isAdmin, showcas
         )}
         <div>
           <label className="label">🎮 {es ? "Plataforma y gamertag" : "Platform & gamertag"}</label>
-          <div className="flex gap-2">
-            <select className="input w-[8.5rem] shrink-0 px-2" value={plat} onChange={(e) => { setPlat(e.target.value); setNameMsg(""); }}>
+          <div className="grid gap-2 sm:grid-cols-[9rem_1fr]">
+            <select className="input px-3" value={plat} onChange={(e) => { setPlat(e.target.value); setNameMsg(""); }}>
               <option value="">{es ? "Ninguna" : "None"}</option>
               <option value="xbox">Xbox</option>
               <option value="psn">PlayStation</option>
               <option value="ea">EA / PC</option>
             </select>
-            <input className="input min-w-0 flex-1" maxLength={32} placeholder={es ? "Gamertag / PSN ID / EA ID" : "Gamertag / PSN ID / EA ID"} value={tag} onChange={(e) => { setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, "")); setNameMsg(""); }} />
+            <input className="input min-w-0" maxLength={32} placeholder={es ? "Gamertag / PSN ID / EA ID" : "Gamertag / PSN ID / EA ID"} value={tag} onChange={(e) => { setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, "")); setNameMsg(""); }} />
           </div>
         </div>
         <div className="flex items-center gap-3">

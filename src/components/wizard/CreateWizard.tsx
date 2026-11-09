@@ -191,6 +191,7 @@ export function CreateWizard({
   typePics = {},
   expectedSeconds = 100,
   isAdmin = false,
+  myGamertag = "",
   comingSoon = [],
   crestModes = {},
   prefill = null,
@@ -215,6 +216,8 @@ export function CreateWizard({
   expectedSeconds?: number;
   /** Admins pick the crest mode on every poster; everyone else gets the type's default from Settings. */
   isAdmin?: boolean;
+  /** The player's own gamertag (Profile): offered as the player name. */
+  myGamertag?: string;
   /** Categories the admin marked "Coming soon" (players see them but can't open them). */
   comingSoon?: string[];
   crestModes?: Record<string, string>;
@@ -373,8 +376,12 @@ export function CreateWizard({
   }, [tplId]);
 
   const pre = prefill?.inputs as Partial<BannerInputs> | undefined;
-  const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English", ...(pre ?? {}) });
+  const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English", ...(myGamertag && initialLayout === "PLAYER" ? { name: myGamertag } : {}), ...(pre ?? {}) });
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
+  // Player card: the player's own gamertag (from Profile) is filled in as the name when the box is empty.
+  useEffect(() => {
+    if (layout === "PLAYER" && myGamertag) setInp((x) => (x.name.trim() ? x : { ...x, name: myGamertag }));
+  }, [layout, myGamertag]);
   const [photo, setPhoto] = useState<string | null>(prefill?.photoUrl ?? null);
   const [refImg, setRefImg] = useState<string | null>(pre?.refImageUrl || null); // inspiration image (style reference)
   const [photo2, setPhoto2] = useState<string | null>(pre?.photo2Url || null); // player card: second picture of the player
@@ -1053,6 +1060,11 @@ export function CreateWizard({
               </div>}
               <SavedPicker kind="team" label={L.team} value={team} onChange={setTeam} />
               {field({ label: L.name, k: "name", req: true })}
+              {myGamertag && inp.name.trim() !== myGamertag && (
+                <button type="button" onClick={() => set("name", myGamertag)} className="-mt-1 rounded-full border border-lime/50 bg-lime/10 px-3 py-1 text-xs font-bold">
+                  🎮 {locale === "es" ? "Usar mi gamertag" : "Use my gamertag"}: {myGamertag}
+                </button>
+              )}
               <div className="grid grid-cols-2 gap-3">
                 {field({ label: L.position, k: "position", max: 24, ph: "ST · CAM | OM" })}
                 {field({ label: L.number, k: "number", max: 4 })}
