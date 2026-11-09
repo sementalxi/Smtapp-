@@ -60,6 +60,15 @@ const BATCHES: Batch[] = [
     slugs: ["player-gold-skyline", "player-golden-blaze", "player-steel-red", "player-royal-split", "player-riot-collage", "player-red-beams", "player-thunder-night", "player-violet-peak", "player-blood-gothic", "player-double-exposure", "player-carved-crown", "player-living-statue"],
     check: { texts: { name: "ZAYDEN99", position: "CDM", number: "23", tagline: "Official", subtitle: "Player of the month", footer: "Pro Clubs 2027" }, team: "OCEAN KRAKEN", crest: "ocean-kraken" },
   },
+  // Six more player styles (the set was 18 ideas; 12 were built first). Same as v3: one poster each with an
+  // invented test player becomes the style's preview and its reference image.
+  {
+    key: "auto_previews_players_v4",
+    ref: true,
+    name: "KIXO",
+    parallel: 6,
+    slugs: ["player-cloud-nine", "player-fire-ice", "player-marble-gold", "player-red-liquid", "player-gold-legacy", "player-crimson-script"],
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute
