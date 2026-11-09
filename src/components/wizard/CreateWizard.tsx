@@ -740,13 +740,19 @@ export function CreateWizard({
           const active = n === step;
           return (
             <div key={n} className="flex flex-1 items-center last:flex-none">
-              <span
-                className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold ${
+              {/* a finished step can be tapped to go back to it (not while a poster is being made) */}
+              <button
+                type="button"
+                disabled={!(n < step && (phase === "idle" || phase === "error"))}
+                onClick={() => setStep(n)}
+                title={L.steps[i]}
+                aria-label={L.steps[i]}
+                className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold transition ${
                   done ? "bg-lime text-ink" : active ? "border-2 border-lime text-lime" : "border border-line text-muted"
-                }`}
+                } ${n < step && (phase === "idle" || phase === "error") ? "cursor-pointer hover:scale-110 hover:ring-2 hover:ring-lime/50" : "cursor-default"}`}
               >
                 {done ? "✓" : n}
-              </span>
+              </button>
               {n < 5 && <span className={`mx-1 h-0.5 flex-1 ${n < step ? "bg-lime" : "bg-line"}`} />}
             </div>
           );
