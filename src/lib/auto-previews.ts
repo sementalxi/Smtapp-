@@ -8,6 +8,7 @@ import { DEFAULT_SAMPLE } from "./style-test-inputs";
 
 const BATCHES: { key: string; slugs: string[] }[] = [
   { key: "auto_previews_champs_v1", slugs: ["champ-kit-cup", "champ-celebration-party", "champ-stadium-bold", "champ-gold-crest-trophy", "champ-mascot-graffiti", "champ-player-hero"] },
+  { key: "auto_previews_players_v2", slugs: ["player-gold-skyline", "player-golden-blaze", "player-steel-red", "player-royal-split", "player-riot-collage", "player-red-beams", "player-thunder-night", "player-violet-peak", "player-blood-gothic", "player-double-exposure", "player-carved-crown", "player-living-statue"] },
 ];
 
 export async function autoPreviewsTick() {
