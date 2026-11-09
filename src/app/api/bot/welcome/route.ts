@@ -7,7 +7,7 @@ import { getSettings } from "@/lib/settings";
 
 // AI welcome banners for the Discord bot: POST starts one (runs in the background), GET ?id= tells when it's ready.
 export const dynamic = "force-dynamic";
-export const maxDuration = 300;
+export const maxDuration = 800; // the AI art + the member cut-out can take a few minutes
 
 const j = (d: unknown, status = 200) => NextResponse.json(d, { status });
 const site = () => (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
@@ -63,6 +63,6 @@ export async function GET(req: NextRequest) {
   const { readWelcomeJob } = await import("@/lib/welcome-ai");
   const job = await readWelcomeJob(id);
   if (!job) return j({ error: "not_found" }, 404);
-  if (job.status === "PENDING" && Date.now() - job.at > 320_000) return j({ status: "FAILED", error: "timed out" });
+  if (job.status === "PENDING" && Date.now() - job.at > 780_000) return j({ status: "FAILED", error: "timed out" });
   return j({ status: job.status, url: job.url ? abs(job.url) : undefined, error: job.error });
 }

@@ -271,8 +271,12 @@ export async function runWelcomeJob(id: string, p: { discordId: string; name: st
     const fx = (await db.setting.findUnique({ where: { key: "welcome_ai_fx" } }))?.value ?? "right";
     // "right": the member cut out of their picture (background removed — not redrawn), made while the AI paints
     const [art, cutout] = await Promise.all([
-      generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000),
-      fx === "right" && avatar ? memberCutout(avatar) : Promise.resolve(null),
+      generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["2048x1024", "1536x1024"], 230_000).catch((e) => {
+        console.error("welcome art failed — retrying once", e);
+        return generatePoster(welcomePrompt(name, look, col.hex), [], "medium", ["1536x1024"], 230_000);
+      }),
+      // the cut-out never holds the banner up: 60 s max, then the blurred picture is used
+      fx === "right" && avatar ? Promise.race([memberCutout(avatar), new Promise<null>((r) => setTimeout(() => r(null), 60_000))]) : Promise.resolve(null),
     ]);
     const png = await composeWelcome(art, avatar, p.number, col.hex[0] ?? look.accent, fx, cutout);
     const url = await saveFile("welcome", png, "image/png");
