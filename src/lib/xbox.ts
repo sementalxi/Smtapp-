@@ -4,6 +4,28 @@ export const xboxSearchReady = () => !!process.env.OPENXBL_API_KEY?.trim();
 
 export type XboxHit = { xuid: string; gamertag: string; pic: string; gamerscore: string };
 
+/** A gamerpic as KIXO shows it (/api/xbox/pic?u=…) → the Xbox URL inside. */
+export function rawXboxPic(url: string): string {
+  if (url.startsWith("/api/xbox/pic?u=")) return decodeURIComponent(url.slice("/api/xbox/pic?u=".length));
+  return url;
+}
+
+/** Keeps a copy of the gamerpic in KIXO's storage (stable avatar). Returns "" if it can't be fetched. */
+export async function storeGamerpic(url: string): Promise<string> {
+  const raw = rawXboxPic(url);
+  if (!isXboxPic(raw)) return "";
+  try {
+    const r = await fetch(raw, { signal: AbortSignal.timeout(10_000) });
+    if (!r.ok) return "";
+    const sharp = (await import("sharp")).default;
+    const png = await sharp(Buffer.from(await r.arrayBuffer())).resize(256, 256, { fit: "cover" }).png().toBuffer();
+    const { saveFile } = await import("./storage");
+    return saveFile("gamerpics", png, "image/png");
+  } catch {
+    return "";
+  }
+}
+
 /** Only Xbox's own image hosts are accepted as a gamerpic. */
 export function isXboxPic(url: string): boolean {
   try {
@@ -21,9 +43,9 @@ function norm(r: Raw): XboxHit | null {
   const xuid = r.xuid ?? r.id ?? "";
   const gamertag = r.gamertag ?? r.modernGamertag ?? s("Gamertag") ?? r.displayName ?? "";
   let pic = r.displayPicRaw ?? s("GameDisplayPicRaw") ?? "";
-  if (pic && !/[?&]w=/.test(pic)) pic += (pic.includes("?") ? "&" : "?") + "w=256&h=256";
+  if (pic.startsWith("http://")) pic = "https://" + pic.slice(7);
   if (!xuid || !gamertag) return null;
-  return { xuid, gamertag, pic: isXboxPic(pic) ? pic : "", gamerscore: String(r.gamerScore ?? s("Gamerscore") ?? "") };
+  return { xuid, gamertag, pic: isXboxPic(pic) ? `/api/xbox/pic?u=${encodeURIComponent(pic)}` : "", gamerscore: String(r.gamerScore ?? s("Gamerscore") ?? "") };
 }
 
 export async function searchXbox(q: string): Promise<XboxHit[]> {
