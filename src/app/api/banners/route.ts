@@ -73,7 +73,8 @@ export const POST = handle(async (req: NextRequest) => {
     const { canUseTemplate } = await import("@/lib/queries");
     if (!canUseTemplate(template, user)) throw new HttpError(403, "template_not_available");
   }
-  if (template.layout === "PLAYER" && !body.photoUrl) throw new HttpError(400, "photo_required");
+  // A player card needs the player's photo. Only the admin style test may go without one — it then shows an invented test player.
+  if (template.layout === "PLAYER" && !body.photoUrl && !adminTest) throw new HttpError(400, "photo_required");
 
   let inputs: BannerInputs = { ...EMPTY_INPUTS, ...body.inputs };
   let logoUrl = body.logoUrl ?? null;

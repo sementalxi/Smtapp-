@@ -9,7 +9,7 @@ import { randomTestTable, testCrest } from "@/lib/test-teams";
 import { DEFAULT_SAMPLE, inputsFor, type Run, type Sample, type SyncCard, type SyncLeague } from "@/lib/style-test-inputs";
 
 export type { Sample } from "@/lib/style-test-inputs";
-export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean; hidden?: boolean; slug?: string; textSlots?: string | null };
+export type TestTemplate = { id: string; name: string; layout: string; logoCreate: boolean; hasInstructions: boolean; hidden?: boolean; slug?: string; textSlots?: string | null; /** the style already has a reference image */ hasRef?: boolean };
 export type TestResult = {
   bannerId: string;
   templateId: string;
@@ -73,6 +73,7 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
   // 🎲 Random test league: fictional teams with crests and a believable table (Standings, Team of the week, Winners).
   const [randPick, setRandPick] = useState("");
   const [thumbDone, setThumbDone] = useState<Record<string, boolean>>({});
+  const [refDone, setRefDone] = useState<Record<string, boolean>>({});
   function randomLeague(n: number) {
     const rows = randomTestTable(n);
     const keys = [["P", "p"], ["W", "w"], ["D", "d"], ["L", "l"], ["GD", "gd"], ["PTS", "pts"]] as const;
@@ -498,6 +499,20 @@ export function StyleTestRunner({ templates, initialSample, initialResults, init
                       className="mt-2 w-full rounded-lg border border-line py-1 text-[11px] font-bold hover:border-lime"
                     >
                       {thumbDone[t.id] ? (es ? "✅ Es la vista previa del estilo" : "✅ Now the style's preview") : es ? "🖼️ Usar como vista previa" : "🖼️ Use as the style's preview"}
+                    </button>
+                  )}
+                  {r?.status === "READY" && (
+                    <button
+                      type="button"
+                      title={es ? "Los pósters nuevos de este estilo imitarán el look de este póster (nunca su persona ni sus textos)." : "New posters of this style will match this poster's look (never its person or texts)."}
+                      onClick={async () => {
+                        if ((t.hasRef || refDone[t.id]) && !window.confirm(es ? "Este estilo ya tiene una imagen de referencia. ¿Cambiarla por este póster?" : "This style already has a reference image. Replace it with this poster?")) return;
+                        const res = await fetch(`/api/admin/templates/${t.id}/thumb`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bannerId: r.bannerId, ref: true }) });
+                        setRefDone((m) => ({ ...m, [t.id]: res.ok }));
+                      }}
+                      className="mt-1 w-full rounded-lg border border-line py-1 text-[11px] font-bold hover:border-lime"
+                    >
+                      {refDone[t.id] ? (es ? "✅ Es la referencia del estilo" : "✅ Now the style's reference image") : es ? "📌 Usar como imagen de referencia" : "📌 Use as the reference image"}
                     </button>
                   )}
                   <div className="mt-2 flex items-center gap-2">

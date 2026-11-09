@@ -73,13 +73,27 @@ export function colourLineFor(cols: RefColour[]): string {
   return `COLOURS (read from the reference image — match these exactly): ${cols.map((c) => `${c.name} (${c.hex}, about ${c.share}% of it${c.role === "vivid" ? ", an accent" : c.role === "dark" ? ", the base" : ", the light"})`).join("; ")}.${vivid.length ? ` The main colour is ${vivid[0].name}.` : ""}`;
 }
 
+const cacheKey = (url: string) => `refpal:${createHash("sha1").update(url).digest("hex").slice(0, 24)}`;
+
+/**
+ * Marks a reference image as one that gets NO colours line: one of the style's OWN posters used as its reference.
+ * Such a poster was made from the style's brief, so the brief stays in charge of the colours — a measured palette
+ * could call its gold "orange" and have the brief's gold words swapped away (buildProPrompt). Saved as the cached
+ * "nothing to say" answer of referenceColourLine, so it holds on every storage driver. Throws if it can't be saved.
+ */
+export async function noReferenceColours(url: string): Promise<void> {
+  const key = cacheKey(url);
+  await db.setting.upsert({ where: { key }, create: { key, value: "-" }, update: { value: "-" } });
+}
+
 /**
  * The colours of a style's reference image, as a COLOURS line for the prompt — cached per file
- * (Setting "refpal:<hash>") so each reference is analysed once. Returns "" when it cannot be read.
+ * (Setting "refpal:<hash>") so each reference is analysed once. Returns "" when it cannot be read
+ * (and for references marked with noReferenceColours).
  */
 export async function referenceColourLine(url: string | null | undefined): Promise<string> {
   if (!url) return "";
-  const key = `refpal:${createHash("sha1").update(url).digest("hex").slice(0, 24)}`;
+  const key = cacheKey(url);
   try {
     const hit = await db.setting.findUnique({ where: { key }, select: { value: true } });
     if (hit) return hit.value === "-" ? "" : hit.value;
