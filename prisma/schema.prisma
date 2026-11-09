@@ -71,6 +71,8 @@ model User {
   showcaseOptOut     Boolean             @default(false) // don't post my posters in the public Discord showcase
   isOrg              Boolean             @default(false) // organization account (admin sets) — sees "orgs" styles
   phone              String? // verified phone (E.164) — one account per number, checked in code
+  gamePlatform       String? // "xbox" | "psn" | "ea" — where they play
+  gamertag           String? // their Xbox gamertag / PSN ID / EA ID
   dailyStreak        Int                 @default(0) // consecutive days the daily reward was claimed
   dailyClaimedDay    String? // last claimed day (YYYY-MM-DD in the site's time zone)
   dailyClaimedAt     DateTime?

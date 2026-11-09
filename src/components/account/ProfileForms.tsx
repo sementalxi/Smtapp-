@@ -13,12 +13,14 @@ function Section({ title, children, danger }: { title: string; children: React.R
   );
 }
 
-export function ProfileForms({ name: initialName, email, phone, isAdmin, showcase: initialShowcase = true }: { name: string; email: string; phone?: string | null; isAdmin: boolean; showcase?: boolean }) {
+export function ProfileForms({ name: initialName, email, phone, isAdmin, showcase: initialShowcase = true, gamertag: initialTag = "", gamePlatform: initialPlat = "" }: { name: string; email: string; phone?: string | null; isAdmin: boolean; showcase?: boolean; gamertag?: string | null; gamePlatform?: string | null }) {
   const [showcase, setShowcase] = useState(initialShowcase);
   const { locale } = useT();
   const es = locale === "es";
   const router = useRouter();
   const [name, setName] = useState(initialName);
+  const [tag, setTag] = useState(initialTag ?? "");
+  const [plat, setPlat] = useState(initialPlat ?? "");
   const [nameMsg, setNameMsg] = useState("");
   const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
   const [pwMsg, setPwMsg] = useState("");
@@ -28,7 +30,7 @@ export function ProfileForms({ name: initialName, email, phone, isAdmin, showcas
 
   async function saveName() {
     setBusy("name");
-    const r = await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name }) });
+    const r = await fetch("/api/account", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, gamertag: tag.trim(), gamePlatform: tag.trim() ? plat : "" }) });
     setBusy("");
     setNameMsg(r.ok ? (es ? "✅ Guardado" : "✅ Saved") : es ? "❌ No se pudo guardar" : "❌ Couldn't save");
     if (r.ok) router.refresh();
@@ -74,8 +76,20 @@ export function ProfileForms({ name: initialName, email, phone, isAdmin, showcas
             <p className="mt-1 text-[11px] text-muted">{es ? "No se puede cambiar. Si cambiaste de número, abre un ticket en Soporte en Discord." : "Can't be changed. If you have a new number, open a ticket in Support on Discord."}</p>
           </div>
         )}
+        <div>
+          <label className="label">🎮 {es ? "Plataforma y gamertag" : "Platform & gamertag"}</label>
+          <div className="flex gap-2">
+            <select className="input w-[8.5rem] shrink-0 px-2" value={plat} onChange={(e) => { setPlat(e.target.value); setNameMsg(""); }}>
+              <option value="">{es ? "Ninguna" : "None"}</option>
+              <option value="xbox">Xbox</option>
+              <option value="psn">PlayStation</option>
+              <option value="ea">EA / PC</option>
+            </select>
+            <input className="input min-w-0 flex-1" maxLength={32} placeholder={es ? "Gamertag / PSN ID / EA ID" : "Gamertag / PSN ID / EA ID"} value={tag} onChange={(e) => { setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, "")); setNameMsg(""); }} />
+          </div>
+        </div>
         <div className="flex items-center gap-3">
-          <button type="button" className="btn-primary px-5 py-2" disabled={busy === "name" || !name.trim() || name === initialName} onClick={saveName}>
+          <button type="button" className="btn-primary px-5 py-2" disabled={busy === "name" || !name.trim() || (name === initialName && tag === (initialTag ?? "") && plat === (initialPlat ?? ""))} onClick={saveName}>
             {busy === "name" ? "…" : es ? "Guardar cambios" : "Save changes"}
           </button>
           {nameMsg && <span className="text-sm">{nameMsg}</span>}

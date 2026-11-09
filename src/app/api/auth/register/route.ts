@@ -11,12 +11,15 @@ import { rateLimit } from "@/lib/ratelimit";
 import { REF_COOKIE } from "@/lib/referral";
 import { logSignup } from "@/lib/discord-logs";
 import { normalizePhone, phoneOwner } from "@/lib/phone";
+import { gamertagSchema, platformSchema } from "@/lib/gamertag";
 
 const Body = z.object({
   name: z.string().trim().min(1).max(60),
   email: z.string().trim().toLowerCase().email().max(200),
   password: z.string().min(8).max(200),
   phone: z.string().trim().max(30),
+  gamePlatform: platformSchema.optional().or(z.literal("")),
+  gamertag: gamertagSchema.optional(),
 });
 
 export const POST = handle(async (req: NextRequest) => {
@@ -45,6 +48,7 @@ export const POST = handle(async (req: NextRequest) => {
       locale: req.cookies.get("bf_lang")?.value === "en" ? "en" : "es",
       referredById: referrer?.id ?? null,
       phone,
+      ...(body.gamertag ? { gamertag: body.gamertag, gamePlatform: body.gamePlatform || null } : {}),
     },
   });
 

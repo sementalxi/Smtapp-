@@ -5,12 +5,23 @@ import { db } from "@/lib/db";
 import { apiUser, HttpError } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { SESSION_COOKIE } from "@/lib/session";
+import { gamertagSchema, platformSchema } from "@/lib/gamertag";
 
 /** Update profile (name, showcase sharing). */
 export const PATCH = handle(async (req: NextRequest) => {
   const user = await apiUser();
-  const b = z.object({ name: z.string().trim().min(1).max(60).optional(), showcaseOptOut: z.boolean().optional() }).parse(await req.json());
-  await db.user.update({ where: { id: user.id }, data: { ...(b.name ? { name: b.name } : {}), ...(b.showcaseOptOut !== undefined ? { showcaseOptOut: b.showcaseOptOut } : {}) } });
+  const b = z
+    .object({ name: z.string().trim().min(1).max(60).optional(), showcaseOptOut: z.boolean().optional(), gamertag: gamertagSchema.optional(), gamePlatform: platformSchema.optional().or(z.literal("")) })
+    .parse(await req.json());
+  await db.user.update({
+    where: { id: user.id },
+    data: {
+      ...(b.name ? { name: b.name } : {}),
+      ...(b.showcaseOptOut !== undefined ? { showcaseOptOut: b.showcaseOptOut } : {}),
+      ...(b.gamertag !== undefined ? { gamertag: b.gamertag || null } : {}),
+      ...(b.gamePlatform !== undefined ? { gamePlatform: b.gamePlatform || null } : {}),
+    },
+  });
   return json({ ok: true });
 });
 

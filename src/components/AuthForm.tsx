@@ -33,6 +33,8 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
   const es = locale === "es";
   const [cc, setCc] = useState("+1");
   const [num, setNum] = useState("");
+  const [plat, setPlat] = useState<"" | "xbox" | "psn" | "ea">("");
+  const [tag, setTag] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<React.ReactNode>("");
 
@@ -41,7 +43,11 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
     setBusy(true);
     setError("");
     const data: Record<string, unknown> = Object.fromEntries(new FormData(e.currentTarget));
-    if (mode === "register") data.phone = cc + num;
+    if (mode === "register") {
+      data.phone = cc + num;
+      data.gamePlatform = tag.trim() ? plat : "";
+      data.gamertag = tag.trim();
+    }
     const res = await fetch(`/api/auth/${mode}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -144,6 +150,29 @@ export function AuthForm({ mode, next, discord, err, discordBonus = 0, discordSe
               <input id="phone" className="input min-w-0 flex-1" type="tel" inputMode="tel" autoComplete="tel-national" required placeholder="512 555 0100" value={num} onChange={(e) => setNum(e.target.value)} />
             </div>
             <p className="text-[11px] text-muted">{es ? "Una cuenta por número. No se puede cambiar después." : "One account per number. It can't be changed later."}</p>
+          </div>
+        )}
+        {mode === "register" && (
+          <div className="space-y-2 rounded-xl border border-line bg-panel-2/60 p-3">
+            <span className="label">🎮 {es ? "¿Dónde juegas? (opcional)" : "Where do you play? (optional)"}</span>
+            <div className="grid grid-cols-3 gap-2">
+              {([["xbox", "Xbox"], ["psn", "PlayStation"], ["ea", "EA / PC"]] as const).map(([k, l]) => (
+                <button key={k} type="button" onClick={() => setPlat(plat === k ? "" : k)} className={`rounded-lg border px-2 py-2 text-xs font-bold ${plat === k ? "border-lime bg-lime/10 text-white" : "border-line text-muted"}`}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            {plat && (
+              <input
+                className="input"
+                maxLength={32}
+                autoComplete="off"
+                placeholder={plat === "xbox" ? (es ? "Tu gamertag de Xbox" : "Your Xbox gamertag") : plat === "psn" ? (es ? "Tu ID de PSN" : "Your PSN ID") : es ? "Tu EA ID" : "Your EA ID"}
+                value={tag}
+                onChange={(e) => setTag(e.target.value.replace(/[^\p{L}\p{N} _.\-]/gu, ""))}
+              />
+            )}
+            <p className="text-[11px] text-muted">{es ? "Lo usamos en tus pósters y para encontrarte en tu club." : "We use it on your posters and to find you in your club."}</p>
           </div>
         )}
         {mode === "login" && (

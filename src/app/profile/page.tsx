@@ -35,7 +35,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
       </div>
       {discordAuthReady() && <DiscordLink linked={!!user.discordId} name={user.discordName ?? null} avatar={user.discordAvatar} handle={user.discordUser} es={es} status={sp.discord} />}
       <SoundToggle es={es} />
-      <ProfileForms name={user.name} email={user.email} phone={user.phone} isAdmin={user.role === "ADMIN"} showcase={!user.showcaseOptOut} />
+      <ProfileForms name={user.name} email={user.email} phone={user.phone} isAdmin={user.role === "ADMIN"} showcase={!user.showcaseOptOut} gamertag={user.gamertag} gamePlatform={user.gamePlatform} />
     </AccountShell>
   );
 }
