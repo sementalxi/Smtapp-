@@ -3473,7 +3473,7 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
     layout: "PLAYER",
     sort: -1,
     prompt:
-      "bright candy-pink and sky-blue: the player rising out of fluffy pink clouds, a gold crown floating above the head, giant floating diamonds, gold rings and a glossy pink bubble-letter name",
+      "bright candy-pink and sky-blue: the player rising out of fluffy pink clouds, giant floating diamonds, gold rings and a glossy pink bubble-letter name",
     style: {
       primary: "#ff5fa2",
       accent: "#8fd3ff",

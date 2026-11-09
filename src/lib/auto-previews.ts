@@ -69,6 +69,14 @@ const BATCHES: Batch[] = [
     parallel: 6,
     slugs: ["player-cloud-nine", "player-fire-ice", "player-marble-gold", "player-red-liquid", "player-gold-legacy", "player-crimson-script"],
   },
+  // Cloud Nine again (owner's request): no crown, and one figure only — its first poster had a second face.
+  {
+    key: "auto_previews_players_v4_redo1",
+    name: "KIXO",
+    parallel: 6,
+    slugs: ["player-cloud-nine"],
+    redo: { "player-cloud-nine": "a89edbe2-f73e-406b-aabf-896dcd4135a9" },
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute

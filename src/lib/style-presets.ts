@@ -45,7 +45,7 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this brief.`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
-  "player-cloud-nine": `[EXACT REF] [FIXED LAYOUT] CLOUD NINE — a bright candy-pink and sky-blue player card: the player rising out of fluffy pink clouds with a gold crown floating above the head, giant floating diamonds and a glossy bubble-letter name. Fresh, glamorous, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-cloud-nine": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] CLOUD NINE — a bright candy-pink and sky-blue player card: the player rising out of fluffy pink clouds, giant floating diamonds, gold rings and a glossy bubble-letter name. Fresh, glamorous, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -58,10 +58,10 @@ BACKGROUND
 
 FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
 1. THE PLAYER (centre — x 16–84%, y 12–64%): ONE big waist-up portrait facing the camera, calm and confident with the chin slightly raised, soft beauty lighting with a pink rim light, the chest sinking into the pink clouds.
-- ONE figure only — this design deliberately has no second figure: never add a second portrait, an echo or a small full-body shot.
+- ONE figure only — this design deliberately has no second figure: never add a second portrait, a faded second face behind, an echo or a small full-body shot. Only sky, clouds and diamonds behind the player.
+- NO CROWN: nothing floats above the player's head — no crown, halo or hat (if the reference image shows a crown or a second face, leave them out).
 
 LETTERING & CREST
-- CROWN: a polished gold crown floating just above the player's head at the top centre (x 36–64%, y 2–13%).
 - CREST: at the top left (x 6–24%, y 5–20%), crisp, with a soft white glow.
 - NUMBER: a slightly tilted block at the top right (x 74–94%, y 10–30%) — heavy white digits on a solid pink rectangle with a thin white edge.
 - TAGLINE: small pink script just above the name (x 30–70%, y 58–63%).
@@ -6066,6 +6066,42 @@ TEXT RULES
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
+  "player-cloud-nine": `[EXACT REF] [FIXED LAYOUT] CLOUD NINE — a bright candy-pink and sky-blue player card: the player rising out of fluffy pink clouds with a gold crown floating above the head, giant floating diamonds and a glossy bubble-letter name. Fresh, glamorous, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: candy pink, soft sky blue and white with polished gold accents (the team colour replaces the pink if the COLOURS line gives one); black for the small texts.
+
+BACKGROUND
+- A bright sky-blue heaven with soft white light at the top; fluffy pink cotton-candy clouds fill the lower half and both sides, the lowest clouds in front of the player's chest.
+- Large faceted pink diamonds floating at the edges — top left, top right, mid-right and lower left — sharp and sparkling, slightly out of focus at the borders.
+- Polished gold rings curving in from the left and right edges (cropped by the edge), small sparkles and light flares.
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. THE PLAYER (centre — x 16–84%, y 12–64%): ONE big waist-up portrait facing the camera, calm and confident with the chin slightly raised, soft beauty lighting with a pink rim light, the chest sinking into the pink clouds.
+- ONE figure only — this design deliberately has no second figure: never add a second portrait, an echo or a small full-body shot.
+
+LETTERING & CREST
+- CROWN: a polished gold crown floating just above the player's head at the top centre (x 36–64%, y 2–13%).
+- CREST: at the top left (x 6–24%, y 5–20%), crisp, with a soft white glow.
+- NUMBER: a slightly tilted block at the top right (x 74–94%, y 10–30%) — heavy white digits on a solid pink rectangle with a thin white edge.
+- TAGLINE: small pink script just above the name (x 30–70%, y 58–63%).
+- NAME: huge glossy 3D BUBBLE capitals in candy pink — rounded and inflated, with white highlights, a darker pink outline and a soft shadow — across the lower middle (x 10–90%, y 63–82%), sitting on the clouds; two stacked lines if the name is long.
+- SUBTITLE: wide bold black capitals right under the name (x 25–75%, y 83–87%).
+- POSITION: heavy black condensed capitals at the lower left (x 6–24%, y 88–93%).
+- FOOTER: tiny letter-spaced black capitals at the bottom centre (y 96%).
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where this layout repeats the NAME as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
+- The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-carved-crown": `[EXACT REF] [FIXED LAYOUT] CARVED CROWN — a sunlit gold card: the name as huge carved 3D stone-and-gold letters with a crown on top, golden dust clouds and blue sky, a pointing portrait and a dribbling full-body shot. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
