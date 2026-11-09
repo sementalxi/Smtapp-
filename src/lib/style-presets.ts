@@ -45,470 +45,550 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this brief.`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
-  "player-gold-skyline": `GOLD SKYLINE — a black-and-gold luxury club signing card.
+  "player-gold-skyline": `[EXACT REF] [FIXED LAYOUT] GOLD SKYLINE — a black-and-gold luxury signing card: giant gold-foil name letters over a night skyline, golden light trails, a big portrait and a running full-body shot. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: black, smoky charcoal and rich gold foil (team colours as small accents if the COLOURS line gives them).
-- A dark night city skyline with stadium floodlights on the left; swirling ribbons of golden light, glowing gold dust and sparks crossing the whole card.
-- GIANT BACKGROUND ELEMENT: the jersey NUMBER and the first letters of the NAME as huge broken gold-foil and dark-concrete letter blocks, cropped by the edges, layered behind the figures.
-FIGURES
-1. BEHIND (right, large): a chest-up portrait, intense look, warm gold rim light, blended into the gold smoke.
-2. IN FRONT (left, smaller, full body): jogging toward the camera on a dark pitch, sharp, full colour.
-LAYOUT
-- The crest (if given) big and crisp at the right, overlapping the portrait's chest, with a soft gold glow.
-- The NAME in tall ultra-condensed white capitals, the POSITION under it in big gold-foil outlined letters, both at the lower right under the crest.
-- Thin gold frame lines and tiny letter-spaced micro-text in the corners (only from the given texts).
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: black, smoky charcoal and rich gold foil; the name in cream-white.
+
+BACKGROUND
+- A black night scene: a city skyline band across the middle (y 30–48%) and a stadium floodlight tower at the far left (x 2–12%, y 18–45%).
+- GIANT gold-foil capitals of the NAME, cropped by the edge, across the top left behind everything (x 5–52%, y 3–42%).
+- Swirling ribbons of golden light, glowing gold dust and sparks sweeping across the lower half.
+- The crest again, giant and faint, in the top-right corner behind the portrait (x 72–100%, y 3–32%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (top, right of centre — x 45–82%, y 2–48%): chest-up, head slightly tilted, a hard stare at the camera, a warm gold rim light, fading into gold smoke below.
+2. FRONT FIGURE (left of centre — x 27–58%, y 28–86%): full body running straight at the camera, razor sharp, with a ball at the feet (x 43–58%, y 84–93%).
+
+LETTERING & CREST
+- CREST: big, at the right (x 67–96%, y 40–63%), with a gold rim light and a soft glow.
+- NUMBER: huge hollow block digits with a gold outline at the lower right (x 68–98%, y 66–92%).
+- TAGLINE: small gold script (x 8–30%, y 68–73%).
+- NAME: tall slanted condensed capitals in distressed cream-white with a gold shadow at the lower left (x 5–40%, y 72–88%).
+- SUBTITLE: gold brush script under the name (x 12–45%, y 87–93%).
+- POSITION: gold capitals in a thin gold-outlined box (x 10–30%, y 93–97%).
+- FOOTER: tiny letter-spaced gold capitals at the bottom centre (y 98%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-golden-blaze": `GOLDEN BLAZE — a blazing, explosive gold celebration card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-golden-blaze": `[EXACT REF] [FIXED LAYOUT] GOLDEN BLAZE — a blazing gold-fire celebration card: an ornate gold compass ring behind an upward-looking portrait, a jumping full-body shot and a huge outlined number. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: molten gold, amber fire, deep brown-black shadows (team colours as accents if given).
-- A stadium bowl lost in golden fire, smoke and bokeh, floodlights flaring, sparks raining down, grass at the bottom edge glowing.
-- GIANT BACKGROUND ELEMENT: a huge ornate gold ring / medallion behind the portrait (engraved bevelled metal, compass-like spokes) — no letters on it except the TEAM name (if given) around the ring.
-FIGURES
-1. BEHIND (centre, huge): a celebration portrait from the waist up — head tilted back, eyes closed, fist clenched, pure joy, sweat glistening, gold rim light.
-2. IN FRONT (right, small, full body): celebrating with a knee raised, crisp and sharp.
-LAYOUT
-- The NUMBER huge in heavy condensed gold capitals at the top-right; the POSITION in a black box with white bold italic letters under it.
-- The crest (if given) big and round at the middle-left, overlapping the portrait's chest.
-- The NAME huge in heavy italic white capitals at the bottom-left; the TEAM name (if given) under it in bevelled gold.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: molten gold, amber fire and deep brown-black shadows; the name in cream-white.
+
+BACKGROUND
+- Blazing gold-orange fire, smoke and sparks filling the frame; stadium floodlights glowing at the right edge (y 38–50%); burning sparks over grass along the bottom.
+- A huge ornate gold compass ring with four long spikes behind the portrait (x 15–80%, y 3–55%).
+- The crest again, giant and faint, in the top-left corner (x 0–30%, y 3–28%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (upper centre — x 30–70%, y 10–50%): head and shoulders seen from slightly below in three-quarter profile, looking up to the right, lit by the fire.
+2. FRONT FIGURE (right — x 45–88%, y 33–92%): full body jumping in celebration — one knee raised high, a clenched fist up, smiling.
+
+LETTERING & CREST
+- CREST: big, at the left (x 8–45%, y 35–62%), gold rim, glowing.
+- NUMBER: huge hollow digits with a gold outline at the top right (x 76–97%, y 4–27%).
+- POSITION: white heavy italic capitals in a black box right under the number (x 76–95%, y 28–33%).
+- TAGLINE: gold script (x 8–28%, y 64–69%).
+- NAME: huge cream-white heavy italic capitals rising to the right at the lower left (x 5–52%, y 67–88%).
+- SUBTITLE: gold brush script under the name (x 14–46%, y 86–93%).
+- FOOTER: tiny letter-spaced gold capitals at the bottom left (y 96%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-steel-red": `STEEL RED — a bold red stadium-structure MVP-style card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-steel-red": `[EXACT REF] [FIXED LAYOUT] STEEL RED — a red-and-black stadium card: a giant cracked-chrome name across the top, shattered glass, a running full-body shot and a slanted position / number plate. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: hot red, black and white (team colours replace the red if given).
-- Red-lit stadium roof trusses and steel beams at sharp angles, red smoke and embers, broken glass-like shards, thin HUD corner marks, small chevron arrows on the side edges.
-- GIANT BACKGROUND ELEMENT: the jersey NUMBER as huge hollow outlined digits behind the player.
-FIGURES
-1. ONE STRONG FIGURE in the centre from the knees up, walking toward the camera, full colour, red rim light on both sides.
-2. A faint, darker red duotone echo of the same player's face in the background smoke.
-LAYOUT
-- The POSITION and NUMBER at the left in two stacked square boxes (red box with white text, then black box with white text).
-- The crest (if given) as a round metal emblem top-right with a red glow.
-- The NAME HUGE in ultra-condensed tall white capitals across the bottom third; the TEAM name (if given) under it in grey-silver condensed capitals.
-- A thin vertical letter-spaced line of the team name on the left edge.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: hot red, black and chrome white.
+
+BACKGROUND
+- Red-lit steel roof trusses in the top corners, red smoke, shards of broken glass flying at the left (y 40–80%), a wet dark pitch along the bottom.
+- The crest again, giant and faint, at the right (x 60–90%, y 55–78%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (left — x 4–40%, y 22–62%): chest-up, head tilted back looking up to the right with one arm raised behind the head, fading into red smoke.
+2. FRONT FIGURE (centre — x 28–68%, y 20–84%): full body running and dribbling straight at the camera; the ball at (x 50–62%, y 76–84%).
+
+LETTERING & CREST
+- TAGLINE: small white script at the very top centre with a thin line on each side (y 1–4%).
+- NAME: huge italic capitals in cracked chrome-white with a red glow across the top (x 13–95%, y 5–28%), partly behind the heads.
+- CREST: big, at the right (x 67–90%, y 31–54%).
+- PLATE: one slanted two-part plate at the lower left (x 10–67%, y 83–91%) — the left part red with the POSITION in white heavy italic capitals, the right part black with a white outline and the NUMBER in white outlined italic digits.
+- SUBTITLE: red brush script centred under the plate with a thin line on each side (y 91–95%).
+- FOOTER: tiny letter-spaced white capitals at the bottom centre (y 97%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-royal-split": `ROYAL SPLIT — a premium two-tone split card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-royal-split": `[EXACT REF] [FIXED LAYOUT] ROYAL SPLIT — a two-tone split card: a navy stadium night on the left, cream marble with gold cracks on the right, three shots of the player and a giant gold number. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: deep navy and electric blue on the LEFT half, warm cream marble with gold cracks and gold paint splashes on the RIGHT half (team colours replace navy/gold if given).
-- A thin vertical gold line with small diamond ornaments divides the card in the middle.
-- Left: a blue stadium at night with crowd bokeh and blue mist. Right: cracked marble, gold dust, faint stadium structure lines.
-- GIANT BACKGROUND ELEMENT: the jersey NUMBER huge in distressed gold condensed digits at the top-right.
-FIGURES (three shots of the same person)
-1. Left, large, darker: an emotional celebration close-up, blue graded.
-2. Centre, large: a chest-up portrait looking slightly off camera, full colour.
-3. Right, in front, full body: striking a ball mid-air, razor sharp, a soft floor shadow.
-LAYOUT
-- The crest (if given) big and round on the left half, overlapping the figures.
-- The NAME in heavy white slanted condensed capitals below the crest, the POSITION in gold under it.
-- Tiny letter-spaced micro-text blocks in the four corners (only from the given texts), thin gold icon marks.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: deep navy and electric blue on the left; warm cream marble with gold on the right; the name in white, the accents in gold.
+
+BACKGROUND
+- LEFT HALF: a deep-blue stadium at night with crowd bokeh and blue mist. RIGHT HALF: cracked cream marble with gold veins, gold dust and splashes.
+- A thin vertical gold line at x 50% from top to bottom, with a small diamond ornament near each end.
+- The crest again, giant and faint, at the top left (x 5–32%, y 5–35%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. BACK PORTRAIT (left — x 12–40%, y 13–45%): darker and blue-graded — looking down, both hands adjusting the collar.
+2. CENTRE PORTRAIT (x 35–66%, y 10–48%): chest-up, looking up and away to the left, full colour.
+3. FRONT FIGURE (x 35–95%, y 30–88%): full body leaning into a strike with the arms out for balance, razor sharp; the ball at the lower right (x 84–97%, y 72–83%).
+
+LETTERING & CREST
+- NUMBER: huge distressed gold-foil block digits at the top right (x 67–99%, y 5–42%), behind the figures.
+- CREST: big, at the left (x 9–40%, y 42–65%).
+- TAGLINE: gold script (x 7–25%, y 64–69%).
+- NAME: heavy white distressed slanted capitals at the lower left (x 5–52%, y 67–86%).
+- SUBTITLE: gold brush script under the name (x 20–45%, y 84–90%).
+- POSITION: gold capitals in a dark box with a gold outline (x 15–32%, y 90–95%).
+- FOOTER: tiny letter-spaced capitals at the bottom centre (y 97%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-riot-collage": `RIOT COLLAGE — a loud red street-collage signing card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-riot-collage": `[EXACT REF] [FIXED LAYOUT] RIOT COLLAGE — a loud red, white and black torn-paper street collage: the name on a torn paper strip across the top, lightning, a celebrating portrait and a full-body shot. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: blood red, paper white and black (team colours replace the red if given).
-- Torn paper layers, grid / graph paper, halftone dots, spray paint, red lightning and electric scratches, angular shards, a stadium photo strip in red duotone at the bottom.
-- GIANT BACKGROUND ELEMENT: a dark, smoky crown silhouette shape top-right behind the figures (no animal, no face).
-FIGURES
-1. BEHIND (left-centre, large): a chest-up portrait with a cold, confident stare, fist raised near the face.
-2. IN FRONT (right, full body): standing tall with hands in pockets, a cool, relaxed swagger, full colour.
-LAYOUT
-- The NUMBER and POSITION small and bold at the left, stacked.
-- The NAME huge in tall condensed white capitals with a black outline at the lower left; the TEAM name (if given) in a big red brush SCRIPT crossing over the name.
-- The crest (if given) small and crisp at the lower right.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: blood red, paper white and black.
+
+BACKGROUND
+- A torn strip of white grid paper across the top behind the name (y 3–27%); more torn white paper at the left edge (y 55–65%) and the lower right (y 75–82%); halftone and spray texture.
+- Red lightning bolts and electric cracks across the frame, red smoke, a red-tinted stadium strip along the bottom (y 80–95%).
+- The crest again, giant and faint, at the right (x 70–98%, y 38–65%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (left — x 13–43%, y 30–62%): a celebration close-up from the chest up — eyes shut, teeth clenched, both fists raised.
+2. FRONT FIGURE (right of centre — x 42–75%, y 30–95%): full body jogging toward the camera, looking to the side.
+
+LETTERING & CREST
+- TAGLINE: white handwritten script in the top-left corner (x 5–20%, y 3–7%).
+- NAME: huge white distressed slanted capitals with a black outline on the torn paper strip (x 12–82%, y 5–26%).
+- SUBTITLE: red brush script overlapping the bottom of the name (x 25–52%, y 26–32%).
+- NUMBER: red neon-outlined slanted digits at the right (x 78–97%, y 26–41%).
+- POSITION: white bold capitals in a black box with a thin frame at the left (x 3–14%, y 32–39%).
+- CREST: big, at the lower left (x 5–42%, y 58–88%), chrome rim, red glow.
+- FOOTER: tiny letter-spaced white capitals at the bottom centre (y 96%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-red-beams": `RED BEAMS — a national-team style red stadium card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-red-beams": `[EXACT REF] [FIXED LAYOUT] RED BEAMS — a red national-team style card: vertical red light beams, a big portrait with a giant faded face beside it, a shouting full-body runner and a huge outlined number. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: intense red, black and white (team colours replace the red if given).
-- Vertical red light beams and streaks behind the player, a stadium with blazing floodlights and red smoke at the bottom, a pitch line running to the horizon.
-- Thin white HUD corner brackets, small crosshair marks and tiny letter-spaced micro-text in all four corners (only from the given texts).
-FIGURES (three shots of the same person)
-1. Centre, large: a chest-up portrait, focused, sweat and rain, red rim light.
-2. Right, faded: a smiling close-up in red monotone, blending into the dark.
-3. In front (right, full body): running and shouting in celebration, hand cupped to the ear, full colour.
-LAYOUT
-- The NUMBER with a "#" small and bold at the top-left under the crest (if given).
-- The crest (if given) BIG at the middle-left, overlapping the portrait's chest.
-- The POSITION in red and the NAME in white, side by side in heavy condensed capitals at the lower left; the SUBTITLE (if given) in a thin white handwritten script under it.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: intense red, black and white.
+
+BACKGROUND
+- Dark red with vertical red light beams in the upper left (x 8–35%), red smoke, stadium floodlights and a pitch along the bottom (y 65–92%).
+- The crest again, giant and faint, at the top left (x 2–32%, y 5–35%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CENTRE PORTRAIT (x 33–72%, y 2–52%): a big chest-up face looking straight at the camera, intense, sweat on the skin.
+2. FACE ECHO (right edge — x 70–100%, y 0–50%): a huge red-monochrome close-up of the same face, cropped by the edge, blending into the dark.
+3. FRONT FIGURE (right — x 58–95%, y 22–84%): full body running and shouting with one hand cupped at the ear.
+
+LETTERING & CREST
+- CREST: big, at the left (x 6–43%, y 31–62%), chrome rim.
+- TAGLINE: white script (x 7–24%, y 60–64%).
+- NAME: heavy white distressed slanted capitals at the lower left (x 5–50%, y 63–82%).
+- POSITION: white capitals in a small red box at the lower right of the name (x 46–60%, y 77–83%).
+- SUBTITLE: white brush script with an underline (x 9–44%, y 83–90%).
+- NUMBER: huge red-outlined slanted digits at the lower right (x 72–99%, y 66–87%).
+- FOOTER: tiny letter-spaced capitals at the bottom centre with a thin line on each side (y 96%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-thunder-night": `THUNDER NIGHT — a red lightning stadium card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-thunder-night": `[EXACT REF] [FIXED LAYOUT] THUNDER NIGHT — a red lightning stadium card: a giant cracked-white name across the middle, a column of small crest tiles, a pointing full-body sprinter and a blurred flag in the foreground. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: red, deep crimson, black and white (team colours replace the red if given).
-- A packed stadium at night under a storm: forked red lightning, floodlight glare, red haze, a cracked-glass texture over parts of the card.
-- A big blurred, out-of-focus team flag / scarf in the lower-left foreground for depth (only the TEAM name on it, if given).
-FIGURES
-1. BEHIND (right, large): a big smiling chest-up portrait, warm and confident, red rim light.
-2. IN FRONT (left-centre, full body): sprinting and pointing, full colour.
-LAYOUT
-- A vertical column of three small square tiles at the upper left showing the crest (if given) on dark backgrounds.
-- The crest (if given) also big above the name, centre-right.
-- The NAME huge in heavy white slanted capitals at the lower right; the TEAM name (if given) under it in red; the NUMBER huge in red outlined digits right of the name, cropped by the edge.
-- A thin letter-spaced line of micro-text at the top-left (only from the given texts).
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: red, deep crimson, black and white.
+
+BACKGROUND
+- A dark red stormy stadium: forked red lightning at the top right (x 70–98%, y 2–30%), floodlight glare at the left edge (y 38–46%), red haze and a cracked-glass texture.
+- The crest again, giant and faint, top left of centre (x 18–40%, y 5–28%).
+- FOREGROUND: a big blurred, out-of-focus red flag at the lower left (x 0–45%, y 78–100%) carrying huge blurred white letters of the NAME.
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (top — x 40–78%, y 0–45%): a big chest-up face looking down with lowered eyes.
+2. FRONT FIGURE (left of centre — x 8–62%, y 24–88%): full body sprinting to the left with the left arm stretched out, pointing.
+
+LETTERING & CREST
+- CREST TILES: a vertical column of three small dark square tiles at the upper left (x 5–15%, y 5–29%), each showing the crest (no crest given: no tiles).
+- CREST: big, at the right (x 68–98%, y 22–46%), chrome rim.
+- TAGLINE: a white blackletter word at the left (x 5–24%, y 44–49%).
+- NAME: huge cracked-white heavy slanted capitals across the whole width (x 3–97%, y 48–73%), partly behind the front figure.
+- SUBTITLE: red brush script at the lower left (x 8–42%, y 73–80%).
+- POSITION: small white bold capitals (x 61–68%, y 75–79%).
+- NUMBER: huge dark-red outlined digits at the lower right (x 70–99%, y 73–93%).
+- FOOTER: tiny letter-spaced capitals at the bottom centre (y 96%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-violet-peak": `VIOLET PEAK — a purple crystal-mountain card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-violet-peak": `[EXACT REF] [FIXED LAYOUT] VIOLET PEAK — a purple crystal card: crossed light blades, a laughing portrait, a hands-up celebration and a number / crest / position row under a big white block name. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: violet, ultraviolet, black and silver (team colours replace the violet if given).
-- Jagged purple crystal mountains, galaxy smoke, violet stage lights and lens flares, an X of light blades crossing behind the top centre.
-- GIANT BACKGROUND ELEMENT: the crest (if given) HUGE at the top centre as a dark chrome emblem; behind the lower half, the TEAM name (if given) in giant faded purple blackletter.
-FIGURES
-1. LEFT: the player from the waist up, smiling and pointing at the badge on the chest, darker and slightly faded.
-2. RIGHT (larger, full colour): a playful celebration — both hands up near the head, fun expression, sharp.
-LAYOUT
-- At the lower centre, one row: the NUMBER big in purple, the crest (if given) small and round in the middle, the POSITION in a purple blackletter.
-- The NAME HUGE in heavy white block capitals under that row; the TEAM name (if given) in a purple blackletter script over the bottom of the name.
-- Small letter-spaced team text at the bottom-left and bottom-right.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: violet, ultraviolet, black and silver-white.
+
+BACKGROUND
+- Deep purple with jagged purple crystals at the right and the bottom right, galaxy smoke and an X of bright light blades crossing behind the top centre.
+- The crest again, giant, as a dark chrome echo at the top (x 45–85%, y 3–35%).
+- Giant faded purple blackletter letters of the NAME behind the lower middle (x 40–95%, y 45–65%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (left — x 8–45%, y 2–45%): a big face from the chest up, laughing, looking up to the left.
+2. FRONT FIGURE (right — x 50–98%, y 13–92%): full body celebrating toward the camera with both open hands raised at the ears and a playful grin.
+
+LETTERING & CREST
+- CREST: big, at the left (x 8–42%, y 34–58%), chrome rim, violet glow.
+- TAGLINE: a purple blackletter word (x 5–24%, y 58–63%).
+- NAME: huge white distressed block capitals with a purple 3D extrusion (x 3–52%, y 62–83%).
+- SUBTITLE: purple blackletter script overlapping the bottom of the name (x 12–45%, y 80–87%).
+- BOTTOM ROW (y 87–94%): the NUMBER in purple outlined digits (x 4–20%), a small copy of the crest (x 21–30%) and the POSITION in a purple box (x 32–43%).
+- FOOTER: tiny letter-spaced purple capitals at the bottom left (y 96%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-blood-gothic": `BLOOD GOTHIC — a black, white and blood-red gothic card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-blood-gothic": `[EXACT REF] [FIXED LAYOUT] BLOOD GOTHIC — a black, white and blood-red gothic card: giant crimson blackletter letters, a black-and-white portrait, a full-colour dribbling shot and a red gothic name. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: pure black, greyscale and deep blood red (team colours replace the red if given).
-- Huge crimson BLACKLETTER initials of the TEAM or NAME filling the background with a gritty grunge texture, faint stadium crowd in black-and-white, scratches, a red geometric line frame at the bottom.
-FIGURES
-1. BEHIND (top, huge): a black-and-white chest-up portrait with a proud, side-glancing look, very sharp skin texture and dramatic contrast.
-2. IN FRONT (centre, full body): dribbling a ball in full colour, low camera, intense, a soft red rim light.
-LAYOUT
-- The TEAM name (if given) big in glowing red blackletter across the lower middle, split around the front figure.
-- The NAME in a clean bold white condensed sans at the right under the team name.
-- The crest (if given) at the lower left as a crisp emblem with a red splatter behind it.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: pure black, greyscale and deep blood red.
+
+BACKGROUND
+- Black with red embers and red smoke; a dark pitch along the bottom.
+- GIANT crimson blackletter capitals of the NAME across the top (x 5–98%, y 2–28%), gritty, partly hidden behind the figures.
+- The crest again, giant and faint, at the lower left (x 2–28%, y 52–80%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (top right — x 50–98%, y 2–55%): BLACK-AND-WHITE and high contrast — chest-up, head tilted back, eyes shut, teeth clenched in effort, a clenched fist at the right edge.
+2. FRONT FIGURE (left of centre — x 22–72%, y 15–90%): full body in FULL COLOUR in a low dribbling stance, looking to the left, with a red rim light; the ball at (x 33–48%, y 80–91%).
+
+LETTERING & CREST
+- CREST: big, at the left (x 3–32%, y 25–52%), chrome rim, red glow.
+- TAGLINE: a white blackletter word (x 60–78%, y 54–58%).
+- NAME: red bevelled blackletter capitals at the lower right (x 53–96%, y 58–77%).
+- SUBTITLE: white brush script with an underline (x 62–97%, y 76–83%).
+- POSITION: dark capitals in a red box (x 60–70%, y 83–87%).
+- NUMBER: big dark-red outlined digits (x 71–93%, y 82–95%).
+- FOOTER: tiny letter-spaced capitals at the bottom centre (y 97%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-double-exposure": `DOUBLE EXPOSURE — a cinematic black-and-white double-exposure gamer card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-double-exposure": `[EXACT REF] [FIXED LAYOUT] DOUBLE EXPOSURE — a cinematic sepia double-exposure gamer card on paper: two portraits, a sunset city, the player seen from behind in a stadium, a gaming desk and a dribbling full-body shot. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: greyscale with ONE warm sunset tone (amber / orange) — team colours as a subtle tint if given. Cream paper background with black ink brush-stroke edges.
-- Everything is blended like a double exposure, inside a big rough brush-stroke shape.
-FIGURES & SCENES (all the same person)
-1. TOP LEFT (huge): a front-facing portrait wearing a gaming headset, calm and confident.
-2. TOP RIGHT: the same face in side profile, merging into a sunset sky over the player's home city (mountains, sea or skyline — no real landmarks with text).
-3. LOWER LEFT: the player seen FROM BEHIND walking into a lit stadium, the NAME and NUMBER printed on the back of the shirt.
-4. LOWER RIGHT: a gaming desk with a monitor showing a football match, and a game controller in the foreground (no brand logos).
-LAYOUT
-- The crest (if given) in the lower middle, printed into the shirt area of the portrait like a faded emblem.
-- No other big text — the NAME and NUMBER live on the shirt back; the TEAM name (if given) small under the crest.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: sepia, black-and-white and cream paper with ONE warm amber-orange sunset tone.
+
+BACKGROUND
+- Cream paper with black ink brush-stroke edges; the whole collage sits inside the brush shape, blended like a double exposure.
+- TOP RIGHT: a sunset sky over a coastal city with mountains (x 70–100%, y 20–42%).
+- The crest again, giant and faint, at the upper left (x 3–28%, y 10–38%).
+- RIGHT: a gaming desk — a monitor showing a football match (x 70–88%, y 44–58%), a hexagon-pattern panel beside it (x 87–98%, y 50–62%) and a black game controller in front (x 72–97%, y 64–76%); no brand logos.
+
+FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. LEFT PORTRAIT (x 22–55%, y 3–40%): a big chest-up face looking away up to the left.
+2. PROFILE (x 55–88%, y 3–38%): the same face in side profile looking right, merging into the sunset.
+3. BACK VIEW (x 8–25%, y 49–68%): small, the player seen from behind in a lit stadium with the NAME and the NUMBER printed on the shirt back.
+4. FRONT FIGURE (centre — x 38–78%, y 22–88%): full body dribbling straight at the camera; the ball at (x 55–70%, y 80–91%).
+
+LETTERING & CREST
+- CREST: left of centre (x 15–40%, y 38–58%).
+- TAGLINE: orange script (x 8–28%, y 65–70%).
+- NAME: huge cream distressed heavy capitals at the lower left (x 5–52%, y 70–88%).
+- SUBTITLE: orange brush script (x 8–46%, y 87–94%).
+- POSITION: cream capitals in a dark box (x 49–59%, y 87–94%).
+- NUMBER: huge orange neon-outlined digits at the lower right (x 72–96%, y 72–93%).
+- FOOTER: tiny letter-spaced capitals at the bottom centre (y 97%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-carved-crown": `CARVED CROWN — a sunlit, epic 3D-lettering headline card.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-carved-crown": `[EXACT REF] [FIXED LAYOUT] CARVED CROWN — a sunlit gold card: the name as huge carved 3D stone-and-gold letters with a crown on top, golden dust clouds and blue sky, a pointing portrait and a dribbling full-body shot. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SCENE & COLOURS: warm cream-gold, tan and bronze letters, a bright blue sky, golden dust clouds exploding (team colours as accents if given).
-- GIANT CENTREPIECE: the NAME as huge carved 3D letters — cream stone with gold-foil bevels, engraved lines and small gold stars, slightly arched — with an ornate gold CROWN sitting on top in the centre; dust explosions and sparks around them.
-FIGURES
-1. IN FRONT (centre, waist up): the player in a powerful, calm pose, arms crossed or hands together, full colour, warm sunlight and a crisp rim light, overlapping the bottom of the letters.
-LAYOUT
-- The POSITION in a gold-edged dark bar under the figure, the NUMBER and TEAM name (if given) in bold white capitals under that.
-- The crest (if given) small at the top-right corner.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+THE POSTER IN WORDS
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+COLOURS: warm cream-gold, tan and bronze with a bright blue sky.
+
+BACKGROUND
+- A bright blue sky at the top left; golden dust clouds exploding at the right and along the bottom; a stadium roof at the left and stands at the right (y 60–75%); a grass pitch at the bottom; gold sparks.
+- The crest again, giant and faint, in the sky at the top (x 8–55%, y 2–30%).
+
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (top — x 38–78%, y 2–45%): chest-up, smiling and pointing a finger straight at the camera.
+2. FRONT FIGURE (right — x 48–98%, y 32–92%): full body dribbling toward the camera; the ball at (x 57–70%, y 83–92%).
+
+LETTERING & CREST
+- CREST: big, at the right (x 72–97%, y 28–52%), gold rim.
+- NAME: huge carved 3D capitals at the left (x 4–58%, y 37–75%) — cream stone faces with gold bevelled edges, engraved cracks and small gold stars, in slight perspective.
+- CROWN: an ornate gold crown sitting on the top left of the name letters (x 15–40%, y 20–37%).
+- TAGLINE: small cream script just above the name at the left (x 7–20%, y 36–41%).
+- SUBTITLE: gold brush script under the name (x 20–52%, y 72–80%).
+- POSITION: cream capitals on a dark plate with a gold frame (x 6–27%, y 80–84%).
+- NUMBER: cream-outlined block digits with a dark fill right under the position (x 6–27%, y 84–95%).
+- FOOTER: tiny letter-spaced cream capitals at the bottom left (y 97%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-living-statue": `[FIXED POSES] LIVING STATUE — a monumental concert-stage player card whose big portrait is a GIANT CRACKING STATUE of the player, made like a high-end PHOTOSHOP composite by a top club designer. Epic, cinematic, premium.
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
+  "player-living-statue": `[EXACT REF] [FIXED LAYOUT] LIVING STATUE — a monumental concert-stage card: the player's portrait as a giant cracking plaster statue with liquid-chrome drips, orange spotlights and cyan lasers, a neon name and a small full-body shot. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
-SIGNATURE (never skip it — without it this is not this style)
-- The big portrait of the player is NOT a normal photo portrait: it is a GIANT WHITE PLASTER STATUE BUST of the player (head, neck and chest) standing on a round dark stone pedestal in the centre of the card, about two thirds of the poster tall.
-- The plaster is CRACKING OPEN: on one half of the face and chest the white shell has broken away and the REAL person shows underneath — real skin, a real eye, real hair — while the other half is still smooth white plaster covered in fine cracks. Plaster chunks and white dust fall from it.
-- Thick LIQUID-CHROME drips run over the statue's shoulders and down the pedestal.
-- Tiny scaffolding with a few very small workers stands around the statue, so it reads as a monument.
+STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
-SCENE & COLOURS: deep teal-black, burning orange spotlights and cyan lasers (team colours replace orange / teal if the COLOURS line gives them).
-- A huge dark arena stage: orange spotlight beams from the top corners crossing behind the statue, cyan lasers fanning out, haze, a dark crowd with raised hands along the bottom edge.
+PLACEHOLDERS IN THE REFERENCE (never copy them)
+- Its player is a model: never copy his face, hair, skin tone or body. The uploaded person keeps the kit from the photo.
+- Its round emblem is only a placeholder for the team crest — also where it appears giant and faint in the background or small on tiles. The given crest takes its place everywhere; with no crest given, those spots show only the background. That emblem and its letters never appear.
+- Its words and digits are placeholders: the given NAME replaces its big name, the TAGLINE its small word above the name, the SUBTITLE its script line, the POSITION its position letters, the NUMBER its number and the FOOTER its tiny bottom line. A text that is not given leaves its spot out — the reference's own word is never written.
+- The small brand mark in one corner is added afterwards: never draw it, and keep that corner calm.
 
-FIGURES
-1. BEHIND (centre, huge): the STATUE described above. It IS the portrait of the player — the same face as the photo, recognisable in the plaster half and in the real half.
-2. IN FRONT (lower right, small, full body): the real player in full colour striding across the stage in front of the pedestal, about one third of the poster tall, with an orange rim light — clearly smaller than the statue, never covering its face.
-- These are the ONLY two figures. The statue IS the second / portrait figure of this design: never add another portrait, face or echo of the player behind or beside it.
+NOTHING ELSE CHANGES: do not rearrange, mirror, restyle, simplify or "improve" anything, and do not add elements the reference does not have. The description below is the same poster in words — positions are approximate (x runs left to right, y top to bottom, in % of the poster), the reference is exact; wherever the two differ, the REFERENCE wins. Only the USER CHOICES of this brief (other colours, a pose, a background scene, a font, a second photo) may change the part they name. A tall or wide format keeps the same design, extended to that frame.
 
-LAYOUT
-- The NAME across the pedestal in elegant glowing serif / script capitals built from orange neon tubes with liquid-chrome drips.
-- The POSITION and NUMBER small under the name; the crest (if given) at the top centre above the statue; subtitle (if given) in a thin neon script; footer tiny.
+THE POSTER IN WORDS
 
-THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
-- Two figures of the SAME person from the photo (exact same face, features, hair, skin tone): the GIANT STATUE behind — this style's big portrait, never a normal photo portrait — and a razor-sharp FULL-BODY shot of the real player in front, caught in real movement, never a stiff standing pose.
-- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
-- Stage craft: real haze, plaster dust and falling debris, light leaks and lens flares, thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
-- Typography like a pro designer: the NAME is this style's neon-and-chrome lettering piece on the pedestal (described above); the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script accent (only from the given texts).
-- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
-- The statue is a real photographed plaster sculpture and the chrome is real liquid metal with true reflections — no cartoon / CGI look, no plastic materials, no glow on everything.
+COLOURS: deep teal-black, burning orange and cyan; white plaster and chrome.
 
-POSE RULE (strict)
-- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
-- The statue faces the camera almost straight on, calm and monumental, with a closed mouth; the front figure is the action shot described above — no screaming faces.
+BACKGROUND
+- A huge dark arena stage: an orange spotlight in each top corner with beams, thin cyan laser lines crossing diagonally, haze.
+- A dark crowd with raised hands along the bottom (y 88–100%) with orange stage lights behind it.
+- The crest again, giant and faint, at the upper right (x 55–95%, y 5–30%).
 
-ESPORTS TOUCH (subtle)
-- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
+1. THE STATUE (left — x 3–58%, y 3–68%) — this style's portrait, never a normal photo portrait: a giant white plaster bust of the player (head, neck and chest). The viewer's LEFT half is smooth cracked white plaster, hair included; the RIGHT half has broken away and shows the REAL person — real skin, a real eye, real hair. Plaster chunks fly around the head; thick liquid-chrome drips run over both shoulders. It stands on a round dark stone pedestal (x 8–55%, y 68–82%) with chrome dripping over its rim; tiny scaffolding with a few very small workers stands at both sides of the bust.
+2. FRONT FIGURE (x 47–68%, y 65–91%): the real player, small, full body, dribbling to the right; the ball at (x 54–60%, y 86–91%).
+- These are the ONLY two figures: never add another portrait, face or echo of the player.
 
-PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+LETTERING & CREST
+- CREST: at the upper right (x 62–90%, y 20–42%), chrome rim.
+- TAGLINE: orange neon script (x 60–82%, y 42–47%).
+- NAME: orange neon-tube serif capitals with chrome drips (x 55–98%, y 46–63%).
+- SUBTITLE: orange neon script (x 63–95%, y 62–68%).
+- POSITION: orange capitals in an orange-outlined box (x 70–80%, y 69–74%).
+- NUMBER: big orange neon-outlined digits (x 81–97%, y 68–84%).
+- FOOTER: tiny letter-spaced orange capitals at the bottom centre (y 97%).
+
+PRO PHOTOSHOP FINISH (it must look like the reference: a real professional club graphic, NOT AI)
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
-- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene and light beams → the statue with its scaffolding → the pedestal lettering → the full-body figure → foreground crowd and particles slightly out of focus).
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, the same depth layering as the reference.
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+- Never the finger-on-lips "shush" gesture.
 
 TEXT RULES
-- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
-- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
-- Ignore the placement hints in the text list below — follow THIS layout.`,
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back, a flag): there the given name / number repeats. No team-name text anywhere.
+- No animals or mascots unless they are part of the provided crest.
+- Ignore the placement hints in the text list below — follow the reference.`,
   "champ-kit-cup": `[OWN LOOK] KIT & CUP — a fiery championship graphic built around the team's shirt and the cup.
 
 SCENE
@@ -5777,15 +5857,15 @@ TEXT RULES
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
 export const PRESET_PREVIOUS: Record<string, string> = {
-  "player-living-statue": `LIVING STATUE — a monumental concert-stage statue card.
+  "player-carved-crown": `CARVED CROWN — a sunlit, epic 3D-lettering headline card.
 
-SCENE & COLOURS: deep teal-black, burning orange spotlights and cyan lasers (team colours replace orange/teal if given).
-- A huge dark arena stage: orange spotlight beams from the top corners, cyan lasers fanning out, haze, silhouettes of a crowd at the bottom.
+SCENE & COLOURS: warm cream-gold, tan and bronze letters, a bright blue sky, golden dust clouds exploding (team colours as accents if given).
+- GIANT CENTREPIECE: the NAME as huge carved 3D letters — cream stone with gold-foil bevels, engraved lines and small gold stars, slightly arched — with an ornate gold CROWN sitting on top in the centre; dust explosions and sparks around them.
 FIGURES
-1. CENTRE (huge): the player's head and chest as a GIANT white plaster STATUE bust on a round stone pedestal — cracks breaking open to reveal the REAL person's skin and face underneath, plaster chunks and dust falling, thick liquid-chrome drips running over the shoulders. Tiny scaffolding with small workers on it around the statue for scale.
+1. IN FRONT (centre, waist up): the player in a powerful, calm pose, arms crossed or hands together, full colour, warm sunlight and a crisp rim light, overlapping the bottom of the letters.
 LAYOUT
-- The NAME in elegant glowing script / serif capitals with orange neon tubes and chrome drips, across the pedestal.
-- The POSITION and NUMBER small in white letter-spaced capitals under it; the crest (if given) small at the top centre; the TEAM name (if given) in a thin strip at the very bottom.
+- The POSITION in a gold-edged dark bar under the figure, the NUMBER and TEAM name (if given) in bold white capitals under that.
+- The crest (if given) small at the top-right corner.
 
 THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
 - Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
@@ -5806,6 +5886,435 @@ PRO PHOTOSHOP FINISH (most important — it must look like a real professional c
 - The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
 - Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
 - Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-double-exposure": `DOUBLE EXPOSURE — a cinematic black-and-white double-exposure gamer card.
+
+SCENE & COLOURS: greyscale with ONE warm sunset tone (amber / orange) — team colours as a subtle tint if given. Cream paper background with black ink brush-stroke edges.
+- Everything is blended like a double exposure, inside a big rough brush-stroke shape.
+FIGURES & SCENES (all the same person)
+1. TOP LEFT (huge): a front-facing portrait wearing a gaming headset, calm and confident.
+2. TOP RIGHT: the same face in side profile, merging into a sunset sky over the player's home city (mountains, sea or skyline — no real landmarks with text).
+3. LOWER LEFT: the player seen FROM BEHIND walking into a lit stadium, the NAME and NUMBER printed on the back of the shirt.
+4. LOWER RIGHT: a gaming desk with a monitor showing a football match, and a game controller in the foreground (no brand logos).
+LAYOUT
+- The crest (if given) in the lower middle, printed into the shirt area of the portrait like a faded emblem.
+- No other big text — the NAME and NUMBER live on the shirt back; the TEAM name (if given) small under the crest.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-blood-gothic": `BLOOD GOTHIC — a black, white and blood-red gothic card.
+
+SCENE & COLOURS: pure black, greyscale and deep blood red (team colours replace the red if given).
+- Huge crimson BLACKLETTER initials of the TEAM or NAME filling the background with a gritty grunge texture, faint stadium crowd in black-and-white, scratches, a red geometric line frame at the bottom.
+FIGURES
+1. BEHIND (top, huge): a black-and-white chest-up portrait with a proud, side-glancing look, very sharp skin texture and dramatic contrast.
+2. IN FRONT (centre, full body): dribbling a ball in full colour, low camera, intense, a soft red rim light.
+LAYOUT
+- The TEAM name (if given) big in glowing red blackletter across the lower middle, split around the front figure.
+- The NAME in a clean bold white condensed sans at the right under the team name.
+- The crest (if given) at the lower left as a crisp emblem with a red splatter behind it.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-violet-peak": `VIOLET PEAK — a purple crystal-mountain card.
+
+SCENE & COLOURS: violet, ultraviolet, black and silver (team colours replace the violet if given).
+- Jagged purple crystal mountains, galaxy smoke, violet stage lights and lens flares, an X of light blades crossing behind the top centre.
+- GIANT BACKGROUND ELEMENT: the crest (if given) HUGE at the top centre as a dark chrome emblem; behind the lower half, the TEAM name (if given) in giant faded purple blackletter.
+FIGURES
+1. LEFT: the player from the waist up, smiling and pointing at the badge on the chest, darker and slightly faded.
+2. RIGHT (larger, full colour): a playful celebration — both hands up near the head, fun expression, sharp.
+LAYOUT
+- At the lower centre, one row: the NUMBER big in purple, the crest (if given) small and round in the middle, the POSITION in a purple blackletter.
+- The NAME HUGE in heavy white block capitals under that row; the TEAM name (if given) in a purple blackletter script over the bottom of the name.
+- Small letter-spaced team text at the bottom-left and bottom-right.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-thunder-night": `THUNDER NIGHT — a red lightning stadium card.
+
+SCENE & COLOURS: red, deep crimson, black and white (team colours replace the red if given).
+- A packed stadium at night under a storm: forked red lightning, floodlight glare, red haze, a cracked-glass texture over parts of the card.
+- A big blurred, out-of-focus team flag / scarf in the lower-left foreground for depth (only the TEAM name on it, if given).
+FIGURES
+1. BEHIND (right, large): a big smiling chest-up portrait, warm and confident, red rim light.
+2. IN FRONT (left-centre, full body): sprinting and pointing, full colour.
+LAYOUT
+- A vertical column of three small square tiles at the upper left showing the crest (if given) on dark backgrounds.
+- The crest (if given) also big above the name, centre-right.
+- The NAME huge in heavy white slanted capitals at the lower right; the TEAM name (if given) under it in red; the NUMBER huge in red outlined digits right of the name, cropped by the edge.
+- A thin letter-spaced line of micro-text at the top-left (only from the given texts).
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-red-beams": `RED BEAMS — a national-team style red stadium card.
+
+SCENE & COLOURS: intense red, black and white (team colours replace the red if given).
+- Vertical red light beams and streaks behind the player, a stadium with blazing floodlights and red smoke at the bottom, a pitch line running to the horizon.
+- Thin white HUD corner brackets, small crosshair marks and tiny letter-spaced micro-text in all four corners (only from the given texts).
+FIGURES (three shots of the same person)
+1. Centre, large: a chest-up portrait, focused, sweat and rain, red rim light.
+2. Right, faded: a smiling close-up in red monotone, blending into the dark.
+3. In front (right, full body): running and shouting in celebration, hand cupped to the ear, full colour.
+LAYOUT
+- The NUMBER with a "#" small and bold at the top-left under the crest (if given).
+- The crest (if given) BIG at the middle-left, overlapping the portrait's chest.
+- The POSITION in red and the NAME in white, side by side in heavy condensed capitals at the lower left; the SUBTITLE (if given) in a thin white handwritten script under it.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-riot-collage": `RIOT COLLAGE — a loud red street-collage signing card.
+
+SCENE & COLOURS: blood red, paper white and black (team colours replace the red if given).
+- Torn paper layers, grid / graph paper, halftone dots, spray paint, red lightning and electric scratches, angular shards, a stadium photo strip in red duotone at the bottom.
+- GIANT BACKGROUND ELEMENT: a dark, smoky crown silhouette shape top-right behind the figures (no animal, no face).
+FIGURES
+1. BEHIND (left-centre, large): a chest-up portrait with a cold, confident stare, fist raised near the face.
+2. IN FRONT (right, full body): standing tall with hands in pockets, a cool, relaxed swagger, full colour.
+LAYOUT
+- The NUMBER and POSITION small and bold at the left, stacked.
+- The NAME huge in tall condensed white capitals with a black outline at the lower left; the TEAM name (if given) in a big red brush SCRIPT crossing over the name.
+- The crest (if given) small and crisp at the lower right.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-royal-split": `ROYAL SPLIT — a premium two-tone split card.
+
+SCENE & COLOURS: deep navy and electric blue on the LEFT half, warm cream marble with gold cracks and gold paint splashes on the RIGHT half (team colours replace navy/gold if given).
+- A thin vertical gold line with small diamond ornaments divides the card in the middle.
+- Left: a blue stadium at night with crowd bokeh and blue mist. Right: cracked marble, gold dust, faint stadium structure lines.
+- GIANT BACKGROUND ELEMENT: the jersey NUMBER huge in distressed gold condensed digits at the top-right.
+FIGURES (three shots of the same person)
+1. Left, large, darker: an emotional celebration close-up, blue graded.
+2. Centre, large: a chest-up portrait looking slightly off camera, full colour.
+3. Right, in front, full body: striking a ball mid-air, razor sharp, a soft floor shadow.
+LAYOUT
+- The crest (if given) big and round on the left half, overlapping the figures.
+- The NAME in heavy white slanted condensed capitals below the crest, the POSITION in gold under it.
+- Tiny letter-spaced micro-text blocks in the four corners (only from the given texts), thin gold icon marks.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-steel-red": `STEEL RED — a bold red stadium-structure MVP-style card.
+
+SCENE & COLOURS: hot red, black and white (team colours replace the red if given).
+- Red-lit stadium roof trusses and steel beams at sharp angles, red smoke and embers, broken glass-like shards, thin HUD corner marks, small chevron arrows on the side edges.
+- GIANT BACKGROUND ELEMENT: the jersey NUMBER as huge hollow outlined digits behind the player.
+FIGURES
+1. ONE STRONG FIGURE in the centre from the knees up, walking toward the camera, full colour, red rim light on both sides.
+2. A faint, darker red duotone echo of the same player's face in the background smoke.
+LAYOUT
+- The POSITION and NUMBER at the left in two stacked square boxes (red box with white text, then black box with white text).
+- The crest (if given) as a round metal emblem top-right with a red glow.
+- The NAME HUGE in ultra-condensed tall white capitals across the bottom third; the TEAM name (if given) under it in grey-silver condensed capitals.
+- A thin vertical letter-spaced line of the team name on the left edge.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-golden-blaze": `GOLDEN BLAZE — a blazing, explosive gold celebration card.
+
+SCENE & COLOURS: molten gold, amber fire, deep brown-black shadows (team colours as accents if given).
+- A stadium bowl lost in golden fire, smoke and bokeh, floodlights flaring, sparks raining down, grass at the bottom edge glowing.
+- GIANT BACKGROUND ELEMENT: a huge ornate gold ring / medallion behind the portrait (engraved bevelled metal, compass-like spokes) — no letters on it except the TEAM name (if given) around the ring.
+FIGURES
+1. BEHIND (centre, huge): a celebration portrait from the waist up — head tilted back, eyes closed, fist clenched, pure joy, sweat glistening, gold rim light.
+2. IN FRONT (right, small, full body): celebrating with a knee raised, crisp and sharp.
+LAYOUT
+- The NUMBER huge in heavy condensed gold capitals at the top-right; the POSITION in a black box with white bold italic letters under it.
+- The crest (if given) big and round at the middle-left, overlapping the portrait's chest.
+- The NAME huge in heavy italic white capitals at the bottom-left; the TEAM name (if given) under it in bevelled gold.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-gold-skyline": `GOLD SKYLINE — a black-and-gold luxury club signing card.
+
+SCENE & COLOURS: black, smoky charcoal and rich gold foil (team colours as small accents if the COLOURS line gives them).
+- A dark night city skyline with stadium floodlights on the left; swirling ribbons of golden light, glowing gold dust and sparks crossing the whole card.
+- GIANT BACKGROUND ELEMENT: the jersey NUMBER and the first letters of the NAME as huge broken gold-foil and dark-concrete letter blocks, cropped by the edges, layered behind the figures.
+FIGURES
+1. BEHIND (right, large): a chest-up portrait, intense look, warm gold rim light, blended into the gold smoke.
+2. IN FRONT (left, smaller, full body): jogging toward the camera on a dark pitch, sharp, full colour.
+LAYOUT
+- The crest (if given) big and crisp at the right, overlapping the portrait's chest, with a soft gold glow.
+- The NAME in tall ultra-condensed white capitals, the POSITION under it in big gold-foil outlined letters, both at the lower right under the crest.
+- Thin gold frame lines and tiny letter-spaced micro-text in the corners (only from the given texts).
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two cut-outs of the SAME person from the photo (exact same face, features, hair, skin tone, outfit): a BIG chest-up PORTRAIT behind, blended into the scene, and a razor-sharp FULL-BODY ACTION shot in front — the front figure is always caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Collage craft: real scanned textures (torn paper edges with fibres, grunge, halftone dots, ink splatter, scan lines, light leaks), thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro sports designer: the NAME huge in heavy slanted condensed capitals with a hard offset shadow or a thick outline; the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script / gothic accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- Unless THIS style's layout asks for it: no glossy mirror floor, no neon outline number, no glow on everything, no plastic chrome, no cartoon / CGI look.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The front figure is the ACTION shot described above; the portrait behind has a calm, intense, closed-mouth expression — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene → giant background element → portrait → full body → lettering → foreground particles slightly out of focus).
+- Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, team, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Write each item once. If an item is not given, leave its spot out. No team-name text anywhere unless THIS style's layout names it as its giant design element.
+- No animals or mascots unless they are part of the provided crest. Leave one bottom corner calm (brand mark goes there).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-living-statue": `[FIXED POSES] LIVING STATUE — a monumental concert-stage player card whose big portrait is a GIANT CRACKING STATUE of the player, made like a high-end PHOTOSHOP composite by a top club designer. Epic, cinematic, premium.
+
+SIGNATURE (never skip it — without it this is not this style)
+- The big portrait of the player is NOT a normal photo portrait: it is a GIANT WHITE PLASTER STATUE BUST of the player (head, neck and chest) standing on a round dark stone pedestal in the centre of the card, about two thirds of the poster tall.
+- The plaster is CRACKING OPEN: on one half of the face and chest the white shell has broken away and the REAL person shows underneath — real skin, a real eye, real hair — while the other half is still smooth white plaster covered in fine cracks. Plaster chunks and white dust fall from it.
+- Thick LIQUID-CHROME drips run over the statue's shoulders and down the pedestal.
+- Tiny scaffolding with a few very small workers stands around the statue, so it reads as a monument.
+
+SCENE & COLOURS: deep teal-black, burning orange spotlights and cyan lasers (team colours replace orange / teal if the COLOURS line gives them).
+- A huge dark arena stage: orange spotlight beams from the top corners crossing behind the statue, cyan lasers fanning out, haze, a dark crowd with raised hands along the bottom edge.
+
+FIGURES
+1. BEHIND (centre, huge): the STATUE described above. It IS the portrait of the player — the same face as the photo, recognisable in the plaster half and in the real half.
+2. IN FRONT (lower right, small, full body): the real player in full colour striding across the stage in front of the pedestal, about one third of the poster tall, with an orange rim light — clearly smaller than the statue, never covering its face.
+- These are the ONLY two figures. The statue IS the second / portrait figure of this design: never add another portrait, face or echo of the player behind or beside it.
+
+LAYOUT
+- The NAME across the pedestal in elegant glowing serif / script capitals built from orange neon tubes with liquid-chrome drips.
+- The POSITION and NUMBER small under the name; the crest (if given) at the top centre above the statue; subtitle (if given) in a thin neon script; footer tiny.
+
+THE HOUSE LOOK (a top club's PHOTOSHOP signing graphic — never a generic AI render)
+- Two figures of the SAME person from the photo (exact same face, features, hair, skin tone): the GIANT STATUE behind — this style's big portrait, never a normal photo portrait — and a razor-sharp FULL-BODY shot of the real player in front, caught in real movement, never a stiff standing pose.
+- The team crest (only if a crest reference image is given) is a HERO element: big, crisp and faithful, overlapping the figures — never a tiny corner badge. Never copy a badge or sponsor from the player's shirt.
+- Stage craft: real haze, plaster dust and falling debris, light leaks and lens flares, thin frame lines and small geometric marks in the margins, believable layer shadows, one cohesive colour grade, fine film grain.
+- Typography like a pro designer: the NAME is this style's neon-and-chrome lettering piece on the pedestal (described above); the POSITION and NUMBER as flat solid boxes or bold outlined digits; at most one script accent (only from the given texts).
+- Tiny letter-spaced "manifesto" micro-lines in the margins — ONLY made from the given texts (tagline, subtitle, footer repeated small; nothing else); never invented words, coordinates, years or slogans.
+- The statue is a real photographed plaster sculpture and the chrome is real liquid metal with true reflections — no cartoon / CGI look, no plastic materials, no glow on everything.
+
+POSE RULE (strict)
+- NEVER the finger-on-lips "shush" gesture (it is banned — it has been overused), unless the user's own pose choice asks for it.
+- The statue faces the camera almost straight on, calm and monumental, with a closed mouth; the front figure is the action shot described above — no screaming faces.
+
+ESPORTS TOUCH (subtle)
+- A few pro-esports details that fit the scene: thin angular HUD lines or corner brackets, a faint hex / grid texture, an LED light bar or stage screen glowing in the colours — graphic shapes only, never extra words or numbers. It must still read as a real club graphic.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a hard coloured rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, depth layering (scene and light beams → the statue with its scaffolding → the pedestal lettering → the full-body figure → foreground crowd and particles slightly out of focus).
 - Cinematic grade: deep but detailed blacks, controlled highlights, a cohesive colour grade, fine film grain, gentle vignette, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment.
 
 TEXT RULES

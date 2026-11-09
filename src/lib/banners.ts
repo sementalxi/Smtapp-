@@ -412,8 +412,10 @@ export function collectProRefs(opts: {
   } else if (opts.styleRefUrl) {
     refs.push({
       url: opts.styleRefUrl,
-      label:
-        "a STYLE reference only. Match its overall look: composition and layering, lighting, colour grading, textures, effects and typography feel. Do NOT copy its people, faces, names, text, logos, badges, stickers or watermarks.",
+      // [EXACT REF] styles copy their reference poster as it is — only the player, the texts and the crest are swapped.
+      label: /\[EXACT REF\]/.test(opts.instructions ?? "")
+        ? "a STYLE reference only — the finished poster this style copies. Recreate its DESIGN exactly: the same layout with every element in the same place and at the same size, the same background scene, colours, lighting, effects, lettering styles and crest treatment (see STYLE REFERENCE in the art director's instructions). Its person, words, digits and emblem are placeholders: do NOT copy its people, faces, names, text, logos, badges, stickers or watermarks — the uploaded player, the given texts and the given crest take their places."
+        : "a STYLE reference only. Match its overall look: composition and layering, lighting, colour grading, textures, effects and typography feel. Do NOT copy its people, faces, names, text, logos, badges, stickers or watermarks.",
     });
   }
   return refs;
@@ -978,6 +980,8 @@ export function buildProPrompt(opts: {
   const adminLed = !!opts.instructions?.trim();
   // A style with its own reference flyer or an explicit [OWN LOOK] tag keeps its look instead of the generic layout rules.
   const ownLook = adminLed && (opts.refs.some((r) => r.label.startsWith("a STYLE reference only")) || /\[OWN LOOK\]|STYLE REFERENCE/.test(opts.instructions ?? ""));
+  // [EXACT REF]: the style copies its reference poster exactly — no new arrangement, no surprise pose, the crest where the reference has it.
+  const exactRef = /\[EXACT REF\]/.test(opts.instructions ?? "") && opts.refs.some((r) => r.label.startsWith("a STYLE reference only"));
   const kind = { PLAYER: "player card", CHAMPIONS: "champions", MATCHDAY: "match day", LINEUP: "starting lineup", TOTW: "team of the week", RESULT: "full-time result", EVENT: "tournament / event", STANDINGS: "league standings table", LOGO: "team logo", QUALIFIERS: "world cup qualifiers announcement", WINNERS: "champions showcase wall" }[layout] ?? "sports";
   const directorBlock =
     opts.instructions?.trim()
@@ -992,7 +996,7 @@ export function buildProPrompt(opts: {
     fontPrompt(i.fontSecondary) ? `- NAMES FONT: names, numbers and small text in ${fontPrompt(i.fontSecondary)}.` : "",
     i.language && i.language !== "English" ? `- LANGUAGE: generic words (titles, labels) written in ${i.language}; names stay exactly as typed.` : "",
     layout === "PLAYER" && i.bgPose && !["style", "none", "surprise", ""].includes(i.bgPose) && bgPosePrompt(i.bgPose) ? `- SECOND FIGURE POSE: ${bgPosePrompt(i.bgPose)}.` : "",
-    layout === "PLAYER" && (!i.bgPose || i.bgPose === "surprise") && !i.photo2Url && !/\[FIXED POSES\]/.test(opts.instructions ?? "")
+    layout === "PLAYER" && (!i.bgPose || i.bgPose === "surprise") && !i.photo2Url && !/\[FIXED POSES\]|\[EXACT REF\]/.test(opts.instructions ?? "")
       ? `- SECOND FIGURE POSE (surprise #${v.seed % 1000}): the background / portrait figure of the player is NOT a straight-on portrait this time — it is ${surprisePose(v.seed)}. Same person, same face, hair, skin tone and outfit as the photo, NEWLY CREATED in this pose (a different angle, crop and expression — never a copy, duplicate, mirror or re-crop of the uploaded photo) and rendered in the style's treatment (its duotone, grade, blend and placement). Where the style asks for an up-close portrait too, that portrait is also newly generated: a tight crop of the face at a different angle. The main figure in front keeps the photo's own pose.`
       : "",
     layout === "PLAYER" && i.bgPose === "none" && !i.photo2Url ? `- Show the player only ONCE (no second figure).` : "",
@@ -1001,7 +1005,9 @@ export function buildProPrompt(opts: {
       : layout === "PLAYER" && !exactLogos
         ? `- NO CREST: no team crest was given, so draw NO crest, badge, emblem or club name anywhere — the badge on the shirt stays only on the shirt at its natural size.`
         : "",
-    layout === "PLAYER" && hasTeamLogo && !exactLogos && (i.aiLogo === "on" || i.aiLogo === "both")
+    layout === "PLAYER" && hasTeamLogo && !exactLogos && (i.aiLogo === "on" || i.aiLogo === "both") && exactRef
+      ? `- CREST PLACEMENT: the 3D emblem sits exactly where the STYLE reference has its emblem, at the same size; a giant faded echo of it only where the reference has one. No other copies unless the reference shows them.`
+      : layout === "PLAYER" && hasTeamLogo && !exactLogos && (i.aiLogo === "on" || i.aiLogo === "both")
       ? `- CREST PLACEMENT & ECHO (overrides any crest position in the instructions above): the main 3D emblem goes wherever it looks BEST in this composition — the spot the style names is only a suggestion: a top corner, the top centre, beside or under the name, a mid-side or a lower corner — balanced against the figure and the title, big enough to matter, never over a face, and in a different place from poster to poster (variation #${v.seed % 7}). PLUS a second copy: the same crest HUGE and ghosted in the background (about 10–25% opacity, tinted into the scene's colours, softened or textured like the backdrop, partly behind the title and the figure) — blended, never a sticker. No other copies.`
       : "",
     layout === "PLAYER" && i.photo2Url && aiRefs.some((r) => r.label.startsWith("a SECOND photo"))
@@ -1041,7 +1047,7 @@ export function buildProPrompt(opts: {
     userChoices,
     opts.season ?? "",
     adminLed
-      ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.photo2Url && aiRefs.some((r) => r.label.startsWith("a SECOND photo")) ? `Wherever the instructions describe a second image / portrait of the player, that figure is the user's SECOND photo (reference image ${aiRefs.findIndex((r) => r.label.startsWith("a SECOND photo")) + 1}) used exactly as photographed — not a pose you invent. ` : i.bgPose === "none" ? "Show the player only once. " : (!i.bgPose || i.bgPose === "surprise") && !/\[FIXED POSES\]/.test(opts.instructions ?? "") ? `The second figure / portrait of the player the instructions describe takes THIS pose instead of a straight-on portrait: ${surprisePose(v.seed)} (a newly generated shot of the same person, in the style's treatment). ` : i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
+      ? `This is a ${kind} poster. Its layout, composition, figures, typography and effects are defined by the ART DIRECTOR'S DESIGN INSTRUCTIONS above — follow them exactly. ${layout === "CHAMPIONS" ? `Trophy: ${i.trophyUrl ? "the provided trophy (reference image)" : trophyPrompt(i.trophy) || "a large shiny trophy"}. ` : ""}${layout === "PLAYER" ? (i.photo2Url && aiRefs.some((r) => r.label.startsWith("a SECOND photo")) ? `Wherever the instructions describe a second image / portrait of the player, that figure is the user's SECOND photo (reference image ${aiRefs.findIndex((r) => r.label.startsWith("a SECOND photo")) + 1}) used exactly as photographed — not a pose you invent. ` : i.bgPose === "none" ? "Show the player only once. " : (!i.bgPose || i.bgPose === "surprise") && !/\[FIXED POSES\]|\[EXACT REF\]/.test(opts.instructions ?? "") ? `The second figure / portrait of the player the instructions describe takes THIS pose instead of a straight-on portrait: ${surprisePose(v.seed)} (a newly generated shot of the same person, in the style's treatment). ` : i.bgPose !== "style" ? `If the instructions don't describe a second figure, add one behind: ${bgPosePrompt(i.bgPose)} (a newly generated shot of the same person). ` : "") : ""}${frame} Unless the instructions describe the background in detail, use this: ${finish}`
       : composition,
     // With admin instructions, the AI only reads those (the old background description is not sent).
     adminLed ? "" : opts.cardLook ? `Layout base (its scene and colours are replaced by the LOOK in the user choices): ${opts.templatePrompt}.` : `Visual style (base${(i.colorMode === "custom" && i.color1) || v.palette || i.colorMode === "team" ? " — keep its mood, scene and materials, but NOT its colours; use the COLOURS line below" : ""}): ${opts.templatePrompt}.`,
@@ -1053,6 +1059,8 @@ export function buildProPrompt(opts: {
       : "",
     opts.series
       ? `TEAM SET: this card belongs to a matching set for the whole team. Copy the design of the first card (reference image) as closely as possible — same background, colours, layout, fonts and effects — so all cards look like one series. Only the player and the player's text change.`
+      : exactRef
+      ? `EXACT STYLE (no variation): this poster is the SAME DESIGN as the STYLE reference image — the same layout with every element in the same place and at the same size, the same background scene, colours, lighting, effects and lettering styles. Nothing is rearranged, mirrored, restyled or added; only the player, the texts and the crest are swapped, plus whatever the USER CHOICES name.`
       : randomize && (layout === "LINEUP" || layout === "TOTW" || /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""))
       ? `Make this poster feel fresh (variation #${v.seed}) with new small details, but keep the layout, concept and style ${adminLed ? "the art director defined" : "of the base style"}.`
       : randomize
@@ -1128,7 +1136,7 @@ export function buildProPrompt(opts: {
       : "",
     `THE PHOTO IS NOT CONTENT (very important): the uploaded photo is only a picture of the PERSON. Anything printed on their kit — a club badge, sponsor names, brand marks, words, numbers — belongs to that kit and is NOT the team, NOT a logo for this poster and NOT text for this poster. Never read, copy, echo, enlarge or rewrite any word, letter, number or badge that appears in the photo: not as giant background letters, not as a crest or emblem, not as a name, tagline or team name. ${i.team ? `The team is ${q(i.team)} — that is the only team name on this poster.` : layout === "TOTW" ? "Club names appear only as the small sub line on the cards that list one." : "No team name was given — so no team name or club letters anywhere."} ${hasTeamLogo ? "The team crest is ONLY the crest given as its own reference image — the badge on the shirt in the photo is a different kit; leave it where it is on the shirt and never draw it as a separate element." : "No crest was given — draw no crest, badge or emblem anywhere (the badge on the shirt stays only on the shirt)."}`,
     layout === "PLAYER" && i.bgPose !== "silence"
-      ? `POSES: do NOT use the finger-on-lips "shush" gesture on any figure — it is banned (overused). Unless the design instructions describe the poses, the main full-body figure is a real ACTION moment (sprinting, dribbling, striking, leaping, a knee-slide, a celebration with arms out) — never a stiff standing pose — and the second figure is a calm, intense portrait with a closed mouth (no screaming). Vary the pose from poster to poster.`
+      ? `POSES: do NOT use the finger-on-lips "shush" gesture on any figure — it is banned (overused). Unless the design instructions describe the poses, the main full-body figure is a real ACTION moment (sprinting, dribbling, striking, leaping, a knee-slide, a celebration with arms out) — never a stiff standing pose — and the second figure is a calm, intense portrait with a closed mouth (no screaming). ${exactRef ? "The figures take the poses of the STYLE reference's figures — the same on every poster." : "Vary the pose from poster to poster."}`
       : "",
     layout === "PLAYER"
       ? `GIANT BACKGROUND LETTERS: wherever this design has huge background / graphic lettering, it spells the PLAYER'S NAME (gamertag) ${i.name ? q(i.name) : ""} — never the team name, never a word from the photo or the crest. The player's name may therefore appear twice: once as the main title and once as that graphic echo.`

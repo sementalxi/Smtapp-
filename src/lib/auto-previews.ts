@@ -24,6 +24,11 @@ type Batch = {
    * reference. A preview or reference the admin picked in the meantime is never touched.
    */
   redo?: Record<string, string>;
+  /**
+   * A plain test round: one poster per style with other texts and another crest than the previews have. Nothing is
+   * saved onto the styles — the posters land in the admin's Style test results, to see what a style really makes.
+   */
+  check?: { texts: { name: string; position: string; number: string; tagline: string; subtitle: string; footer: string }; team: string; crest: string };
 };
 
 const BATCHES: Batch[] = [
@@ -46,6 +51,15 @@ const BATCHES: Batch[] = [
     slugs: ["player-living-statue", "player-royal-split"],
     redo: { "player-living-statue": "5ef5c96a-c0cc-42fc-9b70-ac278bea8f0c", "player-royal-split": "c41fbaa9-2afa-41bc-9464-475e96c3a585" },
   },
+  // The 12 styles became exact copies of their reference posters ([EXACT REF]). One test poster each with OTHER
+  // texts and another crest shows that only the player, the texts and the crest change — and nothing of the
+  // reference's own words or emblem comes along.
+  {
+    key: "auto_check_players_exact_v1",
+    parallel: 6,
+    slugs: ["player-gold-skyline", "player-golden-blaze", "player-steel-red", "player-royal-split", "player-riot-collage", "player-red-beams", "player-thunder-night", "player-violet-peak", "player-blood-gothic", "player-double-exposure", "player-carved-crown", "player-living-statue"],
+    check: { texts: { name: "ZAYDEN99", position: "CDM", number: "23", tagline: "Official", subtitle: "Player of the month", footer: "Pro Clubs 2027" }, team: "OCEAN KRAKEN", crest: "ocean-kraken" },
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute
@@ -66,7 +80,8 @@ type Tpl = { id: string; name: string; layout: string; slug: string; textSlots: 
 function sampleFor(b: Batch) {
   const site = (process.env.NEXT_PUBLIC_APP_URL || "https://kixo.pro").replace(/\/+$/, "");
   const parallel = b.parallel ?? 0;
-  return { ...DEFAULT_SAMPLE, ...(b.name ? { name: b.name } : {}), team: "NEON WOLVES", competition: "KIXO Pro League", logoUrl: `${site}/refs/test-crests/neon-wolves.png`, colorMode: "template" as const, parallel };
+  const base = { ...DEFAULT_SAMPLE, ...(b.name ? { name: b.name } : {}), team: "NEON WOLVES", competition: "KIXO Pro League", logoUrl: `${site}/refs/test-crests/neon-wolves.png`, colorMode: "template" as const, parallel };
+  return b.check ? { ...base, ...b.check.texts, team: b.check.team, logoUrl: `${site}/refs/test-crests/${b.check.crest}.png` } : base;
 }
 
 const runItems = (list: Tpl[]) => list.map((t) => ({ id: t.id, name: t.name, layout: t.layout, logoCreate: false, slug: t.slug, textSlots: t.textSlots }));
@@ -144,6 +159,20 @@ export async function autoPreviewsTick() {
     if (!tpls.length) continue;
     if (b.redo) {
       await redoTick(b, tpls, t0);
+      continue;
+    }
+    if (b.check) {
+      // Started once; its posters are only looked at (Admin → Style test), never saved onto the styles.
+      if (await db.setting.findUnique({ where: { key: b.key } })) continue;
+      const { getRun, startRun } = await import("./style-test");
+      const cur = await getRun();
+      if (cur && (cur.status === "running" || cur.status === "paused")) continue;
+      const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
+      if (!admin) continue;
+      await db.setting.create({ data: { key: b.key, value: new Date().toISOString() } });
+      const sample = sampleFor(b);
+      const run = await startRun(admin.id, runItems(tpls), sample, sample.parallel);
+      if (run) await db.setting.update({ where: { key: b.key }, data: { value: run.id } });
       continue;
     }
     const started = await db.setting.findUnique({ where: { key: b.key } });
