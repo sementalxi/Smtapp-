@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError, isStaff } from "@/lib/auth";
+import { apiUser, HttpError, isStaff, makesFree } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import { proConfigured, BLOCKED } from "@/lib/ai";
@@ -102,7 +102,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
 
   // Admin editing someone else's poster: free, and the new version goes to that user's account.
   const forOther = src.userId !== user.id;
-  const cost = forOther ? 0 : await getNumberSetting("pro_cost");
+  const cost = forOther || makesFree(user.role) ? 0 : await getNumberSetting("pro_cost");
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
   const fmt = (src.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;

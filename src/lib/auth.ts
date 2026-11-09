@@ -51,6 +51,8 @@ export async function requireUser() {
 export type Role = "USER" | "ADMIN" | "STAFF" | "SUPPORT";
 /** Content staff: the creator's admin-only tools, free tests, styles / style test / texts. */
 export const isStaff = (role: string | null | undefined) => role === "ADMIN" || role === "STAFF";
+/** Admins never use credits: everything an admin makes (posters, edits, new versions, videos) is free. */
+export const makesFree = (role: string | null | undefined) => role === "ADMIN";
 /** Support staff: users, posters made, transactions, payments, e-mail. */
 export const isSupport = (role: string | null | undefined) => role === "ADMIN" || role === "SUPPORT";
 /** Any role that may open the admin panel. */

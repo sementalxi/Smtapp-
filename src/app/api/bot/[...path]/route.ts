@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { db } from "@/lib/db";
 import { SESSION_COOKIE, signSession } from "@/lib/session";
 import { getNumberSetting } from "@/lib/settings";
+import { makesFree } from "@/lib/auth";
 import { activeTemplates } from "@/lib/queries";
 import { thumb } from "@/lib/thumb";
 
@@ -77,7 +78,7 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
       const bonus = (await getNumberSetting("signup_credits").catch(() => 0)) + (await getNumberSetting("discord_bonus").catch(() => 0));
       return j({ linked: false, cost, bonus, signup: `${site()}/api/auth/discord` });
     }
-    return j({ linked: true, name: u.name, credits: u.credits, cost });
+    return j({ linked: true, name: u.name, credits: u.credits, cost: makesFree(u.role) ? 0 : cost }); // admins never use credits
   }
 
   // Styles this user may use for a type.

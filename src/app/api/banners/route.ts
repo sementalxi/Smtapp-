@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError, isStaff } from "@/lib/auth";
+import { apiUser, HttpError, isStaff, makesFree } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import {
@@ -97,7 +97,8 @@ export const POST = handle(async (req: NextRequest) => {
   const pro = body.mode === "PRO";
   if (pro && !proConfigured()) throw new HttpError(400, "pro_not_configured");
   if (!pro && !["PLAYER", "CHAMPIONS", "EVENT"].includes(template.layout)) throw new HttpError(400, "pro_only_layout");
-  const cost = adminTest ? 0 : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
+  // Admins never use credits (and the admin style test is free for all staff).
+  const cost = adminTest || makesFree(user.role) ? 0 : pro ? await getNumberSetting("pro_cost") : aiConfigured() ? template.cost : 0;
   // Fast path; the real check is atomic when credits are taken.
   if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
 
@@ -208,7 +209,7 @@ export const POST = handle(async (req: NextRequest) => {
     await generateForBanner({
       bannerId: banner.id,
       userId: user.id,
-      cost: template.cost,
+      cost,
       prompt: template.prompt,
       extraPrompt: inputs.extraPrompt,
       photoUrl: body.photoUrl,

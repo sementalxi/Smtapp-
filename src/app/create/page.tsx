@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser, isStaff } from "@/lib/auth";
+import { requireUser, isStaff, makesFree } from "@/lib/auth";
 import { getT } from "@/i18n/server";
 import { activeTemplates } from "@/lib/queries";
 import { proConfigured } from "@/lib/ai";
@@ -66,7 +66,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
           <TeamSetForm
             match={{ id: source.id, imageUrl: source.finalUrl, team, count }}
             credits={user.credits}
-            cost={await getNumberSetting("pro_cost")}
+            cost={makesFree(user.role) ? 0 : await getNumberSetting("pro_cost")}
           />
         </div>
       );
@@ -136,7 +136,7 @@ export default async function CreatePage({ searchParams }: { searchParams: Promi
       <CreateWizard
         templates={templates}
         credits={user.credits}
-        cost={await getNumberSetting("pro_cost")}
+        cost={makesFree(user.role) ? 0 : await getNumberSetting("pro_cost")}
         proEnabled={proConfigured()}
         initialLayout={prefill?.layout ?? initial}
         initialChamp={initialChamp}

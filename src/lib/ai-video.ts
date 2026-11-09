@@ -69,10 +69,10 @@ export async function videoPrices() {
 }
 
 /** Charges credits and sends the job to fal. Throws HttpError-like errors with a code. */
-export async function startVideo(o: { userId: string; bannerId: string; imageUrl: string; seconds: 5 | 10; audio: boolean; motion: string; extra?: string }) {
+export async function startVideo(o: { userId: string; bannerId: string; imageUrl: string; seconds: 5 | 10; audio: boolean; motion: string; extra?: string; /** nothing is charged (admins) */ free?: boolean }) {
   const p = await videoPrices();
   if (!p.on) throw Object.assign(new Error("video_off"), { status: 503 });
-  const cost = (o.seconds === 10 ? p.ten : p.five) + (o.audio ? p.audio : 0);
+  const cost = o.free ? 0 : (o.seconds === 10 ? p.ten : p.five) + (o.audio ? p.audio : 0);
   const motion = MOTIONS[o.motion]?.prompt ?? MOTIONS.ultra.prompt;
   const flexes = pick(FLEXES, o.motion === "ultra" ? 2 : 1);
   const prompt = [

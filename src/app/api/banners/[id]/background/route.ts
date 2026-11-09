@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError, isStaff } from "@/lib/auth";
+import { apiUser, HttpError, isStaff, makesFree } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import { assertInputUrls, buildProPrompt, collectProRefs, seriesInfo, seriesRefUrl, generateForBanner, generateProForBanner, InputsSchema, titleFor, toJson } from "@/lib/banners";
@@ -92,7 +92,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
         crestNote,
         refColours,
       });
-      const cost = compare ? 0 : await getNumberSetting("pro_cost");
+      const cost = compare || makesFree(user.role) ? 0 : await getNumberSetting("pro_cost");
       if (cost > 0 && user.credits < cost) return json({ error: "err_credits" }, 402);
       // A new design is saved as a NEW poster — the old one stays untouched in the history.
       const copy = await db.banner.create({
@@ -136,7 +136,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     const updated = await generateForBanner({
       bannerId: banner.id,
       userId: user.id,
-      cost: banner.template.cost,
+      cost: makesFree(user.role) ? 0 : banner.template.cost,
       prompt: banner.template.prompt,
       extraPrompt: body.extraPrompt ?? "",
       backgroundOnly: true,

@@ -1,7 +1,7 @@
 import { crestModeLabel } from "@/lib/templates";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { requireUser, isStaff } from "@/lib/auth";
+import { requireUser, isStaff, makesFree } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getT } from "@/i18n/server";
 import { aiConfigured } from "@/lib/banners";
@@ -58,7 +58,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
           imageUrl={banner.finalUrl}
           inputs={{ ...EMPTY_INPUTS, ...(banner.inputs as unknown as Partial<BannerInputs>) }}
           layout={banner.template.layout}
-          cost={await getNumberSetting("pro_cost")}
+          cost={makesFree(user.role) ? 0 : await getNumberSetting("pro_cost")}
           credits={user.credits}
           admin={
             user.role === "ADMIN"
@@ -89,7 +89,7 @@ export default async function BannerPage({ params }: { params: Promise<{ id: str
         }}
         layout={banner.template.layout}
         style={banner.template.style as unknown as TemplateStyle}
-        cost={aiConfigured() ? banner.template.cost : 0}
+        cost={aiConfigured() && !makesFree(user.role) ? banner.template.cost : 0}
         credits={user.credits}
       />
       )}
