@@ -409,10 +409,10 @@ BACKGROUND
 - A thin vertical gold line at x 50% from top to bottom, with a small diamond ornament near each end.
 - The crest again, giant and faint, at the top left (x 5–32%, y 5–35%).
 
-FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
-1. BACK PORTRAIT (left — x 12–40%, y 13–45%): darker and blue-graded — looking down, both hands adjusting the collar.
-2. CENTRE PORTRAIT (x 35–66%, y 10–48%): chest-up, looking up and away to the left, full colour.
-3. RIGHT FIGURE (x 50–95%, y 30–88%): waist-up portrait, ARMS CROSSED over the chest, chin slightly raised, looking straight at the camera with a calm, confident expression — like a magazine cover shoot. Cropped at the waist (legs and feet are not visible). Both hands grip the opposite upper arm. The figure stands completely still. Razor sharp, colour-matched to the gold/marble right side. (This figure is a portrait, never a full-body action shot.)
+FIGURES (two shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. BACK PORTRAIT (left — x 8–38%, y 10–50%): darker and blue-graded — looking down, both hands adjusting the collar, fading into the navy side.
+2. MAIN PORTRAIT (centre-right — x 28–80%, y 5–75%): a BIG waist-up portrait filling most of the poster — arms crossed over the chest, chin slightly raised, looking straight at the camera with a calm, confident expression. Full colour, razor sharp, a strong gold rim light on the right separating the figure from the marble background. This is the hero of the card — large and dominant, like a magazine cover.
+- Only TWO figures on this poster. There is no third figure, no full-body shot, no running, no ball anywhere.
 
 LETTERING & CREST
 - NUMBER: huge distressed gold-foil block digits at the top right (x 67–99%, y 5–42%), behind the figures.
