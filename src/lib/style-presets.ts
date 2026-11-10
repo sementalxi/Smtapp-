@@ -47,6 +47,8 @@ TEXT RULES
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
   "player-glass-rings": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] GLASS RINGS — a soft pink-and-grey editorial card: a giant red serif first letter of the name curling behind the player, floating red-and-clear glass rings blurred in the foreground, a tall black serif number and initial. Airy, elegant, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: blush pink fading to cool light grey, one strong red, black lettering (the team colour replaces the red if the COLOURS line gives one).
@@ -89,6 +91,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-sepia-ribbons": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] SEPIA RIBBONS — a warm sepia card: giant cropped calligraphy letters of the name in brown and charcoal ribbons, thin vertical lines, a huge looking-up portrait and a small full-body shot in front. Warm, artistic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: cream, caramel, warm brown and charcoal; everything graded warm sepia.
@@ -126,6 +130,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-cubist": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED CUBIST — a red geometric card: angular red and white shards framing a huge face, a medium portrait at the left, a small full-body shot in the centre and the name in giant white serif capitals across the middle. Bold, editorial, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -167,6 +173,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-mono-serif": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] MONO SERIF — a black-and-white fog card: a giant thin serif first letter of the name, a huge side portrait, a standing portrait and a small full-body shot, with warm light leaks. Quiet, cinematic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: black, white and soft grey with a faint warm brown haze at the bottom left; a small rainbow light leak at the bottom.
@@ -205,6 +213,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-grey-wings": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GREY WINGS — a misty black-and-white card: giant curved black feather strokes, a sharp white angular shape, a huge profile portrait, a standing shot and a kneeling celebration in front. Dramatic, clean, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -246,6 +256,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-vertical-blaze": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] VERTICAL BLAZE — an orange-red motion card: the name in giant white rounded capitals stacked vertically down the centre, a huge blurred close-up, a tall portrait and a small low-stance figure, with light streaks. Fast, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: burnt orange, red, black and white (the team colour replaces the orange if the COLOURS line gives one).
@@ -285,6 +297,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-triple-run": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] TRIPLE RUN — a blue-and-yellow card: a giant yellow curly numeral sweeping behind, a huge close-up face at the top right, and the player three times running toward the camera in a diagonal line. Energetic, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: royal blue, sunny yellow and white with deep navy (the team colours replace them if the COLOURS line gives them).
@@ -323,6 +337,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-wine-swirl": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] WINE SWIRL — a wine-red swirl card: a huge smiling portrait reaching toward the camera, three small figures in a diagonal line, and the name in giant white letters. Joyful, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -364,6 +380,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-golden-number": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GOLDEN NUMBER — a warm gold-and-wine card: a giant silhouette profile filled with a stadium, a huge white brush numeral, and three shots of the player. Glowing, proud, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: golden yellow, white, wine red and deep maroon (the team colours replace them if the COLOURS line gives them).
@@ -401,6 +419,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-icon": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED ICON — a deep red card: giant blurred white letters around the edges, a big profile and a portrait, the subtitle in tall white condensed letters behind two small figures. Powerful, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -442,6 +462,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-candy-stripes": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] CANDY STRIPES — a bright red-and-white diagonal stripe card: a celebrating portrait with a fist raised, a huge close-up, a small walking figure and the name in two colours. Bold, fresh, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: bright red, white and peach (the team colour replaces the red if the COLOURS line gives one).
@@ -479,6 +501,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-swash": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED SWASH — a red editorial card: giant white swash shapes of the number curling behind, a celebrating portrait, a huge profile, a small figure and the name in huge red letters at the bottom. Clean, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -520,6 +544,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-halftone-hero": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] HALFTONE HERO — a dark navy-and-red halftone card: a big back view with the name and number on the shirt, a huge close-up, a small walking figure and two round badges at the bottom. Gritty, modern, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: dark navy, black, hot red and white.
@@ -557,6 +583,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-orange-halo": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] ORANGE HALO — a deep blue card: a giant orange halo circle, a huge side-profile face, a celebrating portrait with a raised fist, a small walking figure and the name in two colours. Bright, proud, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -599,6 +627,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-lens": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED LENS — a red studio card: blurred red and white shapes in the foreground like looking through a lens, a big calm close-up, a smiling portrait and a small low-stance figure. Moody, sharp, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: red, deep red, black and white (the team colour replaces the red if the COLOURS line gives one).
@@ -636,6 +666,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-lime-blades": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] LIME BLADES — an electric blue and lime card: giant glowing blade shapes of the first letter, a big profile portrait, a leaping figure, a small walking figure and a night skyline. Electric, fast, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -676,6 +708,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-stadium-truss": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] STADIUM TRUSS — a red stadium collage card: cut-outs of a grey steel stadium roof and stands, a diagonal truss, a huge smiling profile, a calm portrait, small flags and a small standing figure. Architectural, proud, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: rich red, white, steel grey and touches of blue (the team colour replaces the red if the COLOURS line gives one).
@@ -715,6 +749,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-court-slash": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] COURT SLASH — a white paper card cut by a glowing orange diagonal band showing a lit indoor court, the player three times, a grey text panel and a chrome signature. Playful, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: off-white paper, warm orange and amber, grey; chrome lettering.
@@ -753,6 +789,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-grey-signature": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GREY SIGNATURE — a grey grain card: the name in big grey capitals at the top, a huge black-and-white face, a big red script across it, three small figures and a giant two-line title at the bottom. Editorial, punchy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -794,6 +832,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-fight-night": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] FIGHT NIGHT — a dark fight-poster card: red smoke and white storm clouds, white lightning, a huge serious close-up, a smaller flexing figure, and the name in big italic white capitals. Intense, cold, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: near-black, deep blue-grey, hot red and white (the team colour replaces the red if the COLOURS line gives one).
@@ -831,6 +871,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-desert-temple": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] DESERT TEMPLE — a warm terracotta desert card: the player framed by a sandstone archway under a hazy sun, a pyramid below, bronze guardian statues in the corners and the name written as one giant sweep of white sand script. Epic, sun-baked, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -873,6 +915,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-torn-sky": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] TORN SKY — a fresh sky-blue torn-paper collage: a giant close-up on the left, a calm portrait at the top, a full-body shot standing on white paper, rough torn strips between them, and a tall navy name with a white signature across it. Bright, clean, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -917,6 +961,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-lava-throne": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] LAVA THRONE — a volcanic red throne-room card: three portraits of the player rising out of glowing red haze and, in front, the player seated on a dark throne on an island of cracked lava rock. Regal, fiery, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: lava red, molten orange and black rock; white lettering.
@@ -960,6 +1006,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-golden-smoke": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GOLDEN SMOKE — an amber-gold duotone card: a giant outlined number, a big proud portrait with a hand on the heart and a smaller full-body shot walking out of clouds of yellow smoke. Warm, loud, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: one golden-amber tone with charcoal shadows (the team colour replaces the amber if the COLOURS line gives one); white lettering.
@@ -999,6 +1047,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-night-hero": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] NIGHT HERO — a deep-blue stadium-night card: a heroic portrait with folded arms under the floodlights, a small back view walking out to the pitch and the name in giant frosted-glass letters. Cold, cinematic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1040,6 +1090,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-grain": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED GRAIN — a gritty red-and-grey film-grain card: two giant black-and-white portraits washed in red and one small full-colour figure walking in the middle. Raw, moody, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: black-and-white with ONE strong red (the team colour replaces the red if the COLOURS line gives one); white lettering.
@@ -1078,6 +1130,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-amber-eyes": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] AMBER EYES — a warm amber-orange grain card: a giant faded close-up of the player's eyes across the top, a smiling portrait in the middle, a back view below and big worn white letters behind. Warm, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1118,6 +1172,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-midnight-gold": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] MIDNIGHT GOLD — a black-and-gold editorial card: two shots of the player set on a diagonal, the name in giant white capitals running at an angle between them and gold calligraphy sweeping over everything. Elegant, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: matte black, white and polished gold.
@@ -1155,6 +1211,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-mono-collage": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] MONO COLLAGE — a black, white and cool-grey cut-paper collage: a big serious portrait on top, a small figure below, shattered gothic letter shapes, paper stars and street-poster textures. Raw, graphic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1195,6 +1253,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-pride": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED PRIDE — a deep red-and-black card: a big smiling portrait with a hand on the chest, a faded red face above, a back view with a raised fist showing the name and number, and rough red brush strokes. Proud, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: deep red and black with cream-gold accents (the team colour replaces the red if the COLOURS line gives one).
@@ -1233,6 +1293,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-storm-profile": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] STORM PROFILE — a black-and-white storm card: a giant side profile of the player in the clouds and, in front, the only colour on the card — the player celebrating with open arms. Epic, sharp, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1273,6 +1335,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-skyline-ice": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] SKYLINE ICE — a cool steel-blue city card: a giant smiling close-up in the sky, a smaller portrait in front, a dark skyline and the name in wide ice-blue capitals. Smooth, icy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: pale steel blue, ice blue and deep navy; white lettering.
@@ -1312,6 +1376,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-cash-rain": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] CASH RAIN — a black-and-white night-city card: a huge close-up looking over the shoulder, a second standing shot, banknotes drifting through the frame and the name as a giant white marker signature. Slick, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: black, white and silver grey only; the crest keeps its own colours.
@@ -1349,6 +1415,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-gold-rush": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GOLD RUSH — a warm mustard-gold card: a big close-up looking over the shoulder, a yellow number block, the name in very tall white capitals with a small standing shot in front and a gold signature across. Rich, confident, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1388,6 +1456,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-titan-city": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] TITAN CITY — a deep burgundy card: the player as a giant rising out of the clouds behind a miniature city of monuments, and the name in huge 3D theatre-marquee letters lit by neon tubes. Larger than life, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: deep burgundy red, warm red-brown and cream (the team colour replaces the burgundy if the COLOURS line gives one).
@@ -1425,6 +1495,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-chrome-drip": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] CHROME DRIP — a black, white and chrome card: the name in inflated chrome balloon letters dripping liquid metal over a white embossed wall and, below, three shots of the player inside a big ring of liquid chrome in a black-and-gold lounge. Glossy, luxurious, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1467,6 +1539,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-turbo-chrome": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] TURBO CHROME — a red-neon and chrome card: the name in giant italic 3D chrome letters ringed with red neon, and the player in the middle of a chrome tunnel full of red light trails. Fast, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: hot red, chrome silver and black (the team colour replaces the red if the COLOURS line gives one).
@@ -1504,6 +1578,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-heavy-metal": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] HEAVY METAL — a red grunge card: the name in massive riveted black-iron 3D letters with glowing red edges, a white signature and stencil lines, and the player seated like a boss in a red velvet armchair below. Heavy, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1543,6 +1619,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-neon-tunnel": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] NEON TUNNEL — a teal neon card: the player in the middle of a glowing sci-fi tunnel, floating teal flecks, low smoke and the name in glossy 3D script lettering with blue chrome sides. Fun, electric, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: teal, cyan and electric blue on near-black (the team colour replaces the teal if the COLOURS line gives one); white lettering.
@@ -1580,6 +1658,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-copper-ice": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] COPPER ICE — an icy-blue stage card: the name in giant copper-foil capitals framed by copper bars and the player in front under white concert beams. Cool, shiny, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1620,6 +1700,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-cloud-nine": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] CLOUD NINE — a bright candy-pink and sky-blue player card: the player rising out of fluffy pink clouds, giant floating diamonds, gold rings and a glossy bubble-letter name. Fresh, glamorous, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: candy pink, soft sky blue and white with polished gold accents (the team colour replaces the pink if the COLOURS line gives one); black for the small texts.
@@ -1656,6 +1738,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-fire-ice": `[EXACT REF] [FIXED LAYOUT] FIRE & ICE — a split player card, electric blue on the left and burning orange on the right: an ornate engraved 3D name across the top, the player big in the centre and twice more as mirrored side figures. Loud, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: electric blue (left half) against burning orange (right half), with polished metal lettering and white small texts (team colours replace the blue if the COLOURS line gives them).
@@ -1689,6 +1773,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-marble-gold": `[EXACT REF] [FIXED LAYOUT] MARBLE GOLD — a clean white-and-gold player card: giant liquid-gold-marble name letters behind the player, a soft city skyline, glossy gold ribbons in the corners, a handwritten number and a script line. Bright, rich, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1725,6 +1811,8 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-red-liquid": `[EXACT REF] [FIXED LAYOUT] RED LIQUID — a clean white-and-red player card: a huge close-up portrait in the centre, two mirrored side figures, giant liquid-marble letters cropped by the edges and a liquid-red name. Sharp, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
+
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
 COLOURS: bright white, hot red and deep maroon with a touch of teal inside the liquid marble (the team colour replaces the red if the COLOURS line gives one); black small texts.
@@ -1759,6 +1847,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-gold-legacy": `[EXACT REF] [FIXED LAYOUT] GOLD LEGACY — a black-gold and parchment player card: the player seen from behind with the name on the shirt, a big side-profile portrait, a running full-body shot, a giant gold number and fine gold lines. Warm, heroic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1795,6 +1885,8 @@ TEXT RULES
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-crimson-script": `[EXACT REF] [FIXED LAYOUT] CRIMSON SCRIPT — a deep-red player card: giant grey block letters behind a huge portrait, a small full-body shot in the centre and the name as a big white brush signature across the bottom. Dark, cool, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -7642,31 +7734,57 @@ TEXT RULES
  */
 export const PRESET_REVISIONS: Record<string, number> = {
   // [NO ECHO] on the four styles the owner changed (2 = Royal Split / Living Statue / Double Exposure after their first reload)
-  "player-cloud-nine": 1,
+  "player-cloud-nine": 2,
   "player-royal-split": 2,
   "player-living-statue": 2,
   "player-double-exposure": 2,
   // [NO ECHO] on the 20 styles of the second set
-  "player-desert-temple": 1,
-  "player-torn-sky": 1,
-  "player-lava-throne": 1,
-  "player-golden-smoke": 1,
-  "player-night-hero": 1,
-  "player-red-grain": 1,
-  "player-amber-eyes": 1,
-  "player-midnight-gold": 1,
-  "player-mono-collage": 1,
-  "player-red-pride": 1,
-  "player-storm-profile": 1,
-  "player-skyline-ice": 1,
-  "player-cash-rain": 1,
-  "player-gold-rush": 1,
-  "player-titan-city": 1,
-  "player-chrome-drip": 1,
-  "player-turbo-chrome": 1,
-  "player-heavy-metal": 1,
-  "player-neon-tunnel": 1,
-  "player-copper-ice": 1,
+  "player-desert-temple": 2,
+  "player-torn-sky": 2,
+  "player-lava-throne": 2,
+  "player-golden-smoke": 2,
+  "player-night-hero": 2,
+  "player-red-grain": 2,
+  "player-amber-eyes": 2,
+  "player-midnight-gold": 2,
+  "player-mono-collage": 2,
+  "player-red-pride": 2,
+  "player-storm-profile": 2,
+  "player-skyline-ice": 2,
+  "player-cash-rain": 2,
+  "player-gold-rush": 2,
+  "player-titan-city": 2,
+  "player-chrome-drip": 2,
+  "player-turbo-chrome": 2,
+  "player-heavy-metal": 2,
+  "player-neon-tunnel": 2,
+  "player-copper-ice": 2,
+  "player-glass-rings": 1,
+  "player-sepia-ribbons": 1,
+  "player-red-cubist": 1,
+  "player-mono-serif": 1,
+  "player-grey-wings": 1,
+  "player-vertical-blaze": 1,
+  "player-triple-run": 1,
+  "player-wine-swirl": 1,
+  "player-golden-number": 1,
+  "player-red-icon": 1,
+  "player-candy-stripes": 1,
+  "player-red-swash": 1,
+  "player-halftone-hero": 1,
+  "player-orange-halo": 1,
+  "player-red-lens": 1,
+  "player-lime-blades": 1,
+  "player-stadium-truss": 1,
+  "player-court-slash": 1,
+  "player-grey-signature": 1,
+  "player-fight-night": 1,
+  "player-fire-ice": 1,
+  "player-marble-gold": 1,
+  "player-red-liquid": 1,
+  "player-gold-legacy": 1,
+  "player-crimson-script": 1,
+  // + the uploaded-player rule on the exact-copy styles (they copied the reference poster's test model)
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */
