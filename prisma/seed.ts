@@ -3,7 +3,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { DEFAULT_TEMPLATES } from "../src/lib/templates";
 import { SETTING_DEFAULTS } from "../src/lib/settings";
-import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS, stripSmallTeamName } from "../src/lib/style-presets";
+import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS, PRESET_REVISIONS, stripSmallTeamName } from "../src/lib/style-presets";
 import { DEFAULT_PRICING } from "../src/lib/pricing";
 import { siteUrl } from "../src/lib/email-template";
 import { syncAllTwins } from "../src/lib/qualifiers-twins";
@@ -90,6 +90,15 @@ async function main() {
       where: { slug, OR: [{ proInstructions: null }, { proInstructions: "" }, ...(prev ? [{ proInstructions: prev }] : [])] },
       data: { proInstructions: text },
     });
+  }
+  // Briefs changed after release (owner's requests): reloaded once per revision number, whatever version is stored.
+  for (const [slug, rev] of Object.entries(PRESET_REVISIONS)) {
+    const key = `preset_rev:${slug}`;
+    const row = await db.setting.findUnique({ where: { key } });
+    if (Number(row?.value ?? 0) >= rev) continue;
+    const text = PRESET_INSTRUCTIONS[slug];
+    if (text) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
+    await db.setting.upsert({ where: { key }, create: { key, value: String(rev) }, update: { value: String(rev) } });
   }
   // One-time (owner's request): Neon Gothic — no giant white repeat of the name behind the gothic name.
   if (!(await db.setting.findUnique({ where: { key: "neon_gothic_no_white_echo" } }))) {

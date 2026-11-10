@@ -17,15 +17,15 @@ export async function postToDiscord(payload: Record<string, unknown>, image?: { 
   const send = async (withImage: boolean) => {
     const form = new FormData();
     form.append("payload_json", JSON.stringify({ username: "KIXO Log", allowed_mentions: { parse: [] }, ...payload }));
-    if (withImage && image) {
-      // Buffer is a Uint8Array subclass — pass it directly to Blob so the bytes aren't mangled
-      // by a new Uint8Array() that might view the entire underlying ArrayBuffer on some runtimes.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const safe = Buffer.isBuffer(image.bytes) ? new Uint8Array(image.bytes.buffer, image.bytes.byteOffset, image.bytes.byteLength) : new Uint8Array(image.bytes);
-      form.append("files[0]", new Blob([safe as any], { type: image.type }), image.name);
-    }
-    const res = await fetch(url, { method: "POST", body: form, signal: AbortSignal.timeout(withImage ? 20000 : 10000) });
+    if (withImage && image) form.append("files[0]", new Blob([new Uint8Array(image.bytes)], { type: image.type }), image.name);
+    // ?wait=true: Discord answers with the message it stored, so a post that lost its picture is noticed.
+    const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}wait=true`, { method: "POST", body: form, signal: AbortSignal.timeout(withImage ? 20000 : 10000) });
     if (!res.ok) lastDiscordError = `discord_${res.status}: ${(await res.text().catch(() => "")).slice(0, 120)}`;
+    else if (withImage && image) {
+      const stored = (await res.clone().json().catch(() => null)) as { attachments?: unknown[] } | null;
+      if (stored && !stored.attachments?.length) console.warn("discord post stored WITHOUT its picture:", image.name);
+      else if (stored) console.log("discord post stored with its picture:", image.name);
+    }
     return res;
   };
   try {
@@ -207,8 +207,13 @@ export async function logGeneration(opts: {
       timestamp: new Date().toISOString(),
       ...(opts.ok && opts.image ? { image: { url: `attachment://${name}` } } : {}),
     };
+    // Discord's notifications — and the quick view the phone app shows when it is opened from one, before it has
+    // loaded the channel — show a post's plain text, not its card or picture. Without any text they show the file
+    // name ("kixo-….jpg"), so a finished poster gets one line saying what it is.
+    const plain = (t: string) => t.replace(/([\\*_~`|>])/g, "\\$1");
+    const content = opts.ok ? `🖼️ ${plain(banner?.title || "New poster")} · ${plain(banner?.template.name || "poster")}`.slice(0, 300) : undefined;
     await postToDiscord(
-      { username: `KIXO · ${LAYOUT_NAMES[banner?.template.layout ?? ""] ?? "Posters"}`, embeds: [embed] },
+      { username: `KIXO · ${LAYOUT_NAMES[banner?.template.layout ?? ""] ?? "Posters"}`, ...(content ? { content } : {}), embeds: [embed] },
       opts.ok && opts.image && opts.image.length < 9.5 * 1024 * 1024 ? { bytes: opts.image, name, type: isPng ? "image/png" : "image/jpeg" } : undefined,
       url,
     );

@@ -21,9 +21,12 @@ type Batch = {
    * A redo for styles an earlier round already gave a preview and a reference: slug → the file id of that
    * reference. While a style still has that reference it is taken off (so the new poster is made from the brief
    * alone, not matched to the old one), a new poster is made, and it replaces that preview and becomes the
-   * reference. A preview or reference the admin picked in the meantime is never touched.
+   * reference. A preview or reference the admin picked in the meantime is never touched. An empty id ("") is for a
+   * style whose reference was already taken off: it is redone only while it still has none.
    */
   redo?: Record<string, string>;
+  /** Styles whose poster failed get this many more rounds once the round has ended (default: none). */
+  retries?: number;
   /**
    * A plain test round: one poster per style with other texts and another crest than the previews have. Nothing is
    * saved onto the styles — the posters land in the admin's Style test results, to see what a style really makes.
@@ -69,13 +72,34 @@ const BATCHES: Batch[] = [
     parallel: 6,
     slugs: ["player-cloud-nine", "player-fire-ice", "player-marble-gold", "player-red-liquid", "player-gold-legacy", "player-crimson-script"],
   },
-  // Cloud Nine again (owner's request): no crown, and one figure only — its first poster had a second face.
+  // (A redo of Cloud Nine — "auto_previews_players_v4_redo1" — started here once and its poster failed at the text
+  // step; the redo below makes it again.)
+  // 20 more player styles (the owner's second set of ideas): one poster each with an invented test player becomes
+  // the style's preview and its reference image, as in v3 / v4. A failed poster gets one more round.
   {
-    key: "auto_previews_players_v4_redo1",
+    key: "auto_previews_players_v5",
+    ref: true,
     name: "KIXO",
     parallel: 6,
-    slugs: ["player-cloud-nine"],
-    redo: { "player-cloud-nine": "a89edbe2-f73e-406b-aabf-896dcd4135a9" },
+    retries: 1,
+    slugs: [
+      "player-desert-temple", "player-torn-sky", "player-lava-throne", "player-golden-smoke", "player-night-hero",
+      "player-red-grain", "player-amber-eyes", "player-midnight-gold", "player-mono-collage", "player-red-pride",
+      "player-storm-profile", "player-skyline-ice", "player-cash-rain", "player-gold-rush", "player-titan-city",
+      "player-chrome-drip", "player-turbo-chrome", "player-heavy-metal", "player-neon-tunnel", "player-copper-ice",
+    ],
+  },
+  // Four styles the owner changed after their posters were made — Cloud Nine (no crown, one figure), Royal Split
+  // (two calm figures, no ball), Living Statue (an all-plaster bust, a small portrait, no crowd) and Double Exposure
+  // (calm portraits, no gaming desk, no ball). Their previews still showed the old designs. Three of them had their
+  // reference taken off already (""); Living Statue still carried the old one.
+  {
+    key: "auto_previews_players_redo2",
+    name: "KIXO",
+    parallel: 6,
+    retries: 1,
+    slugs: ["player-cloud-nine", "player-royal-split", "player-living-statue", "player-double-exposure"],
+    redo: { "player-cloud-nine": "", "player-royal-split": "", "player-living-statue": "ef8b7ee5", "player-double-exposure": "" },
   },
 ];
 
@@ -114,6 +138,30 @@ async function readMap(key: string): Promise<Record<string, string>> {
   }
 }
 
+/**
+ * Styles of a batch that still have no poster once its round has ended (a failed or refused one) get one more
+ * round — at most `b.retries` times. The batch then follows that new round.
+ */
+async function retryRound(b: Batch, pending: Tpl[], runId: string) {
+  if (!b.retries || !pending.length) return;
+  const { getRun, startRun } = await import("./style-test");
+  const cur = await getRun();
+  if (cur && (cur.status === "running" || cur.status === "paused")) return; // this round (or the admin's own) is still going
+  const flying = await db.banner.count({ where: { templateId: { in: pending.map((t) => t.id) }, status: "PROCESSING", design: { path: ["styleTest"], equals: runId } } });
+  if (flying) return;
+  const triesKey = `${b.key}:tries`;
+  const row = await db.setting.findUnique({ where: { key: triesKey } });
+  const tries = Number(row?.value ?? 0) || 0;
+  if (tries >= b.retries) return;
+  const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
+  if (!admin) return;
+  const value = String(tries + 1);
+  await db.setting.upsert({ where: { key: triesKey }, create: { key: triesKey, value }, update: { value } });
+  const sample = sampleFor(b);
+  const run = await startRun(admin.id, runItems(pending), sample, sample.parallel);
+  if (run) await db.setting.update({ where: { key: b.key }, data: { value: run.id } });
+}
+
 /** One step of a redo batch (see Batch.redo). */
 async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
   const redo = b.redo ?? {};
@@ -129,7 +177,7 @@ async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
     if (cur && (cur.status === "running" || cur.status === "paused")) return; // not while the admin runs a round
     const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
     if (!admin) return;
-    const stale = tpls.filter((t) => !!redo[t.slug] && !!t.styleRefUrl && t.styleRefUrl.includes(redo[t.slug]));
+    const stale = tpls.filter((t) => t.slug in redo && (redo[t.slug] ? !!t.styleRefUrl && t.styleRefUrl.includes(redo[t.slug]) : !t.styleRefUrl));
     await db.setting.create({ data: { key: b.key, value: new Date().toISOString() } });
     if (!stale.length) return;
     // slug → the preview it has now (replaced later only if it is still that one)
@@ -144,6 +192,7 @@ async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
   const runId = started.value;
   if (!runId.startsWith("run-")) return;
   const todo = await readMap(todoKey);
+  const pending: Tpl[] = [];
   for (const t of tpls) {
     if (!(t.slug in todo)) continue;
     if (Date.now() - t0 > TICK_BUDGET_MS) return;
@@ -152,7 +201,10 @@ async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
       select: { finalUrl: true },
       orderBy: { createdAt: "desc" },
     });
-    if (!done?.finalUrl) continue;
+    if (!done?.finalUrl) {
+      pending.push(t);
+      continue;
+    }
     try {
       const bytes = await loadBytes(done.finalUrl);
       const data: { thumbUrl?: string; styleRefUrl?: string } = {};
@@ -167,6 +219,7 @@ async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
       console.error("auto preview redo failed", t.slug, e);
     }
   }
+  await retryRound(b, pending, runId);
 }
 
 export async function autoPreviewsTick() {
@@ -214,6 +267,7 @@ export async function autoPreviewsTick() {
     if (!runId.startsWith("run-")) continue;
     const refKey = `${b.key}:refs`;
     const refDone = new Set(b.ref ? await readList(refKey) : []);
+    const pending: Tpl[] = [];
     for (const t of tpls) {
       const wantThumb = !t.thumbUrl;
       const wantRef = !!b.ref && !t.styleRefUrl && !refDone.has(t.slug);
@@ -224,7 +278,10 @@ export async function autoPreviewsTick() {
         select: { finalUrl: true },
         orderBy: { createdAt: "desc" },
       });
-      if (!done?.finalUrl) continue;
+      if (!done?.finalUrl) {
+        pending.push(t);
+        continue;
+      }
       try {
         const bytes = await loadBytes(done.finalUrl);
         const data: { thumbUrl?: string; styleRefUrl?: string } = {};
@@ -241,5 +298,6 @@ export async function autoPreviewsTick() {
         console.error("auto preview failed", t.slug, e);
       }
     }
+    await retryRound(b, pending, runId);
   }
 }
