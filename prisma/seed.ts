@@ -75,6 +75,14 @@ async function main() {
     if (text) await db.template.updateMany({ where: { slug: "player-living-statue" }, data: { proInstructions: text } });
     await db.setting.create({ data: { key: "living_statue_fix_v1", value: new Date().toISOString() } });
   }
+  // Double Exposure: calm portraits (not screaming), no full-body dribbling, no gaming desk/controller/monitor.
+  // Also clear the reference image which showed the old layout.
+  if (!(await db.setting.findUnique({ where: { key: "double_exposure_fix_v1" } }))) {
+    const { PRESET_INSTRUCTIONS } = await import("../src/lib/style-presets");
+    const text = PRESET_INSTRUCTIONS["player-double-exposure"];
+    if (text) await db.template.updateMany({ where: { slug: "player-double-exposure" }, data: { proInstructions: text, styleRefUrl: null } });
+    await db.setting.create({ data: { key: "double_exposure_fix_v1", value: new Date().toISOString() } });
+  }
   // Ready-made design instructions — only where the admin hasn't written any.
   for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
     const prev = PRESET_PREVIOUS[slug];

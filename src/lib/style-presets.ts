@@ -679,13 +679,13 @@ BACKGROUND
 - Cream paper with black ink brush-stroke edges; the whole collage sits inside the brush shape, blended like a double exposure.
 - TOP RIGHT: a sunset sky over a coastal city with mountains (x 70–100%, y 20–42%).
 - The crest again, giant and faint, at the upper left (x 3–28%, y 10–38%).
-- RIGHT: a gaming desk — a monitor showing a football match (x 70–88%, y 44–58%), a hexagon-pattern panel beside it (x 87–98%, y 50–62%) and a black game controller in front (x 72–97%, y 64–76%); no brand logos.
+- No gaming equipment: no monitor, no controller, no desk, no hexagon panel — just the city, the sunset and the paper texture
 
-FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone)
-1. LEFT PORTRAIT (x 22–55%, y 3–40%): a big chest-up face looking away up to the left.
-2. PROFILE (x 55–88%, y 3–38%): the same face in side profile looking right, merging into the sunset.
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. LEFT PORTRAIT (x 22–55%, y 3–40%): a big chest-up close-up, calm and confident, looking slightly to the left with a relaxed expression (not screaming, not shouting — cool and composed).
+2. PROFILE (x 55–88%, y 3–38%): the same face in side profile looking right, calm expression, merging into the sunset.
 3. BACK VIEW (x 8–25%, y 49–68%): small, the player seen from behind in a lit stadium with the NAME and the NUMBER printed on the shirt back.
-4. FRONT FIGURE (centre — x 38–78%, y 22–88%): full body dribbling straight at the camera; the ball at (x 55–70%, y 80–91%).
+- Only THREE figures. There is no fourth figure, no full-body shot, no dribbling, no ball anywhere on this poster.
 
 LETTERING & CREST
 - CREST: left of centre (x 15–40%, y 38–58%).
