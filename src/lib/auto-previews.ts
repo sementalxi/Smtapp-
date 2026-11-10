@@ -114,6 +114,15 @@ const BATCHES: Batch[] = [
     slugs: ["player-cloud-nine", "player-royal-split", "player-living-statue", "player-double-exposure"],
     redo: { "player-cloud-nine": "", "player-royal-split": "", "player-living-statue": "*", "player-double-exposure": "" },
   },
+  // The new styles' first posters were made before [NO ECHO] existed, so most of their references show the test
+  // crest once more, faded, in the background. Does a card with another crest keep that faded test emblem? Six of
+  // them (the ones whose reference shows it most) with other texts and another crest; nothing is saved onto the styles.
+  {
+    key: "auto_check_players_noecho_v1",
+    parallel: 6,
+    slugs: ["player-heavy-metal", "player-storm-profile", "player-midnight-gold", "player-gold-rush", "player-double-exposure", "player-royal-split"],
+    check: { texts: { name: "ZAYDEN99", position: "CDM", number: "23", tagline: "Official", subtitle: "Player of the month", footer: "Pro Clubs 2027" }, team: "OCEAN KRAKEN", crest: "ocean-kraken" },
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute
