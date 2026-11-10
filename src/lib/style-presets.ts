@@ -45,6 +45,791 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this brief.`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "player-glass-rings": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] GLASS RINGS — a soft pink-and-grey editorial card: a giant red serif first letter of the name curling behind the player, floating red-and-clear glass rings blurred in the foreground, a tall black serif number and initial. Airy, elegant, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: blush pink fading to cool light grey, one strong red, black lettering (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- A smooth studio gradient: blush pink at the top left to cool light grey at the bottom right; faint large white diamond shapes; a fine thin grid in two small patches (behind the player's chest and at the lower right).
+- The FIRST LETTER of the NAME as a GIANT red high-contrast serif capital (x 40–98%, y 2–92%), its thick and thin strokes sweeping behind the player.
+- Thick glossy rings — red enamel with clear glass edges — floating at different depths: big and very blurred in the top left, top right and bottom right corners, small and sharp near the player's knee and at the right.
+
+FIGURES (one shot of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. THE PLAYER (x 26–80%, y 12–92%): full body, standing tall in a relaxed three-quarter pose, one hand lightly on the chest, the other arm loose, looking just past the camera; crisp and bright, a soft shadow on the floor.
+- ONE figure only: never add a second portrait, an echo or another shot.
+
+LETTERING & CREST
+- NUMBER: tall black high-contrast serif digits at the left (x 14–28%, y 38–48%).
+- INITIAL: the first letter of the NAME again as a very tall black serif capital right under the number (x 10–30%, y 49–74%).
+- Small black wavy lines and a small black triangle under the initial (x 16–24%, y 76–81%).
+- NAME: small grey sans capitals between two tiny black triangles at the right (x 64–84%, y 63–69%).
+- POSITION: tiny grey text at the right (x 74–88%, y 73–75%).
+- TAGLINE: tiny letter-spaced grey capitals running down the left edge (x 3–5%, y 8–52%).
+- SUBTITLE: tiny letter-spaced grey capitals at the top right (x 56–70%, y 6–7.5%).
+- CREST: small at the top right (x 72–86%, y 13–22%), crisp.
+- FOOTER: small grey text at the bottom right (x 76–90%, y 93–95%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-sepia-ribbons": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] SEPIA RIBBONS — a warm sepia card: giant cropped calligraphy letters of the name in brown and charcoal ribbons, thin vertical lines, a huge looking-up portrait and a small full-body shot in front. Warm, artistic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: cream, caramel, warm brown and charcoal; everything graded warm sepia.
+
+BACKGROUND
+- A cream-to-peach paper background with fine film grain.
+- GIANT ornate calligraphy letters of the NAME in thick brown and charcoal ribbon strokes, cropped by every edge, filling the whole background (x 0–100%, y 0–100%) — curls, loops and swashes, some passing behind and some in front of the portrait's shoulders.
+- Thin vertical brown and copper lines running from the top down, in clusters at both sides (x 8–22% and x 82–94%).
+
+FIGURES (two shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PORTRAIT (x 36–90%, y 0–68%): a huge head-and-neck close-up looking slightly up and to the right, calm, lips closed, the shirt collar at the bottom fading into the cream.
+2. SMALL FIGURE (x 24–56%, y 30–96%): full body, standing relaxed in front of the portrait with the weight on one leg, hands at the sides, looking at the camera; full colour with a warm sepia grade and a soft shadow on the floor.
+
+LETTERING & CREST
+- The NAME's giant letters are the main lettering (see the background).
+- NUMBER: a big charcoal calligraphy numeral at the lower right (x 70–96%, y 74–96%), woven into the ribbons.
+- CREST: small at the top left (x 6–18%, y 4–14%).
+- TAGLINE / POSITION / SUBTITLE: one column of tiny letter-spaced charcoal capitals at the lower left (x 6–34%, y 86–93%).
+- FOOTER: tiny letter-spaced capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-red-cubist": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED CUBIST — a red geometric card: angular red and white shards framing a huge face, a medium portrait at the left, a small full-body shot in the centre and the name in giant white serif capitals across the middle. Bold, editorial, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: deep red, crimson and off-white with film grain (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- Big flat angular SHARDS of red, dark red and off-white cut across the whole poster like broken paper, overlapping at the edges.
+- A dark-red inner panel (x 7–93%, y 6–94%) with rough grain, its edges framed by the shards.
+- Fine vertical glitch streaks over parts of the figures.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. GIANT FACE (right — x 34–96%, y 2–80%): a huge close-up of the face in three-quarter view, black-and-white with a red tint, calm and serious, behind the name.
+2. LEFT PORTRAIT (x 6–48%, y 16–64%): chest-up, looking at the camera with the chin slightly down, one hand resting on the chin; red-graded.
+3. SMALL FIGURE (centre — x 38–66%, y 42–96%): full body, standing in front of the name with the shoulders back, hands relaxed, a confident look; full colour, sharp.
+
+LETTERING & CREST
+- NAME: GIANT white high-contrast serif capitals across the middle (x 18–80%, y 40–60%), with the small figure in front of them; a thin line of tiny letter-spaced white capitals of the NAME running across the centre of the letters.
+- TAGLINE: tiny letter-spaced red capitals at the top left (x 10–24%, y 7–9%).
+- POSITION: tiny letter-spaced red capitals at the top right (x 78–92%, y 7–9%).
+- CREST: lower right (x 78–94%, y 82–94%), crisp.
+- NUMBER: big outlined white serif digits at the lower left (x 8–24%, y 78–92%).
+- SUBTITLE / FOOTER: tiny letter-spaced red capitals at the bottom left and bottom centre (y 94%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-mono-serif": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] MONO SERIF — a black-and-white fog card: a giant thin serif first letter of the name, a huge side portrait, a standing portrait and a small full-body shot, with warm light leaks. Quiet, cinematic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: black, white and soft grey with a faint warm brown haze at the bottom left; a small rainbow light leak at the bottom.
+
+BACKGROUND
+- A soft white fog filling the poster, darkening to grey-brown at the bottom left; heavy fine grain.
+- The FIRST LETTER of the NAME as a GIANT black thin high-contrast serif capital (x 22–90%, y 14–86%), its strokes passing behind the figures, one long stroke running diagonally down to the lower left; thin drips falling from its lower serifs.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone — black-and-white)
+1. PROFILE (top right — x 42–84%, y 2–48%): a huge head-and-shoulders portrait turned to the right, calm and focused.
+2. STANDING PORTRAIT (left — x 14–58%, y 20–92%): waist-up, facing slightly left, looking into the distance, its lower body dissolving into vertical drips.
+3. SMALL FIGURE (centre — x 44–78%, y 44–96%): full body, walking toward the camera with a relaxed stride, arms loose; a soft shadow under it.
+
+LETTERING & CREST
+- NAME: small letter-spaced black capitals at the top right next to the giant letter (x 72–90%, y 12–13.5%).
+- TAGLINE: tiny letter-spaced grey capitals at the left (x 10–28%, y 31–32.5%).
+- POSITION: tiny letter-spaced grey capitals at the right (x 72–86%, y 72–73.5%).
+- NUMBER: tall thin black serif digits at the lower right (x 74–90%, y 78–90%).
+- CREST: small at the top left (x 6–16%, y 4–12%).
+- SUBTITLE / FOOTER: tiny grey capitals at the bottom centre (y 95–97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-grey-wings": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GREY WINGS — a misty black-and-white card: giant curved black feather strokes, a sharp white angular shape, a huge profile portrait, a standing shot and a kneeling celebration in front. Dramatic, clean, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: black, white and soft grey; a faint red-and-rainbow light leak at the lower right.
+
+BACKGROUND
+- Soft white mist with heavy grain, darker grey at the bottom.
+- Big curved black FEATHER STROKES like the tips of a wing rising from the left (x 14–42%, y 4–36%) and one long crescent stroke curving down the right side (x 58–80%, y 46–88%).
+- A tall white angular shape like a sharp letter A behind the centre (x 44–62%, y 26–56%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone — black-and-white)
+1. PROFILE (top right — x 40–86%, y 4–52%): a huge head-and-neck portrait looking to the right, calm, sweat on the skin, lips closed.
+2. STANDING (left — x 20–58%, y 22–74%): waist-up, looking back over the shoulder at the camera, cool and serious.
+3. KNEELING (centre — x 30–76%, y 48–90%): on both knees on the floor, leaning back, one arm sweeping out to the side in a calm celebration, eyes closed.
+
+LETTERING & CREST
+- NAME: tiny letter-spaced dark capitals at the right (x 72–90%, y 50.5–52%).
+- TAGLINE: tiny letter-spaced capitals running vertically at the left (x 20–22%, y 40–48%).
+- POSITION: tiny letter-spaced capitals running vertically at the top right (x 78–80%, y 4–10%).
+- NUMBER: tall thin black serif digits at the lower left (x 8–20%, y 76–88%).
+- CREST: small at the top left (x 6–16%, y 4–12%).
+- SUBTITLE / FOOTER: tiny grey capitals at the bottom centre (y 95–97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-vertical-blaze": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] VERTICAL BLAZE — an orange-red motion card: the name in giant white rounded capitals stacked vertically down the centre, a huge blurred close-up, a tall portrait and a small low-stance figure, with light streaks. Fast, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: burnt orange, red, black and white (the team colour replaces the orange if the COLOURS line gives one).
+
+BACKGROUND
+- A blurry orange-red glow with dark black-red corners at the bottom left; fast white light streaks sweeping across from left to right; soft motion blur everywhere.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. GIANT CLOSE-UP (left — x 0–56%, y 0–62%): a huge blurred close-up of one side of the face, graded orange, fading into the glow.
+2. TALL PORTRAIT (right — x 48–98%, y 4–92%): waist-up, head turned slightly up and to the right, a confident calm look, full colour.
+3. SMALL FIGURE (centre — x 22–82%, y 38–96%): full body in a low, wide athletic stance, knees bent, both hands relaxed near the knees, looking at the camera.
+
+LETTERING & CREST
+- NAME: GIANT white rounded sans capitals stacked VERTICALLY down the middle (x 40–58%, y 0–100%), one letter above the other, running behind the small figure and in front of the close-up; some letters cut by the figures.
+- TAGLINE: small white bold capitals at the left (x 8–30%, y 52–54%).
+- SUBTITLE: big bold white sans word at the left (x 6–30%, y 55–59%) — the NAME's style, smaller.
+- POSITION: small white text under it (x 12–28%, y 59.5–61%).
+- NUMBER: big white rounded digits at the lower right (x 78–94%, y 64–76%).
+- CREST: small at the top left (x 6–18%, y 4–13%).
+- FOOTER: tiny white capitals at the bottom left (y 96%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-triple-run": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] TRIPLE RUN — a blue-and-yellow card: a giant yellow curly numeral sweeping behind, a huge close-up face at the top right, and the player three times running toward the camera in a diagonal line. Energetic, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: royal blue, sunny yellow and white with deep navy (the team colours replace them if the COLOURS line gives them).
+
+BACKGROUND
+- A deep navy sky at the top fading into white haze at the bottom; swirling blue and white motion streaks; a faint stadium structure at the top left.
+- The NUMBER as a GIANT thick yellow curly brush-stroke numeral (x 8–60%, y 2–88%), soft, with motion blur on its edges.
+
+FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CLOSE-UP (top right — x 40–96%, y 0–56%): a huge face, looking slightly to the left, calm and focused, lips closed.
+2. RUNNING 1 (front left — x 16–60%, y 30–96%): full body, jogging toward the camera, arms swinging, focused.
+3. RUNNING 2 (middle — x 54–84%, y 42–86%): the same run, smaller.
+4. RUNNING 3 (back right — x 80–98%, y 58–82%): the same run, smallest — the three form a diagonal line into the distance.
+
+LETTERING & CREST
+- NAME: wide bold white capitals at the bottom left (x 6–56%, y 90–95%), with a soft blue shadow.
+- TAGLINE: tiny letter-spaced capitals above the name (x 6–34%, y 87–89%).
+- POSITION / NUMBER: small white capitals at the lower right (x 70–94%, y 90–94%).
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- SUBTITLE / FOOTER: tiny white capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-wine-swirl": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] WINE SWIRL — a wine-red swirl card: a huge smiling portrait reaching toward the camera, three small figures in a diagonal line, and the name in giant white letters. Joyful, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: wine red, soft pink-white and bright red (the team colours replace them if the COLOURS line gives them).
+
+BACKGROUND
+- Soft swirling bands of wine red, pink and white around the frame like a vortex; fine grain; a faint stadium outline at the top left.
+
+FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. BIG PORTRAIT (top — x 18–88%, y 0–58%): from the chest up, a big warm smile, one hand reaching toward the camera with the palm down.
+2. FIGURE 1 (front left — x 18–58%, y 34–96%): from the knees up, walking forward with both index fingers touching the temples, smiling.
+3. FIGURE 2 (middle — x 50–74%, y 42–84%): the same pose, smaller.
+4. FIGURE 3 (back right — x 72–90%, y 48–80%): the same pose, smallest.
+
+LETTERING & CREST
+- TAGLINE: big bold red sans word at the left (x 4–36%, y 50–56%).
+- NAME: GIANT wide bold white sans capitals across the middle (x 10–90%, y 56–68%), the figures crossing in front of parts of it.
+- SUBTITLE: big bold red sans words under the right end of the name (x 52–96%, y 68–74%).
+- POSITION: small white bold text at the right (x 74–96%, y 32–34%) and again at the lower left (x 16–30%, y 70–72%).
+- NUMBER: big white digits on the shorts of figure 1 only.
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-golden-number": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GOLDEN NUMBER — a warm gold-and-wine card: a giant silhouette profile filled with a stadium, a huge white brush numeral, and three shots of the player. Glowing, proud, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: golden yellow, white, wine red and deep maroon (the team colours replace them if the COLOURS line gives them).
+
+BACKGROUND
+- White at the top fading to warm gold and deep maroon at the bottom.
+- A GIANT side-profile silhouette of the player's head and shoulders facing left (x 6–96%, y 4–100%), its hair area filled with a glowing stadium with floodlights (double exposure).
+- The NUMBER as a huge white brush-stroke numeral with rough edges down the centre (x 18–66%, y 34–96%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. SMILING PORTRAIT (top right — x 52–90%, y 16–56%): chest-up, a happy confident smile, both hands holding the collar.
+2. CALM PORTRAIT (left — x 24–54%, y 36–72%): chest-up, looking down and to the side, calm.
+3. SMALL FIGURE (centre — x 46–74%, y 54–96%): full body, walking forward with relaxed arms, looking at the camera.
+
+LETTERING & CREST
+- NAME: small letter-spaced dark capitals at the top centre (x 32–68%, y 1.5–3%).
+- TAGLINE / POSITION: tiny letter-spaced capitals at the lower left (x 6–30%, y 88–90%).
+- CREST: lower right (x 76–92%, y 80–92%).
+- SUBTITLE / FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-red-icon": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED ICON — a deep red card: giant blurred white letters around the edges, a big profile and a portrait, the subtitle in tall white condensed letters behind two small figures. Powerful, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: deep red, crimson, dark maroon and white (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- A deep red haze with soft light; GIANT blurred white serif letters of the NAME cropped around the edges (top and lower left), very soft and out of focus.
+
+FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PROFILE (left — x 6–54%, y 4–62%): a huge close-up of the face looking to the left, focused, lips closed, red-graded.
+2. PORTRAIT (top right — x 52–96%, y 6–60%): chest-up, chin raised, calm and proud.
+3. SMALL FIGURE A (centre left — x 22–54%, y 40–94%): from the shins up, walking forward with the arms relaxed, focused.
+4. SMALL FIGURE B (centre right — x 44–80%, y 40–90%): the same person again just behind A, walking forward with one arm spread, smiling.
+
+LETTERING & CREST
+- SUBTITLE: tall heavy white condensed capitals in a block behind the two small figures (x 28–72%, y 34–70%).
+- NAME: tiny letter-spaced white capitals running vertically at the right edge (x 94–96%, y 4–20%) and at the lower left (x 3–5%, y 76–92%).
+- TAGLINE: tiny vertical letter-spaced capitals beside the subtitle at the left (x 28–30%, y 40–52%).
+- POSITION: tiny vertical letter-spaced capitals beside the subtitle at the right (x 62–64%, y 40–52%).
+- NUMBER: big white digits on figure B's shorts only.
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-candy-stripes": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] CANDY STRIPES — a bright red-and-white diagonal stripe card: a celebrating portrait with a fist raised, a huge close-up, a small walking figure and the name in two colours. Bold, fresh, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: bright red, white and peach (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- Wide blurred diagonal RED and WHITE STRIPES running from the top right to the bottom left over the whole poster; soft glow; a faint stadium roof at the top left.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CELEBRATING (left — x 0–58%, y 2–84%): waist-up, one fist raised high, looking up with a confident smile, mouth closed.
+2. CLOSE-UP (right — x 46–98%, y 4–56%): a huge face, eyes looking up to the left, one hand covering the mouth in amazement.
+3. SMALL FIGURE (centre — x 52–76%, y 40–96%): full body, walking forward, arms relaxed, looking at the camera.
+
+LETTERING & CREST
+- NAME: GIANT bold rounded sans lowercase-style letters across the lower middle (x 10–96%, y 60–76%): the first half of the name in solid RED, the second half in solid WHITE, the small figure crossing in front of the join.
+- POSITION: tiny letter-spaced white capitals above the right end of the name (x 72–92%, y 58–60%).
+- TAGLINE: tiny letter-spaced red capitals under the left end of the name (x 12–30%, y 77–79%).
+- NUMBER: big white digits on the small figure's shorts only.
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- SUBTITLE / FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-red-swash": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED SWASH — a red editorial card: giant white swash shapes of the number curling behind, a celebrating portrait, a huge profile, a small figure and the name in huge red letters at the bottom. Clean, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: rich red, darker red and white (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- A red background with thin darker diagonal stripes; a soft white frame around the edge.
+- The NUMBER as GIANT white serif swash numerals curling behind the figures (x 14–94%, y 6–80%).
+- A big dark-red circle behind the centre (x 28–64%, y 30–70%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CELEBRATING (left — x 4–60%, y 6–64%): chest-up, both hands raised at shoulder height, a big smile, mouth closed.
+2. PROFILE (right — x 54–96%, y 4–60%): a huge close-up of the face turned to the right, calm.
+3. SMALL FIGURE (centre — x 34–74%, y 38–96%): from the knees up, standing tall, arms relaxed, looking at the camera.
+
+LETTERING & CREST
+- NAME: HUGE bold red rounded sans letters across the bottom (x 12–90%, y 74–88%), one shade lighter than the background, the small figure in front of them.
+- SUBTITLE: medium white sans text at the lower right with a thin white line before it (x 56–90%, y 88–91%).
+- TAGLINE: tiny letter-spaced capitals at the top centre (x 34–66%, y 3–4.5%).
+- POSITION / NUMBER: small white text at the lower left (x 8–28%, y 68–74%).
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-halftone-hero": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] HALFTONE HERO — a dark navy-and-red halftone card: a big back view with the name and number on the shirt, a huge close-up, a small walking figure and two round badges at the bottom. Gritty, modern, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: dark navy, black, hot red and white.
+
+BACKGROUND
+- Dark navy with halftone dot texture, glitch lines and red ink splashes; a red rectangular panel at the top right (x 72–98%, y 2–38%) with a pale silhouette in it.
+- Thin white UI lines and small dots across the frame like a digital layout.
+
+FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CLOSE-UP (top centre — x 30–72%, y 4–48%): a big face looking at the camera with a confident closed-mouth smile; halftone texture.
+2. BACK VIEW (left — x 0–56%, y 28–80%): from the waist up seen from behind, head turned to the right; the NAME in big white capitals and the NUMBER huge under it on the shirt back.
+3. SMALL FIGURE (right — x 52–88%, y 48–98%): from the knees up, walking forward, arms relaxed.
+4. HIGH FIGURE (in the red panel — x 72–94%, y 10–36%): full body seen from behind, standing on its toes, arms out for balance.
+
+LETTERING & CREST
+- NAME: bold white italic capitals at the top left (x 8–30%, y 6–9%), POSITION in small spaced capitals under it, and the TAGLINE in white below (x 8–20%, y 12–16%).
+- SUBTITLE: small white italic capitals on a thin red rounded bar (x 14–46%, y 78–81%).
+- TWO ROUND BADGES at the bottom left (x 8–28% and x 34–52%, y 82–96%): the first shows the NUMBER in thin white lines, the second the CREST, joined by a small white "×".
+- FOOTER: tiny capitals at the bottom centre (y 98%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-orange-halo": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] ORANGE HALO — a deep blue card: a giant orange halo circle, a huge side-profile face, a celebrating portrait with a raised fist, a small walking figure and the name in two colours. Bright, proud, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: royal blue, deep navy, soft orange and white (the team colours replace them if the COLOURS line gives them).
+
+BACKGROUND
+- Deep blue with big faint letter shapes; soft orange glows in the corners like a diamond frame; a faint stadium roof at the right.
+- A GIANT soft orange circle in the centre (x 24–88%, y 8–70%).
+- A few small white bird silhouettes at the left and right (y 40–66%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PROFILE (left — x 4–52%, y 4–60%): a huge face in side profile looking to the left, focused, lips closed.
+2. CELEBRATING (right — x 40–96%, y 6–66%): from the waist up, one fist raised high, a happy smile with the mouth closed.
+3. SMALL FIGURE (centre — x 34–66%, y 34–96%): full body, walking forward with one hand on the chest, looking up.
+
+LETTERING & CREST
+- NAME: GIANT bold sans letters across the lower part (x 14–90%, y 72–86%): the first half in ORANGE, the rest in WHITE, the small figure in front.
+- SUBTITLE: medium white and orange sans text under the right end of the name (x 54–86%, y 86–89%).
+- POSITION: tiny letter-spaced orange capitals at the left (x 6–18%, y 55–56.5%).
+- TAGLINE: tiny letter-spaced orange capitals at the right (x 82–94%, y 69–70.5%).
+- NUMBER: big white digits on the small figure's shorts only.
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-red-lens": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED LENS — a red studio card: blurred red and white shapes in the foreground like looking through a lens, a big calm close-up, a smiling portrait and a small low-stance figure. Moody, sharp, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: red, deep red, black and white (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- A red studio with soft light; big BLURRED red and white shapes in the foreground at both sides and the corners (x 0–24% and x 74–100%) like fabric or panels very close to the camera.
+- Faint giant white letters of the NAME blurred in the middle behind the figures (x 30–86%, y 46–70%).
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CLOSE-UP (left — x 14–60%, y 2–58%): a big face looking at the camera, calm, lips closed.
+2. SMILING (right — x 46–82%, y 8–48%): chest-up, a happy smile, one arm raised behind the head.
+3. SMALL FIGURE (centre — x 30–68%, y 46–96%): full body in a low wide stance, knees bent, hands relaxed near the knees, looking at the camera.
+
+LETTERING & CREST
+- NAME: tiny letter-spaced dark capitals at the top centre (x 34–66%, y 2–3.5%).
+- NUMBER: big white digits on the small figure's shirt only.
+- TAGLINE / POSITION / SUBTITLE: tiny letter-spaced white capitals at the lower right (x 70–92%, y 86–92%).
+- CREST: small at the top right (x 82–94%, y 6–14%).
+- FOOTER: tiny capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-lime-blades": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] LIME BLADES — an electric blue and lime card: giant glowing blade shapes of the first letter, a big profile portrait, a leaping figure, a small walking figure and a night skyline. Electric, fast, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: electric blue, deep navy, lime green and white (the team colours replace them if the COLOURS line gives them).
+
+BACKGROUND
+- Deep blue night with a glowing city tower at the bottom left (x 0–20%, y 70–100%) and dark trees at the right.
+- GIANT sharp BLADE shapes of the FIRST LETTER of the NAME in white and blue glass with glowing lime edges, slashing across the whole poster (x 4–96%, y 2–98%).
+- Small lime triple-chevron marks (three stacked arrows) at the top centre, mid-right and bottom centre.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PROFILE (left — x 14–58%, y 6–70%): waist-up, turned to the left, calm and focused, lips closed.
+2. LEAPING (top right — x 52–80%, y 4–70%): full body rising high in the air, both arms raised above the head, calm face.
+3. SMALL FIGURE (centre — x 30–80%, y 34–92%): full body, walking forward with a relaxed stride, looking ahead.
+
+LETTERING & CREST
+- NAME: bold white capitals at the top right (x 70–90%, y 6–9%), with the POSITION in a small outlined circle before it and the TAGLINE in small spaced capitals above it.
+- NUMBER: small white "#" and the NUMBER under the name (x 72–80%, y 10–12%), with a thin white line.
+- SUBTITLE: tiny letter-spaced capitals running vertically at the left edge (x 2–4%, y 38–60%).
+- CREST: right (x 74–88%, y 60–72%), crisp.
+- FOOTER: tiny white capitals between double slashes at the bottom centre (y 95–97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-stadium-truss": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] STADIUM TRUSS — a red stadium collage card: cut-outs of a grey steel stadium roof and stands, a diagonal truss, a huge smiling profile, a calm portrait, small flags and a small standing figure. Architectural, proud, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: rich red, white, steel grey and touches of blue (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- A white background with a big red circle at the top left and a red floor along the bottom.
+- Collage cut-outs of a STADIUM: grey steel roof trusses and stands at the left and right edges and at the lower right; a long steel lattice TRUSS crossing diagonally from the lower left to the top right (x 26–80%, y 0–80%).
+- Red feather-like curved strokes at the right (x 70–96%, y 10–50%).
+- Three small red flags on poles at the right (x 76–92%, y 52–64%), plain red with no symbols.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. PROFILE (left — x 8–58%, y 4–62%): a huge close-up turned to the left with a wide confident smile.
+2. PORTRAIT (right — x 46–92%, y 8–66%): chest-up, looking at the camera, one hand calmly holding the collar.
+3. SMALL FIGURE (centre — x 22–70%, y 48–94%): full body, standing tall with one arm pointing forward, calm.
+
+LETTERING & CREST
+- NAME: tiny letter-spaced dark capitals running vertically at the right edge (x 95–97%, y 4–12%) and at the lower left (x 3–5%, y 86–98%).
+- NUMBER / POSITION: small white capitals on the red floor at the lower right (x 70–92%, y 88–92%).
+- CREST: small at the top left (x 4–14%, y 4–12%).
+- TAGLINE / SUBTITLE / FOOTER: tiny white capitals on the red floor at the bottom centre (y 94–97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-court-slash": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] COURT SLASH — a white paper card cut by a glowing orange diagonal band showing a lit indoor court, the player three times, a grey text panel and a chrome signature. Playful, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: off-white paper, warm orange and amber, grey; chrome lettering.
+
+BACKGROUND
+- Off-white paper with fine grain, light scratches and thin horizontal glitch lines.
+- A wide DIAGONAL BAND from the top right to the bottom left (x 30–80% at the top, x 10–50% at the bottom) showing a warm orange INDOOR COURT: lighting trusses, glowing lights and a shiny wooden floor.
+- A curved orange floor strip along the bottom (y 84–92%); a thin hand-drawn orange arrow and loop doodles.
+
+FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. MAIN (x 20–76%, y 8–80%): full body, a big confident stride toward the camera with one knee raised and one arm up, calm smile — inside and over the orange band.
+2. SMALL SEATED (left — x 18–40%, y 52–80%): small, sitting on the floor with the arms around the knees, relaxed.
+3. RECLINING (lower right — x 40–96%, y 66–90%): lying back on the orange floor strip, propped on one elbow, head resting on the hand, relaxed and smug.
+
+LETTERING & CREST
+- NAME: a big CHROME script signature with a small crown above it at the right (x 64–96%, y 40–50%).
+- TEXT PANEL: a tall grey rounded panel at the top left (x 8–24%, y 10–44%) with the TAGLINE, SUBTITLE and POSITION in white bold condensed capitals, one item per line (never fill it with other text).
+- NUMBER: big orange digits at the top left above the panel (x 8–20%, y 3–9%).
+- CREST: small at the top right (x 84–96%, y 4–12%).
+- FOOTER: tiny grey capitals at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-grey-signature": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GREY SIGNATURE — a grey grain card: the name in big grey capitals at the top, a huge black-and-white face, a big red script across it, three small figures and a giant two-line title at the bottom. Editorial, punchy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: light grey, mid grey, black and white with ONE red (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- Light grey paper with heavy grain; faint giant grey letters of the NAME cropped around the edges; a big rounded white panel behind the centre (x 16–92%, y 14–96%).
+
+FIGURES (four shots of the SAME person from the photo — exact same face, features, hair and skin tone — black-and-white with red details)
+1. BIG FACE (top centre — x 24–80%, y 6–56%): a huge face looking up to the side with a joyful closed-mouth smile.
+2. FIGURE A (left — x 10–50%, y 44–78%): chest-up, one hand raised with two fingers up, smiling.
+3. FIGURE B (centre right — x 46–74%, y 48–80%): chest-up, both hands over the mouth in amazement, eyes up.
+4. FIGURE C (lower centre — x 32–52%, y 64–94%): full body, walking forward with a happy face.
+
+LETTERING & CREST
+- NAME: big wide grey sans capitals at the top (x 16–80%, y 4–10%), with the same word as a thin grey outline just above it.
+- RED SCRIPT: the NAME again as a big flowing red handwritten script across the face (x 10–92%, y 14–58%), behind the eyes and nose but over the hair.
+- SUBTITLE: a grey handwritten script at the right (x 66–90%, y 48–54%).
+- TAGLINE: small red bold capitals above the big title (x 50–80%, y 70–72%).
+- BIG TITLE: the POSITION and the NUMBER as two lines of huge heavy grey and red sans capitals (x 50–90%, y 72–86%).
+- CREST: right, beside the title (x 78–92%, y 58–70%).
+- FOOTER: thin grey text with tiny red words at the bottom right (x 54–86%, y 88–91%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
+  "player-fight-night": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] FIGHT NIGHT — a dark fight-poster card: red smoke and white storm clouds, white lightning, a huge serious close-up, a smaller flexing figure, and the name in big italic white capitals. Intense, cold, premium — made like a high-end PHOTOSHOP composite by a top designer.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: near-black, deep blue-grey, hot red and white (the team colour replaces the red if the COLOURS line gives one).
+
+BACKGROUND
+- Near-black with thick swirling RED SMOKE at the upper left and WHITE STORM CLOUDS at the upper right; dark blue-grey haze at the bottom.
+- Thin bright WHITE LIGHTNING lines crackling across the lower half and around the small figure.
+- A faint map line drawing in the lower left corner, with NO readable place names.
+
+FIGURES (two shots of the SAME person from the photo — exact same face, features, hair and skin tone)
+1. CLOSE-UP (right — x 44–96%, y 4–96%): a huge head-and-shoulders portrait, facing the camera with a calm, cold stare, lips closed, the lower body fading into dark smoke.
+2. FLEXING FIGURE (left — x 10–62%, y 18–90%): from the thighs up, both arms raised and bent in a relaxed double-biceps pose, a confident half-smile, lit red from behind.
+
+LETTERING & CREST
+- CREST: small at the top left (x 6–12%, y 6–11%).
+- TEXT BLOCK at the top left: the TAGLINE in white letter-spaced italic capitals (x 6–30%, y 15–17%), the SUBTITLE under it with its first word in red (x 6–30%, y 18–20%), the POSITION in small red letter-spaced capitals (x 6–22%, y 22–23.5%).
+- NAME: big white italic wide capitals at the right with a red glitch edge (x 50–92%, y 60–68%), and the NUMBER in thin letter-spaced white italic above its left end (x 56–80%, y 55–58%).
+- NUMBER AGAIN: thin letter-spaced white italic digits at the lower left (x 6–20%, y 78–81%).
+- FOOTER: tiny white text at the bottom centre (y 97%).
+
+ATTITUDE (house rule of this style)
+- Every figure is calm and confident: a cool look, lips closed or an easy smile. Nobody screams or shouts.
+- There is no football or other ball anywhere on this card, and no figure kicks or dribbles — only the poses described above.
+- No crowd of raised hands and no giant faded emblem in the background: the crest appears once, where this layout puts it.
+
+PRO PHOTOSHOP FINISH (most important — it must look like a real professional club graphic, NOT AI)
+- The player looks like a REAL high-end sports photo shoot: real skin texture with pores and natural tone, sharp eyes with real catchlights, individual hair strands, real fabric weave, folds and stitching, correct hands and anatomy.
+- Lighting like a pro studio: one strong key light with real falloff and true shadows, a rim light separating the figures from the background, no flat or glowing skin.
+- Compositing like a top designer: clean cut-outs with natural hair edges, the figures colour-matched and lit to the scene, real contact shadows, clear depth layering.
+- Cinematic grade: deep but detailed shadows, controlled highlights, a cohesive colour grade, fine film grain, crisp micro-contrast. Typography crafted, not generated: perfect kerning, razor-sharp edges, clean alignment; big letters have real depth and shadows that follow the scene's light.
+- Never the finger-on-lips "shush" gesture.
+
+TEXT RULES
+- Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
+- The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
+- Ignore the placement hints in the text list below — follow THIS layout.`,
   "player-desert-temple": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] DESERT TEMPLE — a warm terracotta desert card: the player framed by a sandstone archway under a hazy sun, a pyramid below, bronze guardian statues in the corners and the name written as one giant sweep of white sand script. Epic, sun-baked, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.

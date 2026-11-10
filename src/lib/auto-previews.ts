@@ -123,6 +123,16 @@ const BATCHES: Batch[] = [
     slugs: ["player-heavy-metal", "player-storm-profile", "player-midnight-gold", "player-gold-rush", "player-double-exposure", "player-royal-split"],
     check: { texts: { name: "ZAYDEN99", position: "CDM", number: "23", tagline: "Official", subtitle: "Player of the month", footer: "Pro Clubs 2027" }, team: "OCEAN KRAKEN", crest: "ocean-kraken" },
   },
+  // Third set of 20 player styles (the owner's third set of ideas): one poster each with an invented test player becomes
+  // the style's preview and its reference image. Waits while the OpenAI account has no credit (outOfCredit).
+  {
+    key: "auto_previews_players_v7",
+    ref: true,
+    name: "KIXO",
+    parallel: 4,
+    retries: 1,
+    slugs: ["player-glass-rings","player-sepia-ribbons","player-red-cubist","player-mono-serif","player-grey-wings","player-vertical-blaze","player-triple-run","player-wine-swirl","player-golden-number","player-red-icon","player-candy-stripes","player-red-swash","player-halftone-hero","player-orange-halo","player-red-lens","player-lime-blades","player-stadium-truss","player-court-slash","player-grey-signature","player-fight-night"],
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute
