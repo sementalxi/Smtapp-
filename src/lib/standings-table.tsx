@@ -310,49 +310,104 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
     .toBuffer();
 }
 
-/** Renders a fixtures list (home crest + name · VS / time · name + away crest) in the same designed panel. */
+/** Two-letter badge text for a team without a crest ("Real Madrid" → "RM", "Bronze" → "BR"). */
+function initials(name: string) {
+  const words = name.replace(/[^\p{L}\p{N} ]/gu, " ").trim().split(/\s+/).filter(Boolean);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return (words[0] ?? "?").slice(0, 2).toUpperCase();
+}
+
+/** The designed layer of a fixtures list: one glass plate per team, a glowing VS medallion between them, shields for teams with no crest. */
+function fixturesSvg(W: number, H: number, rows: { y: number; homeShield: boolean; awayShield: boolean }[], g: { rowH: number; medal: number; badge: number; padX: number }, accent: string) {
+  const light = mix(accent, "#ffffff", 0.6);
+  const lighter = mix(accent, "#ffffff", 0.85);
+  const dark = mix(accent, "#000000", 0.55);
+  const cx = W / 2;
+  const sw = Math.max(2, W * 0.0028);
+  const cut = g.rowH * 0.22;
+  const plateGap = g.medal * 0.36; // plates tuck under the medallion
+  const parts: string[] = [];
+  const shield = (x: number, y: number, s: number) =>
+    `<path d="M${(x + s * 0.5).toFixed(1)},${y.toFixed(1)} L${(x + s).toFixed(1)},${(y + s * 0.16).toFixed(1)} L${(x + s * 0.93).toFixed(1)},${(y + s * 0.66).toFixed(1)} L${(x + s * 0.5).toFixed(1)},${(y + s).toFixed(1)} L${(x + s * 0.07).toFixed(1)},${(y + s * 0.66).toFixed(1)} L${x.toFixed(1)},${(y + s * 0.16).toFixed(1)} Z" fill="url(#shield)" stroke="${light}" stroke-width="${(sw * 0.9).toFixed(1)}"/>`;
+  rows.forEach((r, k) => {
+    const y0 = r.y;
+    const y1 = r.y + g.rowH;
+    const lx1 = cx - plateGap;
+    const rx0 = cx + plateGap;
+    // left plate: square outer end, slanted inner end; right plate mirrored
+    const left = `M0,${(y0 + cut).toFixed(1)} L${cut.toFixed(1)},${y0.toFixed(1)} L${lx1.toFixed(1)},${y0.toFixed(1)} L${(lx1 - cut * 1.2).toFixed(1)},${y1.toFixed(1)} L0,${y1.toFixed(1)} Z`;
+    const right = `M${(rx0 + cut * 1.2).toFixed(1)},${y0.toFixed(1)} L${W.toFixed(1)},${y0.toFixed(1)} L${W.toFixed(1)},${(y1 - cut).toFixed(1)} L${(W - cut).toFixed(1)},${y1.toFixed(1)} L${rx0.toFixed(1)},${y1.toFixed(1)} Z`;
+    for (const [d, grad] of [[left, "plateL"], [right, "plateR"]] as const) {
+      parts.push(`<path d="${d}" fill="${accent}" fill-opacity="0.35" filter="url(#soft)"/>`);
+      parts.push(`<path d="${d}" fill="url(#${grad})"/>`);
+      parts.push(`<path d="${d}" fill="none" stroke="url(#edge)" stroke-width="${sw.toFixed(1)}"/>`);
+    }
+    // bright top highlight on each plate
+    parts.push(`<line x1="${(cut + 4).toFixed(1)}" y1="${(y0 + sw).toFixed(1)}" x2="${(lx1 - 6).toFixed(1)}" y2="${(y0 + sw).toFixed(1)}" stroke="${lighter}" stroke-opacity="0.55" stroke-width="${(sw * 0.6).toFixed(1)}"/>`);
+    parts.push(`<line x1="${(rx0 + cut * 1.2 + 6).toFixed(1)}" y1="${(y0 + sw).toFixed(1)}" x2="${(W - 4).toFixed(1)}" y2="${(y0 + sw).toFixed(1)}" stroke="${lighter}" stroke-opacity="0.55" stroke-width="${(sw * 0.6).toFixed(1)}"/>`);
+    const by = y0 + (g.rowH - g.badge) / 2;
+    if (r.homeShield) parts.push(shield(g.padX, by, g.badge));
+    if (r.awayShield) parts.push(shield(W - g.padX - g.badge, by, g.badge));
+    // medallion
+    const cy = y0 + g.rowH / 2;
+    const rr = g.medal / 2;
+    parts.push(`<circle cx="${cx}" cy="${cy.toFixed(1)}" r="${(rr * 1.25).toFixed(1)}" fill="${accent}" fill-opacity="0.55" filter="url(#halo)"/>`);
+    parts.push(`<circle cx="${cx}" cy="${cy.toFixed(1)}" r="${rr.toFixed(1)}" fill="url(#medal)" stroke="${lighter}" stroke-width="${(sw * 1.2).toFixed(1)}"/>`);
+    parts.push(`<circle cx="${cx}" cy="${cy.toFixed(1)}" r="${(rr * 0.8).toFixed(1)}" fill="none" stroke="${light}" stroke-opacity="0.6" stroke-width="${(sw * 0.6).toFixed(1)}"/>`);
+    void k;
+  });
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<defs>
+<linearGradient id="plateL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#05050c" stop-opacity="0.86"/><stop offset="0.7" stop-color="#0b0b16" stop-opacity="0.8"/><stop offset="1" stop-color="${dark}" stop-opacity="0.85"/></linearGradient>
+<linearGradient id="plateR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#05050c" stop-opacity="0.86"/><stop offset="0.7" stop-color="#0b0b16" stop-opacity="0.8"/><stop offset="1" stop-color="${dark}" stop-opacity="0.85"/></linearGradient>
+<linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${lighter}"/><stop offset="0.5" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
+<linearGradient id="shield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset="0.45" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
+<radialGradient id="medal" cx="0.4" cy="0.35" r="0.75"><stop offset="0" stop-color="${lighter}"/><stop offset="0.35" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></radialGradient>
+<filter id="soft" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><feGaussianBlur stdDeviation="${(W * 0.008).toFixed(1)}"/></filter>
+<filter id="halo" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><feGaussianBlur stdDeviation="${(g.medal * 0.22).toFixed(1)}"/></filter>
+</defs>
+${parts.join("\n")}
+</svg>`;
+}
+
+/** Renders a fixtures list: per match a home plate, a glowing VS (or kick-off time) medallion and an away plate, crests or initial shields at the outer ends. */
 export async function renderFixturesTable(spec: TableSpec, width: number, height: number): Promise<Buffer> {
   const [anton, mont800] = await Promise.all([googleFont("Anton", 400), googleFont("Montserrat", 800)]);
   const fixtures = spec.fixtures ?? [];
   const n = Math.max(1, fixtures.length);
-  const pad = Math.round(Math.max(12, width * 0.014));
-  const headerH = Math.round(Math.min(56, (height - pad * 2) / (n + 1.6)));
-  const rowH = Math.min(150, Math.floor((height - pad * 2 - headerH) / n));
-  const panelH = pad * 2 + headerH + rowH * n;
-  const crestPx = Math.round(rowH * 0.8);
+  const gapK = 0.2;
+  const rowH = Math.round(Math.min(150, height / (n + (n - 1) * gapK)));
+  const gap = Math.round(rowH * gapK);
+  const panelH = n * rowH + (n - 1) * gap;
   const accent = spec.accent;
-  const crestFor = async (url: string | null) => (url ? crestGlow((await crestData(url, Math.max(64, crestPx * 2))) ?? "", crestPx, accent) : null);
+  const badge = Math.round(rowH * 0.82);
+  const medal = Math.round(rowH * 1.02);
+  const padX = Math.round(rowH * 0.22);
+  const crestFor = async (url: string | null) => (url ? crestGlow((await crestData(url, Math.max(64, badge * 2))) ?? "", badge, accent) : null);
   const crests = await Promise.all(fixtures.map(async (f) => Promise.all([crestFor(f.homeCrest), crestFor(f.awayCrest)])));
-  const hasCrest = crests.some(([a, b]) => a || b);
-  const crestBox = Math.round(crestPx * 1.3);
-  const midW = Math.round(Math.min(width * 0.2, rowH * 2.4));
-  const rowPadL = 14;
-  const rowPadR = 14;
-  const nameW = (width - pad * 2 - rowPadL - rowPadR - midW - (hasCrest ? (crestBox + 12) * 2 : 0)) / 2;
-  const longest = Math.max(4, ...fixtures.flatMap((f) => [f.home.slice(0, 24).length, f.away.slice(0, 24).length]));
-  const fsName = Math.round(Math.max(rowH * 0.28, Math.min(rowH * 0.46, nameW / (longest * 0.5))));
-  const fsMid = Math.round(rowH * 0.42);
-  const fsHead = Math.round(Math.max(13, headerH * 0.42));
-  const geo: Geo = { pad, headerH, rowH, n, qualify: 0, glow: 0, dividers: [], rowPadL, rowPadR };
-  const shadow = "0 2px 5px rgba(0,0,0,0.85)";
-  const crestCell = (src: string | null) =>
-    hasCrest ? (
-      <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center" }}>{src ? <img src={src} width={crestBox} height={crestBox} style={{ objectFit: "contain" }} /> : null}</div>
-    ) : null;
+  const nameW = width / 2 - medal * 0.62 - padX - badge - rowH * 0.28;
+  const longest = Math.max(4, ...fixtures.flatMap((f) => [f.home.slice(0, 22).length, f.away.slice(0, 22).length]));
+  const fsName = Math.round(Math.max(rowH * 0.3, Math.min(rowH * 0.56, nameW / (longest * 0.47))));
+  const shadow = "0 3px 6px rgba(0,0,0,0.9)";
+  const rows = fixtures.map((_, idx) => ({ y: idx * (rowH + gap), homeShield: !crests[idx][0], awayShield: !crests[idx][1] }));
+  const badgeCell = (src: string | null, name: string) => (
+    <div style={{ display: "flex", width: badge, height: badge, alignItems: "center", justifyContent: "center" }}>
+      {src ? (
+        <img src={src} width={Math.round(badge * 1.18)} height={Math.round(badge * 1.18)} style={{ objectFit: "contain" }} />
+      ) : (
+        <div style={{ display: "flex", marginTop: -Math.round(badge * 0.06), fontFamily: "Anton", fontSize: Math.round(badge * 0.38), color: "#ffffff", textShadow: "0 2px 4px rgba(0,0,0,0.85)" }}>{initials(name)}</div>
+      )}
+    </div>
+  );
   const el = (
-    <div style={{ display: "flex", flexDirection: "column", width, height: panelH, padding: pad }}>
-      <div style={{ display: "flex", alignItems: "center", height: headerH, paddingLeft: rowPadL, paddingRight: rowPadR, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 4, color: "rgba(255,255,255,0.85)" }}>
-        <div style={{ display: "flex", flex: 1, justifyContent: "flex-end", textShadow: shadow }}>{spec.legend || "HOME"}</div>
-        <div style={{ display: "flex", width: midW }} />
-        <div style={{ display: "flex", flex: 1, textShadow: shadow }}>{spec.legend ? "" : "AWAY"}</div>
-      </div>
+    <div style={{ display: "flex", flexDirection: "column", width, height: panelH }}>
       {fixtures.map((f, idx) => (
-        <div key={idx} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
-          {crestCell(crests[idx][0])}
-          <div style={{ display: "flex", flex: 1, justifyContent: "flex-end", marginLeft: hasCrest ? 12 : 0, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", letterSpacing: 1, textShadow: shadow }}>{f.home.slice(0, 24)}</div>
-          <div style={{ display: "flex", width: midW, justifyContent: "center", fontFamily: "Anton", fontSize: f.note ? Math.round(fsMid * 0.9) : fsMid, color: accent, textShadow: `0 0 14px ${accent}, ${shadow}` }}>{f.note || "VS"}</div>
-          <div style={{ display: "flex", flex: 1, marginRight: hasCrest ? 12 : 0, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", letterSpacing: 1, textShadow: shadow }}>{f.away.slice(0, 24)}</div>
-          {crestCell(crests[idx][1])}
+        <div key={idx} style={{ display: "flex", alignItems: "center", height: rowH, marginTop: idx ? gap : 0, paddingLeft: padX, paddingRight: padX }}>
+          {badgeCell(crests[idx][0], f.home)}
+          <div style={{ display: "flex", flex: 1, justifyContent: "flex-end", paddingRight: Math.round(rowH * 0.18), fontFamily: "Anton", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", letterSpacing: 1, textShadow: shadow }}>{f.home.slice(0, 22).toUpperCase()}</div>
+          <div style={{ display: "flex", width: medal, justifyContent: "center", alignItems: "center", fontFamily: "Anton", fontSize: Math.round(f.note ? medal * (f.note.length > 5 ? 0.24 : 0.3) : medal * 0.4), color: "#ffffff", textShadow: `0 0 10px ${accent}, 0 2px 4px rgba(0,0,0,0.9)` }}>{f.note || "VS"}</div>
+          <div style={{ display: "flex", flex: 1, paddingLeft: Math.round(rowH * 0.18), fontFamily: "Anton", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", letterSpacing: 1, textShadow: shadow }}>{f.away.slice(0, 22).toUpperCase()}</div>
+          {badgeCell(crests[idx][1], f.away)}
         </div>
       ))}
     </div>
@@ -366,7 +421,7 @@ export async function renderFixturesTable(spec: TableSpec, width: number, height
     ],
   });
   const text = Buffer.from(await res.arrayBuffer());
-  const frame = await sharp(Buffer.from(panelSvg(width, panelH, geo, accent))).png().toBuffer();
+  const frame = await sharp(Buffer.from(fixturesSvg(width, panelH, rows, { rowH, medal, badge, padX }, accent))).png().toBuffer();
   return sharp({ create: { width, height: panelH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
     .composite([
       { input: frame, left: 0, top: 0 },
