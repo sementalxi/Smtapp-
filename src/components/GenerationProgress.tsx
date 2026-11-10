@@ -118,7 +118,6 @@ export function GenerationProgress({ photo, done, expectedSeconds = 90, stage }:
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,46,136,0.18),transparent_60%)]" />
       )}
       <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/75 to-ink" />
-      <div className="kixo-scan pointer-events-none absolute inset-x-0 h-24 bg-gradient-to-b from-transparent via-lime/15 to-transparent" />
 
       <div className="relative max-h-full w-full max-w-sm overflow-y-auto px-5 py-4">
         {/* The photo being worked on, inside a progress ring */}
@@ -174,7 +173,7 @@ export function GenerationProgress({ photo, done, expectedSeconds = 90, stage }:
                   <span className={`block truncate text-[13px] font-bold ${state === "active" ? "text-white" : "text-white/80"}`}>{s[lang]}</span>
                   {state === "active" && <span className="block truncate text-[11px] text-muted">{es ? s.subEs : s.subEn}</span>}
                 </span>
-                {state === "active" && <span className="h-2 w-2 shrink-0 animate-ping rounded-full bg-lime" />}
+                {state === "active" && <span className="kixo-soft-pulse h-2 w-2 shrink-0 rounded-full bg-lime" />}
               </li>
             );
           })}
