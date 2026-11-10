@@ -22,7 +22,8 @@ type Batch = {
    * reference. While a style still has that reference it is taken off (so the new poster is made from the brief
    * alone, not matched to the old one), a new poster is made, and it replaces that preview and becomes the
    * reference. A preview or reference the admin picked in the meantime is never touched. An empty id ("") is for a
-   * style whose reference was already taken off: it is redone only while it still has none.
+   * style whose reference was already taken off: it is redone only while it still has none. "*" redoes the style
+   * whatever reference it has now.
    */
   redo?: Record<string, string>;
   /** Styles whose poster failed get this many more rounds once the round has ended (default: none). */
@@ -89,17 +90,29 @@ const BATCHES: Batch[] = [
       "player-chrome-drip", "player-turbo-chrome", "player-heavy-metal", "player-neon-tunnel", "player-copper-ice",
     ],
   },
+  // The v5 round made 12 of the 20; the OpenAI account then ran out of credit and the other eight failed at the
+  // text step (twice — the retry too). They are made here once the account works again (see outOfCredit).
+  {
+    key: "auto_previews_players_v6",
+    ref: true,
+    name: "KIXO",
+    parallel: 4,
+    retries: 1,
+    slugs: ["player-desert-temple", "player-red-grain", "player-amber-eyes", "player-midnight-gold", "player-red-pride", "player-skyline-ice", "player-gold-rush", "player-chrome-drip"],
+  },
   // Four styles the owner changed after their posters were made — Cloud Nine (no crown, one figure), Royal Split
   // (two calm figures, no ball), Living Statue (an all-plaster bust, a small portrait, no crowd) and Double Exposure
-  // (calm portraits, no gaming desk, no ball). Their previews still showed the old designs. Three of them had their
-  // reference taken off already (""); Living Statue still carried the old one.
+  // (calm portraits, no gaming desk, no ball) — and none of them shows a faded copy of the crest any more. Their
+  // previews still show the old designs. ("auto_previews_players_redo2" was the same redo: it started into the
+  // empty OpenAI account and made nothing.) Three have no reference now (""); Living Statue is redone whatever it
+  // has ("*": redo2 took its old reference off if it got that far).
   {
-    key: "auto_previews_players_redo2",
+    key: "auto_previews_players_redo3",
     name: "KIXO",
-    parallel: 6,
+    parallel: 4,
     retries: 1,
     slugs: ["player-cloud-nine", "player-royal-split", "player-living-statue", "player-double-exposure"],
-    redo: { "player-cloud-nine": "", "player-royal-split": "", "player-living-statue": "ef8b7ee5", "player-double-exposure": "" },
+    redo: { "player-cloud-nine": "", "player-royal-split": "", "player-living-statue": "*", "player-double-exposure": "" },
   },
 ];
 
@@ -139,6 +152,21 @@ async function readMap(key: string): Promise<Record<string, string>> {
 }
 
 /**
+ * The OpenAI account ran out of credit and no poster has been made since. A round would only pay for the art steps
+ * and fail at the text step, so none starts. It lifts by itself with the next Pro poster that works.
+ */
+async function outOfCredit(): Promise<boolean> {
+  const failed = await db.banner.findFirst({
+    where: { status: "FAILED", OR: ["credit_balance_exhausted", "insufficient_quota", "billing_hard_limit", "exceeded your current quota"].map((m) => ({ error: { contains: m } })) },
+    orderBy: { updatedAt: "desc" },
+    select: { updatedAt: true },
+  });
+  if (!failed) return false;
+  const worked = await db.banner.findFirst({ where: { status: "READY", mode: "PRO", createdAt: { gt: failed.updatedAt } }, select: { id: true } });
+  return !worked;
+}
+
+/**
  * Styles of a batch that still have no poster once its round has ended (a failed or refused one) get one more
  * round — at most `b.retries` times. The batch then follows that new round.
  */
@@ -153,6 +181,7 @@ async function retryRound(b: Batch, pending: Tpl[], runId: string) {
   const row = await db.setting.findUnique({ where: { key: triesKey } });
   const tries = Number(row?.value ?? 0) || 0;
   if (tries >= b.retries) return;
+  if (await outOfCredit()) return; // the retry waits for the account, it is not used up
   const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
   if (!admin) return;
   const value = String(tries + 1);
@@ -175,9 +204,10 @@ async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
     const { getRun, startRun } = await import("./style-test");
     const cur = await getRun();
     if (cur && (cur.status === "running" || cur.status === "paused")) return; // not while the admin runs a round
+    if (await outOfCredit()) return;
     const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
     if (!admin) return;
-    const stale = tpls.filter((t) => t.slug in redo && (redo[t.slug] ? !!t.styleRefUrl && t.styleRefUrl.includes(redo[t.slug]) : !t.styleRefUrl));
+    const stale = tpls.filter((t) => t.slug in redo && (redo[t.slug] === "*" || (redo[t.slug] ? !!t.styleRefUrl && t.styleRefUrl.includes(redo[t.slug]) : !t.styleRefUrl)));
     await db.setting.create({ data: { key: b.key, value: new Date().toISOString() } });
     if (!stale.length) return;
     // slug → the preview it has now (replaced later only if it is still that one)
@@ -237,6 +267,7 @@ export async function autoPreviewsTick() {
       const { getRun, startRun } = await import("./style-test");
       const cur = await getRun();
       if (cur && (cur.status === "running" || cur.status === "paused")) continue;
+      if (await outOfCredit()) continue;
       const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
       if (!admin) continue;
       await db.setting.create({ data: { key: b.key, value: new Date().toISOString() } });
@@ -251,6 +282,7 @@ export async function autoPreviewsTick() {
       const { getRun, startRun } = await import("./style-test");
       const cur = await getRun();
       if (cur && (cur.status === "running" || cur.status === "paused")) continue;
+      if (await outOfCredit()) continue;
       const admin = await db.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true } });
       if (!admin) continue;
       const need = tpls.filter((t) => !t.thumbUrl || (b.ref && !t.styleRefUrl));

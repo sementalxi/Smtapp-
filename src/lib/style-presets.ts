@@ -45,7 +45,7 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this brief.`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
-  "player-desert-temple": `[EXACT REF] [FIXED LAYOUT] DESERT TEMPLE — a warm terracotta desert card: the player framed by a sandstone archway under a hazy sun, a pyramid below, bronze guardian statues in the corners and the name written as one giant sweep of white sand script. Epic, sun-baked, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-desert-temple": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] DESERT TEMPLE — a warm terracotta desert card: the player framed by a sandstone archway under a hazy sun, a pyramid below, bronze guardian statues in the corners and the name written as one giant sweep of white sand script. Epic, sun-baked, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -87,7 +87,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-torn-sky": `[EXACT REF] [FIXED LAYOUT] TORN SKY — a fresh sky-blue torn-paper collage: a giant close-up on the left, a calm portrait at the top, a full-body shot standing on white paper, rough torn strips between them, and a tall navy name with a white signature across it. Bright, clean, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-torn-sky": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] TORN SKY — a fresh sky-blue torn-paper collage: a giant close-up on the left, a calm portrait at the top, a full-body shot standing on white paper, rough torn strips between them, and a tall navy name with a white signature across it. Bright, clean, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -130,7 +130,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-lava-throne": `[EXACT REF] [FIXED LAYOUT] LAVA THRONE — a volcanic red throne-room card: three portraits of the player rising out of glowing red haze and, in front, the player seated on a dark throne on an island of cracked lava rock. Regal, fiery, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-lava-throne": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] LAVA THRONE — a volcanic red throne-room card: three portraits of the player rising out of glowing red haze and, in front, the player seated on a dark throne on an island of cracked lava rock. Regal, fiery, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -173,7 +173,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-golden-smoke": `[EXACT REF] [FIXED LAYOUT] GOLDEN SMOKE — an amber-gold duotone card: a giant outlined number, a big proud portrait with a hand on the heart and a smaller full-body shot walking out of clouds of yellow smoke. Warm, loud, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-golden-smoke": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GOLDEN SMOKE — an amber-gold duotone card: a giant outlined number, a big proud portrait with a hand on the heart and a smaller full-body shot walking out of clouds of yellow smoke. Warm, loud, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -213,7 +213,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-night-hero": `[EXACT REF] [FIXED LAYOUT] NIGHT HERO — a deep-blue stadium-night card: a heroic portrait with folded arms under the floodlights, a small back view walking out to the pitch and the name in giant frosted-glass letters. Cold, cinematic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-night-hero": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] NIGHT HERO — a deep-blue stadium-night card: a heroic portrait with folded arms under the floodlights, a small back view walking out to the pitch and the name in giant frosted-glass letters. Cold, cinematic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -253,7 +253,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-red-grain": `[EXACT REF] [FIXED LAYOUT] RED GRAIN — a gritty red-and-grey film-grain card: two giant black-and-white portraits washed in red and one small full-colour figure walking in the middle. Raw, moody, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-red-grain": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED GRAIN — a gritty red-and-grey film-grain card: two giant black-and-white portraits washed in red and one small full-colour figure walking in the middle. Raw, moody, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -292,7 +292,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-amber-eyes": `[EXACT REF] [FIXED LAYOUT] AMBER EYES — a warm amber-orange grain card: a giant faded close-up of the player's eyes across the top, a smiling portrait in the middle, a back view below and big worn white letters behind. Warm, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-amber-eyes": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] AMBER EYES — a warm amber-orange grain card: a giant faded close-up of the player's eyes across the top, a smiling portrait in the middle, a back view below and big worn white letters behind. Warm, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -331,7 +331,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-midnight-gold": `[EXACT REF] [FIXED LAYOUT] MIDNIGHT GOLD — a black-and-gold editorial card: two shots of the player set on a diagonal, the name in giant white capitals running at an angle between them and gold calligraphy sweeping over everything. Elegant, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-midnight-gold": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] MIDNIGHT GOLD — a black-and-gold editorial card: two shots of the player set on a diagonal, the name in giant white capitals running at an angle between them and gold calligraphy sweeping over everything. Elegant, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -369,7 +369,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-mono-collage": `[EXACT REF] [FIXED LAYOUT] MONO COLLAGE — a black, white and cool-grey cut-paper collage: a big serious portrait on top, a small figure below, shattered gothic letter shapes, paper stars and street-poster textures. Raw, graphic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-mono-collage": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] MONO COLLAGE — a black, white and cool-grey cut-paper collage: a big serious portrait on top, a small figure below, shattered gothic letter shapes, paper stars and street-poster textures. Raw, graphic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -408,7 +408,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-red-pride": `[EXACT REF] [FIXED LAYOUT] RED PRIDE — a deep red-and-black card: a big smiling portrait with a hand on the chest, a faded red face above, a back view with a raised fist showing the name and number, and rough red brush strokes. Proud, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-red-pride": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] RED PRIDE — a deep red-and-black card: a big smiling portrait with a hand on the chest, a faded red face above, a back view with a raised fist showing the name and number, and rough red brush strokes. Proud, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -447,7 +447,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-storm-profile": `[EXACT REF] [FIXED LAYOUT] STORM PROFILE — a black-and-white storm card: a giant side profile of the player in the clouds and, in front, the only colour on the card — the player celebrating with open arms. Epic, sharp, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-storm-profile": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] STORM PROFILE — a black-and-white storm card: a giant side profile of the player in the clouds and, in front, the only colour on the card — the player celebrating with open arms. Epic, sharp, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -486,7 +486,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-skyline-ice": `[EXACT REF] [FIXED LAYOUT] SKYLINE ICE — a cool steel-blue city card: a giant smiling close-up in the sky, a smaller portrait in front, a dark skyline and the name in wide ice-blue capitals. Smooth, icy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-skyline-ice": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] SKYLINE ICE — a cool steel-blue city card: a giant smiling close-up in the sky, a smaller portrait in front, a dark skyline and the name in wide ice-blue capitals. Smooth, icy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -525,7 +525,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-cash-rain": `[EXACT REF] [FIXED LAYOUT] CASH RAIN — a black-and-white night-city card: a huge close-up looking over the shoulder, a second standing shot, banknotes drifting through the frame and the name as a giant white marker signature. Slick, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-cash-rain": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] CASH RAIN — a black-and-white night-city card: a huge close-up looking over the shoulder, a second standing shot, banknotes drifting through the frame and the name as a giant white marker signature. Slick, bold, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -563,7 +563,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-gold-rush": `[EXACT REF] [FIXED LAYOUT] GOLD RUSH — a warm mustard-gold card: a big close-up looking over the shoulder, a yellow number block, the name in very tall white capitals with a small standing shot in front and a gold signature across. Rich, confident, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-gold-rush": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] GOLD RUSH — a warm mustard-gold card: a big close-up looking over the shoulder, a yellow number block, the name in very tall white capitals with a small standing shot in front and a gold signature across. Rich, confident, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -601,7 +601,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-titan-city": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] TITAN CITY — a deep burgundy card: the player as a giant rising out of the clouds behind a miniature city of monuments, and the name in huge 3D theatre-marquee letters lit by neon tubes. Larger than life, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-titan-city": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] TITAN CITY — a deep burgundy card: the player as a giant rising out of the clouds behind a miniature city of monuments, and the name in huge 3D theatre-marquee letters lit by neon tubes. Larger than life, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -639,7 +639,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-chrome-drip": `[EXACT REF] [FIXED LAYOUT] CHROME DRIP — a black, white and chrome card: the name in inflated chrome balloon letters dripping liquid metal over a white embossed wall and, below, three shots of the player inside a big ring of liquid chrome in a black-and-gold lounge. Glossy, luxurious, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-chrome-drip": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] CHROME DRIP — a black, white and chrome card: the name in inflated chrome balloon letters dripping liquid metal over a white embossed wall and, below, three shots of the player inside a big ring of liquid chrome in a black-and-gold lounge. Glossy, luxurious, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -680,7 +680,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-turbo-chrome": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] TURBO CHROME — a red-neon and chrome card: the name in giant italic 3D chrome letters ringed with red neon, and the player in the middle of a chrome tunnel full of red light trails. Fast, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-turbo-chrome": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] TURBO CHROME — a red-neon and chrome card: the name in giant italic 3D chrome letters ringed with red neon, and the player in the middle of a chrome tunnel full of red light trails. Fast, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -718,7 +718,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-heavy-metal": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] HEAVY METAL — a red grunge card: the name in massive riveted black-iron 3D letters with glowing red edges, a white signature and stencil lines, and the player seated like a boss in a red velvet armchair below. Heavy, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-heavy-metal": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] HEAVY METAL — a red grunge card: the name in massive riveted black-iron 3D letters with glowing red edges, a white signature and stencil lines, and the player seated like a boss in a red velvet armchair below. Heavy, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -756,7 +756,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-neon-tunnel": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] NEON TUNNEL — a teal neon card: the player in the middle of a glowing sci-fi tunnel, floating teal flecks, low smoke and the name in glossy 3D script lettering with blue chrome sides. Fun, electric, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-neon-tunnel": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] NEON TUNNEL — a teal neon card: the player in the middle of a glowing sci-fi tunnel, floating teal flecks, low smoke and the name in glossy 3D script lettering with blue chrome sides. Fun, electric, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -794,7 +794,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-copper-ice": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] COPPER ICE — an icy-blue stage card: the name in giant copper-foil capitals framed by copper bars and the player in front under white concert beams. Cool, shiny, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-copper-ice": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] COPPER ICE — an icy-blue stage card: the name in giant copper-foil capitals framed by copper bars and the player in front under white concert beams. Cool, shiny, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -833,7 +833,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years, dates, addresses or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a wall pattern, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere.
 - The crest appears only if a crest reference image is given; no animals or mascots unless they are part of that crest. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-cloud-nine": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] CLOUD NINE — a bright candy-pink and sky-blue player card: the player rising out of fluffy pink clouds, giant floating diamonds, gold rings and a glossy bubble-letter name. Fresh, glamorous, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-cloud-nine": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] [ONE FIGURE] CLOUD NINE — a bright candy-pink and sky-blue player card: the player rising out of fluffy pink clouds, giant floating diamonds, gold rings and a glossy bubble-letter name. Fresh, glamorous, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -1176,7 +1176,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back): there the given name / number repeats. No team-name text anywhere.
 - No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow the reference.`,
-  "player-royal-split": `[EXACT REF] [FIXED LAYOUT] ROYAL SPLIT — a two-tone split card: a navy stadium night on the left, cream marble with gold cracks on the right, two shots of the player — a darker back portrait and a big arms-crossed hero portrait — and a giant gold number. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
+  "player-royal-split": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] ROYAL SPLIT — a two-tone split card: a navy stadium night on the left, cream marble with gold cracks on the right, two shots of the player — a darker back portrait and a big arms-crossed hero portrait — and a giant gold number. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
@@ -1195,7 +1195,6 @@ COLOURS: deep navy and electric blue on the left; warm cream marble with gold on
 BACKGROUND
 - LEFT HALF: a deep-blue stadium at night with crowd bokeh and blue mist. RIGHT HALF: cracked cream marble with gold veins, gold dust and splashes.
 - A thin vertical gold line at x 50% from top to bottom, with a small diamond ornament near each end.
-- The crest again, giant and faint, at the top left (x 5–32%, y 5–35%).
 
 FIGURES (two shots of the SAME person from the photo — exact same face, features, hair and skin tone)
 1. BACK PORTRAIT (left — x 8–38%, y 10–50%): darker and blue-graded — looking down, both hands adjusting the collar, fading into the navy side.
@@ -1447,7 +1446,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back): there the given name / number repeats. No team-name text anywhere.
 - No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow the reference.`,
-  "player-double-exposure": `[EXACT REF] [FIXED LAYOUT] DOUBLE EXPOSURE — a cinematic sepia double-exposure card on paper: two calm portraits, a sunset city and the player seen from behind in a stadium. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
+  "player-double-exposure": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] DOUBLE EXPOSURE — a cinematic sepia double-exposure card on paper: two calm portraits, a sunset city and the player seen from behind in a stadium. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
@@ -1466,7 +1465,6 @@ COLOURS: sepia, black-and-white and cream paper with ONE warm amber-orange sunse
 BACKGROUND
 - Cream paper with black ink brush-stroke edges; the whole collage sits inside the brush shape, blended like a double exposure.
 - TOP RIGHT: a sunset sky over a coastal city with mountains (x 70–100%, y 20–42%).
-- The crest again, giant and faint, at the upper left (x 3–28%, y 10–38%).
 - RIGHT and CENTRE, below the portraits (x 40–100%, y 40–70%): the sunset city comes closer — rooftops and towers in warm amber haze, dissolving into ink strokes. No gaming equipment anywhere (no monitor, controller, desk or hexagon panel).
 
 FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
@@ -1540,7 +1538,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back): there the given name / number repeats. No team-name text anywhere.
 - No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow the reference.`,
-  "player-living-statue": `[EXACT REF] [FIXED LAYOUT] LIVING STATUE — a monumental concert-stage card: the player's portrait as a giant cracking plaster statue with liquid-chrome drips, orange spotlights and cyan lasers, a neon name and a small arms-crossed portrait of the real player. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
+  "player-living-statue": `[EXACT REF] [FIXED LAYOUT] [NO ECHO] LIVING STATUE — a monumental concert-stage card: the player's portrait as a giant cracking plaster statue with liquid-chrome drips, orange spotlights and cyan lasers, a neon name and a small arms-crossed portrait of the real player. An exact-copy style: every card is the same design as its reference poster, with only the player, the texts and the crest swapped.
 
 STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the finished poster this style copies. Recreate THAT poster as exactly as possible: the same layout and proportions, every element in the same place at the same size, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same crest treatment, the same density and finish — as if the same designer made this card from the same file. Change ONLY three things: the PERSON (the uploaded player stands where its player stands — the same number of figures, in the same poses, crops and treatments), the TEXTS (only the given texts, each in the place and lettering of the reference's text with the same role — never its words, names or numbers) and the CREST (only the given crest, exactly where the reference has its emblem, at the same size and treated the same way, in its own shape). Never copy its name, words, numbers, face or emblem.
 
@@ -1559,7 +1557,7 @@ COLOURS: deep teal-black, burning orange and cyan; white plaster and chrome.
 BACKGROUND
 - A huge dark arena stage: an orange spotlight in each top corner with beams, thin cyan laser lines crossing diagonally, haze.
 - Orange stage lights glowing along the bottom edge (y 90–100%), warm bokeh, no crowd and no hands.
-- No giant faint logo or crest in the background — the background is clean stage lighting and haze only.
+- The background is stage lighting and haze only: the crest appears once, where the layout puts it, with no faded copy behind.
 
 FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
 1. THE STATUE (left — x 3–58%, y 3–68%) — a giant cracking white plaster bust of the player (head, neck and chest). The entire bust is white cracked plaster — ONE continuous face, not split or divided, not half-and-half. Fine cracks run across the surface, small chunks break away around the edges, and thick liquid-chrome drips run over both shoulders. The player's features are carved into the plaster — same face shape, but rendered as a solid white sculpture (not a photo). It stands on a round dark stone pedestal (x 8–55%, y 68–82%) with chrome dripping over its rim.
@@ -6858,9 +6856,32 @@ TEXT RULES
  * matter which earlier version is in the database. Raise the number with every later change to that brief.
  */
 export const PRESET_REVISIONS: Record<string, number> = {
-  "player-royal-split": 1,
-  "player-living-statue": 1,
-  "player-double-exposure": 1,
+  // [NO ECHO] on the four styles the owner changed (2 = Royal Split / Living Statue / Double Exposure after their first reload)
+  "player-cloud-nine": 1,
+  "player-royal-split": 2,
+  "player-living-statue": 2,
+  "player-double-exposure": 2,
+  // [NO ECHO] on the 20 styles of the second set
+  "player-desert-temple": 1,
+  "player-torn-sky": 1,
+  "player-lava-throne": 1,
+  "player-golden-smoke": 1,
+  "player-night-hero": 1,
+  "player-red-grain": 1,
+  "player-amber-eyes": 1,
+  "player-midnight-gold": 1,
+  "player-mono-collage": 1,
+  "player-red-pride": 1,
+  "player-storm-profile": 1,
+  "player-skyline-ice": 1,
+  "player-cash-rain": 1,
+  "player-gold-rush": 1,
+  "player-titan-city": 1,
+  "player-chrome-drip": 1,
+  "player-turbo-chrome": 1,
+  "player-heavy-metal": 1,
+  "player-neon-tunnel": 1,
+  "player-copper-ice": 1,
 };
 
 /** Earlier versions — replaced automatically if the admin never edited them. */

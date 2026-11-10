@@ -22,9 +22,11 @@ export async function postToDiscord(payload: Record<string, unknown>, image?: { 
     const res = await fetch(`${url}${url.includes("?") ? "&" : "?"}wait=true`, { method: "POST", body: form, signal: AbortSignal.timeout(withImage ? 20000 : 10000) });
     if (!res.ok) lastDiscordError = `discord_${res.status}: ${(await res.text().catch(() => "")).slice(0, 120)}`;
     else if (withImage && image) {
-      const stored = (await res.clone().json().catch(() => null)) as { attachments?: unknown[] } | null;
-      if (stored && !stored.attachments?.length) console.warn("discord post stored WITHOUT its picture:", image.name);
-      else if (stored) console.log("discord post stored with its picture:", image.name);
+      // A file that a card shows as its picture ("attachment://…") is not listed under attachments: it is the card's image.
+      const stored = (await res.clone().json().catch(() => null)) as { attachments?: unknown[]; embeds?: { image?: { url?: string } }[] } | null;
+      const has = !!stored && (!!stored.attachments?.length || !!stored.embeds?.some((e) => !!e.image?.url));
+      if (stored && !has) console.warn("discord post stored WITHOUT its picture:", image.name);
+      else if (stored) console.log("discord post stored with its picture:", image.name, stored.attachments?.length ? "(attachment)" : "(in the card)");
     }
     return res;
   };
