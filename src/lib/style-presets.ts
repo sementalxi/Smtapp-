@@ -412,7 +412,7 @@ BACKGROUND
 FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
 1. BACK PORTRAIT (left — x 12–40%, y 13–45%): darker and blue-graded — looking down, both hands adjusting the collar.
 2. CENTRE PORTRAIT (x 35–66%, y 10–48%): chest-up, looking up and away to the left, full colour.
-3. FRONT FIGURE (x 35–95%, y 30–88%): full body leaning into a strike with the arms out for balance, razor sharp; the ball at the lower right (x 84–97%, y 72–83%).
+3. RIGHT FIGURE (x 50–95%, y 30–88%): a cool, confident close-up — head and shoulders, facing the camera or looking slightly off to the side, calm expression, NO ball, NO kicking pose, NO action pose. Just a sharp portrait cut-out, razor sharp, colour-matched to the gold/marble side.
 
 LETTERING & CREST
 - NUMBER: huge distressed gold-foil block digits at the top right (x 67–99%, y 5–42%), behind the figures.
