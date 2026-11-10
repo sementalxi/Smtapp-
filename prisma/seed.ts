@@ -53,6 +53,12 @@ async function main() {
     }
     await db.setting.create({ data: { key: "champs_new6_v2", value: new Date().toISOString() } });
   }
+  // One-time: Royal Split's reference showed a kicking figure with a ball; the style now wants a cool close-up
+  // portrait on the right. Clear the reference so the written brief takes over.
+  if (!(await db.setting.findUnique({ where: { key: "royal_split_no_kick_v1" } }))) {
+    await db.template.updateMany({ where: { slug: "player-royal-split" }, data: { styleRefUrl: null } });
+    await db.setting.create({ data: { key: "royal_split_no_kick_v1", value: new Date().toISOString() } });
+  }
   // Ready-made design instructions — only where the admin hasn't written any.
   for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
     const prev = PRESET_PREVIOUS[slug];
