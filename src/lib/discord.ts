@@ -17,7 +17,13 @@ export async function postToDiscord(payload: Record<string, unknown>, image?: { 
   const send = async (withImage: boolean) => {
     const form = new FormData();
     form.append("payload_json", JSON.stringify({ username: "KIXO Log", allowed_mentions: { parse: [] }, ...payload }));
-    if (withImage && image) form.append("files[0]", new Blob([new Uint8Array(image.bytes)], { type: image.type }), image.name);
+    if (withImage && image) {
+      // Buffer is a Uint8Array subclass — pass it directly to Blob so the bytes aren't mangled
+      // by a new Uint8Array() that might view the entire underlying ArrayBuffer on some runtimes.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const safe = Buffer.isBuffer(image.bytes) ? new Uint8Array(image.bytes.buffer, image.bytes.byteOffset, image.bytes.byteLength) : new Uint8Array(image.bytes);
+      form.append("files[0]", new Blob([safe as any], { type: image.type }), image.name);
+    }
     const res = await fetch(url, { method: "POST", body: form, signal: AbortSignal.timeout(withImage ? 20000 : 10000) });
     if (!res.ok) lastDiscordError = `discord_${res.status}: ${(await res.text().catch(() => "")).slice(0, 120)}`;
     return res;
