@@ -412,7 +412,7 @@ BACKGROUND
 FIGURES (three shots of the SAME person from the photo — exact same face, features, hair and skin tone)
 1. BACK PORTRAIT (left — x 12–40%, y 13–45%): darker and blue-graded — looking down, both hands adjusting the collar.
 2. CENTRE PORTRAIT (x 35–66%, y 10–48%): chest-up, looking up and away to the left, full colour.
-3. RIGHT FIGURE (x 50–95%, y 30–88%): NOT a full-body shot — this is a CLOSE-UP PORTRAIT only: head, neck and the very top of the shoulders, cropped tight like a passport photo but cinematic. The player faces the camera or looks slightly to the side, calm and confident. There is NO ball anywhere in this poster — no football, no soccer ball, not at the feet, not in the air, nowhere. The player is NOT kicking, NOT running, NOT in any action pose — just a still, sharp, cool portrait. Razor sharp, colour-matched to the gold/marble right side.
+3. RIGHT FIGURE (x 50–95%, y 30–88%): waist-up portrait, ARMS CROSSED over the chest, chin slightly raised, looking straight at the camera with a calm, confident expression — like a magazine cover shoot. Cropped at the waist (legs and feet are not visible). Both hands grip the opposite upper arm. The figure stands completely still. Razor sharp, colour-matched to the gold/marble right side. (This figure is a portrait, never a full-body action shot.)
 
 LETTERING & CREST
 - NUMBER: huge distressed gold-foil block digits at the top right (x 67–99%, y 5–42%), behind the figures.
