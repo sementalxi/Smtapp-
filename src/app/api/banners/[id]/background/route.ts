@@ -51,7 +51,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       const tplInstructions = champStyle ? champStyle.instructions : banner.template.proInstructions;
       const tplStyleRef = champStyle ? champStyle.styleRefUrl : banner.template.styleRefUrl;
       const fmtNow = (banner.design as unknown as { format?: "post" | "story" | "banner" } | null)?.format;
-      const exactTable = banner.template.layout === "STANDINGS" && ((await getSettings()).standings_exact_table !== "off" || inputs.standings.filter(Boolean).length > 16) && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
+      const exactTable = banner.template.layout === "STANDINGS" && ((await getSettings()).standings_exact_table !== "off" || inputs.standings.filter(Boolean).length > 16 || (inputs.fixtures ?? []).some(Boolean)) && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const exactQual = banner.template.layout === "QUALIFIERS" && (await getSettings()).qualifiers_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const exactWin = banner.template.layout === "WINNERS" && (await getSettings()).winners_exact_grid !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
       const crestNote = banner.logoUrl && (inputs.aiLogo === "on" || inputs.aiLogo === "both") ? await (await import("@/lib/crest-describe")).describeCrest(banner.logoUrl) : null;

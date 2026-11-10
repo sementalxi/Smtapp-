@@ -113,7 +113,7 @@ export const POST = handle(async (req: NextRequest) => {
   // Team of the week: the cards borrow a player-card style's look, and the club crests travel as one sheet.
   const totw = pro && ["TOTW", "STANDINGS", "EVENT", "QUALIFIERS", "WINNERS"].includes(template.layout) ? await import("@/lib/totw").then((m) => m.totwExtras(inputs, body.cardTemplateId, user, template.layout)) : null;
   // Standings: KIXO draws the exact table (real crests, exact names and numbers) when the setting is on and the fonts load.
-  const exactTable = pro && template.layout === "STANDINGS" && ((await getSettings()).standings_exact_table !== "off" || inputs.standings.filter(Boolean).length > 16) && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
+  const exactTable = pro && template.layout === "STANDINGS" && ((await getSettings()).standings_exact_table !== "off" || inputs.standings.filter(Boolean).length > 16 || (inputs.fixtures ?? []).some(Boolean)) && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   // Qualifiers: KIXO draws the regions table (real flags, exact numbers) when the setting is on and the fonts load.
   const exactQual = pro && template.layout === "QUALIFIERS" && (await getSettings()).qualifiers_exact_table !== "off" && (await import("@/lib/standings-table").then((m) => m.tableFontsReady()));
   // Winners showcase: KIXO draws the wall of frames (real crests, exact names) when the setting is on and the fonts load.

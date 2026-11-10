@@ -56,6 +56,7 @@ export const InputsSchema = z.object({
   players: z.array(z.string().trim().max(40)).max(18).default([]),
   scorers: z.array(z.string().trim().max(40)).max(12).default([]),
   standings: z.array(z.string().trim().max(90)).max(32).default([]),
+  fixtures: z.array(z.string().trim().max(90)).max(16).default([]),
   qualify: z.string().trim().regex(/^\d{0,2}$/).default(""),
   relegate: z.string().trim().regex(/^\d{0,2}$/).default(""),
   tableLogos: z.array(z.string().trim().max(500)).max(32).default([]),
@@ -634,7 +635,7 @@ export function buildProPrompt(opts: {
   const v = opts.variation ?? createVariation(randomize ? i.colorMode : i.colorMode === "custom" ? "custom" : "template");
   const allText = [
     i.name, i.team, i.position, i.tagline, i.subtitle, i.footer, i.headline, i.eventName, i.prize, i.date, i.details, i.rule, i.ruleNote, i.entry,
-    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, i.unit, i.total, ...i.regions, ...(i.winners ?? []), ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
+    i.extraPrompt, i.homeTeam, i.awayTeam, i.competition, i.venue, i.unit, i.total, ...i.regions, ...(i.winners ?? []), ...(i.fixtures ?? []), ...i.roster, ...i.players, ...i.scorers, ...Object.values(i.slots ?? {}),
   ].join(" ");
   const hit = allText.match(BLOCKED);
   if (hit) throw Object.assign(new HttpError(400, "err_blocked"), { detail: `Word filter matched "${hit[0]}"` });
@@ -802,7 +803,10 @@ export function buildProPrompt(opts: {
       break;
     }
     case "STANDINGS": {
-      const rows = i.standings.filter(Boolean);
+      const fx = (i.fixtures ?? []).filter(Boolean);
+      const rows = fx.length ? [] : i.standings.filter(Boolean);
+      const kindWord = fx.length ? "MATCHDAY FIXTURES" : "league STANDINGS";
+      const defTitle = fx.length ? "MATCHDAY" : "STANDINGS";
       const up = Math.min(rows.length, parseInt(i.qualify, 10) || 0);
       const esLang = i.language === "Español";
       // Only the advancing rows are marked — in the poster's own accent colour, never green or red.
@@ -810,25 +814,34 @@ export function buildProPrompt(opts: {
       const areaText = tableAreaText(opts.format === "banner");
       composition = opts.exactTable
         ? [
-            `The BACKGROUND and title of a premium league STANDINGS graphic — like an official league / TV broadcast table. The table itself is placed afterwards, so this image has NO TABLE.`,
-            `A huge "${i.headline || "STANDINGS"}" title${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.champLogoUrl ? ", the league logo beside the title" : ""}${i.date ? ", the matchday / week" : ""}.`,
+            `The BACKGROUND and title of a premium ${kindWord} graphic — like an official league / TV broadcast ${fx.length ? "fixtures list" : "table"}. The ${fx.length ? "list of fixtures" : "table"} itself is placed afterwards, so this image has NO TABLE${fx.length ? " and NO fixtures" : ""}.`,
+            `A huge "${i.headline || defTitle}" title${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.champLogoUrl ? ", the league logo beside the title" : ""}${i.date ? ", the matchday / week" : ""}.`,
             `TABLE AREA — LEAVE IT EMPTY: ${areaText}. Draw NOTHING inside that area: no table, no rows, no lines, no boxes, no numbers, no crests, no text — only the background scene continuing through it, slightly darker and calmer (the real table goes on top). ${i.champLogoUrl ? "The league logo echoed GIANT and faded may run behind that area." : ""} NO people, players, faces or figures anywhere.`,
+            frame,
+            finish,
+          ].join(" ")
+        : fx.length
+        ? [
+            `A premium MATCHDAY FIXTURES graphic — like an official league / TV broadcast fixtures list.`,
+            `A huge "${i.headline || defTitle}" title at the top${i.subtitle ? ", a script / accent line right under it" : ""}${i.champLogoUrl ? ", the league logo beside the title" : ""}${i.date ? ", the date" : ""}. Below it a clean, perfectly aligned list of ${fx.length} fixtures, one per row: home team on the left, a "VS" (or the kick-off time) in the middle, away team on the right. Every row the same height, all text perfectly legible. NO people, players, faces or figures anywhere.`,
             frame,
             finish,
           ].join(" ")
         : [
         `A premium league STANDINGS table graphic — like an official league / TV broadcast table posted by a top competition's media team.`,
-        `A huge "${i.headline || "STANDINGS"}" title at the top${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.champLogoUrl ? ", the league logo beside the title" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted${zones.length ? `; ${zones.join(", and ")}, with a tiny legend under the table` : ", the bottom rows subtly marked"}. Every row the same height, every number lined up in its column, all text perfectly legible. NO people, players, faces or figures anywhere — the background is the scene plus ${i.champLogoUrl ? "the league / organization logo echoed GIANT and faded behind the table (clearly visible), with the same logo crisp beside the title" : "big graphic energy (light, texture, atmosphere) — no league logo was given, so NO logo beside the title and NO watermark: team crests stay small inside their rows"}.`,
+        `A huge "${i.headline || defTitle}" title at the top${i.tagline ? ", a small letter-spaced word right above it" : ""}${i.subtitle ? ", a script / accent line right under it" : ""}${i.champLogoUrl ? ", the league logo beside the title" : ""}${i.date ? ", the matchday / week" : ""}. Below it a clean, perfectly aligned TABLE with ${rows.length} rows: position number, ${i.tableLogos.some(Boolean) ? "a small crest, " : ""}team name, then the stats in neat columns with small column headers (only the stats given). The leader (1st) row highlighted${zones.length ? `; ${zones.join(", and ")}, with a tiny legend under the table` : ", the bottom rows subtly marked"}. Every row the same height, every number lined up in its column, all text perfectly legible. NO people, players, faces or figures anywhere — the background is the scene plus ${i.champLogoUrl ? "the league / organization logo echoed GIANT and faded behind the table (clearly visible), with the same logo crisp beside the title" : "big graphic energy (light, texture, atmosphere) — no league logo was given, so NO logo beside the title and NO watermark: team crests stay small inside their rows"}.`,
         frame,
         finish,
       ].join(" ");
       add("Small letter-spaced word right ABOVE the title", i.tagline);
-      add("Title (huge)", i.headline || "STANDINGS");
+      add("Title (huge)", i.headline || defTitle);
       add("Accent line right UNDER the title (script or condensed style)", i.subtitle);
       // No league / organization name line on standings — the logo represents the league (owner's request).
       add("Matchday / week", i.date);
       if (zones.length && !opts.exactTable)
         lines.push(`- Zone legend (tiny, under the table, one line): ${q(`● ${esLang ? `TOP ${up} AVANZAN` : `TOP ${up} ADVANCE`}`)} — the dot in the same accent colour as the marked rows`);
+      if (fx.length && !opts.exactTable)
+        lines.push(`- Fixtures, in this exact order (top to bottom) — keep every team name exactly; the part after "·" is the kick-off time shown in the middle instead of VS:\n${fx.map((r) => `  ${q(r)}`).join("\n")}`);
       if (rows.length && !opts.exactTable)
         lines.push(`- Table rows, in this exact order (top to bottom) — keep every team name and number exactly; the labels P W D L GD PTS are the column headers (translate these short headers into the poster text language if it is not English, e.g. PJ G E P DG PTS in Spanish), show each number in its column. The "·" only separates the items — never draw a dot, bullet or separator after the team name:\n${rows.map((r) => `  ${q(r)}`).join("\n")}`);
       break;

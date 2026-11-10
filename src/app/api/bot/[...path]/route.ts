@@ -33,6 +33,14 @@ async function asUser(userId: string, path: string, init: RequestInit = {}) {
   return fetch(`${site()}${path}`, { ...init, headers: { ...(init.headers ?? {}), cookie }, signal: AbortSignal.timeout(55000) });
 }
 
+/** Image hosts the bot may send: Discord's CDN and any public https site (league / team logos) — never an IP or local name. */
+function publicHost(host: string) {
+  const h = host.toLowerCase();
+  if (/(^|\.)discordapp\.(com|net)$/.test(h)) return true;
+  if (!h.includes(".") || /^[\d.]+$/.test(h) || h.includes(":") || /(^|\.)(localhost|local|internal|lan)$/.test(h)) return false;
+  return true;
+}
+
 /** Discord attachment → stored on KIXO as that user (the AI and saved teams only take our own files). */
 async function rehostFor(userId: string, src: string | undefined, kind: "photo" | "logo") {
   if (!src) return null;
@@ -40,10 +48,12 @@ async function rehostFor(userId: string, src: string | undefined, kind: "photo" 
   if (src.startsWith(site() + "/")) return src.slice(site().length);
   if (src.startsWith("/") || /\.blob\.vercel-storage\.com\//.test(src)) return src;
   const s = new URL(src);
-  if (s.protocol !== "https:" || !/(^|\.)discordapp\.(com|net)$/.test(s.hostname)) throw new Error("bad_image_host");
-  const img = await fetch(s, { signal: AbortSignal.timeout(15000) });
+  if (s.protocol !== "https:" || !publicHost(s.hostname)) throw new Error("bad_image_host");
+  const img = await fetch(s, { signal: AbortSignal.timeout(15000), redirect: "error" });
   if (!img.ok) throw new Error("image_download_failed");
   const type = img.headers.get("content-type") ?? "image/jpeg";
+  if (!/^image\/(png|jpe?g|webp|gif)/i.test(type)) throw new Error("not_an_image");
+  if (Number(img.headers.get("content-length") ?? 0) > 8 * 1024 * 1024) throw new Error("image_too_large");
   const fd = new FormData();
   fd.append("file", new Blob([await img.arrayBuffer()], { type }), `discord.${type.includes("png") ? "png" : type.includes("webp") ? "webp" : "jpg"}`);
   fd.append("kind", kind);
@@ -142,9 +152,20 @@ async function handler(req: NextRequest, { params }: { params: Promise<{ path: s
       return j({ error: e instanceof Error ? e.message : "upload_failed" }, 400);
     }
     const inputs = { ...(b.inputs ?? {}) } as Record<string, unknown>;
-    for (const k of ["homeLogoUrl", "awayLogoUrl", "champLogoUrl"]) {
-      const v = inputs[k];
-      if (typeof v === "string" && v.startsWith(site() + "/")) inputs[k] = v.slice(site().length);
+    // Crest / league logo links from the bot are stored on KIXO first (the AI only takes our own files).
+    // The same picture is uploaded once; a logo that can't be fetched is simply left out.
+    const cache = new Map<string, Promise<string | null>>();
+    const own = (v: unknown): Promise<string> => {
+      if (typeof v !== "string" || !v) return Promise.resolve("");
+      if (!cache.has(v)) cache.set(v, rehostFor(u.id, v, "logo").catch(() => null));
+      return cache.get(v)!.then((x) => x ?? "");
+    };
+    for (const k of ["homeLogoUrl", "awayLogoUrl", "champLogoUrl"]) inputs[k] = await own(inputs[k]);
+    if (Array.isArray(inputs.tableLogos)) {
+      const list = inputs.tableLogos.slice(0, 32);
+      const out: string[] = [];
+      for (let k = 0; k < list.length; k += 6) out.push(...(await Promise.all(list.slice(k, k + 6).map(own))));
+      inputs.tableLogos = out;
     }
     const r = await asUser(u.id, "/api/banners", {
       method: "POST",

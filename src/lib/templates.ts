@@ -57,6 +57,7 @@ export interface BannerInputs {
   players: string[]; // lineup: "10 Name ST"
   scorers: string[]; // result
   standings: string[]; // standings table rows
+  fixtures: string[]; // STANDINGS layout used as a fixtures list: "Home vs Away · 20:00" per row (crests in tableLogos, 2 per row)
   qualify: string; // standings: how many top rows advance / qualify ("" = none)
   relegate: string; // standings: how many bottom rows are out / relegated ("" = none)
   tableLogos: string[]; // standings: crest URL per row ("" = none)
@@ -121,6 +122,7 @@ export const EMPTY_INPUTS: BannerInputs = {
   players: [],
   scorers: [],
   standings: [],
+  fixtures: [],
   qualify: "",
   relegate: "",
   tableLogos: [],

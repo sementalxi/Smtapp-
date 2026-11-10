@@ -20,7 +20,25 @@ export type TableSpec = {
   reserveLegend?: boolean;
   /** With no "how many advance", the leader's row glows — not in the right column of a two-column table. */
   leaderGlow?: boolean;
+  /** A fixtures list instead of a standings table (STANDINGS styles reused for a matchday poster). */
+  fixtures?: FixtureRow[];
 };
+export type FixtureRow = { home: string; away: string; note: string; homeCrest: string | null; awayCrest: string | null };
+
+/** Reads "Home vs Away · 20:00" rows (crests: tableLogos[2n] home, [2n+1] away). */
+export function fixturesFrom(i: BannerInputs): FixtureRow[] {
+  const out: FixtureRow[] = [];
+  (i.fixtures ?? []).forEach((line, n) => {
+    if (!line || !line.trim()) return;
+    const [match, ...rest] = line.split("·").map((x) => x.trim());
+    const m = match.split(/\s+(?:vs\.?|v\.?|-|–|—)\s+/i);
+    const home = (m[0] ?? "").trim();
+    const away = (m.slice(1).join(" ").trim() || "TBD").trim();
+    if (!home) return;
+    out.push({ home, away, note: rest.join(" · ").slice(0, 16), homeCrest: i.tableLogos?.[2 * n] || null, awayCrest: i.tableLogos?.[2 * n + 1] || null });
+  });
+  return out;
+}
 
 export { tableBox } from "./standings-box";
 
@@ -29,6 +47,8 @@ const ES: Record<string, string> = { P: "PJ", W: "G", D: "E", L: "P", GD: "DG", 
 
 /** Reads the creator's "1. Team · P 9 · W 5 · … · PTS 16" rows into a table spec. */
 export function tableSpecFrom(i: BannerInputs, accent: string, wide: boolean): TableSpec | null {
+  const fx = fixturesFrom(i);
+  if (fx.length) return { rows: [], columns: [], accent: legibleAccent(accent), qualify: 0, legend: "", wide, fixtures: fx };
   const rows: TableRow[] = [];
   i.standings.forEach((line, n) => {
     if (!line.trim()) return;
@@ -290,6 +310,72 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
     .toBuffer();
 }
 
+/** Renders a fixtures list (home crest + name · VS / time · name + away crest) in the same designed panel. */
+export async function renderFixturesTable(spec: TableSpec, width: number, height: number): Promise<Buffer> {
+  const [anton, mont800] = await Promise.all([googleFont("Anton", 400), googleFont("Montserrat", 800)]);
+  const fixtures = spec.fixtures ?? [];
+  const n = Math.max(1, fixtures.length);
+  const pad = Math.round(Math.max(12, width * 0.014));
+  const headerH = Math.round(Math.min(56, (height - pad * 2) / (n + 1.6)));
+  const rowH = Math.min(150, Math.floor((height - pad * 2 - headerH) / n));
+  const panelH = pad * 2 + headerH + rowH * n;
+  const crestPx = Math.round(rowH * 0.8);
+  const accent = spec.accent;
+  const crestFor = async (url: string | null) => (url ? crestGlow((await crestData(url, Math.max(64, crestPx * 2))) ?? "", crestPx, accent) : null);
+  const crests = await Promise.all(fixtures.map(async (f) => Promise.all([crestFor(f.homeCrest), crestFor(f.awayCrest)])));
+  const hasCrest = crests.some(([a, b]) => a || b);
+  const crestBox = Math.round(crestPx * 1.3);
+  const midW = Math.round(Math.min(width * 0.2, rowH * 2.4));
+  const rowPadL = 14;
+  const rowPadR = 14;
+  const nameW = (width - pad * 2 - rowPadL - rowPadR - midW - (hasCrest ? (crestBox + 12) * 2 : 0)) / 2;
+  const longest = Math.max(4, ...fixtures.flatMap((f) => [f.home.slice(0, 24).length, f.away.slice(0, 24).length]));
+  const fsName = Math.round(Math.max(rowH * 0.28, Math.min(rowH * 0.46, nameW / (longest * 0.5))));
+  const fsMid = Math.round(rowH * 0.42);
+  const fsHead = Math.round(Math.max(13, headerH * 0.42));
+  const geo: Geo = { pad, headerH, rowH, n, qualify: 0, glow: 0, dividers: [], rowPadL, rowPadR };
+  const shadow = "0 2px 5px rgba(0,0,0,0.85)";
+  const crestCell = (src: string | null) =>
+    hasCrest ? (
+      <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center" }}>{src ? <img src={src} width={crestBox} height={crestBox} style={{ objectFit: "contain" }} /> : null}</div>
+    ) : null;
+  const el = (
+    <div style={{ display: "flex", flexDirection: "column", width, height: panelH, padding: pad }}>
+      <div style={{ display: "flex", alignItems: "center", height: headerH, paddingLeft: rowPadL, paddingRight: rowPadR, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsHead, letterSpacing: 4, color: "rgba(255,255,255,0.85)" }}>
+        <div style={{ display: "flex", flex: 1, justifyContent: "flex-end", textShadow: shadow }}>{spec.legend || "HOME"}</div>
+        <div style={{ display: "flex", width: midW }} />
+        <div style={{ display: "flex", flex: 1, textShadow: shadow }}>{spec.legend ? "" : "AWAY"}</div>
+      </div>
+      {fixtures.map((f, idx) => (
+        <div key={idx} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
+          {crestCell(crests[idx][0])}
+          <div style={{ display: "flex", flex: 1, justifyContent: "flex-end", marginLeft: hasCrest ? 12 : 0, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", letterSpacing: 1, textShadow: shadow }}>{f.home.slice(0, 24)}</div>
+          <div style={{ display: "flex", width: midW, justifyContent: "center", fontFamily: "Anton", fontSize: f.note ? Math.round(fsMid * 0.9) : fsMid, color: accent, textShadow: `0 0 14px ${accent}, ${shadow}` }}>{f.note || "VS"}</div>
+          <div style={{ display: "flex", flex: 1, marginRight: hasCrest ? 12 : 0, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", letterSpacing: 1, textShadow: shadow }}>{f.away.slice(0, 24)}</div>
+          {crestCell(crests[idx][1])}
+        </div>
+      ))}
+    </div>
+  );
+  const res = new ImageResponse(el, {
+    width,
+    height: panelH,
+    fonts: [
+      { name: "Anton", data: anton, weight: 400, style: "normal" },
+      { name: "Montserrat", data: mont800, weight: 800, style: "normal" },
+    ],
+  });
+  const text = Buffer.from(await res.arrayBuffer());
+  const frame = await sharp(Buffer.from(panelSvg(width, panelH, geo, accent))).png().toBuffer();
+  return sharp({ create: { width, height: panelH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+    .composite([
+      { input: frame, left: 0, top: 0 },
+      { input: text, left: 0, top: 0 },
+    ])
+    .png()
+    .toBuffer();
+}
+
 /** Places the exact table on the finished background. */
 export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Promise<Buffer> {
   // The glow takes the poster's own colour (what the AI actually painted), lifted if it is too dark for text.
@@ -303,6 +389,22 @@ export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Pr
   const y = Math.round(H * box.y);
   const w = Math.round(W * box.w);
   const h = Math.round(H * box.h);
+  if (spec.fixtures?.length) {
+    // More than 10 fixtures: two columns side by side, like a big league table.
+    if (spec.fixtures.length > 10 && !spec.wide) {
+      const half = Math.ceil(spec.fixtures.length / 2);
+      const gap = Math.round(w * 0.025);
+      const cw = Math.floor((w - gap) / 2);
+      const [a, b] = await Promise.all([
+        renderFixturesTable({ ...spec, fixtures: spec.fixtures.slice(0, half) }, cw, h),
+        renderFixturesTable({ ...spec, fixtures: spec.fixtures.slice(half) }, cw, h),
+      ]);
+      return sharp(poster).composite([{ input: a, left: x, top: y }, { input: b, left: x + cw + gap, top: y }]).png().toBuffer();
+    }
+    const list = await renderFixturesTable(spec, w, h);
+    const listH = (await sharp(list).metadata()).height ?? h;
+    return sharp(poster).composite([{ input: list, left: x, top: y + Math.max(0, Math.round((h - listH) / 2)) }]).png().toBuffer();
+  }
   // Big leagues (17–32 teams): two columns side by side, so the rows stay tall enough to read.
   if (spec.rows.length > 16) {
     const half = Math.ceil(spec.rows.length / 2);
