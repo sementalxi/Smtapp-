@@ -59,6 +59,14 @@ async function main() {
     await db.template.updateMany({ where: { slug: "player-royal-split" }, data: { styleRefUrl: null } });
     await db.setting.create({ data: { key: "royal_split_no_kick_v1", value: new Date().toISOString() } });
   }
+  // Force-update Royal Split's proInstructions — the brief was rewritten several times but
+  // PRESET_PREVIOUS wasn't updated each time, so the seed skipped the later versions.
+  if (!(await db.setting.findUnique({ where: { key: "royal_split_2fig_v1" } }))) {
+    const { PRESET_INSTRUCTIONS } = await import("../src/lib/style-presets");
+    const text = PRESET_INSTRUCTIONS["player-royal-split"];
+    if (text) await db.template.updateMany({ where: { slug: "player-royal-split" }, data: { proInstructions: text } });
+    await db.setting.create({ data: { key: "royal_split_2fig_v1", value: new Date().toISOString() } });
+  }
   // Ready-made design instructions — only where the admin hasn't written any.
   for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
     const prev = PRESET_PREVIOUS[slug];
