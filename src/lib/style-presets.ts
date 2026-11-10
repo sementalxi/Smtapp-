@@ -770,12 +770,12 @@ COLOURS: deep teal-black, burning orange and cyan; white plaster and chrome.
 
 BACKGROUND
 - A huge dark arena stage: an orange spotlight in each top corner with beams, thin cyan laser lines crossing diagonally, haze.
-- A dark crowd with raised hands along the bottom (y 88–100%) with orange stage lights behind it.
-- The crest again, giant and faint, at the upper right (x 55–95%, y 5–30%).
+- Orange stage lights glowing along the bottom edge (y 90–100%), warm bokeh, no crowd and no hands.
+- No giant faint logo or crest in the background — the background is clean stage lighting and haze only.
 
 FIGURES (the SAME person from the photo — exact same face, features, hair and skin tone)
-1. THE STATUE (left — x 3–58%, y 3–68%) — this style's portrait, never a normal photo portrait: a giant white plaster bust of the player (head, neck and chest). The viewer's LEFT half is smooth cracked white plaster, hair included; the RIGHT half has broken away and shows the REAL person — real skin, a real eye, real hair. Plaster chunks fly around the head; thick liquid-chrome drips run over both shoulders. It stands on a round dark stone pedestal (x 8–55%, y 68–82%) with chrome dripping over its rim; tiny scaffolding with a few very small workers stands at both sides of the bust.
-2. FRONT FIGURE (x 47–68%, y 65–91%): the real player, small, full body, dribbling to the right; the ball at (x 54–60%, y 86–91%).
+1. THE STATUE (left — x 3–58%, y 3–68%) — a giant cracking white plaster bust of the player (head, neck and chest). The entire bust is white cracked plaster — ONE continuous face, not split or divided, not half-and-half. Fine cracks run across the surface, small chunks break away around the edges, and thick liquid-chrome drips run over both shoulders. The player's features are carved into the plaster — same face shape, but rendered as a solid white sculpture (not a photo). It stands on a round dark stone pedestal (x 8–55%, y 68–82%) with chrome dripping over its rim.
+2. SMALL FIGURE (x 47–68%, y 65–91%): the real player, small, waist-up, arms crossed over the chest, looking at the camera with a calm confident expression. Cropped at the waist — no legs, no feet, no ball. A cool portrait, not an action shot.
 - These are the ONLY two figures: never add another portrait, face or echo of the player.
 
 LETTERING & CREST

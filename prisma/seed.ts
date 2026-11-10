@@ -67,6 +67,14 @@ async function main() {
     if (text) await db.template.updateMany({ where: { slug: "player-royal-split" }, data: { proInstructions: text } });
     await db.setting.create({ data: { key: "royal_split_2fig_v1", value: new Date().toISOString() } });
   }
+  // Living Statue: single-face statue (not half-and-half), small figure is a portrait not action,
+  // no crowd hands, no background logo echo.
+  if (!(await db.setting.findUnique({ where: { key: "living_statue_fix_v1" } }))) {
+    const { PRESET_INSTRUCTIONS } = await import("../src/lib/style-presets");
+    const text = PRESET_INSTRUCTIONS["player-living-statue"];
+    if (text) await db.template.updateMany({ where: { slug: "player-living-statue" }, data: { proInstructions: text } });
+    await db.setting.create({ data: { key: "living_statue_fix_v1", value: new Date().toISOString() } });
+  }
   // Ready-made design instructions — only where the admin hasn't written any.
   for (const [slug, text] of Object.entries(PRESET_INSTRUCTIONS)) {
     const prev = PRESET_PREVIOUS[slug];
