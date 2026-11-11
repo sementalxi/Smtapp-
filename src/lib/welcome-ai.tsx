@@ -250,7 +250,7 @@ async function memberCutout(avatar: Buffer): Promise<Buffer | null> {
   try {
     const { cutoutLogo } = await import("./cutout");
     const big = await sharp(avatar).resize(1024, 1024, { fit: "inside", withoutEnlargement: false }).png().toBuffer();
-    const r = await cutoutLogo(big, "image/png");
+    const r = await cutoutLogo(big, "image/png", 640, false);
     if (r.method === "none" || r.method === "alpha") return r.method === "alpha" ? r.png : null;
     return r.png;
   } catch {

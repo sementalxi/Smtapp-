@@ -5,7 +5,7 @@ import sharp from "sharp";
 import { createHash } from "crypto";
 import { db } from "./db";
 import { loadBytes, saveFile } from "./storage";
-import { canRemoveBackground, removeBackground } from "./ai";
+import { canCutLogo, canRemoveBackground, removeBackground, removeLogoBackgroundOpenAI } from "./ai";
 
 type Method = "alpha" | "flood" | "ai" | "none";
 
@@ -175,19 +175,27 @@ async function floodCutout(bytes: Buffer, max = 640): Promise<{ png: Buffer; met
 }
 
 /** The crest as a transparent PNG (trimmed). Solid backgrounds are removed locally; others by the AI remover when available. */
-export async function cutoutLogo(bytes: Buffer, contentType = "image/png", max = 640): Promise<{ png: Buffer; method: Method; error?: string }> {
+export async function cutoutLogo(bytes: Buffer, contentType = "image/png", max = 640, slowAi = true): Promise<{ png: Buffer; method: Method; error?: string }> {
   let r: { png: Buffer; method: Method; error?: string } = await floodCutout(bytes, max).catch(() => ({ png: bytes, method: "none" as Method }));
-  if (r.method === "none" && canRemoveBackground()) {
-    try {
-      const png = await removeBackground(bytes, contentType);
-      // A remover that hands back a fully opaque picture did not cut anything out.
-      const { data } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-      let clear = 0;
-      for (let i = 3; i < data.length; i += 4 * 11) if (data[i] < 16) clear++;
-      r = clear > (data.length / 44) * 0.02 ? { png, method: "ai" } : { png: bytes, method: "none", error: "the remover found no background to take away" };
-    } catch (e) {
-      r = { png: bytes, method: "none", error: String((e as Error).message ?? e).slice(0, 300) };
+  if (r.method === "none" && canCutLogo()) {
+    const errors: string[] = [];
+    const tries: (() => Promise<Buffer>)[] = [];
+    if (slowAi && process.env.OPENAI_API_KEY?.trim()) tries.push(() => removeLogoBackgroundOpenAI(bytes));
+    if (canRemoveBackground()) tries.push(() => removeBackground(bytes, contentType));
+    for (const t of tries) {
+      try {
+        const png = await t();
+        // A remover that hands back a fully opaque picture did not cut anything out.
+        const { data } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+        let clear = 0;
+        for (let i = 3; i < data.length; i += 4 * 11) if (data[i] < 16) clear++;
+        if (clear > (data.length / 44) * 0.02) { r = { png, method: "ai" }; break; }
+        errors.push("the remover found no background to take away");
+      } catch (e) {
+        errors.push(String((e as Error).message ?? e).slice(0, 300));
+      }
     }
+    if (r.method === "none") r = { png: bytes, method: "none", error: errors.join(" | ") };
   }
   if (r.method === "none") return r;
   const trimmed = await sharp(r.png).trim({ threshold: 10 }).png().toBuffer().catch(() => r.png);
@@ -209,7 +217,8 @@ export async function cutoutCached(url: string): Promise<Buffer> {
     }
   }
   const bytes = await loadBytes(url);
-  const { png, method } = await cutoutLogo(bytes);
+  // Inside poster renders: no slow OpenAI cut-out (the admin "Make PNG" button does that once and saves it).
+  const { png, method } = await cutoutLogo(bytes, "image/png", 640, false);
   if (method === "none") {
     await db.setting.upsert({ where: { key: k }, create: { key: k, value: "same" }, update: { value: "same" } }).catch(() => {});
     return bytes;

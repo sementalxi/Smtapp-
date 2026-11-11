@@ -24,7 +24,7 @@ export const POST = handle(async (req: NextRequest, ctx: { params: Promise<{ id:
   let pngUrl = "";
   try {
     const { cutoutLogo } = await import("@/lib/cutout");
-    const r = await cutoutLogo(full, "image/png", 1024);
+    const r = await cutoutLogo(full, "image/png", 1024, false);
     if (r.method !== "none") pngUrl = await saveFile("logos", r.png, "image/png");
   } catch (e) {
     console.error("logo pick: cutout failed", e);

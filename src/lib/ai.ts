@@ -116,8 +116,10 @@ export const backgroundProvider = () =>
       ? "replicate"
       : null;
 
-/** Background removal: Replicate, or fal.ai (the same FAL_KEY as AI video); without either the photo is used as-is. */
-export const canRemoveBackground = () => !!process.env.REPLICATE_API_TOKEN || !!process.env.FAL_KEY?.trim();
+/** Background removal for player photos: Replicate only (not fal.ai); without it the photo is used as-is. */
+export const canRemoveBackground = () => !!process.env.REPLICATE_API_TOKEN;
+/** Logos can also be cut out with OpenAI. */
+export const canCutLogo = () => canRemoveBackground() || !!process.env.OPENAI_API_KEY?.trim();
 
 export async function generateBackground(prompt: string): Promise<Buffer> {
   if (backgroundProvider() === "openai") {
@@ -151,25 +153,13 @@ export async function generateBackground(prompt: string): Promise<Buffer> {
   return download(firstUrl(output));
 }
 
-/** fal.ai background removal with one model; returns the PNG bytes or throws with fal's own reason. */
-async function falRemove(endpoint: string, body: Record<string, unknown>, photo: Buffer, contentType: string, ms: number): Promise<Buffer> {
-  const r = await fetch(`https://fal.run/${endpoint}`, {
-    method: "POST",
-    headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ image_url: `data:${contentType || "image/png"};base64,${photo.toString("base64")}`, ...body }),
-    signal: AbortSignal.timeout(ms),
-  });
-  const d = (await r.json().catch(() => ({}))) as { image?: { url?: string }; detail?: unknown };
-  if (!r.ok || !d.image?.url) throw new Error(`fal ${endpoint}: ${r.status} ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
-  return download(d.image.url);
-}
-
 /**
- * Removes the background of a person photo or logo. Returns transparent PNG bytes.
- * Tries every configured remover in turn (fal BiRefNet → fal rembg → Replicate) and throws with all their reasons.
+ * Removes the background of a person photo. Returns transparent PNG bytes.
+ * Uses Replicate's background remover (the owner asked not to use fal.ai). Throws with the reason when it fails.
  */
 export async function removeBackground(photo: Buffer, contentType: string): Promise<Buffer> {
-  // Big uploads make the inline request slow: shrink to 1536 px first (plenty for a cut-out).
+  if (!process.env.REPLICATE_API_TOKEN) throw new Error("no background remover configured (REPLICATE_API_TOKEN)");
+  // Big uploads are slow: shrink to 1536 px first (plenty for a cut-out).
   try {
     const meta = await sharp(photo).metadata();
     if ((meta.width ?? 0) > 1536 || (meta.height ?? 0) > 1536 || photo.length > 4_000_000) {
@@ -179,29 +169,51 @@ export async function removeBackground(photo: Buffer, contentType: string): Prom
   } catch {
     /* keep the original bytes */
   }
-  const errors: string[] = [];
-  if (process.env.FAL_KEY?.trim()) {
-    try {
-      return await falRemove("fal-ai/birefnet/v2", { model: "General Use (Heavy)", operating_resolution: "1024x1024", output_format: "png", refine_foreground: true }, photo, contentType, 35_000);
-    } catch (e) {
-      errors.push(String((e as Error).message ?? e));
-    }
-    try {
-      return await falRemove("fal-ai/imageutils/rembg", {}, photo, contentType, 20_000);
-    } catch (e) {
-      errors.push(String((e as Error).message ?? e));
-    }
+  const url = await replicateUpload(photo, contentType);
+  const output = await replicateRun(process.env.REPLICATE_REMBG_MODEL || "851-labs/background-remover", { image: url, format: "png" });
+  return download(firstUrl(output));
+}
+
+/**
+ * Logo cut-out with OpenAI's image model (transparent background). The logo is padded to a square so the result lines
+ * up with it; when it does, only the returned transparency is used and the original logo pixels are kept untouched.
+ */
+export async function removeLogoBackgroundOpenAI(logo: Buffer): Promise<Buffer> {
+  const key = process.env.OPENAI_API_KEY?.trim();
+  if (!key) throw new Error("OPENAI_API_KEY is not set");
+  const S = 1024;
+  const src = await sharp(logo).rotate().ensureAlpha().resize(S, S, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 1 } }).png().toBuffer();
+  const form = new FormData();
+  form.append("model", process.env.CUTOUT_IMAGE_MODEL || "gpt-image-1");
+  form.append("prompt", "Remove the background completely. Keep only the logo / crest / emblem itself (its shield, badge, figure and lettering) exactly as it is: same shapes, colours, text, position and size. Do not redraw, restyle, move or add anything. Everything that is not part of the logo — photo scenery, stadium, lights, sky, floor, glow and reflections behind it — becomes fully transparent.");
+  form.append("background", "transparent");
+  form.append("output_format", "png");
+  form.append("size", "1024x1024");
+  form.append("quality", "high");
+  form.append("input_fidelity", "high");
+  form.append("image[]", new Blob([new Uint8Array(src)], { type: "image/png" }), "logo.png");
+  const res = await fetch("https://api.openai.com/v1/images/edits", { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(110_000) });
+  if (!res.ok) throw new Error(`OpenAI cut-out failed: ${res.status} ${cleanError(await res.text())}`);
+  const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
+  const item = data.data?.[0];
+  const out = item?.b64_json ? Buffer.from(item.b64_json, "base64") : item?.url ? await download(item.url) : null;
+  if (!out) throw new Error("OpenAI returned no image");
+  // Line the result up with the original: if the kept (opaque) area matches the original's colours, keep the
+  // original pixels and borrow only the new transparency; otherwise use the model's picture as it is.
+  const o = await sharp(out).resize(S, S).ensureAlpha().raw().toBuffer();
+  const g = await sharp(src).raw().toBuffer();
+  let n = 0, diff = 0;
+  for (let i = 0; i < o.length; i += 4 * 7) {
+    if (o[i + 3] < 200) continue;
+    n++;
+    diff += Math.abs(o[i] - g[i]) + Math.abs(o[i + 1] - g[i + 1]) + Math.abs(o[i + 2] - g[i + 2]);
   }
-  if (process.env.REPLICATE_API_TOKEN) {
-    try {
-      const url = await replicateUpload(photo, contentType);
-      const output = await replicateRun(process.env.REPLICATE_REMBG_MODEL || "851-labs/background-remover", { image: url, format: "png" });
-      return await download(firstUrl(output));
-    } catch (e) {
-      errors.push(String((e as Error).message ?? e));
-    }
+  if (n > 500 && diff / n / 3 < 28) {
+    const merged = Buffer.from(g);
+    for (let i = 0; i < merged.length; i += 4) merged[i + 3] = o[i + 3];
+    return sharp(merged, { raw: { width: S, height: S, channels: 4 } }).png().toBuffer();
   }
-  throw new Error(errors.join(" | ") || "no background remover configured");
+  return out;
 }
 
 // ─── Pro AI mode: the model designs the whole poster ───────

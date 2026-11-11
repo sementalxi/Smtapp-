@@ -66,7 +66,7 @@ export function LibraryManager({ initial }: { initial: Item[] }) {
         ...n,
         [i.id]:
           d?.error === "not_configured"
-            ? es ? "❌ Este fondo no es de un solo color; para fondos complejos agrega FAL_KEY (o REPLICATE_API_TOKEN) en Vercel." : "❌ This background isn't one solid colour; for complex backgrounds add FAL_KEY (or REPLICATE_API_TOKEN) in Vercel."
+            ? es ? "❌ Este fondo no es de un solo color; para fondos complejos agrega OPENAI_API_KEY (o REPLICATE_API_TOKEN) en Vercel." : "❌ This background isn't one solid colour; for complex backgrounds add OPENAI_API_KEY (or REPLICATE_API_TOKEN) in Vercel."
             : `❌ ${d?.detail ?? d?.error ?? "failed"}`,
       }));
   }
