@@ -84,7 +84,7 @@ jobs:
           git config user.name "kixo-ci"; git config user.email "ci@kixo.pro"
           git checkout --orphan ios-project
           git rm -rq --cached .
-          git add -f mobile/ios mobile/capacitor.config.json
+          git add -f mobile/ios mobile/capacitor.config.json mobile/node_modules/@capacitor/ios mobile/node_modules/@capacitor/splash-screen mobile/node_modules/@capacitor/status-bar
           git commit -qm "Xcode project from run ${{ github.run_number }}"
           git push -qf origin ios-project
       - uses: actions/upload-artifact@v4
