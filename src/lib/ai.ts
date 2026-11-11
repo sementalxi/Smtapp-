@@ -175,45 +175,79 @@ export async function removeBackground(photo: Buffer, contentType: string): Prom
 }
 
 /**
- * Logo cut-out with OpenAI's image model (transparent background). The logo is padded to a square so the result lines
- * up with it; when it does, only the returned transparency is used and the original logo pixels are kept untouched.
+ * Logo cut-out with OpenAI's image model. The logo is padded to a square so the result lines up with it.
+ * First asks for a transparent background; models that can't do that are asked for a flat pure-green backdrop, which
+ * is then keyed out here. When the result lines up with the original, only its transparency is used and the original
+ * logo pixels are kept untouched. Tries the configured model(s) in turn.
  */
 export async function removeLogoBackgroundOpenAI(logo: Buffer): Promise<Buffer> {
   const key = process.env.OPENAI_API_KEY?.trim();
   if (!key) throw new Error("OPENAI_API_KEY is not set");
   const S = 1024;
   const src = await sharp(logo).rotate().ensureAlpha().resize(S, S, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 1 } }).png().toBuffer();
-  const form = new FormData();
-  form.append("model", process.env.CUTOUT_IMAGE_MODEL || "gpt-image-1");
-  form.append("prompt", "Remove the background completely. Keep only the logo / crest / emblem itself (its shield, badge, figure and lettering) exactly as it is: same shapes, colours, text, position and size. Do not redraw, restyle, move or add anything. Everything that is not part of the logo — photo scenery, stadium, lights, sky, floor, glow and reflections behind it — becomes fully transparent.");
-  form.append("background", "transparent");
-  form.append("output_format", "png");
-  form.append("size", "1024x1024");
-  form.append("quality", "high");
-  form.append("input_fidelity", "high");
-  form.append("image[]", new Blob([new Uint8Array(src)], { type: "image/png" }), "logo.png");
-  const res = await fetch("https://api.openai.com/v1/images/edits", { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(110_000) });
-  if (!res.ok) throw new Error(`OpenAI cut-out failed: ${res.status} ${cleanError(await res.text())}`);
-  const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
-  const item = data.data?.[0];
-  const out = item?.b64_json ? Buffer.from(item.b64_json, "base64") : item?.url ? await download(item.url) : null;
-  if (!out) throw new Error("OpenAI returned no image");
-  // Line the result up with the original: if the kept (opaque) area matches the original's colours, keep the
-  // original pixels and borrow only the new transparency; otherwise use the model's picture as it is.
-  const o = await sharp(out).resize(S, S).ensureAlpha().raw().toBuffer();
-  const g = await sharp(src).raw().toBuffer();
-  let n = 0, diff = 0;
-  for (let i = 0; i < o.length; i += 4 * 7) {
-    if (o[i + 3] < 200) continue;
-    n++;
-    diff += Math.abs(o[i] - g[i]) + Math.abs(o[i + 1] - g[i + 1]) + Math.abs(o[i + 2] - g[i + 2]);
+  const keep = "Keep only the logo / crest / emblem itself (its shield, badge, figure and lettering) exactly as it is: same shapes, colours, text, position and size. Do not redraw, restyle, move, crop or add anything. Everything that is not part of the logo — photo scenery, stadium, crowd, lights, sky, floor, glow, smoke and reflections behind or around it — must be removed.";
+  const models = [...new Set([process.env.CUTOUT_IMAGE_MODEL, "gpt-image-1.5", process.env.PRO_IMAGE_MODEL, "gpt-image-2", "gpt-image-1-mini"].filter((m): m is string => !!m?.trim()))];
+  const errors: string[] = [];
+  const deadline = Date.now() + 165_000; // the Make PNG route allows 180 s
+  for (const model of models) {
+    for (const mode of ["transparent", "green"] as const) {
+      const left = deadline - Date.now();
+      if (left < 30_000) { errors.push("out of time"); break; }
+      const form = new FormData();
+      form.append("model", model);
+      form.append("prompt", mode === "transparent" ? `Remove the background completely. ${keep} The background becomes fully transparent.` : `Remove the background completely. ${keep} Replace the whole background with one flat, solid, pure chroma-key green (#00FF00) — no gradient, no shadow, no glow, no texture.`);
+      if (mode === "transparent") form.append("background", "transparent");
+      form.append("output_format", "png");
+      form.append("size", "1024x1024");
+      form.append("quality", "high");
+      form.append("image[]", new Blob([new Uint8Array(src)], { type: "image/png" }), "logo.png");
+      let res: Response;
+      try {
+        res = await fetch("https://api.openai.com/v1/images/edits", { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(Math.min(110_000, left - 5_000)) });
+      } catch (e) {
+        errors.push(`${model}: ${String((e as Error).message ?? e).slice(0, 80)}`);
+        break;
+      }
+      if (!res.ok) {
+        const msg = cleanError(await res.text());
+        errors.push(`${model}${mode === "green" ? " (green)" : ""}: ${res.status} ${msg}`.slice(0, 200));
+        if (/does not exist|not found|model_not_found|not have access/i.test(msg)) break; // next model
+        if (mode === "transparent" && res.status === 400) continue; // transparency not supported: try the green backdrop
+        break;
+      }
+      const data = (await res.json()) as { data?: { b64_json?: string; url?: string }[] };
+      const item = data.data?.[0];
+      const out = item?.b64_json ? Buffer.from(item.b64_json, "base64") : item?.url ? await download(item.url) : null;
+      if (!out) { errors.push(`${model}: no image`); continue; }
+      const o = Buffer.from(await sharp(out).resize(S, S).ensureAlpha().raw().toBuffer());
+      if (mode === "green") {
+        // Key out the green backdrop (soft edge) and remove green spill from the kept edge.
+        for (let i = 0; i < o.length; i += 4) {
+          const r = o[i], g = o[i + 1], b = o[i + 2];
+          const lead = g - Math.max(r, b);
+          if (lead > 90 && g > 120) o[i + 3] = 0;
+          else if (lead > 40) { o[i + 3] = Math.round(255 * (1 - (lead - 40) / 50)); o[i + 1] = Math.max(r, b); }
+        }
+      }
+      let transparent = 0;
+      for (let i = 3; i < o.length; i += 4 * 9) if (o[i] < 16) transparent++;
+      if (transparent < (o.length / 36) * 0.03) { errors.push(`${model}: nothing was removed`); continue; }
+      const g = await sharp(src).raw().toBuffer();
+      let n = 0, diff = 0;
+      for (let i = 0; i < o.length; i += 4 * 7) {
+        if (o[i + 3] < 200) continue;
+        n++;
+        diff += Math.abs(o[i] - g[i]) + Math.abs(o[i + 1] - g[i + 1]) + Math.abs(o[i + 2] - g[i + 2]);
+      }
+      if (n > 500 && diff / n / 3 < 28) {
+        const merged = Buffer.from(g);
+        for (let i = 0; i < merged.length; i += 4) merged[i + 3] = o[i + 3];
+        return sharp(merged, { raw: { width: S, height: S, channels: 4 } }).png().toBuffer();
+      }
+      return sharp(o, { raw: { width: S, height: S, channels: 4 } }).png().toBuffer();
+    }
   }
-  if (n > 500 && diff / n / 3 < 28) {
-    const merged = Buffer.from(g);
-    for (let i = 0; i < merged.length; i += 4) merged[i + 3] = o[i + 3];
-    return sharp(merged, { raw: { width: S, height: S, channels: 4 } }).png().toBuffer();
-  }
-  return out;
+  throw new Error(`OpenAI cut-out failed: ${errors.join(" | ")}`.slice(0, 600));
 }
 
 // ─── Pro AI mode: the model designs the whole poster ───────
