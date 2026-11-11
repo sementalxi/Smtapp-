@@ -175,13 +175,18 @@ async function floodCutout(bytes: Buffer, max = 640): Promise<{ png: Buffer; met
 }
 
 /** The crest as a transparent PNG (trimmed). Solid backgrounds are removed locally; others by the AI remover when available. */
-export async function cutoutLogo(bytes: Buffer, contentType = "image/png", max = 640): Promise<{ png: Buffer; method: Method }> {
-  let r = await floodCutout(bytes, max).catch(() => ({ png: bytes, method: "none" as Method }));
+export async function cutoutLogo(bytes: Buffer, contentType = "image/png", max = 640): Promise<{ png: Buffer; method: Method; error?: string }> {
+  let r: { png: Buffer; method: Method; error?: string } = await floodCutout(bytes, max).catch(() => ({ png: bytes, method: "none" as Method }));
   if (r.method === "none" && canRemoveBackground()) {
     try {
-      r = { png: await removeBackground(bytes, contentType), method: "ai" };
-    } catch {
-      /* keep the original */
+      const png = await removeBackground(bytes, contentType);
+      // A remover that hands back a fully opaque picture did not cut anything out.
+      const { data } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+      let clear = 0;
+      for (let i = 3; i < data.length; i += 4 * 11) if (data[i] < 16) clear++;
+      r = clear > (data.length / 44) * 0.02 ? { png, method: "ai" } : { png: bytes, method: "none", error: "the remover found no background to take away" };
+    } catch (e) {
+      r = { png: bytes, method: "none", error: String((e as Error).message ?? e).slice(0, 300) };
     }
   }
   if (r.method === "none") return r;

@@ -16,8 +16,8 @@ export const POST = handle(async (_req: NextRequest, { params }: Ctx) => {
   const item = await db.libraryItem.findUnique({ where: { id } });
   if (!item?.logoUrl) throw new HttpError(404, "no_logo");
   const bytes = await loadBytes(item.logoUrl);
-  const { png, method } = await cutoutLogo(bytes, sniffImage(bytes) ?? "image/png");
-  if (method === "none") return json({ error: canRemoveBackground() ? "failed" : "not_configured", detail: canRemoveBackground() ? "the background could not be separated" : undefined }, 400);
+  const { png, method, error } = await cutoutLogo(bytes, sniffImage(bytes) ?? "image/png");
+  if (method === "none") return json({ error: canRemoveBackground() ? "failed" : "not_configured", detail: canRemoveBackground() ? `the background could not be separated${error ? ` (${error})` : ""}` : undefined }, 400);
   if (method === "alpha") return json({ ok: true, url: item.logoUrl, already: true });
   const url = await saveFile("logos", png, "image/png");
   await db.libraryItem.update({ where: { id }, data: { logoUrl: url } });

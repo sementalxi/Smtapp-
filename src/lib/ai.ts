@@ -1,3 +1,4 @@
+import sharp from "sharp";
 // AI helpers: background image generation + player background removal.
 // Uses plain fetch so there is no SDK version to keep in sync.
 
@@ -150,26 +151,57 @@ export async function generateBackground(prompt: string): Promise<Buffer> {
   return download(firstUrl(output));
 }
 
-/** Removes the background of a person photo. Returns transparent PNG bytes. */
-export async function removeBackground(photo: Buffer, contentType: string): Promise<Buffer> {
-  if (!process.env.REPLICATE_API_TOKEN && process.env.FAL_KEY?.trim()) {
-    // fal.ai BiRefNet: high-quality cut-out (people and logos), image sent inline
-    const r = await fetch("https://fal.run/fal-ai/birefnet/v2", {
-      method: "POST",
-      headers: { Authorization: `Key ${process.env.FAL_KEY.trim()}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ image_url: `data:${contentType || "image/png"};base64,${photo.toString("base64")}`, model: "General Use (Heavy)", operating_resolution: "2048x2048", output_format: "png", refine_foreground: true }),
-      signal: AbortSignal.timeout(120_000),
-    });
-    const d = (await r.json().catch(() => ({}))) as { image?: { url?: string }; detail?: unknown };
-    if (!r.ok || !d.image?.url) throw new Error(`fal background removal failed: ${r.status} ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
-    return download(d.image.url);
-  }
-  const url = await replicateUpload(photo, contentType);
-  const output = await replicateRun(process.env.REPLICATE_REMBG_MODEL || "851-labs/background-remover", {
-    image: url,
-    format: "png",
+/** fal.ai background removal with one model; returns the PNG bytes or throws with fal's own reason. */
+async function falRemove(endpoint: string, body: Record<string, unknown>, photo: Buffer, contentType: string, ms: number): Promise<Buffer> {
+  const r = await fetch(`https://fal.run/${endpoint}`, {
+    method: "POST",
+    headers: { Authorization: `Key ${process.env.FAL_KEY!.trim()}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ image_url: `data:${contentType || "image/png"};base64,${photo.toString("base64")}`, ...body }),
+    signal: AbortSignal.timeout(ms),
   });
-  return download(firstUrl(output));
+  const d = (await r.json().catch(() => ({}))) as { image?: { url?: string }; detail?: unknown };
+  if (!r.ok || !d.image?.url) throw new Error(`fal ${endpoint}: ${r.status} ${JSON.stringify(d.detail ?? d).slice(0, 200)}`);
+  return download(d.image.url);
+}
+
+/**
+ * Removes the background of a person photo or logo. Returns transparent PNG bytes.
+ * Tries every configured remover in turn (fal BiRefNet → fal rembg → Replicate) and throws with all their reasons.
+ */
+export async function removeBackground(photo: Buffer, contentType: string): Promise<Buffer> {
+  // Big uploads make the inline request slow: shrink to 1536 px first (plenty for a cut-out).
+  try {
+    const meta = await sharp(photo).metadata();
+    if ((meta.width ?? 0) > 1536 || (meta.height ?? 0) > 1536 || photo.length > 4_000_000) {
+      photo = await sharp(photo).rotate().resize(1536, 1536, { fit: "inside", withoutEnlargement: true }).png().toBuffer();
+      contentType = "image/png";
+    }
+  } catch {
+    /* keep the original bytes */
+  }
+  const errors: string[] = [];
+  if (process.env.FAL_KEY?.trim()) {
+    try {
+      return await falRemove("fal-ai/birefnet/v2", { model: "General Use (Heavy)", operating_resolution: "1024x1024", output_format: "png", refine_foreground: true }, photo, contentType, 35_000);
+    } catch (e) {
+      errors.push(String((e as Error).message ?? e));
+    }
+    try {
+      return await falRemove("fal-ai/imageutils/rembg", {}, photo, contentType, 20_000);
+    } catch (e) {
+      errors.push(String((e as Error).message ?? e));
+    }
+  }
+  if (process.env.REPLICATE_API_TOKEN) {
+    try {
+      const url = await replicateUpload(photo, contentType);
+      const output = await replicateRun(process.env.REPLICATE_REMBG_MODEL || "851-labs/background-remover", { image: url, format: "png" });
+      return await download(firstUrl(output));
+    } catch (e) {
+      errors.push(String((e as Error).message ?? e));
+    }
+  }
+  throw new Error(errors.join(" | ") || "no background remover configured");
 }
 
 // ─── Pro AI mode: the model designs the whole poster ───────
