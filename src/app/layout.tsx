@@ -77,7 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   if (soon) {
     const me = await getCurrentUser().catch(() => null);
     return (
-      <html lang={locale} className={fontVariables}>
+      <html lang={locale} className={fontVariables} data-app={(await headers()).get("x-kixo-app") ? "store" : undefined}>
         <body className="antialiased">
           <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
             <div className="kixo-grain" aria-hidden />
@@ -94,7 +94,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const path = (await headers()).get("x-kixo-path") ?? "/";
   const rev = await getRev().catch(() => "0");
   return (
-    <html lang={locale} className={fontVariables}>
+    <html lang={locale} className={fontVariables} data-app={(await headers()).get("x-kixo-app") ? "store" : undefined}>
       <body className="antialiased">
         <I18nProvider locale={locale} custom={(await getTextOverrides())[locale]}>
           <NoticeBar text={notice} color={noticeColor} effect={noticeEffect} />

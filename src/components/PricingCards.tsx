@@ -3,10 +3,13 @@ import { getT } from "@/i18n/server";
 import type { CurrentUser } from "@/lib/auth";
 import { BuyButton } from "./BuyButton";
 import { paymentProvider } from "@/lib/payments";
+import { headers } from "next/headers";
 
 const usd = (n: number) => `$${n.toFixed(2)}`;
 
 export async function PricingCards({ user }: { user: CurrentUser | null }) {
+  // Not inside the App Store / Google Play app: credits are not sold there (store in-app purchase rules).
+  if ((await headers()).get("x-kixo-app")) return null;
   await loadPricing();
   const { t } = await getT();
   const activePlan = user?.subscriptionId ? user.planId : null;

@@ -12,8 +12,12 @@ run it from GitHub → Actions → "Mobile apps" → Run workflow). No Mac neede
 3. Run the workflow again → artifact `kixo-android` holds `app-release.aab` (signed) — upload it in Play Console.
 
 ## App Store
-1. Apple Developer Program ($99/year) and an app record in App Store Connect with bundle id `pro.kixo.app`.
-2. The workflow builds the iOS project on a Mac runner to check it compiles (`kixo-ios-project`).
-3. Signing/uploading needs your Apple account: an App Store Connect API key (Issuer ID, Key ID, .p8) added as
-   secrets — then the upload step can be switched on.
-4. Before submitting: buying credits must not appear inside the iOS app (Apple in-app purchase rules).
+1. Join the Apple Developer Program ($99/year) and create the app in App Store Connect with bundle id `pro.kixo.app`.
+2. App Store Connect → Users and Access → Integrations → App Store Connect API: create a key with the **Admin** role.
+   Download the .p8 file (only once). Add four repository secrets (GitHub → Settings → Secrets → Actions):
+   `APPLE_TEAM_ID` (Membership page), `ASC_KEY_ID`, `ASC_ISSUER_ID` and `ASC_KEY_P8` (the .p8 file's whole text).
+3. Run the workflow ("Mobile apps" → Run workflow). The iOS job signs the app and uploads it; a few minutes later it
+   shows in App Store Connect → TestFlight. Each run is a new build number.
+4. Fill in the listing (screenshots, description, privacy answers, a demo login for the reviewer) and submit.
+5. Credits are never sold inside the apps: the site hides every buying page and button when its user agent says
+   "KIXOApp" (Apple and Google require their own in-app purchase for digital goods).

@@ -397,3 +397,7 @@ html.kixo-reveal [data-reveal][data-shown] { opacity: 1; transform: none; filter
 .kixo-cta-pulse { animation: kixo-cta-pulse 2.6s ease-out infinite; }
 .kixo-strip-tilt { transform: rotate(-2deg) scale(1.04); }
 @media (prefers-reduced-motion: reduce) { .kixo-slam, .kixo-ghost-word, .kixo-cta-pulse { animation: none !important; } }
+
+/* Inside the store apps no credits are sold (Apple / Google in-app purchase rules): every way to buy is hidden. */
+html[data-app="store"] a[href="/pricing"], html[data-app="store"] a[href^="/pricing?"], html[data-app="store"] a[href^="/pay/"],
+html[data-app="store"] a[href^="https://kixo.pro/pricing"], html[data-app="store"] .no-store-app { display: none !important; }

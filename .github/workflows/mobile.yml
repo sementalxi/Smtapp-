@@ -78,3 +78,36 @@ jobs:
       - run: tar -czf ../kixo-ios.tgz ios
       - uses: actions/upload-artifact@v4
         with: { name: kixo-ios-project, path: kixo-ios.tgz }
+      # Signed build sent straight to App Store Connect (TestFlight), once these repository secrets exist:
+      # APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID and ASC_KEY_P8 (the .p8 file's text). The key needs the Admin
+      # role so Xcode can make the signing certificate and profile itself (cloud signing) — no Mac needed.
+      - name: Sign and upload to App Store Connect
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ISSUER: ${{ secrets.ASC_ISSUER_ID }}
+          KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          BUILD: ${{ github.run_number }}
+        run: |
+          if [ -z "$TEAM" ] || [ -z "$KEY_ID" ] || [ -z "$ISSUER" ] || [ -z "$KEY_P8" ]; then
+            echo "::notice::App Store secrets not set yet — skipping the signed upload."; exit 0
+          fi
+          KEY="$RUNNER_TEMP/AuthKey_$KEY_ID.p8"; printf '%s' "$KEY_P8" > "$KEY"
+          # No custom encryption (HTTPS only): answers the export-compliance question for every build.
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" ios/App/App/Info.plist || true
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $KEY_ID -authenticationKeyIssuerID $ISSUER"
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic CURRENT_PROJECT_VERSION="$BUILD" $AUTH archive
+          cat > "$RUNNER_TEMP/export.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$TEAM</string>
+            <key>signingStyle</key><string>automatic</string>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/export.plist" -exportPath "$RUNNER_TEMP/out" $AUTH
+          rm -f "$KEY"
+          echo "::notice::Build $BUILD uploaded — it appears in App Store Connect → TestFlight after Apple processes it."

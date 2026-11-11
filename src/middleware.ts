@@ -11,9 +11,19 @@ export async function middleware(req: NextRequest) {
   if (main && !main.endsWith(".vercel.app") && host.endsWith(".vercel.app") && process.env.VERCEL_ENV === "production" && req.method === "GET") {
     return NextResponse.redirect(new URL(pathname + req.nextUrl.search, `https://${main}`), 308);
   }
+  // Inside the App Store / Google Play app (its user agent ends in "KIXOApp"): credits are never sold there — both
+  // stores require their own in-app purchase for digital goods — so the buying pages send the user to the dashboard.
+  const inApp = /KIXOApp/.test(req.headers.get("user-agent") ?? "");
+  if (inApp && (pathname === "/pricing" || pathname.startsWith("/pay/") || pathname === "/pay")) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/dashboard";
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
   const pass = () => {
     const h = new Headers(req.headers);
     h.set("x-kixo-path", pathname);
+    if (inApp) h.set("x-kixo-app", "1");
     return NextResponse.next({ request: { headers: h } });
   };
   if (!PROTECTED.some((p) => pathname === p || pathname.startsWith(p + "/"))) return pass();

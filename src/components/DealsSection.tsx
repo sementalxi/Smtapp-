@@ -57,7 +57,7 @@ export function DealsSection({ deals, loggedIn = false }: { deals: PublicDeal[];
   const [open, setOpen] = useState<string | null>(null);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+    <section className="no-store-app mx-auto max-w-6xl px-4 py-14 sm:py-20">
       <div data-reveal className="text-center">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/50 bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-gold-light">
           🔥 {tt("deals_badge")}
