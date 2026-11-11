@@ -1,0 +1,39 @@
+{
+	"appId": "pro.kixo.app",
+	"appName": "KIXO",
+	"webDir": "www",
+	"server": {
+		"url": "https://kixo.pro",
+		"cleartext": false,
+		"allowNavigation": [
+			"kixo.pro",
+			"*.kixo.pro",
+			"discord.com",
+			"*.discord.com"
+		]
+	},
+	"appendUserAgent": "KIXOApp",
+	"backgroundColor": "#0b0710",
+	"ios": {
+		"contentInset": "always",
+		"scheme": "KIXO"
+	},
+	"android": {
+		"allowMixedContent": false
+	},
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 1200,
+			"backgroundColor": "#0b0710",
+			"showSpinner": false
+		},
+		"StatusBar": {
+			"style": "DARK",
+			"backgroundColor": "#0b0710"
+		}
+	},
+	"packageClassList": [
+		"SplashScreenPlugin",
+		"StatusBarPlugin"
+	]
+}
