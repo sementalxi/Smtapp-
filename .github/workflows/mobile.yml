@@ -64,6 +64,7 @@ jobs:
 
   ios:
     runs-on: macos-latest
+    permissions: { contents: write }
     defaults: { run: { working-directory: mobile } }
     steps:
       - uses: actions/checkout@v4
@@ -76,6 +77,16 @@ jobs:
       - name: Build (unsigned — checks the project compiles)
         run: xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
       - run: tar -czf ../kixo-ios.tgz ios
+      # The ready-to-open Xcode project (with its CocoaPods) on the "ios-project" branch, for building on a Mac.
+      - name: Publish the Xcode project to the ios-project branch
+        working-directory: .
+        run: |
+          git config user.name "kixo-ci"; git config user.email "ci@kixo.pro"
+          git checkout --orphan ios-project
+          git rm -rq --cached .
+          git add -f mobile/ios mobile/capacitor.config.json
+          git commit -qm "Xcode project from run ${{ github.run_number }}"
+          git push -qf origin ios-project
       - uses: actions/upload-artifact@v4
         with: { name: kixo-ios-project, path: kixo-ios.tgz }
       # Signed build sent straight to App Store Connect (TestFlight), once these repository secrets exist:
