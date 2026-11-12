@@ -193,7 +193,7 @@ function vivid(r: number, g: number, b: number): { r: number; g: number; b: numb
 export async function emboss3d(logo: Buffer, lw: number, lh: number, accent: { r: number; g: number; b: number }): Promise<{ png: Buffer; pad: number }> {
   const depth = Math.max(5, Math.round(lw * 0.055));
   const edge = Math.max(2, Math.round(lw * 0.012));
-  const pad = Math.round(lw * 0.3);
+  const pad = Math.round(lw * 0.45);
   const cw = lw + pad * 2;
   const ch = lh + pad * 2;
   const none = { r: 0, g: 0, b: 0, alpha: 0 };
@@ -205,7 +205,13 @@ export async function emboss3d(logo: Buffer, lw: number, lh: number, accent: { r
   // 1) glow in the poster's colour (twice, for strength) and a drop shadow
   const glowSil = await sharp(await silhouette(accent.r, accent.g, accent.b, 0.9)).resize({ width: lw + edge * 6, height: lh + edge * 6, fit: "fill" }).png().toBuffer();
   const glow = await sharp(await onCanvas(glowSil, -edge * 3, -edge * 3)).blur(Math.max(6, pad / 3)).png().toBuffer();
-  layers.push({ input: glow }, { input: glow });
+  // Extra bloom (owner: "more glow"): a wide soft halo plus a hot tight glow hugging the edge.
+  const grow = Math.round(lw * 0.14);
+  const wideSil = await sharp(await silhouette(accent.r, accent.g, accent.b, 0.85)).resize({ width: lw + grow * 2, height: lh + grow * 2, fit: "fill" }).png().toBuffer();
+  const wide = await sharp(await onCanvas(wideSil, -grow, -grow)).blur(Math.max(10, pad / 2.2)).png().toBuffer();
+  const hot = { r: Math.round((accent.r + 255 * 2) / 3), g: Math.round((accent.g + 255 * 2) / 3), b: Math.round((accent.b + 255 * 2) / 3) };
+  const tight = await sharp(await onCanvas(await silhouette(hot.r, hot.g, hot.b, 0.9))).blur(Math.max(3, edge * 2.5)).png().toBuffer();
+  layers.push({ input: wide }, { input: wide }, { input: glow }, { input: glow }, { input: glow }, { input: tight });
   const shadow = await sharp(await onCanvas(await silhouette(0, 0, 0, 0.75), Math.round(depth * 0.6), depth + edge * 2)).blur(Math.max(4, pad / 5)).png().toBuffer();
   layers.push({ input: shadow });
   // 2) the extrusion: the logo darkened, stacked down-right, farthest first
