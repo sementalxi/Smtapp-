@@ -133,16 +133,6 @@ const BATCHES: Batch[] = [
     retries: 1,
     slugs: ["player-glass-rings","player-sepia-ribbons","player-red-cubist","player-mono-serif","player-grey-wings","player-vertical-blaze","player-triple-run","player-wine-swirl","player-golden-number","player-red-icon","player-candy-stripes","player-red-swash","player-halftone-hero","player-orange-halo","player-red-lens","player-lime-blades","player-stadium-truss","player-court-slash","player-grey-signature","player-fight-night"],
   },
-  // Fourth set of 20 player styles with 3D titles (the owner's fourth set of ideas): one poster each with an invented test player becomes
-  // the style's preview and its reference image. Waits while the OpenAI account has no credit (outOfCredit).
-  {
-    key: "auto_previews_players_v8",
-    ref: true,
-    name: "KIXO",
-    parallel: 4,
-    retries: 1,
-    slugs: ["player-lacquer-script","player-meteor-crown","player-mono-meteor","player-grunge-riot","player-blue-chrome-stage","player-neon-split","player-western-engrave","player-crystal-rockwall","player-gold-fest","player-burning-skyline","player-velvet-throne","player-cyan-tunnel","player-marquee-breakout","player-amber-film","player-red-chrome-racer","player-liquid-chrome","player-copper-foil","player-night-brush","player-sky-signature","player-ember-lettering"],
-  },
   // Eleven event-flyer styles from the owner's own tournament flyers, made with each flyer's exact texts
   // (lib/event-defaults): one test poster each becomes the preview and the reference image.
   {
@@ -153,15 +143,15 @@ const BATCHES: Batch[] = [
     redo: { "event-star-badge": "*", "event-badge-trio": "*", "event-purple-schedule": "*", "event-trophy-duel": "*", "event-division-tiers": "*", "event-trophy-welcome": "*", "event-chrome-season": "*", "event-mega-purple": "*", "event-magazine-desk": "*", "event-marquee-winner": "*", "event-knight-dungeon": "*" },
     slugs: ["event-star-badge", "event-badge-trio", "event-purple-schedule", "event-trophy-duel", "event-division-tiers", "event-trophy-welcome", "event-chrome-season", "event-mega-purple", "event-magazine-desk", "event-marquee-winner", "event-knight-dungeon"],
   },
-  // Two more 3D-title player styles from the owner's fourth set: one poster each with an invented test player becomes
-  // the style's preview and its reference image. Waits while the OpenAI account has no credit (outOfCredit).
+  // The 22 newest player styles got more glow, the faded team crest and a 3D title built into the scene: new previews.
   {
-    key: "auto_previews_players_v9",
+    key: "auto_previews_players_v10",
     ref: true,
     name: "KIXO",
     parallel: 4,
     retries: 1,
-    slugs: ["player-pink-stadium","player-gold-ribbon"],
+    redo: {"player-lacquer-script": "*", "player-meteor-crown": "*", "player-mono-meteor": "*", "player-grunge-riot": "*", "player-blue-chrome-stage": "*", "player-neon-split": "*", "player-western-engrave": "*", "player-crystal-rockwall": "*", "player-gold-fest": "*", "player-burning-skyline": "*", "player-velvet-throne": "*", "player-cyan-tunnel": "*", "player-marquee-breakout": "*", "player-amber-film": "*", "player-red-chrome-racer": "*", "player-liquid-chrome": "*", "player-copper-foil": "*", "player-night-brush": "*", "player-sky-signature": "*", "player-ember-lettering": "*", "player-pink-stadium": "*", "player-gold-ribbon": "*"},
+    slugs: ["player-lacquer-script", "player-meteor-crown", "player-mono-meteor", "player-grunge-riot", "player-blue-chrome-stage", "player-neon-split", "player-western-engrave", "player-crystal-rockwall", "player-gold-fest", "player-burning-skyline", "player-velvet-throne", "player-cyan-tunnel", "player-marquee-breakout", "player-amber-film", "player-red-chrome-racer", "player-liquid-chrome", "player-copper-foil", "player-night-brush", "player-sky-signature", "player-ember-lettering", "player-pink-stadium", "player-gold-ribbon"],
   },
 ];
 
