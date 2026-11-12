@@ -45,7 +45,7 @@ TEXT RULES
 - Ignore the placement hints in the text list below — follow this brief.`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
-  "player-pink-stadium": `[EXACT REF] [FIXED LAYOUT] PINK STADIUM — a pink-purple stadium card: a big portrait looking up with both hands pointing to the sky, a running figure with arms wide in front, the NAME in giant white-pink 3D block letters and a thin pink script under it. Joyful, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-pink-stadium": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] PINK STADIUM — a pink-purple stadium card: a big portrait looking up with both hands pointing to the sky, a running figure with arms wide in front, the NAME in giant white-pink 3D block letters and a thin pink script under it. Joyful, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -80,11 +80,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -100,7 +102,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-gold-ribbon": `[EXACT REF] [FIXED LAYOUT] GOLD RIBBON — a night-city card: the NAME as a giant flowing GOLD TUBULAR 3D script that loops around the whole frame, a gilded picture frame behind two shots of the player, a diamond-crystal subtitle and blue mist. Luxurious, nightlife, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-gold-ribbon": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] GOLD RIBBON — a night-city card: the NAME as a giant flowing GOLD TUBULAR 3D script that loops around the whole frame, a gilded picture frame behind two shots of the player, a diamond-crystal subtitle and blue mist. Luxurious, nightlife, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -136,11 +138,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -156,7 +160,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-lacquer-script": `[EXACT REF] [FIXED LAYOUT] LACQUER SCRIPT — a red woven-fabric card: the NAME as a giant glossy 3D red script with star sparkles across the middle, a huge calm face at the top and a smaller striding figure in front. Bold, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-lacquer-script": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] LACQUER SCRIPT — a red woven-fabric card: the NAME as a giant glossy 3D red script with star sparkles across the middle, a huge calm face at the top and a smaller striding figure in front. Bold, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -189,11 +193,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -209,7 +215,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-meteor-crown": `[EXACT REF] [FIXED LAYOUT] METEOR CROWN — a dark red cosmic card: a spiky steel blade crown emblem behind a huge portrait, glowing red meteor rocks flying past, giant grey-white condensed 3D letters of the NAME and a small full-body figure in front. Explosive, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-meteor-crown": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] METEOR CROWN — a dark red cosmic card: a spiky steel blade crown emblem behind a huge portrait, glowing red meteor rocks flying past, giant grey-white condensed 3D letters of the NAME and a small full-body figure in front. Explosive, dark, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -244,11 +250,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -264,7 +272,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-mono-meteor": `[EXACT REF] [FIXED LAYOUT] MONO METEOR — a dark red cosmic card: the player in BLACK-AND-WHITE in front of a spiky blade crown emblem, glowing red meteor rocks flying, giant white 3D condensed letters of the NAME and a small figure in front. Moody, dramatic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-mono-meteor": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] MONO METEOR — a dark red cosmic card: the player in BLACK-AND-WHITE in front of a spiky blade crown emblem, glowing red meteor rocks flying, giant white 3D condensed letters of the NAME and a small figure in front. Moody, dramatic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -298,11 +306,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -318,7 +328,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-grunge-riot": `[EXACT REF] [FIXED LAYOUT] GRUNGE RIOT — a red grunge collage card: torn paper, white lightning and black brush strokes, a huge smiling portrait with both arms out, a small figure and the NAME in tall white 3D condensed capitals with a red script over it. Loud, energetic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-grunge-riot": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] GRUNGE RIOT — a red grunge collage card: torn paper, white lightning and black brush strokes, a huge smiling portrait with both arms out, a small figure and the NAME in tall white 3D condensed capitals with a red script over it. Loud, energetic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -353,11 +363,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -373,7 +385,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-blue-chrome-stage": `[EXACT REF] [FIXED LAYOUT] BLUE CHROME STAGE — a dark blue concert-stage card: the NAME in big glossy blue-chrome 3D italic letters with a red ribbon tag, arrays of glowing round bulbs in X shapes and fiery sparks behind the player. Big-night, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-blue-chrome-stage": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] BLUE CHROME STAGE — a dark blue concert-stage card: the NAME in big glossy blue-chrome 3D italic letters with a red ribbon tag, arrays of glowing round bulbs in X shapes and fiery sparks behind the player. Big-night, glossy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -408,11 +420,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -428,7 +442,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-neon-split": `[EXACT REF] [FIXED LAYOUT] NEON SPLIT — a split card: the top half warm amber with the NAME in glowing orange neon-outline 3D letters, the bottom half purple-violet, divided by a torn white paper edge. Night-party energy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-neon-split": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] NEON SPLIT — a split card: the top half warm amber with the NAME in glowing orange neon-outline 3D letters, the bottom half purple-violet, divided by a torn white paper edge. Night-party energy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -465,11 +479,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -485,7 +501,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-western-engrave": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] WESTERN ENGRAVE — a white-and-bronze card: the NAME in giant ornate engraved 3D western capitals in dark blue metal at the top, a torn band with radiating copper line rays behind the player and big white monogram initials in front. Classy, rugged, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-western-engrave": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] WESTERN ENGRAVE — a white-and-bronze card: the NAME in giant ornate engraved 3D western capitals in dark blue metal at the top, a torn band with radiating copper line rays behind the player and big white monogram initials in front. Classy, rugged, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -520,11 +536,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -540,7 +558,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-crystal-rockwall": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] CRYSTAL ROCKWALL — a symmetric mirrored card: cracked rock pillars and big speaker cones on both sides, orange spotlight beams, the NAME in icy crystal 3D letters at the top and the player standing calm in the centre. Majestic, loud, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-crystal-rockwall": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] CRYSTAL ROCKWALL — a symmetric mirrored card: cracked rock pillars and big speaker cones on both sides, orange spotlight beams, the NAME in icy crystal 3D letters at the top and the player standing calm in the centre. Majestic, loud, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -575,11 +593,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -595,7 +615,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-gold-fest": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] GOLD FEST — a celebration card: the NAME in giant chunky gold 3D capitals, black and gold balloons, fire bursting behind, teal laser lines and confetti, the player in a calm three-quarter pose at the left. Festive, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-gold-fest": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] GOLD FEST — a celebration card: the NAME in giant chunky gold 3D capitals, black and gold balloons, fire bursting behind, teal laser lines and confetti, the player in a calm three-quarter pose at the left. Festive, warm, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -629,11 +649,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -649,7 +671,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-burning-skyline": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] BURNING SKYLINE — a fiery city card: a burning mirrored night skyline, the NAME in bold gold-and-black 3D extruded capitals tilted in perspective, a glowing script under it and the player standing in the centre. Hot, epic, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-burning-skyline": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] BURNING SKYLINE — a fiery city card: a burning mirrored night skyline, the NAME in bold gold-and-black 3D extruded capitals tilted in perspective, a glowing script under it and the player standing in the centre. Hot, epic, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -683,11 +705,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -703,7 +727,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-velvet-throne": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] VELVET THRONE — a dark red textured card: the NAME in huge riveted black-steel 3D letters with gold edges at the top, a thin red frame, a white signature and the player seated relaxed on a red velvet throne at the bottom. Regal, heavy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-velvet-throne": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] VELVET THRONE — a dark red textured card: the NAME in huge riveted black-steel 3D letters with gold edges at the top, a thin red frame, a white signature and the player seated relaxed on a red velvet throne at the bottom. Regal, heavy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -736,11 +760,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -756,7 +782,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-cyan-tunnel": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] CYAN TUNNEL — a neon tunnel card: glowing cyan hexagon panels in perspective, the NAME as a big glossy white-and-blue 3D script with a chrome outline, cyan paint flecks and the player making a relaxed hang-loose gesture. Fresh, nightlife, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-cyan-tunnel": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] CYAN TUNNEL — a neon tunnel card: glowing cyan hexagon panels in perspective, the NAME as a big glossy white-and-blue 3D script with a chrome outline, cyan paint flecks and the player making a relaxed hang-loose gesture. Fresh, nightlife, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -790,11 +816,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -810,7 +838,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-marquee-breakout": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] MARQUEE BREAKOUT — a dark wine-red card: the NAME in giant vintage marquee 3D letters with glowing bulb tubes, the player bursting through torn paper with both hands, clouds and a miniature invented city at the bottom. Cinematic, playful, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-marquee-breakout": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] MARQUEE BREAKOUT — a dark wine-red card: the NAME in giant vintage marquee 3D letters with glowing bulb tubes, the player bursting through torn paper with both hands, clouds and a miniature invented city at the bottom. Cinematic, playful, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -845,11 +873,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -865,7 +895,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-amber-film": `[EXACT REF] [FIXED LAYOUT] AMBER FILM — a warm golden film card: a huge close-up turning back over the shoulder at the top left, a tall golden number block at the top right, the NAME in giant 3D condensed cream capitals with a thin gold script over it and a smaller figure in front. Warm, cool, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-amber-film": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] AMBER FILM — a warm golden film card: a huge close-up turning back over the shoulder at the top left, a tall golden number block at the top right, the NAME in giant 3D condensed cream capitals with a thin gold script over it and a smaller figure in front. Warm, cool, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -899,11 +929,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -919,7 +951,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-red-chrome-racer": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] RED CHROME RACER — a red-hot racing card: the NAME in wide silver-chrome 3D capitals wrapped in red neon tubes, a sports-car interior glowing red behind, orange sparks and light trails, and the player at the centre. Fast, shiny, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-red-chrome-racer": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] RED CHROME RACER — a red-hot racing card: the NAME in wide silver-chrome 3D capitals wrapped in red neon tubes, a sports-car interior glowing red behind, orange sparks and light trails, and the player at the centre. Fast, shiny, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -952,11 +984,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -972,7 +1006,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-liquid-chrome": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] LIQUID CHROME — a black-and-white luxury card: a white top with the NAME repeated as outlined pattern letters, the NAME in big dripping liquid-silver 3D letters, a black lounge below with silver splashes and a tilted silver frame around the player. Sleek, fashion, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-liquid-chrome": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] LIQUID CHROME — a black-and-white luxury card: a white top with the NAME repeated as outlined pattern letters, the NAME in big dripping liquid-silver 3D letters, a black lounge below with silver splashes and a tilted silver frame around the player. Sleek, fashion, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -1007,11 +1041,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -1027,7 +1063,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-copper-foil": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] COPPER FOIL — an icy blue stage card: the NAME in giant copper-foil 3D condensed capitals behind the player, bright stage beams and a crowd haze, thin copper bars, and the player holding the collar with both hands. Clean, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-copper-foil": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] COPPER FOIL — an icy blue stage card: the NAME in giant copper-foil 3D condensed capitals behind the player, bright stage beams and a crowd haze, thin copper bars, and the player holding the collar with both hands. Clean, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -1061,11 +1097,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -1081,7 +1119,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-night-brush": `[EXACT REF] [FIXED LAYOUT] NIGHT BRUSH — a black-and-white night city card: a huge close-up at the right, a smaller standing figure at the left, the NAME as a giant white 3D brush signature at the bottom and floating torn photo cards. Moody, street, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-night-brush": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] NIGHT BRUSH — a black-and-white night city card: a huge close-up at the right, a smaller standing figure at the left, the NAME as a giant white 3D brush signature at the bottom and floating torn photo cards. Moody, street, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -1115,11 +1153,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -1135,7 +1175,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-sky-signature": `[EXACT REF] [FIXED LAYOUT] SKY SIGNATURE — a pale sky-blue city card: a huge smiling close-up at the top right, a waist-up figure at the left, a dark invented skyline, the NAME in bold blue gradient 3D capitals at the bottom and a black handwritten script. Fresh, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-sky-signature": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] SKY SIGNATURE — a pale sky-blue city card: a huge smiling close-up at the top right, a waist-up figure at the left, a dark invented skyline, the NAME in bold blue gradient 3D capitals at the bottom and a black handwritten script. Fresh, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -1170,11 +1210,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -1190,7 +1232,7 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, club or league names, stickers, watermarks, game logos, venue names, phone numbers, prices, years, dates, addresses, biographies or legal text. Each item is written once — except where this layout repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back). If an item is not given, leave its spot out. No team-name text anywhere. Fill-in paragraphs of small text are never added.
 - The crest appears only if a crest reference image is given; no animals, mascots or cartoon characters unless they are part of that crest. No real buildings, monuments or landmarks. Keep one corner calm (a small brand mark is added there afterwards).
 - Ignore the placement hints in the text list below — follow THIS layout.`,
-  "player-ember-lettering": `[EXACT REF] [FIXED LAYOUT] [ONE FIGURE] EMBER LETTERING — a black-and-ember card: the NAME in heavy charred-steel 3D capitals with glowing orange cracks at the top, ember sparks and smoke rising from a burning ground, and the player standing calm in the centre. Heated, heavy, premium — made like a high-end PHOTOSHOP composite by a top designer.
+  "player-ember-lettering": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] [ONE FIGURE] EMBER LETTERING — a black-and-ember card: the NAME in heavy charred-steel 3D capitals with glowing orange cracks at the top, ember sparks and smoke rising from a burning ground, and the player standing calm in the centre. Heated, heavy, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
 
@@ -1224,11 +1266,13 @@ ATTITUDE (house rule of this style)
 3D TITLE (the signature of this style)
 - The big title lettering is a real 3D object, not flat type: thick extruded letters with bevelled edges, the material described above, real reflections of the scene, specular highlights along the edges, a soft contact shadow behind them and correct perspective. Every letter is spelled exactly as given and stays perfectly readable.
 
-GLOW & ATMOSPHERE (turned up — this card must feel electric)
-- Strong glow everywhere it fits the palette: bloom around the 3D title, a coloured rim light on every figure, glowing light streaks, lens flares, sparks and haze catching the light. The deepest blacks stay rich, but every highlight glows.
+GLOW & ATMOSPHERE (MAXIMUM — this card must look electric and expensive)
+- Heavy glow everywhere: a strong bloom halo around every letter of the 3D title and the crest, a thick coloured rim light outlining every figure, volumetric light rays cutting through haze behind the figures, bright lens flares and star glints on the brightest highlights, glowing sparks and embers floating at every depth, light streaks swooshing across the card. Glows use the poster's palette (and the team colours when given). The deepest blacks stay rich, but every highlight glows like neon through smoke.
 
-TEAM CREST ECHO
-- The TEAM CREST (the reference image labelled "the team crest") also appears GIANT and faded in the background, centred behind the figures at about 10–15% opacity, glowing faintly in the poster's light like a watermark carved in light. It is always the user's own crest, never the crest or emblem from the style reference. The sharp crest still appears once where the layout puts it.
+THE TEAM CREST (built into the scene in 3D — never a flat sticker)
+- The main crest is a big physical 3D emblem that belongs to this artwork: extruded with real thickness and bevels, made of the SAME material as the 3D title (same chrome / gold / glass / lacquer / neon finish), lit by the scene's lights, with a glowing rim light and bloom, sparks and smoke passing in front of it and a real shadow on the background. It floats in the scene at the crest spot of this layout — no plate, disc or ring added behind it.
+- The same crest ALSO appears GIANT and faded in the background, centred behind the figures at about 15–25% opacity, tinted into the scene's colours and glowing faintly like a hologram / watermark carved in light, partly behind the title and the figures.
+- It is always the user's own crest, never the crest or emblem from the style reference.
 
 3D TITLE IN THE SCENE
 - The 3D title is built INTO the scene, not pasted on top: it stands in the same space and perspective as the figures, lit by the same lights (coloured reflections of the background and rim light on its bevels), casts real shadows onto the background, and is partly overlapped by a figure where that figure stands in front of it. Smoke, sparks and light streaks pass in front of and behind its letters. Never a flat sticker.
@@ -9177,29 +9221,29 @@ TEXT RULES
  * matter which earlier version is in the database. Raise the number with every later change to that brief.
  */
 export const PRESET_REVISIONS: Record<string, number> = {
-  // More glow, the faded team crest behind, the 3D title built into the scene (owner, 12 Nov)
-  "player-lacquer-script": 1,
-  "player-meteor-crown": 1,
-  "player-mono-meteor": 1,
-  "player-grunge-riot": 1,
-  "player-blue-chrome-stage": 1,
-  "player-neon-split": 1,
-  "player-western-engrave": 1,
-  "player-crystal-rockwall": 1,
-  "player-gold-fest": 1,
-  "player-burning-skyline": 1,
-  "player-velvet-throne": 1,
-  "player-cyan-tunnel": 1,
-  "player-marquee-breakout": 1,
-  "player-amber-film": 1,
-  "player-red-chrome-racer": 1,
-  "player-liquid-chrome": 1,
-  "player-copper-foil": 1,
-  "player-night-brush": 1,
-  "player-sky-signature": 1,
-  "player-ember-lettering": 1,
-  "player-pink-stadium": 1,
-  "player-gold-ribbon": 1,
+  // More glow, the faded team crest behind, the 3D title built into the scene (owner, 12 Nov); 2 = max glow + [CREST 3D] crest built into the scene
+  "player-lacquer-script": 2,
+  "player-meteor-crown": 2,
+  "player-mono-meteor": 2,
+  "player-grunge-riot": 2,
+  "player-blue-chrome-stage": 2,
+  "player-neon-split": 2,
+  "player-western-engrave": 2,
+  "player-crystal-rockwall": 2,
+  "player-gold-fest": 2,
+  "player-burning-skyline": 2,
+  "player-velvet-throne": 2,
+  "player-cyan-tunnel": 2,
+  "player-marquee-breakout": 2,
+  "player-amber-film": 2,
+  "player-red-chrome-racer": 2,
+  "player-liquid-chrome": 2,
+  "player-copper-foil": 2,
+  "player-night-brush": 2,
+  "player-sky-signature": 2,
+  "player-ember-lettering": 2,
+  "player-pink-stadium": 2,
+  "player-gold-ribbon": 2,
   // [NO ECHO] on the four styles the owner changed (2 = Royal Split / Living Statue / Double Exposure after their first reload)
   "player-cloud-nine": 2,
   "player-royal-split": 2,
