@@ -7272,6 +7272,251 @@ TYPOGRAPHY & LAYOUT (left side, stacked, aligned on one left margin)
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
+  "event-star-badge": `[FIXED LAYOUT] STAR BADGE — a vertical (4:5) flash-tournament flyer in black and gold, loud and premium, like a top Pro Clubs community's weekly cup announcement.
+
+COLOURS: black, rich yellow-gold, white chrome and silver (the organizer's colour from the COLOURS line may replace the gold).
+
+BACKGROUND
+- A golden-lit night stadium far behind: floodlights, gold bokeh, golden dust and sparks; dark angular gold-and-steel panels framing both sides like a game menu, thin gold HUD lines, a hex texture, small letter-spaced repeats of the accent line in the top corners.
+- GIANT faded echo of the HEADLINE in dark gold outline capitals behind everything.
+- The organizer / league logo (if given) echoed big, blurred and cut off at the left edge and the lower right corner.
+
+THE BADGE (top 45%, the signature)
+- A big esports badge: a jagged gold-and-black frame with a silver 3D STAR at its top point; the accent line (if given) in letter-spaced gold capitals curving along its upper edge.
+- Inside it the HEADLINE in huge white-chrome 3D condensed capitals with thick gold bevels and black extrusion, and right under it the event title (if given) as a giant silver-chrome 3D connected script with a swash underline, overlapping the badge's lower edge.
+
+HEROES (middle)
+- [IF PHOTO]the person(s) from the uploaded photo cut out in the middle in front of the badge's lower half, shoulder to shoulder, calm and confident, relit with a warm gold rim light, sharp[/IF PHOTO][IF NO PHOTO]a GIANT gold-and-chrome 3D TROPHY (a tall cup with sweeping handles and a crown-shaped rim) with the organizer logo set into its front like an enamel medallion (if no logo: a smooth chrome face), real reflections in front of the badge's lower half, gold light beams around it — NO people anywhere.[/IF NO PHOTO].
+
+PRIZE LOCK-UP (lower 35%)
+- The entry fee (if given) in big slanted condensed YELLOW-GOLD grainy capitals; under it the PRIZE line even bigger in slanted condensed SILVER capitals filled with a grainy stadium-photo texture.
+- The DATE & TIMES in a thin gold HUD bar under it, letter-spaced white capitals.
+- Bottom centre: the organizer / league logo (if given) as a small glossy 3D emblem; the info line small in letter-spaced gold capitals beside it; collaborator logos (if given) small in the lower left.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-badge-trio": `[FIXED LAYOUT] BADGE TRIO — a vertical (4:5) "today" tournament flyer in black, orange-gold and chrome: the badge in front, the heroes behind it.
+
+COLOURS: black, orange-gold, white chrome and steel grey.
+
+BACKGROUND
+- A dark stadium with golden floodlights and orange sparks, angular dark-steel panels with gold edges along both sides, a gold hex texture, smoke and crackling gold energy lines.
+- GIANT faded echo of the HEADLINE in dark gold outline capitals across the top, behind the heroes.
+- Thin letter-spaced repeats of the accent line at the very top and bottom centre between gold lines.
+
+HEROES (top 40%)
+- [IF PHOTO]the person(s) from the uploaded photo cut out in one row across the top, shoulders overlapped, from the chest up, easy confident smiles, warm rim light — the badge below covers their lower bodies[/IF PHOTO][IF NO PHOTO]the organizer logo (if given) as a giant faded 3D emblem behind the badge, with gold light rays — NO people anywhere.[/IF NO PHOTO].
+
+THE BADGE (centre — the signature)
+- A big jagged gold-and-black badge with a silver 3D STAR on its top point; the accent line (if given) in letter-spaced gold capitals along its upper edge; the HEADLINE in huge white-chrome 3D capitals with gold bevels; the event title (if given) as a giant silver-chrome 3D script with a swash under it.
+
+LOWER LOCK-UP
+- The PRIZE line in huge bold ORANGE-GOLD 3D capitals with a glossy gradient and dark extrusion across the full width.
+- Under it the entry fee (if given) in big white bold italic capitals.
+- Bottom centre: the organizer / league logo (if given) as a glossy 3D crest; the DATE & TIMES stacked three times in white bold italic capitals at the lower right like a call-out ("TODAY"-style if the date is a word); the info line in tiny letter-spaced capitals at the bottom between thin gold lines.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-purple-schedule": `[FIXED LAYOUT] PURPLE SCHEDULE — a vertical (4:5) night-tournament flyer in purple and magenta with a gold prize and a glowing schedule table.
+
+COLOURS: deep purple, hot magenta, pink-white chrome and warm gold on the prize.
+
+BACKGROUND
+- A purple stadium at night: magenta spotlights from the top right, pink haze and smoke, glowing particles, a blurred pitch at the bottom.
+- Small vertical logo column at the top left: the organizer / league logo and collaborator logos (if given), stacked, glossy 3D.
+
+HEROES (top half)
+- [IF PHOTO]the person(s) from the uploaded photo — two figures side by side at the top, from the waist up, big: one smiling and relaxed, the other turned three-quarters with a calm, cool look; magenta rim light, sharp[/IF PHOTO][IF NO PHOTO]a GIANT gold-and-chrome 3D TROPHY (a tall cup with sweeping handles and a crown-shaped rim) with the organizer logo set into its front like an enamel medallion (if no logo: a smooth chrome face), real reflections at the top right with magenta spotlights — NO people anywhere.[/IF NO PHOTO].
+
+LETTERING
+- LEFT (y 48–66%): the HEADLINE in big slanted heavy capitals, pink-white chrome with a grainy texture, two lines; the event title (if given) under it in bold magenta-to-violet capitals, two lines.
+- RIGHT (y 44–70%): the small word of the prize (or "PRIZE") in grainy gold slanted capitals, and the PRIZE amount GIANT in grainy gold 3D figures overlapping the right hero; the accent line (if given) in gold capitals under it.
+- A row of three neon info columns (y 72–80%): the entry fee big in glossy purple chrome with its small label under it, then the info line split into two more columns — magenta bold capitals with a small subline each.
+- THE SCHEDULE (y 82–96%): a glowing violet HUD title plate (letter-spaced, the word for times) and under it a 2×2 grid of rounded neon-edged plates, each with one TIME from the DATE & TIMES text in big white slanted capitals, a thin divider and its zone / city word in small magenta capitals. NO flags.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-trophy-duel": `[FIXED LAYOUT] TROPHY DUEL — a vertical (4:5) flash-cup flyer in royal blue and gold with a giant trophy between two heroes.
+
+COLOURS: royal blue, navy, white smoke and warm gold.
+
+BACKGROUND
+- A blue stadium with white smoke drifting from both sides, light streaks, blue brush strokes and paint texture, thin HUD lines with tiny letter-spaced repeats of the accent line along the top edge and down the left edge.
+- A huge faded white echo of the event title in the middle band behind the trophy.
+
+TOP
+- The accent line (if given) as a white rough brush script across the top (y 6–12%).
+- The HEADLINE (with the PRIZE if it reads like "PRIZE +$500") in GIANT ultra-condensed GOLD capitals with a grainy foil texture across the full width (y 12–32%).
+
+CENTRE
+- A GIANT polished silver TROPHY (big-eared cup) in the middle (x 30–70%, y 36–80%) with two long ribbons in the poster's colour hanging from its handles; the organizer / league logo (if given) set into its front as a glossy enamel medallion.
+- [IF PHOTO]the person(s) from the uploaded photo — two figures either side of the trophy from the waist up, one pointing toward the camera with a calm grin, one with a hand at the ear and an easy smile; blue rim light[/IF PHOTO][IF NO PHOTO]two smaller gold cups glowing either side of the trophy — NO people anywhere.[/IF NO PHOTO].
+- The organizer / league logo (if given) also small at the lower left of the left figure.
+
+BOTTOM
+- A dark rounded translucent panel at the lower left (y 78–88%) with the TIMES in three columns of small white text (each time with its zone word under it in place of flags).
+- The entry fee (if given) big in white condensed capitals at the lower right with its small word under it.
+- A wide GOLD bar across the bottom right (y 88–95%) with the DATE in big dark condensed capitals.
+- The info line as a white brush script at the lower left (y 89–95%).
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-division-tiers": `[FIXED LAYOUT] DIVISION TIERS — a vertical (4:5) new-season launch flyer in navy, red and electric blue with three prize divisions.
+
+COLOURS: navy, electric blue, hot red, white, with gold, silver and bronze on the three division cards.
+
+BACKGROUND
+- A bright lit stadium at the right with blue and red light, diagonal red and blue slashes and light streaks, a giant blurred echo of the HEADLINE in blue outline capitals running diagonally behind, tiny letter-spaced repeats of the accent line down the left edge, an x-pattern texture.
+- The organizer / league logo (if given) big and blurred as a glowing neon sign at the top centre and again in the lower right corner.
+
+HEROES (right half)
+- [IF PHOTO]the person(s) from the uploaded photo — up to three running figures on the right, the biggest in front from the thighs up in a calm, focused jog, smaller ones behind; strong white rim light[/IF PHOTO][IF NO PHOTO]a GIANT gold-and-chrome 3D TROPHY (a tall cup with sweeping handles and a crown-shaped rim) with the organizer logo set into its front like an enamel medallion (if no logo: a smooth chrome face), real reflections on the right, blue and red light beams around it — NO people anywhere.[/IF NO PHOTO].
+
+LETTERING (left)
+- Top: the organizer / league logo (if given) small with collaborator logos beside it.
+- The HEADLINE in big white italic bold capitals (y 12–24%) and the event title (if given) in GIANT italic red-to-pink gradient capitals under it (y 24–36%).
+- The DATE in one line of wide white capitals with the date words in red (y 38–42%).
+- THREE DIVISION CARDS in a row (y 46–78%): dark glassy rounded panels, each with a shield badge on top (GOLD, SILVER, BRONZE — plain shields with a small star, no words except what is given), a division name in condensed italic capitals coloured gold / silver / bronze, a big white prize amount and a small red entry line. Fill them from the PRIZE, the entry fee and the info line split on · or / ; if fewer than three items are given, show only that many cards.
+- Under them the accent line in white condensed capitals with key words in gold, and the TIMES / other details in wide white capitals.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-trophy-welcome": `[FIXED LAYOUT] TROPHY WELCOME — a vertical (4:5) "welcome / new signing" flyer in red, black and white, framed by trophies.
+
+COLOURS: blood red, black, white and polished gold-silver on the trophies.
+
+BACKGROUND
+- A dark red street-arena: stage truss, red smoke, embers, a wet reflective floor, red light glowing from the sides, faint letter-spaced texts at the corners from the accent line.
+- A giant red rough brush echo of the event title (or the HEADLINE) across the very top.
+- The organizer / league logo (if given) as a glossy 3D esports emblem centred at the top (y 8–20%); collaborator logos small in the top left.
+
+CENTRE
+- [IF PHOTO]the person(s) from the uploaded photo — one figure from the waist up in the middle, calm and confident, looking at the camera, dark kit, red rim light[/IF PHOTO][IF NO PHOTO]the organizer logo (if given) as a giant 3D metal emblem in the middle — NO people anywhere.[/IF NO PHOTO].
+- TROPHIES around: a big ornate gold-and-silver cup on the left, a slim silver cup with an engraved lion in front of it, a tall silver trophy with a gold crown and long black-and-gold ribbons on the right, and a smaller gold crown cup in front at the right — the organizer logo (if given) engraved on the big left cup only; no other words on them.
+
+LOWER LOCK-UP
+- The HEADLINE in GIANT ultra-condensed white capitals with a scratched, distressed texture across the full width (y 62–80%), the trophies' bases behind it.
+- The accent line as a big red rough brush script across the bottom of the headline.
+- A dark honours bar (y 86–90%): the info line split on · or | into short white condensed segments with thin dividers and a small gold cup icon at each end (no flags).
+- The DATE in red condensed capitals under it; the TIMES small.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-chrome-season": `[FIXED LAYOUT] CHROME SEASON — a vertical (4:5) season announcement in electric blue with a huge bevelled chrome title and two price boxes.
+
+COLOURS: electric blue, navy, white chrome, with ONE orange box and ONE red box.
+
+BACKGROUND
+- A big blue stadium at night: floodlights, light beams, LED boards glowing blue, a glossy pitch in the lower third with a centre line, blue haze, tiny letter-spaced texts in the bottom corners from the accent line.
+- The organizer / league logo (if given) as a big glossy emblem far behind the middle hero's head.
+
+HEROES (top 40%)
+- [IF PHOTO]the person(s) from the uploaded photo — up to three figures across the top from the chest up, the middle one in front with a playful, confident smile, the side ones calm; blue rim light[/IF PHOTO][IF NO PHOTO]a row of three chrome trophies across the top with blue light rays — NO people anywhere.[/IF NO PHOTO].
+
+LETTERING
+- The HEADLINE GIANT in the middle (y 38–56%): deep navy faces with thick bevelled white-chrome edges and a cyan-blue inner glow, real 3D depth.
+- The event title (if given) under it in big italic white-chrome 3D capitals (y 56–64%).
+- A row (y 66–76%): the organizer / league logo (if given) at the left, the DATE in huge white condensed capitals in the centre with the accent line in small wide capitals under it, collaborator logos at the right.
+- Two price blocks (y 78–88%): an ORANGE square box with a white condensed label and a big white price beside it, then a RED box with its label and price — taken from the PRIZE, the entry fee and the info line split on · or / (only as many as given).
+- Two short lines of small white text at the bottom with key words in red (the info line / rule note).
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-mega-purple": `[FIXED LAYOUT] MEGA PURPLE — a vertical (4:5) big-cup flyer in purple and white with a grunge echo headline and a two-column prize lock-up.
+
+COLOURS: violet, deep purple, white and a touch of gold.
+
+BACKGROUND
+- Torn purple paper and grunge textures, stadium lights glowing violet at the right, scratched film, tiny letter-spaced HUD labels in the corners from the accent line.
+- A GIANT white distressed echo of the HEADLINE (or the event title) across the full width in the middle band (y 26–48%), cut off by both edges.
+- The organizer / league logo (if given) blurred and big at the left edge and again at the bottom right.
+
+TOP
+- The organizer / league logo (if given) as a glossy 3D gold-framed badge at the top centre (y 4–18%); collaborator logos small in the top corners.
+
+HEROES
+- [IF PHOTO]the person(s) from the uploaded photo — two figures side by side from the waist up (y 18–66%), one with a hand on the chest and a big smile, the other calmly applauding; purple rim light[/IF PHOTO][IF NO PHOTO]a GIANT gold-and-chrome 3D TROPHY (a tall cup with sweeping handles and a crown-shaped rim) with the organizer logo set into its front like an enamel medallion (if no logo: a smooth chrome face), real reflections in the middle with violet light — NO people anywhere.[/IF NO PHOTO].
+
+LOWER LOCK-UP
+- The accent line in thin outlined GOLD wide capitals (y 64–68%).
+- TWO COLUMNS (y 68–86%): left — the entry fee as two lines of huge slanted bold violet-to-lilac capitals; right — the PRIZE as two lines of huge slanted bold white capitals with a grainy texture.
+- A lilac translucent bar (y 86–89%) with the DATE & TIMES in white wide capitals separated by thin bars.
+- The info line under it in white wide capitals, one or two lines.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-magazine-desk": `[FIXED LAYOUT] MAGAZINE DESK — a vertical (4:5) league-night flyer shot as a flat-lay of league print items on a dark red desk, with a hero breaking out on the right.
+
+COLOURS: deep red, black, cream paper and warm gold foil.
+
+THE DESK (background)
+- A dark red leather desk seen from above, warm golden light and sparks, gold constellation lines drifting.
+- Around the edges, slightly blurred: a black-and-gold card with the organizer / league logo (if given) and a gold crown (top left), a folded newspaper with the event title in a gothic masthead (top right), a cream VIP ticket with a barcode and a small crown (lower left), a dark folder with gold edges (bottom) — no words except the given texts and generic labels like VIP ACCESS.
+
+THE COVER (centre)
+- A league MAGAZINE COVER (x 20–80%, y 8–80%): a dark red top band with the organizer / league logo (if given) in a gold ring with a crown, the HEADLINE in big bevelled gold serif capitals, the accent line in letter-spaced cream capitals; tiny letter-spaced text columns in the top corners from the info line.
+- On its cream page: a dark red tag with the small prize word, and the PRIZE amount GIANT in gold condensed figures filling the page.
+- A red band across the cover's lower part (y 60–78%) with the DATE & TIMES as four short lines of big cream condensed capitals.
+
+HERO (right)
+- [IF PHOTO]the person(s) from the uploaded photo — one figure on the right (x 56–100%, y 30–100%), kneeling in a calm celebration, one hand on the chest, a confident look; golden rim light and sparks; he overlaps the cover's edge[/IF PHOTO][IF NO PHOTO]a tall gold trophy on the right overlapping the cover, sparks around it — NO people anywhere.[/IF NO PHOTO].
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-marquee-winner": `[FIXED LAYOUT] MARQUEE WINNER — a vertical (4:5) cash-cup flyer in red and gold with a bulb-marquee prize.
+
+COLOURS: blood red, black, white and polished gold.
+
+BACKGROUND
+- A red-lit stadium at night with a big gold-lit steel roof truss across the top, red flags with a faint crown pattern, bokeh, red smoke, a giant faded red gothic echo letter in the left and right edges.
+- The organizer / league logo (if given) as a small white round badge at the top centre.
+
+HEROES
+- [IF PHOTO]the person(s) from the uploaded photo — two figures either side (left x 0–48%, right x 52–100%, y 8–70%), from the waist up: left with a hand on the hip and a calm look, right pointing toward the camera with a sly smile; warm rim light[/IF PHOTO][IF NO PHOTO]two tall gold trophies either side with red light beams — NO people anywhere.[/IF NO PHOTO].
+- Behind them two big tilted player-card shapes, one silver-white with fine gold lines, one gold-foil — no text on them.
+
+CENTRE
+- A gold-and-black crest-shaped trophy (x 34–66%, y 30–56%) with the organizer / league logo (if given) on its face.
+- The PRIZE in huge white-gold 3D capitals with gold bevels and rows of glowing marquee light bulbs inside the strokes (y 52–68%), with spiky gold wings at both sides; the small prize word in the same style under it.
+
+BOTTOM
+- The HEADLINE in GIANT ultra-condensed white capitals across the full width (y 72–84%).
+- The entry fee (or the accent line) as a red gothic blackletter script across the bottom of the headline.
+- The info line split into two letter-spaced grey words at the bottom corners; the DATE & TIMES small and wide in the centre.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
+  "event-knight-dungeon": `[FIXED LAYOUT] KNIGHT DUNGEON — a vertical (4:5) collab-tournament flyer in a medieval dungeon with two armoured knights.
+
+COLOURS: black iron, warm fire orange, bright yellow and white.
+
+BACKGROUND
+- A stone dungeon gate: an arch of rough stone, heavy iron chains hanging down both sides, burning iron fire baskets at the bottom corners, a burning castle with banners far away through the arch under a smoky orange sky, embers, a cobblestone floor.
+
+FIGURES
+- TWO ARMOURED KNIGHTS (left x 0–48%, right x 52–100%, y 22–90%), black hammered-iron plate armour with closed helmets, standing guard, each holding a big dark shield in front: the organizer / league logo (if given) embossed on the left shield and the first collaborator logo (if given) on the right shield (otherwise plain crowned shields); the same logos small on their helmets and breastplates.
+- [IF PHOTO]The person from the uploaded photo stands between the knights from the waist up, calm and confident, lit by firelight.[/IF PHOTO][IF NO PHOTO]No other people — the knights' faces are always hidden by their helmets.[/IF NO PHOTO]
+
+LETTERING
+- The event title (if given) in bright yellow gothic blackletter at the top (y 4–12%).
+- The HEADLINE GIANT in heavy yellow italic capitals with a grungy edge across the full width behind the knights' helmets (y 12–30%).
+- The accent line / DATE as stacked white condensed capitals with a grainy texture in the centre between the knights (y 40–56%).
+- The PRIZE GIANT in heavy white italic capitals with a cracked-stone texture across the bottom (y 72–88%), and the entry fee (if given) in yellow gothic blackletter under it (y 88–95%).
+- The info line small in letter-spaced white capitals at the very bottom.
+
+${EVENT_FLYER}
+
+${EVENT_FINISH}`,
   "event-relampago": `[FIXED LAYOUT] RELÁMPAGO — a vertical (4:5) lightning-tournament flyer in electric blue (or the organizer's colour from the COLOURS line in place of blue), loud and premium, like a top Pro Clubs community's flash-tournament announcement.
 
 COLOURS: electric blue, ice white and deep navy-black (or the organizer's colour in the same role), with gold only on the trophy.

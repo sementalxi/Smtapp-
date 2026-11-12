@@ -143,6 +143,15 @@ const BATCHES: Batch[] = [
     retries: 1,
     slugs: ["player-lacquer-script","player-meteor-crown","player-mono-meteor","player-grunge-riot","player-blue-chrome-stage","player-neon-split","player-western-engrave","player-crystal-rockwall","player-gold-fest","player-burning-skyline","player-velvet-throne","player-cyan-tunnel","player-marquee-breakout","player-amber-film","player-red-chrome-racer","player-liquid-chrome","player-copper-foil","player-night-brush","player-sky-signature","player-ember-lettering"],
   },
+  // Eleven event-flyer styles from the owner's own tournament flyers: one test poster each becomes the preview and
+  // the reference image.
+  {
+    key: "auto_previews_events_v2",
+    ref: true,
+    parallel: 4,
+    retries: 1,
+    slugs: ["event-star-badge", "event-badge-trio", "event-purple-schedule", "event-trophy-duel", "event-division-tiers", "event-trophy-welcome", "event-chrome-season", "event-mega-purple", "event-magazine-desk", "event-marquee-winner", "event-knight-dungeon"],
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute
