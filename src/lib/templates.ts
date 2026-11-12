@@ -4931,6 +4931,50 @@ export const DEFAULT_TEMPLATES: TemplateSeed[] = [
       streaks: true,
     },
   },
+  {
+    slug: "player-pink-stadium",
+    name: "Pink Stadium",
+    nameEs: "Estadio Rosa",
+    layout: "PLAYER",
+    sort: -1,
+    prompt:
+      "pink-purple stadium card: a big portrait pointing up with both hands, a running figure with arms wide in front, giant white-pink 3D block letters of the name over a pink stadium and a thin pink script",
+    style: {
+      primary: "#e04bd8",
+      accent: "#ffd6f6",
+      dark: "#1a0618",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#eef2f7", "#ffd6f6"],
+      fallback: ["#1a0618", "#e04bd8", "#ffd6f6"],
+      particles: "sparks",
+      ghost: true,
+      giantText: false,
+      streaks: true,
+    },
+  },
+  {
+    slug: "player-gold-ribbon",
+    name: "Gold Ribbon",
+    nameEs: "Listón Dorado",
+    layout: "PLAYER",
+    sort: -1,
+    prompt:
+      "night-city card: the name as a giant flowing gold tubular 3D script looping around the frame, a gilded picture frame behind two shots of the player, a diamond-crystal 3D subtitle, blue mist and a skyline of invented towers",
+    style: {
+      primary: "#f2a62a",
+      accent: "#e8f2ff",
+      dark: "#030a1c",
+      nameFont: "anton",
+      scriptFont: "brush",
+      nameGradient: ["#ffffff", "#eef2f7", "#e8f2ff"],
+      fallback: ["#030a1c", "#f2a62a", "#e8f2ff"],
+      particles: "sparks",
+      ghost: true,
+      giantText: false,
+      streaks: true,
+    },
+  },
 ];
 
 /** How the crest was put on a poster, for admins (Discord logs, poster page, style test). */

@@ -152,6 +152,16 @@ const BATCHES: Batch[] = [
     retries: 1,
     slugs: ["event-star-badge", "event-badge-trio", "event-purple-schedule", "event-trophy-duel", "event-division-tiers", "event-trophy-welcome", "event-chrome-season", "event-mega-purple", "event-magazine-desk", "event-marquee-winner", "event-knight-dungeon"],
   },
+  // Two more 3D-title player styles from the owner's fourth set: one poster each with an invented test player becomes
+  // the style's preview and its reference image. Waits while the OpenAI account has no credit (outOfCredit).
+  {
+    key: "auto_previews_players_v9",
+    ref: true,
+    name: "KIXO",
+    parallel: 4,
+    retries: 1,
+    slugs: ["player-pink-stadium","player-gold-ribbon"],
+  },
 ];
 
 const TICK_BUDGET_MS = 20_000; // the cron call has other work to do too — the rest waits for the next minute
