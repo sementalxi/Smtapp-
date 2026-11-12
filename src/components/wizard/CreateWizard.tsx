@@ -1,5 +1,6 @@
 "use client";
 
+import { EVENT_DEFAULTS } from "@/lib/event-defaults";
 import { TypeIcon } from "./TypeIcon";
 import { thumb } from "@/lib/thumb";
 import { sfx } from "@/lib/sfx";
@@ -377,6 +378,16 @@ export function CreateWizard({
 
   const pre = prefill?.inputs as Partial<BannerInputs> | undefined;
   const [inp, setInp] = useState<BannerInputs>({ ...EMPTY_INPUTS, language: locale === "es" ? "Español" : "English", ...(myGamertag && initialLayout === "PLAYER" ? { name: myGamertag } : {}), ...(pre ?? {}) });
+  // Event styles copied from the owner's flyers: picking one fills the form with that flyer's exact texts.
+  const [eventFilled, setEventFilled] = useState<string | null>(null);
+  useEffect(() => {
+    if (layout !== "EVENT" || !tpl?.slug || tpl.slug === eventFilled) return;
+    const d = EVENT_DEFAULTS[tpl.slug];
+    if (!d) return;
+    setEventFilled(tpl.slug);
+    setInp((prev) => ({ ...prev, headline: "", name: "", subtitle: "", rule: "", ruleNote: "", date: "", details: "", prize: "", entry: "", footer: "", ...d }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout, tpl?.slug]);
   const set = <K extends keyof BannerInputs>(k: K, v: BannerInputs[K]) => setInp((x) => ({ ...x, [k]: v }));
   // Player card: the player's own gamertag (from Profile) is filled in as the name when the box is empty.
   useEffect(() => {
@@ -1374,20 +1385,20 @@ export function CreateWizard({
 
           {layout === "EVENT" && (
             <>
-              {field({ label: L.headline, k: "headline", req: true, max: 30, ph: "$100 WINNER" })}
+              {field({ label: L.headline, k: "headline", req: true, max: 40, ph: "$100 WINNER" })}
               {field({ label: L.title, k: "name", ph: "1v1 Ultimate Team" })}
               {field({ label: L.subtitle, k: "subtitle", ph: "Afterhours x Semental" })}
               {field({ label: L.rule, k: "rule", max: 30, ph: "GIANTS ONLY" })}
               {field({ label: L.ruleNote, k: "ruleNote", max: 60, ph: "Must be max height and max weight" })}
               <div className="grid grid-cols-2 gap-3">
                 {field({ label: L.date, k: "date", max: 30, ph: "November 6th" })}
-                {field({ label: L.details, k: "details", max: 48, ph: "7:00PM PST · 10:00PM EST" })}
+                {field({ label: L.details, k: "details", max: 120, ph: "7:00PM PST · 10:00PM EST" })}
               </div>
               <div className="grid grid-cols-2 gap-3">
-                {field({ label: L.prize, k: "prize", max: 24, ph: "$500 PRIZE POOL" })}
+                {field({ label: L.prize, k: "prize", max: 40, ph: "$500 PRIZE POOL" })}
                 {field({ label: L.entry, k: "entry", max: 24, ph: "$10 ENTRY" })}
               </div>
-              {field({ label: L.infoLine, k: "footer", max: 110, ph: L.infoPh })}
+              {field({ label: L.infoLine, k: "footer", max: 200, ph: L.infoPh })}
               <SavedPicker kind="championship" label={L.league} value={champ} onChange={setChamp} />
               <div className="rounded-xl border border-line bg-panel-2/40 p-3">
                 <div className="mb-1 text-[11px] font-bold uppercase tracking-wider text-muted">🤝 {locale === "es" ? "Colaboradores / co-organizadores (opcional)" : "Collaborators / co-organizers (optional)"}</div>

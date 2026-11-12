@@ -7473,8 +7473,8 @@ LETTERING (left)
 - Top: the organizer / league logo (if given) small with collaborator logos beside it.
 - The HEADLINE in big white italic bold capitals (y 12–24%) and the event title (if given) in GIANT italic red-to-pink gradient capitals under it (y 24–36%).
 - The DATE in one line of wide white capitals with the date words in red (y 38–42%).
-- THREE DIVISION CARDS in a row (y 46–78%): dark glassy rounded panels, each with a shield badge on top (GOLD, SILVER, BRONZE — plain shields with a small star, no words except what is given), a division name in condensed italic capitals coloured gold / silver / bronze, a big white prize amount and a small red entry line. Fill them from the PRIZE, the entry fee and the info line split on · or / ; if fewer than three items are given, show only that many cards.
-- Under them the accent line in white condensed capitals with key words in gold, and the TIMES / other details in wide white capitals.
+- THREE DIVISION CARDS in a row (y 46–78%): dark glassy rounded panels, each with a shield badge on top (GOLD, SILVER, BRONZE — plain shields with a small star, no words), a division name in condensed italic capitals coloured gold / silver / bronze, a big white prize amount and a small red entry line under it. CARD 1 = the PRIZE text (division name + amount) with the entry fee under it; CARD 2 = the rule text with the rule note under it; CARD 3 = the details text (split on ·: the part before it is the division name + amount, the part after it the red line). A card whose text is not given is left out.
+- Under them the info line in white condensed capitals with key words in gold, and the accent line in wide white capitals.
 
 ${EVENT_FLYER}
 

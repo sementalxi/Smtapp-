@@ -1,3 +1,4 @@
+import { EVENT_DEFAULTS } from "./event-defaults";
 import { textSlotsFor } from "./text-slots";
 // Shared by the admin Style test page and its server-side runner: the sample and the inputs it produces per poster kind.
 export type Sample = {
@@ -119,6 +120,7 @@ export function inputsFor(layout: string, s: Sample, logoCreate: boolean, slug?:
       };
     }
     case "EVENT":
+      if (slug && EVENT_DEFAULTS[slug]) return { ...base, ...EVENT_DEFAULTS[slug], ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}) };
       return { ...base, headline: "TOURNAMENT", name: s.competition, subtitle: s.tagline, date: s.date, details: "8:00 PM · Online", prize: "$500", ...(s.leagueLogo ? { champLogoUrl: s.leagueLogo } : {}) };
     case "STANDINGS":
       return {
