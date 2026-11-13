@@ -74,6 +74,8 @@ export function PayModal({
   subtitle,
   es,
   onFallback,
+  payer,
+  thanks,
 }: {
   open: boolean;
   onClose: () => void;
@@ -86,6 +88,10 @@ export function PayModal({
   es: boolean;
   /** Called when the on-page form isn't available (falls back to Square's page). */
   onFallback: () => void;
+  /** kind "link", open links (many payers): the name the payer typed — the payment is listed under it. */
+  payer?: string;
+  /** kind "link": the line under "Payment complete!" (default: "Thank you! We're on your order."). */
+  thanks?: string;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const card = useRef<SqCard | null>(null);
@@ -98,6 +104,23 @@ export function PayModal({
   const cash = useRef<SqCashApp | null>(null);
   const [wallets, setWallets] = useState({ apple: false, google: false, cash: false });
   const amountRef = useRef("0");
+  // read at pay time, so the callbacks set up when the popup opened always send the name as it is now
+  const payerRef = useRef(payer);
+  useEffect(() => {
+    payerRef.current = payer;
+  }, [payer]);
+  /** kind "link", after a payment: an open link goes to this payer's receipt, a one-payment link reloads as paid. */
+  const afterLink = (receipt?: string) => {
+    try {
+      sessionStorage.removeItem(`kixo_payer_${id}`);
+    } catch {
+      /* ignore */
+    }
+    // Open link whose payment went through but could not be listed (the organizer is told in the live log): stay on
+    // "Payment complete!" — a reload would show the pay button again and invite a second payment.
+    if (!receipt && payerRef.current !== undefined) return;
+    setTimeout(() => (receipt ? window.location.assign(`/pay/${encodeURIComponent(id)}?p=${encodeURIComponent(receipt)}`) : window.location.reload()), 2200);
+  };
   const [adminNote, setAdminNote] = useState("");
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -188,7 +211,7 @@ export function PayModal({
                 style: { layout: "horizontal", color: "gold", shape: "rect", height: 48, tagline: false, label: "paypal" },
                 createOrder: async () => {
                   const r = kind === "link"
-                    ? await fetch(`/api/pay/${encodeURIComponent(id)}/paypal`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ step: "order" }) })
+                    ? await fetch(`/api/pay/${encodeURIComponent(id)}/paypal`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ step: "order", payer: payerRef.current }) })
                     : await fetch("/api/paypal/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id }) });
                   const d = await r.json();
                   if (!d.id) throw new Error(d.detail || d.error || "order failed");
@@ -197,13 +220,14 @@ export function PayModal({
                 onApprove: async (data: { orderID: string }) => {
                   setBusy(true);
                   const r = kind === "link"
-                    ? await fetch(`/api/pay/${encodeURIComponent(id)}/paypal`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ step: "capture", orderId: data.orderID }) })
+                    ? await fetch(`/api/pay/${encodeURIComponent(id)}/paypal`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ step: "capture", orderId: data.orderID, payer: payerRef.current }) })
                     : await fetch("/api/paypal/capture", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: data.orderID }) });
                   const d = await r.json().catch(() => ({}));
                   setBusy(false);
                   if (r.ok && d.ok) {
                     setDone({ credits: d.credits });
-                    setTimeout(() => (kind === "link" ? window.location.reload() : window.location.assign("/credits")), 2200);
+                    if (kind === "link") afterLink(d.receipt);
+                    else setTimeout(() => window.location.assign("/credits"), 2200);
                   } else setErr((es ? "PayPal no completó el pago" : "PayPal didn't complete the payment") + (d.detail ? ` — ${d.detail}` : ""));
                 },
                 onError: (e: unknown) => setErr(`PayPal: ${e instanceof Error ? e.message : String(e)}`),
@@ -269,7 +293,7 @@ export function PayModal({
     setErr("");
     try {
       const r = kind === "link"
-        ? await fetch(`/api/pay/${encodeURIComponent(id)}/charge`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sourceId: token }) })
+        ? await fetch(`/api/pay/${encodeURIComponent(id)}/charge`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sourceId: token, payer: payerRef.current }) })
         : await fetch("/api/square/pay", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, sourceId: token, wallet }) });
       const d = await r.json().catch(() => ({}));
       try {
@@ -279,7 +303,7 @@ export function PayModal({
       }
       if (r.ok && d.ok) {
         setDone({ credits: d.credits, pending: d.pending, renews: d.renews });
-        if (kind === "link") setTimeout(() => window.location.reload(), 2200);
+        if (kind === "link") afterLink(d.receipt);
         else setTimeout(() => window.location.assign("/credits"), d.pending ? 4500 : 2200);
       } else {
         setErr(
@@ -287,6 +311,10 @@ export function PayModal({
             ? (es ? "La tarjeta fue rechazada. Prueba con otra." : "The card was declined. Try another one.") + (d.detail ? ` (${d.detail})` : "")
             : d.error === "already_paid"
               ? es ? "Este pedido ya está pagado." : "This order is already paid."
+            : d.error === "name_required"
+              ? es ? "Escribe tu nombre o equipo antes de pagar." : "Type your name or team before paying."
+            : d.error === "closed"
+              ? es ? "Este enlace ya está cerrado." : "This link is closed."
             : d.error === "already_subscribed"
               ? es ? "Ya tienes una suscripción activa." : "You already have an active subscription."
               : (es ? "No se pudo completar el pago" : "Payment couldn't be completed") + (d.detail ? ` — ${d.detail}` : ""),
@@ -309,7 +337,7 @@ export function PayModal({
             <div className="font-display mt-4 text-3xl">{es ? "¡Pago completado!" : "Payment complete!"}</div>
             <p className="mt-1 text-sm text-muted">
               {kind === "link"
-                ? es ? "¡Gracias! Ya estamos con tu pedido." : "Thank you! We're on your order."
+                ? thanks ?? (es ? "¡Gracias! Ya estamos con tu pedido." : "Thank you! We're on your order.")
                 : done.pending
                 ? es ? `Tu plan está activo. Tus ${done.credits} créditos llegan en unos segundos…` : `Your plan is active. Your ${done.credits} credits arrive in a few seconds…`
                 : es ? `+${done.credits} créditos agregados a tu cuenta` : `+${done.credits} credits added to your account`}

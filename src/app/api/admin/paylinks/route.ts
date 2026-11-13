@@ -11,13 +11,15 @@ const Body = z.object({
   amount: z.coerce.number().min(0.5).max(10000),
   customer: z.string().trim().max(120).default(""),
   note: z.string().trim().max(500).default(""),
+  /** true: open for everyone — many people can pay it and it stays open (entry fees, tournaments). */
+  multi: z.boolean().default(false),
 });
 
 export const POST = handle(async (req: NextRequest) => {
   const me = await apiAdmin();
   const b = Body.parse(await req.json());
   const link = await db.payLink.create({
-    data: { id: newPayLinkId(), title: b.title, description: b.description, amountCents: Math.round(b.amount * 100), customer: b.customer, note: b.note, createdById: me.id },
+    data: { id: newPayLinkId(), title: b.title, description: b.description, amountCents: Math.round(b.amount * 100), customer: b.customer, note: b.note, multi: b.multi, createdById: me.id },
   });
   return json({ link, url: payUrl(link.id) });
 });

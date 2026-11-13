@@ -326,6 +326,8 @@ model PayLink {
   customer    String    @default("") // who it's for (name / Discord) — shown on the page
   note        String    @default("") // private note for the admin
   status      String    @default("open") // "open" | "paid" | "canceled"
+  /// Open link: many people can pay it. It stays open after a payment and every payment is listed (PayLinkPayment).
+  multi       Boolean   @default(false)
   provider    String    @default("")
   providerRef String    @default("") // last checkout (Square order id / Stripe session id)
   paidRef     String    @default("")
@@ -334,6 +336,23 @@ model PayLink {
   createdAt   DateTime  @default(now())
 
   @@index([createdAt])
+}
+
+/// One payment of an open (multi) payment link: who paid, how much, when. Also the payer's receipt (kixo.pro/pay/<link>?p=<id>).
+model PayLinkPayment {
+  id          String   @id @default(cuid())
+  linkId      String
+  /// One row per payment: "sq_<payment id>" (card / wallet on the page), "pp_<capture id>" (PayPal),
+  /// "sqo_<order id>" / "st_<session id>" (the provider's own checkout page), "manual_<id>" (added by an admin).
+  ref         String   @unique
+  status      String   @default("paid") // "paid" | "pending" (a checkout page was opened, not paid yet) | "removed" (an admin took it off the list)
+  amountCents Int
+  payer       String   @default("") // the name the payer typed (team / gamertag)
+  provider    String   @default("")
+  createdAt   DateTime @default(now())
+  paidAt      DateTime?
+
+  @@index([linkId, createdAt])
 }
 
 /// Logo maker: one request → 5 logo options. Players see watermarked previews; only the one they pick is unlocked.

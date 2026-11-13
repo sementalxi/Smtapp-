@@ -51,7 +51,8 @@ async function onPayment(p: SqPayment | undefined) {
   if (!co) return; // not one of our checkout links
   if (co.kind === "custom") {
     // Admin → Payment links: a custom order was paid
-    await (await import("@/lib/paylinks")).markPayLinkPaid(co.productId, `sq_${p.id}`, p.total_money?.amount ?? p.amount_money?.amount);
+    // (an open link counts this checkout once, under its order id — the same id the "check with Square" path uses)
+    await (await import("@/lib/paylinks")).markPayLinkPaid(co.productId, `sq_${p.id}`, p.total_money?.amount ?? p.amount_money?.amount, { checkoutRef: `sqo_${p.order_id}`, provider: "square" });
     return;
   }
   const amountCents = p.total_money?.amount ?? p.amount_money?.amount ?? 0;
