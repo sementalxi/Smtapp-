@@ -369,7 +369,10 @@ export function collectProRefs(opts: {
       url: i.champLogoUrl,
       label:
         layout === "CHAMPIONS"
-          ? "the competition/championship logo. Put it ONLY on the trophy — engraved or embossed on the front of the cup, reproduced faithfully. Do not show it anywhere else and never as a big logo on the poster."
+          ? /\[LEAGUE BADGE\]/.test(opts.instructions ?? "")
+            ? // [LEAGUE BADGE]: the style also shows the competition logo as a small badge at the spots its brief names.
+              "the competition/championship logo. Reproduce it faithfully (same shape, letters, symbols and colours — never redesigned). It goes on the trophy — engraved or embossed on the front of the cup — when this design has a trophy, and it also appears as a SMALL glossy badge exactly where the art director's instructions place it. Nowhere else, and never as a big logo on the poster. If the logo image has a solid background square, ignore the square."
+            : "the competition/championship logo. Put it ONLY on the trophy — engraved or embossed on the front of the cup, reproduced faithfully. Do not show it anywhere else and never as a big logo on the poster."
           : layout === "STANDINGS"
             ? "the LEAGUE / ORGANIZATION logo — THIS image, reference image 1, and no other (the team crests that follow are NOT it) — it MUST appear, in TWO places: (1) crisp and clearly visible beside the title, about 14% of the poster width, as a glossy premium 3D emblem faithful to the reference (same shape, letters, symbols and colours — never redesigned); (2) echoed GIANT behind the table — about 90% of the poster width, centred — faded to roughly 20–25% opacity so it clearly reads through the table rows, blended into the light like a watermark carved in light. If the logo image has a solid background square, ignore the square."
           : layout === "TOTW"

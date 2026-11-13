@@ -3704,6 +3704,268 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back): there the given name / number repeats. No team-name text anywhere.
 - No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow the reference.`,
+  "champ-orbit-gold": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] ORBIT GOLD — a black-and-bronze champions graphic: the crest alone in the middle of a giant ring of lettering.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: near-black, warm bronze-gold and silver-white (the bronze may shift toward the team's main colour when the COLOURS line gives one; the black stays).
+
+SCENE
+- A night stadium almost lost in darkness: the stands and roof trusses barely visible, warm bronze floodlight glints and bokeh at the far left and right, drifting golden-brown smoke and dust, a dark grass pitch along the bottom, heavy fine film grain.
+- THE RING (the signature): the TITLE word repeated end to end around one GIANT circle — about 125% of the poster width, centred on the crest (x 50%, y 50%) — in heavy geometric block capitals, solid bronze-gold with a sandy grain texture, each letter standing upright along the circle (tops pointing outward). The ring is so big that the edges of the poster crop it: only its arcs show, sweeping through all four corners and down both sides.
+- A second, smaller ring of the same word (about 85% of the poster width, same centre) in darker bronze, mostly hidden behind the crest, its letters readable only to the left, to the right and below the crest.
+- NO trophy in this design — the crest is the only hero. (Only when a trophy IMAGE is provided as a reference: stand it small at the crest's lower right, x 68–90%, y 58–80%.)
+[IF PHOTO]- THE PLAYER from the photo stands behind the crest's left shoulder (x 4–40%, y 30–78%), waist-up, calm and proud — same face — lit warm bronze from the side, partly covered by the crest.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. Top centre (x 43–57%, y 3–9%): the COMPETITION LOGO small, in white / silver (only if a competition logo is given; otherwise nothing there).
+2. HEADER LINE (y 12–14%): one row of tiny, very wide letter-spaced techno capitals spread evenly from x 9% to x 91% — the COMPETITION, then the TEAM NAME, then the DATE in bronze-gold at the right end (each only if given; the words of the competition may be spread apart to fill the row).
+3. THE TITLE (x 8–92%, y 16–52%): ENORMOUS ultra-tall condensed capitals with rounded corners and one even stroke width (a tall "pill" grotesque), flat, soft silver-white with a fine grain and a vertical fade that gets darker toward the bottom, glowing softly. The crest covers its lower two thirds.
+4. THE TEAM CREST (x 12–88%, y 24–78%): GIANT, centred, faithful, razor sharp, with a deep drop shadow and a warm rim light — in front of the title and the rings.
+5. SQUAD (x 12–88%, y 82–89%, if given): the names in a thin, elegant geometric sans (written as given, not forced to capitals), white, uniform size, in 2–3 centred rows separated by thin " | " bars; a role in brackets after a name stays as written.
+6. Five small white five-point STARS in a row at the bottom centre (x 40–60%, y 94–96%).
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-chrome-starburst": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] CHROME STARBURST — a purple-and-red esports champions graphic: a 3D chrome title on a spiky purple starburst, the crest and a crowned cup side by side.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: deep violet, electric purple, hot magenta-red glows, white chrome and gold (no team-colour change unless the COLOURS line asks for it).
+
+SCENE
+- A dark violet background of glowing purple energy veins like lightning marble, with two big hot red-magenta light blooms at the middle left and middle right edges, darker toward the corners; red lightning cracks in the bottom corners; purple smoke.
+- Thin HUD line work in lilac (allowed in this style): fine horizontal rules at the very top and bottom, small tick marks, dotted grids and target circles running down both side edges.
+- Two big dark glossy FOOTBALLS wrapped in purple lightning, half faded, in the upper corners (x 2–17%, y 4–17% and x 83–98%, y 4–17%).
+- The team crest repeated once more, small, dark and faded, at the top centre behind the title (x 40–60%, y 5–15%).
+[IF PHOTO]- THE PLAYER from the photo stands between the crest and the cup (x 30–70%, y 36–80%), waist-up, calm and proud — same face — rim-lit purple on one side and red on the other; the crest and the cup overlap their sides.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. THE TITLE (x 7–93%, y 13–36%): MASSIVE heavy italic ultra-condensed capitals, leaning forward and rising slightly to the right — brushed WHITE-SILVER CHROME faces with a soft gradient, a thick glossy PURPLE 3D extrusion going down and to the left, hard highlights — mounted on a big glossy purple 3D STARBURST: long sharp triangular spikes shooting out from behind the word (up-left, up, right and down-left), bevelled, lighter purple on their lit sides.
+2. SUB LINE (x 13–48%, y 37–41%): the COMPETITION in bold italic techno capitals with a lilac-to-violet gradient, a thin white slanted bar, then the TEAM NAME in the same lettering in hot red (each only if given).
+3. THE TEAM CREST (x 10–54%, y 43–80%): big, at the lower left, faithful, with a thick glowing purple-red rim light, overlapping the cup's left side.
+4. THE TROPHY (x 44–88%, y 35–80%): a tall polished SILVER two-handled cup with a jewelled GOLD CROWN as its lid, gold bands, clear glass-like handles and a black base carrying a small brass plaque (engraved with the COMPETITION if given, otherwise blank); the competition logo large on the front of the cup (if given). (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
+5. A narrow vertical glassy lilac PANEL at the right (x 85–95%, y 62–79%): the team crest small at its top and the competition logo small at its bottom (the logo only if given).
+6. SQUAD (x 12–88%, y 81–93%, if given): the names in a sharp white gothic / blackletter-flavoured display face (written as given), uniform size, in 3–4 centred rows separated by thin lilac " | " bars.
+7. Two TINY letter-spaced repeats of the TEAM NAME as HUD tags — at the right edge (y 58%) and at the bottom centre (y 96%) — only if a team name is given.
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-yellow-crown": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] YELLOW CROWN — a bright yellow-black-white grunge champions graphic: a giant grainy yellow title, the crest on the left and a crowned silver cup on the right.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: off-white / light grey paper, pure black, strong yellow and gold (the yellow becomes the team's main colour when the COLOURS line gives one).
+
+SCENE
+- A LIGHT background (this style is bright): off-white grunge paper and concrete with scratches, halftone dots and torn edges; bold black and yellow paint strokes and splashes crossing diagonally; black angular shapes at the top left and down the right side; a grey stadium photo faintly printed across the lower half; yellow-and-black diagonal hazard stripes in the bottom-left corner.
+- A strong yellow light haze glowing behind the title, the crest and the cup.
+[IF PHOTO]- THE PLAYER from the photo stands between the crest and the cup (x 30–70%, y 30–80%), waist-up, calm and proud — same face — with a yellow rim light; the crest and the cup overlap their sides.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. A small black five-point star at the top centre (y 5%).
+2. EYEBROW (x 26–74%, y 7–10%): the TEAM NAME, a short dash, the COMPETITION — black bold squared techno capitals (wide, rounded-square letterforms), each only if given.
+3. THE TITLE (x 6–86%, y 11–40%): GIGANTIC ultra-condensed heavy capitals in bright YELLOW with a gritty grain / halftone texture and worn edges, glowing; a darker ochre offset copy of the first letters peeks out at its left edge; the crest and the cup cover its lower half.
+4. At the right end of the title (x 87–93%, y 15–37%): the TEAM NAME once more, rotated 90 degrees reading top to bottom, in ochre block capitals — only when the team name has 8 letters or fewer; otherwise leave this out.
+5. THE TEAM CREST (x 7–56%, y 34–79%): HUGE, on the left, faithful, with a thick glowing golden outline and a deep shadow.
+6. THE TROPHY (x 50–93%, y 25–88%): a tall polished SILVER cup with a big GOLD CROWN on top and gold handles, the competition logo as a gold emblem on its body (if given), long black-and-gold RIBBONS hanging from the handles down past the base, mirror reflections of the yellow light; it stands on the right, its base fading behind the squad lines. (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
+7. SQUAD (x 8–92%, y 80–88%, if given): the names in white squared techno capitals (wide geometric letterforms, uniform size) in 2–3 centred rows separated by yellow " | " bars, on a soft dark smoky band so they read over the light background.
+8. FOOTER ROW (y 91–96%): the TEAM NAME tiny in very wide letter-spaced white capitals at the left (x 8–30%); the competition logo small in the centre (x 44–56%, if given); the COMPETITION tiny in wide capitals right of it (x 60–80%, if given).
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-viking-storm": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] VIKING STORM — an icy-blue storm champions graphic: a framed poster over a blurred copy of itself, a dragon-head longship prow, lightning, the crest on top and a giant slanted white title.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: deep navy, electric ice blue, white and steel grey (the blue becomes the team's main colour when the COLOURS line gives one).
+
+SCENE
+- POSTER IN A POSTER (allowed in this style): the whole design sits inside an upright rectangular panel inset about 4% from every edge. Outside the panel, filling the margins, is a hugely enlarged, heavily BLURRED bright-blue copy of the crest and the title — soft glowing shapes in the corners — with thin white smoke wisps drifting across the panel's edges.
+- Inside the panel: a violent night storm — black-blue thunderclouds, white-blue LIGHTNING bolts, sea spray and driving rain, a dark stone harbour fortress with gates and hanging banners in the lower half, a floodlight tower at the left, wet reflective stone at the bottom.
+- A huge carved wooden LONGSHIP PROW with a snarling DRAGON-HEAD figurehead and knotwork carvings rises at the left (x 14–34%, y 8–60%), dark and wet, rim-lit by the lightning; a mast and rigging silhouette behind the crest. It is a carved wooden figurehead, not a living creature — this style asks for it.
+- The TEAM NAME as a giant faded echo in blue block capitals behind the crest (x 10–90%, y 13–30%), only if a team name is given.
+[IF PHOTO]- THE PLAYER from the photo stands at the right of the crest (x 56–92%, y 22–62%), waist-up, calm and proud — same face — soaked in blue light with a white rim light from the lightning.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. Top (y 5–7%): the TEAM NAME tiny in very wide letter-spaced white capitals, centred; right under it (x 44–56%, y 8–12%) the competition logo small (if given).
+2. THE TEAM CREST (x 22–78%, y 13–60%): GIANT, top centre, faithful, with a glowing ice-blue rim light and lightning striking behind it.
+3. THE TITLE (x 10–90%, y 54–78%): ENORMOUS heavy italic condensed capitals, slanted and rising about 6 degrees to the right, WHITE with a grey storm-cloud photo texture inside the letters, sharp edges and a soft blue glow; it overlaps the bottom of the crest.
+4. SUB LINE (x 18–82%, y 76–80%): the COMPETITION, a dash, the TEAM NAME — bright blue italic condensed capitals with a scratched texture, on the same slant (each only if given).
+5. SQUAD (x 12–88%, y 81–89%, if given): the names in a white wide geometric sans (written as given), uniform size, in 3–4 centred rows separated by thin " | " bars; role words written in the list (such as DT or SUB DT) in light blue.
+6. DATE (y 91–93%, if given): tiny wide letter-spaced white capitals between two thin blue lines, centred.
+- NO trophy in this design — the crest is the hero. (Only when a trophy IMAGE is provided as a reference: stand it at the crest's right, x 62–92%, y 26–62%.)
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-blood-moon": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] BLOOD MOON — a black-and-white horror-night champions graphic splashed with blood red: a chrome cup behind the crest and a colossal white title.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: black, white, greys and blood red only (the crest keeps its own colours).
+
+SCENE
+- A black-and-white grunge COLLAGE: torn newsprint with no readable words, cracked glass lines, scratched film, heavy iron chains and barbed wire, bare dead branches, a pale full MOON behind clouds at the top, dark red ROSES at the left edge and in the bottom-right area, blood-red paint drips running down from the top edge, drifting red smoke.
+- White stadium floodlights flaring at the middle left and middle right; a dark wet pitch along the bottom with red reflections.
+- A thin grey circular line emblem with a small crown on top, faint, behind the crest at the top centre.
+- NO people, masks, faces, dolls or film characters anywhere — the horror mood comes only from the moon, the branches, the chains, the roses and the red.
+[IF PHOTO]- THE PLAYER from the photo stands at the right of the crest (x 60–96%, y 16–56%), waist-up, calm and cold — same face — in black and white with a red rim light.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. THE TROPHY (x 14–46%, y 12–52%): a tall modern polished CHROME trophy — a flared cone that widens toward the top, on a ribbed stem — in black and white with hard reflections, the competition logo on a round disc at its centre (if given); it stands behind and to the left of the crest. (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
+2. THE TEAM CREST (x 30–80%, y 10–52%): big, upper centre-right, in front of the trophy, faithful, with a bright white rim glow.
+3. SUB LINE (x 22–78%, y 50–54%): the TEAM NAME, a thin vertical bar, the COMPETITION — white bold italic wide techno capitals (each only if given).
+4. THE TITLE (x 5–95%, y 54–81%): COLOSSAL ultra-condensed heavy italic capitals rising slightly to the right, WHITE with a cloudy smoke photo texture and fine scratches, red smoke glowing behind the letters.
+5. SQUAD (x 10–90%, y 83–90%, if given): the names in white squared techno capitals, uniform size, in 2–3 centred rows separated by red " | " bars; tags in brackets such as (C) or (MVP) in red when they are written in the list.
+6. FOOTER: a black band along the bottom (y 92–100%) with the COMPETITION tiny in very wide letter-spaced white capitals at the left (x 8–32%, if given) and the competition logo small in the centre (x 44–56%, if given).
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-gothic-chrome": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] GOTHIC CHROME — a black-and-gold champions graphic: the team shirt and a crowned cup above a gigantic gothic chrome-and-gold title.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: black, rich gold, amber and polished silver (the shirt takes the team's colours when the COLOURS line gives them; the gold stays).
+
+SCENE
+- A black background exploding with GOLD: gold dust clouds, flakes, glitter and sparks, diagonal black-and-gold shards, a dark gold-lit stadium structure far behind.
+- The TEAM NAME as GIANT cropped distressed gold capitals across the upper background (x 0–100%, y 6–36%), half hidden by the shirt and the cup (only if a team name is given).
+[IF PHOTO]- THE PLAYER from the photo takes the place of the floating shirt (x 3–58%, y 10–63%): waist-up, calm and proud — same face, wearing the kit from their photo — with a gold rim light. The floating shirt of layout point 2 is left out; everything else stays the same.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. Top centre (x 42–58%, y 4–12%): the TEAM CREST small, lit gold.
+2. THE SHIRT (x 3–58%, y 13–63%): the team's football shirt seen from the front, floating, photographed like a product shot (real fabric, stitching and folds): black with gold trim and a faint tonal pattern, the crest on the chest, and across the chest the TITLE in gold serif capitals with the COMPETITION small under it (if given). NO sportswear brand logo, stripes or maker's mark of any kind on it.
+3. THE TROPHY (x 50–98%, y 5–63%): a polished SILVER cup with a big GOLD CROWN on top and gold handles, the competition logo as a gold emblem on its body (if given), black-and-gold ribbons hanging from the handles; beside the shirt and slightly behind it. (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
+4. THE TITLE (x 3–97%, y 56–79%): GIGANTIC gothic display capitals with pointed spurs and diamond notches (blackletter-inspired but clearly readable), real 3D: liquid CHROME faces reflecting gold and orange light, thick polished GOLD bevels and extrusion, star glints on the corners; it overlaps the bottoms of the shirt and the cup.
+5. SUB LINE (x 24–76%, y 79–84%): the COMPETITION, a dash, the TEAM NAME — a golden-yellow italic gothic script with a dark outline (each only if given).
+6. SQUAD (x 9–91%, y 85–92%, if given): the names in light-grey clean sans capitals, uniform size, in 2–3 centred rows separated by gold " | " bars; a note after a dash stays as written.
+7. Bottom centre (x 44–56%, y 93–97%): the competition logo small in gold (if given).
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-purple-storm": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] PURPLE STORM — a violet thunderstorm champions graphic: a blocky white tech title, a big silver cup on the left and the crest giant on the right.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: deep violet, electric purple, white, silver and small gold accents (the purple becomes the team's main colour when the COLOURS line gives one).
+
+SCENE
+- A night stadium inside a violent PURPLE storm: violet thunderclouds, white-violet lightning, rows of floodlights at both sides, radial light rays fanning out from the top centre, a wet reflective purple ground with debris along the bottom.
+- A big polished silver RING with a small star at its top behind the title (x 26–74%, y 2–34%), and metallic silver-purple laurel branches and blade shapes flanking the centre.
+- Gold and purple confetti shards flying at every depth, some blurred in the foreground.
+[IF PHOTO]- THE PLAYER from the photo stands between the cup and the crest (x 26–62%, y 28–80%), waist-up, calm and proud — same face — with a purple rim light; the crest overlaps their right side.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. EYEBROW (x 18–82%, y 8–11%): the TEAM NAME, a dash, the COMPETITION — gold-orange wide techno capitals (each only if given).
+2. THE TITLE (x 7–93%, y 12–28%): big BLOCKY tech / stencil display capitals (squared letterforms with cut notches), WHITE with a cracked purple marble texture and chipped edges, a strong purple outer glow.
+3. THE TROPHY (x 2–38%, y 30–86%): a big polished SILVER cup with two large curved handles, at the left, the competition logo on its body (if given) and long ribbons in the poster's colour hanging from one handle; slightly cropped by the left edge, reflected in the wet ground. (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
+4. THE TEAM CREST (x 30–98%, y 27–80%): GIANT, right of centre, faithful, with a glowing purple rim light, overlapping the cup's right side.
+5. SQUAD (x 12–88%, y 80–88%, if given): the names in white squared stencil capitals, uniform size, in 2–3 centred rows separated by thin purple " | " bars, over the wet ground.
+6. Bottom centre (x 42–58%, y 89–95%): the competition logo small (if given).
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
+  "champ-marble-wings": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] MARBLE WINGS — a bright white-marble-and-gold champions graphic: giant marble wings and a gold ring above, the squad in an orange box under the title, the crest giant at the lower left and the cup on the right.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: white marble, warm gold, burnt orange and dark-brown lettering (this style is bright; the orange may shift toward the team's main colour when the COLOURS line gives one).
+
+SCENE
+- A bright white-and-gold marble ARENA: arches, columns and stands glowing in warm golden light, a cracked white marble floor with glowing gold lightning veins, fire glow and flying sparks low at both sides.
+- At the top: a big thin GOLD RING with a Greek-key engraving (x 6–94%, y 1–62%) and two GIANT white marble feathered WINGS spreading from the top centre out to both upper corners. This style asks for the wings — wings only: no bird, no eagle, no head or body.
+[IF PHOTO]- THE PLAYER from the photo stands between the crest and the cup (x 34–72%, y 38–90%), waist-up, calm and proud — same face — in warm golden light; the crest overlaps their left side.[/IF PHOTO]
+
+LAYOUT (portrait, top to bottom)
+1. Top centre (x 42–58%, y 2–9%): the competition logo small between two short thin dark lines (only if given).
+2. EYEBROW (x 14–86%, y 11–14%): the TEAM NAME, a dash, the COMPETITION — black squared stencil capitals, letter-spaced (each only if given).
+3. THE TITLE (x 5–95%, y 15–31%): big squared tech / stencil capitals in translucent burnt ORANGE-GOLD with a marble texture, golden laurel sprigs overlapping the lower left and lower right corners of the word.
+4. SQUAD BOX (x 8–92%, y 31–39%, if a squad is given): a translucent orange panel holding the names in dark-brown squared stencil capitals, uniform size, in 3–4 centred rows separated by thin " | " bars. No box when no squad is given.
+5. THE TEAM CREST (x 2–64%, y 39–96%): GIANT, at the lower left, faithful, with gold sparks and small gold lightning around it and a real shadow on the marble.
+6. THE TROPHY (x 56–97%, y 40–93%): a polished silver-and-gold cup with two large curved handles, on the right, the competition logo on its body (if given), long dark-and-gold ribbons hanging from one handle, mirror reflections of the golden light. (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
+
+EXTRA GLOW (turned up)
+- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+
+QUALITY (most important — this is what makes it pro)
+- It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
+- Layered depth: background scene → giant faded lettering → the centrepiece → the title → the information lines → foreground particles slightly out of focus. No big empty areas.
+- The team crest stays faithful to its artwork (same shape, letters, symbols and colours) — the user's own crest, never redrawn wrong, never replaced by another club's emblem or mascot. If no crest is given, the TEAM NAME stands in its place as a big 3D metal emblem.
+- No people, faces or figures unless a player photo is given.
+
+TEXT
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-kit-cup": `[OWN LOOK] KIT & CUP — a fiery championship graphic built around the team's shirt and the cup.
 
 SCENE
