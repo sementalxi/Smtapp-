@@ -1,6 +1,6 @@
 import sharp from "sharp";
-import { createHash } from "crypto";
 import { db } from "./db";
+import { refPaletteKey } from "./ref-palette-key";
 import { loadBytes } from "./storage";
 
 function hsl(r: number, g: number, b: number) {
@@ -73,7 +73,7 @@ export function colourLineFor(cols: RefColour[]): string {
   return `COLOURS (read from the reference image — match these exactly): ${cols.map((c) => `${c.name} (${c.hex}, about ${c.share}% of it${c.role === "vivid" ? ", an accent" : c.role === "dark" ? ", the base" : ", the light"})`).join("; ")}.${vivid.length ? ` The main colour is ${vivid[0].name}.` : ""}`;
 }
 
-const cacheKey = (url: string) => `refpal:${createHash("sha1").update(url).digest("hex").slice(0, 24)}`;
+const cacheKey = refPaletteKey;
 
 /**
  * Marks a reference image as one that gets NO colours line: one of the style's OWN posters used as its reference.

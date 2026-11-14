@@ -44,6 +44,11 @@ TEXT RULES
 - The league logo appears only where this brief puts it; never redraw it as something else, never write its letters out as text elsewhere.
 - Ignore the placement hints in the text list below — follow this brief.`;
 
+// Champions styles copied from one of the owner's own champions flyers: the flyer itself — the other team's crest and
+// every logo and mark blurred out — is the style's reference image (public/refs/<slug>.jpg, set by prisma/seed.ts,
+// "champs_v2_flyer_refs"), and [EXACT REF] makes every poster the same design with the customer's crest and texts.
+const CHAMP_FLYER_REF = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the champions flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this poster. Change ONLY two things: the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (the given team crest stands exactly where the flyer's big blurred emblem is, at that size; the given competition logo where the notes below put it — otherwise nothing there). When a player photo is given, the player is added as the notes below say; nothing else moves. The grey blurred areas in the reference are its removed crest, logos and marks: never reconstruct, trace or imitate what was there, and never paint a blur or a grey patch — a blurred spot that gets nothing from the notes below simply continues the scene around it. Never copy the flyer's names, words, numbers, emblems, mascots, characters or logos. The notes below are the map of that flyer (what each part is and what goes there); where they and the flyer differ in look, the flyer wins. The one change to the look: MORE GLOW (see EXTRA GLOW).`;
+
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
   "player-pink-stadium": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] PINK STADIUM — a pink-purple stadium card: a big portrait looking up with both hands pointing to the sky, a running figure with arms wide in front, the NAME in giant white-pink 3D block letters and a thin pink script under it. Joyful, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
@@ -3704,7 +3709,9 @@ TEXT RULES
 - Use ONLY the texts given (name, number, position, tagline, subtitle, footer), spelled letter for letter. Never invent words, ratings, sponsors, brand names, stickers, "original content" labels, watermarks, game logos, years or legal text. Each item is written once — except where the reference repeats the NAME or the NUMBER as part of the design (giant background letters, a shirt back): there the given name / number repeats. No team-name text anywhere.
 - No animals or mascots unless they are part of the provided crest.
 - Ignore the placement hints in the text list below — follow the reference.`,
-  "champ-orbit-gold": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] ORBIT GOLD — a black-and-bronze champions graphic: the crest alone in the middle of a giant ring of lettering.
+  "champ-orbit-gold": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] ORBIT GOLD — a black-and-bronze champions graphic: the crest alone in the middle of a giant ring of lettering.
+
+${CHAMP_FLYER_REF}
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3737,7 +3744,9 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-chrome-starburst": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] CHROME STARBURST — a purple-and-red esports champions graphic: a 3D chrome title on a spiky purple starburst, the crest and a crowned cup side by side.
+  "champ-chrome-starburst": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] CHROME STARBURST — a purple-and-red esports champions graphic: a 3D chrome title on a spiky purple starburst, the crest and a crowned cup side by side.
+
+${CHAMP_FLYER_REF}
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3771,7 +3780,9 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-yellow-crown": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] YELLOW CROWN — a bright yellow-black-white grunge champions graphic: a giant grainy yellow title, the crest on the left and a crowned silver cup on the right.
+  "champ-yellow-crown": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] YELLOW CROWN — a bright yellow-black-white grunge champions graphic: a giant grainy yellow title, the crest on the left and a crowned silver cup on the right.
+
+${CHAMP_FLYER_REF}
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3804,7 +3815,9 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-viking-storm": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] VIKING STORM — an icy-blue storm champions graphic: a framed poster over a blurred copy of itself, a dragon-head longship prow, lightning, the crest on top and a giant slanted white title.
+  "champ-viking-storm": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] VIKING STORM — an icy-blue storm champions graphic: a framed poster over a blurred copy of itself, a dragon-head longship prow, lightning, the crest on top and a giant slanted white title.
+
+${CHAMP_FLYER_REF}
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3838,7 +3851,11 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-blood-moon": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] BLOOD MOON — a black-and-white horror-night champions graphic splashed with blood red: a chrome cup behind the crest and a colossal white title.
+  "champ-blood-moon": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] BLOOD MOON — a black-and-white horror-night champions graphic splashed with blood red: a chrome cup behind the crest and a colossal white title.
+
+${CHAMP_FLYER_REF}
+
+In this flyer's reference large parts of the upper background are blurred too (removed figures): fill them with the collage described in SCENE — never a figure, a mask or a face.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3871,7 +3888,11 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-gothic-chrome": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] GOTHIC CHROME — a black-and-gold champions graphic: the team shirt and a crowned cup above a gigantic gothic chrome-and-gold title.
+  "champ-gothic-chrome": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] GOTHIC CHROME — a black-and-gold champions graphic: the team shirt and a crowned cup above a gigantic gothic chrome-and-gold title.
+
+${CHAMP_FLYER_REF}
+
+On this flyer's reference the shirt has blurred spots too (its removed maker's mark, badge, collar label and shoulder trim): there the shirt is as layout point 2 says — the given crest on the chest, plain gold trim, no maker's mark.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3903,7 +3924,11 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-purple-storm": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] PURPLE STORM — a violet thunderstorm champions graphic: a blocky white tech title, a big silver cup on the left and the crest giant on the right.
+  "champ-purple-storm": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] PURPLE STORM — a violet thunderstorm champions graphic: a blocky white tech title, a big silver cup on the left and the crest giant on the right.
+
+${CHAMP_FLYER_REF}
+
+The blurred band down this reference's lower right edge and the patch in its bottom-left corner were screen icons — plain scene there.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -3935,7 +3960,11 @@ QUALITY (most important — this is what makes it pro)
 TEXT
 - All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
-  "champ-marble-wings": `[FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] MARBLE WINGS — a bright white-marble-and-gold champions graphic: giant marble wings and a gold ring above, the squad in an orange box under the title, the crest giant at the lower left and the cup on the right.
+  "champ-marble-wings": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] MARBLE WINGS — a bright white-marble-and-gold champions graphic: giant marble wings and a gold ring above, the squad in an orange box under the title, the crest giant at the lower left and the cup on the right.
+
+${CHAMP_FLYER_REF}
+
+The two blurred circles in this reference's bottom corners were screen icons — plain scene there.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
 
@@ -9483,6 +9512,15 @@ TEXT RULES
  * matter which earlier version is in the database. Raise the number with every later change to that brief.
  */
 export const PRESET_REVISIONS: Record<string, number> = {
+  // The owner's own champions flyers became these styles' reference images: [EXACT REF] + STYLE REFERENCE (14 Nov)
+  "champ-orbit-gold": 1,
+  "champ-chrome-starburst": 1,
+  "champ-yellow-crown": 1,
+  "champ-viking-storm": 1,
+  "champ-blood-moon": 1,
+  "champ-gothic-chrome": 1,
+  "champ-purple-storm": 1,
+  "champ-marble-wings": 1,
   // More glow, the faded team crest behind, the 3D title built into the scene (owner, 12 Nov); 2 = max glow + [CREST 3D] crest built into the scene
   "player-lacquer-script": 2,
   "player-meteor-crown": 2,

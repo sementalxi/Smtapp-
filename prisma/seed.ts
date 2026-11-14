@@ -6,6 +6,7 @@ import { SETTING_DEFAULTS } from "../src/lib/settings";
 import { PRESET_INSTRUCTIONS, PRESET_PREVIOUS, PRESET_REVISIONS, stripSmallTeamName } from "../src/lib/style-presets";
 import { DEFAULT_PRICING } from "../src/lib/pricing";
 import { siteUrl } from "../src/lib/email-template";
+import { refPaletteKey } from "../src/lib/ref-palette-key";
 import { syncAllTwins } from "../src/lib/qualifiers-twins";
 
 const db = new PrismaClient();
@@ -99,6 +100,19 @@ async function main() {
     const text = PRESET_INSTRUCTIONS[slug];
     if (text) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
     await db.setting.upsert({ where: { key }, create: { key, value: String(rev) }, update: { value: String(rev) } });
+  }
+  // One-time (owner's request, 14 Nov): the owner's own champions flyers — the other teams' crests and every logo and
+  // mark blurred out (public/refs/<slug>.jpg) — are the reference image of the eight styles copied from them. They
+  // take the place of the reference the preview round made from the brief alone. Each is marked "no measured
+  // colours" first: its blurred areas would skew a measured palette, and the brief names the flyer's colours.
+  if (!(await db.setting.findUnique({ where: { key: "champs_v2_flyer_refs" } }))) {
+    for (const slug of ["champ-orbit-gold", "champ-chrome-starburst", "champ-yellow-crown", "champ-viking-storm", "champ-blood-moon", "champ-gothic-chrome", "champ-purple-storm", "champ-marble-wings"]) {
+      const url = `${siteUrl()}/refs/${slug}.jpg`;
+      const key = refPaletteKey(url);
+      await db.setting.upsert({ where: { key }, create: { key, value: "-" }, update: { value: "-" } });
+      await db.template.updateMany({ where: { slug }, data: { styleRefUrl: url } });
+    }
+    await db.setting.create({ data: { key: "champs_v2_flyer_refs", value: new Date().toISOString() } });
   }
   // One-time (owner's request): Neon Gothic — no giant white repeat of the name behind the gothic name.
   if (!(await db.setting.findUnique({ where: { key: "neon_gothic_no_white_echo" } }))) {

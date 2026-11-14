@@ -143,12 +143,12 @@ const BATCHES: Batch[] = [
     redo: { "event-star-badge": "*", "event-badge-trio": "*", "event-purple-schedule": "*", "event-trophy-duel": "*", "event-division-tiers": "*", "event-trophy-welcome": "*", "event-chrome-season": "*", "event-mega-purple": "*", "event-magazine-desk": "*", "event-marquee-winner": "*", "event-knight-dungeon": "*" },
     slugs: ["event-star-badge", "event-badge-trio", "event-purple-schedule", "event-trophy-duel", "event-division-tiers", "event-trophy-welcome", "event-chrome-season", "event-mega-purple", "event-magazine-desk", "event-marquee-winner", "event-knight-dungeon"],
   },
-  // Eight Champions styles from the owner's champions flyers (they were added without pictures — the owner did not
-  // want to spend credit then, and asked for them afterwards): one poster each with the test crest becomes the
-  // style's preview and its reference image, as for the recent player and event styles. No other style is touched.
+  // Eight Champions styles from the owner's own champions flyers (they were added without pictures — the owner did
+  // not want to spend credit then, and asked for them afterwards): one poster each with the test crest becomes the
+  // style's preview. No other style is touched. Not `ref`: the reference image of these eight is the owner's flyer
+  // itself (public/refs/<slug>.jpg, set by the seed — "champs_v2_flyer_refs"), never one of these posters.
   {
     key: "auto_previews_champs_v2",
-    ref: true,
     parallel: 4,
     retries: 1,
     slugs: ["champ-orbit-gold", "champ-chrome-starburst", "champ-yellow-crown", "champ-viking-storm", "champ-blood-moon", "champ-gothic-chrome", "champ-purple-storm", "champ-marble-wings"],
