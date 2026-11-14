@@ -47,7 +47,7 @@ TEXT RULES
 // Champions styles copied from one of the owner's own champions flyers: the flyer itself — the other team's crest and
 // every logo and mark blurred out — is the style's reference image (public/refs/<slug>.jpg, set by prisma/seed.ts,
 // "champs_v2_flyer_refs"), and [EXACT REF] makes every poster the same design with the customer's crest and texts.
-const CHAMP_FLYER_REF = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the champions flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this poster. Change ONLY two things: the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (the given team crest stands exactly where the flyer's big blurred emblem is, at that size; the given competition logo where the notes below put it — otherwise nothing there). When a player photo is given, the player is added as the notes below say; nothing else moves. The grey blurred areas in the reference are its removed crest, logos and marks: never reconstruct, trace or imitate what was there, and never paint a blur or a grey patch — a blurred spot that gets nothing from the notes below simply continues the scene around it. Never copy the flyer's names, words, numbers, emblems, mascots, characters or logos. The notes below are the map of that flyer (what each part is and what goes there); where they and the flyer differ in look, the flyer wins. The one change to the look: MORE GLOW (see EXTRA GLOW).`;
+const CHAMP_FLYER_REF = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the champions flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this poster. Change ONLY two things: the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (the given team crest stands exactly where the flyer's big blurred emblem is, at that size; the given competition logo where the notes below put it — otherwise nothing there). When a player photo is given, the player is added as the notes below say; nothing else moves. The grey blurred areas in the reference are its removed crest, logos and marks: never reconstruct, trace or imitate what was there, and never paint a blur or a grey patch — a blurred spot that gets nothing from the notes below simply continues the scene around it. Never copy the flyer's names, words, numbers, emblems, mascots, characters or logos. The notes below are the map of that flyer (what each part is and what goes there); where they and the flyer differ in look, the flyer wins. The only changes to the look are the owner's standard for champions posters: MORE GLOW, MORE PARTICLES and the team crest once more, giant and faded, in the background (see EXTRA GLOW & PARTICLES and the USER CHOICES).`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
   "player-pink-stadium": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] PINK STADIUM — a pink-purple stadium card: a big portrait looking up with both hands pointing to the sky, a running figure with arms wide in front, the NAME in giant white-pink 3D block letters and a thin pink script under it. Joyful, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
@@ -3732,8 +3732,10 @@ LAYOUT (portrait, top to bottom)
 5. SQUAD (x 12–88%, y 82–89%, if given): the names in a thin, elegant geometric sans (written as given, not forced to capitals), white, uniform size, in 2–3 centred rows separated by thin " | " bars; a role in brackets after a name stays as written.
 6. Five small white five-point STARS in a row at the bottom centre (x 40–60%, y 94–96%).
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3742,7 +3744,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-chrome-starburst": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] CHROME STARBURST — a purple-and-red esports champions graphic: a 3D chrome title on a spiky purple starburst, the crest and a crowned cup side by side.
 
@@ -3768,8 +3770,10 @@ LAYOUT (portrait, top to bottom)
 6. SQUAD (x 12–88%, y 81–93%, if given): the names in a sharp white gothic / blackletter-flavoured display face (written as given), uniform size, in 3–4 centred rows separated by thin lilac " | " bars.
 7. Two TINY letter-spaced repeats of the TEAM NAME as HUD tags — at the right edge (y 58%) and at the bottom centre (y 96%) — only if a team name is given.
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3778,7 +3782,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-yellow-crown": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] YELLOW CROWN — a bright yellow-black-white grunge champions graphic: a giant grainy yellow title, the crest on the left and a crowned silver cup on the right.
 
@@ -3803,8 +3807,10 @@ LAYOUT (portrait, top to bottom)
 7. SQUAD (x 8–92%, y 80–88%, if given): the names in white squared techno capitals (wide geometric letterforms, uniform size) in 2–3 centred rows separated by yellow " | " bars, on a soft dark smoky band so they read over the light background.
 8. FOOTER ROW (y 91–96%): the TEAM NAME tiny in very wide letter-spaced white capitals at the left (x 8–30%); the competition logo small in the centre (x 44–56%, if given); the COMPETITION tiny in wide capitals right of it (x 60–80%, if given).
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3813,7 +3819,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-viking-storm": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] VIKING STORM — an icy-blue storm champions graphic: a framed poster over a blurred copy of itself, a dragon-head longship prow, lightning, the crest on top and a giant slanted white title.
 
@@ -3839,8 +3845,10 @@ LAYOUT (portrait, top to bottom)
 6. DATE (y 91–93%, if given): tiny wide letter-spaced white capitals between two thin blue lines, centred.
 - NO trophy in this design — the crest is the hero. (Only when a trophy IMAGE is provided as a reference: stand it at the crest's right, x 62–92%, y 26–62%.)
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3849,7 +3857,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-blood-moon": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] BLOOD MOON — a black-and-white horror-night champions graphic splashed with blood red: a chrome cup behind the crest and a colossal white title.
 
@@ -3876,8 +3884,10 @@ LAYOUT (portrait, top to bottom)
 5. SQUAD (x 10–90%, y 83–90%, if given): the names in white squared techno capitals, uniform size, in 2–3 centred rows separated by red " | " bars; tags in brackets such as (C) or (MVP) in red when they are written in the list.
 6. FOOTER: a black band along the bottom (y 92–100%) with the COMPETITION tiny in very wide letter-spaced white capitals at the left (x 8–32%, if given) and the competition logo small in the centre (x 44–56%, if given).
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3886,7 +3896,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-gothic-chrome": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] GOTHIC CHROME — a black-and-gold champions graphic: the team shirt and a crowned cup above a gigantic gothic chrome-and-gold title.
 
@@ -3912,8 +3922,10 @@ LAYOUT (portrait, top to bottom)
 6. SQUAD (x 9–91%, y 85–92%, if given): the names in light-grey clean sans capitals, uniform size, in 2–3 centred rows separated by gold " | " bars; a note after a dash stays as written.
 7. Bottom centre (x 44–56%, y 93–97%): the competition logo small in gold (if given).
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3922,7 +3934,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-purple-storm": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] PURPLE STORM — a violet thunderstorm champions graphic: a blocky white tech title, a big silver cup on the left and the crest giant on the right.
 
@@ -3948,8 +3960,10 @@ LAYOUT (portrait, top to bottom)
 5. SQUAD (x 12–88%, y 80–88%, if given): the names in white squared stencil capitals, uniform size, in 2–3 centred rows separated by thin purple " | " bars, over the wet ground.
 6. Bottom centre (x 42–58%, y 89–95%): the competition logo small (if given).
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3958,7 +3972,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-marble-wings": `[EXACT REF] [FIXED LAYOUT] [OWN LOOK] [CREST EXACT] [LEAGUE BADGE] MARBLE WINGS — a bright white-marble-and-gold champions graphic: giant marble wings and a gold ring above, the squad in an orange box under the title, the crest giant at the lower left and the cup on the right.
 
@@ -3983,8 +3997,10 @@ LAYOUT (portrait, top to bottom)
 5. THE TEAM CREST (x 2–64%, y 39–96%): GIANT, at the lower left, faithful, with gold sparks and small gold lightning around it and a real shadow on the marble.
 6. THE TROPHY (x 56–97%, y 40–93%): a polished silver-and-gold cup with two large curved handles, on the right, the competition logo on its body (if given), long dark-and-gold ribbons hanging from one handle, mirror reflections of the golden light. (If a trophy image or a specific trophy is given for this poster, use that one instead — same place, same size.)
 
-EXTRA GLOW (turned up)
-- Everything that shines blooms: a strong halo around the title letters, a bright rim light on the crest and the trophy, glowing haze behind the centrepiece, lens flares and star glints on every metal edge, glowing sparks and dust at several depths, light streaks in this poster's own colours. Blacks stay deep and clean; the lettering stays perfectly readable.
+EXTRA GLOW & PARTICLES (turned up to the maximum)
+- GLOW: everything that shines blooms hard — a wide bright halo around the title letters, a thick glowing rim light on the crest and the trophy, a burst of light and glowing haze behind the centrepiece, volumetric beams, lens flares and star glints on every metal edge, light streaks in this poster's own colours.
+- PARTICLES: the air is full of them at every depth — glowing sparks and embers, confetti and foil shards in this poster's colours, glitter dust and thin smoke wisps: tiny and sharp far away, medium around the centrepiece, a few big soft out-of-focus ones near the edges and corners, some crossing in front of the title, the crest and the trophy.
+- Blacks stay deep and clean; the lettering stays perfectly readable.
 
 QUALITY (most important — this is what makes it pro)
 - It must look composited in Photoshop by a top club / esports design studio: real photographic textures, real materials (chrome, brushed steel, gold foil, enamel, marble, paper), physically correct light, rim lights separating every layer, real smoke and particles, fine film grain, one cohesive grade. NOT a flat template, NOT cartoony, NOT a generic AI image.
@@ -3993,7 +4009,7 @@ QUALITY (most important — this is what makes it pro)
 - No people, faces or figures unless a player photo is given.
 
 TEXT
-- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
+- All lettering razor-sharp, perfectly formed, evenly spaced, spelled exactly. Use ONLY the texts given; a text is written once, except where this layout itself repeats the title or the team name as a design element. Never invent words, sponsors, handles, websites, years, credits or labels. The COMPETITION is written only when the text list gives its name: when only its logo is given, the logo stands for it and its name is written nowhere — never spell out the letters of a logo as a word — and a line that pairs the team name with the competition shows the team name alone, without the dash. No watermarks, no brand marks, no sportswear, game or league logos except the given crest and competition logo. Anything this brief says "if given" that was NOT given is left out completely — no stand-in letters, initials, dummy names or filler text.
 - Follow THIS layout for where every text goes (ignore the placement hints in the text list below). Keep the bottom-right corner calm — a small brand mark is added there afterwards.`,
   "champ-kit-cup": `[OWN LOOK] KIT & CUP — a fiery championship graphic built around the team's shirt and the cup.
 
@@ -9512,15 +9528,16 @@ TEXT RULES
  * matter which earlier version is in the database. Raise the number with every later change to that brief.
  */
 export const PRESET_REVISIONS: Record<string, number> = {
-  // The owner's own champions flyers became these styles' reference images: [EXACT REF] + STYLE REFERENCE (14 Nov)
-  "champ-orbit-gold": 1,
-  "champ-chrome-starburst": 1,
-  "champ-yellow-crown": 1,
-  "champ-viking-storm": 1,
-  "champ-blood-moon": 1,
-  "champ-gothic-chrome": 1,
-  "champ-purple-storm": 1,
-  "champ-marble-wings": 1,
+  // The owner's own champions flyers became these styles' reference images: [EXACT REF] + STYLE REFERENCE (14 Nov);
+  // 2 = more glow and particles, and the competition is never written out when only its logo is given
+  "champ-orbit-gold": 2,
+  "champ-chrome-starburst": 2,
+  "champ-yellow-crown": 2,
+  "champ-viking-storm": 2,
+  "champ-blood-moon": 2,
+  "champ-gothic-chrome": 2,
+  "champ-purple-storm": 2,
+  "champ-marble-wings": 2,
   // More glow, the faded team crest behind, the 3D title built into the scene (owner, 12 Nov); 2 = max glow + [CREST 3D] crest built into the scene
   "player-lacquer-script": 2,
   "player-meteor-crown": 2,
