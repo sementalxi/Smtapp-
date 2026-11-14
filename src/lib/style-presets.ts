@@ -44,6 +44,15 @@ TEXT RULES
 - The league logo appears only where this brief puts it; never redraw it as something else, never write its letters out as text elsewhere.
 - Ignore the placement hints in the text list below — follow this brief.`;
 
+// Event styles copied from one of the owner's own event flyers: the flyer itself — every person, logo and mark blurred
+// out — is the style's reference image (public/refs/<slug>.jpg, set once by lib/auto-previews "event_flyer_refs_v1"),
+// and [EXACT REF] makes every poster the same design with the customer's person, texts and logos.
+const EVENT_FLYER_REF = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the event flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this poster. Change ONLY three things: the PERSON (the grey blurred figures are its removed people — the person or people from the uploaded photo stand exactly there, at that size; with no photo, the centrepiece the notes below name stands there and there are no people at all), the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names, prices or dates) and the LOGOS (only the given logos, where the flyer's blurred logos are — otherwise nothing there). The grey blurred areas in the reference are its removed people, logos and marks: never reconstruct, trace or imitate what was there, and never paint a blur or a grey patch — a blurred spot that gets nothing simply continues the scene around it. Never copy the flyer's names, words, numbers, faces, kits, emblems or logos. The notes below are the map of that flyer (what each part is and what goes there); where they and the flyer differ in look, the flyer wins — and the VARIETY line further down does not apply: this style is always arranged like its flyer. The one change to the look: MORE GLOW (see EXTRA GLOW).`;
+// The same for a flyer that is not this poster's shape (a wide banner): its look, not its arrangement.
+const EVENT_FLYER_LOOK = `STYLE REFERENCE: one reference image is labelled a STYLE reference — it is the WIDE (16:9) event flyer this style is made from. Take the LOOK from it — the lettering styles, materials, colours, light, textures, effects and finish, as if the same designer made this poster — and arrange the elements for this poster's frame as the notes below say. Its grey blurred areas are its removed people, logos and marks: never reconstruct them and never paint a blur or a grey patch. Never copy its names, words, numbers, faces, kits, emblems or logos. The one change to the look: MORE GLOW (see EXTRA GLOW).`;
+const EVENT_GLOW = `EXTRA GLOW (turned up — the one thing added to the flyer)
+- Everything that shines blooms harder than on the flyer: a wide bright halo around the headline and the prize, a thick glowing rim light on the hero or centrepiece and on every logo, a burst of light and glowing haze behind the centrepiece, volumetric beams from the floodlights, lens flares and star glints on every metal edge, light streaks and glowing sparks in this poster's own colours. Blacks stay deep and clean; every word stays perfectly readable.`;
+
 // Champions styles copied from one of the owner's own champions flyers: the flyer itself — the other team's crest and
 // every logo and mark blurred out — is the style's reference image (public/refs/<slug>.jpg, set by prisma/seed.ts,
 // "champs_v2_flyer_refs"), and [EXACT REF] makes every poster the same design with the customer's crest and texts.
@@ -7914,7 +7923,9 @@ TYPOGRAPHY & LAYOUT (left side, stacked, aligned on one left margin)
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-star-badge": `[FIXED LAYOUT] STAR BADGE — a vertical (4:5) flash-tournament flyer in black and gold, loud and premium, like a top Pro Clubs community's weekly cup announcement.
+  "event-star-badge": `[EXACT REF] [FIXED LAYOUT] STAR BADGE — a vertical (4:5) flash-tournament flyer in black and gold, loud and premium, like a top Pro Clubs community's weekly cup announcement.
+
+${EVENT_FLYER_REF}
 
 COLOURS: black, rich yellow-gold, white chrome and silver (the organizer's colour from the COLOURS line may replace the gold).
 
@@ -7935,10 +7946,14 @@ PRIZE LOCK-UP (lower 35%)
 - The DATE & TIMES in a thin gold HUD bar under it, letter-spaced white capitals.
 - Bottom centre: the organizer / league logo (if given) as a small glossy 3D emblem; the info line small in letter-spaced gold capitals beside it; collaborator logos (if given) small in the lower left.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-badge-trio": `[FIXED LAYOUT] BADGE TRIO — a vertical (4:5) "today" tournament flyer in black, orange-gold and chrome: the badge in front, the heroes behind it.
+  "event-badge-trio": `[EXACT REF] [FIXED LAYOUT] BADGE TRIO — a vertical (4:5) "today" tournament flyer in black, orange-gold and chrome: the badge in front, the heroes behind it.
+
+${EVENT_FLYER_REF}
 
 COLOURS: black, orange-gold, white chrome and steel grey.
 
@@ -7958,10 +7973,14 @@ LOWER LOCK-UP
 - Under it the entry fee (if given) in big white bold italic capitals.
 - Bottom centre: the organizer / league logo (if given) as a glossy 3D crest; the DATE & TIMES stacked three times in white bold italic capitals at the lower right like a call-out ("TODAY"-style if the date is a word); the info line in tiny letter-spaced capitals at the bottom between thin gold lines.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-purple-schedule": `[FIXED LAYOUT] PURPLE SCHEDULE — a vertical (4:5) night-tournament flyer in purple and magenta with a gold prize and a glowing schedule table.
+  "event-purple-schedule": `[EXACT REF] [FIXED LAYOUT] PURPLE SCHEDULE — a vertical (4:5) night-tournament flyer in purple and magenta with a gold prize and a glowing schedule table.
+
+${EVENT_FLYER_REF}
 
 COLOURS: deep purple, hot magenta, pink-white chrome and warm gold on the prize.
 
@@ -7978,10 +7997,14 @@ LETTERING
 - A row of three neon info columns (y 72–80%): the entry fee big in glossy purple chrome with its small label under it, then the info line split into two more columns — magenta bold capitals with a small subline each.
 - THE SCHEDULE (y 82–96%): a glowing violet HUD title plate (letter-spaced, the word for times) and under it a 2×2 grid of rounded neon-edged plates, each with one TIME from the DATE & TIMES text in big white slanted capitals, a thin divider and its zone / city word in small magenta capitals. NO flags.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-trophy-duel": `[FIXED LAYOUT] TROPHY DUEL — a vertical (4:5) flash-cup flyer in royal blue and gold with a giant trophy between two heroes.
+  "event-trophy-duel": `[EXACT REF] [FIXED LAYOUT] TROPHY DUEL — a vertical (4:5) flash-cup flyer in royal blue and gold with a giant trophy between two heroes.
+
+${EVENT_FLYER_REF}
 
 COLOURS: royal blue, navy, white smoke and warm gold.
 
@@ -8004,10 +8027,14 @@ BOTTOM
 - A wide GOLD bar across the bottom right (y 88–95%) with the DATE in big dark condensed capitals.
 - The info line as a white brush script at the lower left (y 89–95%).
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
   "event-division-tiers": `[FIXED LAYOUT] DIVISION TIERS — a vertical (4:5) new-season launch flyer in navy, red and electric blue with three prize divisions.
+
+${EVENT_FLYER_LOOK}
 
 COLOURS: navy, electric blue, hot red, white, with gold, silver and bronze on the three division cards.
 
@@ -8025,10 +8052,14 @@ LETTERING (left)
 - THREE DIVISION CARDS in a row (y 46–78%): dark glassy rounded panels, each with a shield badge on top (GOLD, SILVER, BRONZE — plain shields with a small star, no words), a division name in condensed italic capitals coloured gold / silver / bronze, a big white prize amount and a small red entry line under it. CARD 1 = the PRIZE text (division name + amount) with the entry fee under it; CARD 2 = the rule text with the rule note under it; CARD 3 = the details text (split on ·: the part before it is the division name + amount, the part after it the red line). A card whose text is not given is left out.
 - Under them the info line in white condensed capitals with key words in gold, and the accent line in wide white capitals.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-trophy-welcome": `[FIXED LAYOUT] TROPHY WELCOME — a vertical (4:5) "welcome / new signing" flyer in red, black and white, framed by trophies.
+  "event-trophy-welcome": `[EXACT REF] [FIXED LAYOUT] TROPHY WELCOME — a vertical (4:5) "welcome / new signing" flyer in red, black and white, framed by trophies.
+
+${EVENT_FLYER_REF}
 
 COLOURS: blood red, black, white and polished gold-silver on the trophies.
 
@@ -8047,10 +8078,14 @@ LOWER LOCK-UP
 - A dark honours bar (y 86–90%): the info line split on · or | into short white condensed segments with thin dividers and a small gold cup icon at each end (no flags).
 - The DATE in red condensed capitals under it; the TIMES small.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-chrome-season": `[FIXED LAYOUT] CHROME SEASON — a vertical (4:5) season announcement in electric blue with a huge bevelled chrome title and two price boxes.
+  "event-chrome-season": `[EXACT REF] [FIXED LAYOUT] CHROME SEASON — a vertical (4:5) season announcement in electric blue with a huge bevelled chrome title and two price boxes.
+
+${EVENT_FLYER_REF}
 
 COLOURS: electric blue, navy, white chrome, with ONE orange box and ONE red box.
 
@@ -8068,10 +8103,14 @@ LETTERING
 - Two price blocks (y 78–88%): an ORANGE square box with a white condensed label and a big white price beside it, then a RED box with its label and price — taken from the PRIZE, the entry fee and the info line split on · or / (only as many as given).
 - Two short lines of small white text at the bottom with key words in red (the info line / rule note).
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-mega-purple": `[FIXED LAYOUT] MEGA PURPLE — a vertical (4:5) big-cup flyer in purple and white with a grunge echo headline and a two-column prize lock-up.
+  "event-mega-purple": `[EXACT REF] [FIXED LAYOUT] MEGA PURPLE — a vertical (4:5) big-cup flyer in purple and white with a grunge echo headline and a two-column prize lock-up.
+
+${EVENT_FLYER_REF}
 
 COLOURS: violet, deep purple, white and a touch of gold.
 
@@ -8092,10 +8131,14 @@ LOWER LOCK-UP
 - A lilac translucent bar (y 86–89%) with the DATE & TIMES in white wide capitals separated by thin bars.
 - The info line under it in white wide capitals, one or two lines.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-magazine-desk": `[FIXED LAYOUT] MAGAZINE DESK — a vertical (4:5) league-night flyer shot as a flat-lay of league print items on a dark red desk, with a hero breaking out on the right.
+  "event-magazine-desk": `[EXACT REF] [FIXED LAYOUT] MAGAZINE DESK — a vertical (4:5) league-night flyer shot as a flat-lay of league print items on a dark red desk, with a hero breaking out on the right.
+
+${EVENT_FLYER_REF}
 
 COLOURS: deep red, black, cream paper and warm gold foil.
 
@@ -8111,10 +8154,14 @@ THE COVER (centre)
 HERO (right)
 - [IF PHOTO]the person(s) from the uploaded photo — one figure on the right (x 56–100%, y 30–100%), kneeling in a calm celebration, one hand on the chest, a confident look; golden rim light and sparks; he overlaps the cover's edge[/IF PHOTO][IF NO PHOTO]a tall gold trophy on the right overlapping the cover, sparks around it — NO people anywhere.[/IF NO PHOTO].
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-marquee-winner": `[FIXED LAYOUT] MARQUEE WINNER — a vertical (4:5) cash-cup flyer in red and gold with a bulb-marquee prize.
+  "event-marquee-winner": `[EXACT REF] [FIXED LAYOUT] MARQUEE WINNER — a vertical (4:5) cash-cup flyer in red and gold with a bulb-marquee prize.
+
+${EVENT_FLYER_REF}
 
 COLOURS: blood red, black, white and polished gold.
 
@@ -8135,10 +8182,14 @@ BOTTOM
 - The entry fee (or the accent line) as a red gothic blackletter script across the bottom of the headline.
 - The info line split into two letter-spaced grey words at the bottom corners; the DATE & TIMES small and wide in the centre.
 
+${EVENT_GLOW}
+
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-knight-dungeon": `[FIXED LAYOUT] KNIGHT DUNGEON — a vertical (4:5) collab-tournament flyer in a medieval dungeon with two armoured knights.
+  "event-knight-dungeon": `[EXACT REF] [FIXED LAYOUT] KNIGHT DUNGEON — a vertical (4:5) collab-tournament flyer in a medieval dungeon with two armoured knights.
+
+${EVENT_FLYER_REF}
 
 COLOURS: black iron, warm fire orange, bright yellow and white.
 
@@ -8155,6 +8206,8 @@ LETTERING
 - The accent line / DATE as stacked white condensed capitals with a grainy texture in the centre between the knights (y 40–56%).
 - The PRIZE GIANT in heavy white italic capitals with a cracked-stone texture across the bottom (y 72–88%), and the entry fee (if given) in yellow gothic blackletter under it (y 88–95%).
 - The info line small in letter-spaced white capitals at the very bottom.
+
+${EVENT_GLOW}
 
 ${EVENT_FLYER}
 
@@ -8180,7 +8233,9 @@ LOWER LOCK-UP (a dark translucent band)
 ${EVENT_FLYER}
 
 ${EVENT_FINISH}`,
-  "event-golden-palace": `[FIXED LAYOUT] GOLDEN PALACE — a vertical (4:5) season / tournament launch flyer inside a golden marble palace: the most expensive-looking announcement, like a top league's season reveal.
+  "event-golden-palace": `[EXACT REF] [FIXED LAYOUT] GOLDEN PALACE — a vertical (4:5) season / tournament launch flyer inside a golden marble palace: the most expensive-looking announcement, like a top league's season reveal.
+
+${EVENT_FLYER_REF}
 
 COLOURS: rich metallic gold, white-gold chrome, warm amber light, black marble and deep crimson banners.
 
@@ -8194,6 +8249,8 @@ CENTREPIECE
 - The DATE on a small dark plate centred on the stairs under the podium (if given), condensed white caps.
 - LOWER THIRD: the PRIZE as COLOSSAL gold-chrome 3D figures across almost the full width, standing on the stairs with reflections; the accent line (if given) in white handwritten brush script tucked at the prize's lower right.
 - BOTTOM: two short columns in condensed white capitals with the key words in gold — the TIMES / details on one side, the info line on the other; collaborator logos (if given) small in the bottom corners.
+
+${EVENT_GLOW}
 
 ${EVENT_FLYER}
 
@@ -9528,6 +9585,19 @@ TEXT RULES
  * matter which earlier version is in the database. Raise the number with every later change to that brief.
  */
 export const PRESET_REVISIONS: Record<string, number> = {
+  // The owner's own event flyers became these styles' reference images ([EXACT REF] + STYLE REFERENCE) with more glow (14 Nov)
+  "event-star-badge": 1,
+  "event-badge-trio": 1,
+  "event-purple-schedule": 1,
+  "event-trophy-duel": 1,
+  "event-trophy-welcome": 1,
+  "event-chrome-season": 1,
+  "event-mega-purple": 1,
+  "event-magazine-desk": 1,
+  "event-marquee-winner": 1,
+  "event-knight-dungeon": 1,
+  "event-golden-palace": 1,
+  "event-division-tiers": 1,
   // The owner's own champions flyers became these styles' reference images: [EXACT REF] + STYLE REFERENCE (14 Nov);
   // 2 = more glow and particles, and the competition is never written out when only its logo is given
   // 3 = the squad names are designed metallic lettering, never plain

@@ -4,6 +4,8 @@
 // poster also becomes the style's reference image (the look every new poster of the style is matched to).
 import sharp from "sharp";
 import { db } from "./db";
+import { siteUrl } from "./email-template";
+import { noReferenceColours } from "./ref-palette";
 import { loadBytes, saveFile } from "./storage";
 import { posterAsStyleRef } from "./style-ref";
 import { DEFAULT_SAMPLE } from "./style-test-inputs";
@@ -134,13 +136,13 @@ const BATCHES: Batch[] = [
     slugs: ["player-glass-rings","player-sepia-ribbons","player-red-cubist","player-mono-serif","player-grey-wings","player-vertical-blaze","player-triple-run","player-wine-swirl","player-golden-number","player-red-icon","player-candy-stripes","player-red-swash","player-halftone-hero","player-orange-halo","player-red-lens","player-lime-blades","player-stadium-truss","player-court-slash","player-grey-signature","player-fight-night"],
   },
   // Eleven event-flyer styles from the owner's own tournament flyers, made with each flyer's exact texts
-  // (lib/event-defaults): one test poster each becomes the preview and the reference image.
+  // (lib/event-defaults): one test poster each is the style's preview. It used to become the reference image too
+  // (and a redo round remade them all); since 14 Nov the reference of these styles is the owner's flyer itself
+  // (see flyerRefsOnce below), so this batch no longer touches references.
   {
     key: "auto_previews_events_v3",
-    ref: true,
     parallel: 4,
     retries: 1,
-    redo: { "event-star-badge": "*", "event-badge-trio": "*", "event-purple-schedule": "*", "event-trophy-duel": "*", "event-division-tiers": "*", "event-trophy-welcome": "*", "event-chrome-season": "*", "event-mega-purple": "*", "event-magazine-desk": "*", "event-marquee-winner": "*", "event-knight-dungeon": "*" },
     slugs: ["event-star-badge", "event-badge-trio", "event-purple-schedule", "event-trophy-duel", "event-division-tiers", "event-trophy-welcome", "event-chrome-season", "event-mega-purple", "event-magazine-desk", "event-marquee-winner", "event-knight-dungeon"],
   },
   // Eight Champions styles from the owner's own champions flyers (they were added without pictures — the owner did
@@ -291,8 +293,31 @@ async function redoTick(b: Batch, tpls: Tpl[], t0: number) {
   await retryRound(b, pending, runId);
 }
 
+/**
+ * One-time (owner, 14 Nov): the owner's own event flyers — every person, logo and mark blurred out
+ * (public/refs/<slug>.jpg) — become the reference image of the styles copied from them, in place of the reference a
+ * preview round made from the brief. Done here and not in the seed: the previous build's redo round could still take
+ * a reference off between the seed and the switch to this build. The brief stays in charge of the colour words (the
+ * grey blurred areas would skew a measured palette) — except Golden Palace, whose flyer was its reference before.
+ */
+const EVENT_FLYER_REFS = {
+  key: "event_flyer_refs_v1",
+  slugs: ["event-star-badge", "event-badge-trio", "event-purple-schedule", "event-trophy-duel", "event-division-tiers", "event-trophy-welcome", "event-chrome-season", "event-mega-purple", "event-magazine-desk", "event-marquee-winner", "event-knight-dungeon", "event-golden-palace"],
+  keepPalette: ["event-golden-palace"],
+};
+async function flyerRefsOnce() {
+  if (await db.setting.findUnique({ where: { key: EVENT_FLYER_REFS.key } })) return;
+  for (const slug of EVENT_FLYER_REFS.slugs) {
+    const url = `${siteUrl()}/refs/${slug}.jpg`;
+    if (!EVENT_FLYER_REFS.keepPalette.includes(slug)) await noReferenceColours(url);
+    await db.template.updateMany({ where: { slug }, data: { styleRefUrl: url } });
+  }
+  await db.setting.upsert({ where: { key: EVENT_FLYER_REFS.key }, create: { key: EVENT_FLYER_REFS.key, value: new Date().toISOString() }, update: {} });
+}
+
 export async function autoPreviewsTick() {
   const t0 = Date.now();
+  await flyerRefsOnce().catch((e) => console.error("flyerRefsOnce failed", e));
   for (const b of BATCHES) {
     const tpls: Tpl[] = await db.template.findMany({ where: { slug: { in: b.slugs }, active: true, deletedAt: null }, select: { id: true, name: true, layout: true, slug: true, textSlots: true, thumbUrl: true, styleRefUrl: true } });
     if (!tpls.length) continue;
