@@ -240,7 +240,15 @@ export async function emboss3d(logo: Buffer, lw: number, lh: number, accent: { r
   return { png, pad };
 }
 
-export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: "tl" | "tr" | "tc" | "bc" | "hero" | "left" | "right"; fx?: "3d" }[]): Promise<Buffer> {
+/**
+ * Pastes real logo files on the finished poster. `corner: "league"` is the competition logo of a champions poster: a
+ * small badge at `at` (centre x / y as fractions of the poster, size as a fraction of its shorter side) — the exact
+ * file, never redrawn by the AI.
+ */
+export async function placeLogos(
+  input: Buffer,
+  logos: { bytes: Buffer; corner: "tl" | "tr" | "tc" | "bc" | "hero" | "left" | "right" | "league"; fx?: "3d"; at?: { cx: number; cy: number; size: number } }[],
+): Promise<Buffer> {
   try {
     const { width: W = 0, height: H = 0 } = await sharp(input).metadata();
     if (!W || !H) return input;
@@ -254,8 +262,10 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
         hero: { size: 0.44, cx: 0.5, cy: 0.62 },
         left: { size: 0.3, cx: 0.25, cy: 0.4 },
         right: { size: 0.3, cx: 0.75, cy: 0.4 },
+        // Stories (9:16) keep it inside the middle of the tall frame, like the brief tells the AI.
+        league: { size: l.at?.size ?? 0.085, cx: l.at?.cx ?? 0.5, cy: H / W > 1.6 ? Math.min(0.88, Math.max(0.12, l.at?.cy ?? 0.945)) : (l.at?.cy ?? 0.945) },
       }[l.corner];
-      const box = Math.round(W * spot.size);
+      const box = Math.round((l.corner === "league" ? Math.min(W, H) : W) * spot.size);
       const cleaned = await removeSolidBackground(await sharp(l.bytes).rotate().png().toBuffer().catch(() => l.bytes));
       const logo = await sharp(cleaned)
         .trim({ threshold: 12 })
@@ -344,19 +354,21 @@ export async function placeLogos(input: Buffer, logos: { bytes: Buffer; corner: 
         console.error("logo finish failed (logo still placed)", e);
       }
     }
-    // Keep every layer inside the canvas (crop what would hang over the edges).
+    // Keep every layer inside the canvas (crop what would hang over any edge).
     const safe: { input: Buffer; left: number; top: number }[] = [];
     for (const x of layers) {
-      if (x.left >= 0 && x.top >= 0) {
+      const m = await sharp(x.input).metadata();
+      const lw = m.width ?? 0;
+      const lh = m.height ?? 0;
+      const cl = Math.max(0, -x.left);
+      const ct = Math.max(0, -x.top);
+      const w = Math.min(lw - cl, W - (x.left + cl));
+      const h = Math.min(lh - ct, H - (x.top + ct));
+      if (w <= 0 || h <= 0) continue;
+      if (!cl && !ct && w === lw && h === lh) {
         safe.push(x);
         continue;
       }
-      const m = await sharp(x.input).metadata();
-      const cl = Math.max(0, -x.left);
-      const ct = Math.max(0, -x.top);
-      const w = (m.width ?? 0) - cl;
-      const h = (m.height ?? 0) - ct;
-      if (w <= 0 || h <= 0) continue;
       safe.push({ input: await sharp(x.input).extract({ left: cl, top: ct, width: w, height: h }).png().toBuffer(), left: x.left + cl, top: x.top + ct });
     }
     return await sharp(input).composite(safe).png().toBuffer();

@@ -81,7 +81,10 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
   }
   const logoUrl = body.logoUrl ?? src.logoUrl;
   // Real (exact) logos are pasted again on top after the edit; AI-drawn ones get the new crest as a reference.
-  const placed = collectProRefs({ layout: src.template.layout, inputs, photoUrl: null, logoUrl, styleRefUrl: null }).filter((r) => r.overlay);
+  const pasted = collectProRefs({ layout: src.template.layout, inputs, photoUrl: null, logoUrl, styleRefUrl: null, instructions: src.template.proInstructions }).filter((r) => r.overlay);
+  // The team crest(s). A champions poster's competition logo is pasted again too, but it is not a crest.
+  const placed = pasted.filter((r) => r.overlay !== "league");
+  const leagueBadge = pasted.some((r) => r.overlay === "league");
   if (body.logoUrl && !placed.length) {
     refs.push({ url: body.logoUrl, label: "the NEW TEAM CREST" });
     changes.push(`Replace the team crest/logo with the crest in reference image ${refs.length} — EXACTLY its artwork, nothing added or changed — in the same position and size, lit by the scene.`);
@@ -112,6 +115,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
     changes.map((c, n) => `${n + 1}. ${c}`).join("\n") || "1. Keep everything as it is (only the crest is updated afterwards).",
     `Change nothing else — this is a precise retouch of the same image, NOT a new design. Keep the same ${frameName} framing, the same crop and the same quality. All other text must stay exactly as it is, letter for letter.`,
     placed.length ? `Keep the team crest area(s) exactly where they are — the official crest is placed there again afterwards.` : "",
+    leagueBadge ? `Keep the small competition logo exactly where it is — the official logo is placed there again afterwards.` : "",
     `Do not reproduce the small "KIXO" watermark in the corner — leave that corner clean (it is added again afterwards).`,
     ...refs.map((r, n) => `Reference image ${n + 1} is ${r.label}.`),
   ]
@@ -133,7 +137,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
 
   after(async () => {
     try {
-      await generateProForBanner({ bannerId: copy.id, userId: src.userId, cost, prompt, refs: [...refs, ...placed], format: fmt, edit: true });
+      await generateProForBanner({ bannerId: copy.id, userId: src.userId, cost, prompt, refs: [...refs, ...pasted], format: fmt, edit: true });
     } catch (e) {
       if (e instanceof HttpError && (e.message === "err_blocked" || e.message === "generation_failed")) return;
       const msg = e instanceof HttpError && e.status === 402 ? "err_credits" : String(e instanceof Error ? e.message : e).slice(0, 500);

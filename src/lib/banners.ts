@@ -238,7 +238,19 @@ const q = (s: string) => `"${s.replace(/"/g, "'")}"`;
 
 /** A reference image sent to the model, with what it is. */
 /** Where the real (uploaded) logo is pasted on the finished poster. */
-export type LogoSpot = "tl" | "tr" | "tc" | "bc" | "hero" | "left" | "right";
+export type LogoSpot = "tl" | "tr" | "tc" | "bc" | "hero" | "left" | "right" | "league";
+
+/**
+ * Where KIXO pastes the real competition logo on a champions poster (the AI redraws small logos wrongly — it turned
+ * the letters of a league monogram into other letters — so it never draws this one). A style sets the spot with
+ * [LEAGUE SPOT x y size] in its brief: centre x, centre y and the size across, in % of the poster (the size in % of
+ * its width). Default: small at the bottom centre.
+ */
+export function leagueSpot(instructions?: string | null): { cx: number; cy: number; size: number } {
+  const m = /\[LEAGUE SPOT (\d+(?:\.\d+)?) (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)\]/i.exec(instructions ?? "");
+  const pct = (v: string, lo: number, hi: number) => Math.min(hi, Math.max(lo, Number(v))) / 100;
+  return m ? { cx: pct(m[1], 6, 94), cy: pct(m[2], 4, 96), size: pct(m[3], 4, 20) } : { cx: 0.5, cy: 0.945, size: 0.085 };
+}
 
 export interface ProRef {
   url: string;
@@ -247,6 +259,8 @@ export interface ProRef {
   overlay?: LogoSpot;
   /** "3d": the pasted file gets the code-made 3D emblem treatment (extrusion, bevel, gloss, glow). */
   fx?: "3d";
+  /** overlay "league": where the competition logo goes (fractions of the poster — see leagueSpot). */
+  at?: { cx: number; cy: number; size: number };
 }
 
 /** Works out which reference images go to the model, in order, with instructions for each. */
@@ -364,16 +378,14 @@ export function collectProRefs(opts: {
       });
     }
   }
-  if (i.champLogoUrl) {
+  if (i.champLogoUrl && layout === "CHAMPIONS") {
+    // Champions: the real file is pasted on the finished poster as a small 3D badge (exact, never redrawn).
+    refs.push({ url: i.champLogoUrl, label: "the competition logo (placed afterwards)", overlay: "league", fx: "3d", at: leagueSpot(opts.instructions) });
+  } else if (i.champLogoUrl) {
     const champRef = {
       url: i.champLogoUrl,
       label:
-        layout === "CHAMPIONS"
-          ? /\[LEAGUE BADGE\]/.test(opts.instructions ?? "")
-            ? // [LEAGUE BADGE]: the style also shows the competition logo as a small badge at the spots its brief names.
-              "the competition/championship logo. Reproduce it faithfully (same shape, letters, symbols and colours — never redesigned; copy every letter in it stroke for stroke, in the same order, none turned into another letter). It goes on the trophy — engraved or embossed on the front of the cup — when this design has a trophy, and it also appears as a SMALL glossy badge exactly where the art director's instructions place it. Nowhere else, and never as a big logo on the poster. If the logo image has a solid background square, ignore the square."
-            : "the competition/championship logo. Put it ONLY on the trophy — engraved or embossed on the front of the cup, reproduced faithfully (copy every letter in it stroke for stroke, in the same order, none turned into another letter). Do not show it anywhere else and never as a big logo on the poster."
-          : layout === "STANDINGS"
+        layout === "STANDINGS"
             ? "the LEAGUE / ORGANIZATION logo — THIS image, reference image 1, and no other (the team crests that follow are NOT it) — it MUST appear, in TWO places: (1) crisp and clearly visible beside the title, about 14% of the poster width, as a glossy premium 3D emblem faithful to the reference (same shape, letters, symbols and colours — never redesigned); (2) echoed GIANT behind the table — about 90% of the poster width, centred — faded to roughly 20–25% opacity so it clearly reads through the table rows, blended into the light like a watermark carved in light. If the logo image has a solid background square, ignore the square."
           : layout === "TOTW"
             ? "the league / competition logo. Reproduce it faithfully (same shape, letters, symbols and colours — do not redesign it) as a clean glossy badge next to the title, at a size that reads clearly — never covering the cards. If the logo image has a solid background square, ignore the square."
@@ -616,7 +628,11 @@ export function buildProPrompt(opts: {
   const hasTeamLogo = opts.refs.some((r) => r.label.startsWith("the crest/logo of the team"));
   const styleUsesTeamName = /team name|team's name|nombre del equipo/i.test(opts.instructions ?? "");
   const teamNameInDesign = layout !== "PLAYER" && (hasTeamLogo ? styleUsesTeamName : true);
-  const overlays = opts.refs.filter((r) => r.overlay);
+  // The pasted team crests (the competition logo of a champions poster is pasted too, but has its own rule below).
+  const overlays = opts.refs.filter((r) => r.overlay && r.overlay !== "league");
+  const leagueRef = opts.refs.find((r) => r.overlay === "league")?.at;
+  // Stories keep everything inside the middle of the tall frame (stamp.ts moves the badge the same way).
+  const leagueAt = leagueRef ? { ...leagueRef, cy: opts.format === "story" ? Math.min(0.88, Math.max(0.12, leagueRef.cy)) : leagueRef.cy } : null;
   // "both": the pasted file sits in a corner while the AI still draws its 3D crest in the design.
   const exactLogos = overlays.length > 0 && raw.aiLogo !== "both";
   const aiRefs = opts.refs.filter((r) => !r.overlay);
@@ -1140,10 +1156,10 @@ export function buildProPrompt(opts: {
     layout === "EVENT" ? eventDirection(v.seed, /\[FIXED LAYOUT\]/.test(opts.instructions ?? ""), !!opts.refs.some((r) => r.label.startsWith("the main subject")), !!i.champLogoUrl || hasTeamLogo) : "",
     layout === "LOGO" ? "" : `NEVER include animals, birds, eagles, wings, mascots or creatures of any kind unless ${adminLed ? "the art director's instructions or " : ""}the user's extra direction explicitly asks for one.`,
     `STRICT TEXT RULE: the poster may only contain the text items listed below${i.aiCopy === "on" ? " (plus the optional hype words)" : ""}. If something has no text listed (squad names, prize, date, venue, scorers, competition…), leave that element out completely — never invent names, prizes, money amounts, dates, places or titles.`,
-    // Champions: with a competition logo the competition's name is not a text (the logo carries it). The AI must not
-    // read the logo's letters and write them out as the name — it did, misspelled, beside the team name and in the footer.
-    layout === "CHAMPIONS" && raw.champLogoUrl
-      ? `COMPETITION = ITS LOGO ONLY (very important): the competition is shown ONLY by its logo — the reference image labelled "the competition/championship logo". It has NO written name on this poster: never write its name, and never read the letters or initials inside that logo and write them as a word — not after the team name, not in the header, the footer, a tag or a plaque. Wherever the design instructions or the style reference pair the team name with the competition's name (such as "TEAM – COMPETITION"), write the team name alone, without the dash; a line or tag that would hold only the competition's name is left out.`
+    // Champions with a competition logo: KIXO pastes the real file (see leagueSpot), so the AI draws no league logo
+    // at all — and never writes the league's name (it used to spell out the logo's letters, wrongly, as a name).
+    layout === "CHAMPIONS" && leagueAt
+      ? `COMPETITION LOGO — ADDED AFTERWARDS (very important): KIXO places the real competition logo file on the finished poster itself, so do NOT draw the competition's logo, or any league emblem, anywhere: the trophy's front is smooth polished metal with no emblem, medallion, letters or engraving, and wherever the design instructions or the style reference show a competition logo you draw nothing. Keep one small spot clean for it — a circle about ${Math.round(leagueAt.size * 130)}% of the poster width across, centred at x ${Math.round(leagueAt.cx * 100)}%, y ${Math.round(leagueAt.cy * 100)}%: only the background there, no text, names, lines or objects (the squad list and every other line stay clear of it). The competition has NO written name either: never write a competition or league name anywhere; where the design instructions or the style reference pair the team name with the competition's name (such as "TEAM – COMPETITION"), write the team name alone, without the dash, and a line or tag that would hold only the competition's name is left out.`
       : layout === "CHAMPIONS" && !i.eventName && !i.competition
         ? `NO COMPETITION: no competition was given — no competition or league name and no league logo anywhere. Wherever the design instructions or the style reference pair the team name with a competition's name (such as "TEAM – COMPETITION"), write the team name alone, without the dash.`
         : "",
@@ -1508,12 +1524,27 @@ export async function generateProForBanner(opts: {
     }
     const overlays = opts.refs.filter((x) => x.overlay);
     if (overlays.length) {
-      const logos: { bytes: Buffer; corner: LogoSpot; fx?: "3d" }[] = [];
-      for (const o of overlays) logos.push({ bytes: await loadBytes(o.url), corner: o.overlay!, fx: o.fx });
-      poster = await placeLogos(poster, logos);
+      const logos: { bytes: Buffer; corner: LogoSpot; fx?: "3d"; at?: ProRef["at"] }[] = [];
+      for (const o of overlays) {
+        // The competition badge is an extra: if its file cannot be read the poster is still delivered.
+        if (o.overlay === "league") {
+          try {
+            logos.push({ bytes: await loadBytes(o.url), corner: "league", fx: o.fx, at: o.at });
+          } catch (e) {
+            console.error("competition logo could not be loaded (poster kept without it)", e);
+          }
+          continue;
+        }
+        logos.push({ bytes: await loadBytes(o.url), corner: o.overlay!, fx: o.fx });
+      }
+      if (logos.length) poster = await placeLogos(poster, logos);
     }
     // The brand mark stays away from the pasted crests: top corners, and the bottom centre under a hero crest.
-    const avoid = overlays.flatMap((o): ("tl" | "tr" | "tc" | "bc")[] => (o.overlay === "tl" || o.overlay === "tr" || o.overlay === "tc" || o.overlay === "bc" ? [o.overlay] : o.overlay === "hero" ? ["bc"] : []));
+    const avoid = overlays.flatMap((o): ("tl" | "tr" | "tc" | "bc")[] =>
+      o.overlay === "league"
+        ? o.at && Math.abs(o.at.cx - 0.5) < 0.2 ? (o.at.cy > 0.8 ? ["bc"] : o.at.cy < 0.2 ? ["tc"] : []) : []
+        : o.overlay === "tl" || o.overlay === "tr" || o.overlay === "tc" || o.overlay === "bc" ? [o.overlay] : o.overlay === "hero" ? ["bc"] : [],
+    );
     let out = await stampLogo(poster, avoid);
     // A 4K one-pass render is a 20+ MB PNG: keep it crisp but phone-friendly as a top-quality JPEG.
     let type = "image/png";
