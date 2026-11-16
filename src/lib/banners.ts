@@ -725,7 +725,8 @@ export function buildProPrompt(opts: {
         frame,
         finish,
       ].join(" ");
-      add("Title (huge)", i.headline || "MATCH DAY");
+      // [GAMEDAY] styles are built around the one word "GAMEDAY".
+      add("Title (huge)", i.headline || (/\[GAMEDAY\]/.test(opts.instructions ?? "") ? "GAMEDAY" : "MATCH DAY"));
       add("Home team name", i.homeTeam);
       add("Away team name", i.awayTeam);
       add("Competition", i.competition);

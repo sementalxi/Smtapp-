@@ -59,6 +59,164 @@ const EVENT_GLOW = `EXTRA GLOW (turned up — the one thing added to the flyer)
 const CHAMP_FLYER_REF = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the champions flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this poster. Change ONLY two things: the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (the given team crest stands exactly where the flyer's big blurred emblem is, at that size; the given competition logo where the notes below put it — otherwise nothing there). When a player photo is given, the player is added as the notes below say; nothing else moves. The grey blurred areas in the reference are its removed crest, logos and marks: never reconstruct, trace or imitate what was there, and never paint a blur or a grey patch — a blurred spot that gets nothing from the notes below simply continues the scene around it. Never copy the flyer's names, words, numbers, emblems, mascots, characters or logos. The notes below are the map of that flyer (what each part is and what goes there); where they and the flyer differ in look, the flyer wins. The only changes to the look are the owner's standard for champions posters: MORE GLOW, MORE PARTICLES, the team crest once more, giant and faded, in the background, and the SQUAD NAMES as designed metallic lettering instead of the flyer's plain names (see EXTRA GLOW & PARTICLES and the USER CHOICES).`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "player-gothic-collage": `[FIXED LAYOUT] GOTHIC COLLAGE — the owner's own Photoshop player card: an off-white paper collage with GIANT red blackletter letters running down the page and several cut-out shots of the same player woven between them. Editorial, artistic, premium — copy this design exactly as described; the only addition is extra GLOSS and FLASH.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: warm off-white paper, one strong red (the team colour if the COLOURS line gives one), black and grey duotone photos. Nothing else.
+
+BACKGROUND
+- Warm off-white paper with fine grain, faint printed map lines, thin dotted compass lines and tiny letter-spaced captions running at angles (only the given texts — e.g. the TEAM name and the FOOTER, tiny, along those lines; never invented words).
+- Soft white feather and paper-sweep shapes curling around the figures, small black ink splatters and dry-brush strokes.
+
+THE LETTERS (most important)
+- The NAME written as GIANT red blackletter (Old English) capitals stacked down the page in a loose zig-zag — one letter after another from the top (y 8%) to the bottom (y 94%), alternating left (x 15–45%) and right (x 45–75%), each letter about 18–22% of the poster tall. Figures overlap some letters and some letters overlap figures, like a real collage. Spelled EXACTLY, in order.
+- Each letter flat red ink with a slightly rough printed edge — plus the added GLOSS: a thin glossy highlight along the top edges and a soft red glow.
+
+THE COLLAGE (all shots are the same person from the photo)
+1. A shot SHOUTING with joy, head and shoulders, top right (x 58–86%, y 12–42%), red-and-black duotone.
+2. A side PROFILE, head and shoulders, centre left (x 34–52%, y 26–50%).
+3. The MAIN shot, waist up, looking down with focus, centre (x 36–76%, y 32–82%), holding a ball against the hip, in black-and-white with red colour washes.
+4. A small full-body RUNNING / celebrating shot pointing forward, lower left (x 18–46%, y 46–86%).
+- Between them: a red-painted lighthouse tower (x 28–46%, y 12–46%) and a white domed tower (x 54–66%, y 14–28%) cut out of old photos, a crowd strip printed in red at the main shot's chest.
+- The CREST (if given) small in the lower right (x 70–80%, y 48–56%), flat printed red-and-white, and once more small at the lower left (x 15–25%, y 64–72%).
+
+TEXT
+- NUMBER: small blackletter at the top left in red (x 10–18%, y 6–11%).
+- POSITION, TAGLINE, SUBTITLE: tiny letter-spaced black captions along the map lines.
+- FOOTER: tiny at the bottom centre.
+
+GLOSS & FLASH (the owner's one change): a glossy sheen on the red letters and the photos, a few sharp white camera flashes and star glints on the figures' edges, a soft red bloom behind the main shot. Keep the paper clean and the look editorial — no neon, no stadium.`,
+  "player-split-panels": `[FIXED LAYOUT] SPLIT PANELS — the owner's own Photoshop player card: a dark charcoal poster with tall red and white panels, an action shot bursting out of them, a giant close-up portrait on the right and a big white signature swoosh across. Copy this design exactly as described; the only addition is extra GLOSS and FLASH.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: charcoal / near-black, the team colour (red by default) and white.
+
+BACKGROUND
+- Charcoal with fine grain, thin diagonal light lines, a GIANT faded grey close-up of the player's face in the top right (x 70–100%, y 0–40%), very dark.
+- A tall RED panel (x 18–44%, y 14–62%) with faint diagonal stripes of the team's crest shape, and right under it a tall WHITE panel (x 18–44%, y 62–86%) with a soft shadow. A thin-outlined dark frame (x 48–82%, y 15–85%) on the right.
+- A huge white BRUSH SIGNATURE swoosh crossing the whole poster (x 0–96%, y 34–62%), passing behind the figures, with a soft glow.
+
+FIGURES (all the same person from the photo)
+1. ACTION shot: full body, leaping up out of the red panel with the ball raised high (x 14–50%, y 8–64%).
+2. A second shot running at the camera with the ball, in the white panel (x 18–46%, y 48–88%).
+3. The CLOSE-UP: head, shoulder and arm huge on the right (x 44–98%, y 14–86%), a hand over the face in a celebration pose, strong rim light.
+
+TEXT
+- NAME: a thin white handwritten script at the top centre (x 34–76%, y 4–9%) with a soft glow.
+- TEAM: wide letter-spaced red capitals right under it (x 18–84%, y 9–11.5%).
+- NUMBER: big white digits at the bottom centre (x 44–56%, y 86–92%) between two smaller stat-style figures only if the TAGLINE gives them; the POSITION in small red capitals under the number.
+- CREST (if given): flat at the bottom centre of the panels (x 42–54%, y 78–88%).
+- FOOTER: tiny letter-spaced lower-case white text at the very bottom (y 95–97%).
+- Small red "i" ticks and red/white corner squares on the panels, as in a clean design system.
+
+GLOSS & FLASH (the owner's one change): a glossy sheen on the panels and the close-up, bright white camera flashes and star glints on the ball and the edges, the signature glowing. Deep blacks, crisp edges.`,
+  "player-number-halftone": `[FIXED LAYOUT] NUMBER HALFTONE — the owner's own Photoshop player card: the NUMBER in giant digits filled with red halftone photos of the player, the player in black-and-white in front, and the NAME in bold red block letters. Copy this design exactly as described; the only addition is extra GLOSS and FLASH.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: light grey concrete paper, red (the team colour if given), black and white.
+
+BACKGROUND
+- Light grey concrete / photocopy paper texture with grain and speckles.
+- The NUMBER in GIANT bold digits filling the poster (x 0–100%, y 6–86%), white with a thin edge, each digit FILLED with a red halftone screen-print of a different shot of the player (a close-up on the left digit, a celebration on the right digit) — high-contrast red and black halftone dots.
+
+THE PLAYER (the person from the photo)
+- The MAIN shot in front, waist up (x 20–88%, y 14–100%), in crisp black-and-white with high contrast, a confident gesture, cut out cleanly with a soft white edge.
+
+TEXT
+- TOP LEFT: the NUMBER as text twice — once in red outline letters, once in solid black condensed capitals (x 3–48%, y 2–6%) — e.g. "NUMBER 20" if the TAGLINE says so, otherwise just the number; three thin black lines under it.
+- TOP RIGHT: the first part of the NAME (or the POSITION) rotated vertically in black (x 95–99%, y 2–10%).
+- NAME: huge bold red block capitals at the lower centre (x 25–64%, y 74–92%), overlapping the player's chest, with the same name echoed again as a huge thin red OUTLINE in the lower right (x 50–100%, y 72–99%).
+- TEAM: rotated vertical grey capitals next to the name (x 33–38%, y 60–79%).
+- Three small black and outline dots down the lower left (x 2–5%, y 86–98%).
+- CREST (if given): small at the upper right of the main shot. FOOTER tiny at the bottom.
+
+GLOSS & FLASH (the owner's one change): a wet glossy sheen on the black-and-white player, sharp white flashes and star glints on the red letters and the digit edges, a slight red glow around the name. Keep the print texture.`,
+  "player-of-the-week": `[FIXED LAYOUT] PLAYER OF THE WEEK — a league graphic for Leaguely / league pages: the player big in a red stadium night, the title top right, the name huge at the bottom left with stat boxes. Clean, broadcast-quality.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+COLOURS: deep red and black, white text, gold accents (the team colour may tint the red).
+
+BACKGROUND
+- A dark stadium at night washed in red smoke, floodlights and bokeh on the left, the team's crest GIANT and faded in the right background (if given), soft vignette.
+
+THE PLAYER (the person from the photo)
+- Big in the centre (x 10–100%, y 10–80%), waist up, arms spread wide celebrating, strong red rim light and a white key light.
+
+TEXT
+- TOP: the league / competition logo (if given) small at the top centre.
+- TITLE (top right, x 56–96%, y 10–24%): the TAGLINE (e.g. "PLAYER OF THE WEEK") in two lines — first word huge white heavy condensed capitals, the rest in metallic gold condensed capitals; the SUBTITLE (week · season · division) in small white letter-spaced capitals under it.
+- NAME: HUGE white heavy condensed capitals across the lower left (x 4–68%, y 66–76%).
+- Under the name: the CREST (if given) small, the TEAM in white condensed capitals and the POSITION in a small red pill.
+- STAT BOXES (lower right, x 56–96%, y 74–82%): the NUMBER in a gold-framed box with the label "PTS" — and only boxes for stats the text list gives; never invent stats.
+- FOOTER: small letter-spaced white capitals at the bottom centre over a thin line.
+
+FINISH: glossy, sharp, lens flares on the edges, red glow behind the player, deep blacks.`,
+  "matchday-mirror-gameday": `[GAMEDAY] [FIXED LAYOUT] MIRROR GAMEDAY — a bright game-day poster: the player mirrored at the top (upside down) and at the bottom, horizontal motion-streak bands, and a giant white "GAMEDAY" in the middle.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+BACKGROUND: a bright, heavily blurred stadium crowd in white and the home team's colour, film grain. Two wide bands of horizontal motion streaks (stretched-pixel lines) in the team colours, white and pale blue cross the poster at y 6–20% and y 76–90%.
+THE PLAYER (the person from the photo): the same shot twice, cut out cleanly — at the bottom (x 22–76%, y 64–100%), chest up, celebrating, and MIRRORED upside down at the top (x 22–76%, y 0–36%) like a playing card.
+TITLE: the title text (e.g. "GAMEDAY") GIANT in white ultra-condensed heavy capitals across the middle (x 16–92%, y 34–64%) with a long soft grey shadow to the left; a small "IT'S" in a thin handwritten script with a red outline at its top-left corner only if the title includes it.
+MATCH INFO (right of the bottom shot, x 64–90%, y 64–72%): home crest, a small team-colour "VERSUS" tag, away crest, the kick-off time in white condensed capitals; the competition and date small under it.
+TOP RIGHT: the competition logo (if given) in a small team-colour tab. FOOTER small at the bottom.
+FINISH: glossy, bright, crisp edges, a few sharp flashes on the player.`,
+  "matchday-arena-letters": `[GAMEDAY] [FIXED LAYOUT] ARENA LETTERS — a clean studio game-day poster: giant navy letters filled with a packed arena, the player standing in front.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+BACKGROUND: a clean white-grey textured studio wall fading into a wooden court / floor at the bottom (y 78–100%) in perspective.
+TITLE: the title text (e.g. "GAMEDAY") GIANT in heavy wide capitals across the middle (x 4–96%, y 34–54%), the letters FILLED with a photo of a packed arena in the home team's dark colour, a soft white light flare at the right end.
+THE PLAYER (the person from the photo): a big waist-up shot shouting with passion at the top (x 30–70%, y 0–36%) fading into the letters, and a full-body shot standing in front of the letters, smiling, ball at the hip (x 36–64%, y 34–92%), soft floor shadow.
+MATCH INFO: the competition (small, with its logo if given) at the left (x 10–22%, y 59–62%); the date, time and venue in navy condensed capitals next to it (x 23–40%, y 58–64%); the two crests with a navy "VS" between them on the right (x 68–90%, y 57–63%).
+FOOTER small at the bottom centre.
+FINISH: crisp, glossy, a few camera flashes; colours from the home team (navy and gold by default).`,
+  "matchday-gameday-tunnel": `[GAMEDAY] [FIXED LAYOUT] GAMEDAY TUNNEL — a symmetrical game-day poster: the giant letters of the title form the walls of a tunnel in perspective, the player standing in the middle.
+
+Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
+
+BACKGROUND: white marble / frosted texture with a bright light down the centre; heavy diagonal shapes in the home team's colour on both sides, rough foil / leather texture.
+TITLE: the title text (e.g. "GAMEDAY") split in two halves — the first half (e.g. "GAME") on the left wall reading top to bottom in perspective (x 4–46%, y 18–76%), the second half (e.g. "DAY") on the right wall (x 54–96%, y 18–76%) — huge heavy capitals in the team colour with white edges, fading into the light near the centre, mirrored faintly on the floor.
+THE PLAYER (the person from the photo): full body standing in the centre (x 38–62%, y 34–86%), calm and confident, ball in hand, soft shadow on the floor.
+TOP: the home crest (if given) centred (x 36–64%, y 3–15%), under it a small "+" and the away crest smaller (if given).
+BOTTOM: a thin line across with the home team name in huge letter-spaced capitals in the team colour in the middle (y 87–91%); the kick-off time on the left (x 14–26%, y 82–85%) and the venue on the right (x 72–86%, y 82–85%) in bold capitals; the competition letter-spaced under the team name (y 92–95%).
+FINISH: glossy, bright, a soft glow down the centre, crisp.`,
+  "totw-red-shields": `[FIXED LAYOUT] RED SHIELDS — a league "Team of the Week" graphic for Leaguely / league pages: eleven red shield-shaped cards in formation on deep red-black, clean and broadcast-quality.
+
+COLOURS: deep red-black background, bright red cards, white text, a touch of gold.
+
+LAYOUT
+- Background: deep red fading to near-black, faint pitch lines in perspective, soft red glow behind the cards, fine grain.
+- Top: the league logo (if given) small at the top centre; the headline (e.g. "TEAM OF THE WEEK") in HUGE white heavy condensed capitals with any small words (OF / THE) stacked in red between the big words; the week / division line in small white letter-spaced capitals under it.
+- Centre: the ELEVEN cards in the formation — attack at the top, goalkeeper at the bottom.
+- Left of the goalkeeper: "FORMATION" in small gold capitals and the formation (e.g. "3-5-2") huge in white with a red underline — only if a formation is given.
+- Bottom: a SUBSTITUTES bar only if more than eleven players are given: rounded dark-red pills with crest, gamertag and points.
+- Footer: small letter-spaced white capitals at the very bottom over a thin line.
+
+THE CARDS (one identical design for all)
+- A red shield / pennant shape with a pointed bottom and a notched top, a thin light-red edge and a soft darker gradient at the bottom.
+- The player's photo (if given) head and shoulders in the upper middle; without a photo a dark silhouette — never an invented face.
+- Top-left: the points / number big in white condensed digits with the position in a small outlined tag under it; top-right: a small flag only if given.
+- Bottom: the GAMERTAG in white heavy condensed capitals, a thin red line, then the club crest small with the club name in white capitals.
+- PLAYER OF THE WEEK (marked ★): a gold edge and a soft gold glow.
+
+RULES: only the given texts; every gamertag spelled exactly; no game-publisher or social-media logos.`,
+  "standings-red-leaders": `[FIXED LAYOUT] RED LEADERS — a league standings graphic for Leaguely / league pages: deep red-black, a big white title, a clean table on the left and a leaders column on the right.
+
+COLOURS: deep red-black, white, red points boxes, gold for the top three.
+
+LAYOUT
+- Background: deep red fading to near-black, faint pitch lines, soft glow, fine grain.
+- Top: the league logo (if given) small at the top centre; the headline (e.g. "STANDINGS") in HUGE white heavy condensed capitals; the week / division / season line in small gold letter-spaced capitals under it.
+- Left two thirds: the TABLE — dark rounded rows with a thin green or red edge on the left (green for the playoff places, red for the relegation places, only if the qualify line gives them), position number big in white, the crest, the club name in white condensed capitals, the stat columns and the points in a box at the right end (gold boxes for the top three, red for the rest). Column headings small in grey capitals.
+- Right third: "LEADERS" in gold condensed capitals and up to four tall cards with a glowing red frame — the top teams of the table: big number, the label in small capitals, the club name and crest. Only facts from the table; never invent players or stats.
+- Under the table: a small legend for the playoff / relegation colours if given. Footer small at the very bottom over a thin line.
+
+FINISH: crisp and clean like an official league graphic; subtle glow, no clutter.`,
   "player-pink-stadium": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] PINK STADIUM — a pink-purple stadium card: a big portrait looking up with both hands pointing to the sky, a running figure with arms wide in front, the NAME in giant white-pink 3D block letters and a thin pink script under it. Joyful, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
