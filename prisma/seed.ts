@@ -101,6 +101,11 @@ async function main() {
     if (text) await db.template.updateMany({ where: { slug }, data: { proInstructions: text } });
     await db.setting.upsert({ where: { key }, create: { key, value: String(rev) }, update: { value: String(rev) } });
   }
+  // One-time: the three Leaguely styles are made only by the Leaguely website — hidden from KIXO's Create page.
+  if (!(await db.setting.findUnique({ where: { key: "leaguely_styles_hidden" } }))) {
+    await db.template.updateMany({ where: { slug: { in: ["player-of-the-week", "totw-red-shields", "standings-red-leaders"] } }, data: { active: false } });
+    await db.setting.create({ data: { key: "leaguely_styles_hidden", value: new Date().toISOString() } });
+  }
   // One-time (owner's request, 14 Nov): the owner's own champions flyers — the other teams' crests and every logo and
   // mark blurred out (public/refs/<slug>.jpg) — are the reference image of the eight styles copied from them. They
   // take the place of the reference the preview round made from the brief alone. Each is marked "no measured

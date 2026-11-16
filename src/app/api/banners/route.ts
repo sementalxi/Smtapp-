@@ -1,7 +1,7 @@
 import { NextRequest, after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { apiUser, HttpError, isStaff, makesFree } from "@/lib/auth";
+import { apiUser, HttpError, isPartner, isStaff, makesFree, PARTNER_SLUGS } from "@/lib/auth";
 import { handle, json } from "@/lib/api";
 import { rateLimit } from "@/lib/ratelimit";
 import {
@@ -27,7 +27,9 @@ import { createVariation, type Variation } from "@/lib/pro-options";
 export const maxDuration = 300;
 
 const Body = z.object({
-  templateId: z.string().min(1),
+  templateId: z.string().default(""),
+  /** Leaguely (partner key): the style by its slug. */
+  templateSlug: z.string().max(80).optional(),
   inputs: InputsSchema,
   photoUrl: z.string().max(500).nullish(),
   logoUrl: z.string().max(500).nullish(),
@@ -67,14 +69,22 @@ export const POST = handle(async (req: NextRequest) => {
   if (body.matchBannerId && (!source || !source.finalUrl || source.template.layout !== "PLAYER")) throw new HttpError(404, "match_not_found");
 
   // Admin style test may also try hidden styles.
-  const template = source ? source.template : await db.template.findFirst({ where: { id: body.templateId, deletedAt: null, ...(adminTest ? {} : { active: true }) } });
+  const partner = isPartner(user);
+  // Leaguely asks for its styles by slug; they are hidden from KIXO's own Create page, so "active" is not required.
+  const template = source
+    ? source.template
+    : partner && body.templateSlug
+      ? PARTNER_SLUGS.includes(body.templateSlug)
+        ? await db.template.findFirst({ where: { slug: body.templateSlug, deletedAt: null } })
+        : null
+      : await db.template.findFirst({ where: { id: body.templateId, deletedAt: null, ...(adminTest ? {} : { active: true }) } });
   if (!template) throw new HttpError(404, "template_not_found");
-  if (!source) {
+  if (!source && !partner) {
     const { canUseTemplate } = await import("@/lib/queries");
     if (!canUseTemplate(template, user)) throw new HttpError(403, "template_not_available");
   }
   // A player card needs the player's photo. Only the admin style test may go without one — it then shows an invented test player.
-  if (template.layout === "PLAYER" && !body.photoUrl && !adminTest) throw new HttpError(400, "photo_required");
+  if (template.layout === "PLAYER" && !body.photoUrl && !adminTest && !partner) throw new HttpError(400, "photo_required");
 
   let inputs: BannerInputs = { ...EMPTY_INPUTS, ...body.inputs };
   let logoUrl = body.logoUrl ?? null;

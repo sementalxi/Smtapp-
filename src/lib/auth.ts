@@ -97,10 +97,34 @@ export class HttpError extends Error {
 
 /** For API routes: throw 401/403 instead of redirecting. */
 export async function apiUser() {
-  const user = await getCurrentUser();
+  const user = (await getCurrentUser()) ?? (await partnerUser());
   if (!user) throw new HttpError(401, "unauthorized");
   return user;
 }
+
+/** The Leaguely styles: made only by the Leaguely website (hidden from KIXO's Create page). */
+export const PARTNER_SLUGS = ["player-of-the-week", "totw-red-shields", "standings-red-leaders"];
+
+/**
+ * Leaguely (leaguely.pro) calls KIXO's API server-to-server with the header "x-kixo-key". When it matches
+ * KIXO_PARTNER_KEY, the request acts as the KIXO account KIXO_PARTNER_EMAIL (its credits pay for the posters).
+ */
+export async function partnerUser() {
+  const key = process.env.KIXO_PARTNER_KEY ?? "";
+  const email = (process.env.KIXO_PARTNER_EMAIL ?? "").trim().toLowerCase();
+  if (key.length < 24 || !email) return null;
+  const { headers } = await import("next/headers");
+  const sent = (await headers()).get("x-kixo-key") ?? "";
+  const { timingSafeEqual } = await import("crypto");
+  const a = Buffer.from(sent);
+  const b = Buffer.from(key);
+  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+  const user = await db.user.findUnique({ where: { email } });
+  if (!user || user.banned) return null;
+  return Object.assign(user, { partner: true as const });
+}
+
+export const isPartner = (user: object) => (user as { partner?: boolean }).partner === true;
 
 /** For admin API routes: ADMIN always; STAFF / SUPPORT only on the routes of their area. */
 export async function apiAdmin() {

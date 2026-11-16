@@ -151,7 +151,7 @@ TEXT
 - TITLE (top right, x 56–96%, y 10–24%): the TAGLINE (e.g. "PLAYER OF THE WEEK") in two lines — first word huge white heavy condensed capitals, the rest in metallic gold condensed capitals; the SUBTITLE (week · season · division) in small white letter-spaced capitals under it.
 - NAME: HUGE white heavy condensed capitals across the lower left (x 4–68%, y 66–76%).
 - Under the name: the CREST (if given) small, the TEAM in white condensed capitals and the POSITION in a small red pill.
-- STAT BOXES (lower right, x 56–96%, y 74–82%): the NUMBER in a gold-framed box with the label "PTS" — and only boxes for stats the text list gives; never invent stats.
+- STAT BOX (lower right, x 72–96%, y 74–82%): the NUMBER (the player's score) big in a gold-framed box — no other boxes and no invented stats.
 - FOOTER: small letter-spaced white capitals at the bottom centre over a thin line.
 
 FINISH: glossy, sharp, lens flares on the edges, red glow behind the player, deep blacks.`,
