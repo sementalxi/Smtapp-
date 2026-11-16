@@ -1,0 +1,398 @@
+From 270477031408f43060e30dd7a818b0733a097dec Mon Sep 17 00:00:00 2001
+From: sementalxi <fishhub713@gmail.com>
+Date: Mon, 16 Nov 2026 02:53:00 -0600
+Subject: [PATCH 1/2] League posters made by KIXO (Standings, Team of the Week,
+ Player of the Week)
+
+New "Posters" section in season settings. Leaguely sends the season's table
+or the week's match stats to KIXO (server to server, header x-kixo-key) and
+shows the finished poster. Needs KIXO_PARTNER_KEY (same value on KIXO);
+KIXO_URL defaults to https://kixo.pro.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Mb5m8ywNgfPjj8fuS9cUAF
+---
+ .../seasons/[seasonId]/posters/route.ts       |  59 ++++++++
+ .../components/league/league-admin-page.tsx   |   3 +-
+ .../src/components/league/league-posters.tsx  |  77 ++++++++++
+ .../league/league-season-settings.tsx         |   3 +-
+ .../src/lib/server/kixo-posters.ts            | 132 ++++++++++++++++++
+ 5 files changed, 272 insertions(+), 2 deletions(-)
+ create mode 100644 www/league_arena/src/app/api/organization/leagues/[leagueSlug]/seasons/[seasonId]/posters/route.ts
+ create mode 100644 www/league_arena/src/components/league/league-posters.tsx
+ create mode 100644 www/league_arena/src/lib/server/kixo-posters.ts
+
+diff --git a/www/league_arena/src/app/api/organization/leagues/[leagueSlug]/seasons/[seasonId]/posters/route.ts b/www/league_arena/src/app/api/organization/leagues/[leagueSlug]/seasons/[seasonId]/posters/route.ts
+new file mode 100644
+index 0000000..9c2de75
+--- /dev/null
++++ b/www/league_arena/src/app/api/organization/leagues/[leagueSlug]/seasons/[seasonId]/posters/route.ts
+@@ -0,0 +1,59 @@
++import type { NextRequest } from "next/server";
++import { apiSession, unauthorized } from "@/lib/server/api-auth";
++import { requireOrganizationManager } from "@/lib/server/authorization";
++import { getOrganizationLeague } from "@/lib/server/bracket-api";
++import { leagueFeaturesEnabled } from "@/lib/server/config";
++import { noStoreHeaders, validateCsrf } from "@/lib/server/http";
++import { kixoConfigured, posterStatus, requestPoster, type PosterKind } from "@/lib/server/kixo-posters";
++import { organizationGuildIdForSession } from "@/lib/server/session-organization";
++import { enforceRateLimit, RateLimitError, rateLimitResponse } from "@/lib/server/rate-limit";
++
++export const maxDuration = 120;
++type Params = { params: Promise<{ leagueSlug: string; seasonId: string }> };
++
++async function context(request: NextRequest, params: Params["params"], limit: number) {
++  const current = await apiSession(request);
++  if (!current) return { error: unauthorized() };
++  const headers = await enforceRateLimit("mutation", current.sessionId, limit, 60);
++  const guildId = await organizationGuildIdForSession(current.session);
++  if (!guildId || !leagueFeaturesEnabled(guildId)) return { error: Response.json({ error: "league_not_available" }, { status: 404, headers: noStoreHeaders(headers) }) };
++  if (!await requireOrganizationManager(current.sessionId, current.session, guildId)) return { error: Response.json({ error: "organization_admin_required" }, { status: 403, headers: noStoreHeaders(headers) }) };
++  if (!kixoConfigured()) return { error: Response.json({ error: "posters_not_configured" }, { status: 503, headers: noStoreHeaders(headers) }) };
++  const { leagueSlug, seasonId } = await params;
++  return { current, headers, guildId, leagueSlug, seasonId: Number(seasonId) };
++}
++
++/** Make a poster: { kind: "standings" | "totw" | "potw", week } → { id } (KIXO's poster id). */
++export async function POST(request: NextRequest, { params }: Params) {
++  try {
++    const ctx = await context(request, params, 6);
++    if ("error" in ctx) return ctx.error;
++    validateCsrf(request, ctx.current.session);
++    const body = await request.json() as { kind?: string; week?: number };
++    const kind = (["standings", "totw", "potw"].includes(String(body.kind)) ? body.kind : "") as PosterKind;
++    if (!kind) return Response.json({ error: "invalid_kind" }, { status: 400, headers: noStoreHeaders(ctx.headers) });
++    const league = await getOrganizationLeague(ctx.guildId, ctx.leagueSlug, true);
++    const season = league.seasons.find((item) => item.id === ctx.seasonId);
++    if (!season) return Response.json({ error: "season_not_found" }, { status: 404, headers: noStoreHeaders(ctx.headers) });
++    const id = await requestPoster(league, season, kind, Math.max(1, Math.floor(Number(body.week) || 1)));
++    return Response.json({ id }, { headers: noStoreHeaders(ctx.headers) });
++  } catch (error) {
++    if (error instanceof RateLimitError) return rateLimitResponse(error);
++    const message = error instanceof Error ? error.message : "poster_failed";
++    return Response.json({ error: message }, { status: message === "csrf_validation_failed" ? 403 : 400, headers: noStoreHeaders() });
++  }
++}
++
++/** ?id=<KIXO poster id> → { status, url }. */
++export async function GET(request: NextRequest, { params }: Params) {
++  try {
++    const ctx = await context(request, params, 60);
++    if ("error" in ctx) return ctx.error;
++    const id = request.nextUrl.searchParams.get("id") ?? "";
++    if (!/^[A-Za-z0-9_-]{8,40}$/.test(id)) return Response.json({ error: "invalid_id" }, { status: 400, headers: noStoreHeaders(ctx.headers) });
++    return Response.json(await posterStatus(id), { headers: noStoreHeaders(ctx.headers) });
++  } catch (error) {
++    if (error instanceof RateLimitError) return rateLimitResponse(error);
++    return Response.json({ error: error instanceof Error ? error.message : "poster_status_failed" }, { status: 400, headers: noStoreHeaders() });
++  }
++}
+diff --git a/www/league_arena/src/components/league/league-admin-page.tsx b/www/league_arena/src/components/league/league-admin-page.tsx
+index 750f94b..dc08cb0 100644
+--- a/www/league_arena/src/components/league/league-admin-page.tsx
++++ b/www/league_arena/src/components/league/league-admin-page.tsx
+@@ -3,7 +3,7 @@
+ import { useCallback, useEffect, useState } from "react";
+ import Link from "next/link";
+ import { usePathname } from "next/navigation";
+-import { Activity, CalendarDays, CircleDot, LayoutDashboard, ListChecks, LoaderCircle, Megaphone, Plus, Radio, Settings, ShieldCheck, Trophy, Users } from "lucide-react";
++import { Activity, CalendarDays, CircleDot, LayoutDashboard, ListChecks, LoaderCircle, Megaphone, Plus, Radio, Settings, ShieldCheck, Sparkles, Trophy, Users } from "lucide-react";
+ import { Button } from "@/components/ui/button";
+ import { DiscordMark } from "@/components/ui/discord-mark";
+ import { Card, CardContent } from "@/components/ui/card";
+@@ -31,6 +31,7 @@ export const seasonWorkspaceViews = [
+   { id: "schedule", label: "Schedule", description: "Generate and manage fixtures", icon: CalendarDays },
+   { id: "results", label: "Reviews", description: "Registrations, scores, and disputes", icon: ListChecks },
+   { id: "news", label: "News & Announcements", description: "Season news rules and posts", icon: Megaphone },
++  { id: "posters", label: "Posters", description: "League posters made by KIXO", icon: Sparkles },
+   { id: "playoffs", label: "Playoffs", description: "Build and manage the bracket", icon: Trophy },
+   { id: "publishing", label: "Discord", description: "Roster announcement channels", icon: null },
+   { id: "activity", label: "History", description: "Recent league activity", icon: Activity },
+diff --git a/www/league_arena/src/components/league/league-posters.tsx b/www/league_arena/src/components/league/league-posters.tsx
+new file mode 100644
+index 0000000..3a553db
+--- /dev/null
++++ b/www/league_arena/src/components/league/league-posters.tsx
+@@ -0,0 +1,77 @@
++"use client";
++
++import { useEffect, useRef, useState } from "react";
++import { Download, LoaderCircle, Sparkles } from "lucide-react";
++import { Button } from "@/components/ui/button";
++import { Card, CardContent } from "@/components/ui/card";
++import type { LeagueRecord, LeagueSeason } from "@/types";
++
++const KINDS = [
++  { id: "standings", label: "Standings", help: "The league table, with every team's logo." },
++  { id: "totw", label: "Team of the Week", help: "The best player in each place of a 4-3-3, from the week's match stats." },
++  { id: "potw", label: "Player of the Week", help: "The week's best player, from the match stats." },
++] as const;
++
++const ERRORS: Record<string, string> = {
++  posters_not_configured: "Posters are not set up yet (KIXO key missing).",
++  no_standings: "There is no table yet for this season.",
++  not_enough_player_stats: "No player stats for this week yet.",
++  kixo_err_credits: "The KIXO account has no credits left.",
++  kixo_rate_limited: "Too many posters right now — try again later.",
++};
++
++/** League posters made by KIXO's AI from this season's data (1–2 minutes each). */
++export function LeaguePosters({ league, season, csrf }: { league: LeagueRecord; season: LeagueSeason; csrf: string }) {
++  const weeks = [...new Set(season.fixtures.filter((f) => (f.actual_participants ?? []).some((p) => p.members?.length)).map((f) => f.week_number))].sort((a, b) => a - b);
++  const [week, setWeek] = useState(weeks[weeks.length - 1] ?? 1);
++  const [busy, setBusy] = useState("");
++  const [error, setError] = useState("");
++  const [result, setResult] = useState<{ kind: string; url: string } | null>(null);
++  const timer = useRef<number | null>(null);
++  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
++  const base = `/api/organization/leagues/${encodeURIComponent(league.slug)}/seasons/${season.id}/posters`;
++
++  async function make(kind: string) {
++    if (busy) return;
++    setBusy(kind); setError(""); setResult(null);
++    try {
++      const response = await fetch(base, { method: "POST", headers: { "Content-Type": "application/json", "X-CSRF-Token": csrf }, body: JSON.stringify({ kind, week }) });
++      const data = await response.json();
++      if (!response.ok || !data.id) throw new Error(data.error ?? "poster_failed");
++      const started = Date.now();
++      const poll = async () => {
++        try {
++          const r = await fetch(`${base}?id=${encodeURIComponent(data.id)}`, { cache: "no-store" });
++          const s = await r.json();
++          if (s.status === "ready") { setResult({ kind, url: s.url }); setBusy(""); return; }
++          if (s.status === "failed" || Date.now() - started > 6 * 60_000) { setError(ERRORS[`kixo_${s.error}`] ?? "The poster could not be made. Try again."); setBusy(""); return; }
++        } catch { /* keep waiting */ }
++        timer.current = window.setTimeout(poll, 5000);
++      };
++      timer.current = window.setTimeout(poll, 8000);
++    } catch (e) {
++      const code = e instanceof Error ? e.message : "";
++      setError(ERRORS[code] ?? "The poster could not be made. Try again.");
++      setBusy("");
++    }
++  }
++
++  return <Card><CardContent className="space-y-4 p-5">
++    <div className="flex items-center gap-2"><Sparkles className="size-4" /><h3 className="font-semibold">League posters</h3></div>
++    <p className="text-sm text-muted-foreground">Made by KIXO&apos;s AI from this season&apos;s table and match stats. Each poster takes 1–2 minutes.</p>
++    {weeks.length > 0 && <label className="flex items-center gap-2 text-sm">Week
++      <select className="rounded-lg border border-white/10 bg-background px-2 py-1" value={week} onChange={(e) => setWeek(Number(e.target.value))}>{weeks.map((w) => <option key={w} value={w}>{w}</option>)}</select>
++    </label>}
++    <div className="grid gap-2 sm:grid-cols-3">{KINDS.map((k) => <Button key={k.id} type="button" variant="outline" disabled={!!busy || (k.id !== "standings" && !weeks.length)} onClick={() => void make(k.id)} title={k.help} className="h-auto flex-col items-start gap-1 p-3 text-left">
++      <span className="flex items-center gap-2 font-medium">{busy === k.id && <LoaderCircle className="size-4 animate-spin" />}{k.label}</span>
++      <span className="text-xs font-normal text-muted-foreground whitespace-normal">{k.help}</span>
++    </Button>)}</div>
++    {busy && <p className="text-sm text-muted-foreground">Making the poster… you can stay on this page.</p>}
++    {error && <p className="text-sm text-rose-300">{error}</p>}
++    {result && <div className="space-y-2">
++      {/* eslint-disable-next-line @next/next/no-img-element */}
++      <img src={result.url} alt="League poster" className="w-full max-w-md rounded-xl border border-white/10" />
++      <a href={result.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm underline"><Download className="size-4" />Open / download</a>
++    </div>}
++  </CardContent></Card>;
++}
+diff --git a/www/league_arena/src/components/league/league-season-settings.tsx b/www/league_arena/src/components/league/league-season-settings.tsx
+index 7aaf993..a5dc986 100644
+--- a/www/league_arena/src/components/league/league-season-settings.tsx
++++ b/www/league_arena/src/components/league/league-season-settings.tsx
+@@ -27,6 +27,7 @@ import {
+ } from "./league-admin-page";
+ import { LeagueRosterAdmin } from "./league-roster-admin";
+ import { LeagueNewsSettings } from "./league-news-settings";
++import { LeaguePosters } from "./league-posters";
+ 
+ type DiscordRole = { id: string; name: string };
+ type StaffLeagueData = { leagues?: LeagueRecord[]; channels?: Channel[]; roles?: DiscordRole[]; assignableRoles?: DiscordRole[]; teams?: Team[] };
+@@ -99,7 +100,7 @@ export function LeagueSeasonSettings({ organizationSlug, leagueSlug, seasonId, r
+         {section === "publishing" && <SeasonDiscordRolesControl key={`${season.id}:${league.organization.version}`} league={league} seasonId={season.id} roles={data.roles ?? []} assignableRoles={data.assignableRoles ?? []} saving={saving} act={act} />}
+         {preview != null && <SeasonPreview value={preview} season={season} onClose={() => setPreview(null)} />}
+         {task && <SeasonTaskStatus task={task} onRetry={retry && task.status === "failed" ? () => act(retry.action, retry.version, { ...retry.payload, idempotency_key: `site:retry:${String(task.id)}:${Date.now()}` }) : undefined} />}
+-        {section === "rosters" ? <LeagueRosterAdmin organizationSlug={organizationSlug} leagueSlug={league.slug} seasonId={season.id} seasonSlug={season.slug} fixtures={season.fixtures} csrf={csrfToken} /> : section === "news" ? <LeagueNewsSettings key={(season.announcement_rules ?? []).map((rule) => `${rule.announcement_type}:${rule.version}`).join("|")} league={league} season={season} channels={data.channels ?? []} csrf={csrfToken} act={act} onChanged={async () => { await reload(); router.refresh(); }} /> : <SeasonControlGrid key={`${season.id}:${season.version}:${league.organization.version}:${section}`} view={section} league={league} season={season} channels={data.channels ?? []} teams={data.teams ?? []} act={act} />}
++        {section === "rosters" ? <LeagueRosterAdmin organizationSlug={organizationSlug} leagueSlug={league.slug} seasonId={season.id} seasonSlug={season.slug} fixtures={season.fixtures} csrf={csrfToken} /> : section === "posters" ? <LeaguePosters league={league} season={season} csrf={csrfToken} /> : section === "news" ? <LeagueNewsSettings key={(season.announcement_rules ?? []).map((rule) => `${rule.announcement_type}:${rule.version}`).join("|")} league={league} season={season} channels={data.channels ?? []} csrf={csrfToken} act={act} onChanged={async () => { await reload(); router.refresh(); }} /> : <SeasonControlGrid key={`${season.id}:${season.version}:${league.organization.version}:${section}`} view={section} league={league} season={season} channels={data.channels ?? []} teams={data.teams ?? []} act={act} />}
+       </div>
+     </div>
+   </section>;
+diff --git a/www/league_arena/src/lib/server/kixo-posters.ts b/www/league_arena/src/lib/server/kixo-posters.ts
+new file mode 100644
+index 0000000..2c46fed
+--- /dev/null
++++ b/www/league_arena/src/lib/server/kixo-posters.ts
+@@ -0,0 +1,132 @@
++import "server-only";
++import type { LeagueRecord, LeagueSeason } from "@/types";
++import { canonicalUrl } from "./config";
++
++// League posters made by KIXO (kixo.pro): Leaguely sends the season's data, KIXO's AI makes the poster.
++// Needs KIXO_PARTNER_KEY (the same value is set on KIXO). KIXO_URL defaults to https://kixo.pro.
++export type PosterKind = "standings" | "totw" | "potw";
++const STYLE: Record<PosterKind, string> = { standings: "standings-red-leaders", totw: "totw-red-shields", potw: "player-of-the-week" };
++
++export function kixoConfigured() {
++  return String(process.env.KIXO_PARTNER_KEY ?? "").trim().length >= 24;
++}
++
++const kixoBase = () => String(process.env.KIXO_URL || "https://kixo.pro").replace(/\/$/, "");
++
++async function kixo(path: string, init: { method?: string; body?: unknown } = {}) {
++  const base = kixoBase();
++  const response = await fetch(`${base}${path}`, {
++    method: init.method ?? "GET",
++    headers: { "x-kixo-key": String(process.env.KIXO_PARTNER_KEY ?? "").trim(), ...(init.body ? { "Content-Type": "application/json" } : {}) },
++    body: init.body ? JSON.stringify(init.body) : undefined,
++    cache: "no-store",
++    signal: AbortSignal.timeout(60_000),
++  });
++  const data = await response.json().catch(() => ({})) as Record<string, unknown>;
++  if (!response.ok) throw new Error(`kixo_${String(data.error ?? response.status)}`);
++  return data;
++}
++
++/** Copies a Leaguely logo into KIXO's storage (KIXO only takes its own files). "" when it fails. */
++async function importLogo(url?: string | null) {
++  if (!url) return "";
++  const absolute = url.startsWith("http") ? url : `${canonicalUrl()}${url.startsWith("/") ? "" : "/"}${url}`;
++  try {
++    const data = await kixo("/api/upload/from-url", { method: "POST", body: { url: absolute, kind: "logo" } });
++    return typeof data.url === "string" ? data.url : "";
++  } catch {
++    return "";
++  }
++}
++
++type Member = { name: string; position: string; rating: number; goals: number; assists: number; entryId: number };
++
++function weekMembers(season: LeagueSeason, week: number): Member[] {
++  const out: Member[] = [];
++  for (const fixture of season.fixtures.filter((item) => item.week_number === week)) {
++    for (const side of fixture.actual_participants ?? []) {
++      for (const member of side.members ?? []) {
++        if (!member.name?.trim()) continue;
++        out.push({ name: member.name.trim(), position: String(member.position ?? "").toUpperCase(), rating: Number.parseFloat(String(member.rating ?? "0")) || 0, goals: member.goals ?? 0, assists: member.assists ?? 0, entryId: side.team_entry_id });
++      }
++    }
++  }
++  return out;
++}
++
++const score = (m: Member) => m.rating * 10 + m.goals * 3 + m.assists * 2;
++const GROUPS: Array<{ slots: string[]; match: RegExp }> = [
++  { slots: ["GK"], match: /^(GK|POR)$/ },
++  { slots: ["RB", "CB", "CB", "LB"], match: /^(CB|LB|RB|LWB|RWB|DFC|LI|LD|CAD|CAI|DEF)$/ },
++  { slots: ["CM", "CM", "CM"], match: /^(CM|CDM|CAM|LM|RM|MC|MCD|MCO|MI|MD|MID)$/ },
++  { slots: ["RW", "ST", "LW"], match: /^(ST|CF|LW|RW|DC|SD|EI|ED|FW)$/ },
++];
++
++/** The best player in each place of a 4-3-3 for that week (by match rating, goals and assists). */
++export function teamOfTheWeek(season: LeagueSeason, week: number) {
++  const pool = weekMembers(season, week).sort((a, b) => score(b) - score(a));
++  const used = new Set<Member>();
++  const picks: Array<{ member: Member; slot: string }> = [];
++  for (const group of GROUPS) {
++    for (const slot of group.slots) {
++      const member = pool.find((m) => !used.has(m) && group.match.test(m.position)) ?? pool.find((m) => !used.has(m));
++      if (!member) continue;
++      used.add(member);
++      picks.push({ member, slot });
++    }
++  }
++  return picks;
++}
++
++export function weeksWithStats(season: LeagueSeason) {
++  return [...new Set(season.fixtures.filter((f) => (f.actual_participants ?? []).some((p) => p.members?.length)).map((f) => f.week_number))].sort((a, b) => a - b);
++}
++
++/** Asks KIXO for a poster; returns KIXO's poster id (the poster is ready 1–2 minutes later). */
++export async function requestPoster(league: LeagueRecord, season: LeagueSeason, kind: PosterKind, week: number) {
++  const entry = (id: number) => season.entries.find((item) => item.id === id);
++  const leagueName = league.name.slice(0, 60);
++  const inputs: Record<string, unknown> = { competition: leagueName, footer: "LEAGUELY.PRO" };
++  let photoUrl: string | null = null;
++  let logoUrl: string | null = null;
++  if (kind === "standings") {
++    const scope = season.standings[0]?.scope_type;
++    const rows = season.standings.filter((row) => row.scope_type === scope).sort((a, b) => a.rank - b.rank).slice(0, 20);
++    if (!rows.length) throw new Error("no_standings");
++    inputs.headline = "STANDINGS";
++    inputs.date = `${season.name}`.slice(0, 40);
++    inputs.standings = rows.map((row) => `${row.rank}. ${(entry(row.team_entry_id)?.display_name ?? "TEAM").slice(0, 40)} · P ${row.played} · W ${row.wins} · D ${row.draws} · L ${row.losses} · GD ${row.score_diff > 0 ? "+" : ""}${row.score_diff} · PTS ${row.points}`);
++    inputs.tableLogos = await Promise.all(rows.map((row) => importLogo(entry(row.team_entry_id)?.logo_url)));
++  } else if (kind === "totw") {
++    const picks = teamOfTheWeek(season, week);
++    if (picks.length < 5) throw new Error("not_enough_player_stats");
++    inputs.headline = "TEAM OF THE WEEK";
++    inputs.date = `WEEK ${week} · ${season.name}`.slice(0, 40);
++    inputs.formation = "4-3-3";
++    inputs.players = picks.map(({ member, slot }) => `${member.name.slice(0, 18)} · ${(entry(member.entryId)?.display_name ?? "").slice(0, 14)} · ${slot}`.slice(0, 40));
++    inputs.playerLogos = await Promise.all(picks.map(({ member }) => importLogo(entry(member.entryId)?.logo_url)));
++  } else {
++    const best = weekMembers(season, week).sort((a, b) => score(b) - score(a))[0];
++    if (!best) throw new Error("not_enough_player_stats");
++    const team = entry(best.entryId);
++    inputs.name = best.name.slice(0, 30);
++    inputs.team = (team?.display_name ?? "").slice(0, 40);
++    inputs.position = best.position.slice(0, 6);
++    inputs.number = best.rating ? best.rating.toFixed(1) : String(best.goals);
++    inputs.tagline = "PLAYER OF THE WEEK";
++    inputs.subtitle = `WEEK ${week} · ${season.name}`.slice(0, 60);
++    logoUrl = (await importLogo(team?.logo_url)) || null;
++  }
++  const data = await kixo("/api/banners", { method: "POST", body: { templateSlug: STYLE[kind], mode: "PRO", inputs, photoUrl, logoUrl } });
++  if (typeof data.id !== "string") throw new Error("kixo_no_id");
++  return data.id;
++}
++
++/** The poster's state at KIXO: { status: "pending" | "ready" | "failed", url? }. */
++export async function posterStatus(id: string) {
++  const data = await kixo(`/api/banners/${encodeURIComponent(id)}`);
++  const raw = typeof data.finalUrl === "string" ? data.finalUrl : "";
++  const url = raw.startsWith("/") ? `${kixoBase()}${raw}` : raw;
++  const status = String(data.status ?? "");
++  return { status: url && status === "READY" ? "ready" : status === "FAILED" || data.error ? "failed" : "pending", url, error: data.error ? String(data.error) : "" };
++}
+-- 
+2.43.0
+
+
+From babfeff0c84a0aea4d1ccede0559bec68aae63eb Mon Sep 17 00:00:00 2001
+From: sementalxi <fishhub713@gmail.com>
+Date: Mon, 16 Nov 2026 03:28:55 -0600
+Subject: [PATCH 2/2] Pass KIXO_PARTNER_KEY and KIXO_URL to the website
+ container
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Mb5m8ywNgfPjj8fuS9cUAF
+---
+ www/league_arena/docker-compose.dev.yml | 2 ++
+ www/league_arena/docker-compose.yml     | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/www/league_arena/docker-compose.dev.yml b/www/league_arena/docker-compose.dev.yml
+index b570cd6..756b17c 100644
+--- a/www/league_arena/docker-compose.dev.yml
++++ b/www/league_arena/docker-compose.dev.yml
+@@ -33,6 +33,8 @@ services:
+       TWILIO_API_KEY_SECRET: ${TWILIO_API_KEY_SECRET:-}
+       TWILIO_VERIFY_SERVICE_SID: ${TWILIO_VERIFY_SERVICE_SID:-}
+       WHATSAPP_DAILY_SEND_LIMIT: ${WHATSAPP_DAILY_SEND_LIMIT:-100}
++      KIXO_PARTNER_KEY: ${KIXO_PARTNER_KEY:-}
++      KIXO_URL: ${KIXO_URL:-https://kixo.pro}
+       LEAGUE_ARENA_UPLOADS_DIR: /app/uploads
+       PORT: 3000
+       HOSTNAME: 0.0.0.0
+diff --git a/www/league_arena/docker-compose.yml b/www/league_arena/docker-compose.yml
+index a366a35..182808b 100644
+--- a/www/league_arena/docker-compose.yml
++++ b/www/league_arena/docker-compose.yml
+@@ -32,6 +32,8 @@ services:
+       TWILIO_API_KEY_SECRET: ${TWILIO_API_KEY_SECRET:-}
+       TWILIO_VERIFY_SERVICE_SID: ${TWILIO_VERIFY_SERVICE_SID:-}
+       WHATSAPP_DAILY_SEND_LIMIT: ${WHATSAPP_DAILY_SEND_LIMIT:-100}
++      KIXO_PARTNER_KEY: ${KIXO_PARTNER_KEY:-}
++      KIXO_URL: ${KIXO_URL:-https://kixo.pro}
+       LEAGUE_ARENA_UPLOADS_DIR: /app/uploads
+       PORT: 3000
+       HOSTNAME: 0.0.0.0
+-- 
+2.43.0
+
