@@ -110,6 +110,7 @@ export const POST = handle(async (req: NextRequest, { params }: { params: Promis
       // Runs in the background; the page polls the new poster until it's ready or an error is saved.
       const accent = totw?.cardLook?.colours?.accent ?? (banner.template.style as unknown as { accent?: string } | null)?.accent ?? "#ffc83d";
       const tableOverlay = exactTable ? await import("@/lib/standings-table").then((m) => m.tableSpecFrom(inputs, accent, fmtNow === "banner")) : null;
+    if (tableOverlay && banner.template.slug === "standings-red-leaders") tableOverlay.look = "leaguely"; // Leaguely: its own table look
       const qualOverlay = exactQual ? await import("@/lib/qualifiers-table").then((m) => m.qualTableSpecFrom(inputs, accent, fmtNow ?? "post")) : null;
       const winnersOverlay = exactWin ? await import("@/lib/winners-grid").then((m) => m.winnersSpecFrom(inputs, accent, fmtNow ?? "post")) : null;
       after(async () => {

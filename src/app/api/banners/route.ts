@@ -204,6 +204,7 @@ export const POST = handle(async (req: NextRequest) => {
   if (pro) {
     const accent = totw?.cardLook?.colours?.accent ?? (template.style as unknown as { accent?: string } | null)?.accent ?? "#ffc83d";
     const tableOverlay = exactTable ? await import("@/lib/standings-table").then((m) => m.tableSpecFrom(inputs, accent, fmt === "banner")) : null;
+    if (tableOverlay && template.slug === "standings-red-leaders") tableOverlay.look = "leaguely"; // Leaguely: its own table look
     const qualOverlay = exactQual ? await import("@/lib/qualifiers-table").then((m) => m.qualTableSpecFrom(inputs, accent, fmt)) : null;
     const winnersOverlay = exactWin ? await import("@/lib/winners-grid").then((m) => m.winnersSpecFrom(inputs, accent, fmt)) : null;
     after(async () => {

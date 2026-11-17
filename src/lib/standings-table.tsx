@@ -20,6 +20,8 @@ export type TableSpec = {
   reserveLegend?: boolean;
   /** With no "how many advance", the leader's row glows — not in the right column of a two-column table. */
   leaderGlow?: boolean;
+  /** "leaguely": the table looks like Leaguely's own league table (dark rows, points bars, arrows, form, no crests). */
+  look?: "leaguely";
   /** A fixtures list instead of a standings table (STANDINGS styles reused for a matchday poster). */
   fixtures?: FixtureRow[];
 };
@@ -240,6 +242,7 @@ async function crestGlow(data: string, px: number, accent: string): Promise<stri
 
 /** Renders the table (designed frame + crests + exact text) as a transparent PNG of the given size. */
 export async function renderStandingsTable(spec: TableSpec, width: number, height: number): Promise<Buffer> {
+  if (spec.look === "leaguely") return renderLeaguelyTable(spec, width, height);
   const [anton, mont800] = await Promise.all([googleFont("Anton", 400), googleFont("Montserrat", 800)]);
   const n = spec.rows.length;
   const legendH = spec.legend || spec.reserveLegend ? Math.round(Math.min(90, height * 0.07)) : 0;
@@ -288,7 +291,7 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
           <div key={r.pos} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: posW }}>
               <div style={{ display: "flex", fontFamily: "Anton", fontSize: hasExtras ? Math.round(fsNum * 0.86) : fsNum, lineHeight: 1, color: idx < glow ? accent : "rgba(255,255,255,0.9)", textShadow: idx < glow ? `0 0 14px ${accent}, ${shadow}` : shadow }}>{`${r.pos}.`}</div>
-              {r.move ? <div style={{ display: "flex", marginTop: 2, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsTiny, color: r.move > 0 ? UP : DOWN }}>{`${r.move > 0 ? "▲" : "▼"}${Math.abs(r.move)}`}</div> : null}
+              {r.move ? moveTag(r.move, fsTiny, "Montserrat", UP, DOWN) : null}
             </div>
             {hasCrest ? (
               <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center", marginRight: 14 }}>
@@ -462,6 +465,85 @@ export async function renderFixturesTable(spec: TableSpec, width: number, height
 }
 
 /** Places the exact table on the finished background. */
+/** "▲2" / "▼1" drawn with a CSS triangle (the table fonts have no arrow glyphs). */
+function moveTag(move: number, fs: number, font: string, up: string, down: string) {
+  const c = move > 0 ? up : down;
+  const t = Math.round(fs * 0.36);
+  return (
+    <div style={{ display: "flex", alignItems: "center", marginTop: 2 }}>
+      <div style={{ display: "flex", width: 0, height: 0, borderLeft: `${t}px solid transparent`, borderRight: `${t}px solid transparent`, ...(move > 0 ? { borderBottom: `${t * 1.4}px solid ${c}` } : { borderTop: `${t * 1.4}px solid ${c}` }), marginRight: 3 }} />
+      <div style={{ display: "flex", fontFamily: font, fontWeight: 800, fontSize: fs, color: c, lineHeight: 1 }}>{String(Math.abs(move))}</div>
+    </div>
+  );
+}
+
+/** Leaguely's own league-table look: dark panel, "#" with ▲/▼, team + form bars, all stats, Pts, a points bar under each row. No crests. */
+async function renderLeaguelyTable(spec: TableSpec, width: number, height: number): Promise<Buffer> {
+  const [m800, m600] = await Promise.all([googleFont("Montserrat", 800), googleFont("Montserrat", 600)]);
+  const n = spec.rows.length;
+  const pad = Math.round(Math.max(10, width * 0.012));
+  const headerH = Math.round(Math.min(56, height / (n + 1.6) * 0.75));
+  const rowH = Math.min(120, Math.floor((height - pad * 2 - headerH) / Math.max(1, n)));
+  const cyan = "#2ee6ff";
+  const pink = "#ff3d8b";
+  const posW = Math.round(rowH * 1.1);
+  const statW = Math.round(Math.min(width * 0.07, rowH * 1.25));
+  const ptsW = Math.round(statW * 1.15);
+  const others = spec.columns.filter((c) => c.key !== "PTS");
+  const hasPts = spec.columns.some((c) => c.key === "PTS");
+  const fsName = Math.round(rowH * 0.32);
+  const fsStat = Math.round(rowH * 0.3);
+  const fsHead = Math.round(Math.max(11, headerH * 0.34));
+  const fsTiny = Math.round(Math.max(10, rowH * 0.2));
+  const maxPts = Math.max(1, ...spec.rows.map((r) => Number(r.stats.PTS) || 0));
+  const head = "rgba(200,205,230,0.6)";
+  const el = (
+    <div style={{ display: "flex", flexDirection: "column", width, height, padding: pad, background: "rgba(13,13,26,0.93)", borderRadius: Math.round(width * 0.012), border: "1px solid rgba(140,140,255,0.16)" }}>
+      <div style={{ display: "flex", alignItems: "center", height: headerH, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ display: "flex", width: posW, paddingLeft: Math.round(rowH * 0.3), fontFamily: "M8", fontSize: fsHead, color: head }}>#</div>
+        <div style={{ display: "flex", flex: 1, fontFamily: "M8", fontSize: fsHead, color: head }}>Teams</div>
+        {others.map((c) => <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "M8", fontSize: fsHead, color: head }}>{c.label}</div>)}
+        {hasPts ? <div style={{ display: "flex", width: ptsW, justifyContent: "flex-end", paddingRight: Math.round(rowH * 0.2), fontFamily: "M8", fontSize: fsHead, color: head }}>Pts</div> : null}
+      </div>
+      {spec.rows.map((r) => {
+        const pts = Number(r.stats.PTS) || 0;
+        return (
+          <div key={r.pos} style={{ display: "flex", flexDirection: "column", height: rowH }}>
+            <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
+              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: posW, paddingLeft: Math.round(rowH * 0.3) }}>
+                <div style={{ display: "flex", fontFamily: "M8", fontSize: fsStat, color: "rgba(220,225,245,0.75)", lineHeight: 1 }}>{String(r.pos)}</div>
+                {r.move ? moveTag(r.move, fsTiny, "M8", cyan, pink) : null}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1, overflow: "hidden" }}>
+                <div style={{ display: "flex", fontFamily: "M8", fontSize: fsName, color: "#ffffff", whiteSpace: "nowrap", overflow: "hidden", lineHeight: 1.1 }}>{r.team.slice(0, 30)}</div>
+                {r.form ? (
+                  <div style={{ display: "flex", marginTop: Math.round(rowH * 0.08) }}>
+                    {r.form.split("").map((x, k) => <div key={k} style={{ display: "flex", width: Math.round(rowH * 0.3), height: Math.max(3, Math.round(rowH * 0.07)), borderRadius: 99, marginRight: Math.round(rowH * 0.07), background: x === "W" ? cyan : x === "L" ? pink : "rgba(160,160,175,0.7)" }} />)}
+                  </div>
+                ) : null}
+              </div>
+              {others.map((c) => <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "M6", fontSize: fsStat, color: "rgba(235,238,250,0.92)" }}>{r.stats[c.key] ?? ""}</div>)}
+              {hasPts ? <div style={{ display: "flex", width: ptsW, justifyContent: "flex-end", paddingRight: Math.round(rowH * 0.2), fontFamily: "M8", fontSize: Math.round(fsStat * 1.2), color: "#ffffff" }}>{String(pts)}</div> : null}
+            </div>
+            <div style={{ display: "flex", height: 2, background: "rgba(255,255,255,0.05)" }}>
+              <div style={{ display: "flex", width: `${Math.round((pts / maxPts) * 100)}%`, height: 2, background: `linear-gradient(90deg, rgba(46,230,255,0.55), ${cyan})`, boxShadow: `0 0 8px ${cyan}` }} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+  const res = new ImageResponse(el, {
+    width,
+    height,
+    fonts: [
+      { name: "M8", data: m800, weight: 800, style: "normal" },
+      { name: "M6", data: m600, weight: 600, style: "normal" },
+    ],
+  });
+  return Buffer.from(await res.arrayBuffer());
+}
+
 export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Promise<Buffer> {
   // The glow takes the poster's own colour (what the AI actually painted), lifted if it is too dark for text.
   const { posterAccent } = await import("./ref-palette");
@@ -496,7 +578,7 @@ export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Pr
     const gap = Math.round(w * 0.025);
     const cw = Math.floor((w - gap) / 2);
     // Half-width columns: keep at most W, D, L and PTS so the team names get room (they were cut to "Ban…").
-    if (spec.columns.length > 4) {
+    if (spec.columns.length > 4 && spec.look !== "leaguely") {
       const keep = spec.columns.filter((c) => ["W", "D", "L", "PTS"].includes(c.key));
       if (keep.length >= 2) spec = { ...spec, columns: keep };
     }
