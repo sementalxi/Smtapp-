@@ -7,7 +7,7 @@ import type { BannerInputs } from "./templates";
 import { legibleAccent } from "./legible";
 import { tableBox } from "./standings-box";
 
-export type TableRow = { pos: number; team: string; stats: Record<string, string>; crest: string | null };
+export type TableRow = { pos: number; team: string; stats: Record<string, string>; crest: string | null; /** last results, oldest first: "W" | "D" | "L" */ form?: string; /** places gained (+) or lost (−) since the last round */ move?: number };
 export type TableSpec = {
   rows: TableRow[];
   /** Column keys present (subset of P W D L GD PTS, in that order) and their printed headers. */
@@ -42,8 +42,8 @@ export function fixturesFrom(i: BannerInputs): FixtureRow[] {
 
 export { tableBox } from "./standings-box";
 
-const KEYS = ["P", "W", "D", "L", "GD", "PTS"] as const;
-const ES: Record<string, string> = { P: "PJ", W: "G", D: "E", L: "P", GD: "DG", PTS: "PTS" };
+const KEYS = ["P", "W", "D", "L", "GF", "GA", "GD", "PTS"] as const;
+const ES: Record<string, string> = { P: "PJ", W: "G", D: "E", L: "P", GF: "GF", GA: "GC", GD: "DG", PTS: "PTS" };
 
 /** Reads the creator's "1. Team · P 9 · W 5 · … · PTS 16" rows into a table spec. */
 export function tableSpecFrom(i: BannerInputs, accent: string, wide: boolean): TableSpec | null {
@@ -56,12 +56,25 @@ export function tableSpecFrom(i: BannerInputs, accent: string, wide: boolean): T
     const team = parts[0].replace(/^\d+\.\s*/, "").trim();
     if (!team) return;
     const stats: Record<string, string> = {};
+    let form = "";
+    let move = 0;
     for (const p of parts.slice(1)) {
+      // "FORM WWL" (last results) and "MOVE +2" / "MOVE -1" (places since the last round) — Leaguely sends them.
+      const f = p.match(/^FORM\s+([WDL]{1,5})$/i);
+      if (f) {
+        form = f[1].toUpperCase();
+        continue;
+      }
+      const mv = p.match(/^MOVE\s*([+\-−]?)\s*(\d+)$/i);
+      if (mv) {
+        move = (mv[1] && mv[1] !== "+" ? -1 : 1) * Number(mv[2]);
+        continue;
+      }
       // "GD +6", "GD -3", "GD −3" (phone minus / dash), "L 0" — the sign survives, the stat is kept as typed.
       const m = p.match(/^([A-Za-z]+)\s*([+\-−–—]?)\s*(\d+)$/);
       if (m) stats[m[1].toUpperCase()] = `${m[2] === "+" ? "+" : m[2] ? "-" : ""}${m[3]}`;
     }
-    rows.push({ pos: rows.length + 1, team, stats, crest: i.tableLogos?.[n] || null });
+    rows.push({ pos: rows.length + 1, team, stats, crest: i.tableLogos?.[n] || null, form, move });
   });
   if (!rows.length) return null;
   const es = i.language === "Español";
@@ -250,6 +263,11 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
   const longest = Math.max(4, ...spec.rows.map((r) => r.team.slice(0, 26).length));
   const fsName = Math.round(Math.max(rowH * 0.3, Math.min(rowH * 0.5, nameW / (longest * 0.5))));
   const fsHead = Math.round(Math.max(14, headerH * 0.4));
+  // Movement arrows (▲ cyan / ▼ pink) and form bars, when the rows carry them.
+  const hasExtras = spec.rows.some((r) => r.move || r.form);
+  const fsTiny = Math.round(Math.max(11, rowH * 0.22));
+  const UP = "#2ee6ff";
+  const DOWN = "#ff3d8b";
   const dividers = spec.columns.map((_, k) => width - pad - rowPadR - statW * (spec.columns.length - k));
   const glow = spec.qualify || (n && spec.leaderGlow !== false ? 1 : 0); // "how many advance" rows glow; with none given, the leader does
   const geo: Geo = { pad, headerH, rowH, n, qualify: spec.qualify, glow, dividers, rowPadL, rowPadR };
@@ -268,13 +286,25 @@ export async function renderStandingsTable(spec: TableSpec, width: number, heigh
         </div>
         {spec.rows.map((r, idx) => (
           <div key={r.pos} style={{ display: "flex", alignItems: "center", height: rowH, paddingLeft: rowPadL, paddingRight: rowPadR }}>
-            <div style={{ display: "flex", width: posW, fontFamily: "Anton", fontSize: fsNum, color: idx < glow ? accent : "rgba(255,255,255,0.9)", textShadow: idx < glow ? `0 0 14px ${accent}, ${shadow}` : shadow }}>{`${r.pos}.`}</div>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", width: posW }}>
+              <div style={{ display: "flex", fontFamily: "Anton", fontSize: hasExtras ? Math.round(fsNum * 0.86) : fsNum, lineHeight: 1, color: idx < glow ? accent : "rgba(255,255,255,0.9)", textShadow: idx < glow ? `0 0 14px ${accent}, ${shadow}` : shadow }}>{`${r.pos}.`}</div>
+              {r.move ? <div style={{ display: "flex", marginTop: 2, fontFamily: "Montserrat", fontWeight: 800, fontSize: fsTiny, color: r.move > 0 ? UP : DOWN }}>{`${r.move > 0 ? "▲" : "▼"}${Math.abs(r.move)}`}</div> : null}
+            </div>
             {hasCrest ? (
               <div style={{ display: "flex", width: crestBox, height: crestBox, alignItems: "center", justifyContent: "center", marginRight: 14 }}>
                 {crests[idx] ? <img src={crests[idx]!} width={crestBox} height={crestBox} style={{ objectFit: "contain" }} /> : null}
               </div>
             ) : null}
-            <div style={{ display: "flex", flex: 1, fontFamily: "Anton", fontSize: fsName, color: "#ffffff", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", letterSpacing: 1, textShadow: shadow }}>{r.team.slice(0, 26)}</div>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1, overflow: "hidden" }}>
+              <div style={{ display: "flex", fontFamily: "Anton", fontSize: fsName, lineHeight: 1.05, color: "#ffffff", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", letterSpacing: 1, textShadow: shadow }}>{r.team.slice(0, 26)}</div>
+              {r.form ? (
+                <div style={{ display: "flex", marginTop: Math.round(rowH * 0.06) }}>
+                  {r.form.split("").map((x, k) => (
+                    <div key={k} style={{ display: "flex", width: Math.round(rowH * 0.34), height: Math.max(4, Math.round(rowH * 0.08)), borderRadius: 99, marginRight: Math.round(rowH * 0.08), background: x === "W" ? UP : x === "L" ? DOWN : "rgba(255,255,255,0.45)", boxShadow: x === "D" ? "none" : `0 0 6px ${x === "W" ? UP : DOWN}` }} />
+                  ))}
+                </div>
+              ) : null}
+            </div>
             {spec.columns.map((c) => (
               <div key={c.key} style={{ display: "flex", width: statW, justifyContent: "center", fontFamily: "Anton", fontSize: c.key === "PTS" ? fsNum : Math.round(fsNum * 0.92), color: c.key === "PTS" ? accent : "#ffffff", textShadow: c.key === "PTS" ? `0 0 14px ${accent}, ${shadow}` : shadow }}>
                 {r.stats[c.key] ?? ""}
@@ -439,7 +469,7 @@ export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Pr
   const meta = await sharp(poster).metadata();
   const W = meta.width ?? 1632;
   const H = meta.height ?? 2040;
-  const box = tableBox(spec.wide);
+  const box = tableBox(spec.wide, spec.rows.length);
   const x = Math.round(W * box.x);
   const y = Math.round(H * box.y);
   const w = Math.round(W * box.w);
@@ -461,7 +491,7 @@ export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Pr
     return sharp(poster).composite([{ input: list, left: x, top: y + Math.max(0, Math.round((h - listH) / 2)) }]).png().toBuffer();
   }
   // Big leagues (17–32 teams): two columns side by side, so the rows stay tall enough to read.
-  if (spec.rows.length > 16) {
+  if (spec.rows.length > (spec.wide ? 16 : 20)) {
     const half = Math.ceil(spec.rows.length / 2);
     const gap = Math.round(w * 0.025);
     const cw = Math.floor((w - gap) / 2);

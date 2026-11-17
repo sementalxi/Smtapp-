@@ -831,7 +831,7 @@ export function buildProPrompt(opts: {
       const esLang = i.language === "Español";
       // Only the advancing rows are marked — in the poster's own accent colour, never green or red.
       const zones = up ? [`the top ${up} row${up > 1 ? "s" : ""} (positions 1–${up}) marked as ADVANCING with a glowing edge and a faint tint in the poster's own accent colour (the same colour as the title's highlights — NOT green, NOT red); the other rows plain`] : [];
-      const areaText = tableAreaText(opts.format === "banner");
+      const areaText = tableAreaText(opts.format === "banner", i.standings.filter(Boolean).length);
       composition = opts.exactTable
         ? [
             `The BACKGROUND and title of a premium ${kindWord} graphic — like an official league / TV broadcast ${fx.length ? "fixtures list" : "table"}. The ${fx.length ? "list of fixtures" : "table"} itself is placed afterwards, so this image has NO TABLE${fx.length ? " and NO fixtures" : ""}.`,

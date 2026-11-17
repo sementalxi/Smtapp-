@@ -1,12 +1,14 @@
 // Where KIXO's exact standings table goes on the poster (fractions of width / height) — shared by the prompt
 // builder (the AI leaves that area empty) and the table renderer.
-export function tableBox(wide: boolean) {
+export function tableBox(wide: boolean, rows = 0) {
+  // Big leagues on a portrait poster (13+ teams): a taller table, the title band above it gets smaller.
+  if (!wide && rows > 12) return { x: 0.05, y: 0.27, w: 0.9, h: 0.64 };
   return wide ? { x: 0.4, y: 0.1, w: 0.56, h: 0.8 } : { x: 0.06, y: 0.39, w: 0.88, h: 0.48 };
 }
 
 /** The same box, in words for the image model. */
-export function tableAreaText(wide: boolean) {
-  const b = tableBox(wide);
+export function tableAreaText(wide: boolean, rows = 0) {
+  const b = tableBox(wide, rows);
   const pct = (v: number) => `${Math.round(v * 100)}%`;
   return wide
     ? `the rectangle from ${pct(b.x)} to ${pct(b.x + b.w)} of the width and from ${pct(b.y)} to ${pct(b.y + b.h)} of the height (the right side); the title block, the small league logo, the week line and the accent lines sit on the LEFT ${pct(b.x - 0.04)} of the width`
