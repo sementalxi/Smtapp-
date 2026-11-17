@@ -205,18 +205,15 @@ THE CARDS (one identical design for all)
 - PLAYER OF THE WEEK (marked ★): a gold edge and a soft gold glow.
 
 RULES: only the given texts; every gamertag spelled exactly; no game-publisher or social-media logos.`,
-  "standings-red-leaders": `[FIXED LAYOUT] RED LEADERS — a league standings graphic for Leaguely / league pages: deep red-black, a big white title, a clean table on the left and a leaders column on the right.
+  "standings-red-leaders": `[FIXED LAYOUT] RED LEADERS — the background and title of a league standings graphic for Leaguely: deep red-black, a big glowing white title. KIXO places the real table on top afterwards, so this image draws NO table, rows, numbers, crests, panels, boxes, frames or leader cards anywhere.
 
-COLOURS: deep red-black, white, red points boxes, gold for the top three.
+COLOURS: deep red fading to near-black, white, a touch of gold.
 
-LAYOUT
-- Background: deep red fading to near-black, faint pitch lines, soft glow, fine grain.
-- Top: the league logo (if given) small at the top centre; the headline (e.g. "STANDINGS") in HUGE white heavy condensed capitals; the week / division / season line in small gold letter-spaced capitals under it.
-- Left two thirds: the TABLE — dark rounded rows with a thin green or red edge on the left (green for the playoff places, red for the relegation places, only if the qualify line gives them), position number big in white, the crest, the club name in white condensed capitals, the stat columns and the points in a box at the right end (gold boxes for the top three, red for the rest). Column headings small in grey capitals.
-- Right third: "LEADERS" in gold condensed capitals and up to four tall cards with a glowing red frame — the top teams of the table: big number, the label in small capitals, the club name and crest. Only facts from the table; never invent players or stats.
-- Under the table: a small legend for the playoff / relegation colours if given. Footer small at the very bottom over a thin line.
+- BACKGROUND: a dark stadium at night washed in red light — floodlights in the top corners, red smoke and haze, faint pitch lines in perspective at the bottom, glowing red sparks and embers drifting up, fine grain. Calmer and darker in the table area so the table reads clearly on top.
+- TITLE: the headline (e.g. "STANDINGS") HUGE in white heavy condensed capitals with a bright red glow and a thin red rim light; the league logo (if given) small and crisp centred above it; the week / season line in small gold letter-spaced capitals right under it. The whole title block ends above the table area.
+- FOOTER: small letter-spaced gold capitals along the very bottom over a thin glowing line.
 
-FINISH: crisp and clean like an official league graphic; subtle glow, no clutter.`,
+FINISH: crisp and clean like an official league graphic; strong glow on the title, deep blacks, no clutter.``,
   "player-pink-stadium": `[EXACT REF] [FIXED LAYOUT] [CREST 3D] PINK STADIUM — a pink-purple stadium card: a big portrait looking up with both hands pointing to the sky, a running figure with arms wide in front, the NAME in giant white-pink 3D block letters and a thin pink script under it. Joyful, bright, premium — made like a high-end PHOTOSHOP composite by a top designer.
 
 THE PLAYER (most important — this beats everything below): every figure on this card is the person in the uploaded photo — the reference image labelled "the main subject". Use THEIR face, hair, skin tone, body and the kit they wear in that photo, in every shot. The STYLE reference poster's player is only a stand-in model: never copy his face, hair, skin tone, body or kit colours — only his place, size, pose and crop. Before finishing, compare every face on the card with the uploaded photo: it must be the same person, not the reference's model and not a lookalike. (If no photo is given, invent one player as the instructions further down say.)
@@ -9743,6 +9740,8 @@ TEXT RULES
  * matter which earlier version is in the database. Raise the number with every later change to that brief.
  */
 export const PRESET_REVISIONS: Record<string, number> = {
+  // Red Leaders drew its own table and leader cards under KIXO's real table (17 Nov): background and title only
+  "standings-red-leaders": 1,
   // The owner's own event flyers became these styles' reference images ([EXACT REF] + STYLE REFERENCE) with more glow (14 Nov)
   "event-star-badge": 1,
   "event-badge-trio": 1,

@@ -465,6 +465,11 @@ export async function overlayStandingsTable(poster: Buffer, spec: TableSpec): Pr
     const half = Math.ceil(spec.rows.length / 2);
     const gap = Math.round(w * 0.025);
     const cw = Math.floor((w - gap) / 2);
+    // Half-width columns: keep at most W, D, L and PTS so the team names get room (they were cut to "Ban…").
+    if (spec.columns.length > 4) {
+      const keep = spec.columns.filter((c) => ["W", "D", "L", "PTS"].includes(c.key));
+      if (keep.length >= 2) spec = { ...spec, columns: keep };
+    }
     const left: TableSpec = { ...spec, rows: spec.rows.slice(0, half), qualify: Math.min(spec.qualify, half) };
     const right: TableSpec = { ...spec, rows: spec.rows.slice(half), qualify: Math.max(0, spec.qualify - half), legend: "", reserveLegend: !!spec.legend, leaderGlow: false };
     const [a, b] = await Promise.all([renderStandingsTable(left, cw, h), renderStandingsTable(right, cw, h)]);
