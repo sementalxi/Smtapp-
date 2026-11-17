@@ -1,0 +1,74 @@
+From d0ea5d7eb91be19037fc4f8ba6988304c44d8654 Mon Sep 17 00:00:00 2001
+From: sementalxi <fishhub713@gmail.com>
+Date: Tue, 17 Nov 2026 00:34:33 -0600
+Subject: [PATCH] Posters: standings send GF, GA, form (last 3) and places
+ moved since last round
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Mb5m8ywNgfPjj8fuS9cUAF
+---
+ .../src/lib/server/kixo-posters.ts            | 41 ++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
+
+diff --git a/www/league_arena/src/lib/server/kixo-posters.ts b/www/league_arena/src/lib/server/kixo-posters.ts
+index 2c46fed..2cc4383 100644
+--- a/www/league_arena/src/lib/server/kixo-posters.ts
++++ b/www/league_arena/src/lib/server/kixo-posters.ts
+@@ -82,6 +82,44 @@ export function weeksWithStats(season: LeagueSeason) {
+   return [...new Set(season.fixtures.filter((f) => (f.actual_participants ?? []).some((p) => p.members?.length)).map((f) => f.week_number))].sort((a, b) => a - b);
+ }
+ 
++/**
++ * Each team's last three results (oldest first, "W" / "D" / "L") and the places it moved since the round before
++ * the latest one (+ up, − down), from the season's played league fixtures — like the table on the league page.
++ */
++export function formAndMovement(season: LeagueSeason, order: number[]) {
++  const played = season.fixtures
++    .filter((f) => !f.is_playoff && f.home_score != null && f.away_score != null)
++    .sort((a, b) => a.week_number - b.week_number || a.id - b.id);
++  const form = new Map<number, string>();
++  for (const f of played) {
++    const h = f.home_score!, a = f.away_score!;
++    form.set(f.home_team_entry_id, ((form.get(f.home_team_entry_id) ?? "") + (h > a ? "W" : h < a ? "L" : "D")).slice(-3));
++    form.set(f.away_team_entry_id, ((form.get(f.away_team_entry_id) ?? "") + (a > h ? "W" : a < h ? "L" : "D")).slice(-3));
++  }
++  const move = new Map<number, number>();
++  const lastWeek = played.length ? played[played.length - 1].week_number : 0;
++  const before = played.filter((f) => f.week_number < lastWeek);
++  if (before.length) {
++    const t = new Map<number, { pts: number; gd: number; gf: number }>();
++    for (const id of order) t.set(id, { pts: 0, gd: 0, gf: 0 });
++    for (const f of before) {
++      for (const [id, us, them] of [[f.home_team_entry_id, f.home_score!, f.away_score!], [f.away_team_entry_id, f.away_score!, f.home_score!]] as const) {
++        const r = t.get(id);
++        if (!r) continue;
++        r.pts += us > them ? 3 : us === them ? 1 : 0;
++        r.gd += us - them;
++        r.gf += us;
++      }
++    }
++    const prev = [...t.entries()].sort((x, y) => y[1].pts - x[1].pts || y[1].gd - x[1].gd || y[1].gf - x[1].gf || order.indexOf(x[0]) - order.indexOf(y[0])).map(([id]) => id);
++    order.forEach((id, now) => {
++      const was = prev.indexOf(id);
++      if (was >= 0 && was !== now) move.set(id, was - now);
++    });
++  }
++  return { form, move };
++}
++
+ /** Asks KIXO for a poster; returns KIXO's poster id (the poster is ready 1–2 minutes later). */
+ export async function requestPoster(league: LeagueRecord, season: LeagueSeason, kind: PosterKind, week: number) {
+   const entry = (id: number) => season.entries.find((item) => item.id === id);
+@@ -95,7 +133,8 @@ export async function requestPoster(league: LeagueRecord, season: LeagueSeason,
+     if (!rows.length) throw new Error("no_standings");
+     inputs.headline = "STANDINGS";
+     inputs.date = `${season.name}`.slice(0, 40);
+-    inputs.standings = rows.map((row) => `${row.rank}. ${(entry(row.team_entry_id)?.display_name ?? "TEAM").slice(0, 40)} · P ${row.played} · W ${row.wins} · D ${row.draws} · L ${row.losses} · GD ${row.score_diff > 0 ? "+" : ""}${row.score_diff} · PTS ${row.points}`);
++    const { form, move } = formAndMovement(season, rows.map((row) => row.team_entry_id));
++    inputs.standings = rows.map((row) => `${row.rank}. ${(entry(row.team_entry_id)?.display_name ?? "TEAM").slice(0, 40)} · P ${row.played} · W ${row.wins} · D ${row.draws} · L ${row.losses} · GF ${row.score_for} · GA ${row.score_against} · GD ${row.score_diff > 0 ? "+" : ""}${row.score_diff} · PTS ${row.points}${form.get(row.team_entry_id) ? ` · FORM ${form.get(row.team_entry_id)}` : ""}${move.get(row.team_entry_id) ? ` · MOVE ${move.get(row.team_entry_id)! > 0 ? "+" : "-"}${Math.abs(move.get(row.team_entry_id)!)}` : ""}`);
+     inputs.tableLogos = await Promise.all(rows.map((row) => importLogo(entry(row.team_entry_id)?.logo_url)));
+   } else if (kind === "totw") {
+     const picks = teamOfTheWeek(season, week);
+-- 
+2.43.0
+
