@@ -82,7 +82,10 @@ export function TemplateArranger({ initial, categories }: { initial: ArrangeItem
       setDirty(false);
       setMsg(es ? "✅ Guardado — ya se ve así en Crear" : "✅ Saved — Create page now shows this order");
       router.refresh();
-    } else setMsg(es ? "❌ No se pudo guardar" : "❌ Couldn't save");
+    } else {
+      const e = ((await res.json().catch(() => ({}))) as { error?: string }).error;
+      setMsg(`${es ? "❌ No se pudo guardar" : "❌ Couldn't save"}${e ? ` (${e})` : ""}`);
+    }
   }
 
   return (
