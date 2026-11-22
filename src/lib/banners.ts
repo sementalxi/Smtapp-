@@ -55,7 +55,7 @@ export const InputsSchema = z.object({
   formation: str(12),
   players: z.array(z.string().trim().max(40)).max(18).default([]),
   scorers: z.array(z.string().trim().max(40)).max(12).default([]),
-  standings: z.array(z.string().trim().max(90)).max(32).default([]),
+  standings: z.array(z.string().trim().max(160)).max(32).default([]), // Leaguely rows carry GF, GA, form and movement
   fixtures: z.array(z.string().trim().max(90)).max(16).default([]),
   qualify: z.string().trim().regex(/^\d{0,2}$/).default(""),
   relegate: z.string().trim().regex(/^\d{0,2}$/).default(""),
