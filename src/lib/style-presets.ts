@@ -59,6 +59,21 @@ const EVENT_GLOW = `EXTRA GLOW (turned up — the one thing added to the flyer)
 const CHAMP_FLYER_REF = `STYLE REFERENCE (most important): one reference image is labelled a STYLE reference — it is the champions flyer this style copies. Recreate THAT flyer as exactly as possible: the same layout and proportions, the same lettering styles, materials, bevels and glows, the same background scene, colours, light and effects, the same density and finish — as if the same designer made this poster. Change ONLY two things: the TEXTS (only the given texts, placed and styled like the flyer's texts — never its words, names or numbers) and the LOGOS (the given team crest stands exactly where the flyer's big blurred emblem is, at that size; the given competition logo where the notes below put it — otherwise nothing there). When a player photo is given, the player is added as the notes below say; nothing else moves. The grey blurred areas in the reference are its removed crest, logos and marks: never reconstruct, trace or imitate what was there, and never paint a blur or a grey patch — a blurred spot that gets nothing from the notes below simply continues the scene around it. Never copy the flyer's names, words, numbers, emblems, mascots, characters or logos. The notes below are the map of that flyer (what each part is and what goes there); where they and the flyer differ in look, the flyer wins. The only changes to the look are the owner's standard for champions posters: MORE GLOW, MORE PARTICLES, the team crest once more, giant and faded, in the background, and the SQUAD NAMES as designed metallic lettering instead of the flyer's plain names (see EXTRA GLOW & PARTICLES and the USER CHOICES).`;
 
 export const PRESET_INSTRUCTIONS: Record<string, string> = {
+  "champ-crest-surprise": `[FREESTYLE] CREST SURPRISE — a different champions poster EVERY time, and its whole look comes from the TEAM CREST.
+
+STEP 1 — READ THE CREST (the reference image labelled as the team crest/logo): its exact colours, its shapes and lines, its symbols, its mascot or animal, its era and mood (gothic, futuristic, street, royal, cartoon, military, neon…), its materials and textures.
+
+STEP 2 — BUILD THE WHOLE POSTER FROM IT
+- PALETTE: only the crest's own colours (plus black, white and metal); the crest's main colour leads the light and the glow.
+- SCENE: invent a fresh, epic setting that grows out of the crest's theme — what its symbols, mascot and mood suggest (a wolf → a moonlit storm and claw marks; a crown → a dark throne hall; flames → a burning arena; a skull → a gothic crypt; a robot → a neon factory…). Never the same composition twice: pick a new camera angle, layout and setting for THIS poster.
+- MATERIALS & EFFECTS: the crest's textures and shapes repeat in the frame, the light shapes, the particles and the trophy's details.
+- LETTERING: the title (e.g. "CHAMPIONS") in a huge custom 3D lettering whose style matches the crest — its letter shapes, edges and finish — in the crest's colours and metal, with a strong glow.
+
+THE CREST stays the hero: big, centre stage, exactly the given artwork (same shapes, letters and colours — never redrawn into something else), with a thick glowing rim light; it may appear once more giant and faded in the background. The trophy shines beside or behind it. If a player photo is given, the player stands with them, sharp and dramatic.
+
+TEXTS: only the given texts; the team name above or across the title; the squad names in designed metallic lettering near the bottom.
+
+FINISH (always): BAD-ASS and premium — a real cinematic key-art photograph, deep blacks, hard rim lights, volumetric beams, smoke, sparks, confetti and embers at every depth, lens flares on metal, film grain, razor-sharp 4K detail, every word perfectly readable. Never cartoon-flat, never empty, never generic.`,
   "player-gothic-collage": `[FIXED LAYOUT] GOTHIC COLLAGE — the owner's own Photoshop player card: an off-white paper collage with GIANT red blackletter letters running down the page and several cut-out shots of the same player woven between them. Editorial, artistic, premium — copy this design exactly as described; the only addition is extra GLOSS and FLASH.
 
 Positions are approximate, in % of the poster: x runs left to right, y top to bottom.
